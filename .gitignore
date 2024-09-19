@@ -1,0 +1,30 @@
+# Node modules and build artifacts
+/frontend/node_modules/
+/frontend/.next/
+/frontend/out/
+/frontend/build
+/frontend/.pnp
+/frontend.pnp.js
+/frontend.yarn/install-state.gz
+
+# Testing and coverage
+/frontend/coverage
+
+# Production files and logs
+/frontend/*.log
+/frontend/.DS_Store
+
+# Environment files
+/frontend/.env*.local
+
+# TypeScript and Next.js
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts
+
+# Vercel configuration
+/frontend/.vercel
+
+# Miscellaneous
+/frontend/*.pem
+
+*storybook.log
