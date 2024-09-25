@@ -1,8 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import exampleSlice from './slices/exampleSlice'
+import activePageSlice from "./slices/activePageSlice";
+import userProfileSlice from "./slices/userProfileSlice"
 
 const rootReducer = combineReducers({
-   example: exampleSlice
+   activePage: activePageSlice,
+   userProfile: userProfileSlice
 })
 
 export default rootReducer

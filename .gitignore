@@ -28,3 +28,17 @@
 /frontend/*.pem
 
 *storybook.log
+
+# Node modules and build artifacts
+/backend/node_modules/
+/backend/dist/
+/backend/build
+
+# Environment files
+/backend/.env
+
+# Logs
+/backend/*.log
+
+# Miscellaneous
+/backend/.DS_Store
