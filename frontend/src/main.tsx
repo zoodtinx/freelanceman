@@ -1,12 +1,18 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import store from './lib/redux/store.ts';
-import { Provider as ReduxStoreProvider } from 'react-redux';
 import { ThemeProvider } from 'next-themes';
 import './index.css';
 import { router } from './lib/router.tsx';
 import './lib/i18next.ts';
+import {
+   QueryClient,
+   QueryClientProvider,
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
    <StrictMode>
@@ -15,10 +21,12 @@ createRoot(document.getElementById('root')!).render(
          defaultTheme="system"
          enableSystem
          disableTransitionOnChange
+         forcedTheme="light"
       >
-         <ReduxStoreProvider store={store}>
+         <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
-         </ReduxStoreProvider>
+            <ReactQueryDevtools initialIsOpen={false}/>
+         </QueryClientProvider>
       </ThemeProvider>
    </StrictMode>
 );

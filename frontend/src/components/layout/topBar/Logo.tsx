@@ -1,4 +1,4 @@
-import { FreelanceManIcon, FreelanceManTypo, MenuHamburger } from '../../icons';
+import { FreelanceManIcon, FreelanceManTypo, MenuHamburger } from '../../shared/icons';
 
 export default function FreelanceManLogo() {
    return (

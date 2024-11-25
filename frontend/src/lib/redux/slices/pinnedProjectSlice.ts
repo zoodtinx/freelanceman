@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-type Project = object;
+import type { Project } from "@types";
 
 const pinnedProjectsSlice = createSlice({
    name: 'pinnedProjects',

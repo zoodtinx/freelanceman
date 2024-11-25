@@ -1,18 +1,13 @@
 import clsx from 'clsx';
-import { Project as ProjectIcon } from '../../icons/index';
+import { Project as ProjectIcon } from '../../shared/icons/index';
 import type { Project } from '../../../../../shared/types/project.types';
 
-type SideBarTabProps = {
-   onClick: () => void;
+interface SideBarTabProps extends React.HTMLAttributes<HTMLDivElement> {
    project: Project;
-   isActive: string;
-};
+   isActive: boolean;
+}
 
-export default function PinnedProjectTab({
-   project,
-   onClick,
-   isActive,
-}: SideBarTabProps) {
+const PinnedProjectTab: React.FC<SideBarTabProps> = ({ project, onClick, isActive }) => {
 
    const containerStyle = {
       base: 'flex w-full h-[44px] items-center gap-2 border-[1.75px] rounded-[13px] p-2 px-[10px] font-medium text-[18px] cursor-pointer',
@@ -37,3 +32,5 @@ export default function PinnedProjectTab({
       </div>
    );
 }
+
+export default PinnedProjectTab;

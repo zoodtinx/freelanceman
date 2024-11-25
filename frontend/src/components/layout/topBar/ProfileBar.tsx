@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Arrow } from '@/components/icons';
+import { Arrow } from '@/components/shared/icons';
 
 export default function ProfileBar() {
    const { t } = useTranslation();

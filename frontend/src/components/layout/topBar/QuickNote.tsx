@@ -1,11 +1,16 @@
-import { Edit } from '@/components/icons';
+import { Edit } from '@/components/shared/icons';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { FreelanceManIcon, FreelanceManTypoHorizontal } from '../../icons';
+import { FreelanceManIcon, FreelanceManTypoHorizontal } from '../../shared/icons';
 
 export default function QuickNote() {
    const [inputValue, setInputValue] = useState('');
-   const { t } = useTranslation();
+   const { t,i18n  } = useTranslation();
+
+   const changeLanguage = () => {
+      const lng = i18n.language === 'en' ? 'th' : 'en';
+      i18n.changeLanguage(lng);
+   };
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
@@ -27,7 +32,7 @@ export default function QuickNote() {
                value={inputValue}
                onChange={handleChange}
             />
-            <div className="flex gap-1 h-full items-center rounded-full px-5 font-semibold hover:bg-secondary transition-color bg-primary text-foreground shrink-0">
+            <div onClick={() => changeLanguage('th')} className="flex gap-1 h-full items-center rounded-full px-5 font-semibold hover:bg-secondary transition-color bg-primary text-foreground shrink-0">
                <p className="dark:text-primary-dark">{t('addAQuickNote')}</p>
                <Edit
                   className="dark:fill-primary-dark"

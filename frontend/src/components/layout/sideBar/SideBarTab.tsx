@@ -5,67 +5,82 @@ import {
    Client,
    Documents,
    Checkbox,
-} from '../../icons/index';
+   Notes,
+} from '../../shared/icons/index';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
+import { useLocation } from 'react-router-dom';
 
 type SideBarTabProps = {
-   tab: 'projects' | 'files' | 'actions' | 'clients' | 'documents';
-   activeTab: string;
-   onClick: () => void;
+   tab: 'projects' | 'files' | 'actions' | 'clients' | 'documents' | 'notes';
 };
 
-export default function SideBarTab({
-   tab,
-   activeTab,
-   onClick,
-}: SideBarTabProps) {
+const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
    const { t } = useTranslation();
-   const svgProp = { width: 27, height: 27 };
+   const url = useLocation().pathname;
+   const isActiveTab = url === `/home/${tab}`;
 
    let icon;
    let label;
+   let route;
    switch (tab) {
       case 'projects':
          label = t('projects');
-         icon = <ProjectAll {...svgProp} />;
+         icon = <ProjectAll className='w-[27px] h-auto' />;
+         route = 'projects';
          break;
       case 'files':
          label = t('files');
-         icon = <Files {...svgProp} />;
+         icon = <Files className='w-[27px] h-auto' />;
+         route = 'files';
          break;
       case 'actions':
          label = t('actions');
-         icon = <Checkbox {...svgProp} />;
+         icon = <Checkbox className='w-[27px] h-auto' />;
+         route = 'actions';
          break;
       case 'clients':
          label = t('clients');
-         icon = <Client {...svgProp} />;
+         icon = <Client className='w-[27px] h-auto' />;
+         route = 'clients';
          break;
       case 'documents':
          label = t('documents');
-         icon = <Documents {...svgProp} />;
+         icon = <Documents className='w-[27px] h-auto' />;
+         route = 'documents';
+         break;
+      case 'notes':
+         label = t('notes');
+         icon = <Notes className='w-[27px] h-auto' />;
+         route = 'notes';
          break;
    }
 
    const containerStyle = {
-      base: 'flex w-full h-[46px] items-center gap-2 border-[1.75px] rounded-[13px] p-2 px-[10px] font-medium text-[18px] cursor-pointer',
+      base: 'flex w-full h-[46px] items-center gap-2 border-[1.75px] rounded-[13px] p-2 px-[10px] font-medium text-md cursor-pointer',
       breakpoints: 'md:w-fit',
       inactive:
          'border-background text-secondary hover:text-primary transition-color duration-75',
-      active: 'border-background text-primary bg-tertiary',
+      active: 'border-background text-primary bg-foreground',
    };
 
    return (
-      <li
-         className={clsx([
-            containerStyle.base,
-            activeTab === tab ? containerStyle.active : containerStyle.inactive,
-            containerStyle.breakpoints
-         ])}
-         onClick={onClick}
-      >
-         {icon}
-         <p className='md:hidden'>{label}</p>
+      <li>
+         <Link
+            to={route}
+            className={clsx([
+               containerStyle.base,
+               isActiveTab
+                  ? containerStyle.active
+                  : containerStyle.inactive,
+               containerStyle.breakpoints,
+            ])}
+         >
+            {icon}
+            <p className="md:hidden">{label}</p>
+         </Link>
       </li>
    );
-}
+};
+
+export default SideBarTab;

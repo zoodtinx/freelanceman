@@ -5,12 +5,10 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@types": ["../shared/types"],
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
 
     /* Bundler mode */
@@ -27,5 +25,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "../shared/types/projectList.types.ts", "../shared/mocks/materials.ts", "../shared/mocks/projects.ts", "../shared/mocks/tasks.ts", "../shared/mocks/documents.ts", "../shared/mocks/events.ts", "../shared/mocks/files.ts"]
 }
