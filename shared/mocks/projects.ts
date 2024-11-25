@@ -1,0 +1,160 @@
+import type { Project, Task } from "@types";
+import { tasks } from "./tasks";
+import { events } from "./events";
+import mockBrief from "./materials";
+import mockDocuments from "./documents";
+import mockFiles from "./files";
+
+export const mockProjects: Project[] = [
+  {
+    id: "a1b2c3d4e5f6g7h8i9j0",
+    client: "Tech Innovations Inc.",
+    name: "Website Redesign",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "active",
+    paymentStatus: "processing",
+    color: "#FFD1DC",
+    dateCreated: "2023-01-01T00:00:00Z",
+    dateModified: "2023-01-02T00:00:00Z"
+  },
+  {
+    id: "k1l2m3n4o5p6q7r8s9t0",
+    client: "Retail Solutions LLC",
+    name: "E-commerce Platform",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "completed",
+    paymentStatus: "paid",
+    color: "#B2E3B2",
+    dateCreated: "2023-02-01T00:00:00Z",
+    dateModified: "2023-02-02T00:00:00Z"
+  },
+  {
+    id: "u1v2w3x4y5z6a7b8c9d0",
+    client: "Mobile Apps Co.",
+    name: "Mobile App Development Mobile App Development Mobile App Development Mobile App Development Mobile App Development",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "active",
+    paymentStatus: "unpaid",
+    color: "#A7C6ED",
+    dateCreated: "2023-12-19T00:00:00Z",
+    dateModified: "2023-12-20T00:00:00Z"
+  },
+  {
+    id: "e1f2g3h4i5j6k7l8m9n0",
+    client: "SEO Experts",
+    name: "SEO Optimization",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "completed",
+    paymentStatus: "paid",
+    color: "#FFEDB0",
+    dateCreated: "2023-04-01T00:00:00Z",
+    dateModified: "2023-04-02T00:00:00Z"
+  },
+  {
+    id: "o1p2q3r4s5t6u7v8w9x0",
+    client: "Creative Media Group",
+    name: "Social Media Campaign",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "pending",
+    paymentStatus: "not processed",
+    color: "#FFB3BA",
+    dateCreated: "2023-05-01T00:00:00Z",
+    dateModified: "2023-05-02T00:00:00Z"
+  },
+  {
+    id: "y1z2a3b4c5d6e7f8g9h0",
+    client: "Content Creators Inc.",
+    name: "Content Creation",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "active",
+    paymentStatus: "processing",
+    color: "#B2A1D8",
+    dateCreated: "2023-06-01T00:00:00Z",
+    dateModified: "2023-06-02T00:00:00Z"
+  },
+  {
+    id: "i1j2k3l4m5n6o7p8q9r0",
+    client: "Brand Identity Co.",
+    name: "Branding Project",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "completed",
+    paymentStatus: "paid",
+    color: "#FFC3A0",
+    dateCreated: "2023-07-01T00:00:00Z",
+    dateModified: "2023-07-02T00:00:00Z"
+  },
+  {
+    id: "s1t2u3v4w5x6y7z8a9b0",
+    client: "Marketing Mavericks",
+    name: "Email Marketing Setup",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "active",
+    paymentStatus: "unpaid",
+    color: "#D5E8D4",
+    dateCreated: "2023-08-01T00:00:00Z",
+    dateModified: "2023-08-02T00:00:00Z"
+  },
+  {
+    id: "c1d2e3f4g5h6i7j8k9l0",
+    client: "E-Learning Hub",
+    name: "Online Course Creation",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "pending",
+    paymentStatus: "not processed",
+    color: "#FFD6C2",
+    dateCreated: "2023-09-01T00:00:00Z",
+    dateModified: "2023-09-02T00:00:00Z"
+  },
+  {
+    id: "m1n2o3p4q5r6s7t8u9v0",
+    client: "Shutterbug Studios",
+    name: "Photography Portfolio",
+    tasks: tasks,
+    events: events,
+    materials: mockBrief,
+    files: mockFiles,
+    documents: mockDocuments,
+    projectStatus: "completed",
+    paymentStatus: "paid",
+    color: "#D4C8E7",
+    dateCreated: "2023-10-01T00:00:00Z",
+    dateModified: "2023-10-02T00:00:00Z"
+  }
+];
+
