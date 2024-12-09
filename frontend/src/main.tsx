@@ -12,7 +12,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
    <StrictMode>
@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')!).render(
          defaultTheme="system"
          enableSystem
          disableTransitionOnChange
-         forcedTheme="light"
+         forcedTheme="dark"
       >
          <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />

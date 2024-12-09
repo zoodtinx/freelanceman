@@ -413,3 +413,10 @@
 .rdp-focusable {
   cursor: pointer;
 }
+
+[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #a0a0a0; /* Adjust placeholder color */
+  pointer-events: none;
+  display: block;
+}

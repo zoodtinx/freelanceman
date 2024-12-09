@@ -8,22 +8,18 @@
     "baseUrl": "./",
     "paths": {
       "@types": ["../shared/types"],
+      "@mocks": ["../shared/mocks"],
       "@/*": ["./src/*"]
     },
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "composite": true
   },
-  "include": ["src", "../shared/types/projectList.types.ts", "../shared/mocks/materials.ts", "../shared/mocks/projects.ts", "../shared/mocks/tasks.ts", "../shared/mocks/documents.ts", "../shared/mocks/events.ts", "../shared/mocks/files.ts"]
+  "include": ["src", "../shared/types/**/*", "../shared/mocks/**/*"]
 }

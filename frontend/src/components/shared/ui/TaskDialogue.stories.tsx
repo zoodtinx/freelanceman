@@ -26,11 +26,16 @@ const Template = () => {
       link: 'https://lucide.dev/icons/pencil'
    }
 
+   const mockDialogState = {
+      id: '1234',
+      isOpen: true
+   }
+
    return (
       <main className="bg-background w-screen h-screen dark:bg-background-dark">
          <Button onClick={handleClick}>Hello</Button>
          {/* Uncomment the line below to render TaskDialogue */}
-         <TaskDialogue ref={dialogRef} taskData={data} />
+         <TaskDialogue dialogueState={mockDialogState} />
       </main>
    );
 };

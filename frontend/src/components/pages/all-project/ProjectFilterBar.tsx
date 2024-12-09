@@ -1,4 +1,4 @@
-import { useProjectsViewContext } from '@/lib/helper/ProjectsViewContext';
+import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import {
    Select,
    SelectContent,

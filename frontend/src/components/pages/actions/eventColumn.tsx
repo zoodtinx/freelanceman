@@ -5,7 +5,6 @@ import { ArrowUpDown } from 'lucide-react';
 import { Dots } from '@/components/shared/icons';
 
 function convertToHHMM(localeTimeString) {
-   // Use a regular expression to match the hour and minute components
    const match = localeTimeString.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
 
    if (!match) {
@@ -16,7 +15,6 @@ function convertToHHMM(localeTimeString) {
    const minutes = match[2];
    const period = match[3]; // AM/PM
 
-   // Convert to 24-hour format
    if (period) {
       if (period.toUpperCase() === 'PM' && hours < 12) {
          hours += 12; // Convert PM hour to 24-hour format
@@ -24,11 +22,20 @@ function convertToHHMM(localeTimeString) {
          hours = 0; // Convert 12 AM to 0 hours
       }
    }
-
-   // Pad hours to ensure two digits
    const paddedHours = hours.toString().padStart(2, '0');
 
    return `${paddedHours}:${minutes}`;
+}
+
+function convertToDayMonth(date: Date) {
+   if (isNaN(date.getTime())) {
+      throw new Error('Invalid date format');
+   }
+
+   const day = date.getDate(); // Get day without padding
+   const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase(); // Get month abbreviation in uppercase
+
+   return `${day} ${month}`;
 }
 
 export const eventColumns: ColumnDef<Event>[] = [
@@ -83,9 +90,10 @@ export const eventColumns: ColumnDef<Event>[] = [
       cell: ({ getValue }) => {
          const isoString = getValue(); // Get the ISO string from the cell
          const date = new Date(isoString); // Convert ISO string to Date object
+         const formattedDate = convertToDayMonth(date)
          return (
             <span className="flex justify-between items-center">
-               <p>{date.toLocaleDateString()}</p>
+               <p>{formattedDate}</p>
                <Dots className='w-4 h-4 text-secondary' />
             </span>
          ); // Format it as a readable date

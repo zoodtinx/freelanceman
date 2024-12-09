@@ -1,13 +1,11 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import type { Project, Task } from '@types';
+import type { Project } from '@types';
 import type {
    Filter,
    ProjectsViewContextType,
    FilterType,
    StatusMap,
-   
-} from './contextTypes';
-import { mockProjects } from '../mock/projects';
+} from './ProjectViewContextTypes';
 
 const useProjectsView = () => {
    const [projects, setProjects] = useState<Project[]>([]);

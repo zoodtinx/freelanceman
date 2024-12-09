@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
             children: [
                {
                   path: "",
-                  element: <Navigate to={'tasks'} />
+                  element: <div>Hello</div>
                },
                {
                   path: "tasks",

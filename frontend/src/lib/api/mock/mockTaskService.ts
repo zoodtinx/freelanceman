@@ -1,3 +1,4 @@
+import { mockAllTask } from "@mocks";
 
 
 export interface Task {
@@ -14,7 +15,7 @@ export interface Task {
    clientId: string;
  }
 
-let task: Task = {
+const task: Task = {
    id: 'task-001',
    name: 'Create Project Proposal',
    status: 'inprogress',
@@ -35,6 +36,20 @@ export const getTask = (id: string) => {
    });
 };
 
+type QueryType = 'task' | 'event'
+
+export const getAction = (id: string, type:QueryType) => {
+   if (type === 'task') {
+      return new Promise((resolve) => {
+         setTimeout(() => resolve(task), 500);
+      });
+   } else if (type === 'event') {
+      return new Promise((resolve) => {
+         setTimeout(() => resolve(task), 500);
+      });
+   }
+}
+
 export const editTask = <K extends keyof typeof task>(
    key: K,
    value: (typeof task)[K]
@@ -44,3 +59,9 @@ export const editTask = <K extends keyof typeof task>(
    task[key] = value
    return Promise.resolve(task)
 };
+
+export const getAllTask = () => {
+   return new Promise((resolve) => {
+      setTimeout(() => resolve(mockAllTask), 500);
+   });
+}

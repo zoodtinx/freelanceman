@@ -29,15 +29,18 @@ import { Calendar } from './calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { format } from 'date-fns';
 import { cn } from '@/lib/helper/utils';
-import { DialogueState } from '@/lib/helper/contextTypes';
+import { DialogueState } from 'src/lib/context/ProjectViewContextTypes';
 import { useTaskQuery, useEditTask } from '@/lib/api/taskApi';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 //Main Task Dialogue
 interface TaskDialogueProps {
    dialogueState: DialogueState;
    setDialogueState: (newState: DialogueState) => void;
+   mode?: string
 }
-const TaskDialogue: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState }) => {
+
+const TaskDialogue: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState, mode }) => {
    const { data: task, isLoading, error } = useTaskQuery(dialogueState.id);
    const { mutate: editTask } = useEditTask(dialogueState.id);
 

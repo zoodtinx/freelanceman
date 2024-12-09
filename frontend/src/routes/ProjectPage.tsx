@@ -1,60 +1,35 @@
-import { mockProjects } from '@/lib/mock/projects';
-import { Client, Dots } from '@/components/shared/icons';
+import { useProjectQuery } from '@/lib/api/projectApi';
+import { useParams } from 'react-router-dom';
 import ProjectSideBar from '@/components/pages/project/ProjectSideBar';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import {
-   useActiveproject,
-   useProjectList,
-   useGetProjectQuery,
-} from '@/lib/redux/hooks';
-import { useEffect } from 'react';
-import { redirect } from 'react-router-dom';
+import { Users, EllipsisVertical } from 'lucide-react';
 
 export default function ProjectPage() {
-   const { data, isSuccess } = useGetProjectQuery('/');
-   const { setActiveProject } = useActiveproject();
-   const url = useLocation().pathname;
+   const { projectId } = useParams();
+   const { data: project } = useProjectQuery(projectId || '', 'full');
 
-   useEffect(() => {
-      if (isSuccess && data) {
-         setActiveProject(data);
-      }
-   }, [isSuccess, data, setActiveProject]);
-
-   const { project } = useActiveproject();
+   if (!projectId) {
+      return <p>Oops</p>;
+   }
 
    if (!project) {
-      return <div>Loading...</div>; 
+      return <div>Loading...</div>;
    }
 
-   if (url !== `/home/${project.id}/tasks`) {
-      redirect(`/home/${project.id}/tasks`); 
-   }
+   console.log('project', project);
 
    return (
-      <section className="w-full h-full">
-         <div className="flex flex-col rounded-[30px] bg-foreground p-4 pt-6 sm:w-full grow h-full gap-3">
-            <div className="flex justify-between items-start">
-               <div>
-                  <p className="text-2xl font-medium">{project.name}</p>
-                  <div
-                     className="flex h-fit items-center gap-[5px] w-fit cursor-pointer"
-                     style={{ color: project.color }}
-                  >
-                     <Client className="w-[20px] h-auto" />
-                     <p>{project.client}</p>
-                  </div>
-               </div>
-               <div>
-                  <Dots className="text-secondary w-[25px] h-auto" />
-               </div>
-            </div>
-            <div className="flex grow gap-4">
-               <div className="flex grow">
-                  <Outlet />
-               </div>
-               <ProjectSideBar />
-            </div>
+      <section className="flex flex-col rounded-2xl bg-foreground p-4 pt-5 w-full h-full relative">
+         <EllipsisVertical className='absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75'/>
+         <p className="text-xl">{project.name}</p>
+         <div className="flex gap-1 cursor-default text-secondary hover:text-primary transition-colors duration-75">
+            <Users className=" w-5 h-auto" />
+            <p className="text-md font-medium">
+               {project.client}
+            </p>
+         </div>
+         <div className="flex w-full">
+            <div className="grow"></div>
+            <ProjectSideBar />
          </div>
       </section>
    );

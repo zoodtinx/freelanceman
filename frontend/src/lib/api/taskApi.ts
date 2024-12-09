@@ -1,12 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { editTask, getTask } from './mock/mockTaskService';
+import { editTask, getTask, getAllTask } from './mock/mockTaskService';
 import type { Task } from './mock/mockTaskService';
+
 
 // Hook for fetching a task
 export const useTaskQuery = (taskId: string) => {
    return useQuery({
       queryKey: ['task', taskId],
       queryFn: () => getTask(taskId),
+   });
+};
+
+export const useAllTaskQuery = () => {
+   return useQuery({
+      queryKey: ['allTask'],
+      queryFn: () => getAllTask(),
    });
 };
 

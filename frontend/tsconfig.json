@@ -5,9 +5,13 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-    }
-  }
+    "baseUrl": ".",
+    "noEmit": true,
+  },
+  "include": [
+    "src",
+    "../shared/types/**/*",
+    "../shared/mocks/**/*"
+  ],
+  "exclude": ["src/**/*.d.ts"]
 }

@@ -1,14 +1,25 @@
 import React, { useEffect } from 'react';
 import ProjectList from './ProjectList';
 import ProjectFilterBar from './ProjectFilterBar';
-import { useProjectsViewContext } from '@/lib/helper/ProjectsViewContext';
+import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import ProjectGrid from './ProjectGrid';
-import { mockProjects } from '@/lib/mock/projects';
+import { useAllProjectsQuery } from '@/lib/api/projectApi';
 
 const ProjectsLayout: React.FC = () => {
    const { viewMode, setProjects } = useProjectsViewContext();
 
-   setProjects(mockProjects);
+   const { data: projects, isLoading } = useAllProjectsQuery();
+
+   useEffect(() => {
+      if (projects) {
+         setProjects(projects);
+      }
+   }, [projects, setProjects]);
+
+   if (isLoading) {
+      return <>Loading</>;
+   }
+
 
    return (
       <section className="w-full h-full flex flex-col gap-1 sm:flex-col">

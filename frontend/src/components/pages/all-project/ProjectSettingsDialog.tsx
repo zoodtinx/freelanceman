@@ -6,7 +6,6 @@ import {
    DialogTitle,
    DialogTrigger,
 } from '@/components/shared/ui/dialog';
-import { Textarea } from '@/components/shared/ui/textarea';
 import {
    Select,
    SelectGroup,
@@ -20,7 +19,7 @@ import {
 import { Button } from '@/components/shared/ui/button';
 import { Settings } from 'lucide-react';
 import React, { useEffect } from 'react';
-import { DialogueState } from '@/lib/helper/contextTypes';
+import { DialogueState } from 'src/lib/context/ProjectViewContextTypes';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { useEditProject, useProjectQuery } from '@/lib/api/projectApi';
 
@@ -29,13 +28,17 @@ interface TaskDialogueProps {
    dialogueState: DialogueState;
    setDialogueState: (newState: DialogueState) => void;
 }
-const ProjectSettingsDialog: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState }) => {
+const ProjectSettingsDialog: React.FC<TaskDialogueProps & React.HTMLAttributes<HTMLDivElement>>  = ({ dialogueState, setDialogueState }) => {
 
    const { data: project, isLoading, error } = useProjectQuery(dialogueState.id);
    const {mutate: editProject} = useEditProject(dialogueState.id)
 
    if (isLoading) {
       return null;
+   }
+
+   if (!project) {
+      return 'something went wrong'
    }
 
    const handleDialogueClose = () => {
@@ -65,7 +68,7 @@ const ProjectSettingsDialog: React.FC<TaskDialogueProps> = ({ dialogueState, set
             <div className="p-4 flex flex-col gap-2">
                <div className="flex justify-between items-start text-md gap-3 min-h-7 max-h-[700px]">
                   <p className="shrink-0 t">Project Name</p>
-                  <ProjectNameInput value={project?.name} setValue={editProject} />
+                  <ProjectNameInput value={project.name} setValue={editProject} />
                </div>
                <div className='flex w-full gap-3'>
                   <div className="flex justify-between items-center h-7 w-1/2 shrink-0">

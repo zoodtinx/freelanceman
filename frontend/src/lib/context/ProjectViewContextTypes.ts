@@ -1,9 +1,9 @@
-import { Project, Task } from "@types";
+import { ProjectPreview } from "@types";
 
 
 interface Filter {
-   projectStatus: Project["projectStatus"] | 'all',
-   paymentStatus: Project["paymentStatus"] | 'all',
+   projectStatus: ProjectPreview["projectStatus"] | 'all',
+   paymentStatus: ProjectPreview["paymentStatus"] | 'all',
    viewMode: 'grid' | 'list',
    sortBy: 'dateModified' | 'dateCreated' | 'name',
    sortOrder: 'asc' | 'desc',
@@ -13,11 +13,11 @@ interface Filter {
 
 interface ProjectsViewContextType {
    currentFilter: Filter;
-   projects: Project[];
+   projects: ProjectPreview[];
    setFilter: (type: FilterType, status: StatusMap[FilterType]) => void;
-   setProjects: (projects: Project[]) => void;
+   setProjects: (projects: ProjectPreview[]) => void;
    setViewMode: (viewMode: 'grid' | 'list') => void;
-   setDialogData: (project: Project) => void;
+   setDialogData: (project: ProjectPreview) => void;
    viewMode: 'grid' | 'list';
    clientList: string[];
    isTaskDialogOpen: DialogueState
@@ -29,8 +29,8 @@ interface ProjectsViewContextType {
 type FilterType = 'projectStatus' | 'paymentStatus' | 'client' | 'searchTerm';
 
 type StatusMap = {
-   projectStatus: Project["projectStatus"] | 'all';
-   paymentStatus: Project["paymentStatus"] | 'all';
+   projectStatus: ProjectPreview["projectStatus"] | 'all';
+   paymentStatus: ProjectPreview["paymentStatus"] | 'all';
    client: string;
    searchTerm: string;
 };

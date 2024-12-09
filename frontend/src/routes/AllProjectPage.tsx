@@ -1,4 +1,4 @@
-import { ProjectsViewProvider } from '@/lib/helper/ProjectsViewContext';
+import { ProjectsViewProvider } from '@/lib/context/ProjectsViewContext';
 import ProjectsLayout from '@/components/pages/all-project/ProjectsLayout';
 
 export default function AllProjectPage() {

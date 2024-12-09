@@ -1,101 +1,68 @@
-export type ProjectStatus = 'onhold' | 'active' | 'completed'
-export type PaymentStatus = 'paid' | 'unpaid' | 'processing' | 'not processed' | 'all';
-export type SortOption = 'dateModified' | 'dateCreated' | 'name' | 'client';
+export type ProjectStatus = 'active' | 'onHold' | 'completed'
+export type PaymentStatus = 'notProcessed' | 'processing' | 'paid'
+export type TaskStatus = 'planned' | 'inProgress' |'completed' | 'cancelled'
+export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled'
 
 export interface Project {
   id: string,
   client: string;
+  clientId: string;
   name: string;
   tasks: Task[];
   events: Event[];
   files: File[];
+  brief: string;
   documents: Document[];
-  materials: MaterialFile[];
-  brief: Brief;
-  projectStatus: ProjectStatus;
-  paymentStatus: PaymentStatus,
-  color: string,
+  contact: Contact[];
+  projectStatus: 'active' | 'onHold' | 'completed';
+  paymentStatus: 'notProcessed' | 'processing' | 'paid',
+  accentColor: string,
   dateCreated: string,
   dateModified: string,
-}
-
-export interface ProjectWithFilter extends Project {
-  sortBy: 'dateModified' | 'dateCreated' | 'name' | 'client';
-  sortOrder: 'desc' | 'asc';
-}
-
-export interface ProjectListFilter {
-  sortBy: 'dateModified' | 'dateCreated' | 'name' | 'client';
-  sortOrder: 'desc' | 'asc';
-  projectStatus: ProjectStatus;
-  paymentStatus: PaymentStatus;
-}
-
-export interface FileListFilter {
-  type: string;
-  category: 'workingFiles' | 'documents' | 'materials' | 'all' | 'invoices';
-  sortBy: 'dateModified' | 'dateCreated' | 'name' | 'size';
-  sortOrder: 'desc' | 'asc';
 }
 
 export interface Task {
   id: string;
   name: string;
-  status: 'planned' | 'completed' | 'cancelled' | 'all';
+  status: TaskStatus;
   details: string;
   link: string;
-  startedAt: string;
+  createdAt: string;
   dueDate: string;
+  time: string;
   project: string;
-  projectId?: string;
+  projectId: string;
   client: string;
+  clientId: string
 }
 
-export interface WorkingFile {
-  id: string;
-  name: string;
-  size: string;
-  link: string;
-  project: string;
-  client: string;
+export interface Event extends Omit<Task, 'status'> {
+  status: EventStatus
+}
+
+export interface File {
+  id: string,
+  name: string,
+  link: string,
+  size: string,
+  type: string,
+  dateCreated: string,
+  dateModified: string,
+  version: string,
+  category: 'invoice' | 'quotation' | 'material' | 'workingFile'
 }
 
 export interface Document {
-  id: string;
-  name: string;
-  type: string;
-  link: string;
-  project: string;
-  client: string;
+  id: string,
+  // another data field for user input formss
 }
 
-export interface MaterialFile {
-  id: string;
-  name: string;
-  size: string;
-  link: string;
-  project: string;
-  client: string;
-}
-
-export interface Brief {
-  id: string;
-  brief: string;
-  project: string;
-  client: string;
-  dateCreated: string;
-  dateModified: string;
-}
-
-export interface Event {
-  id: string;
-  name: string;
-  status: 'upcoming' | 'completed' | 'all' | 'cancelled';
-  details: string;
-  link: string;
-  startedAt: string;
-  dueDate: string;
-  project: string;
-  client: string;  
+export interface Contact {
+  id: string,
+  name: string,
+  position: string,
+  role: string,
+  company: string,
+  avatar: string
 }
 
