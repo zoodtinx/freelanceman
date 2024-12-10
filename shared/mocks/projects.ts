@@ -1,4 +1,4 @@
-const mockAllProjects = [
+export const mockAllProjects = [
    {
       id: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       client: "PixelEdge Studios",

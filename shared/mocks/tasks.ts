@@ -1,90 +1,6 @@
 import { Task } from "../types/project.types";
 
-export const mockTask: Task = {
-  id: 'task-001',
-  name: 'Create Project Proposal',
-  status: 'inProgress',
-  details:
-    'Draft a comprehensive proposal for the new project, including objectives, scope, timeline, and deliverables.',
-  link: 'https://example.com/project-proposal',
-  createdAt: '2024-11-19T15:00:00Z', // Added createdAt field
-  dueDate: '2024-11-27T17:00:00Z',
-  project: 'Project Management Tool Development',
-  projectId: '1234',
-  client: 'Acme Corp',
-  clientId: '5647',
-};
-
-export const mockAllTask: Task[] = [
-  {
-    id: 'task-002',
-    name: 'Write Blog Post',
-    status: 'planned',
-    details: 'Write a blog post on the latest design trends for 2024.',
-    link: '',
-    createdAt: '2024-10-01T10:00:00', // Added createdAt field
-    dueDate: '2024-10-05T12:00:00',
-    project: 'Content Creation for ABC Agency',
-    projectId: '2345', // Added projectId
-    client: 'ABC Agency',
-    clientId: '3456', // Added clientId
-  },
-  {
-    id: 'task-003',
-    name: 'Develop API Endpoints',
-    status: 'inProgress',
-    details: 'Build REST API endpoints for client management module.',
-    link: 'https://github.com/xyz/project-api',
-    createdAt: '2024-09-25T14:30:00', // Added createdAt field
-    dueDate: '2024-10-07T18:00:00',
-    project: 'Client Management System',
-    projectId: '3456', // Added projectId
-    client: 'DEF Solutions',
-    clientId: '4567', // Added clientId
-  },
-  {
-    id: 'task-004',
-    name: 'Logo Redesign',
-    status: 'completed',
-    details: 'Finalize logo redesign and send files to the client.',
-    link: 'https://www.dropbox.com/logo-final',
-    createdAt: '2024-09-10T11:00:00', // Added createdAt field
-    dueDate: '2024-09-20T18:00:00',
-    project: 'Branding Refresh for GHI Corp',
-    projectId: '4567', // Added projectId
-    client: 'GHI Corp',
-    clientId: '5678', // Added clientId
-  },
-  {
-    id: 'task-005',
-    name: 'Social Media Audit',
-    status: 'planned',
-    details: 'Conduct a social media audit for client’s Instagram and LinkedIn accounts.',
-    link: '',
-    createdAt: '2024-10-05T09:00:00', // Added createdAt field
-    dueDate: '2024-10-12T17:00:00',
-    project: 'Social Media Optimization for JKL Media',
-    projectId: '5678', // Added projectId
-    client: 'JKL Media',
-    clientId: '6789', // Added clientId
-  },
-  {
-    id: 'task-006',
-    name: 'SEO Optimization',
-    status: 'inProgress',
-    details: 'Optimize on-page SEO for landing page and blog posts.',
-    link: 'https://www.semrush.com/dashboard',
-    createdAt: '2024-09-28T10:00:00', // Added createdAt field
-    dueDate: '2024-10-07T16:00:00',
-    project: 'SEO Campaign for MNO Enterprises',
-    projectId: '6789', // Added projectId
-    client: 'MNO Enterprises',
-    clientId: '7890', // Added clientId
-  },
-];
-
-
-const mockNewTask = [
+export const mockTasks = [
   {
     id: "a7e9c2d3-4f8b-4a1f-8d7c-5b3e9f4d2c8a",
     name: "Design Homepage Mockup",
@@ -93,7 +9,10 @@ const mockNewTask = [
     link: "https://mockup.pixelproject.com/homepage",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-12T14:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "d4f7c9e8-3a2b-4c1d-9e5a-7b8f4c2d1a9e",
@@ -103,7 +22,10 @@ const mockNewTask = [
     link: "https://docs.pixelproject.com/branding",
     createdAt: "2024-12-01T11:30:00Z",
     dueDate: "2024-12-15T16:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e",
@@ -113,7 +35,10 @@ const mockNewTask = [
     link: "https://wireframes.pixelproject.com/landingpage",
     createdAt: "2024-12-02T09:15:00Z",
     dueDate: "2024-12-14T13:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "f8d2c7e9-4b3a-4c1f-8e9d-5a7f3c4b2d1a",
@@ -123,7 +48,10 @@ const mockNewTask = [
     link: "https://templates.pixelproject.com/socialmedia",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-18T15:30:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "d9f7c4b3-8a2e-4c1d-9f5a-7e3b2a4f8c9d",
@@ -133,7 +61,10 @@ const mockNewTask = [
     link: "https://meetings.pixelproject.com/review",
     createdAt: "2024-12-03T14:30:00Z",
     dueDate: "2024-12-04T17:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "e8c4a7f9-3b1d-4c6e-8d5a-7f2b9c3d4a5f",
@@ -143,7 +74,10 @@ const mockNewTask = [
     link: "https://designs.pixelproject.com/feedback",
     createdAt: "2024-12-04T08:00:00Z",
     dueDate: "2024-12-11T12:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "a9f3c8d4-4b7e-4c1f-9e2d-5a7b8f4d2c3e",
@@ -153,7 +87,10 @@ const mockNewTask = [
     link: "https://logos.pixelproject.com/final",
     createdAt: "2024-12-05T09:00:00Z",
     dueDate: "2024-12-20T14:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "c8e7f9d2-4a3b-4c1f-9d5e-7f2b4c8a3d9e",
@@ -163,7 +100,10 @@ const mockNewTask = [
     link: "https://testing.pixelproject.com/prototype",
     createdAt: "2024-12-06T10:30:00Z",
     dueDate: "2024-12-14T12:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "d7a9c3f4-4b8e-4c1d-9f5a-7e2b5a8c4f3d",
@@ -173,7 +113,10 @@ const mockNewTask = [
     link: "https://deliverables.pixelproject.com/finalize",
     createdAt: "2024-12-07T13:00:00Z",
     dueDate: "2024-12-22T15:30:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "f3c7d9a8-4b2e-4c1f-8d5a-7e9b4a2c8f9d",
@@ -183,7 +126,10 @@ const mockNewTask = [
     link: "https://presentations.pixelproject.com/client",
     createdAt: "2024-12-08T11:00:00Z",
     dueDate: "2024-12-24T14:00:00Z",
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "e2c9a7f4-3b8d-4c1f-8d5a-7f9b3c4a2d8e",
@@ -193,7 +139,10 @@ const mockNewTask = [
     link: "https://sketches.natureburst.com/initial",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "f3a9c8d4-4b7e-4c1d-9f5a-7d8b5a2f4c3e",
@@ -203,7 +152,10 @@ const mockNewTask = [
     link: "https://docs.natureburst.com/materials",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-15T16:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "c9e7f8d3-4b3a-4c1f-8d5a-7f2e9c4b3a9d",
@@ -213,7 +165,10 @@ const mockNewTask = [
     link: "https://colors.natureburst.com/palette",
     createdAt: "2024-12-03T09:15:00Z",
     dueDate: "2024-12-12T13:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "a7c9d3f8-4b1e-4c6f-9d5a-7b2e4c9a3f8d",
@@ -223,7 +178,10 @@ const mockNewTask = [
     link: "https://designs.natureburst.com/typography",
     createdAt: "2024-12-03T10:00:00Z",
     dueDate: "2024-12-18T15:30:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "d8f4c9a7-3b2d-4c1f-9e5a-7f3e9c2b5a4f",
@@ -233,7 +191,10 @@ const mockNewTask = [
     link: "https://meetings.natureburst.com/review",
     createdAt: "2024-12-04T14:30:00Z",
     dueDate: "2024-12-06T17:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "e7a9c8f4-3b1f-4c6d-9d5a-7b3e5a4c2f8d",
@@ -243,7 +204,10 @@ const mockNewTask = [
     link: "https://feedback.natureburst.com/incorporate",
     createdAt: "2024-12-05T08:00:00Z",
     dueDate: "2024-12-13T12:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "f8c7d9a3-4b2e-4c1f-9d5a-7e3b5a2f9c4d",
@@ -253,7 +217,10 @@ const mockNewTask = [
     link: "https://certification.natureburst.com/approval",
     createdAt: "2024-12-06T09:00:00Z",
     dueDate: "2024-12-20T14:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "c7d9e8f4-3b1a-4c6f-9d5e-7b3e4c2f8a9d",
@@ -263,7 +230,10 @@ const mockNewTask = [
     link: "https://finaldesigns.natureburst.com/production",
     createdAt: "2024-12-07T13:00:00Z",
     dueDate: "2024-12-22T15:30:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "d9c7a8f4-4b2e-4c1f-8d5a-7e3f9b2c5a4d",
@@ -273,7 +243,10 @@ const mockNewTask = [
     link: "https://photos.natureburst.com/session",
     createdAt: "2024-12-08T11:00:00Z",
     dueDate: "2024-12-24T14:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "a9f4c8e7-3b1d-4c6f-9e5a-7b3e2c5a9d4f",
@@ -283,7 +256,10 @@ const mockNewTask = [
     link: "https://marketing.natureburst.com/launch",
     createdAt: "2024-12-08T14:00:00Z",
     dueDate: "2024-12-28T16:00:00Z",
+    project: "Packaging Design for NatureBurst Granola",
     projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "e2f9d7c8-4a3b-4c1f-8d5a-7f8d2b5a9f9a",
@@ -293,7 +269,10 @@ const mockNewTask = [
     link: "https://banners.boldframe.com/winter-campaign",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "f7e8d9c4-4b2a-4c1f-8d7a-9b2c3f5e1b6d",
@@ -303,7 +282,10 @@ const mockNewTask = [
     link: "https://templates.boldframe.com/instagram-stories",
     createdAt: "2024-12-02T09:30:00Z",
     dueDate: "2024-12-12T13:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "c8e7d6f4-4b1d-4c6e-9f5a-7b2a8f5e4d8a",
@@ -313,7 +295,10 @@ const mockNewTask = [
     link: "https://posts.boldframe.com/winter-promotion",
     createdAt: "2024-12-03T08:15:00Z",
     dueDate: "2024-12-14T12:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "a9f8d7e4-4b2d-4c5e-8d7a-7e3f5c9b6c5b",
@@ -323,7 +308,10 @@ const mockNewTask = [
     link: "https://graphics.boldframe.com/twitter-winter-sale",
     createdAt: "2024-12-04T10:00:00Z",
     dueDate: "2024-12-16T15:30:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "b2c7f9a3-4d1e-4c3f-9e6a-7d9f3c5b8e4f",
@@ -333,7 +321,10 @@ const mockNewTask = [
     link: "https://pins.boldframe.com/winter-campaign",
     createdAt: "2024-12-05T11:30:00Z",
     dueDate: "2024-12-07T18:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "e3c7d9b5-4b3a-4c1f-9f5a-7a3e5b2c7f6e",
@@ -343,7 +334,10 @@ const mockNewTask = [
     link: "https://animations.boldframe.com/facebook-holiday",
     createdAt: "2024-12-06T08:45:00Z",
     dueDate: "2024-12-13T14:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "d7f9c5e4-4a2d-4c1f-9e5a-7b4d3c8b9a7f",
@@ -353,7 +347,10 @@ const mockNewTask = [
     link: "https://newsletter.boldframe.com/winter-campaign",
     createdAt: "2024-12-07T12:00:00Z",
     dueDate: "2024-12-18T16:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "f8c7d9e3-4b1a-4c1f-9d5a-7e2b9f4c5a6f",
@@ -363,7 +360,10 @@ const mockNewTask = [
     link: "https://banners.boldframe.com/linkedIn-winter",
     createdAt: "2024-12-08T09:45:00Z",
     dueDate: "2024-12-20T13:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "c9f7e3d9-4b2a-4c1f-9d5a-7b6a3e8f4c8a",
@@ -373,7 +373,10 @@ const mockNewTask = [
     link: "https://review.boldframe.com/socialmedia",
     createdAt: "2024-12-08T11:30:00Z",
     dueDate: "2024-12-21T14:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "b9e8c3d7-4b1d-4c6f-9d7a-7c9f2e5a6c3f",
@@ -383,7 +386,10 @@ const mockNewTask = [
     link: "https://ads.boldframe.com/winter-launch",
     createdAt: "2024-12-09T10:30:00Z",
     dueDate: "2024-12-22T15:00:00Z",
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
     projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "f3e7c9a4-4b2d-4c1f-9f7a-7b8f5a9c2d8f",
@@ -393,7 +399,10 @@ const mockNewTask = [
     link: "https://storyboard.visionaryads.com/tv-commercial",
     createdAt: "2024-12-01T09:30:00Z",
     dueDate: "2024-12-10T15:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "c9e7f3d2-4b1e-4c2f-8d9f-7a8c4f3b2e1d",
@@ -403,7 +412,10 @@ const mockNewTask = [
     link: "https://ads.visionaryads.com/social-media",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T14:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "d7c9f4e1-4b2a-4c6f-8e7d-7c9b2f3e4a9c",
@@ -413,7 +425,10 @@ const mockNewTask = [
     link: "https://ads.visionaryads.com/print-magazine",
     createdAt: "2024-12-03T11:15:00Z",
     dueDate: "2024-12-14T16:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "e1c7f3d2-4b3e-4c5e-9e5a-7a8c2d4e9a7b",
@@ -423,7 +438,10 @@ const mockNewTask = [
     link: "https://copywriting.visionaryads.com/digital-ads",
     createdAt: "2024-12-04T09:00:00Z",
     dueDate: "2024-12-13T12:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "c8d7f3e2-4b1d-4c2f-9f7a-7e5b9d3c8f6b",
@@ -433,7 +451,10 @@ const mockNewTask = [
     link: "https://meetings.visionaryads.com/client-social-media",
     createdAt: "2024-12-05T08:30:00Z",
     dueDate: "2024-12-06T14:30:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "f2d7c9b5-4b1f-4c1e-9d5a-7f3c2e4b9d8f",
@@ -443,7 +464,10 @@ const mockNewTask = [
     link: "https://banners.visionaryads.com/digital",
     createdAt: "2024-12-06T10:00:00Z",
     dueDate: "2024-12-16T15:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "c9e5d8f3-4b2e-4c1f-9d6a-7d8f3e9b4a9d",
@@ -453,7 +477,10 @@ const mockNewTask = [
     link: "https://scripts.visionaryads.com/tv-commercial",
     createdAt: "2024-12-07T11:30:00Z",
     dueDate: "2024-12-15T14:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "b8e7d6f9-4b1a-4c2e-9f7a-7d3b5a8c9d9f",
@@ -463,7 +490,10 @@ const mockNewTask = [
     link: "https://layout.visionaryads.com/print-ad",
     createdAt: "2024-12-08T12:00:00Z",
     dueDate: "2024-12-18T13:30:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "d9e7c8f5-4b2a-4c1f-8d7a-7f2d9c5e8a8d",
@@ -473,7 +503,10 @@ const mockNewTask = [
     link: "https://launch.visionaryads.com/360-campaign",
     createdAt: "2024-12-09T10:00:00Z",
     dueDate: "2024-12-20T14:00:00Z",
-    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "e8f7d9c2-4b3a-4c1f-9f7d-7a3e5b9c4d8a",
@@ -483,7 +516,10 @@ const mockNewTask = [
     link: "https://logos.nextwavecreations.com/concepts",
     createdAt: "2024-12-01T09:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "d7c9e6f2-4b1a-4c2f-8d9a-7b6e5c3f8d9a",
@@ -493,7 +529,10 @@ const mockNewTask = [
     link: "https://styleguide.nextwavecreations.com",
     createdAt: "2024-12-02T10:30:00Z",
     dueDate: "2024-12-15T16:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "c9e8f7d2-4b2d-4c1f-9d5a-7f8c4e3d2b9d",
@@ -503,7 +542,10 @@ const mockNewTask = [
     link: "https://colors.nextwavecreations.com/palette",
     createdAt: "2024-12-03T08:15:00Z",
     dueDate: "2024-12-12T13:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "e2d7c9f4-4b3a-4c1f-9d5a-7b4c2f3d8e9b",
@@ -513,7 +555,10 @@ const mockNewTask = [
     link: "https://businesscards.nextwavecreations.com",
     createdAt: "2024-12-04T09:30:00Z",
     dueDate: "2024-12-14T15:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "f9d2c8f7-4b1d-4c3e-9f7a-7e3d8c5b4a7d",
@@ -523,7 +568,10 @@ const mockNewTask = [
     link: "https://collateral.nextwavecreations.com",
     createdAt: "2024-12-05T10:00:00Z",
     dueDate: "2024-12-16T13:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "d9f3e7c2-4b1e-4c1f-9e5a-7a8e3c7f9a8f",
@@ -533,7 +581,10 @@ const mockNewTask = [
     link: "https://socialmedia.nextwavecreations.com/templates",
     createdAt: "2024-12-06T11:00:00Z",
     dueDate: "2024-12-18T14:30:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "c8d7e9f4-4b2a-4c1f-9e7a-7b4e3d9c5a9f",
@@ -543,7 +594,10 @@ const mockNewTask = [
     link: "https://meetings.nextwavecreations.com/brand-review",
     createdAt: "2024-12-07T09:30:00Z",
     dueDate: "2024-12-08T13:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "e7d3f9c8-4b2a-4c5e-8d7a-7b5f3c8d9e4f",
@@ -553,7 +607,10 @@ const mockNewTask = [
     link: "https://designs.nextwavecreations.com/feedback",
     createdAt: "2024-12-08T08:45:00Z",
     dueDate: "2024-12-12T14:00:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "b6e7f9d3-4b1e-4c2d-9f7a-7d8f3c2d9e5d",
@@ -563,7 +620,10 @@ const mockNewTask = [
     link: "https://final.nextwavecreations.com/guidelines",
     createdAt: "2024-12-09T10:00:00Z",
     dueDate: "2024-12-15T16:30:00Z",
-    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "e9f8c3d7-4b2a-4c1f-9f7a-7b5d3c4e8f6e",
@@ -573,7 +633,10 @@ const mockNewTask = [
     link: "https://logos.lumeeco.com/ecosmart",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "d7e9f3c2-4b1d-4c6e-8d7a-7b3c5f2d9c7e",
@@ -583,7 +646,10 @@ const mockNewTask = [
     link: "https://colors.lumeeco.com/ecosmart",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-12T16:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "c9e5d7f1-4b3d-4c5e-9d7a-7f2b8e4d3f2a",
@@ -593,7 +659,10 @@ const mockNewTask = [
     link: "https://styleguide.lumeeco.com/ecosmart",
     createdAt: "2024-12-03T09:00:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "b2f9c6e3-4a1e-4c6f-9d7a-7e4b9c5d9a3f",
@@ -603,7 +672,10 @@ const mockNewTask = [
     link: "https://socialmedia.lumeeco.com/templates",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-16T14:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "c8d3e4f7-4b1a-4c2f-9d6e-7b9f5c2a7b9d",
@@ -613,7 +685,10 @@ const mockNewTask = [
     link: "https://website.lumeeco.com/ecosmart",
     createdAt: "2024-12-05T08:00:00Z",
     dueDate: "2024-12-18T13:30:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "e7d3f9b8-4b1d-4c3f-9e5a-7c2b9f4d9c8a",
@@ -623,7 +698,10 @@ const mockNewTask = [
     link: "https://emails.lumeeco.com/ecosmart",
     createdAt: "2024-12-06T09:30:00Z",
     dueDate: "2024-12-19T15:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "d7f9c8e4-4b1e-4c1f-9e5a-7e6c9d4a2f9e",
@@ -633,7 +711,10 @@ const mockNewTask = [
     link: "https://pitchdeck.lumeeco.com/ecosmart",
     createdAt: "2024-12-07T10:00:00Z",
     dueDate: "2024-12-21T14:30:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "f7c9e4d3-4b2a-4c1f-8d7a-7b5e3c2d8a7d",
@@ -643,7 +724,10 @@ const mockNewTask = [
     link: "https://finalassets.lumeeco.com/ecosmart",
     createdAt: "2024-12-08T11:00:00Z",
     dueDate: "2024-12-22T16:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "b9e8d7f9-4b2a-4c1f-8d7a-7e3f5b4c9e8f",
@@ -653,7 +737,10 @@ const mockNewTask = [
     link: "https://launch.lumeeco.com/ecosmart",
     createdAt: "2024-12-09T12:00:00Z",
     dueDate: "2024-12-24T15:00:00Z",
-    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "f9d8c7a3-4b2a-4c1f-8d7a-7e3c2b9f5e8d",
@@ -663,7 +750,10 @@ const mockNewTask = [
     link: "https://designs.wavemakersstudio.com/homepage",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "c9e7f6d4-4b1a-4c2f-9d7a-7f4e2c9b9a8a",
@@ -673,7 +763,10 @@ const mockNewTask = [
     link: "https://about.wavemakersstudio.com",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-12T16:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "d8e7c9f5-4b2d-4c6f-9e7a-7c3d5f9e4a2d",
@@ -683,7 +776,10 @@ const mockNewTask = [
     link: "https://services.wavemakersstudio.com",
     createdAt: "2024-12-03T09:00:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "e9f7c8d4-4b3a-4c2f-8d7a-7b9c5e3a7f9e",
@@ -693,7 +789,10 @@ const mockNewTask = [
     link: "https://blog.wavemakersstudio.com",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-16T14:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "f7c8e9d4-4b2a-4c6e-9f5a-7b4e2f9a8c7e",
@@ -703,7 +802,10 @@ const mockNewTask = [
     link: "https://contact.wavemakersstudio.com",
     createdAt: "2024-12-05T08:00:00Z",
     dueDate: "2024-12-18T13:30:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "c8d7e9b4-4b1e-4c1f-8d7a-7f3e4d2c9e9a",
@@ -713,7 +815,10 @@ const mockNewTask = [
     link: "https://responsive.wavemakersstudio.com",
     createdAt: "2024-12-06T09:30:00Z",
     dueDate: "2024-12-19T14:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "b7f9d6e3-4a2b-4c5f-8d7a-7f9c5e3d9e4d",
@@ -723,7 +828,10 @@ const mockNewTask = [
     link: "https://portfolio.wavemakersstudio.com",
     createdAt: "2024-12-07T11:00:00Z",
     dueDate: "2024-12-21T13:30:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "a8f7c9e4-4b3a-4c2f-9e5a-7f9d5c9b8e6d",
@@ -733,7 +841,10 @@ const mockNewTask = [
     link: "https://footer.wavemakersstudio.com",
     createdAt: "2024-12-08T10:00:00Z",
     dueDate: "2024-12-22T15:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "f9e7d8c3-4b2a-4c1f-9d5a-7b4c5f9d8a7f",
@@ -743,7 +854,10 @@ const mockNewTask = [
     link: "https://launch.wavemakersstudio.com",
     createdAt: "2024-12-09T12:00:00Z",
     dueDate: "2024-12-23T16:00:00Z",
-    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "e8c9f7d4-4b3a-4c1f-9e7a-7f9d2c8b5a7d",
@@ -753,7 +867,10 @@ const mockNewTask = [
     link: "https://logos.skylinegala.com/event",
     createdAt: "2024-12-01T09:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "d7e9c8f4-4b3a-4c1f-9f5a-7a9b6c7f9e3a",
@@ -763,7 +880,10 @@ const mockNewTask = [
     link: "https://invitations.skylinegala.com",
     createdAt: "2024-12-02T11:15:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "f9d2c8e3-4b1d-4c5e-8f7a-7b3e5d9c9a7f",
@@ -773,7 +893,10 @@ const mockNewTask = [
     link: "https://program.skylinegala.com",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "c8e7f9d4-4b1a-4c6f-9d7a-7e4b5c9b8a8e",
@@ -783,7 +906,10 @@ const mockNewTask = [
     link: "https://signage.skylinegala.com",
     createdAt: "2024-12-04T10:00:00Z",
     dueDate: "2024-12-16T14:30:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "e8f9c7d2-4b3a-4c6f-9e5a-7c9d3f8e9b7e",
@@ -793,7 +919,10 @@ const mockNewTask = [
     link: "https://digitalinvites.skylinegala.com",
     createdAt: "2024-12-05T09:30:00Z",
     dueDate: "2024-12-17T15:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "d7c9f8d3-4b2a-4c1f-9e7a-7e3b5c8f9d9e",
@@ -803,7 +932,10 @@ const mockNewTask = [
     link: "https://stagedesign.skylinegala.com",
     createdAt: "2024-12-06T10:00:00Z",
     dueDate: "2024-12-18T16:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "f8d7e9c3-4b2a-4c1f-9d5a-7b9e2c7f8a7f",
@@ -813,7 +945,10 @@ const mockNewTask = [
     link: "https://thankyou.skylinegala.com",
     createdAt: "2024-12-07T11:00:00Z",
     dueDate: "2024-12-19T14:30:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "d9f8c7e4-4b2a-4c3f-9d7a-7f3c2e5b8f9e",
@@ -823,7 +958,10 @@ const mockNewTask = [
     link: "https://finalmaterials.skylinegala.com",
     createdAt: "2024-12-08T12:30:00Z",
     dueDate: "2024-12-20T15:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "f2e7c9d3-4b1a-4c6f-9d7a-7b2f5d9c7e7f",
@@ -833,7 +971,10 @@ const mockNewTask = [
     link: "https://marketing.skylinegala.com",
     createdAt: "2024-12-09T13:00:00Z",
     dueDate: "2024-12-21T16:00:00Z",
-    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "e3c9f7d4-4b2a-4c1f-9d7a-7b8e5c3f4d8f",
@@ -843,7 +984,10 @@ const mockNewTask = [
     link: "https://landing.innovateads.com/product-launch",
     createdAt: "2024-12-01T09:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "d7e8f5c3-4b1d-4c2f-9d7a-7b3d6e9c8f6e",
@@ -853,7 +997,10 @@ const mockNewTask = [
     link: "https://emails.innovateads.com/product-launch",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T16:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "c8e7f9d3-4b2a-4c1f-9d7a-7e4d3f5a2b9f",
@@ -863,7 +1010,10 @@ const mockNewTask = [
     link: "https://socialmedia.innovateads.com/product-launch",
     createdAt: "2024-12-03T08:30:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "b7d9e6f2-4b2a-4c6e-9f7a-7e2d3f9b5a7d",
@@ -873,7 +1023,10 @@ const mockNewTask = [
     link: "https://digitalads.innovateads.com/product-launch",
     createdAt: "2024-12-04T10:15:00Z",
     dueDate: "2024-12-16T14:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "e8d7f3c9-4b1e-4c1f-8d7a-7b3e5f6d9a9e",
@@ -883,7 +1036,10 @@ const mockNewTask = [
     link: "https://video.innovateads.com/product-launch",
     createdAt: "2024-12-05T09:00:00Z",
     dueDate: "2024-12-18T15:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "f7d9e8c4-4b2a-4c5e-9d6a-7f8e2c9b8a7d",
@@ -893,7 +1049,10 @@ const mockNewTask = [
     link: "https://copywriting.innovateads.com/product-launch",
     createdAt: "2024-12-06T09:30:00Z",
     dueDate: "2024-12-19T16:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "c9e7f5d8-4b3a-4c2f-9d5a-7f4c9e3d9e7e",
@@ -903,7 +1062,10 @@ const mockNewTask = [
     link: "https://paidads.innovateads.com/product-launch",
     createdAt: "2024-12-07T10:30:00Z",
     dueDate: "2024-12-20T13:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "b9e7d8c4-4b2a-4c1f-9e7a-7f9c8f4e8d9f",
@@ -913,7 +1075,10 @@ const mockNewTask = [
     link: "https://clientreview.innovateads.com/product-launch",
     createdAt: "2024-12-08T12:00:00Z",
     dueDate: "2024-12-21T14:30:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "a8c7f9d5-4b1e-4c1f-9d7a-7e3d8f9b8f8d",
@@ -923,7 +1088,10 @@ const mockNewTask = [
     link: "https://finalize.innovateads.com/product-launch",
     createdAt: "2024-12-09T10:00:00Z",
     dueDate: "2024-12-22T15:00:00Z",
-    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "e7f9d3c4-4b2a-4c1f-9d7a-7b8f6e3c9d8a",
@@ -933,7 +1101,10 @@ const mockNewTask = [
     link: "https://ads.brightidea.com/podcast-launch",
     createdAt: "2024-12-01T10:30:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Ad Series for BrightIdea’s New Podcast Launch",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "f8c7d9e3-4b2a-4c6f-9d7a-7e3f5d9c9a7d",
@@ -943,7 +1114,10 @@ const mockNewTask = [
     link: "https://video.brightidea.com/podcast-promo",
     createdAt: "2024-12-02T09:00:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "c7d9e8f4-4b1a-4c6e-9d5a-7b3f9e5d8a9f",
@@ -953,7 +1127,10 @@ const mockNewTask = [
     link: "https://copywriting.brightidea.com/podcast-launch",
     createdAt: "2024-12-03T10:30:00Z",
     dueDate: "2024-12-13T16:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "b8c7d3f9-4b1e-4c5f-9d7a-7e5c4f9b9d8f",
@@ -963,7 +1140,10 @@ const mockNewTask = [
     link: "https://socialmedia.brightidea.com/podcast-launch",
     createdAt: "2024-12-04T11:00:00Z",
     dueDate: "2024-12-14T14:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "d9f8e7c2-4b3a-4c1f-9e7a-7b9f5c4d2d9e",
@@ -973,7 +1153,10 @@ const mockNewTask = [
     link: "https://banner.brightidea.com/podcast-launch",
     createdAt: "2024-12-05T12:30:00Z",
     dueDate: "2024-12-16T15:30:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "f2d7e9c3-4b2a-4c1f-9d6a-7f3b9e5a2f4a",
@@ -983,7 +1166,10 @@ const mockNewTask = [
     link: "https://emails.brightidea.com/podcast-launch",
     createdAt: "2024-12-06T09:45:00Z",
     dueDate: "2024-12-17T13:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "c7d3e9f4-4b1a-4c2f-9e5a-7b4e5f3d9a9d",
@@ -993,7 +1179,10 @@ const mockNewTask = [
     link: "https://finalize.brightidea.com/podcast-launch",
     createdAt: "2024-12-07T10:00:00Z",
     dueDate: "2024-12-18T14:30:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "e8f7d3c2-4b2a-4c1f-9d7a-7b9f2c4d8f7e",
@@ -1003,7 +1192,10 @@ const mockNewTask = [
     link: "https://launch.brightidea.com/podcast-campaign",
     createdAt: "2024-12-08T11:30:00Z",
     dueDate: "2024-12-19T15:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "d9e7c8f4-4b2a-4c1f-8d5a-7b9f3e7b4d8d",
@@ -1013,7 +1205,10 @@ const mockNewTask = [
     link: "https://monitor.brightidea.com/podcast-campaign",
     createdAt: "2024-12-09T12:00:00Z",
     dueDate: "2024-12-20T16:00:00Z",
-    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c"
+    project: "Podcast Launch for BrightIdea",
+    projectId: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "e7d9c8f3-4b2a-4c1f-9d7a-7b8d3c5e9f8e",
@@ -1023,7 +1218,10 @@ const mockNewTask = [
     link: "https://billboard.urbanvista.com/city-festival",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "d7e9c3f4-4b1a-4c1f-9e7a-7f3e5c9d2e9d",
@@ -1033,7 +1231,10 @@ const mockNewTask = [
     link: "https://posters.urbanvista.com/city-festival",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "c9e7d9f5-4b1d-4c5e-9d5a-7f2d8c4d9f8a",
@@ -1043,7 +1244,10 @@ const mockNewTask = [
     link: "https://digitalads.urbanvista.com/city-festival",
     createdAt: "2024-12-03T09:00:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "f8e7c9f3-4b2a-4c1f-9d6a-7e4c5b9d8e7e",
@@ -1053,7 +1257,10 @@ const mockNewTask = [
     link: "https://banner.urbanvista.com/parade",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-16T14:00:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "d9f8c7e4-4b2a-4c5f-9d7a-7b9d3c9e7b8a",
@@ -1063,7 +1270,10 @@ const mockNewTask = [
     link: "https://socialmedia.urbanvista.com/city-festival",
     createdAt: "2024-12-05T09:15:00Z",
     dueDate: "2024-12-17T13:30:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "b7e9f8c2-4b3a-4c1f-9d7a-7f9b8c4d7e9f",
@@ -1073,17 +1283,23 @@ const mockNewTask = [
     link: "https://program.urbanvista.com/city-festival",
     createdAt: "2024-12-06T10:00:00Z",
     dueDate: "2024-12-18T14:30:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
-    id: "c9e7f3d2-4b2a-4c1f-9e7a-7b4e5c3d8f6d",
+    id: "c9e7c3d2-4b2a-4c1f-9e7a-7b4e5c3d8f6d",
     name: "Create Print Ad for Local Newspapers",
     status: "planned",
     details: "Design a print ad for local newspapers to promote UrbanVista’s City Festival.",
     link: "https://printads.urbanvista.com/city-festival",
     createdAt: "2024-12-07T11:00:00Z",
     dueDate: "2024-12-19T16:00:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "d7e9f5c3-4b2a-4c1f-9e7a-7e9d8c3b7e7e",
@@ -1093,7 +1309,10 @@ const mockNewTask = [
     link: "https://review.urbanvista.com/city-festival",
     createdAt: "2024-12-08T10:30:00Z",
     dueDate: "2024-12-20T14:30:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "c8d7f9e4-4b3a-4c5e-9d7a-7b5c2f9b9e7f",
@@ -1103,7 +1322,10 @@ const mockNewTask = [
     link: "https://finalize.urbanvista.com/city-festival",
     createdAt: "2024-12-09T11:30:00Z",
     dueDate: "2024-12-21T15:00:00Z",
-    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b"
+    project: "City Festival for UrbanVista",
+    projectId: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
+    client: "UrbanVista",
+    clientId: "a7f8e9c9-4b1e-4f5f-8d7a-7d3f8e9a8d8b"
   },
   {
     id: "f8d7e9f5-4b3a-4c1f-9d7a-7b5c3e9f9a8a",
@@ -1113,7 +1335,10 @@ const mockNewTask = [
     link: "https://animation.futureframe.com/logo",
     createdAt: "2024-12-01T09:30:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c"
+    project: "Film Division for FutureFrame",
+    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c",
+    client: "FutureFrame",
+    clientId: "b7e7a8c3-4c2a-4d5e-9b8f-5c9d8f4e7a2f"
   },
   {
     id: "d9e7f8c2-4b3a-4c5f-9d5a-7b8d9c7f8a7e",
@@ -1123,7 +1348,10 @@ const mockNewTask = [
     link: "https://storyboard.futureframe.com/logo-animation",
     createdAt: "2024-12-02T10:15:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c"
+    project: "Film Division for FutureFrame",
+    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c",
+    client: "FutureFrame",
+    clientId: "b7e7a8c3-4c2a-4d5e-9b8f-5c9d8f4e7a2f"
   },
   {
     id: "e9f7d8c4-4b3a-4c1f-9d5a-7b3d7f8c9d7f",
@@ -1133,7 +1361,10 @@ const mockNewTask = [
     link: "https://finalrender.futureframe.com/logo-animation",
     createdAt: "2024-12-03T11:30:00Z",
     dueDate: "2024-12-15T13:00:00Z",
-    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c"
+    project: "Film Division for FutureFrame",
+    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c",
+    client: "FutureFrame",
+    clientId: "b7e7a8c3-4c2a-4d5e-9b8f-5c9d8f4e7a2f"
   },
   {
     id: "c8f7e3d4-4b2a-4c1f-9e7a-7d3e7f9d9e8a",
@@ -1143,7 +1374,10 @@ const mockNewTask = [
     link: "https://socialmedia.futureframe.com/logo-animation",
     createdAt: "2024-12-04T08:45:00Z",
     dueDate: "2024-12-18T14:00:00Z",
-    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c"
+    project: "Film Division for FutureFrame",
+    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c",
+    client: "FutureFrame",
+    clientId: "b7e7a8c3-4c2a-4d5e-9b8f-5c9d8f4e7a2f"
   },
   {
     id: "e2c7d9e1-4b1a-4c1f-8d7a-7b5f8c7e4d9a",
@@ -1153,7 +1387,10 @@ const mockNewTask = [
     link: "https://credits.futureframe.com/logo-animation",
     createdAt: "2024-12-05T09:00:00Z",
     dueDate: "2024-12-20T15:30:00Z",
-    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c"
+    project: "Film Division for FutureFrame",
+    projectId: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c",
+    client: "FutureFrame",
+    clientId: "b7e7a8c3-4c2a-4d5e-9b8f-5c9d8f4e7a2f"
   },
   {
     id: "f8c7e9d2-4b2a-4c1f-9d7a-7d4f5c3e9d8e",
@@ -1163,7 +1400,10 @@ const mockNewTask = [
     link: "https://campaign.greenlinemedia.com/sustainability",
     createdAt: "2024-12-01T10:30:00Z",
     dueDate: "2024-12-12T14:00:00Z",
-    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e"
+    project: "Sustainability Campaign for Greenline Media",
+    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e",
+    client: "Greenline Media",
+    clientId: "b2f9e8f6-4a1e-4c5e-9f7b-8d3f5c8a8d2f"
   },
   {
     id: "d7e9c3f4-4b1a-4c5e-9f7a-7f3d9e7c2f9d",
@@ -1173,7 +1413,10 @@ const mockNewTask = [
     link: "https://infographics.greenlinemedia.com/sustainability",
     createdAt: "2024-12-02T11:00:00Z",
     dueDate: "2024-12-14T15:30:00Z",
-    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e"
+    project: "Sustainability Campaign for Greenline Media",
+    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e",
+    client: "Greenline Media",
+    clientId: "b2f9e8f6-4a1e-4c5e-9f7b-8d3f5c8a8d2f"
   },
   {
     id: "c9e7f3d9-4b2a-4c1f-9e5a-7b9e5f8b6e9f",
@@ -1183,7 +1426,10 @@ const mockNewTask = [
     link: "https://emails.greenlinemedia.com/sustainability",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-16T13:00:00Z",
-    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e"
+    project: "Sustainability Campaign for Greenline Media",
+    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e",
+    client: "Greenline Media",
+    clientId: "b2f9e8f6-4a1e-4c5e-9f7b-8d3f5c8a8d2f"
   },
   {
     id: "e8f7d9c4-4b2a-4c5e-9d7a-7b6f8d9f7e3f",
@@ -1193,7 +1439,10 @@ const mockNewTask = [
     link: "https://launch.greenlinemedia.com/sustainability",
     createdAt: "2024-12-04T11:00:00Z",
     dueDate: "2024-12-18T14:30:00Z",
-    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e"
+    project: "Sustainability Campaign for Greenline Media",
+    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e",
+    client: "Greenline Media",
+    clientId: "b2f9e8f6-4a1e-4c5e-9f7b-8d3f5c8a8d2f"
   },
   {
     id: "f9c7d8e2-4b2a-4c1f-9d7a-7e3c2f8b7e6f",
@@ -1203,7 +1452,10 @@ const mockNewTask = [
     link: "https://metrics.greenlinemedia.com/sustainability",
     createdAt: "2024-12-05T10:00:00Z",
     dueDate: "2024-12-20T15:00:00Z",
-    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e"
+    project: "Sustainability Campaign for Greenline Media",
+    projectId: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e",
+    client: "Greenline Media",
+    clientId: "b2f9e8f6-4a1e-4c5e-9f7b-8d3f5c8a8d2f"
   },
   {
     id: "c7e8f9d4-4b2a-4c1f-9d5a-7e2c8d9f7a9f",
@@ -1213,7 +1465,10 @@ const mockNewTask = [
     link: "https://infographics.brighthorizons.com/report",
     createdAt: "2024-12-01T11:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f"
+    project: "Bright Horizons Annual Report",
+    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f",
+    client: "Bright Horizons",
+    clientId: "f9e8a7c4-4c3b-4d2a-8f9b-5c2a6f9e2a9f"
   },
   {
     id: "d9e7f8c3-4b2a-4c1f-9e7a-7b5e3c9e7b8e",
@@ -1223,7 +1478,10 @@ const mockNewTask = [
     link: "https://multiformat.brighthorizons.com/report",
     createdAt: "2024-12-02T12:00:00Z",
     dueDate: "2024-12-13T15:30:00Z",
-    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f"
+    project: "Bright Horizons Annual Report",
+    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f",
+    client: "Bright Horizons",
+    clientId: "f9e8a7c4-4c3b-4d2a-8f9b-5c2a6f9e2a9f"
   },
   {
     id: "c7d9e8f3-4b2a-4c1f-9d5a-7b9e3d2f7a7d",
@@ -1233,7 +1491,10 @@ const mockNewTask = [
     link: "https://interactive.brighthorizons.com/report",
     createdAt: "2024-12-03T09:00:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f"
+    project: "Bright Horizons Annual Report",
+    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f",
+    client: "Bright Horizons",
+    clientId: "f9e8a7c4-4c3b-4d2a-8f9b-5c2a6f9e2a9f"
   },
   {
     id: "e7c9f5d8-4b2a-4c1f-9e7a-7f9d8f7e9c9d",
@@ -1243,7 +1504,10 @@ const mockNewTask = [
     link: "https://finalize.brighthorizons.com/report",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-15T14:00:00Z",
-    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f"
+    project: "Bright Horizons Annual Report",
+    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f",
+    client: "Bright Horizons",
+    clientId: "f9e8a7c4-4c3b-4d2a-8f9b-5c2a6f9e2a9f"
   },
   {
     id: "c7e9d9f3-4b2a-4c1f-9e7a-7e9c5d3f8e7f",
@@ -1253,7 +1517,10 @@ const mockNewTask = [
     link: "https://launch.brighthorizons.com/report",
     createdAt: "2024-12-05T11:00:00Z",
     dueDate: "2024-12-16T15:00:00Z",
-    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f"
+    project: "Bright Horizons Annual Report",
+    projectId: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f",
+    client: "Bright Horizons",
+    clientId: "f9e8a7c4-4c3b-4d2a-8f9b-5c2a6f9e2a9f"
   },
   {
     id: "f8d7e9c4-4b2a-4c1f-9e7a-7b3f5e2d9e8a",
@@ -1263,7 +1530,10 @@ const mockNewTask = [
     link: "https://mobileapp.pixeledge.com/interface",
     createdAt: "2024-12-01T09:30:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c"
+    project: "PixelEdge Interactive Platform",
+    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c",
+    client: "PixelEdge",
+    clientId: "f5a7e3c4-5c8a-4d2e-8f6e-9a7b8c2d7e7f"
   },
   {
     id: "d9e7c8f5-4b2a-4c1f-9e7a-7c3d9e8f9a9e",
@@ -1273,7 +1543,10 @@ const mockNewTask = [
     link: "https://userflow.pixeledge.com/mobileapp",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c"
+    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c",
+    project: "PixelEdge Mobile App",
+    client: "PixelEdge",
+    clientId: "f5a7e3c4-5c8a-4d2e-8f6e-9a7b8c2d7e7f"
   },
   {
     id: "e7f9d2c4-4b1a-4c1f-9d7a-7b8e5c9d7e9f",
@@ -1283,7 +1556,10 @@ const mockNewTask = [
     link: "https://prototype.pixeledge.com/mobileapp",
     createdAt: "2024-12-03T09:15:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c"
+    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c",
+    project: "PixelEdge Mobile App",
+    client: "PixelEdge",
+    clientId: "f5a7e3c4-5c8a-4d2e-8f6e-9a7b8c2d7e7f"
   },
   {
     id: "d8c7f9e5-4b2a-4c5e-9d7a-7b3f4c9e6e7f",
@@ -1293,7 +1569,10 @@ const mockNewTask = [
     link: "https://mockups.pixeledge.com/mobileapp",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-16T14:00:00Z",
-    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c"
+    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c",
+    project: "PixelEdge Mobile App",
+    client: "PixelEdge",
+    clientId: "f5a7e3c4-5c8a-4d2e-8f6e-9a7b8c2d7e7f"
   },
   {
     id: "e2c9d7f4-4b3a-4c5f-9d7a-7e3c5d8f9e9a",
@@ -1303,7 +1582,10 @@ const mockNewTask = [
     link: "https://testing.pixeledge.com/mobileapp",
     createdAt: "2024-12-05T09:00:00Z",
     dueDate: "2024-12-18T16:00:00Z",
-    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c"
+    projectId: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c",
+    project: "PixelEdge Mobile App",
+    client: "PixelEdge",
+    clientId: "f5a7e3c4-5c8a-4d2e-8f6e-9a7b8c2d7e7f"
   },
   {
     id: "f9c7e8f4-4b2a-4c1f-9d7a-7b2e5c9e9f7d",
@@ -1313,7 +1595,10 @@ const mockNewTask = [
     link: "https://brochure.creativehive.com/newservice",
     createdAt: "2024-12-01T10:45:00Z",
     dueDate: "2024-12-10T14:30:00Z",
-    projectId: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e"
+    projectId: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e",
+    project: "Creative Hive New Service Brochure",
+    client: "Creative Hive",
+    clientId: "a3d8e9b4-4b7a-4c1f-8d5a-7f3e6d9f8e2f"
   },
   {
     id: "e9f7d6c4-4b2a-4c1f-8d7a-7c9f5d8e7e9a",
@@ -1323,7 +1608,10 @@ const mockNewTask = [
     link: "https://overview.creativehive.com/newservice",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e"
+    projectId: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e",
+    project: "Creative Hive New Service Brochure",
+    client: "Creative Hive",
+    clientId: "a3d8e9b4-4b7a-4c1f-8d5a-7f3e6d9f8e2f"
   },
   {
     id: "f7d9e8c4-4b1a-4c2f-9d7a-7f2e5c9b9e7d",
@@ -1333,7 +1621,10 @@ const mockNewTask = [
     link: "https://finalize.creativehive.com/brochure",
     createdAt: "2024-12-03T10:00:00Z",
     dueDate: "2024-12-15T16:00:00Z",
-    projectId: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e"
+    projectId: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e",
+    project: "Creative Hive New Service Brochure",
+    client: "Creative Hive",
+    clientId: "a3d8e9b4-4b7a-4c1f-8d5a-7f3e6d9f8e2f"
   },
   {
     id: "d7c9e6f4-4b3a-4c5f-9e7a-7b9f3c9b7e8f",
@@ -1343,7 +1634,10 @@ const mockNewTask = [
     link: "https://presentation.boldframe.com/annualreview",
     createdAt: "2024-12-01T11:00:00Z",
     dueDate: "2024-12-10T13:00:00Z",
-    projectId: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e"
+    projectId: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e",
+    project: "BoldFrame Annual Review",
+    client: "BoldFrame",
+    clientId: "b7d3f9a7-8a4e-43f2-9a2d-6f5b4c7e9f2e"
   },
   {
     id: "c8e7f5d3-4b2a-4c1f-9e7a-7b2e5c3d9e8e",
@@ -1353,7 +1647,10 @@ const mockNewTask = [
     link: "https://slidedeck.boldframe.com/annualreview",
     createdAt: "2024-12-02T10:15:00Z",
     dueDate: "2024-12-12T14:30:00Z",
-    projectId: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e"
+    projectId: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e",
+    project: "BoldFrame Annual Review",
+    client: "BoldFrame",
+    clientId: "b7d3f9a7-8a4e-43f2-9a2d-6f5b4c7e9f2e"
   },
   {
     id: "d9f8e7c4-4b2a-4c5e-9d5a-7f9d5c9b8a8f",
@@ -1363,7 +1660,10 @@ const mockNewTask = [
     link: "https://finalpresentation.boldframe.com/annualreview",
     createdAt: "2024-12-03T11:00:00Z",
     dueDate: "2024-12-13T15:00:00Z",
-    projectId: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e"
+    projectId: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e",
+    project: "BoldFrame Annual Review",
+    client: "BoldFrame",
+    clientId: "b7d3f9a7-8a4e-43f2-9a2d-6f5b4c7e9f2e"
   },
   {
     id: "e9f7c8d4-4b2a-4c1f-9d7a-7e2c3d5b7f9a",
@@ -1373,7 +1673,10 @@ const mockNewTask = [
     link: "https://digitalads.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-01T09:30:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e"
+    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e",
+    project: "Visionary Ads Seasonal Campaign",
+    client: "Visionary Ads",
+    clientId: "b4a2d3e5-9f8c-4d2e-8e6a-7a2f8d5e8b7a"
   },
   {
     id: "f9c8d7e9-4b3a-4c1f-9d7a-7b2f8e3d7f8e",
@@ -1383,7 +1686,10 @@ const mockNewTask = [
     link: "https://socialmedia.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e"
+    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e",
+    project: "Visionary Ads Seasonal Campaign",
+    client: "Visionary Ads",
+    clientId: "b4a2d3e5-9f8c-4d2e-8e6a-7a2f8d5e8b7a"
   },
   {
     id: "e2f9c7d4-4b3a-4c1f-9d7a-7b6e3c2d8e9f",
@@ -1393,7 +1699,10 @@ const mockNewTask = [
     link: "https://video.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e"
+    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e",
+    project: "Visionary Ads Seasonal Campaign",
+    client: "Visionary Ads",
+    clientId: "b4a2d3e5-9f8c-4d2e-8e6a-7a2f8d5e8b7a"
   },
   {
     id: "d9e7f9c8-4b2a-4c1f-9d7a-7f3c2f4e5a7f",
@@ -1403,7 +1712,10 @@ const mockNewTask = [
     link: "https://stories.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-04T10:00:00Z",
     dueDate: "2024-12-16T14:30:00Z",
-    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e"
+    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e",
+    project: "Visionary Ads Seasonal Campaign",
+    client: "Visionary Ads",
+    clientId: "b4a2d3e5-9f8c-4d2e-8e6a-7a2f8d5e8b7a"
   },
   {
     id: "d7f8c9e4-4b2a-4c5e-9d7a-7b6f9c4e8e7d",
@@ -1413,7 +1725,10 @@ const mockNewTask = [
     link: "https://posts.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-05T09:15:00Z",
     dueDate: "2024-12-17T13:00:00Z",
-    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e"
+    projectId: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e",
+    project: "Visionary Ads Seasonal Campaign",
+    client: "Visionary Ads",
+    clientId: "b4a2d3e5-9f8c-4d2e-8e6a-7a2f8d5e8b7a"
   },
   {
     id: "f7c8d9e5-4b2a-4c1f-9d5a-7d3b8c5e9f8a",
@@ -1423,7 +1738,10 @@ const mockNewTask = [
     link: "https://content.nextwavecreations.com/social-media",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e"
+    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e",
+    project: "NextWave Social Media Campaign",
+    client: "NextWave Creations",
+    clientId: "a3b9d7f2-4c9b-4d2f-8f7e-6d3e7f8a9d7a"
   },
   {
     id: "c7e9d8f5-4b3a-4c1f-9e7a-7b9f5e3d7b7f",
@@ -1433,7 +1751,10 @@ const mockNewTask = [
     link: "https://ads.nextwavecreations.com/social-media",
     createdAt: "2024-12-02T11:15:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e"
+    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e",
+    project: "NextWave Social Media Campaign",
+    client: "NextWave Creations",
+    clientId: "a3b9d7f2-4c9b-4d2f-8f7e-6d3e7f8a9d7a"
   },
   {
     id: "e9c8d7f4-4b2a-4c5e-9d7a-7d8e3c2b4e7d",
@@ -1443,7 +1764,10 @@ const mockNewTask = [
     link: "https://mobileads.nextwavecreations.com/campaign",
     createdAt: "2024-12-03T09:45:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e"
+    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e",
+    project: "NextWave Social Media Campaign",
+    client: "NextWave Creations",
+    clientId: "a3b9d7f2-4c9b-4d2f-8f7e-6d3e7f8a9d7a"
   },
   {
     id: "c7f9e8d2-4b3a-4c1f-9d7a-7f3e2c5b7e8d",
@@ -1453,7 +1777,10 @@ const mockNewTask = [
     link: "https://emails.nextwavecreations.com/social-media",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-17T15:30:00Z",
-    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e"
+    projectId: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e",
+    project: "NextWave Social Media Campaign",
+    client: "NextWave Creations",
+    clientId: "a3b9d7f2-4c9b-4d2f-8f7e-6d3e7f8a9d7a"
   },
   {
     id: "d8e7f9d4-4b2a-4c1f-9d7a-7b9d5f3e8e7d",
@@ -1463,7 +1790,10 @@ const mockNewTask = [
     link: "https://video.lumeeco.com/ecosmart-launch",
     createdAt: "2024-12-01T09:30:00Z",
     dueDate: "2024-12-10T14:30:00Z",
-    projectId: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b"
+    projectId: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b",
+    project: "EcoSmart Launch",
+    client: "Lume",
+    clientId: "b7e8d4f2-4b3a-4c1d-9f7b-2e3a7c5e6d7b"
   },
   {
     id: "f9d7e9c3-4b1a-4c1f-9e7a-7e3b9c5f7e6e",
@@ -1473,7 +1803,10 @@ const mockNewTask = [
     link: "https://storyboard.lumeeco.com/ecosmart-launch",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "e7c9f8d2-4b2a-4c5f-9d7a-7b6d5f9c7e8d",
@@ -1483,7 +1816,10 @@ const mockNewTask = [
     link: "https://finalize.lumeeco.com/ecosmart-launch",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b"
+    project: "Digital Branding for Lume's 'EcoSmart' Initiative",
+    projectId: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b",
+    client: "LumeCreative Agency",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2"
   },
   {
     id: "d7f9e8c4-4b1a-4c1f-9e7a-7b8e5c9d8a7d",
@@ -1493,7 +1829,10 @@ const mockNewTask = [
     link: "https://graphics.wavemakersstudio.com/design-conference",
     createdAt: "2024-12-01T09:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "e8d7f9c4-4b2a-4c1f-9e7a-7b3d2c8e8a7e",
@@ -1503,7 +1842,10 @@ const mockNewTask = [
     link: "https://presentation.wavemakersstudio.com/design-conference",
     createdAt: "2024-12-02T10:15:00Z",
     dueDate: "2024-12-12T16:00:00Z",
-    projectId: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "f2c9d7e8-4b2a-4c1f-9d5a-7b3e5d9e7c7d",
@@ -1513,7 +1855,10 @@ const mockNewTask = [
     link: "https://program.wavemakersstudio.com/design-conference",
     createdAt: "2024-12-03T11:00:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f"
+    project: "Website Revamp for WaveMakers Studio",
+    projectId: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f",
+    client: "WaveMakers Studio",
+    clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9"
   },
   {
     id: "e8f7d9c3-4b1a-4c5e-9d7a-7c4f5d9b7e8f",
@@ -1523,7 +1868,10 @@ const mockNewTask = [
     link: "https://ebook.skylinecreatives.com/portfolio",
     createdAt: "2024-12-01T09:45:00Z",
     dueDate: "2024-12-10T14:30:00Z",
-    projectId: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "d7e9c8f3-4b2a-4c1f-9d7a-7f4e3d9b8f7e",
@@ -1533,7 +1881,10 @@ const mockNewTask = [
     link: "https://interactive.ebook.skylinecreatives.com",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "c8f7e8d4-4b2a-4c1f-9d7a-7e4e2c9d8f7d",
@@ -1543,7 +1894,10 @@ const mockNewTask = [
     link: "https://finalize.ebook.skylinecreatives.com",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-14T13:30:00Z",
-    projectId: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f"
+    project: "Event Branding for Skyline's Annual Gala",
+    projectId: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f",
+    client: "Skyline Creatives",
+    clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f"
   },
   {
     id: "f7e9c6d4-4b2a-4c5e-9d5a-7b4e3d9f8e6f",
@@ -1553,7 +1907,10 @@ const mockNewTask = [
     link: "https://motiongraphics.innovateads.com/product-showcase",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "c8d7f9e2-4b2a-4c1f-9d7a-7b5d8f9d8e8f",
@@ -1563,7 +1920,10 @@ const mockNewTask = [
     link: "https://animatedfeatures.innovateads.com/product-showcase",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "e9f7d8c9-4b1a-4c1f-9e7a-7b4d9f8b7f8d",
@@ -1573,7 +1933,10 @@ const mockNewTask = [
     link: "https://finalize.motiongraphics.innovateads.com/product-showcase",
     createdAt: "2024-12-03T10:00:00Z",
     dueDate: "2024-12-14T16:00:00Z",
-    projectId: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c"
+    project: "Product Launch Campaign for InnovateAds",
+    projectId: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c",
+    client: "InnovateAds Inc.",
+    clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b"
   },
   {
     id: "e8f9c7d4-4b3a-4c1f-9d7a-7f5d2c9e9d9f",
@@ -1583,7 +1946,10 @@ const mockNewTask = [
     link: "https://adconcepts.brightidea.com/podcast-series",
     createdAt: "2024-12-01T09:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b"
+    project: "Ad Series for BrightIdea’s New Podcast Launch",
+    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "d7c9f8e4-4b2a-4c1f-9e7a-7f2b8c4d9e9d",
@@ -1593,7 +1959,10 @@ const mockNewTask = [
     link: "https://banners.brightidea.com/podcast-series",
     createdAt: "2024-12-02T10:00:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b"
+    project: "Ad Series for BrightIdea’s New Podcast Launch",
+    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "f8d7e3d9-4b1a-4c1f-9e5a-7c2f5d8b7e7e",
@@ -1603,7 +1972,10 @@ const mockNewTask = [
     link: "https://video.brightidea.com/podcast-series",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b"
+    project: "Ad Series for BrightIdea’s New Podcast Launch",
+    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "d9f8e7c4-4b2a-4c5f-9d7a-7b5e3c9f8e8d",
@@ -1613,7 +1985,10 @@ const mockNewTask = [
     link: "https://socialmedia.brightidea.com/podcast-series",
     createdAt: "2024-12-04T10:15:00Z",
     dueDate: "2024-12-16T14:00:00Z",
-    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b"
+    project: "Ad Series for BrightIdea’s New Podcast Launch",
+    projectId: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b",
+    client: "BrightIdea Media",
+    clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f"
   },
   {
     id: "e9d7c9f4-4b3a-4c1f-9d7a-7b8f4d9e8e7d",
@@ -1623,7 +1998,10 @@ const mockNewTask = [
     link: "https://presentation.pixeledge.com/investor-pitch",
     createdAt: "2024-12-01T09:30:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c"
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
+    projectId: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "c8e7d9e4-4b2a-4c1f-9d7a-7e3b5c9f8d9f",
@@ -1633,7 +2011,10 @@ const mockNewTask = [
     link: "https://interactive.pixeledge.com/investor-pitch",
     createdAt: "2024-12-02T11:00:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c"
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
+    projectId: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "f8d7e9c4-4b2a-4c1f-9e7a-7c9b4d9e7f8f",
@@ -1643,7 +2024,10 @@ const mockNewTask = [
     link: "https://finalize.pixeledge.com/investor-pitch",
     createdAt: "2024-12-03T10:00:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c"
+    project: "Rebrand for PixelEdge: Digital Campaign Launch",
+    projectId: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c",
+    client: "PixelEdge Studios",
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
     id: "d9f7c8e3-4b2a-4c1f-9d5a-7b9f3c2d8e8d",
@@ -1653,7 +2037,10 @@ const mockNewTask = [
     link: "https://digitalassets.creativehive.com/newcampaign",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e"
+    project: "Packaging Design for NatureBurst Granola",
+    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "c9d7e8f4-4b2a-4c1f-9d7a-7b5e3c9e7f7d",
@@ -1663,7 +2050,10 @@ const mockNewTask = [
     link: "https://socialmedia.creativehive.com/newcampaign",
     createdAt: "2024-12-02T10:30:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e"
+    project: "Packaging Design for NatureBurst Granola",
+    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "e8d7c9f5-4b1a-4c1f-9d7a-7b4f8c9d7e7e",
@@ -1673,7 +2063,10 @@ const mockNewTask = [
     link: "https://emails.creativehive.com/newcampaign",
     createdAt: "2024-12-03T09:45:00Z",
     dueDate: "2024-12-13T14:30:00Z",
-    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e"
+    project: "Packaging Design for NatureBurst Granola",
+    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "f9d8c7e2-4b2a-4c1f-9d5a-7f3b8c5e9d8f",
@@ -1683,7 +2076,10 @@ const mockNewTask = [
     link: "https://webbanners.creativehive.com/newcampaign",
     createdAt: "2024-12-04T10:00:00Z",
     dueDate: "2024-12-14T15:30:00Z",
-    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e"
+    project: "Packaging Design for NatureBurst Granola",
+    projectId: "d3e8a7f9-4b1c-4c5e-9d7f-5a9c2d4f3b8e",
+    client: "Creative Hive Co.",
+    clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af"
   },
   {
     id: "d9f7c9e4-4b1a-4c1f-9d7a-7c8e3d9e8f9e",
@@ -1693,7 +2089,10 @@ const mockNewTask = [
     link: "https://infographics.boldframe.com/annual-report",
     createdAt: "2024-12-01T09:00:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "e9f7d3c5-4b1a-4c6e-8f9a-7d2e5a4c3b8f"
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
+    projectId: "e9f7d3c5-4b1a-4c6e-8f9a-7d2e5a4c3b8f",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "e9f7c3d2-4b2a-4c5e-9d7a-7b5e8c3e8e9f",
@@ -1703,7 +2102,10 @@ const mockNewTask = [
     link: "https://visualizations.boldframe.com/annual-report",
     createdAt: "2024-12-02T10:30:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "e9f7d3c5-4b1a-4c6e-8f9a-7d2e5a4c3b8f"
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
+    projectId: "e9f7d3c5-4b1a-4c6e-8f9a-7d2e5a4c3b8f",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "c8d9e7f4-4b3a-4c1f-9e7a-7b3e4c9d9f7e",
@@ -1713,7 +2115,10 @@ const mockNewTask = [
     link: "https://overview.boldframe.com/annual-report",
     createdAt: "2024-12-03T09:45:00Z",
     dueDate: "2024-12-14T13:00:00Z",
-    projectId: "e9f7d3c5-4b1a-4c6e-8f9a-7d2e5a4c3b8f"
+    project: "Social Media Graphics for BoldFrame Winter Campaign",
+    projectId: "e9f7d3c5-4b1a-4c6e-8f9a-7d2e5a4c3b8f",
+    client: "BoldFrame Agency",
+    clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c"
   },
   {
     id: "e7f8d9e4-4b2a-4c5e-9d7a-7c9f3e9b8e7f",
@@ -1723,7 +2128,10 @@ const mockNewTask = [
     link: "https://strategy.visionaryads.com/summer-campaign",
     createdAt: "2024-12-01T10:00:00Z",
     dueDate: "2024-12-10T14:30:00Z",
-    projectId: "f2c9a7e4-3b8f-4c1d-9f7a-5b3e4a8d2c9f"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "f2c9a7e4-3b8f-4c1d-9f7a-5b3e4a8d2c9f",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "c9d7f8e4-4b2a-4c1f-9d7a-7e3b5c9e9f8d",
@@ -1733,7 +2141,10 @@ const mockNewTask = [
     link: "https://ads.visionaryads.com/summer-campaign",
     createdAt: "2024-12-02T11:00:00Z",
     dueDate: "2024-12-12T15:30:00Z",
-    projectId: "f2c9a7e4-3b8f-4c1d-9f7a-5b3e4a8d2c9f"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "f2c9a7e4-3b8f-4c1d-9f7a-5b3e4a8d2c9f",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "d9e8f7c5-4b2a-4c1f-9d5a-7f3b2e9c7e7e",
@@ -1743,7 +2154,10 @@ const mockNewTask = [
     link: "https://socialmedia.visionaryads.com/summer-campaign",
     createdAt: "2024-12-03T09:30:00Z",
     dueDate: "2024-12-13T14:00:00Z",
-    projectId: "f2c9a7e4-3b8f-4c1d-9f7a-5b3e4a8d2c9f"
+    project: "360° Ad Campaign for Visionary Ads' New Product Line",
+    projectId: "f2c9a7e4-3b8f-4c1d-9f7a-5b3e4a8d2c9f",
+    client: "Visionary Ads Ltd.",
+    clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732"
   },
   {
     id: "c8f7e9d4-4b2a-4c1f-9e5a-7b4e2c9f9e8f",
@@ -1753,7 +2167,10 @@ const mockNewTask = [
     link: "https://mockups.nextwavecreations.com/client-portal",
     createdAt: "2024-12-01T10:15:00Z",
     dueDate: "2024-12-10T14:00:00Z",
-    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "e8d7c9f4-4b3a-4c1f-9e7a-7f2d9e3f8f8e",
@@ -1763,7 +2180,10 @@ const mockNewTask = [
     link: "https://interactive.nextwavecreations.com/client-portal",
     createdAt: "2024-12-02T11:30:00Z",
     dueDate: "2024-12-12T15:00:00Z",
-    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "f9e7c9d2-4b1a-4c2f-9e7a-7d3e8c9b9f7e",
@@ -1773,7 +2193,10 @@ const mockNewTask = [
     link: "https://ui.nextwavecreations.com/client-portal",
     createdAt: "2024-12-03T09:45:00Z",
     dueDate: "2024-12-14T13:30:00Z",
-    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   },
   {
     id: "e7c9d8f4-4b3a-4c1f-9d7a-7f2b8c9e8f9f",
@@ -1783,6 +2206,9 @@ const mockNewTask = [
     link: "https://finalize.nextwavecreations.com/client-portal",
     createdAt: "2024-12-04T10:30:00Z",
     dueDate: "2024-12-15T14:00:00Z",
-    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e"
+    project: "Brand Identity for NextWave Creations",
+    projectId: "c8f7d3a9-4b1e-4c6f-8d5a-9f3e2a4c7b9e",
+    client: "NextWave Creations",
+    clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632"
   }
 ]

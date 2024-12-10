@@ -29,12 +29,17 @@ export interface Task {
   link: string;
   createdAt: string;
   dueDate: string;
+  project: string;
   projectId: string;
+  client: string;
+  clientId: string
 }
 
 export interface Event extends Omit<Task, 'status'> {
   status: EventStatus
 }
+
+export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled'
 
 export interface File {
   id: string,
