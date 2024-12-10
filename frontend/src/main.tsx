@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')!).render(
          defaultTheme="system"
          enableSystem
          disableTransitionOnChange
-         forcedTheme="dark"
+         forcedTheme="light"
       >
          <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />

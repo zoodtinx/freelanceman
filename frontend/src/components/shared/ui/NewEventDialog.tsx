@@ -55,7 +55,7 @@ type FormData = Pick<
    'status' | 'dueDate' | 'project' | 'client' | 'details' | 'link' | 'name'
 >;
 
-const NewActionDialog: React.FC<NewActionDialogProps> = ({
+const NewEventDialog: React.FC<NewActionDialogProps> = ({
    dialogueState,
    setDialogueState,
 }) => {
@@ -67,7 +67,8 @@ const NewActionDialog: React.FC<NewActionDialogProps> = ({
       formState: { errors },
       watch,
       reset,
-      control
+      control,
+      field
    } = useForm<FormData>({
       defaultValues: {
          status: 'scheduled', // Set default value here
@@ -122,8 +123,8 @@ const NewActionDialog: React.FC<NewActionDialogProps> = ({
                      </div>
                      <div className="w-1/2">
                         <p className="text-secondary">Due Date</p>
-                        <DatePicker setValue={setValue} register={register} />
-                        <TimePicker />
+                        <DatePicker control={control} />
+                        <TimePicker setValue={setValue} watch={watch} />
                      </div>
                   </div>
                   <div className="flex leading-tight">
@@ -200,10 +201,7 @@ const TaskNameInput = ({
                ref: undefined,
             }}
             ref={(el) => {
-               // Assign the element to your custom ref
                inputRef.current = el;
-
-               // Pass the element to React Hook Form's `register` function
                if (register?.ref) {
                   register.ref(el);
                }
@@ -357,59 +355,45 @@ const ClientSelect = ({ watch }: InputProps<FormData>): JSX.Element => {
       return <>Loading projects...</>;
    }
 
-   // if (!selectedProject) {
-   //    return <>Select a project first.</>;
-   // }
-
-   // // Find the client associated with the selected project
-   // const selectedProjectClient = activeProjects?.find(
-   //    (project) => project.id === selectedProject // Match by name
-   // )?.client;
-
    return <div>{client || 'Select a project'}</div>;
 };
 
-const DatePicker = ({
-   setValue,
-   register,
-}: InputProps<FormData>): JSX.Element => {
-   const [date, setDate] = React.useState<string>('');
-
-   useEffect(() => {
-      setValue('dueDate', date); // Sync state with form
-   }, [date, setValue]);
-
-   const handleDateSelect = (selectedDate: Date | undefined) => {
-      setDate(selectedDate ? selectedDate.toISOString() : '');
-   };
-
+const DatePicker = ({ control }): JSX.Element => {
    return (
-      <div>
-         <input type="hidden" {...register('dueDate')} value={date} />
-         <Popover>
-            <PopoverTrigger asChild>
-               <p
-                  className={cn(
-                     'justify-start text-md font-semibold cursor-pointer',
-                     !date && 'text-muted-foreground'
-                  )}
-               >
-                  {date ? format(date, 'PPP') : 'Pick a date'}
-               </p>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-               <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={handleDateSelect}
-               />
-            </PopoverContent>
-         </Popover>
-      </div>
+      <Controller
+         name="dueDate"
+         control={control}
+         render={({ field: { value, onChange } }) => (
+            <Popover>
+               <PopoverTrigger asChild>
+                  <p
+                     className={cn(
+                        'justify-start text-md font-semibold cursor-pointer',
+                        !value && 'text-muted-foreground'
+                     )}
+                  >
+                     {value ? format(new Date(value), 'PPP') : 'Pick a date'}
+                  </p>
+               </PopoverTrigger>
+               <PopoverContent className="w-auto p-0">
+                  <Calendar
+                     mode="single"
+                     selected={value ? new Date(value) : undefined}
+                     onSelect={(selectedDate) =>
+                        onChange(selectedDate ? selectedDate.toISOString() : '')
+                     }
+                  />
+               </PopoverContent>
+            </Popover>
+         )}
+      />
    );
 };
 
-const TimePicker = (): JSX.Element => {
+const TimePicker = ({
+   setValue,
+   watch,
+}): JSX.Element => {
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
    );
@@ -422,9 +406,19 @@ const TimePicker = (): JSX.Element => {
    const [selectedPeriod, setSelectedPeriod] = useState('AM');
    const [isWithTime, setIsWithTime] = useState(false);
 
-   const handleTimeSelect = () => {
-      const newTime = `${selectedHour}:${selectedMinute} ${selectedPeriod}`;
-      onChange(newTime);
+   const fieldValue = watch('dueDate')
+
+   const updateDueDate = () => {
+      const currentDate = new Date(fieldValue || new Date().toISOString());
+      let hoursIn24Format = parseInt(selectedHour, 10);
+      if (selectedPeriod === 'PM' && hoursIn24Format !== 12) {
+         hoursIn24Format += 12;
+      } else if (selectedPeriod === 'AM' && hoursIn24Format === 12) {
+         hoursIn24Format = 0;
+      }
+
+      currentDate.setHours(hoursIn24Format, parseInt(selectedMinute, 10));
+      setValue('dueDate', currentDate.toISOString());
    };
 
    const togglePeriod = () => {
@@ -464,6 +458,7 @@ const TimePicker = (): JSX.Element => {
                      onChange={(e) => {
                         setIsWithTime(true);
                         setSelectedHour(e.target.value);
+                        updateDueDate();
                      }}
                   >
                      {hours.map((hour) => (
@@ -484,6 +479,7 @@ const TimePicker = (): JSX.Element => {
                      onChange={(e) => {
                         setIsWithTime(true);
                         setSelectedMinute(e.target.value);
+                        updateDueDate();
                      }}
                   >
                      {minutes.map((minute) => (
@@ -499,6 +495,7 @@ const TimePicker = (): JSX.Element => {
                      onClick={() => {
                         setIsWithTime(true);
                         togglePeriod();
+                        updateDueDate();
                      }}
                   >
                      {selectedPeriod}
@@ -510,4 +507,5 @@ const TimePicker = (): JSX.Element => {
    );
 };
 
-export default NewActionDialog;
+
+export default NewEventDialog;

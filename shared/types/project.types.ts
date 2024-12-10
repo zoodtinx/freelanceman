@@ -29,11 +29,7 @@ export interface Task {
   link: string;
   createdAt: string;
   dueDate: string;
-  time: string;
-  project: string;
   projectId: string;
-  client: string;
-  clientId: string
 }
 
 export interface Event extends Omit<Task, 'status'> {

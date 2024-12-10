@@ -5,9 +5,9 @@ import { Dots, Task, Cross } from '@/components/shared/icons';
 import React, { useState, useRef } from 'react';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import ProjectSettingsDialog from './ProjectSettingsDialog';
-import TaskDialogue from '@/components/shared/ui/TaskDialogue';
 import { useNavigate } from 'react-router-dom';
 import type { ProjectPreview } from '@types';
+import TaskDialog from '@/components/shared/ui/TaskDialog';
 
 const ProjectGrid = () => {
    const {
@@ -32,7 +32,7 @@ const ProjectGrid = () => {
             dialogueState={isSettingsDialogOpen}
             setDialogueState={setIsSettingsDialogOpen}
          />
-         <TaskDialogue
+         <TaskDialog
             dialogueState={isTaskDialogOpen}
             setDialogueState={setIsTaskDialogOpen}
          />

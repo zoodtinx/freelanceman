@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TaskDialogue from './TaskDialogue.js';
-import NewActionDialog from './NewActionDialog.js';
+import TaskDialogue from './EventDialog.js';
+import NewActionDialog from './NewEventDialog.js';
 import { useRef } from 'react';
 import type { Task } from '@types';
 import { useForm } from "react-hook-form";

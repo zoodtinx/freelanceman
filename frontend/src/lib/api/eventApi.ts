@@ -49,6 +49,8 @@ export const useCreateEvent = () => {
    });
 };
 
+
+
 // Hook for editing an event
 export const useEditEvent = (eventId: string) => {
    const queryClient = useQueryClient();

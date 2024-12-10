@@ -1,5 +1,4 @@
 import { Calendar, Client, Date, Plus } from '@/components/shared/icons';
-import TaskDialogue from '@/components/shared/ui/TaskDialogue';
 import { eventColumns } from './eventColumn2';
 import {
    flexRender,
@@ -17,7 +16,8 @@ import {
 import { useAllEventQuery } from '@/lib/api/eventApi';
 import EventTable from './EventTable';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
-import NewActionDialog from '@/components/shared/ui/NewActionDialog';
+import NewEventDialog from '@/components/shared/ui/NewEventDialog';
+import EventDialog from '@/components/shared/ui/EventDialog';
 
 
 export default function Events() {
@@ -102,8 +102,8 @@ export default function Events() {
             </div>
          </div>
          <EventTable table={table} />
-         <TaskDialogue dialogueState={isTaskDialogOpen} setDialogueState={setIsTaskDialogOpen} />
-         <NewActionDialog dialogueState={isNewTaskDialogOpen} setDialogueState={setIsNewTaskDialogOpen} />
+         <EventDialog dialogueState={isTaskDialogOpen} setDialogueState={setIsTaskDialogOpen} />
+         <NewEventDialog dialogueState={isNewTaskDialogOpen} setDialogueState={setIsNewTaskDialogOpen} />
       </>
    );
 }

@@ -40,7 +40,7 @@ interface TaskDialogueProps {
    mode?: string
 }
 
-const TaskDialogue: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState, mode }) => {
+const TaskDialog: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState, mode }) => {
    const { data: task, isLoading, error } = useTaskQuery(dialogueState.id);
    const { mutate: editTask } = useEditTask(dialogueState.id);
 
@@ -341,4 +341,4 @@ const TimePicker: React.FC<InputProps<string>> = ({ value, setValue }) => {
    );
 };
 
-export default TaskDialogue;
+export default TaskDialog;
