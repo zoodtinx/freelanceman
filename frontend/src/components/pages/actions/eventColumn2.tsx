@@ -12,6 +12,8 @@ import { useEditEvent } from '@/lib/api/eventApi';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { readFileSync } from 'fs';
 import type { Row } from '@tanstack/react-table';
+import { format, toZonedTime } from 'date-fns-tz';
+
 
 function formatDate(isoString: string) {
    const date = new Date(isoString);
@@ -30,6 +32,12 @@ function formatDate(isoString: string) {
       'DEC',
    ];
    return `${date.getDate()} ${monthAbbreviations[date.getMonth()]}`;
+}
+
+function formatTime(isoString: string) {
+   const systemTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+   const zonedDate = toZonedTime(isoString, systemTimeZone);
+   return format(zonedDate, 'h:mm a', { timeZone: systemTimeZone });
 }
 
 export const eventColumns: ColumnDef<Event>[] = [
@@ -77,18 +85,19 @@ export const eventColumns: ColumnDef<Event>[] = [
    },
    {
       id: 'time',
-      accessorKey: 'time',
-      size: 15,
-      maxSize: 15,
+      accessorKey: 'dueDate',
+      size: 20,
+      maxSize: 20,
       minSize: 0,
       header: 'Time',
+      cell: ({ getValue }) => formatTime(getValue() as string),
       enableResizing: false,
    },
    {
       id: 'dueDate',
       minSize: 0,
-      maxSize: 15,
-      size: 15,
+      maxSize: 20,
+      size: 20,
       accessorKey: 'dueDate',
       header: 'Date',
       cell: ({ getValue }) => formatDate(getValue() as string),
@@ -142,16 +151,16 @@ export const EditPopover = ({id} : {id:string}):JSX.Element => {
 
 
 export const CellWrapper = ({ taskId, cellValue }: { taskId:string, cellValue:string }): JSX.Element => {
-   const { setIsTaskDialogOpen } = useActionsViewContext();
+   const { setIsEventDialogOpen } = useActionsViewContext();
 
    const handleClick = () => {
-      setIsTaskDialogOpen({
+      setIsEventDialogOpen({
          id: taskId,
          isOpen: true
       })
    }
 
    return (
-      <p onClick={handleClick}>{cellValue}</p>
+      <p onClick={handleClick} className='cursor-pointer'>{cellValue}</p>
    );
 };

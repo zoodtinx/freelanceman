@@ -6,7 +6,7 @@ import {
    Dialog,
    DialogTitle,
    DialogTrigger,
-} from './dialog';
+} from './Dialog';
 import { Button } from './button';
 import {
    Check,
@@ -32,16 +32,21 @@ import { cn } from '@/lib/helper/utils';
 import { DialogueState } from 'src/lib/context/ProjectViewContextTypes';
 import { useTaskQuery, useEditTask } from '@/lib/api/taskApi';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { useEventQuery } from '@/lib/api/eventApi';
 
 //Main Task Dialogue
 interface TaskDialogueProps {
    dialogueState: DialogueState;
    setDialogueState: (newState: DialogueState) => void;
-   mode?: string
+   mode?: string;
 }
 
-const EventDialog: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState, mode }) => {
-   const { data: task, isLoading, error } = useTaskQuery(dialogueState.id);
+const EventDialog: React.FC<TaskDialogueProps> = ({
+   dialogueState,
+   setDialogueState,
+   mode,
+}) => {
+   const { data, isLoading, error } = useEventQuery(dialogueState.id);
    const { mutate: editTask } = useEditTask(dialogueState.id);
 
    if (isLoading) {
@@ -51,21 +56,39 @@ const EventDialog: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueSt
    const handleDialogueClose = () => {
       setDialogueState({
          isOpen: false,
-         id: '',
+         id: dialogueState.id,
       });
    };
 
+   const fallBackData = {
+      id: '',
+      name: '',
+      status: '',
+      details: '',
+      link: '',
+      createdAt: '',
+      dueDate: '',
+      project: '',
+      projectId: '',
+      client: '',
+      clientId: '',
+   };
+
+   const task = data || fallBackData;
+
    return (
-      <Dialog
-         open={dialogueState.isOpen}
-         onOpenChange={handleDialogueClose}
-      >
+      <Dialog open={dialogueState.isOpen} onOpenChange={handleDialogueClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px] flex flex-col">
+         <DialogContent
+            className="sm:max-w-[425px] flex flex-col"
+            onInteractOutside={(e) => {
+               e.preventDefault();
+            }}
+         >
             <DialogHeader className="">
                <DialogTitle className="flex flex-col items-start">
                   <TaskNameInput value={task.name} setValue={editTask} />
@@ -148,7 +171,6 @@ interface InputProps<T> {
 const TaskNameInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
    const editableRef = React.useRef<HTMLDivElement>(null);
 
-   
    const handleNameChange = () => {
       if (editableRef.current) {
          const newValue = editableRef.current.innerText;
@@ -156,13 +178,11 @@ const TaskNameInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
       }
    };
 
-   console.log('value in compoennt', value)
-
    useEffect(() => {
       if (editableRef.current && editableRef.current.innerText !== value) {
          editableRef.current.innerText = value;
       }
-   }, [value])
+   }, [value]);
 
    return (
       <div className="group w-full relative flex">
@@ -218,7 +238,7 @@ const LinkInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
    }, [isEditMode]);
 
    const updateLink = () => {
-      setValue({ key: 'link', value: newLink })
+      setValue({ key: 'link', value: newLink });
       setIsEditMode(false);
    };
 
@@ -236,9 +256,14 @@ const LinkInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
       />
    ) : (
       <div className="flex justify-between items-center px-1 bg-blue-50 border w-full h-6 rounded-md text-blue-600">
-         <Link to={value} className="flex gap-1 items-center text-sm w-full overflow-hidden">
+         <Link
+            to={value}
+            className="flex gap-1 items-center text-sm w-full overflow-hidden"
+         >
             <ExternalLink className="w-4 h-auto" />
-            <p className='text-ellipsis overflow-hidden whitespace-nowrap'>{formattedLink}</p>
+            <p className="text-ellipsis overflow-hidden whitespace-nowrap">
+               {formattedLink}
+            </p>
          </Link>
          <X
             className="w-4 h-auto text-gray-700 cursor-pointer"
@@ -252,10 +277,10 @@ const LinkInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
 const StatusSelect: React.FC<InputProps<string>> = ({ value, setValue }) => {
    let color;
    switch (value) {
-      case 'planned':
+      case 'scheduled':
          color = 'bg-yellow-100';
          break;
-      case 'inprogress':
+      case 'onGoing':
          color = 'bg-emerald-200';
          break;
       case 'completed':
@@ -282,23 +307,15 @@ const StatusSelect: React.FC<InputProps<string>> = ({ value, setValue }) => {
             className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}
          >
             <div className="aspect-square w-[8px] rounded-full bg-primary" />
-            <p className='font-semibold'>
+            <p className="font-semibold">
                <SelectValue />
             </p>
          </DialogueSelectTrigger>
          <SelectContent className="flex flex-col gap-1">
-            <DialogueSelectItem value="planned">
-               Planned
-            </DialogueSelectItem>
-            <DialogueSelectItem value="inprogress">
-               In Progress
-            </DialogueSelectItem>
-            <DialogueSelectItem value="completed">
-               Completed
-            </DialogueSelectItem>
-            <DialogueSelectItem value="cancelled">
-               Cancelled
-            </DialogueSelectItem>
+            <DialogueSelectItem value="scheduled">Scheduled</DialogueSelectItem>
+            <DialogueSelectItem value="onGoing">Ongoing</DialogueSelectItem>
+            <DialogueSelectItem value="completed">Completed</DialogueSelectItem>
+            <DialogueSelectItem value="cancelled">Cancelled</DialogueSelectItem>
          </SelectContent>
       </Select>
    );

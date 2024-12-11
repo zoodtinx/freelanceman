@@ -22,7 +22,7 @@ import EventDialog from '@/components/shared/ui/EventDialog';
 
 export default function Events() {
    const {data: eventsData, isLoading} = useAllEventQuery()
-   const {isTaskDialogOpen, setIsTaskDialogOpen, isNewTaskDialogOpen, setIsNewTaskDialogOpen} = useActionsViewContext()
+   const {isTaskDialogOpen, setIsTaskDialogOpen, isNewTaskDialogOpen, setIsNewTaskDialogOpen, isEventDialogOpen, setIsEventDialogOpen} = useActionsViewContext()
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
          id: 'status',
@@ -102,7 +102,7 @@ export default function Events() {
             </div>
          </div>
          <EventTable table={table} />
-         <EventDialog dialogueState={isTaskDialogOpen} setDialogueState={setIsTaskDialogOpen} />
+         <EventDialog dialogueState={isEventDialogOpen} setDialogueState={setIsEventDialogOpen} />
          <NewEventDialog dialogueState={isNewTaskDialogOpen} setDialogueState={setIsNewTaskDialogOpen} />
       </>
    );

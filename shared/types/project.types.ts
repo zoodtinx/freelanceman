@@ -39,8 +39,6 @@ export interface Event extends Omit<Task, 'status'> {
   status: EventStatus
 }
 
-export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled'
-
 export interface File {
   id: string,
   name: string,

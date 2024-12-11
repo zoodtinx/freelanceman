@@ -1,10 +1,10 @@
 import type { Event } from "../types/project.types";
 
-export const mockAllEventData: Event[] = [
+export const mockEvents: Event[] = [
    {
       id: "b8e56a82-33f0-4a90-a213-9ad99bbad528",
       name: "Initial Meeting for Rebrand Strategy",
-      status: "scheduled",
+      status: "completed",
       details:
          "Kick-off meeting to discuss the strategy for the digital campaign launch.",
       link: "http://meeting-link.com",
@@ -46,7 +46,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "e26b917f-7056-4a4c-9a1d-0b6f6d2b35d3",
       name: "Final Campaign Launch",
-      status: "scheduled",
+      status: "completed",
       details: "Launch of the digital campaign across multiple platforms.",
       link: "http://launch-link.com",
       createdAt: "2024-12-15T09:00:00Z",
@@ -101,7 +101,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "401dad29-24d2-4e4d-b7e7-d7f0ef4b2f73",
       name: "Campaign Launch for NatureBurst Granola",
-      status: "scheduled",
+      status: "completed",
       details: "Launch of the new packaging design for NatureBurst Granola.",
       link: "http://granola-launch-link.com",
       createdAt: "2024-12-15T10:00:00Z",
@@ -128,7 +128,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "1ab23429-8d3a-4c4b-8f68-6f3c75ac3d4d",
       name: "Social Media Graphic Mockup Review",
-      status: "scheduled",
+      status: "completed",
       details:
          "Reviewing the first mockups for the social media graphics for the BoldFrame Winter Campaign.",
       link: "http://graphic-mockup-review.com",
@@ -142,7 +142,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "343f49da-16b9-4f0b-8b5c-593f57a768a4",
       name: "Final Social Media Graphics Approval",
-      status: "scheduled",
+      status: "completed",
       details:
          "Final review and approval of social media graphics for the BoldFrame Winter Campaign.",
       link: "http://final-graphics-approval.com",
@@ -198,7 +198,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "91fe4b5f-88b9-468d-a8b3-b98863e9e8d3",
       name: "Final Ad Production Approval",
-      status: "scheduled",
+      status: "completed",
       details:
          "Approval of final ad materials for production across all platforms.",
       link: "http://final-approval-link.com",
@@ -268,7 +268,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "1c36da25-2058-48ed-b7d6-8488470b2a33",
       name: "Brand Identity Launch",
-      status: "scheduled",
+      status: "completed",
       details: "Launch of the finalized brand identity for NextWave Creations.",
       link: "http://brand-launch-link.com",
       createdAt: "2024-12-14T10:00:00Z",
@@ -323,7 +323,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "8f756212-d0ca-4ed2-b42d-45646064ec42",
       name: "Final Branding Approval for EcoSmart",
-      status: "scheduled",
+      status: "completed",
       details:
          "Final approval of the digital branding materials for the EcoSmart initiative.",
       link: "http://final-approval-link.com",
@@ -379,7 +379,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "2b945b1a-bd8c-4e02-b6b2-fde110b771d2",
       name: "Final Website Approval for WaveMakers",
-      status: "scheduled",
+      status: "completed",
       details:
          "Final review and approval of the revamped website before launch.",
       link: "http://final-approval-link.com",
@@ -420,7 +420,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "6a7f8bcf-c47d-4ad6-b13c-9b6a8fc0f923",
       name: "Gala Design Mockup Review",
-      status: "scheduled",
+      status: "completed",
       details:
          "Reviewing the first set of branding mockups for the annual gala.",
       link: "http://gala-mockup-review.com",
@@ -448,7 +448,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "49d1c178-3575-4bc7-9f70-7f2e604b22e9",
       name: "Gala Event Branding Launch",
-      status: "scheduled",
+      status: "completed",
       details:
          "Launch of the complete branding package for Skyline's Annual Gala event.",
       link: "http://gala-launch-link.com",
@@ -476,7 +476,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "4f9a65c4-9023-4f8a-b0f0-7747edb171a5",
       name: "Product Launch Concept Review",
-      status: "scheduled",
+      status: "completed",
       details:
          "Reviewing the initial concepts for InnovateAds' product launch campaign.",
       link: "http://concept-review-link.com",
@@ -504,7 +504,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "94be7ff0-3979-4d71-9cde-3b3b7e7d4233",
       name: "Product Launch Campaign Launch",
-      status: "scheduled",
+      status: "completed",
       details: "Launch of InnovateAds' product across digital platforms.",
       link: "http://product-launch-link.com",
       createdAt: "2024-12-15T10:00:00Z",
@@ -531,7 +531,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "3b4ef564-df3a-4ad2-b6d4-6989d5c5a38b",
       name: "Podcast Ad Mockup Review",
-      status: "scheduled",
+      status: "completed",
       details:
          "Reviewing the first mockups of podcast ads for BrightIdea’s new podcast launch.",
       link: "http://ad-mockup-review.com",
@@ -545,7 +545,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "d76710b6-57fb-4b52-a473-badae6ad5fbb",
       name: "Final Podcast Ad Approval",
-      status: "scheduled",
+      status: "completed",
       details:
          "Approval of final ad materials for the podcast launch campaign.",
       link: "http://final-podcast-approval.com",
@@ -559,7 +559,7 @@ export const mockAllEventData: Event[] = [
    {
       id: "7e567ea9-e8f1-433f-bd96-3a2f0c2de126",
       name: "Podcast Ad Campaign Launch",
-      status: "scheduled",
+      status: "completed",
       details: "Launch of the podcast ad series for BrightIdea’s new podcast.",
       link: "http://podcast-ad-launch.com",
       createdAt: "2024-12-13T10:00:00Z",

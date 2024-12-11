@@ -3,7 +3,6 @@ import { mockSingleProject as sampleProject } from '@/lib/mock/singleProject';
 import { mockProjects as sampleAllPropjects } from '@/lib/mock/projects';
 
 export const getProject = (id: string): Promise<Project> => {
-   console.log('id', id);
    return new Promise((resolve) => {
       setTimeout(() => resolve(sampleProject), 500);
    });

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import {
    Table,
    TableBody,
@@ -17,9 +17,10 @@ interface TableProps<TData> {
 const EventTable = <TData extends RowData>({
    table,
 }: TableProps<TData>): JSX.Element => {
+   const tableRef = useRef<HTMLTableElement | null>(null)
    return (
       <div className='relative'>
-         <Table className="overflow-hidden cursor-default relative">
+         <Table className="overflow-hidden cursor-default relative" ref={tableRef}>
             <TableHeader>
                {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
@@ -67,7 +68,7 @@ const EventTable = <TData extends RowData>({
                )}
             </TableBody>
          </Table>
-         <TaskBar table={table} />
+         <TaskBar table={table} tableRef={tableRef} />
       </div>
    );
 };
@@ -79,7 +80,10 @@ interface TaskBarProps<TData> {
    table: TableType<TData>;
 }
 
-const TaskBar = ({ table }: TaskBarProps<Event>): JSX.Element | null => {
+const TaskBar = ({
+   table,
+   tableRef,
+}: TaskBarProps<Event> & { tableRef: React.RefObject<HTMLTableElement> }): JSX.Element | null => {
    const taskBarRef = useRef<HTMLDivElement | null>(null);
    const selectedRow = table.getSelectedRowModel().rows;
 
@@ -87,9 +91,14 @@ const TaskBar = ({ table }: TaskBarProps<Event>): JSX.Element | null => {
       const handleDeselect = () => {
          table.resetRowSelection();
       };
-   
+
       const handleClickOutside = (event: MouseEvent) => {
-         if (taskBarRef.current && !taskBarRef.current.contains(event.target as Node)) {
+         if (
+            taskBarRef.current &&
+            !taskBarRef.current.contains(event.target as Node) &&
+            tableRef.current &&
+            !tableRef.current.contains(event.target as Node)
+         ) {
             handleDeselect();
          }
       };
@@ -107,7 +116,7 @@ const TaskBar = ({ table }: TaskBarProps<Event>): JSX.Element | null => {
          document.removeEventListener("mousedown", handleClickOutside);
          document.removeEventListener("keydown", handleEscapeKey);
       };
-   }, []);
+   }, [table, tableRef]);
 
    if (selectedRow.length === 0) {
       return null;
@@ -115,12 +124,12 @@ const TaskBar = ({ table }: TaskBarProps<Event>): JSX.Element | null => {
 
    const selectedCount = selectedRow.length;
 
-
    return (
-      <div className="border rounded-full w-fit h-7 absolute top-0 left-6 bg-foreground shadow-md flex items-center cursor-default overflow-hidden select-none" ref={taskBarRef}>
-         <TaskBarItem className="text-blue-500">
-            {selectedCount} selected
-         </TaskBarItem>
+      <div
+         className="border rounded-full w-fit h-7 absolute top-0 left-6 bg-foreground shadow-md flex items-center cursor-default overflow-hidden select-none"
+         ref={taskBarRef}
+      >
+         <TaskBarItem className="text-blue-500">{selectedCount} selected</TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
          <TaskBarItem>Mark as completed</TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
@@ -130,6 +139,9 @@ const TaskBar = ({ table }: TaskBarProps<Event>): JSX.Element | null => {
       </div>
    );
 };
+
+
+TaskBar.displayName = 'TaskBar';
 
 const TaskBarItem: React.FC<{
    className?: string;

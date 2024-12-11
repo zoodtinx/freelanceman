@@ -5,14 +5,11 @@ import {
    DialogHeader,
    DialogTitle,
    DialogTrigger,
-} from '@/components/shared/ui/dialog';
+} from '@/components/shared/ui/Dialog';
 import {
    Select,
-   SelectGroup,
    SelectValue,
-   SelectTrigger,
    SelectContent,
-   SelectItem,
    DialogueSelectTrigger,
    DialogueSelectItem,
 } from '@/components/shared/ui/FilterSelect';

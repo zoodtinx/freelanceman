@@ -17,15 +17,20 @@ export const useAllEventQuery = () => {
    });
 };
 
+export type NewEvent = Pick<
+   Event,
+   'name' | 'status' | 'details' | 'link' | 'dueDate' | 'projectId'
+>;
+
 export const useCreateEvent = () => {
    const queryClient = useQueryClient();
 
    return useMutation<
       Event[], // The created event type
       Error, // Error type
-      Event // Input event data
+      NewEvent // Input event data
    >({
-      mutationFn: (newEvent) => createEvent(newEvent),
+      mutationFn: async (newEvent) => await createEvent(newEvent),
       onMutate: async (newEvent) => {
          await queryClient.cancelQueries(['allEvent']);
 
@@ -44,7 +49,7 @@ export const useCreateEvent = () => {
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['allEvent']);
+         queryClient.invalidateQueries({ queryKey: ['allEvent'] });
       },
    });
 };

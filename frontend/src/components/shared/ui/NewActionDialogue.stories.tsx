@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/shared/ui/dialog"; // Adjust import based on your file structure
+} from "src/components/shared/ui/Dialog.js"; // Adjust import based on your file structure
 import { Button } from "@/components/shared/ui/button";
 
 const meta = {

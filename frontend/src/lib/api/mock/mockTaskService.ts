@@ -1,6 +1,3 @@
-import { mockAllTask } from "@mocks";
-
-
 export interface Task {
    id: string;
    name: string;
@@ -54,8 +51,6 @@ export const editTask = <K extends keyof typeof task>(
    key: K,
    value: (typeof task)[K]
 ) => {
-   console.log('service key', key)
-   console.log('service value', value)
    task[key] = value
    return Promise.resolve(task)
 };

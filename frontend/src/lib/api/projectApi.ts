@@ -84,6 +84,7 @@ export const useActiveProjectsQuery = () => {
 //    return query;
 // };
 
+
 // Hook for editing a project
 export const useEditProject = (projectId: string) => {
    const queryClient = useQueryClient();

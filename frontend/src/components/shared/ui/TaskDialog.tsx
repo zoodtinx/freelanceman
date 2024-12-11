@@ -6,7 +6,7 @@ import {
    Dialog,
    DialogTitle,
    DialogTrigger,
-} from './dialog';
+} from './Dialog';
 import { Button } from './button';
 import {
    Check,

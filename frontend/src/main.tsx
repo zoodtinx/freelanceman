@@ -18,10 +18,9 @@ createRoot(document.getElementById('root')!).render(
    <StrictMode>
       <ThemeProvider
          attribute="class"
-         defaultTheme="system"
+         defaultTheme="light"
          enableSystem
          disableTransitionOnChange
-         forcedTheme="light"
       >
          <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
