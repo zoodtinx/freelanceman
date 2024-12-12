@@ -3,6 +3,7 @@ import { useContext, createContext, useState, useEffect, Dispatch, SetStateActio
 interface DialogState {
    isOpen: boolean;
    id: string;
+   mode: 'view' | 'new'
 }
 
 interface ActionsViewContextType {
@@ -19,22 +20,26 @@ interface ActionsViewContextType {
 const useActionsView = () => {
    const [isTaskDialogOpen, setIsTaskDialogOpen] = useState({
       isOpen: false,
-      id: ''
+      id: '',
+      mode: 'view'
    });
 
    const [isNewTaskDialogOpen, setIsNewTaskDialogOpen] = useState({
       isOpen: false,
-      id: ''
+      id: '',
+      mode: 'new'
    });
 
    const [isEventDialogOpen, setIsEventDialogOpen] = useState({
       isOpen: false,
-      id: ''
+      id: '',
+      mode: 'view'
    });
    
    const [isNewEventDialogOpen, setIsNewEventDialogOpen] = useState({
       isOpen: false,
-      id: ''
+      id: '',
+      mode: 'new'
    });   
 
    return {

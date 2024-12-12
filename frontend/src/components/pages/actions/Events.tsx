@@ -52,7 +52,7 @@ export default function Events() {
    }
 
    const handleNewTask = () => {
-      setIsNewTaskDialogOpen({ id: '', isOpen: true });
+      setIsNewTaskDialogOpen({ id: '', isOpen: true, mode: 'new' });
    };
 
    const filter = (value: string) => {

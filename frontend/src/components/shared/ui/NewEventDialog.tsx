@@ -78,6 +78,8 @@ const NewEventDialog: React.FC<NewActionDialogProps> = ({
       setDialogueState({
          isOpen: false,
          id: '',
+         actionType: 'event',
+         mode: 'new'
       });
    }
 

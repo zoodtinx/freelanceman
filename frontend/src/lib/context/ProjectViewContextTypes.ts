@@ -37,7 +37,9 @@ type StatusMap = {
 
 interface DialogueState {
    isOpen: boolean,
-   id: string
+   id: string,
+   actionType: 'task' | 'event',
+   mode: 'view' | 'new'
 }
 
 export type {Filter, ProjectsViewContextType, FilterType, StatusMap, DialogueState}
