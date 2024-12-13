@@ -25,29 +25,20 @@ import type { Event } from '@types';
 const EventDialog: React.FC<DialogProps<Event>> = ({
    dialogState,
    setDialogState,
-   dialogData
+   dialogData,
 }) => {
-
    const {
       mutate: editEvent,
       isPending: editingEvent,
       data: editedEvent,
-   } = useEditEvent(dialogState.id); 
-   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent(); 
+   } = useEditEvent(dialogState.id);
+   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
 
-   const {
-      register,
-      handleSubmit,
-      setValue,
-      getValues,
-      formState: { errors },
-      watch,
-      reset,
-      control,
-      field
-   } = useForm<NewEventPayload>({
+   const formMethods = useForm<NewEventPayload>({
       defaultValues: {},
    });
+
+   const { handleSubmit, reset, setValue, watch } = formMethods;
 
    // State variables for event data
    const [eventName, setEventName] = useState(dialogData.name);
@@ -80,9 +71,12 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
       console.error('Validation Errors:', errors);
    };
 
-   const onSubmit: SubmitHandler<FormData> = (data) => {
-      console.log(data);
-      createEvent(data);
+   const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
+      if (dialogState.mode === 'create') {
+         createEvent(data);
+      } else {
+         editEvent(data);
+      }
    };
 
    const handleDiscard = () => {
@@ -107,25 +101,21 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
             }}
          >
             <form onSubmit={handleSubmit(onSubmit, onError)}>
-               <DialogHeader className="">
-                  <DialogTitle className="flex flex-col items-start">
-                     <TaskNameInput
-                        setValue={setValue}
-                        register={register}
-                        value={eventName}
-                     />
+               <DialogHeader>
+                  <DialogTitle>
+                     <TaskNameInput formMethods={formMethods} value={eventName} />
                   </DialogTitle>
                </DialogHeader>
                <div className="px-5 py-3 flex flex-col gap-3">
                   <div className="flex leading-tight">
                      <div className="w-1/2 flex flex-col box-border gap-1">
                         <p className="text-secondary">Status</p>
-                        <StatusSelect control={control} />
+                        <StatusSelect formMethods={formMethods} />
                      </div>
                      <div className="w-1/2">
                         <p className="text-secondary">Due Date</p>
-                        <DatePicker control={control} />
-                        <TimePicker setValue={setValue} watch={watch} />
+                        <DatePicker formMethods={formMethods} />
+                        <TimePicker formMethods={formMethods} />
                      </div>
                   </div>
                   <div className="flex leading-tight">
@@ -133,9 +123,7 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
                         <p className="text-secondary">Project</p>
                         {dialogState.mode === 'create' ? (
                            <ProjectSelect
-                              setValue={setValue}
-                              register={register}
-                              control={control}
+                              formMethods={formMethods}
                               value={eventProject}
                            />
                         ) : (
@@ -144,7 +132,7 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        {eventClient || 'Select a project'}
+                        {eventClient || 'Select a project first'}
                      </div>
                   </div>
                   <div className="w-full">
@@ -152,12 +140,12 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
                      <Textarea
                         className="resize-none border-secondary placeholder:text-secondary"
                         placeholder="Explain this task like you're telling your future self who's half asleep."
-                        {...register!('details')}
+                        {...formMethods.register('details')}
                      />
                   </div>
                   <div>
                      <p className="text-secondary">Link</p>
-                     <LinkInput register={register} getValues={getValues} />
+                     <LinkInput formMethods={formMethods} />
                   </div>
                </div>
                <DialogFooter>

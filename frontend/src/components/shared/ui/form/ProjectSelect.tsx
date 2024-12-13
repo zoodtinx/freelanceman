@@ -11,9 +11,9 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { ChevronDown } from 'lucide-react';
 
 const ProjectSelect = <TFieldValues extends FieldValues = FieldValues>({
-   control,
-   mode
+   formMethods
 }: InputProps<TFieldValues>): JSX.Element => {
+   const {control} = formMethods
    const { data: activeProjects } = useActiveProjectsQuery();
 
    if (!activeProjects) {
@@ -43,7 +43,7 @@ const ProjectSelect = <TFieldValues extends FieldValues = FieldValues>({
                   value={field.value}
                >
                   <DialogueSelectTrigger mode="base">
-                     <p className="font-semibold text-md flex gap-1 items-end text-wrap text-left line-clamp-3 overflow-hidden">
+                     <p className="font-semibold flex gap-1 items-end text-wrap text-left line-clamp-3 overflow-hidden">
                         <SelectValue placeholder="Select a project" />
                      </p>
                   </DialogueSelectTrigger>

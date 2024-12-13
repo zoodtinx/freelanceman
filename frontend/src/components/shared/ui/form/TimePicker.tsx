@@ -4,9 +4,10 @@ import { InputProps } from './props.type';
 import { FieldValues } from 'react-hook-form';
 
 const TimePicker = <TFieldValues extends FieldValues = FieldValues>({
-   setValue,
-   watch,
+   formMethods
 }: InputProps<TFieldValues>): JSX.Element => {
+   const { setValue, watch } = formMethods;
+   
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
    );

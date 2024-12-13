@@ -5,6 +5,17 @@ export default {
    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
    theme: {
       extend: {
+         animation: {
+            shake: "shake 0.3s ease-in-out",
+          },
+          keyframes: {
+            shake: {
+              "0%, 100%": { transform: "translateX(0)" },
+              "25%": { transform: "translateX(-2px)" },
+              "50%": { transform: "translateX(2px)" },
+              "75%": { transform: "translateX(-2px)" },
+            },
+          },
          screens: {
             sm: { min: '390px', max: '833px' }, // iPhone 14 Pro range
             md: { min: '834px', max: '1439px' }, // iPad Pro 11 range

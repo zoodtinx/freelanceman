@@ -9,8 +9,10 @@ import {
 } from '@/components/shared/ui/FilterSelect';
 
 const StatusSelect = <TFieldValues extends FieldValues = FieldValues>({
-   control,
+   formMethods
 }: InputProps<TFieldValues>): JSX.Element => {
+   const { control } = formMethods;
+   
    // Helper function to determine color based on status
    const getStatusColor = (status: string) => {
       switch (status) {

@@ -5,11 +5,13 @@ import { useEffect, useRef } from "react";
 import { FieldValues } from "react-hook-form";
 
 const TaskNameInput = <TFieldValues extends FieldValues = FieldValues>({
-   register,
-   setValue,
+   formMethods,
    value,
  }: InputProps<TFieldValues> & { value: string }): JSX.Element => {
-   const inputRef = useRef<HTMLDivElement | null>(null);
+  const {register,
+    setValue} = formMethods 
+  
+  const inputRef = useRef<HTMLDivElement | null>(null);
  
    const { isEventDialogOpen } = useActionsViewContext();
 

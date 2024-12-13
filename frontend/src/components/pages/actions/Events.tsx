@@ -20,7 +20,6 @@ import NewEventDialog from '@/components/shared/ui/NewEventDialog';
 import EventDialog from '@/components/shared/ui/EventDialog';
 
 export default function Events() {
-   let triggerCount = useRef(0)
    const { data: eventsData, isLoading } = useAllEventQuery();
    const {
       isTaskDialogOpen,
@@ -58,8 +57,6 @@ export default function Events() {
    }
 
    const handleNewTask = () => {
-      triggerCount.current += 1
-      console.log('triggerCount', triggerCount)
       setIsEventDialogOpen({
          id: '',
          isOpen: true,

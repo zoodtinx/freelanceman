@@ -6,8 +6,10 @@ import { cn } from '@/lib/helper/utils';
 import { format } from 'date-fns';
 
 const DatePicker = <TFieldValues extends FieldValues = FieldValues>({
-   control,
+   formMethods
 }: InputProps<TFieldValues>): JSX.Element => {
+   const {control} = formMethods
+   
    return (
       <Controller
          name="dueDate"
