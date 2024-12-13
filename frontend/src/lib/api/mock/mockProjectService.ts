@@ -1,6 +1,6 @@
 import type { Project, ProjectPreview } from '@types';
 import { mockSingleProject as sampleProject } from '@/lib/mock/singleProject';
-import { mockProjects as sampleAllPropjects } from '@/lib/mock/projects';
+import { mockAllProjects as sampleAllPropjects } from '@mocks';
 
 export const getProject = (id: string): Promise<Project> => {
    return new Promise((resolve) => {

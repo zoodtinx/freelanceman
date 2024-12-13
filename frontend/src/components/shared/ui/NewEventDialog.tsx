@@ -27,7 +27,6 @@ import ProjectSelect from './form/ProjectSelect';
 import TimePicker from './form/TimePicker';
 import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
 import DatePicker from './form/DatePicker';
-import { InputProps } from './form/props.type';
 
 //Main Task Dialogue
 interface NewActionDialogProps {

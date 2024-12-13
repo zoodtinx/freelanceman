@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'next-themes';
 import './index.css';
-import { router } from './lib/router.tsx';
-import './lib/i18next.ts';
+import { router } from './lib/router';
+import './lib/i18next';
 import {
    QueryClient,
    QueryClientProvider,

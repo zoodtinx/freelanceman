@@ -8,7 +8,7 @@ import {
    getSortedRowModel,
    getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
    ToggleGroup,
    ToggleGroupItem,
@@ -19,10 +19,18 @@ import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import NewEventDialog from '@/components/shared/ui/NewEventDialog';
 import EventDialog from '@/components/shared/ui/EventDialog';
 
-
 export default function Events() {
-   const {data: eventsData, isLoading} = useAllEventQuery()
-   const {isTaskDialogOpen, setIsTaskDialogOpen, isNewTaskDialogOpen, setIsNewTaskDialogOpen, isEventDialogOpen, setIsEventDialogOpen} = useActionsViewContext()
+   let triggerCount = useRef(0)
+   const { data: eventsData, isLoading } = useAllEventQuery();
+   const {
+      isTaskDialogOpen,
+      setIsTaskDialogOpen,
+      isNewTaskDialogOpen,
+      setIsNewTaskDialogOpen,
+      isEventDialogOpen,
+      setIsEventDialogOpen,
+      eventDialogData
+   } = useActionsViewContext();
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
          id: 'status',
@@ -40,19 +48,24 @@ export default function Events() {
       state: {
          columnFilters,
          columnVisibility: {
-            status: false
-         }
+            status: false,
+         },
       },
    });
 
    if (isLoading) {
-      return (
-         <div>Loading</div>
-      )
+      return <div>Loading</div>;
    }
 
    const handleNewTask = () => {
-      setIsNewTaskDialogOpen({ id: '', isOpen: true, mode: 'new' });
+      triggerCount.current += 1
+      console.log('triggerCount', triggerCount)
+      setIsEventDialogOpen({
+         id: '',
+         isOpen: true,
+         mode: 'create',
+         actionType: 'event',
+      });
    };
 
    const filter = (value: string) => {
@@ -77,33 +90,53 @@ export default function Events() {
             <div className="flex items-end pb-3 gap-1">
                <Calendar className="w-[28px] h-auto" />
                <p className="text-xl leading-none mr-2">Upcoming Events</p>
-               <ToggleGroup 
+               <ToggleGroup
                   type="multiple"
                   value={(columnFilters[0]?.value as string) || 'all'}
                >
-                  <ToggleGroupItem value="scheduled" onClick={() => filter('scheduled')}>
-                  Scheduled
+                  <ToggleGroupItem
+                     value="scheduled"
+                     onClick={() => filter('scheduled')}
+                  >
+                     Scheduled
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="completed" onClick={() => filter('completed')}>
-                  Completed
+                  <ToggleGroupItem
+                     value="completed"
+                     onClick={() => filter('completed')}
+                  >
+                     Completed
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="cancelled" onClick={() => filter('cancelled')}>
-                  Cancelled
+                  <ToggleGroupItem
+                     value="cancelled"
+                     onClick={() => filter('cancelled')}
+                  >
+                     Cancelled
                   </ToggleGroupItem>
                   <ToggleGroupItem value="all" onClick={() => filter('all')}>
                      All
                   </ToggleGroupItem>
                </ToggleGroup>
             </div>
-            <div 
-            onClick={handleNewTask}
-            className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center">
+            <div
+               onClick={handleNewTask}
+               className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center"
+            >
                <Plus className="aspect-square h-[20px]" />
             </div>
          </div>
          <EventTable table={table} />
-         <EventDialog dialogueState={isEventDialogOpen} setDialogueState={setIsEventDialogOpen} />
-         <NewEventDialog dialogueState={isNewTaskDialogOpen} setDialogueState={setIsNewTaskDialogOpen} />
+         <EventDialog
+            dialogState={isEventDialogOpen}
+            setDialogState={setIsEventDialogOpen}
+            dialogData={eventDialogData}
+         />
+         <NewEventDialog
+            dialogueState={isNewTaskDialogOpen}
+            setDialogueState={setIsNewTaskDialogOpen}
+         />
       </>
    );
 }
+
+
+

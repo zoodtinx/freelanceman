@@ -1,10 +1,6 @@
 import { useContext, createContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
-
-interface DialogState {
-   isOpen: boolean;
-   id: string;
-   mode: 'view' | 'new'
-}
+import type { DialogState } from './ProjectViewContextTypes';
+import { EventStatus, NewEventPayload } from '@types';
 
 interface ActionsViewContextType {
    isTaskDialogOpen: DialogState;
@@ -15,25 +11,29 @@ interface ActionsViewContextType {
    setIsEventDialogOpen: Dispatch<SetStateAction<DialogState>>;
    isNewEventDialogOpen: DialogState;
    setIsNewEventDialogOpen: Dispatch<SetStateAction<DialogState>>;
+   eventDialogData: NewEventPayload,
+   setEventDialogData: Dispatch<SetStateAction<NewEventPayload>>;
 }
 
 const useActionsView = () => {
-   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState({
+   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState<DialogState>({
       isOpen: false,
       id: '',
-      mode: 'view'
+      mode: 'view',
+      actionType: 'task'
    });
 
    const [isNewTaskDialogOpen, setIsNewTaskDialogOpen] = useState({
       isOpen: false,
       id: '',
-      mode: 'new'
+      mode: 'new',
    });
 
-   const [isEventDialogOpen, setIsEventDialogOpen] = useState({
+   const [isEventDialogOpen, setIsEventDialogOpen] = useState<DialogState>({
       isOpen: false,
       id: '',
-      mode: 'view'
+      mode: 'view',
+      actionType: 'event'
    });
    
    const [isNewEventDialogOpen, setIsNewEventDialogOpen] = useState({
@@ -41,6 +41,15 @@ const useActionsView = () => {
       id: '',
       mode: 'new'
    });   
+
+const [eventDialogData, setEventDialogData] = useState<NewEventPayload>({
+   name: '',
+   details: '',
+   status: '' as EventStatus,
+   dueDate: '',
+   projectId: '',
+   link: '',
+});
 
    return {
       isTaskDialogOpen,
@@ -51,6 +60,8 @@ const useActionsView = () => {
       setIsEventDialogOpen,
       isNewEventDialogOpen,
       setIsNewEventDialogOpen,
+      eventDialogData,
+      setEventDialogData
    };
 };
 
@@ -67,6 +78,8 @@ export const ActionsViewProvider = ({ children }: { children: React.ReactNode })
       setIsEventDialogOpen,
       isNewEventDialogOpen,
       setIsNewEventDialogOpen,
+      eventDialogData,
+      setEventDialogData
    } = useActionsView();
 
    return (
@@ -80,6 +93,8 @@ export const ActionsViewProvider = ({ children }: { children: React.ReactNode })
             setIsEventDialogOpen,
             isNewEventDialogOpen,
             setIsNewEventDialogOpen,
+            eventDialogData,
+            setEventDialogData
          }}
       >
          {children}

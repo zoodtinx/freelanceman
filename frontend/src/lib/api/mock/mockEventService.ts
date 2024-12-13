@@ -2,6 +2,7 @@ import { mockEvents } from "@mocks";
 import type { Event, NewEventPayload } from "@types";
 
 export const getEvent = (id: string) => {
+   
    const event = mockEvents.find(event => event.id === id)
 
    return new Promise((resolve) => {

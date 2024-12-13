@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TaskDialogue from './EventDialog.js';
-import { Button } from './button.tsx';
+import { Button } from './button.js';
 import { useRef } from 'react';
 import type { Task } from '@types';
 

@@ -17,7 +17,7 @@ const DatePicker = <TFieldValues extends FieldValues = FieldValues>({
                <PopoverTrigger asChild>
                   <p
                      className={cn(
-                        'justify-start text-md font-semibold cursor-pointer',
+                        'justify-start font-semibold cursor-pointer',
                         !value && 'text-muted-foreground'
                      )}
                   >

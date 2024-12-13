@@ -20,10 +20,10 @@ interface ProjectsViewContextType {
    setDialogData: (project: ProjectPreview) => void;
    viewMode: 'grid' | 'list';
    clientList: string[];
-   isTaskDialogOpen: DialogueState
-   setIsTaskDialogOpen: (state: DialogueState) => void;
-   isSettingsDialogOpen : DialogueState,
-   setIsSettingsDialogOpen : (state: DialogueState) => void;
+   isTaskDialogOpen: DialogState
+   setIsTaskDialogOpen: (state: DialogState) => void;
+   isSettingsDialogOpen : DialogState,
+   setIsSettingsDialogOpen : (state: DialogState) => void;
 }
 
 type FilterType = 'projectStatus' | 'paymentStatus' | 'client' | 'searchTerm';
@@ -35,11 +35,11 @@ type StatusMap = {
    searchTerm: string;
 };
 
-interface DialogueState {
+interface DialogState {
    isOpen: boolean,
    id: string,
    actionType: 'task' | 'event',
-   mode: 'view' | 'new'
+   mode: 'view' | 'create'
 }
 
-export type {Filter, ProjectsViewContextType, FilterType, StatusMap, DialogueState}
+export type {Filter, ProjectsViewContextType, FilterType, StatusMap, DialogState}

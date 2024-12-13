@@ -79,7 +79,7 @@ export const eventColumns: ColumnDef<Event>[] = [
          const value = getValue()
 
          return (
-            <CellWrapper cellValue={value as string} taskId={taskId} />
+            <CellWrapper cellValue={value as string} taskId={taskId} data={row} />
          )
       }
    },
@@ -150,13 +150,15 @@ export const EditPopover = ({id} : {id:string}):JSX.Element => {
 };
 
 
-export const CellWrapper = ({ taskId, cellValue }: { taskId:string, cellValue:string }): JSX.Element => {
-   const { setIsEventDialogOpen } = useActionsViewContext();
+export const CellWrapper = ({ taskId, cellValue, data }: { taskId:string, cellValue:string }): JSX.Element => {
+   const { setIsEventDialogOpen, setEventDialogData } = useActionsViewContext();
 
    const handleClick = () => {
+      setEventDialogData(data.original)
       setIsEventDialogOpen({
          id: taskId,
-         isOpen: true
+         isOpen: true,
+         mode: 'view',
       })
    }
 

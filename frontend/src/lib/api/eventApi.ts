@@ -2,11 +2,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { editEvent, getEvent, getAllEvent, createEvent } from './mock/mockEventService';
 import type { Event } from '@types';
 
-// Hook for fetching an event
 export const useEventQuery = (eventId: string) => {
    return useQuery({
       queryKey: ['event', eventId],
-      queryFn: () => getEvent(eventId),
+      queryFn: () => {
+         if (!eventId) {
+            throw new Error('Event ID cannot be empty');
+         }
+         return getEvent(eventId);
+      },
    });
 };
 
@@ -91,3 +95,39 @@ export const useEditEvent = (eventId: string) => {
       },
    });
 };
+
+type Mode = 'view' | 'create';
+
+type EventDialogHandlers = {
+   eventQueryHandler?: ReturnType<typeof useEventQuery>;
+   editEventHandler?: ReturnType<typeof useEditEvent>;
+   createEventHandler?: ReturnType<typeof useCreateEvent>;
+};
+
+export function useEventDialog(
+   mode: Mode,
+   eventId?: string
+): EventDialogHandlers {
+   const eventQueryHandler = useEventQuery(eventId || '');
+   const editEventHandler = useEditEvent(eventId || '');
+   const createEventHandler = useCreateEvent();
+
+   if (mode === 'view') {
+      if (!eventId) {
+         throw new Error('Event ID is required for "view" mode');
+      }
+
+      return {
+         eventQueryHandler,
+         editEventHandler,
+      };
+   }
+
+   if (mode === 'create') {
+      return {
+         createEventHandler,
+      };
+   }
+
+   throw new Error('Invalid mode. Accepted values are "view" or "create".');
+}
