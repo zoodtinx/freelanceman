@@ -18,8 +18,8 @@ import ProjectSelect from './form/ProjectSelect';
 import TimePicker from './form/TimePicker';
 import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
 import DatePicker from './form/DatePicker';
-import { NewEventPayload } from '@types';
-import type { Event, EventFormData, TaskFormData } from '@types';
+import { NewActionPayload } from '@types';
+import type { ActionFormData } from '@types';
 import { useClient } from '@/lib/api/clientApi';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { Link } from 'react-router-dom';
@@ -37,11 +37,11 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(dialogState.id);
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
 
-   const formMethods = useForm<EventFormData>({
+   const formMethods = useForm<ActionFormData>({
       defaultValues: {
          name: '',
          details: '',
-         status: 'scheduled' as EventStatus,
+         status: 'scheduled',
          dueDate: '',
          project: '',
          projectId: '',
@@ -64,7 +64,7 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
       console.error('Validation Errors:', errors);
    };
 
-   const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
+   const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
       if (dialogState.mode === 'create') {
          createEvent(data);
       } else {
@@ -172,22 +172,18 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
 };
 
 
-const ClientArea = <T extends Record<'client' | 'clientId', string>>({
-   formMethods,
- }: InputProps<T>) => {
+const ClientArea = ({ formMethods }: InputProps<ActionFormData>) => {
    const { watch } = formMethods;
- 
+
    // These are now valid because T is constrained
    const clientName = watch('client');
    const clientId = watch('clientId');
- 
-   if (clientName && clientId) {
-     return <Link to={`../client/${clientId}`}>{clientName}</Link>;
-   }
- 
-   return 'Select a project';
- };
- 
 
+   if (clientName && clientId) {
+      return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+   }
+
+   return 'Select a project';
+};
 
 export default EventDialog;

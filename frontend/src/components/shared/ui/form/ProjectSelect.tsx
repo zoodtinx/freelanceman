@@ -9,13 +9,13 @@ import { useActiveProjectsQuery } from '@/lib/api/projectApi';
 import { InputProps } from './props.type';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { ChevronDown } from 'lucide-react';
-import { EventFormData, TaskFormData } from '@types';
+import type { ActionFormData } from '@types';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { Link } from 'react-router-dom';
 
 const ProjectSelect = ({
    formMethods,
-}: InputProps<EventFormData | TaskFormData>): JSX.Element => {
+}: InputProps<ActionFormData>): JSX.Element => {
    const {isEventDialogOpen} = useActionsViewContext()
 
    const {control, watch} = formMethods

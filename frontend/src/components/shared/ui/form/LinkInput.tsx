@@ -1,20 +1,21 @@
-import { FieldValues, Path } from "react-hook-form";
-import { InputProps } from "./props.type";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { X } from "lucide-react";
+import { FieldValues, Path } from 'react-hook-form';
+import { InputProps } from './props.type';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { X } from 'lucide-react';
+import { ActionFormData } from '@types';
 
-const LinkInput = <TFieldValues extends FieldValues = FieldValues>({
-   formMethods
-}: InputProps<TFieldValues>): JSX.Element => {
+const LinkInput = ({
+   formMethods,
+}: InputProps<ActionFormData>): JSX.Element => {
    const [isButtonMode, setIsButtonMode] = useState(false);
-   const [url, setUrl] = useState("");
-   const [error, setError] = useState("");
+   const [url, setUrl] = useState('');
+   const [error, setError] = useState('');
 
    const { register, setValue, getValues } = formMethods;
 
    useEffect(() => {
-      const currentUrl = getValues("link" as Path<TFieldValues>);
+      const currentUrl = getValues('link');
       if (currentUrl) {
          const { error } = validateUrl(currentUrl);
 
@@ -30,14 +31,16 @@ const LinkInput = <TFieldValues extends FieldValues = FieldValues>({
 
    const validateUrl = (inputValue: string) => {
       if (!inputValue.trim()) {
-         return { error: "URL cannot be empty." };
+         return { error: 'URL cannot be empty.' };
       }
 
       try {
-         new URL(inputValue); 
-         return { error: "" };
+         new URL(inputValue);
+         return { error: '' };
       } catch {
-         return { error: "Invalid URL. Please enter a valid link. (Or leave empty)" };
+         return {
+            error: 'Invalid URL. Please enter a valid link. (Or leave empty)',
+         };
       }
    };
 
@@ -53,22 +56,22 @@ const LinkInput = <TFieldValues extends FieldValues = FieldValues>({
          }
 
          setUrl(inputValue);
-         setValue("link" as Path<TFieldValues>, inputValue);
-         setError("");
+         setValue('link', inputValue);
+         setError('');
          setIsButtonMode(true);
       }
    };
 
    const handleChange = () => {
-      setError(""); 
-      setIsButtonMode(false); 
+      setError('');
+      setIsButtonMode(false);
    };
 
    const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
       setIsButtonMode(false);
-      setValue("link" as Path<TFieldValues>, "");
-      setError("");
+      setValue('link', '');
+      setError('');
    };
 
    return (
@@ -96,14 +99,18 @@ const LinkInput = <TFieldValues extends FieldValues = FieldValues>({
             <div>
                <input
                   type="url"
-                  {...register?.("link" as Path<TFieldValues>, { required: "Please enter link" })}
+                  {...register?.('link' as Path<TFieldValues>, {
+                     required: 'Please enter link',
+                  })}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   className="flex px-2 h-6 w-full border border-secondary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   placeholder="Enter your link"
                />
                {error && (
-                  <p className="mt-1 text-sm text-red-500 animate-shake">{error}</p>
+                  <p className="mt-1 text-sm text-red-500 animate-shake">
+                     {error}
+                  </p>
                )}
             </div>
          )}

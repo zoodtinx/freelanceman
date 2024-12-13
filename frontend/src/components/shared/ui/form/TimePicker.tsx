@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import { InputProps } from './props.type';
 import { FieldValues } from 'react-hook-form';
+import { ActionFormData } from '@types';
 
-const TimePicker = <TFieldValues extends FieldValues = FieldValues>({
-   formMethods
-}: InputProps<TFieldValues>): JSX.Element => {
+const TimePicker = ({
+   formMethods,
+}: InputProps<ActionFormData>): JSX.Element => {
    const { setValue, watch } = formMethods;
    
    const hours = Array.from({ length: 12 }, (_, i) =>

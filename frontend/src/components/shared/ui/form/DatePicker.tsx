@@ -4,10 +4,11 @@ import { InputProps } from './props.type';
 import { Calendar } from '../calendar';
 import { cn } from '@/lib/helper/utils';
 import { format } from 'date-fns';
+import { ActionFormData } from '@types';
 
-const DatePicker = <TFieldValues extends FieldValues = FieldValues>({
-   formMethods
-}: InputProps<TFieldValues>): JSX.Element => {
+const DatePicker = ({
+   formMethods,
+}: InputProps<ActionFormData>): JSX.Element => {
    const {control} = formMethods
    
    return (

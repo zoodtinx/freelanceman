@@ -7,12 +7,13 @@ import {
    DialogueSelectTrigger,
    SelectValue,
 } from '@/components/shared/ui/FilterSelect';
+import { ActionFormData } from '@types';
 
-const StatusSelect = <TFieldValues extends FieldValues = FieldValues>({
-   formMethods
-}: InputProps<TFieldValues>): JSX.Element => {
+const StatusSelect = ({
+   formMethods,
+}: InputProps<ActionFormData>): JSX.Element => {
    const { control } = formMethods;
-   
+
    // Helper function to determine color based on status
    const getStatusColor = (status: string) => {
       switch (status) {

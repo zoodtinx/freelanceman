@@ -1,12 +1,12 @@
 import { InputProps } from "@/components/shared/ui/form/props.type";
 import { useActionsViewContext } from "@/lib/context/ActionsViewContext";
-import { EventFormData,TaskFormData } from "@types";
+import { ActionFormData } from "@types";
 import { Pencil } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const TaskNameInput = ({
    formMethods,
-}: InputProps<EventFormData | TaskFormData>): JSX.Element => {
+}: InputProps<ActionFormData>): JSX.Element => {
    const { register, setValue, getValues } = formMethods;
    const taskName = getValues('name');
 
@@ -23,9 +23,6 @@ const TaskNameInput = ({
          inputRef.current.textContent = taskName;
       }
    }, [taskName]);
-
-   const projectName = formMethods.getValues('project')
-   console.log('projectName', projectName)
 
    return (
       <div className="group w-full relative flex">
