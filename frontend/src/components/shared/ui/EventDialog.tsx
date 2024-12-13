@@ -11,7 +11,6 @@ import { Button } from './button';
 import { Textarea } from './textarea';
 import { useCreateEvent, useEditEvent } from '@/lib/api/eventApi';
 import type { DialogProps } from './props.type';
-import type { EventStatus } from '@types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import LinkInput from './form/LinkInput';
 import StatusSelect from './form/StatusSelect';
@@ -20,53 +19,47 @@ import TimePicker from './form/TimePicker';
 import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
 import DatePicker from './form/DatePicker';
 import { NewEventPayload } from '@types';
-import type { Event } from '@types';
+import type { Event, EventFormData, TaskFormData } from '@types';
+import { useClient } from '@/lib/api/clientApi';
+import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
+import { Link } from 'react-router-dom';
+import { InputProps } from './form/props.type';
+import { EventStatus } from '@types';
+
+
 
 const EventDialog: React.FC<DialogProps<Event>> = ({
    dialogState,
    setDialogState,
    dialogData,
+   setDialogData
 }) => {
-   const {
-      mutate: editEvent,
-      isPending: editingEvent,
-      data: editedEvent,
-   } = useEditEvent(dialogState.id);
+   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(dialogState.id);
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
 
-   const formMethods = useForm<NewEventPayload>({
-      defaultValues: {},
+   const formMethods = useForm<EventFormData>({
+      defaultValues: {
+         name: '',
+         details: '',
+         status: 'scheduled' as EventStatus,
+         dueDate: '',
+         project: '',
+         projectId: '',
+         client: '',
+         clientId: '',
+         link: '',
+      },
    });
 
-   const { handleSubmit, reset, setValue, watch } = formMethods;
-
-   // State variables for event data
-   const [eventName, setEventName] = useState(dialogData.name);
-   const [eventProject, setEventProject] = useState(dialogData.project);
-   const [eventClient, setEventClient] = useState(dialogData.client);
+   const { handleSubmit, reset } = formMethods;
 
    useEffect(() => {
       if (dialogState.mode === 'view') {
-         reset(dialogData);
-         setEventName(dialogData.name);
-         setEventProject(dialogData.project);
-         setEventClient(dialogData.client);
+         reset(dialogData); // Reset to dialog data
       } else if (dialogState.mode === 'create') {
-         const initialState = {
-            name: '',
-            details: '',
-            status: 'scheduled',
-            dueDate: '',
-            projectId: '',
-            link: '',
-         };
-         reset(initialState);
-         setEventName('');
-         setEventProject('');
-         setEventClient('');
+         reset(); // Reset to default values
       }
-   }, [reset, dialogState.mode, dialogData]);
-
+   }, [dialogState.mode, dialogData, reset]);
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
    };
@@ -103,7 +96,7 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
             <form onSubmit={handleSubmit(onSubmit, onError)}>
                <DialogHeader>
                   <DialogTitle>
-                     <TaskNameInput formMethods={formMethods} value={eventName} />
+                     <TaskNameInput formMethods={formMethods} />
                   </DialogTitle>
                </DialogHeader>
                <div className="px-5 py-3 flex flex-col gap-3">
@@ -121,18 +114,13 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Project</p>
-                        {dialogState.mode === 'create' ? (
-                           <ProjectSelect
-                              formMethods={formMethods}
-                              value={eventProject}
-                           />
-                        ) : (
-                           <p>{eventProject}</p>
-                        )}
+                        <ProjectSelect
+                           formMethods={formMethods}
+                        />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        {eventClient || 'Select a project first'}
+                        <ClientArea formMethods={formMethods} />
                      </div>
                   </div>
                   <div className="w-full">
@@ -182,5 +170,24 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
       </Dialog>
    );
 };
+
+
+const ClientArea = <T extends Record<'client' | 'clientId', string>>({
+   formMethods,
+ }: InputProps<T>) => {
+   const { watch } = formMethods;
+ 
+   // These are now valid because T is constrained
+   const clientName = watch('client');
+   const clientId = watch('clientId');
+ 
+   if (clientName && clientId) {
+     return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+   }
+ 
+   return 'Select a project';
+ };
+ 
+
 
 export default EventDialog;

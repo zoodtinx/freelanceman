@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
+import { getClientInfo } from "./mock/mockClientService";
+import type { ClientResponse } from "@types";
 
 interface ClientList {
    [clientId: string]: string; 
@@ -12,3 +14,13 @@ interface ClientList {
    
 //    return query
 // }
+
+
+export const useClient = (clientId: string) => {
+   const query = useQuery<ClientResponse, Error>({
+      queryKey: ['client', clientId],
+      queryFn: () => getClientInfo(clientId),
+   });
+
+   return query;
+};

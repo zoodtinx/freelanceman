@@ -1,18 +1,5 @@
-import type { TaskStatus, EventStatus } from "./project.types";
-
-
-export interface NewEventPayload {
-   name: string;
-   status: EventStatus;
-   details: string;
-   link: string;
-   dueDate: string;
-   projectId: string;
-}
-
-export interface NewTaskPayload extends Omit<NewEventPayload, 'status'> {
-   status: TaskStatus;
-}
+import type { TaskStatus, EventStatus, Contact } from "./project.types";
+import { Task } from "./task.types";
 
 export interface NewProjectPayload {
    client: string;

@@ -1,0 +1,20 @@
+export const mockAllClients = [
+   { name: "PixelEdge Studios", id: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7" },
+   { name: "Creative Hive Co.", id: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af" },
+   { name: "BoldFrame Agency", id: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c" },
+   { name: "Visionary Ads Ltd.", id: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732" },
+   { name: "NextWave Creations", id: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632" },
+   { name: "LumeCreative Agency", id: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2" },
+   { name: "WaveMakers Studio", id: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9" },
+   { name: "Skyline Creatives", id: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f" },
+   { name: "InnovateAds Inc.", id: "d3f7c8a9-567b-4c1d-b6c7-8f5a1d9c7e8b" },
+   { name: "BrightIdea Media", id: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f" },
+   { name: "UrbanVista Agency", id: "f3d7a2e9-456b-40c1-9d7e-8a5b3c2e1f7a" },
+   { name: "NeoArts Collective", id: "c8f9a3e7-45b4-4c2d-b7e8-5a9f3d7e4c2f" },
+   { name: "FutureFrame Studios", id: "e3c7f9a4-567b-4c1d-b6e8-7f9a2d5c4b3e" },
+   { name: "Greenline Media", id: "d8c7f3a5-456e-4c1b-b7e9-5a4f9d3e8c2b" },
+   {
+      name: "Bright Horizons Group",
+      id: "f7c5a8e3-456d-4b1c-b9e6-4a3f9d2e8c7b",
+   },
+];

@@ -9,11 +9,16 @@ import { useActiveProjectsQuery } from '@/lib/api/projectApi';
 import { InputProps } from './props.type';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { ChevronDown } from 'lucide-react';
+import { EventFormData, TaskFormData } from '@types';
+import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
+import { Link } from 'react-router-dom';
 
-const ProjectSelect = <TFieldValues extends FieldValues = FieldValues>({
-   formMethods
-}: InputProps<TFieldValues>): JSX.Element => {
-   const {control} = formMethods
+const ProjectSelect = ({
+   formMethods,
+}: InputProps<EventFormData | TaskFormData>): JSX.Element => {
+   const {isEventDialogOpen} = useActionsViewContext()
+
+   const {control, watch} = formMethods
    const { data: activeProjects } = useActiveProjectsQuery();
 
    if (!activeProjects) {
@@ -26,6 +31,12 @@ const ProjectSelect = <TFieldValues extends FieldValues = FieldValues>({
    ) => {
       onChange(value); // Updates the 'project' field in the form
    };
+
+   if (isEventDialogOpen.mode === 'view') {
+      const currentProject = watch('project')
+      const currentProjectId = watch('projectId')
+      return <Link to={`../${currentProjectId}`}>{currentProject}</Link>
+   }
 
    return (
       <Controller

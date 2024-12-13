@@ -1,7 +1,8 @@
+import type { Event } from "./event.types";
+import type { Task } from "./task.types";
+
 export type ProjectStatus = 'active' | 'onHold' | 'completed'
 export type PaymentStatus = 'notProcessed' | 'processing' | 'paid'
-export type TaskStatus = 'planned' | 'inProgress' |'completed' | 'cancelled'
-export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled'
 
 export interface Project {
   id: string,
@@ -19,24 +20,6 @@ export interface Project {
   accentColor: string,
   dateCreated: string,
   dateModified: string,
-}
-
-export interface Task {
-  id: string;
-  name: string;
-  status: TaskStatus;
-  details: string;
-  link: string;
-  createdAt: string;
-  dueDate: string;
-  project: string;
-  projectId: string;
-  client: string;
-  clientId: string
-}
-
-export interface Event extends Omit<Task, 'status'> {
-  status: EventStatus
 }
 
 export interface File {

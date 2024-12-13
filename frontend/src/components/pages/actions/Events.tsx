@@ -1,5 +1,5 @@
 import { Calendar, Client, Date, Plus } from '@/components/shared/icons';
-import { eventColumns } from './eventColumn2';
+import { eventColumns } from './eventColumn';
 import {
    flexRender,
    getCoreRowModel,
@@ -28,7 +28,8 @@ export default function Events() {
       setIsNewTaskDialogOpen,
       isEventDialogOpen,
       setIsEventDialogOpen,
-      eventDialogData
+      eventDialogData,
+      setEventDialogData
    } = useActionsViewContext();
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
