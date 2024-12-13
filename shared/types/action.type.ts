@@ -3,7 +3,7 @@ export type TaskStatus = 'planned' | 'inProgress' | 'completed' | 'cancelled';
 
 export interface NewActionPayload<TStatus = string> {
    name: string;
-   status: TStatus; // Generic status type
+   status: string; // Generic status type
    details: string;
    link: string;
    dueDate: string;

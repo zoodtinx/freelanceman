@@ -1,6 +1,6 @@
 import { useContext, createContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import type { DialogState } from './ProjectViewContextTypes';
-import { EventStatus, NewEventPayload } from '@types';
+import { ActionFormData, EventStatus, NewEventPayload } from '@types';
 
 interface ActionsViewContextType {
    isTaskDialogOpen: DialogState;
@@ -13,6 +13,8 @@ interface ActionsViewContextType {
    setIsNewEventDialogOpen: Dispatch<SetStateAction<DialogState>>;
    eventDialogData: NewEventPayload,
    setEventDialogData: Dispatch<SetStateAction<NewEventPayload>>;
+   dialogState: DialogState,
+   setDialogState: Dispatch<SetStateAction<DialogState>>
 }
 
 const useActionsView = () => {
@@ -51,7 +53,27 @@ const [eventDialogData, setEventDialogData] = useState<NewEventPayload>({
    link: '',
 });
 
+const [dialogState, setDialogState] = useState<DialogState>({
+   isOpen: false,
+   id: '',
+   mode: 'view',
+   actionType: 'task', // Must be 'task' or 'event'
+   data: {
+      name: '',
+      details: '',
+      status: 'planned', // Compatible with TaskStatus
+      link: '',
+      dueDate: '',
+      projectId: '',
+      project: '', // Added to match ActionFormData
+      client: '', // Added to match ActionFormData
+      clientId: '', // Added to match ActionFormData
+   },
+});
+
    return {
+      dialogState,
+      setDialogState,
       isTaskDialogOpen,
       setIsTaskDialogOpen,
       isNewTaskDialogOpen,
@@ -70,6 +92,8 @@ const ActionsViewContext = createContext<ActionsViewContextType | undefined>(und
 
 export const ActionsViewProvider = ({ children }: { children: React.ReactNode }) => {
    const {
+      dialogState,
+      setDialogState,
       isTaskDialogOpen,
       setIsTaskDialogOpen,
       isNewTaskDialogOpen,
@@ -85,6 +109,8 @@ export const ActionsViewProvider = ({ children }: { children: React.ReactNode })
    return (
       <ActionsViewContext.Provider
          value={{
+            dialogState,
+            setDialogState,
             isTaskDialogOpen,
             setIsTaskDialogOpen,
             isNewTaskDialogOpen,

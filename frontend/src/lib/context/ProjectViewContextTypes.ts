@@ -1,4 +1,4 @@
-import { ProjectPreview } from "@types";
+import { ActionFormData, ProjectPreview } from "@types";
 
 
 interface Filter {
@@ -39,7 +39,8 @@ interface DialogState {
    isOpen: boolean,
    id: string,
    actionType: 'task' | 'event',
-   mode: 'view' | 'create'
+   mode: 'view' | 'create',
+   data: ActionFormData
 }
 
 export type {Filter, ProjectsViewContextType, FilterType, StatusMap, DialogState}

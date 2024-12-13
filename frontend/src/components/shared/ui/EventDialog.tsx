@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
    DialogContent,
    DialogHeader,
@@ -20,21 +20,20 @@ import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput'
 import DatePicker from './form/DatePicker';
 import { NewActionPayload } from '@types';
 import type { ActionFormData } from '@types';
-import { useClient } from '@/lib/api/clientApi';
-import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { Link } from 'react-router-dom';
 import { InputProps } from './form/props.type';
-import { EventStatus } from '@types';
-
-
+import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 
 const EventDialog: React.FC<DialogProps<Event>> = ({
-   dialogState,
-   setDialogState,
-   dialogData,
-   setDialogData
 }) => {
-   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(dialogState.id);
+      const {
+         dialogState,
+         setDialogState
+      } = useActionsViewContext();
+   
+   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
+      dialogState.id
+   );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
 
    const formMethods = useForm<ActionFormData>({
@@ -55,11 +54,11 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
 
    useEffect(() => {
       if (dialogState.mode === 'view') {
-         reset(dialogData); // Reset to dialog data
+         reset(dialogState.data); // Reset to dialog data
       } else if (dialogState.mode === 'create') {
          reset(); // Reset to default values
       }
-   }, [dialogState.mode, dialogData, reset]);
+   }, [dialogState, reset]);
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
    };
@@ -114,9 +113,7 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Project</p>
-                        <ProjectSelect
-                           formMethods={formMethods}
-                        />
+                        <ProjectSelect formMethods={formMethods} />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
@@ -170,7 +167,6 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
       </Dialog>
    );
 };
-
 
 const ClientArea = ({ formMethods }: InputProps<ActionFormData>) => {
    const { watch } = formMethods;
