@@ -11,10 +11,12 @@ const DateTimePicker = ({
    const {
       getValues,
       formState: { errors },
+      watch
    } = formMethods;
 
 
-   console.log('date', getValues('dueDate'))
+   const dueDate = watch('dueDate')
+   console.log('dueDate', dueDate)
 
    return (
       <div>

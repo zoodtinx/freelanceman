@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
+import { Controller } from 'react-hook-form';
 import { InputProps } from './props.type';
-import { FieldValues } from 'react-hook-form';
 import { ActionFormData } from '@types';
+import { format, parseISO, setHours, setMinutes, parse, setSeconds } from 'date-fns';
 
-const TimePicker = ({
-   formMethods,
-}: InputProps<ActionFormData>): JSX.Element => {
-   const { setValue, watch } = formMethods;
-   
+interface TimePickerProps {
+   value: string | null; // ISO string
+   onChange: (newValue: string) => void;
+}
+
+const TimePickerInterface: React.FC<TimePickerProps> = ({ value, onChange }) => {
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
    );
@@ -16,29 +18,58 @@ const TimePicker = ({
       String(i).padStart(2, '0')
    );
 
-   const [selectedHour, setSelectedHour] = useState('1');
+   const [selectedHour, setSelectedHour] = useState('01');
    const [selectedMinute, setSelectedMinute] = useState('00');
    const [selectedPeriod, setSelectedPeriod] = useState('AM');
    const [isWithTime, setIsWithTime] = useState(false);
 
-   const fieldValue = watch('dueDate');
-
    const updateDueDate = () => {
-      const currentDate = new Date(fieldValue || new Date().toISOString());
+      if (!value) return;
+
+      const currentDate = parseISO(value);
       let hoursIn24Format = parseInt(selectedHour, 10);
+
       if (selectedPeriod === 'PM' && hoursIn24Format !== 12) {
          hoursIn24Format += 12;
       } else if (selectedPeriod === 'AM' && hoursIn24Format === 12) {
          hoursIn24Format = 0;
       }
 
-      currentDate.setHours(hoursIn24Format, parseInt(selectedMinute, 10));
-      setValue('dueDate', currentDate.toISOString());
+      // Set the new hours and minutes using date-fns
+      const updatedDate = setMinutes(setHours(currentDate, hoursIn24Format), parseInt(selectedMinute, 10));
+      
+      // Format to local ISO string
+      onChange(updatedDate.toISOString());
    };
 
    const togglePeriod = () => {
       setSelectedPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
    };
+
+   const extractTime = () => {
+      if (!value) return;
+
+      const currentDate = parseISO(value);
+      if (isNaN(currentDate.getTime())) return; // Check for invalid date
+
+      const hours = currentDate.getHours();
+      const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const displayHour = hours % 12 || 12;
+
+      setSelectedHour(String(displayHour).padStart(2, '0'));
+      setSelectedMinute(minutes);
+      
+      // Set period based on extracted time
+      setSelectedPeriod(period);
+
+      // If the ISO string contains time, set `isWithTime` to true
+      setIsWithTime(true);
+   };
+
+   useEffect(() => {
+      extractTime();
+   }, [value]);
 
    const triggerText = () => {
       if (isWithTime) {
@@ -119,6 +150,26 @@ const TimePicker = ({
             </div>
          </PopoverContent>
       </Popover>
+   );
+};
+
+
+
+
+
+const TimePicker = ({
+   formMethods,
+}: InputProps<ActionFormData>): JSX.Element => {
+   const { control } = formMethods;
+
+   return (
+      <Controller
+         name="dueDate"
+         control={control}
+         render={({ field: { value, onChange } }) => (
+            <TimePickerInterface value={value} onChange={onChange} />
+         )}
+      />
    );
 };
 
