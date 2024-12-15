@@ -8,7 +8,7 @@ import {
 } from '@/components/shared/ui/popover';
 import { Button } from '@/stories/Button';
 import { Separator } from '@/components/shared/ui/separator';
-import { useEditEvent } from '@/lib/api/eventApi';
+import { useDeleteEvent, useEditEvent } from '@/lib/api/eventApi';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { readFileSync } from 'fs';
 import type { Row } from '@tanstack/react-table';
@@ -111,10 +111,8 @@ export const eventColumns: ColumnDef<Event>[] = [
       size: 5,
       enableResizing: false,
       cell: ({ row }) => {
-         const taskId = row.original.id
-
          return (
-            <EditPopover id />
+            <EditPopover data={row} />
          );
       },
    },
@@ -125,14 +123,24 @@ export const eventColumns: ColumnDef<Event>[] = [
    },
 ];
 
-export const EditPopover = ({id} : {id:string}):JSX.Element => {
-   const {isTaskDialogOpen, setIsTaskDialogOpen} = useActionsViewContext()
-   
+export const EditPopover = ({data}):JSX.Element => {
+   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent()
+   const {setDialogState} = useActionsViewContext()
+
    const handleEdit = () => {
-      setIsTaskDialogOpen({
+      setDialogState({
          isOpen: true,
-         id: id
+         id: data.original.id,
+         mode: 'view',
+         actionType: 'event',
+         data : {
+            ...data.original
+         }
       })
+   }
+
+   const handleDelete = () => {
+      deleteEvent(data.original.id)
    }
 
    return (
@@ -143,7 +151,7 @@ export const EditPopover = ({id} : {id:string}):JSX.Element => {
          <PopoverContent className="w-[80px] cursor-default">
             <p onClick={handleEdit}>Edit</p>
             <Separator />
-            <p className="text-red-400">Delete</p>
+            <p onClick={handleDelete} className="text-red-400">Delete</p>
          </PopoverContent>
       </Popover>
    );

@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { editProject, getProject, getAllProjects } from './mock/mockProjectService'; // Ensure this file path is correct
+import { editProject, getProject, getAllProjects } from './mock/mockProjectService';
 import type { Project, ProjectPreview } from '@types';
 
-type QueryType = 'full' | 'preview'
+type QueryType = 'full' | 'preview';
 
 // Hook for fetching a project
 export const useProjectQuery = (projectId: string, type: QueryType = 'full') => {
    const query = useQuery<Project, Error>({
-      queryKey: ['project', projectId],
+      queryKey: ['projects', projectId],
       queryFn: () => getProject(projectId),
    });
 
@@ -31,83 +31,55 @@ export const useProjectQuery = (projectId: string, type: QueryType = 'full') => 
       return { ...query, data: projectPreview };
    }
 
-   return query
+   return query;
 };
 
+// Hook for fetching all projects
 export const useAllProjectsQuery = () => {
    const query = useQuery<ProjectPreview[], Error>({
-      queryKey: ['allProject'],
+      queryKey: ['projects', 'all'],
       queryFn: () => getAllProjects(),
-   })
-   
-   return query
-}
+   });
 
+   return query;
+};
+
+// Hook for fetching active projects
 export const useActiveProjectsQuery = () => {
    const query = useQuery<ProjectPreview[], Error>({
-      queryKey: ['activeProjects'],
+      queryKey: ['projects', 'active'],
       queryFn: async () => {
          const allProjects = await getAllProjects();
-         return allProjects.filter(project => project.projectStatus === 'active');
+         return allProjects.filter((project) => project.projectStatus === 'active');
       },
    });
 
    return query;
 };
 
-
-
-
-// export const useActiveProjectsQuery = () => {
-//    const queryClient = useQueryClient();
-
-//    // Retrieve projects already cached by `useProjectQuery`
-//    const cachedProjects = queryClient.getQueryData<Project[]>(['project']); // Assuming 'projects' is the key for the query cache
-
-//    console.log('cachedProjects', cachedProjects)
-
-//    const query = useQuery<Project[], Error>({
-//       queryKey: ['activeProjects'],
-//       queryFn: async () => {
-//          if (cachedProjects) {
-//             // Filter directly from cache if available
-//             return cachedProjects.filter(project => project.projectStatus === 'active');
-//          }
-//          // Otherwise, fetch projects and filter
-//          const allProjects = await getProject();
-//          return allProjects.filter(project => project.projectStatus === 'active');
-//       },
-//       // Optional: Stale time to reduce refetching
-//       staleTime: 1000 * 60 * 5, // 5 minutes
-//    });
-
-//    return query;
-// };
-
-
 // Hook for editing a project
 export const useEditProject = (projectId: string) => {
    const queryClient = useQueryClient();
 
    return useMutation<
-      Project, // The updated project type
-      Error, // Error type
+      Project,
+      Error,
       {
-         key: keyof Project; // Key to update
-         value: Project[keyof Project]; // New value
+         key: keyof Project;
+         value: Project[keyof Project];
       }
    >({
       mutationFn: ({ key, value }) => editProject<Project>(key, value),
       onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['project', projectId]);
+         await queryClient.cancelQueries(['projects', projectId]);
 
          const previousProject = queryClient.getQueryData<Project>([
-            'project',
+            'projects',
             projectId,
          ]);
 
          queryClient.setQueryData<Project>(
-            ['project', projectId],
+            ['projects', projectId],
             (old) => (old ? { ...old, [key]: value } : old)
          );
 
@@ -115,14 +87,11 @@ export const useEditProject = (projectId: string) => {
       },
       onError: (err, variables, context: any) => {
          if (context?.previousProject) {
-            queryClient.setQueryData(
-               ['project', projectId],
-               context.previousProject
-            );
+            queryClient.setQueryData(['projects', projectId], context.previousProject);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['project', projectId]);
+         queryClient.invalidateQueries(['projects', projectId]);
       },
    });
 };

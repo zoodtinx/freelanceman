@@ -19,6 +19,7 @@ const ProjectSelect = ({
       control,
       watch,
       formState: { errors },
+      setValue
    } = formMethods;
    const { data: activeProjects } = useActiveProjectsQuery();
 
@@ -30,7 +31,11 @@ const ProjectSelect = ({
       value: string,
       onChange: (value: string) => void
    ) => {
-      onChange(value); // Updates the 'project' field in the form
+      onChange(value);
+      const selectedProject = activeProjects.find((project) => project.id === value)
+      console.log('selectedProject', selectedProject.client)
+      setValue('client', selectedProject.client)
+      setValue('clientId', selectedProject.clientId)
    };
 
    if (dialogState?.mode === 'view') {
@@ -74,7 +79,7 @@ const ProjectSelect = ({
                );
             }}
          />
-                  {errors.projectId && (
+         {errors.projectId && (
             <p className=" text-sm text-red-500 font-normal animate-shake">
                {errors.projectId.message}
             </p>
