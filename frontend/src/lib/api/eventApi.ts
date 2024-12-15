@@ -1,133 +1,128 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { editEvent, getEvent, getAllEvent, createEvent } from './mock/mockEventService';
-import type { Event } from '@types';
+import {
+   editEvent,
+   getEvent,
+   getAllEvent,
+   createEvent,
+   deleteEvent,
+} from './mock/mockEventService';
+import type { Event, NewActionPayload } from '@types';
+
+export const useAllEventQuery = () => {
+   return useQuery({
+      queryKey: ['events'],
+      queryFn: getAllEvent,
+   });
+};
 
 export const useEventQuery = (eventId: string) => {
+   const queryClient = useQueryClient();
+
    return useQuery({
-      queryKey: ['event', eventId],
+      queryKey: ['events', eventId],
       queryFn: () => {
-         if (!eventId) {
-            throw new Error('Event ID cannot be empty');
-         }
-         return getEvent(eventId);
+         const cachedEvents = queryClient.getQueryData<Event[]>(['events']);
+         const cachedEvent = cachedEvents?.find(
+            (event) => event.id === eventId
+         );
+         return cachedEvent ?? getEvent(eventId); 
       },
    });
 };
 
-export const useAllEventQuery = () => {
-   return useQuery({
-      queryKey: ['allEvent'],
-      queryFn: () => getAllEvent(),
-   });
-};
-
-export type NewEvent = Pick<
-   Event,
-   'name' | 'status' | 'details' | 'link' | 'dueDate' | 'projectId'
->;
-
 export const useCreateEvent = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<
-      Event[], // The created event type
-      Error, // Error type
-      NewEvent // Input event data
-   >({
-      mutationFn: async (newEvent) => await createEvent(newEvent),
-      onMutate: async (newEvent) => {
-         await queryClient.cancelQueries(['allEvent']);
+   return useMutation<Event, Error, NewActionPayload>({
+      mutationFn: async (newEvent: NewActionPayload) =>
+         await createEvent(newEvent),
+      onMutate: async (newEvent: NewActionPayload) => {
+         await queryClient.cancelQueries(['events']);
 
-         const previousEvents = queryClient.getQueryData<Event[]>(['allEvent']);
+         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
 
-         queryClient.setQueryData<Event[]>(['allEvent'], (old) => [
+         queryClient.setQueryData<Event[]>(['events'], (old) => [
             ...(old || []),
-            { ...newEvent, id: 'temp-id' }, // Add a temporary ID or placeholder if needed
+            { ...newEvent, id: 'temp-id' },
          ]);
 
          return { previousEvents };
       },
       onError: (err, newEvent, context: any) => {
          if (context?.previousEvents) {
-            queryClient.setQueryData(['allEvent'], context.previousEvents);
+            queryClient.setQueryData(['events'], context.previousEvents);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['allEvent'] });
+         queryClient.invalidateQueries({ queryKey: ['events'] });
       },
    });
 };
 
-
-
-// Hook for editing an event
 export const useEditEvent = (eventId: string) => {
    const queryClient = useQueryClient();
 
    return useMutation<
-      Event, // The updated event type
-      Error, // Error type
-      { key: keyof Event; value: Event[keyof Event] } // Mutation variables
+      Event,
+      Error,
+      { key: keyof Event; value: Event[keyof Event] }
    >({
-      mutationFn: ({ key, value }) => editEvent(key, value),
-      onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['event', eventId]);
-
-         const previousEvent = queryClient.getQueryData<Event>([
-            'event',
-            eventId,
-         ]);
-
-         queryClient.setQueryData<Event>(['event', eventId], (old) => {
-            if (!old) return null;
-            return { ...old, [key]: value };
-         });
-
-         return { previousEvent };
+      mutationFn: async (eventPayload: NewActionPayload) => {
+         await editEvent(eventId, eventPayload);
       },
-      onError: (err, variables, context: any) => {
-         if (context?.previousEvent) {
-            queryClient.setQueryData(['event', eventId], context.previousEvent);
+      onMutate: async ({ key, value }) => {
+         await queryClient.cancelQueries(['events']);
+
+         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
+
+         if (previousEvents) {
+            queryClient.setQueryData(['events'], (old) =>
+               old?.map((event) =>
+                  event.id === eventId ? { ...event, [key]: value } : event
+               )
+            );
+         }
+
+         return { previousEvents };
+      },
+      onError: (err, variables, context) => {
+         if (context?.previousEvents) {
+            queryClient.setQueryData(['events'], context.previousEvents);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['event', eventId]);
+         queryClient.invalidateQueries(['events']);
       },
    });
 };
 
-type Mode = 'view' | 'create';
+export const useDeleteEvent = () => {
+   const queryClient = useQueryClient();
 
-type EventDialogHandlers = {
-   eventQueryHandler?: ReturnType<typeof useEventQuery>;
-   editEventHandler?: ReturnType<typeof useEditEvent>;
-   createEventHandler?: ReturnType<typeof useCreateEvent>;
+   return useMutation<void, Error, string>({
+      mutationFn: async (eventId: string) => {
+         await deleteEvent(eventId);
+      },
+      onMutate: async (eventId: string) => {
+         await queryClient.cancelQueries(['events']);
+
+         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
+
+         if (previousEvents) {
+            queryClient.setQueryData<Event[]>(['events'], (old) =>
+               old?.filter((event) => event.id !== eventId)
+            );
+         }
+
+         return { previousEvents };
+      },
+      onError: (err, eventId, context: any) => {
+         if (context?.previousEvents) {
+            queryClient.setQueryData(['events'], context.previousEvents);
+         }
+      },
+      onSettled: () => {
+         queryClient.invalidateQueries(['events']);
+      },
+   });
 };
-
-export function useEventDialog(
-   mode: Mode,
-   eventId?: string
-): EventDialogHandlers {
-   const eventQueryHandler = useEventQuery(eventId || '');
-   const editEventHandler = useEditEvent(eventId || '');
-   const createEventHandler = useCreateEvent();
-
-   if (mode === 'view') {
-      if (!eventId) {
-         throw new Error('Event ID is required for "view" mode');
-      }
-
-      return {
-         eventQueryHandler,
-         editEventHandler,
-      };
-   }
-
-   if (mode === 'create') {
-      return {
-         createEventHandler,
-      };
-   }
-
-   throw new Error('Invalid mode. Accepted values are "view" or "create".');
-}

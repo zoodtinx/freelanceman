@@ -9,15 +9,13 @@ import {
 } from './Dialog';
 import { Button } from './button';
 import { Textarea } from './textarea';
-import { useCreateEvent, useEditEvent } from '@/lib/api/eventApi';
+import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/eventApi';
 import type { DialogProps } from './props.type';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import LinkInput from './form/LinkInput';
 import StatusSelect from './form/StatusSelect';
 import ProjectSelect from './form/ProjectSelect';
-import TimePicker from './form/TimePicker';
 import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
-import DatePicker from './form/DatePicker';
 import { NewActionPayload } from '@types';
 import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';
@@ -33,6 +31,8 @@ const EventDialog: React.FC<DialogProps> = () => {
       dialogState.id
    );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
+
+   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent()
 
    const formMethods = useForm<ActionFormData>({
       defaultValues: formDefaultValue,
@@ -53,24 +53,41 @@ const EventDialog: React.FC<DialogProps> = () => {
       console.error('Validation Errors:', errors);
    };
 
-   const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
-      if (dialogState.mode === 'create') {
-         createEvent(data);
-      } else {
-         editEvent(data);
-      }
-   };
-
-   const handleDiscard = () => {
-      reset();
+   const handleDialogClose = () => {
       setDialogState({
          ...dialogState,
          isOpen: false,
       });
    };
+   
+   const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
+      const eventPayload: NewActionPayload = {
+         name: data.name,
+         projectId: data.projectId,
+         details: data.details,
+         dueDate: data.dueDate,
+         link: data.link,
+         status: data.status
+      }
+
+      if (dialogState.mode === 'create') {
+         createEvent(eventPayload);
+         handleDialogClose()
+      } else {
+         editEvent(eventPayload);
+         if (!editingEvent) {
+            handleDialogClose()
+         }
+      }
+   };
+
+   const handleDelete = () => {
+      deleteEvent(dialogState.id)
+      handleDialogClose()
+   }
 
    return (
-      <Dialog open={dialogState.isOpen} onOpenChange={handleDiscard}>
+      <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile
@@ -133,7 +150,7 @@ const EventDialog: React.FC<DialogProps> = () => {
                               variant={'destructive'}
                               onClick={(e: React.MouseEvent) => {
                                  e.preventDefault();
-                                 handleDiscard();
+                                 handleDelete();
                               }}
                            >
                               Delete
@@ -143,7 +160,7 @@ const EventDialog: React.FC<DialogProps> = () => {
                            variant={'destructiveOutline'}
                            onClick={(e: React.MouseEvent) => {
                               e.preventDefault();
-                              handleDiscard();
+                              handleDialogClose();
                            }}
                         >
                            Discard
@@ -174,3 +191,8 @@ const ClientField = ({ formMethods }: InputProps<ActionFormData>) => {
 };
 
 export default EventDialog;
+
+const handleEditEvent = (data: NewActionPayload) => {
+
+}
+

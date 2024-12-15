@@ -16,9 +16,7 @@ import {
 import { useAllEventQuery } from '@/lib/api/eventApi';
 import EventTable from './EventTable';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
-import NewEventDialog from '@/components/shared/ui/NewEventDialog';
 import EventDialog from '@/components/shared/ui/EventDialog';
-import { DialogState } from '@/lib/context/ProjectViewContextTypes';
 
 export default function Events() {
    
