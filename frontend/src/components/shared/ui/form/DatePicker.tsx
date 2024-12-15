@@ -6,15 +6,17 @@ import { cn } from '@/lib/helper/utils';
 import { format } from 'date-fns';
 import { ActionFormData } from '@types';
 
-const DatePicker = ({
-   formMethods,
-}: InputProps<ActionFormData>): JSX.Element => {
-   const {control} = formMethods
-   
+const DatePicker = ({ formMethods }: InputProps<ActionFormData>): JSX.Element => {
+   const {
+      control,
+      formState: { errors },
+   } = formMethods;
+
    return (
       <Controller
          name="dueDate"
          control={control}
+         rules={{ required: 'Date is required' }}
          render={({ field: { value, onChange } }) => (
             <Popover>
                <PopoverTrigger asChild>

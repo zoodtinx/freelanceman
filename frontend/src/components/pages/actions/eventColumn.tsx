@@ -151,7 +151,7 @@ export const EditPopover = ({id} : {id:string}):JSX.Element => {
 
 
 export const CellWrapper = ({ taskId, cellValue, data }: { taskId:string, cellValue:string }): JSX.Element => {
-   const { dialogState, setDialogState } = useActionsViewContext();
+   const { setDialogState } = useActionsViewContext();
 
    const handleClick = () => {
       setDialogState({

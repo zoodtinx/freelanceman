@@ -18,18 +18,14 @@ import EventTable from './EventTable';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import NewEventDialog from '@/components/shared/ui/NewEventDialog';
 import EventDialog from '@/components/shared/ui/EventDialog';
+import { DialogState } from '@/lib/context/ProjectViewContextTypes';
 
 export default function Events() {
+   
    const { data: eventsData, isLoading } = useAllEventQuery();
    const {
-      isTaskDialogOpen,
-      setIsTaskDialogOpen,
-      isNewTaskDialogOpen,
-      setIsNewTaskDialogOpen,
-      isEventDialogOpen,
-      setIsEventDialogOpen,
-      eventDialogData,
-      setEventDialogData
+      dialogState,
+      setDialogState
    } = useActionsViewContext();
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
@@ -58,12 +54,15 @@ export default function Events() {
    }
 
    const handleNewTask = () => {
-      setIsEventDialogOpen({
-         id: '',
-         isOpen: true,
-         mode: 'create',
-         actionType: 'event',
-      });
+      setDialogState((prevState) => {
+         return {
+            ...prevState,
+            actionType: 'event',
+            id: '',
+            isOpen: true,
+            mode: 'create',
+         }
+      })
    };
 
    const filter = (value: string) => {
@@ -124,13 +123,8 @@ export default function Events() {
          </div>
          <EventTable table={table} />
          <EventDialog
-            dialogState={isEventDialogOpen}
-            setDialogState={setIsEventDialogOpen}
-            dialogData={eventDialogData}
-         />
-         <NewEventDialog
-            dialogueState={isNewTaskDialogOpen}
-            setDialogueState={setIsNewTaskDialogOpen}
+            dialogState={dialogState}
+            setDialogState={setDialogState}
          />
       </>
    );

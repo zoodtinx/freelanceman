@@ -99,9 +99,7 @@ const LinkInput = ({
             <div>
                <input
                   type="url"
-                  {...register?.('link' as Path<TFieldValues>, {
-                     required: 'Please enter link',
-                  })}
+                  {...register?.('link')}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   className="flex px-2 h-6 w-full border border-secondary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"

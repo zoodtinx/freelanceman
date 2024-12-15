@@ -23,42 +23,32 @@ import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';
 import { InputProps } from './form/props.type';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
+import { formDefaultValue } from './form/utils';
+import DateTimePicker from './form/DateTimePicker';
 
-const EventDialog: React.FC<DialogProps<Event>> = ({
-}) => {
-      const {
-         dialogState,
-         setDialogState
-      } = useActionsViewContext();
-   
+const EventDialog: React.FC<DialogProps> = () => {
+   const { dialogState, setDialogState } = useActionsViewContext();
+
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
       dialogState.id
    );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
 
    const formMethods = useForm<ActionFormData>({
-      defaultValues: {
-         name: '',
-         details: '',
-         status: 'scheduled',
-         dueDate: '',
-         project: '',
-         projectId: '',
-         client: '',
-         clientId: '',
-         link: '',
-      },
+      defaultValues: formDefaultValue,
    });
 
    const { handleSubmit, reset } = formMethods;
 
    useEffect(() => {
       if (dialogState.mode === 'view') {
-         reset(dialogState.data); // Reset to dialog data
+         reset(dialogState.data);
       } else if (dialogState.mode === 'create') {
-         reset(); // Reset to default values
+         console.log('triggered');
+         reset(formDefaultValue);
       }
-   }, [dialogState, reset]);
+   }, [dialogState.mode, dialogState.data, reset]);
+
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
    };
@@ -95,7 +85,10 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
             <form onSubmit={handleSubmit(onSubmit, onError)}>
                <DialogHeader>
                   <DialogTitle>
-                     <TaskNameInput formMethods={formMethods} />
+                     <TaskNameInput
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                     />
                   </DialogTitle>
                </DialogHeader>
                <div className="px-5 py-3 flex flex-col gap-3">
@@ -106,18 +99,17 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
                      </div>
                      <div className="w-1/2">
                         <p className="text-secondary">Due Date</p>
-                        <DatePicker formMethods={formMethods} />
-                        <TimePicker formMethods={formMethods} />
+                        <DateTimePicker formMethods={formMethods} dialogState={dialogState} />
                      </div>
                   </div>
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Project</p>
-                        <ProjectSelect formMethods={formMethods} />
+                        <ProjectSelect formMethods={formMethods} dialogState={dialogState} />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        <ClientArea formMethods={formMethods} />
+                        <ClientField formMethods={formMethods} />
                      </div>
                   </div>
                   <div className="w-full">
@@ -168,10 +160,9 @@ const EventDialog: React.FC<DialogProps<Event>> = ({
    );
 };
 
-const ClientArea = ({ formMethods }: InputProps<ActionFormData>) => {
+const ClientField = ({ formMethods }: InputProps<ActionFormData>) => {
    const { watch } = formMethods;
 
-   // These are now valid because T is constrained
    const clientName = watch('client');
    const clientId = watch('clientId');
 

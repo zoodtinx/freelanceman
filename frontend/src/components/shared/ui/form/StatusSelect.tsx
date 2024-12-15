@@ -12,9 +12,12 @@ import { ActionFormData } from '@types';
 const StatusSelect = ({
    formMethods,
 }: InputProps<ActionFormData>): JSX.Element => {
-   const { control } = formMethods;
+   const { control, getValues } = formMethods;
 
-   // Helper function to determine color based on status
+   const statusField = getValues('status')
+
+   const actionStatus = {}
+   
    const getStatusColor = (status: string) => {
       switch (status) {
          case 'scheduled':

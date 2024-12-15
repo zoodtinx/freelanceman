@@ -57,17 +57,17 @@ const [dialogState, setDialogState] = useState<DialogState>({
    isOpen: false,
    id: '',
    mode: 'view',
-   actionType: 'task', // Must be 'task' or 'event'
+   actionType: 'task', 
    data: {
       name: '',
       details: '',
-      status: 'planned', // Compatible with TaskStatus
+      status: 'planned', 
       link: '',
       dueDate: '',
       projectId: '',
-      project: '', // Added to match ActionFormData
-      client: '', // Added to match ActionFormData
-      clientId: '', // Added to match ActionFormData
+      project: '', 
+      client: '', 
+      clientId: '', 
    },
 });
 
