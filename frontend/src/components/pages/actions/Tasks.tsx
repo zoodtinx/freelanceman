@@ -1,7 +1,5 @@
-import { Calendar, Client, Date, Plus } from '@/components/shared/icons';
-import { eventColumns } from './eventColumn';
+import { Plus } from '@/components/shared/icons';
 import {
-   flexRender,
    getCoreRowModel,
    useReactTable,
    ColumnFiltersState,
@@ -18,14 +16,23 @@ import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { useAllTasksQuery } from '@/lib/api/taskApi';
 import { CircleCheck } from 'lucide-react';
 import { taskColumn } from './taskColumn';
+import TaskDialog from '@/components/shared/ui/TaskDialog';
 
 export default function Tasks() {
    
    const { data: taskData, isLoading } = useAllTasksQuery();
-   const {
-      dialogState,
-      setDialogState
-   } = useActionsViewContext();
+   // const {
+   //    dialogState,
+   //    setDialogState
+   // } = useActionsViewContext();
+
+   const [dialogState, setDialogState] = useState({
+      isOpen: false,
+      id: '',
+      mode: 'view',
+      actionType: 'task'
+   })
+
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
          id: 'status',
@@ -127,6 +134,7 @@ export default function Tasks() {
             </div>
          </div>
          <EventTable table={table} />
+         <TaskDialog dialogState={dialogState} setDialogState={setDialogState} />
       </>
    );
 }

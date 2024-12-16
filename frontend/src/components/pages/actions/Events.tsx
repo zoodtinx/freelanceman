@@ -32,6 +32,26 @@ export default function Events() {
       },
    ]);
 
+   const ongoingFilter = [
+      {
+        id: 'status',
+        value: 'onGoing',
+      },
+    ];
+
+    const ongoingTable = useReactTable({
+      data: eventsData,
+      columns: eventColumns,
+      getCoreRowModel: getCoreRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      state: {
+        columnFilters: ongoingFilter, // Apply the ongoing filter
+        columnVisibility: {
+          status: false, // Hide status column in this table if not needed
+        },
+      },
+    });
+
    const table = useReactTable({
       data: eventsData,
       columns: eventColumns,
@@ -79,6 +99,13 @@ export default function Events() {
       }
    };
 
+   const OnGoingTable = () => {
+      if (columnFilters[0].value !== 'scheduled') {
+         return null
+      }
+      return <EventTable table={ongoingTable} />
+   }
+
    return (
       <>
          <div className="flex w-full justify-between">
@@ -122,6 +149,7 @@ export default function Events() {
                <Plus className="aspect-square h-[20px]" />
             </div>
          </div>
+         {/* <OnGoingTable /> */}
          <EventTable table={table} />
          {/* <EventDialog
             dialogState={dialogState}

@@ -1,4 +1,3 @@
-import TaskTable from '@/components/pages/actions/TasksTable';
 import Events from '@/components/pages/actions/Events';
 import Tasks from '@/components/pages/actions/Tasks';
 import {

@@ -81,7 +81,11 @@ const EventDialog: React.FC<DialogProps> = () => {
    };
 
    const handleDelete = () => {
-      deleteEvent(dialogState.id);
+      if (dialogState.actionType === 'event') {
+         deleteEvent(dialogState.id);
+      } else if (dialogState.actionType === 'task'){
+         deleteEvent(dialogState.id);
+      }
       handleDialogClose();
    };
 

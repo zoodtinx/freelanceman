@@ -1,344 +1,221 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
    DialogContent,
-   DialogFooter,
    DialogHeader,
    Dialog,
+   DialogFooter,
    DialogTitle,
    DialogTrigger,
 } from './Dialog';
 import { Button } from './button';
-import {
-   Check,
-   Dot,
-   X,
-   Calendar as CalendarIcon,
-   Pencil,
-   ExternalLink,
-} from 'lucide-react';
-import {
-   Select,
-   SelectContent,
-   DialogueSelectItem,
-   DialogueSelectTrigger,
-   SelectValue,
-} from '@/components/shared/ui/FilterSelect';
 import { Textarea } from './textarea';
+import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/eventApi';
+import type { DialogProps } from './props.type';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import LinkInput from './form/LinkInput';
+import StatusSelect from './form/StatusSelect';
+import ProjectSelect from './form/ProjectSelect';
+import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
+import { NewActionPayload } from '@types';
+import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';
-import { Calendar } from './calendar';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import { format } from 'date-fns';
-import { cn } from '@/lib/helper/utils';
-import { DialogueState } from 'src/lib/context/ProjectViewContextTypes';
-import { useTaskQuery, useEditTask } from '@/lib/api/taskApi';
-import { UseMutateFunction } from '@tanstack/react-query';
+import { InputProps } from './form/props.type';
+import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
+import { formDefaultValue } from './form/utils';
+import DateTimePicker from './form/DateTimePicker';
 
-//Main Task Dialogue
-interface TaskDialogueProps {
-   dialogueState: DialogueState;
-   setDialogueState: (newState: DialogueState) => void;
-   mode?: string
-}
+const TaskDialog: React.FC<DialogProps> = () => {
+   const { dialogState, setDialogState } = useActionsViewContext();
+   
+   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
+      dialogState.id
+   );
+   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
+   
+   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
+   
+   const formMethods = useForm<ActionFormData>({
+      defaultValues: formDefaultValue(dialogState.actionType),
+   });
+   
+   const { handleSubmit, reset } = formMethods;
 
-const TaskDialog: React.FC<TaskDialogueProps> = ({ dialogueState, setDialogueState, mode }) => {
-   const { data: task, isLoading, error } = useTaskQuery(dialogueState.id);
-   const { mutate: editTask } = useEditTask(dialogueState.id);
+   useEffect(() => {
+      if (dialogState.mode === 'view') {
+         reset(dialogState.data);
+      } else if (dialogState.mode === 'create') {
+         reset(formDefaultValue(dialogState.actionType));
+      }
+   }, [dialogState, reset]);
 
-   if (isLoading) {
-      return null;
-   }
+   const onError = (errors: any) => {
+      console.error('Validation Errors:', errors);
+   };
 
-   const handleDialogueClose = () => {
-      setDialogueState({
+   const handleDialogClose = () => {
+      setDialogState({
+         ...dialogState,
          isOpen: false,
-         id: '',
       });
    };
 
+   const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
+      const eventPayload: NewActionPayload = {
+         name: data.name,
+         projectId: data.projectId,
+         details: data.details,
+         dueDate: data.dueDate,
+         link: data.link,
+         status: data.status,
+      };
+
+      if (dialogState.mode === 'create') {
+         createEvent(eventPayload);
+         handleDialogClose();
+      } else {
+         editEvent(eventPayload);
+         if (!editingEvent) {
+            handleDialogClose();
+         }
+      }
+   };
+
+   const handleDelete = () => {
+      if (dialogState.actionType === 'event') {
+         deleteEvent(dialogState.id);
+      } else if (dialogState.actionType === 'task'){
+         deleteEvent(dialogState.id);
+      }
+      handleDialogClose();
+   };
+
+   const buttonText = () => {
+      if (dialogState.mode === 'create') {
+         if (dialogState.actionType === 'event') {
+            return 'Create event';
+         } else if (dialogState.actionType === 'task') {
+            return 'Create task';
+         }
+      } else if (dialogState.mode === 'view') {
+         return 'Save';
+      }
+   };
+
    return (
-      <Dialog
-         open={dialogueState.isOpen}
-         onOpenChange={handleDialogueClose}
-      >
+      <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px] flex flex-col">
-            <DialogHeader className="">
-               <DialogTitle className="flex flex-col items-start">
-                  <TaskNameInput value={task.name} setValue={editTask} />
-               </DialogTitle>
-            </DialogHeader>
-            <div className="px-5 py-3 flex flex-col gap-3">
-               <div className="flex leading-tight">
-                  <div className="w-1/2 flex flex-col box-border gap-1">
-                     <p className="text-secondary">Status</p>
-                     <StatusSelect value={task.status} setValue={editTask} />
+         <DialogContent
+            className="sm:max-w-[425px] flex flex-col"
+            onInteractOutside={(e) => {
+               e.preventDefault();
+            }}
+         >
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
+               <DialogHeader>
+                  <DialogTitle>
+                     <TaskNameInput
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                     />
+                  </DialogTitle>
+               </DialogHeader>
+               <div className="px-5 py-3 flex flex-col gap-3">
+                  <div className="flex leading-tight">
+                     <div className="w-1/2 font-semibold relative">
+                        <p className="text-secondary">Status</p>
+                        <StatusSelect formMethods={formMethods} dialogState={dialogState} />
+                     </div>
+                     <div className="w-1/2 font-semibold relative">
+                        <p className="text-secondary">Due Date</p>
+                        <DateTimePicker
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
+                     </div>
                   </div>
-                  <div className="w-1/2">
-                     <p className="text-secondary">Due Date</p>
-                     <DatePicker value={task.dueDate} setValue={editTask} />
-                     <TimePicker value={task.dueDate} setValue={editTask} />
+                  <div className="flex leading-tight">
+                     <div className="w-1/2 font-semibold relative">
+                        <p className="text-secondary">Project</p>
+                        <ProjectSelect
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
+                     </div>
+                     <div className="w-1/2 font-semibold">
+                        <p className="text-secondary">Client</p>
+                        <ClientField formMethods={formMethods} dialogState={dialogState} />
+                     </div>
+                  </div>
+                  <div className="w-full font-semibold relative">
+                     <p className="text-secondary">Details</p>
+                     <Textarea
+                        className="resize-none border-secondary placeholder:text-secondary"
+                        placeholder="Explain this task like you're telling your future self who's half asleep."
+                        {...formMethods.register('details')}
+                     />
+                  </div>
+                  <div className="w-full font-semibold relative">
+                     <p className="text-secondary">Link</p>
+                     <LinkInput formMethods={formMethods} />
                   </div>
                </div>
-               <div className="flex leading-tight">
-                  <div className="w-1/2">
-                     <p className="text-secondary">Project</p>
-                     <Link
-                        to={`../project/${task.projectId}`}
-                        className="text-md font-semibold hover:text-secondary transition-colors duration-75"
-                     >
-                        {task.project}
-                     </Link>
-                  </div>
-                  <div className="w-1/2">
-                     <p className="text-secondary">Client</p>
-                     <Link
-                        relative="path"
-                        to={`../client/${task.clientId}`}
-                        className="text-md font-semibold hover:text-secondary transition-colors duration-75"
-                     >
-                        {task.client}
-                     </Link>
-                  </div>
-               </div>
-               <div className="w-full">
-                  <p className="text-secondary">Details</p>
-                  <TaskDetailInput value={task.details} setValue={editTask} />
-               </div>
-               <div>
-                  <p className="text-secondary">Link</p>
-                  <LinkInput value={task.link} setValue={editTask} />
-               </div>
-            </div>
-            <DialogFooter>
-               <div className="flex justify-between p-4">
-                  <Button variant={'destructiveOutline'}>Delete Task</Button>
-                  {task.status === 'completed' ? (
-                     <Button variant={'ghost'} className="flex gap-1">
-                        <p>Completed</p>
+               <DialogFooter>
+                  <div className="flex justify-between p-4">
+                     <div className="flex gap-1">
+                        {dialogState.mode === 'view' && (
+                           <Button
+                              variant={'destructive'}
+                              onClick={(e: React.MouseEvent) => {
+                                 e.preventDefault();
+                                 handleDelete();
+                              }}
+                           >
+                              Delete
+                           </Button>
+                        )}
+                        <Button
+                           variant={'destructiveOutline'}
+                           onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              handleDialogClose();
+                           }}
+                        >
+                           Discard
+                        </Button>
+                     </div>
+                     <Button variant={'default'} type="submit">
+                        {buttonText()}
                      </Button>
-                  ) : (
-                     <Button
-                        variant={'submit'}
-                        className="flex gap-1"
-                        onClick={() => {
-                           editTask({ key: 'status', value: 'completed' });
-                        }}
-                     >
-                        <p>Mark as completed</p>
-                        <Check className="w-4 h-auto stroke-[2.5px]" />
-                     </Button>
-                  )}
-               </div>
-            </DialogFooter>
+                  </div>
+               </DialogFooter>
+            </form>
          </DialogContent>
       </Dialog>
    );
 };
 
-interface InputProps<T> {
-   value: T; // The current state of the input value
-   setValue: UseMutateFunction<void, Error, { key: string; newValue: T }>; // Mutation function
-}
+const ClientField = ({
+   formMethods,
+   dialogState,
+}: InputProps<ActionFormData>) => {
+   const { watch } = formMethods;
 
-//Task Name Input
-const TaskNameInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
-   const editableRef = React.useRef<HTMLDivElement>(null);
+   const clientName = watch('client');
+   const clientId = watch('clientId');
 
-   
-   const handleNameChange = () => {
-      if (editableRef.current) {
-         const newValue = editableRef.current.innerText;
-         setValue({ key: 'name', value: newValue });
+   if (clientName && clientId) {
+      if (dialogState?.mode === 'view') {
+         return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+      } else if (dialogState?.mode === 'create') {
+         return <p className="cursor-default select-none">{clientName}</p>;
       }
-   };
-
-   console.log('value in compoennt', value)
-
-   useEffect(() => {
-      if (editableRef.current && editableRef.current.innerText !== value) {
-         editableRef.current.innerText = value;
-      }
-   }, [value])
-
-   return (
-      <div className="group w-full relative flex">
-         <div
-            id="editableDiv"
-            className="peer w-full rounded-md focus:outline-none order-2 break-words whitespace-pre-wrap pr-7"
-            contentEditable="true"
-            role="textbox"
-            onBlur={handleNameChange}
-            ref={editableRef}
-         >
-            {/* {value} */}
-         </div>
-         <div className="w-[0px] shrink-0 text-secondary overflow-hidden peer-focus:w-[25px] peer-focus:text-primary group-hover:w-[25px] transition-all duration-100 order-1">
-            <Pencil className="h-[18px] w-auto" />
-         </div>
-      </div>
-   );
-};
-
-const TaskDetailInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
-   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-   const handleChange = (value) => {
-      setValue({ key: 'details', value });
-   };
-
-   return (
-      <Textarea
-         value={value}
-         className="resize-none"
-         onBlur={(e) => {
-            handleChange(e.target.value);
-         }}
-      />
-   );
-};
-
-//Link Input
-const LinkInput: React.FC<InputProps<string>> = ({ value, setValue }) => {
-   const formattedLink = value.replace('https://', '');
-   const [isEditMode, setIsEditMode] = useState(false);
-   const [newLink, setNewLink] = useState('');
-   const inputRef = useRef(null);
-
-   useEffect(() => {
-      if (!value) {
-         setIsEditMode(true);
-      }
-      if (isEditMode && inputRef.current) {
-         inputRef.current.focus();
-      }
-   }, [isEditMode]);
-
-   const updateLink = () => {
-      setValue({ key: 'link', value: newLink })
-      setIsEditMode(false);
-   };
-
-   const editCurrentLink = () => {
-      setIsEditMode(true);
-   };
-
-   return isEditMode ? (
-      <input
-         type="url"
-         onChange={(e) => setNewLink(e.target.value)}
-         onBlur={updateLink}
-         ref={inputRef}
-         className="flex px-2 h-6 w-full bordeer rounded-md bg-transparent border focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-      />
-   ) : (
-      <div className="flex justify-between items-center px-1 bg-blue-50 border w-full h-6 rounded-md text-blue-600">
-         <Link to={value} className="flex gap-1 items-center text-sm w-full overflow-hidden">
-            <ExternalLink className="w-4 h-auto" />
-            <p className='text-ellipsis overflow-hidden whitespace-nowrap'>{formattedLink}</p>
-         </Link>
-         <X
-            className="w-4 h-auto text-gray-700 cursor-pointer"
-            onClick={editCurrentLink}
-         />
-      </div>
-   );
-};
-
-//Task Progress Status Selection
-const StatusSelect: React.FC<InputProps<string>> = ({ value, setValue }) => {
-   let color;
-   switch (value) {
-      case 'planned':
-         color = 'bg-yellow-100';
-         break;
-      case 'inprogress':
-         color = 'bg-emerald-200';
-         break;
-      case 'completed':
-         color = 'bg-blue-100';
-         break;
-      case 'cancelled':
-         color = 'bg-red-200';
-         break;
    }
-
-   const handleSelectChange = (value) => {
-      setValue({ key: 'status', value: value });
-   };
-
-   return (
-      <Select
-         value={value}
-         onValueChange={(value) => {
-            handleSelectChange(value);
-         }}
-      >
-         <DialogueSelectTrigger
-            mode="base"
-            className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}
-         >
-            <div className="aspect-square w-[8px] rounded-full bg-primary" />
-            <p className='font-semibold'>
-               <SelectValue />
-            </p>
-         </DialogueSelectTrigger>
-         <SelectContent className="flex flex-col gap-1">
-            <DialogueSelectItem value="planned">
-               Planned
-            </DialogueSelectItem>
-            <DialogueSelectItem value="inprogress">
-               In Progress
-            </DialogueSelectItem>
-            <DialogueSelectItem value="completed">
-               Completed
-            </DialogueSelectItem>
-            <DialogueSelectItem value="cancelled">
-               Cancelled
-            </DialogueSelectItem>
-         </SelectContent>
-      </Select>
-   );
-};
-
-//Date Picker
-const DatePicker = React.forwardRef<HTMLDivElement, InputProps<string>>(
-   ({ value, setValue }, ref) => {
-      const [date, setDate] = React.useState<string>(value);
-      return (
-         <Popover>
-            <PopoverTrigger asChild>
-               <p
-                  className={cn(
-                     'justify-start text-md font-semibold cursor-pointer',
-                     !date && 'text-muted-foreground'
-                  )}
-               >
-                  {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-                  {date ? format(date, 'PPP') : <span>Pick a date</span>}
-               </p>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-               <Calendar mode="single" selected={date} onSelect={setDate} />
-            </PopoverContent>
-         </Popover>
-      );
-   }
-);
-
-//Time Picker
-const TimePicker: React.FC<InputProps<string>> = ({ value, setValue }) => {
-   const [isSelectMode, setIsSelectMode] = useState(false);
-   const formattedTime = value.split('T')[1].split(':').slice(0, 2).join(':');
-
-   return (
-      <div className="text-md">
-         {isSelectMode ? <div>Hello</div> : <div>{formattedTime}</div>}
-      </div>
-   );
+   return 'Select a project';
 };
 
 export default TaskDialog;
+

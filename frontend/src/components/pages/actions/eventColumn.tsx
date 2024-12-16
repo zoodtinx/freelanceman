@@ -1,5 +1,4 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { getCoreRowModel } from '@tanstack/react-table'
 import type { Event } from '@types';
 import { EllipsisVertical } from 'lucide-react';
 import {
@@ -7,12 +6,9 @@ import {
    PopoverTrigger,
    PopoverContent,
 } from '@/components/shared/ui/popover';
-import { Button } from '@/stories/Button';
 import { Separator } from '@/components/shared/ui/separator';
-import { useDeleteEvent, useEditEvent } from '@/lib/api/eventApi';
+import { useDeleteEvent } from '@/lib/api/eventApi';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
-import { readFileSync } from 'fs';
-import type { Row } from '@tanstack/react-table';
 import { format, toZonedTime } from 'date-fns-tz';
 
 
