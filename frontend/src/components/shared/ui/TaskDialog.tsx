@@ -9,7 +9,6 @@ import {
 } from './Dialog';
 import { Button } from './button';
 import { Textarea } from './textarea';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/eventApi';
 import type { DialogProps } from './props.type';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import LinkInput from './form/LinkInput';
@@ -20,24 +19,21 @@ import { NewActionPayload } from '@types';
 import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';
 import { InputProps } from './form/props.type';
-import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
+import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/taskApi';
 
-const TaskDialog: React.FC<DialogProps> = () => {
-   const { dialogState, setDialogState } = useActionsViewContext();
-   
-   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
+const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
+   const { mutate: editTask, isPending: editingTask } = useEditTask(
       dialogState.id
    );
-   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
-   
-   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
-   
+   const { mutate: createTask, isPending: creatingTask } = useCreateTask();
+   const { mutate: deleteTask, isPending: deletingTask } = useDeleteTask();
+
    const formMethods = useForm<ActionFormData>({
       defaultValues: formDefaultValue(dialogState.actionType),
    });
-   
+
    const { handleSubmit, reset } = formMethods;
 
    useEffect(() => {
@@ -60,7 +56,7 @@ const TaskDialog: React.FC<DialogProps> = () => {
    };
 
    const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
-      const eventPayload: NewActionPayload = {
+      const taskPayload: NewActionPayload = {
          name: data.name,
          projectId: data.projectId,
          details: data.details,
@@ -70,36 +66,30 @@ const TaskDialog: React.FC<DialogProps> = () => {
       };
 
       if (dialogState.mode === 'create') {
-         createEvent(eventPayload);
+         createTask(taskPayload);
          handleDialogClose();
       } else {
-         editEvent(eventPayload);
-         if (!editingEvent) {
+         editTask(taskPayload);
+         if (!editingTask) {
             handleDialogClose();
          }
       }
    };
 
    const handleDelete = () => {
-      if (dialogState.actionType === 'event') {
-         deleteEvent(dialogState.id);
-      } else if (dialogState.actionType === 'task'){
-         deleteEvent(dialogState.id);
-      }
+      deleteTask(dialogState.id);
       handleDialogClose();
    };
 
    const buttonText = () => {
       if (dialogState.mode === 'create') {
-         if (dialogState.actionType === 'event') {
-            return 'Create event';
-         } else if (dialogState.actionType === 'task') {
-            return 'Create task';
-         }
+         return 'Create task';
       } else if (dialogState.mode === 'view') {
          return 'Save';
       }
    };
+
+   const taskStatus = ['planned', 'inProgress', 'completed', 'cancelled']
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -127,7 +117,10 @@ const TaskDialog: React.FC<DialogProps> = () => {
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Status</p>
-                        <StatusSelect formMethods={formMethods} dialogState={dialogState} />
+                        <StatusSelect
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
                      </div>
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Due Date</p>
@@ -147,7 +140,10 @@ const TaskDialog: React.FC<DialogProps> = () => {
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        <ClientField formMethods={formMethods} dialogState={dialogState} />
+                        <ClientField
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
                      </div>
                   </div>
                   <div className="w-full font-semibold relative">
@@ -218,4 +214,3 @@ const ClientField = ({
 };
 
 export default TaskDialog;
-
