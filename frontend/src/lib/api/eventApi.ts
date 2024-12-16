@@ -36,6 +36,7 @@ export const useCreateEvent = () => {
    const queryClient = useQueryClient();
 
    return useMutation<Event, Error, NewActionPayload>({
+      mutationKey: ['createEvent'],
       mutationFn: async (newEvent: NewActionPayload) =>
          await createEvent(newEvent),
       onMutate: async (newEvent: NewActionPayload) => {
@@ -69,6 +70,7 @@ export const useEditEvent = (eventId: string) => {
       Error,
       { key: keyof Event; value: Event[keyof Event] }
    >({
+      mutationKey: ['editEvent'],
       mutationFn: async (eventPayload: NewActionPayload) => {
          await editEvent(eventId, eventPayload);
       },
@@ -147,6 +149,7 @@ export const useDeleteEvent = () => {
    const queryClient = useQueryClient();
 
    return useMutation<void, Error, string | string[]>({
+      mutationKey: ['deleteEvent'],
       mutationFn: async (eventIds: string | string[]) => {
          if (typeof eventIds === 'string') {
             await deleteEvent(eventIds);

@@ -11,40 +11,49 @@ import { ActionFormData } from '@types';
 
 const StatusSelect = ({
    formMethods,
+   dialogState
 }: InputProps<ActionFormData>): JSX.Element => {
+   if (!dialogState) {
+      return <div></div>
+   }
+   
    const { control, getValues } = formMethods;
 
    const statusField = getValues('status')
-
-   const actionStatus = {}
    
    const getStatusColor = (status: string) => {
-      switch (status) {
-         case 'scheduled':
-            return 'bg-yellow-100';
-         case 'inprogress':
-            return 'bg-emerald-200';
-         case 'completed':
-            return 'bg-blue-100';
-         case 'cancelled':
-            return 'bg-red-200';
-         default:
-            return '';
-      }
+      const statusColors: Record<string, Record<string, string>> = {
+         event: {
+            scheduled: 'bg-yellow-100',
+            onGoing: 'bg-emerald-200',
+            completed: 'bg-blue-100',
+            cancelled: 'bg-red-200',
+         },
+         task: {
+            planned: 'bg-yellow-100',
+            inProgress: 'bg-emerald-200',
+            completed: 'bg-blue-100',
+            cancelled: 'bg-red-200',
+         },
+      };
+   
+      return statusColors[dialogState.actionType]?.[status] || '';
    };
 
    return (
       <Controller
          name="status"
          control={control}
-         defaultValue="scheduled" // Default value for status
+         defaultValue="scheduled" 
          rules={{ required: 'Please select a status' }}
          render={({ field }) => {
-            const color = getStatusColor(field.value); // Dynamically get color based on current status
+            const color = getStatusColor(field.value); 
 
             const handleStatusChange = (value: string) => {
-               field.onChange(value); // Update the form state
+               field.onChange(value); 
             };
+
+            console.log(field.value)
 
             return (
                <Select value={field.value} onValueChange={handleStatusChange}>
@@ -58,12 +67,25 @@ const StatusSelect = ({
                      </p>
                   </DialogueSelectTrigger>
                   <SelectContent className="flex flex-col gap-1">
-                     <DialogueSelectItem value="scheduled">
-                        Scheduled
-                     </DialogueSelectItem>
-                     <DialogueSelectItem value="inprogress">
-                        In Progress
-                     </DialogueSelectItem>
+                     {dialogState.actionType === 'event' ? (
+                        <>
+                           <DialogueSelectItem value="scheduled">
+                              Scheduled
+                           </DialogueSelectItem>
+                           <DialogueSelectItem value="onGoing">
+                              Ongoing
+                           </DialogueSelectItem>
+                        </>
+                     ) : (
+                        <>
+                           <DialogueSelectItem value="planned">
+                              Planned
+                           </DialogueSelectItem>
+                           <DialogueSelectItem value="inProgress">
+                              In Progress
+                           </DialogueSelectItem>
+                        </>
+                     )}
                      <DialogueSelectItem value="completed">
                         Completed
                      </DialogueSelectItem>

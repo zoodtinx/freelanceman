@@ -13,14 +13,15 @@ import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/ToggleGroup';
-import { useAllEventQuery } from '@/lib/api/eventApi';
 import EventTable from './EventTable';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
-import EventDialog from '@/components/shared/ui/EventDialog';
+import { useAllTasksQuery } from '@/lib/api/taskApi';
+import { CircleCheck } from 'lucide-react';
+import { taskColumn } from './taskColumn';
 
-export default function Events() {
+export default function Tasks() {
    
-   const { data: eventsData, isLoading } = useAllEventQuery();
+   const { data: taskData, isLoading } = useAllTasksQuery();
    const {
       dialogState,
       setDialogState
@@ -28,13 +29,13 @@ export default function Events() {
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
          id: 'status',
-         value: 'scheduled',
+         value: 'planned',
       },
    ]);
 
    const table = useReactTable({
-      data: eventsData,
-      columns: eventColumns,
+      data: taskData,
+      columns: taskColumn,
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
       getFilteredRowModel: getFilteredRowModel(),
@@ -54,11 +55,14 @@ export default function Events() {
    const handleNewTask = () => {
       setDialogState((prevState) => {
          return {
-            ...prevState,
-            actionType: 'event',
+            actionType: 'task',
             id: '',
             isOpen: true,
             mode: 'create',
+            data: {
+               ...prevState.data,
+               status: 'planned'
+            }
          }
       })
    };
@@ -83,24 +87,24 @@ export default function Events() {
       <>
          <div className="flex w-full justify-between">
             <div className="flex items-end pb-3 gap-1">
-               <Calendar className="w-[28px] h-auto" />
-               <p className="text-xl leading-none mr-2">Events</p>
+               <CircleCheck className="w-[28px] h-auto" />
+               <p className="text-xl leading-none mr-2">Tasks</p>
                <ToggleGroup
                   type="multiple"
                   value={(columnFilters[0]?.value as string) || 'all'}
                >
                   <ToggleGroupItem
-                     value="scheduled"
-                     onClick={() => filter('scheduled')}
+                     value="planned"
+                     onClick={() => filter('planned')}
                   >
-                     Scheduled
+                     Planned
                   </ToggleGroupItem>
                   <ToggleGroupItem>
-                     Ongoing
+                     In progress
                   </ToggleGroupItem>
                   <ToggleGroupItem
-                     value="completed"
-                     onClick={() => filter('completed')}
+                     value="inProgress"
+                     onClick={() => filter('inProgress')}
                   >
                      Completed
                   </ToggleGroupItem>
@@ -123,10 +127,6 @@ export default function Events() {
             </div>
          </div>
          <EventTable table={table} />
-         {/* <EventDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
-         /> */}
       </>
    );
 }

@@ -45,7 +45,7 @@ const TaskNameInput = ({
                className="peer w-full rounded-md focus:outline-none order-2 break-words whitespace-pre-wrap pr-7"
                contentEditable="true"
                role="textbox"
-               data-placeholder="New task name"
+               data-placeholder='Enter name'
                onInput={handleInput}
                {...{
                   ...register('name', { required: 'Name is required' }),

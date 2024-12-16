@@ -1,57 +1,181 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { editTask, getTask, getAllTask } from './mock/mockTaskService';
-import type { Task } from './mock/mockTaskService';
+import {
+   editTask,
+   getTask,
+   getAllTasks,
+   createTask,
+   deleteTask,
+   bulkEditTasks,
+   bulkDeleteTasks,
+} from './mock/mockTaskService';
+import type { ActionResponsePayload, NewActionPayload } from '@types';
 
+export const useAllTasksQuery = () => {
+   return useQuery({
+      queryKey: ['tasks'],
+      queryFn: getAllTasks,
+   });
+};
 
-// Hook for fetching a task
 export const useTaskQuery = (taskId: string) => {
+   const queryClient = useQueryClient();
+
    return useQuery({
-      queryKey: ['task', taskId],
-      queryFn: () => getTask(taskId),
+      queryKey: ['tasks', taskId],
+      queryFn: () => {
+         const cachedTasks = queryClient.getQueryData<Task[]>(['tasks']);
+         const cachedTask = cachedTasks?.find((task) => task.id === taskId);
+         return cachedTask ?? getTask(taskId);
+      },
    });
 };
 
-export const useAllTaskQuery = () => {
-   return useQuery({
-      queryKey: ['allTask'],
-      queryFn: () => getAllTask(),
+export const useCreateTask = () => {
+   const queryClient = useQueryClient();
+
+   return useMutation<Task, Error, NewActionPayload>({
+      mutationKey: ['createTask'],
+      mutationFn: async (newTask: NewActionPayload) => await createTask(newTask),
+      onMutate: async (newTask: NewActionPayload) => {
+         await queryClient.cancelQueries(['tasks']);
+
+         const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+         queryClient.setQueryData<Task[]>(['tasks'], (old) => [
+            ...(old || []),
+            { ...newTask, id: 'temp-id' },
+         ]);
+
+         return { previousTasks };
+      },
+      onError: (err, newTask, context: any) => {
+         if (context?.previousTasks) {
+            queryClient.setQueryData(['tasks'], context.previousTasks);
+         }
+      },
+      onSettled: () => {
+         queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      },
    });
 };
 
-// Hook for editing a task
 export const useEditTask = (taskId: string) => {
    const queryClient = useQueryClient();
 
    return useMutation<
-      Task, // The updated task type
-      Error, // Error type
-      { key: keyof Task; value: Task[keyof Task] } // Mutation variables
-   >(
+      Task,
+      Error,
+      { key: keyof Task; value: Task[keyof Task] }
+   >({
+      mutationKey: ['editTask'],
+      mutationFn: async (taskPayload: NewActionPayload) => {
+         await editTask(taskId, taskPayload);
+      },
+      onMutate: async ({ key, value }) => {
+         await queryClient.cancelQueries(['tasks']);
+
+         const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+         if (previousTasks) {
+            queryClient.setQueryData(['tasks'], (old) =>
+               old?.map((task) =>
+                  task.id === taskId ? { ...task, [key]: value } : task
+               )
+            );
+         }
+
+         return { previousTasks };
+      },
+      onError: (err, variables, context) => {
+         if (context?.previousTasks) {
+            queryClient.setQueryData(['tasks'], context.previousTasks);
+         }
+      },
+      onSettled: () => {
+         queryClient.invalidateQueries(['tasks']);
+      },
+   });
+};
+
+export const useBulkEditTask = () => {
+   const queryClient = useQueryClient();
+
+   return useMutation<
+      ActionResponsePayload[],
+      Error,
       {
-         mutationFn:({ key, value }) => editTask(key, value),
-         onMutate: async ({ key, value }) => {
-            await queryClient.cancelQueries(['task', taskId]);
-
-            const previousTask = queryClient.getQueryData<Task>([
-               'task',
-               taskId,
-            ]);
-
-            queryClient.setQueryData<Task>(['task', taskId], (old) => {
-               if (!old) return null;
-               return { ...old, [key]: value };
-            });
-
-            return { previousTask };
-         },
-         onError: (err, variables, context: any) => {
-            if (context?.previousTask) {
-               queryClient.setQueryData(['task', taskId], context.previousTask);
-            }
-         },
-         onSettled: () => {
-            queryClient.invalidateQueries(['task', taskId]);
-         },
+         selectedTasks: NewActionPayload[];
+         key: keyof NewActionPayload;
+         value: NewActionPayload[keyof NewActionPayload];
       }
-   );
+   >({
+      mutationKey: ['bulkEditTask'],
+      mutationFn: async ({ selectedTasks, key, value }) => {
+         console.log('selectedTasks', selectedTasks);
+         return bulkEditTasks(selectedTasks, key, value);
+      },
+      onMutate: async ({ selectedTasks, key, value }) => {
+         await queryClient.cancelQueries(['tasks']);
+
+         const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+         if (previousTasks) {
+            queryClient.setQueryData(['tasks'], (old: Task[] | undefined) =>
+               old?.map((task) =>
+                  selectedTasks.some((t) => t.id === task.id)
+                     ? { ...task, [key]: value }
+                     : task
+               )
+            );
+         }
+
+         return { previousTasks };
+      },
+      onError: (err, variables, context) => {
+         if (context?.previousTasks) {
+            queryClient.setQueryData(['tasks'], context.previousTasks);
+         }
+      },
+      onSettled: () => {
+         queryClient.invalidateQueries(['tasks']);
+      },
+   });
+};
+
+export const useDeleteTask = () => {
+   const queryClient = useQueryClient();
+
+   return useMutation<void, Error, string | string[]>({
+      mutationKey: ['deleteTask'],
+      mutationFn: async (taskIds: string | string[]) => {
+         if (typeof taskIds === 'string') {
+            await deleteTask(taskIds);
+         } else {
+            await bulkDeleteTasks(taskIds);
+         }
+      },
+      onMutate: async (taskIds: string | string[]) => {
+         await queryClient.cancelQueries(['tasks']);
+
+         const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+         if (previousTasks) {
+            queryClient.setQueryData<Task[]>(['tasks'], (old) =>
+               typeof taskIds === 'string'
+                  ? old?.filter((task) => task.id !== taskIds)
+                  : old?.filter((task) => !taskIds.includes(task.id))
+            );
+         }
+
+         return { previousTasks };
+      },
+      onError: (err, taskIds, context: any) => {
+         if (context?.previousTasks) {
+            queryClient.setQueryData(['tasks'], context.previousTasks);
+         }
+      },
+      onSettled: () => {
+         queryClient.invalidateQueries(['tasks']);
+      },
+   });
 };

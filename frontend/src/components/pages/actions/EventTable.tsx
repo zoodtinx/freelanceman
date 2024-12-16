@@ -7,7 +7,7 @@ import {
    TableHeader,
    TableRow,
 } from '@/components/shared/ui/Table';
-import { flexRender } from '@tanstack/react-table';
+import { flexRender, RowData } from '@tanstack/react-table';
 import { Table as TableType } from '@tanstack/react-table';
 import { useBulkEditEvent, useDeleteEvent } from '@/lib/api/eventApi';
 import { ActionResponsePayload } from '@types';
@@ -21,7 +21,7 @@ const EventTable = <TData extends RowData>({
 }: TableProps<TData>): JSX.Element => {
    const tableRef = useRef<HTMLTableElement | null>(null);
    return (
-      <div className="relative">
+      <div className="relative overflow-y-auto">
          <Table
             className="overflow-hidden cursor-default relative"
             ref={tableRef}

@@ -1,62 +1,85 @@
-export interface Task {
-   id: string;
-   name: string;
-   status: 'inprogress' | 'completed' | 'pending'; // Assuming specific statuses
-   details: string;
-   link: string;
-   startedAt: string; // ISO 8601 date-time string
-   dueDate: string;   // ISO 8601 date-time string
-   project: string;
-   projectId: string;
-   client: string;
-   clientId: string;
- }
-
-const task: Task = {
-   id: 'task-001',
-   name: 'Create Project Proposal',
-   status: 'inprogress',
-   details:
-      'Draft a comprehensive proposal for the new project, including objectives, scope, timeline, and deliverables.',
-   link: 'https://example.com/project-proposal',
-   startedAt: '2024-11-20T09:00:00Z',
-   dueDate: '2024-11-27T17:00:00Z',
-   project: 'Project Management Tool Development',
-   projectId: '1234',
-   client: 'Acme Corp',
-   clientId: '5647',
-};
+import { mockTasks } from "@mocks";
+import type { ActionResponsePayload, NewActionPayload } from "@types";
 
 export const getTask = (id: string) => {
+   const task = mockTasks.find(task => task.id === id);
+
    return new Promise((resolve) => {
       setTimeout(() => resolve(task), 500);
    });
 };
 
-type QueryType = 'task' | 'event'
-
-export const getAction = (id: string, type:QueryType) => {
-   if (type === 'task') {
-      return new Promise((resolve) => {
-         setTimeout(() => resolve(task), 500);
-      });
-   } else if (type === 'event') {
-      return new Promise((resolve) => {
-         setTimeout(() => resolve(task), 500);
-      });
-   }
-}
-
-export const editTask = <K extends keyof typeof task>(
-   key: K,
-   value: (typeof task)[K]
-) => {
-   task[key] = value
-   return Promise.resolve(task)
+export const getAllTasks = () => {
+   return new Promise((resolve) => {
+      setTimeout(() => resolve(mockTasks), 500);
+   });
 };
 
-export const getAllTask = () => {
-   return new Promise((resolve) => {
-      setTimeout(() => resolve(mockAllTask), 500);
+export const editTask = (id: string, taskPayload: NewActionPayload) => {
+   console.log('id', id);
+   console.log('taskPayload', taskPayload);
+
+   const task = mockTasks.find((t) => t.id === id);
+
+   if (!task) {
+      return Promise.reject(new Error(`Task with id ${taskPayload.id} not found`));
+   }
+
+   Object.keys(taskPayload).forEach((key) => {
+      if (key !== "id" && key in task) {
+         task[key as keyof NewActionPayload] = taskPayload[key as keyof NewActionPayload];
+      }
    });
-}
+
+   return Promise.resolve(task);
+};
+
+export const createTask = (newTask: NewActionPayload) => {
+   const createdTask = {
+      ...newTask,
+      createdAt: new Date().toISOString(),
+      project: 'placeholder',
+      client: 'placeholder',
+      clientId: 'placeholder',
+      id: crypto.randomUUID(),
+   };
+
+   mockTasks.push(createdTask);
+
+   return Promise.resolve(mockTasks);
+};
+
+export const bulkEditTasks = (
+   selectedTasks: NewActionPayload[],
+   key: keyof NewActionPayload,
+   value: NewActionPayload[keyof NewActionPayload]
+) => {
+   console.log('selectedTasks', selectedTasks);
+
+   mockTasks.forEach((task) => {
+      if (selectedTasks.some((selectedTask) => selectedTask.id === task.id)) {
+         task[key] = value;
+      }
+   });
+
+   return mockTasks;
+};
+
+export const deleteTask = (taskId: string) => {
+   const index = mockTasks.findIndex((task) => task.id === taskId);
+   if (index !== -1) {
+      mockTasks.splice(index, 1);
+   }
+   return Promise.resolve(taskId);
+};
+
+export const bulkDeleteTasks = (taskIds: string[]) => {
+   taskIds.forEach(taskId => {
+      const index = mockTasks.findIndex(task => task.id === taskId);
+      if (index !== -1) {
+         mockTasks.splice(index, 1);
+      }
+   });
+
+   return Promise.resolve(taskIds);
+};

@@ -1,11 +1,19 @@
-export const formDefaultValue = {
-   name: '',
-         details: '',
-         status: 'scheduled',
-         dueDate: '',
-         project: '',
-         projectId: '',
-         client: '',
-         clientId: '',
-         link: '',
-}
+export const formDefaultValue = (actionType: string) => {
+   let defaultStatus;
+   if (actionType === 'event') {
+      defaultStatus = 'scheduled';
+   } else if (actionType === 'task') {
+      defaultStatus = 'planned';
+   }
+   return {
+      name: '',
+      details: '',
+      status: defaultStatus,
+      dueDate: '',
+      project: '',
+      projectId: '',
+      client: '',
+      clientId: '',
+      link: '',
+   };
+};

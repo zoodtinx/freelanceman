@@ -23,8 +23,6 @@ import { InputProps } from './form/props.type';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
-import { Pencil } from "lucide-react";
-
 
 const EventDialog: React.FC<DialogProps> = () => {
    const { dialogState, setDialogState } = useActionsViewContext();
@@ -37,7 +35,7 @@ const EventDialog: React.FC<DialogProps> = () => {
    const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
    
    const formMethods = useForm<ActionFormData>({
-      defaultValues: formDefaultValue,
+      defaultValues: formDefaultValue(dialogState.actionType),
    });
    
    const { handleSubmit, reset } = formMethods;
@@ -46,9 +44,9 @@ const EventDialog: React.FC<DialogProps> = () => {
       if (dialogState.mode === 'view') {
          reset(dialogState.data);
       } else if (dialogState.mode === 'create') {
-         reset(formDefaultValue);
+         reset(formDefaultValue(dialogState.actionType));
       }
-   }, [dialogState.mode, dialogState.data, reset]);
+   }, [dialogState, reset]);
 
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
@@ -125,7 +123,7 @@ const EventDialog: React.FC<DialogProps> = () => {
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Status</p>
-                        <StatusSelect formMethods={formMethods} />
+                        <StatusSelect formMethods={formMethods} dialogState={dialogState} />
                      </div>
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Due Date</p>
