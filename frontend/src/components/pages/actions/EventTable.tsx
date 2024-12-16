@@ -8,7 +8,9 @@ import {
    TableRow,
 } from '@/components/shared/ui/Table';
 import { flexRender } from '@tanstack/react-table';
-import type { Table as TableType, RowData, Row } from '@tanstack/react-table'; // Import RowData for better type constraints
+import { Table as TableType } from '@tanstack/react-table';
+import { useBulkEditEvent, useDeleteEvent } from '@/lib/api/eventApi';
+import { ActionResponsePayload } from '@types';
 
 interface TableProps<TData> {
    table: TableType<TData>;
@@ -17,10 +19,13 @@ interface TableProps<TData> {
 const EventTable = <TData extends RowData>({
    table,
 }: TableProps<TData>): JSX.Element => {
-   const tableRef = useRef<HTMLTableElement | null>(null)
+   const tableRef = useRef<HTMLTableElement | null>(null);
    return (
-      <div className='relative'>
-         <Table className="overflow-hidden cursor-default relative" ref={tableRef}>
+      <div className="relative">
+         <Table
+            className="overflow-hidden cursor-default relative"
+            ref={tableRef}
+         >
             <TableHeader>
                {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
@@ -75,7 +80,6 @@ const EventTable = <TData extends RowData>({
 
 export default EventTable;
 
-
 interface TaskBarProps<TData> {
    table: TableType<TData>;
 }
@@ -83,9 +87,15 @@ interface TaskBarProps<TData> {
 const TaskBar = ({
    table,
    tableRef,
-}: TaskBarProps<Event> & { tableRef: React.RefObject<HTMLTableElement> }): JSX.Element | null => {
+}: TaskBarProps<ActionResponsePayload> & {
+   tableRef: React.RefObject<HTMLTableElement>;
+}): JSX.Element | null => {
    const taskBarRef = useRef<HTMLDivElement | null>(null);
    const selectedRow = table.getSelectedRowModel().rows;
+   const { mutate: bulkEditEvent, isPending: editingEvents } =
+      useBulkEditEvent();
+   const { mutate: bulkDeleteEvent, isPending: deletingEvents } =
+      useDeleteEvent();
 
    useEffect(() => {
       const handleDeselect = () => {
@@ -104,17 +114,17 @@ const TaskBar = ({
       };
 
       const handleEscapeKey = (event: KeyboardEvent) => {
-         if (event.key === "Escape") {
+         if (event.key === 'Escape') {
             handleDeselect();
          }
       };
 
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleEscapeKey);
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
 
       return () => {
-         document.removeEventListener("mousedown", handleClickOutside);
-         document.removeEventListener("keydown", handleEscapeKey);
+         document.removeEventListener('mousedown', handleClickOutside);
+         document.removeEventListener('keydown', handleEscapeKey);
       };
    }, [table, tableRef]);
 
@@ -124,30 +134,58 @@ const TaskBar = ({
 
    const selectedCount = selectedRow.length;
 
+   const handleDelete = () => {
+      const selectedRowIds = table
+         .getSelectedRowModel()
+         .rows.map((row) => row.original.id);
+      bulkDeleteEvent(selectedRowIds);
+      table.resetRowSelection();
+   };
+
+   const handleMarkComplete = () => {
+      const selectedRow = table
+         .getSelectedRowModel()
+         .rows.map((row) => row.original);
+      bulkEditEvent({
+         selectedEvents: selectedRow,
+         key: 'status',
+         value: 'completed',
+      });
+      table.resetRowSelection();
+   }
+
    return (
       <div
          className="border rounded-full w-fit h-7 absolute top-0 left-6 bg-foreground shadow-md flex items-center cursor-default overflow-hidden select-none"
          ref={taskBarRef}
       >
-         <TaskBarItem className="text-blue-500">{selectedCount} selected</TaskBarItem>
+         <TaskBarItem
+            onClick={table.resetRowSelection}
+            className="text-blue-500"
+         >
+            {selectedCount} selected
+         </TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
-         <TaskBarItem>Mark as completed</TaskBarItem>
+         <TaskBarItem onClick={handleMarkComplete}>Mark as completed</TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
-         <TaskBarItem>Cancel event</TaskBarItem>
-         <div className="border-[0.5px] h-full"></div>
-         <TaskBarItem className="text-red-500">Delete</TaskBarItem>
+         <TaskBarItem onClick={handleDelete} className="text-red-500">
+            Delete
+         </TaskBarItem>
       </div>
    );
 };
-
 
 TaskBar.displayName = 'TaskBar';
 
 const TaskBarItem: React.FC<{
    className?: string;
    children: React.ReactNode;
-}> = ({ className = '', children }) => (
-   <div className={`flex p-2 h-full items-center active:bg-tertiary transition-colors duration-75 ${className}`}>
+   onClick: () => void;
+}> = ({ className = '', children, onClick }) => (
+   <div
+      onClick={onClick}
+      className={`flex p-2 h-full items-center hover:bg-tertiary transition-colors duration-75 ${className}`}
+   >
       <p>{children}</p>
    </div>
 );

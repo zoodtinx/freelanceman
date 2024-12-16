@@ -1,5 +1,5 @@
 import { mockEvents } from "@mocks";
-import type {  NewActionPayload } from "@types";
+import type {  ActionResponsePayload, NewActionPayload } from "@types";
 
 export const getEvent = (id: string) => {
    
@@ -51,10 +51,37 @@ export const createEvent = (newEvent: NewActionPayload) => {
    return Promise.resolve(mockEvents)
 }
 
+export const bulkEditEvents = (
+   selectedEvents: NewActionPayload[],
+   key: keyof NewActionPayload,
+   value: NewActionPayload[keyof NewActionPayload]
+ ) => {
+   console.log('selectedEvents', selectedEvents);
+   
+   mockEvents.forEach((event) => {
+     if (selectedEvents.some((selectedEvent) => selectedEvent.id === event.id)) {
+       event[key] = value; 
+     }
+   });
+
+   return mockEvents
+ };
+ 
 export const deleteEvent = (eventId: string) => {
    const index = mockEvents.findIndex((event) => event.id === eventId); // Find the index of the event
    if (index !== -1) {
       mockEvents.splice(index, 1); // Remove the event at the found index
    }
    return Promise.resolve(eventId);
+};
+
+export const bulkDeleteEvents = (eventIds: string[]) => {
+   eventIds.forEach(eventId => {
+      const index = mockEvents.findIndex(event => event.id === eventId);
+      if (index !== -1) {
+         mockEvents.splice(index, 1);
+      }
+   });
+
+   return Promise.resolve(eventIds);
 };

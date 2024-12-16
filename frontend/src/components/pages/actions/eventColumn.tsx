@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel } from '@tanstack/react-table'
 import type { Event } from '@types';
 import { EllipsisVertical } from 'lucide-react';
 import {

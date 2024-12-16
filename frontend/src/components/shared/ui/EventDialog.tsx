@@ -23,28 +23,29 @@ import { InputProps } from './form/props.type';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
+import { Pencil } from "lucide-react";
+
 
 const EventDialog: React.FC<DialogProps> = () => {
    const { dialogState, setDialogState } = useActionsViewContext();
-
+   
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
       dialogState.id
    );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
-
-   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent()
-
+   
+   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
+   
    const formMethods = useForm<ActionFormData>({
       defaultValues: formDefaultValue,
    });
-
+   
    const { handleSubmit, reset } = formMethods;
 
    useEffect(() => {
       if (dialogState.mode === 'view') {
          reset(dialogState.data);
       } else if (dialogState.mode === 'create') {
-         console.log('triggered');
          reset(formDefaultValue);
       }
    }, [dialogState.mode, dialogState.data, reset]);
@@ -59,7 +60,7 @@ const EventDialog: React.FC<DialogProps> = () => {
          isOpen: false,
       });
    };
-   
+
    const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
       const eventPayload: NewActionPayload = {
          name: data.name,
@@ -67,24 +68,36 @@ const EventDialog: React.FC<DialogProps> = () => {
          details: data.details,
          dueDate: data.dueDate,
          link: data.link,
-         status: data.status
-      }
+         status: data.status,
+      };
 
       if (dialogState.mode === 'create') {
          createEvent(eventPayload);
-         handleDialogClose()
+         handleDialogClose();
       } else {
          editEvent(eventPayload);
          if (!editingEvent) {
-            handleDialogClose()
+            handleDialogClose();
          }
       }
    };
 
    const handleDelete = () => {
-      deleteEvent(dialogState.id)
-      handleDialogClose()
-   }
+      deleteEvent(dialogState.id);
+      handleDialogClose();
+   };
+
+   const buttonText = () => {
+      if (dialogState.mode === 'create') {
+         if (dialogState.actionType === 'event') {
+            return 'Create event';
+         } else if (dialogState.actionType === 'task') {
+            return 'Create task';
+         }
+      } else if (dialogState.mode === 'view') {
+         return 'Save';
+      }
+   };
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -110,26 +123,32 @@ const EventDialog: React.FC<DialogProps> = () => {
                </DialogHeader>
                <div className="px-5 py-3 flex flex-col gap-3">
                   <div className="flex leading-tight">
-                     <div className="w-1/2 flex flex-col box-border gap-1">
+                     <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Status</p>
                         <StatusSelect formMethods={formMethods} />
                      </div>
-                     <div className="w-1/2">
+                     <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Due Date</p>
-                        <DateTimePicker formMethods={formMethods} dialogState={dialogState} />
+                        <DateTimePicker
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
                      </div>
                   </div>
                   <div className="flex leading-tight">
-                     <div className="w-1/2 font-semibold">
+                     <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Project</p>
-                        <ProjectSelect formMethods={formMethods} dialogState={dialogState} />
+                        <ProjectSelect
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        <ClientField formMethods={formMethods} />
+                        <ClientField formMethods={formMethods} dialogState={dialogState} />
                      </div>
                   </div>
-                  <div className="w-full">
+                  <div className="w-full font-semibold relative">
                      <p className="text-secondary">Details</p>
                      <Textarea
                         className="resize-none border-secondary placeholder:text-secondary"
@@ -137,7 +156,7 @@ const EventDialog: React.FC<DialogProps> = () => {
                         {...formMethods.register('details')}
                      />
                   </div>
-                  <div>
+                  <div className="w-full font-semibold relative">
                      <p className="text-secondary">Link</p>
                      <LinkInput formMethods={formMethods} />
                   </div>
@@ -167,7 +186,7 @@ const EventDialog: React.FC<DialogProps> = () => {
                         </Button>
                      </div>
                      <Button variant={'default'} type="submit">
-                        {dialogState.mode === 'create' ? 'Create Task' : 'Save'}
+                        {buttonText()}
                      </Button>
                   </div>
                </DialogFooter>
@@ -177,22 +196,24 @@ const EventDialog: React.FC<DialogProps> = () => {
    );
 };
 
-const ClientField = ({ formMethods }: InputProps<ActionFormData>) => {
+const ClientField = ({
+   formMethods,
+   dialogState,
+}: InputProps<ActionFormData>) => {
    const { watch } = formMethods;
 
    const clientName = watch('client');
    const clientId = watch('clientId');
 
    if (clientName && clientId) {
-      return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+      if (dialogState?.mode === 'view') {
+         return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+      } else if (dialogState?.mode === 'create') {
+         return <p className="cursor-default select-none">{clientName}</p>;
+      }
    }
-
    return 'Select a project';
 };
 
 export default EventDialog;
-
-const handleEditEvent = (data: NewActionPayload) => {
-
-}
 

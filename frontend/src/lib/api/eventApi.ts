@@ -5,8 +5,10 @@ import {
    getAllEvent,
    createEvent,
    deleteEvent,
+   bulkEditEvents,
+   bulkDeleteEvents
 } from './mock/mockEventService';
-import type { Event, NewActionPayload } from '@types';
+import type { ActionResponsePayload, NewActionPayload } from '@types';
 
 export const useAllEventQuery = () => {
    return useQuery({
@@ -96,27 +98,78 @@ export const useEditEvent = (eventId: string) => {
    });
 };
 
+export const useBulkEditEvent = () => {
+   const queryClient = useQueryClient();
+
+   return useMutation<
+      ActionResponsePayload[],
+      Error,
+      {
+         selectedEvents: NewActionPayload[];
+         key: keyof NewActionPayload;
+         value: NewActionPayload[keyof NewActionPayload];
+      }
+   >({
+      mutationKey: ['bulkEditEvent'], 
+      mutationFn: async ({ selectedEvents, key, value }) => {
+         console.log('selectedEvents', selectedEvents);
+         return bulkEditEvents(selectedEvents, key, value);
+      },
+      onMutate: async ({ selectedEvents, key, value }) => {
+         await queryClient.cancelQueries(['events']); 
+
+         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
+
+         if (previousEvents) {
+            queryClient.setQueryData(['events'], (old: Event[] | undefined) =>
+               old?.map((event) =>
+                  selectedEvents.some((e) => e.id === event.id)
+                     ? { ...event, [key]: value }
+                     : event
+               )
+            );
+         }
+
+         return { previousEvents }; 
+      },
+      onError: (err, variables, context) => {
+         if (context?.previousEvents) {
+            queryClient.setQueryData(['events'], context.previousEvents);
+         }
+      },
+      onSettled: () => {
+         queryClient.invalidateQueries(['events']);
+      },
+   });
+};
+
 export const useDeleteEvent = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<void, Error, string>({
-      mutationFn: async (eventId: string) => {
-         await deleteEvent(eventId);
+   return useMutation<void, Error, string | string[]>({
+      mutationFn: async (eventIds: string | string[]) => {
+         if (typeof eventIds === 'string') {
+            await deleteEvent(eventIds);
+         } else {
+            await bulkDeleteEvents(eventIds);
+         }
       },
-      onMutate: async (eventId: string) => {
+      onMutate: async (eventIds: string | string[]) => {
          await queryClient.cancelQueries(['events']);
 
          const previousEvents = queryClient.getQueryData<Event[]>(['events']);
 
          if (previousEvents) {
             queryClient.setQueryData<Event[]>(['events'], (old) =>
-               old?.filter((event) => event.id !== eventId)
+               typeof eventIds === 'string'
+                  ? old?.filter((event) => event.id !== eventIds)
+                  : old?.filter((event) => !eventIds.includes(event.id))
             );
          }
 
          return { previousEvents };
       },
-      onError: (err, eventId, context: any) => {
+      onError: (err, eventIds, context: any) => {
          if (context?.previousEvents) {
             queryClient.setQueryData(['events'], context.previousEvents);
          }
