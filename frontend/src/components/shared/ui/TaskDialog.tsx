@@ -120,6 +120,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                         <StatusSelect
                            formMethods={formMethods}
                            dialogState={dialogState}
+                           data={taskStatus}
                         />
                      </div>
                      <div className="w-1/2 font-semibold relative">

@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, FieldValues } from 'react-hook-form';
 import { InputProps } from './props.type';
 import {
    Select,
@@ -12,50 +12,35 @@ import { ActionFormData } from '@types';
 const StatusSelect = ({
    formMethods,
    dialogState,
+   data,
 }: InputProps<ActionFormData>): JSX.Element => {
-   if (!dialogState) {
+   if (!dialogState || dialogState.actionType !== 'task') {
       return <div></div>;
    }
 
-   const { control } = formMethods;
+   const { control, getValues } = formMethods;
+
+   const statusField = getValues('status');
 
    const getStatusColor = (status: string) => {
       const statusColors: Record<string, Record<string, string>> = {
-         event: {
-            scheduled: 'bg-yellow-100',
+         task: {
+            planned: 'bg-yellow-100',
             onGoing: 'bg-emerald-200',
             completed: 'bg-blue-100',
             cancelled: 'bg-red-200',
          },
-         task: {
-            planned: 'bg-yellow-100',
-            inProgress: 'bg-emerald-200',
-            completed: 'bg-blue-100',
-            cancelled: 'bg-red-200',
-         },
       };
 
-      return statusColors[dialogState.actionType]?.[status] || '';
+      return statusColors['task']?.[status] || '';
    };
 
-   const getStatuses = () => {
-      const statusOptions: Record<string, { value: string; text: string }[]> = {
-         task: [
-            { value: 'planned', text: 'Planned' },
-            { value: 'onGoing', text: 'Ongoing' },
-            { value: 'completed', text: 'Completed' },
-            { value: 'cancelled', text: 'Cancelled' },
-         ],
-         event: [
-            { value: 'scheduled', text: 'Scheduled' },
-            { value: 'inProgress', text: 'In Progress' },
-            { value: 'completed', text: 'Completed' },
-            { value: 'cancelled', text: 'Cancelled' },
-         ],
-      };
-
-      return statusOptions[dialogState.actionType] || [];
-   };
+   const taskStatuses = [
+      { value: 'planned', text: 'Planned' },
+      { value: 'onGoing', text: 'Ongoing' },
+      { value: 'completed', text: 'Completed' },
+      { value: 'cancelled', text: 'Cancelled' },
+   ];
 
    return (
       <Controller
@@ -82,7 +67,7 @@ const StatusSelect = ({
                      </p>
                   </DialogueSelectTrigger>
                   <SelectContent className="flex flex-col gap-1">
-                     {getStatuses().map(({ value, text }) => (
+                     {taskStatuses.map(({ value, text }) => (
                         <DialogueSelectItem key={value} value={value}>
                            {text}
                         </DialogueSelectItem>

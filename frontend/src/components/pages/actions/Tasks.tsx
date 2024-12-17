@@ -6,32 +6,30 @@ import {
    getSortedRowModel,
    getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/ToggleGroup';
-import EventTable from './EventTable';
-import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
+import EventTable from './EventTable';   
 import { useAllTasksQuery } from '@/lib/api/taskApi';
 import { CircleCheck } from 'lucide-react';
-import { taskColumn } from './taskColumn';
+import { createTaskColumn } from './taskColumn';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
+import { formDefaultValue } from '@/components/shared/ui/form/utils';
+import { DialogState } from '@/lib/context/ProjectViewContextTypes';
 
 export default function Tasks() {
-   
-   const { data: taskData, isLoading } = useAllTasksQuery();
-   // const {
-   //    dialogState,
-   //    setDialogState
-   // } = useActionsViewContext();
-
-   const [dialogState, setDialogState] = useState({
+   const [dialogState, setDialogState] = useState<DialogState>({
       isOpen: false,
       id: '',
       mode: 'view',
-      actionType: 'task'
+      actionType: 'task',
+      data: {
+         ...formDefaultValue('task')
+      }
    })
+   const { data: taskData, isLoading } = useAllTasksQuery();
 
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
@@ -42,7 +40,7 @@ export default function Tasks() {
 
    const table = useReactTable({
       data: taskData,
-      columns: taskColumn,
+      columns: createTaskColumn(setDialogState),
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
       getFilteredRowModel: getFilteredRowModel(),
