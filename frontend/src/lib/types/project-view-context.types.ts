@@ -1,4 +1,5 @@
-import { ActionFormData, ProjectPreview } from '@types';
+import { ProjectPreview } from '@types';
+import { TaskEventDialogState, ProjectSettingDialogState } from './dialog.types';
 
 interface Filter {
    projectStatus: ProjectPreview['projectStatus'] | 'all';
@@ -16,13 +17,12 @@ interface ProjectsViewContextType {
    setFilter: (type: FilterType, status: StatusMap[FilterType]) => void;
    setProjects: (projects: ProjectPreview[]) => void;
    setViewMode: (viewMode: 'grid' | 'list') => void;
-   setDialogData: (project: ProjectPreview) => void;
    viewMode: 'grid' | 'list';
    clientList: string[];
-   taskDialodState: DialogState;
-   taskDialogState: (state: DialogState) => void;
-   projectSettingDialogState: DialogState;
-   setProjectSettingDialogState: (state: DialogState) => void;
+   taskDialogState: TaskEventDialogState;
+   setTaskDialogState: (state: TaskEventDialogState) => void;
+   projectSettingDialogState: ProjectSettingDialogState;
+   setProjectSettingDialogState: (state: ProjectSettingDialogState) => void;
 }
 
 type FilterType = 'projectStatus' | 'paymentStatus' | 'client' | 'searchTerm';
@@ -34,18 +34,9 @@ type StatusMap = {
    searchTerm: string;
 };
 
-interface DialogState {
-   isOpen: boolean;
-   id: string;
-   actionType: 'task' | 'event';
-   mode: 'view' | 'create';
-   data: ActionFormData;
-}
-
 export type {
    Filter,
    ProjectsViewContextType,
    FilterType,
    StatusMap,
-   DialogState,
 };

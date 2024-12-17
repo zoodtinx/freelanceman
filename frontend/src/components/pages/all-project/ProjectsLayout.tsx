@@ -11,10 +11,10 @@ const ProjectsLayout: React.FC = () => {
       const {
          viewMode,
          setProjects,
-         isTaskDialogOpen,
-         setIsTaskDialogOpen,
-         isSettingsDialogOpen,
-         setIsSettingsDialogOpen,
+         taskDialogState,
+         setTaskDialogState,
+         projectSettingDialogState,
+         setProjectSettingDialogState
       } = useProjectsViewContext();
 
    const { data: projects, isLoading } = useAllProjectsQuery();
@@ -42,8 +42,8 @@ const ProjectsLayout: React.FC = () => {
                <ProjectList />
             </div>
          </div>
-         {/* <TaskDialog  /> */}
-         {/* <ProjectSettingsDialog /> */}
+         <TaskDialog dialogState={taskDialogState} setDialogState={setTaskDialogState}  /> 
+         <ProjectSettingsDialog dialogState={projectSettingDialogState} setDialogState={setProjectSettingDialogState} />
       </section>
    );
 };

@@ -16,40 +16,36 @@ import {
 import { Button } from '@/components/shared/ui/button';
 import { Settings } from 'lucide-react';
 import React, { useEffect } from 'react';
-import { DialogueState } from 'src/lib/types/project-view-context.types';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { useEditProject, useProjectQuery } from '@/lib/api/projectApi';
+import { ProjectSettingDialogState, DialogProps } from '@/lib/types/dialog.types';
 
-
-interface TaskDialogueProps {
-   dialogueState: DialogueState;
-   setDialogueState: (newState: DialogueState) => void;
-}
-const ProjectSettingsDialog: React.FC<TaskDialogueProps & React.HTMLAttributes<HTMLDivElement>>  = ({ dialogueState, setDialogueState }) => {
-
-   const { data: project, isLoading, error } = useProjectQuery(dialogueState.id);
-   const {mutate: editProject} = useEditProject(dialogueState.id)
+const ProjectSettingsDialog: React.FC<
+DialogProps<ProjectSettingDialogState>
+> = ({ dialogState, setDialogState }) => {
+   const {
+      data: project,
+      isLoading,
+   } = useProjectQuery(dialogState.id);
+   const { mutate: editProject } = useEditProject(dialogState.id);
 
    if (isLoading) {
       return null;
    }
 
    if (!project) {
-      return 'something went wrong'
+      return 'something went wrong';
    }
 
    const handleDialogueClose = () => {
-      setDialogueState({
+      setDialogState({
          isOpen: false,
          id: '',
       });
    };
 
    return (
-      <Dialog
-      open={dialogueState.isOpen}   
-      onOpenChange={handleDialogueClose}
-      >
+      <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile
@@ -65,16 +61,25 @@ const ProjectSettingsDialog: React.FC<TaskDialogueProps & React.HTMLAttributes<H
             <div className="p-4 flex flex-col gap-2">
                <div className="flex justify-between items-start text-md gap-3 min-h-7 max-h-[700px]">
                   <p className="shrink-0 t">Project Name</p>
-                  <ProjectNameInput value={project.name} setValue={editProject} />
+                  <ProjectNameInput
+                     value={project.name}
+                     setValue={editProject}
+                  />
                </div>
-               <div className='flex w-full gap-3'>
+               <div className="flex w-full gap-3">
                   <div className="flex justify-between items-center h-7 w-1/2 shrink-0">
                      <p className="text-md">Project Status</p>
-                     <ProjectStatusSelect value={project.projectStatus} setValue={editProject}  />
+                     <ProjectStatusSelect
+                        value={project.projectStatus}
+                        setValue={editProject}
+                     />
                   </div>
                   <div className="flex justify-between items-center h-7 w-1/2 shrink-0">
                      <p className="text-md">Payment Status</p>
-                     <PaymentStatusSelect value={project.paymentStatus} setValue={editProject}  />
+                     <PaymentStatusSelect
+                        value={project.paymentStatus}
+                        setValue={editProject}
+                     />
                   </div>
                </div>
                {/* <div className="flex justify-between items-center h-7">
@@ -93,17 +98,16 @@ const ProjectSettingsDialog: React.FC<TaskDialogueProps & React.HTMLAttributes<H
          </DialogContent>
       </Dialog>
    );
-}
+};
 
 interface InputProps {
    value: string; // The current state of the input value
    setValue: UseMutateFunction<void, Error, { key: string; newValue: string }>; // Mutation function
 }
 
-const ProjectNameInput: React.FC<InputProps> = ({value, setValue}) => {
+const ProjectNameInput: React.FC<InputProps> = ({ value, setValue }) => {
    const editableRef = React.useRef<HTMLDivElement>(null);
 
-   
    const handleNameChange = () => {
       if (editableRef.current) {
          const newValue = editableRef.current.innerText;
@@ -115,19 +119,18 @@ const ProjectNameInput: React.FC<InputProps> = ({value, setValue}) => {
       if (editableRef.current && editableRef.current.innerText !== value) {
          editableRef.current.innerText = value;
       }
-   }, [value])
+   }, [value]);
 
-  
    return (
-   <div
-   id="editableDiv"
-   className="peer w-full rounded-md focus:outline-none order-2 break-words whitespace-pre-wrap pr-7"
-   contentEditable="true"
-   role="textbox"
-   onBlur={handleNameChange}
-   ref={editableRef}
-/>
-  );
+      <div
+         id="editableDiv"
+         className="peer w-full rounded-md focus:outline-none order-2 break-words whitespace-pre-wrap pr-7"
+         contentEditable="true"
+         role="textbox"
+         onBlur={handleNameChange}
+         ref={editableRef}
+      />
+   );
 };
 
 const PaymentStatusSelect = React.forwardRef<HTMLSelectElement, InputProps>(
@@ -169,13 +172,13 @@ const PaymentStatusSelect = React.forwardRef<HTMLSelectElement, InputProps>(
                </p>
             </DialogueSelectTrigger>
             <SelectContent className="flex flex-col gap-1">
-               <DialogueSelectItem value="not processed">Not Processed</DialogueSelectItem>
+               <DialogueSelectItem value="not processed">
+                  Not Processed
+               </DialogueSelectItem>
                <DialogueSelectItem value="processing">
                   Processing
                </DialogueSelectItem>
-               <DialogueSelectItem value="paid">
-                  Paid
-               </DialogueSelectItem>
+               <DialogueSelectItem value="paid">Paid</DialogueSelectItem>
                <DialogueSelectItem value="cancelled">
                   Cancelled
                </DialogueSelectItem>
@@ -222,12 +225,8 @@ const ProjectStatusSelect = React.forwardRef<HTMLSelectElement, InputProps>(
             </DialogueSelectTrigger>
             <SelectContent className="flex flex-col gap-1">
                <DialogueSelectItem value="planned">Planned</DialogueSelectItem>
-               <DialogueSelectItem value="onhold">
-                  On hold
-               </DialogueSelectItem>
-               <DialogueSelectItem value="active">
-                  Active
-               </DialogueSelectItem>
+               <DialogueSelectItem value="onhold">On hold</DialogueSelectItem>
+               <DialogueSelectItem value="active">Active</DialogueSelectItem>
                <DialogueSelectItem value="completed">
                   Completed
                </DialogueSelectItem>
@@ -237,6 +236,4 @@ const ProjectStatusSelect = React.forwardRef<HTMLSelectElement, InputProps>(
    }
 );
 
-
-
-export default ProjectSettingsDialog
+export default ProjectSettingsDialog;

@@ -1,21 +1,14 @@
-import type { Project, ProjectStatus, PaymentStatus } from '@types';
 import { useTranslation } from 'react-i18next';
 import { Client } from '@/components/shared/icons';
 import { Dots, Task, Cross } from '@/components/shared/icons';
 import React, { useState, useRef } from 'react';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
-import ProjectSettingsDialog from './ProjectSettingsDialog';
 import { useNavigate } from 'react-router-dom';
 import type { ProjectPreview } from '@types';
-import TaskDialog from '@/components/shared/ui/TaskDialog';
 
 const ProjectGrid = () => {
    const {
       projects,
-      isTaskDialogOpen,
-      setIsTaskDialogOpen,
-      isSettingsDialogOpen,
-      setIsSettingsDialogOpen,
    } = useProjectsViewContext();
 
    const projectCards =
@@ -28,20 +21,12 @@ const ProjectGrid = () => {
    return (
       <div className="grid grid-cols-4 md:grid-cols-4 gap-3 w-full">
          {projectCards}
-         {/* <ProjectSettingsDialog
-            dialogueState={isSettingsDialogOpen}
-            setDialogueState={setIsSettingsDialogOpen}
-         />
-         <TaskDialog
-            dialogueState={isTaskDialogOpen}
-            setDialogueState={setIsTaskDialogOpen}
-         /> */}
       </div>
    );
 };
 
 const ProjectCard: React.FC<{ project: ProjectPreview }> = ({ project }) => {
-   const { setIsSettingsDialogOpen, setIsTaskDialogOpen } =
+   const { taskDialogState, setTaskDialogState, projectSettingDialogState, setProjectSettingDialogState } =
       useProjectsViewContext();
    const { t } = useTranslation();
 
@@ -49,7 +34,7 @@ const ProjectCard: React.FC<{ project: ProjectPreview }> = ({ project }) => {
 
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
-      setIsSettingsDialogOpen({
+      setProjectSettingDialogState({
          isOpen: true,
          id: project.id,
       });
@@ -57,7 +42,7 @@ const ProjectCard: React.FC<{ project: ProjectPreview }> = ({ project }) => {
 
    const openTaskDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
-      setIsTaskDialogOpen({
+      setTaskDialogState({
          id: project.id,
          isOpen: true,
       });

@@ -7,6 +7,7 @@ import type {
    StatusMap,
 } from '../types/project-view-context.types';
 import { TaskEventDialogState } from '../types/dialog.types';
+import { formDefaultValue } from '@/components/shared/ui/form/utils';
 
 const useProjectsView = () => {
    const [projects, setProjects] = useState<Project[]>([]);
@@ -23,18 +24,20 @@ const useProjectsView = () => {
       client: 'all',
    });
 
-   
-   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState<TaskEventDialogState>({
+   const [taskDialogState, setTaskDialogState] = useState<TaskEventDialogState>({
       isOpen: false,
       id: '',
       actionType: 'task',
       mode: 'view',
-      data: '',
+      data: {
+         ...formDefaultValue('task'),
+         id: '',
+      },
    });
 
-   const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState({
+   const [projectSettingDialogState, setProjectSettingDialogState] = useState({
       isOpen: false,
-      id: ''
+      id: '',
    });
 
    const setFilter = (type: FilterType, status: StatusMap[FilterType]) => {
@@ -42,10 +45,6 @@ const useProjectsView = () => {
          ...prev,
          [type]: status,
       }));
-   };
-
-   const logger = (projects: Project[]) => {
-      setProjects(projects);
    };
 
    useEffect(() => {
@@ -58,13 +57,12 @@ const useProjectsView = () => {
             sortOrder,
             searchTerm,
          } = filter;
+
          const filtered = projects.filter((project) => {
             const isProjectStatusMatch =
-               projectStatus === 'all' ||
-               project.projectStatus === projectStatus;
+               projectStatus === 'all' || project.projectStatus === projectStatus;
             const isPaymentStatusMatch =
-               paymentStatus === 'all' ||
-               project.paymentStatus === paymentStatus;
+               paymentStatus === 'all' || project.paymentStatus === paymentStatus;
             const isClientMatch =
                client === 'all' ||
                project.client.toLowerCase().includes(client.toLowerCase());
@@ -99,8 +97,10 @@ const useProjectsView = () => {
             }
             return 0;
          });
+
          setFilteredProject(filtered);
       };
+
       filterProject(currentFilter);
    }, [currentFilter, projects]);
 
@@ -111,16 +111,16 @@ const useProjectsView = () => {
 
    return {
       projects: filteredProject,
-      setProjects: logger,
+      setProjects,
       viewMode,
-      currentFilter,
       setViewMode,
+      currentFilter,
       setFilter,
       clientList,
-      isTaskDialogOpen,
-      setIsTaskDialogOpen,
-      isSettingsDialogOpen,
-      setIsSettingsDialogOpen,
+      taskDialogState,
+      setTaskDialogState,
+      projectSettingDialogState,
+      setProjectSettingDialogState,
    };
 };
 
@@ -128,33 +128,33 @@ const ProjectsViewContext = createContext<ProjectsViewContextType>();
 
 export const ProjectsViewProvider = ({ children }) => {
    const {
-      currentFilter,
       projects,
-      setFilter,
       setProjects,
-      setViewMode,
       viewMode,
+      setViewMode,
+      currentFilter,
+      setFilter,
       clientList,
-      isTaskDialogOpen,
-      setIsTaskDialogOpen,
-      isSettingsDialogOpen,
-      setIsSettingsDialogOpen,
+      taskDialogState,
+      setTaskDialogState,
+      projectSettingDialogState,
+      setProjectSettingDialogState,
    } = useProjectsView();
 
    return (
       <ProjectsViewContext.Provider
          value={{
-            currentFilter,
             projects,
-            setFilter,
             setProjects,
-            setViewMode,
             viewMode,
+            setViewMode,
+            currentFilter,
+            setFilter,
             clientList,
-            isTaskDialogOpen,
-            setIsTaskDialogOpen,
-            isSettingsDialogOpen,
-            setIsSettingsDialogOpen,
+            taskDialogState,
+            setTaskDialogState,
+            projectSettingDialogState,
+            setProjectSettingDialogState,
          }}
       >
          {children}

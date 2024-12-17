@@ -8,6 +8,11 @@ export interface TaskEventDialogState {
    data: TaskFormData | EventFormData;
 }
 
+export interface ProjectSettingDialogState {
+   isOpen: boolean;
+   id: string
+}
+
 export interface DialogProps<T> {
    dialogState: T;
    setDialogState: (
