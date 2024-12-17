@@ -8,7 +8,7 @@ import {
 } from './Dialog';
 import { Button } from './button';
 import { Textarea } from './textarea';
-import { DialogueState } from 'src/lib/context/ProjectViewContextTypes';
+import { DialogueState } from 'src/lib/types/project-view-context.types';
 import {
    useForm,
    SubmitHandler,

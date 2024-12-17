@@ -26,23 +26,21 @@ const ProjectGrid = () => {
          : 'no content';
 
    return (
-      <div className="grid grid-cols-4 md:grid-cols-4 gap-5 w-full">
+      <div className="grid grid-cols-4 md:grid-cols-4 gap-3 w-full">
          {projectCards}
-         <ProjectSettingsDialog
+         {/* <ProjectSettingsDialog
             dialogueState={isSettingsDialogOpen}
             setDialogueState={setIsSettingsDialogOpen}
          />
          <TaskDialog
             dialogueState={isTaskDialogOpen}
             setDialogueState={setIsTaskDialogOpen}
-         />
+         /> */}
       </div>
    );
 };
 
-const ProjectCard: React.FC<{ project: ProjectPreview }> = ({
-   project,
-}) => {
+const ProjectCard: React.FC<{ project: ProjectPreview }> = ({ project }) => {
    const { setIsSettingsDialogOpen, setIsTaskDialogOpen } =
       useProjectsViewContext();
    const { t } = useTranslation();
@@ -50,7 +48,7 @@ const ProjectCard: React.FC<{ project: ProjectPreview }> = ({
    const navigate = useNavigate();
 
    const openSettingDialog = (e: React.MouseEvent) => {
-      e.stopPropagation()
+      e.stopPropagation();
       setIsSettingsDialogOpen({
          isOpen: true,
          id: project.id,
@@ -58,7 +56,7 @@ const ProjectCard: React.FC<{ project: ProjectPreview }> = ({
    };
 
    const openTaskDialog = (e: React.MouseEvent) => {
-      e.stopPropagation()
+      e.stopPropagation();
       setIsTaskDialogOpen({
          id: project.id,
          isOpen: true,

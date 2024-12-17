@@ -1,4 +1,4 @@
-import { DialogState } from "@/lib/context/ProjectViewContextTypes";
+import { DialogState } from "src/lib/types/project-view-context.types";
 
 export interface DialogProps {
    dialogState: DialogState;

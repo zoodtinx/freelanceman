@@ -17,7 +17,7 @@ import { CircleCheck } from 'lucide-react';
 import { createTaskColumn } from './taskColumn';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
 import { formDefaultValue } from '@/components/shared/ui/form/utils';
-import { DialogState } from '@/lib/context/ProjectViewContextTypes';
+import { DialogState } from 'src/lib/types/project-view-context.types';
 
 export default function Tasks() {
    const [dialogState, setDialogState] = useState<DialogState>({

@@ -1,5 +1,5 @@
 import { useContext, createContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
-import type { DialogState } from './ProjectViewContextTypes';
+import type { DialogState } from '../types/project-view-context.types';
 import { ActionFormData, EventStatus, NewEventPayload } from '@types';
 
 interface ActionsViewContextType {

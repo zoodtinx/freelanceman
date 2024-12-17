@@ -1,6 +1,6 @@
 import DatePicker from './DatePicker';
 import TimePicker from './TimePicker';
-import { InputProps } from './props.type';
+import { InputProps } from '../../../../lib/types/form-input-props.types';
 import { ActionFormData } from '@types';
 
 const DateTimePicker = ({

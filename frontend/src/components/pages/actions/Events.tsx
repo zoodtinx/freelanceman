@@ -16,7 +16,7 @@ import EventTable from './EventTable';
 import { useAllEventQuery } from '@/lib/api/eventApi';
 import EventDialog from '@/components/shared/ui/EventDialog';
 import { formDefaultValue } from '@/components/shared/ui/form/utils';
-import { DialogState } from '@/lib/context/ProjectViewContextTypes';
+import { DialogState } from 'src/lib/types/project-view-context.types';
 
 export default function Events() {
    const [dialogState, setDialogState] = useState<DialogState>({

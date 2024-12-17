@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import { Controller } from 'react-hook-form';
-import { InputProps } from './props.type';
+import { InputProps } from '../../../../lib/types/form-input-props.types';
 import { ActionFormData } from '@types';
 import { format, parseISO, setHours, setMinutes, parse, setSeconds } from 'date-fns';
 

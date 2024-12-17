@@ -18,7 +18,7 @@ import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput'
 import { NewActionPayload } from '@types';
 import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';
-import { InputProps } from './form/props.type';
+import { InputProps } from '../../../lib/types/form-input-props.types';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
 import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/taskApi';

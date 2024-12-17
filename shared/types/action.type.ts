@@ -1,6 +1,3 @@
-export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled';
-export type TaskStatus = 'planned' | 'inProgress' | 'completed' | 'cancelled';
-
 export interface NewActionPayload<TStatus = string> {
    id: string;
    name: string;

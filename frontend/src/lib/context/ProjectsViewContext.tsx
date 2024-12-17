@@ -5,7 +5,8 @@ import type {
    ProjectsViewContextType,
    FilterType,
    StatusMap,
-} from './ProjectViewContextTypes';
+} from '../types/project-view-context.types';
+import { TaskEventDialogState } from '../types/dialog.types';
 
 const useProjectsView = () => {
    const [projects, setProjects] = useState<Project[]>([]);
@@ -23,10 +24,14 @@ const useProjectsView = () => {
    });
 
    
-   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState({
+   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState<TaskEventDialogState>({
       isOpen: false,
-      id: ''
+      id: '',
+      actionType: 'task',
+      mode: 'view',
+      data: '',
    });
+
    const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState({
       isOpen: false,
       id: ''

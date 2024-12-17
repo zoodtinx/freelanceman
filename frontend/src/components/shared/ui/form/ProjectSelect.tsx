@@ -6,7 +6,7 @@ import {
    SelectValue,
 } from '@/components/shared/ui/FilterSelect';
 import { useActiveProjectsQuery } from '@/lib/api/projectApi';
-import { InputProps } from './props.type';
+import { InputProps } from '../../../../lib/types/form-input-props.types';
 import { Controller } from 'react-hook-form';
 import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';

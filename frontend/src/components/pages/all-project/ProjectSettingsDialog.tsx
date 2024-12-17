@@ -16,7 +16,7 @@ import {
 import { Button } from '@/components/shared/ui/button';
 import { Settings } from 'lucide-react';
 import React, { useEffect } from 'react';
-import { DialogueState } from 'src/lib/context/ProjectViewContextTypes';
+import { DialogueState } from 'src/lib/types/project-view-context.types';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { useEditProject, useProjectQuery } from '@/lib/api/projectApi';
 

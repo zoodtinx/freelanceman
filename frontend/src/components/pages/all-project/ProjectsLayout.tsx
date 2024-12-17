@@ -4,9 +4,18 @@ import ProjectFilterBar from './ProjectFilterBar';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import ProjectGrid from './ProjectGrid';
 import { useAllProjectsQuery } from '@/lib/api/projectApi';
+import TaskDialog from '@/components/shared/ui/TaskDialog';
+import ProjectSettingsDialog from './ProjectSettingsDialog';
 
 const ProjectsLayout: React.FC = () => {
-   const { viewMode, setProjects } = useProjectsViewContext();
+      const {
+         viewMode,
+         setProjects,
+         isTaskDialogOpen,
+         setIsTaskDialogOpen,
+         isSettingsDialogOpen,
+         setIsSettingsDialogOpen,
+      } = useProjectsViewContext();
 
    const { data: projects, isLoading } = useAllProjectsQuery();
 
@@ -33,6 +42,8 @@ const ProjectsLayout: React.FC = () => {
                <ProjectList />
             </div>
          </div>
+         {/* <TaskDialog  /> */}
+         {/* <ProjectSettingsDialog /> */}
       </section>
    );
 };

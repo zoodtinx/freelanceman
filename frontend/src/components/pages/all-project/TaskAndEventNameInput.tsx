@@ -1,4 +1,4 @@
-import { InputProps } from '@/components/shared/ui/form/props.type';
+import { InputProps } from 'src/lib/types/form-input-props.types';
 import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { ActionFormData } from '@types';
 import { Pencil } from 'lucide-react';
