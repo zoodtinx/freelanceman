@@ -36,7 +36,6 @@ export interface File {
 
 export interface Document {
   id: string,
-  // another data field for user input formss
 }
 
 export interface Contact {

@@ -1,30 +1,36 @@
-import { Calendar, Client, Date, Plus } from '@/components/shared/icons';
-import { eventColumns } from './eventColumn';
+import { Calendar, Plus } from '@/components/shared/icons';
+import { createEventColumn } from './eventColumn';
 import {
-   flexRender,
    getCoreRowModel,
    useReactTable,
    ColumnFiltersState,
    getSortedRowModel,
    getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/ToggleGroup';
-import { useAllEventQuery } from '@/lib/api/eventApi';
 import EventTable from './EventTable';
-import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
+import { useAllEventQuery } from '@/lib/api/eventApi';
 import EventDialog from '@/components/shared/ui/EventDialog';
+import { formDefaultValue } from '@/components/shared/ui/form/utils';
+import { DialogState } from '@/lib/context/ProjectViewContextTypes';
 
 export default function Events() {
-   
+   const [dialogState, setDialogState] = useState<DialogState>({
+      isOpen: false,
+      id: '',
+      mode: 'view',
+      actionType: 'event',
+      data: {
+         ...formDefaultValue('event'),
+      },
+   });
+
    const { data: eventsData, isLoading } = useAllEventQuery();
-   const {
-      dialogState,
-      setDialogState
-   } = useActionsViewContext();
+
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
       {
          id: 'status',
@@ -32,29 +38,9 @@ export default function Events() {
       },
    ]);
 
-   const ongoingFilter = [
-      {
-        id: 'status',
-        value: 'onGoing',
-      },
-    ];
-
-    const ongoingTable = useReactTable({
-      data: eventsData,
-      columns: eventColumns,
-      getCoreRowModel: getCoreRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      state: {
-        columnFilters: ongoingFilter, // Apply the ongoing filter
-        columnVisibility: {
-          status: false, // Hide status column in this table if not needed
-        },
-      },
-    });
-
    const table = useReactTable({
       data: eventsData,
-      columns: eventColumns,
+      columns: createEventColumn(setDialogState),
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
       getFilteredRowModel: getFilteredRowModel(),
@@ -68,27 +54,27 @@ export default function Events() {
    });
 
    if (isLoading) {
-      return <div>Loading</div>;
+      return <div>Loading...</div>;
    }
 
-   const handleNewTask = () => {
-      setDialogState((prevState) => {
-         return {
-            ...prevState,
-            actionType: 'event',
-            id: '',
-            isOpen: true,
-            mode: 'create',
-         }
-      })
+   const handleNewEvent = () => {
+      setDialogState((prevState) => ({
+         actionType: 'event',
+         id: '',
+         isOpen: true,
+         mode: 'create',
+         data: {
+            ...prevState.data,
+            status: 'scheduled',
+         },
+      }));
    };
 
    const filter = (value: string) => {
       if (value === 'all') {
-         setColumnFilters(
-            (prev) => prev.filter((filter) => filter.id !== 'status')
+         setColumnFilters((prev) =>
+            prev.filter((filter) => filter.id !== 'status')
          );
-         return;
       } else {
          setColumnFilters([
             {
@@ -98,13 +84,6 @@ export default function Events() {
          ]);
       }
    };
-
-   const OnGoingTable = () => {
-      if (columnFilters[0].value !== 'scheduled') {
-         return null
-      }
-      return <EventTable table={ongoingTable} />
-   }
 
    return (
       <>
@@ -122,7 +101,10 @@ export default function Events() {
                   >
                      Scheduled
                   </ToggleGroupItem>
-                  <ToggleGroupItem>
+                  <ToggleGroupItem
+                     value="ongoing"
+                     onClick={() => filter('ongoing')}
+                  >
                      Ongoing
                   </ToggleGroupItem>
                   <ToggleGroupItem
@@ -137,27 +119,26 @@ export default function Events() {
                   >
                      Cancelled
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="all" onClick={() => filter('all')}>
+                  <ToggleGroupItem
+                     value="all"
+                     onClick={() => filter('all')}
+                  >
                      All
                   </ToggleGroupItem>
                </ToggleGroup>
             </div>
             <div
-               onClick={handleNewTask}
-               className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center"
+               onClick={handleNewEvent}
+               className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer"
             >
                <Plus className="aspect-square h-[20px]" />
             </div>
          </div>
-         {/* <OnGoingTable /> */}
          <EventTable table={table} />
-         {/* <EventDialog
+         <EventDialog
             dialogState={dialogState}
             setDialogState={setDialogState}
-         /> */}
+         />
       </>
    );
 }
-
-
-

@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, Row } from '@tanstack/react-table';
 import type { Event } from '@types';
 import { EllipsisVertical } from 'lucide-react';
 import {
@@ -7,10 +7,9 @@ import {
    PopoverContent,
 } from '@/components/shared/ui/popover';
 import { Separator } from '@/components/shared/ui/separator';
-import { useDeleteEvent } from '@/lib/api/eventApi';
-import { useActionsViewContext } from '@/lib/context/ActionsViewContext';
 import { format, toZonedTime } from 'date-fns-tz';
-
+import { Dispatch, SetStateAction } from 'react';
+import { useDeleteEvent } from '@/lib/api/eventApi';
 
 function formatDate(isoString: string) {
    const date = new Date(isoString);
@@ -37,7 +36,11 @@ function formatTime(isoString: string) {
    return format(zonedDate, 'h:mm a', { timeZone: systemTimeZone });
 }
 
-export const eventColumns: ColumnDef<Event>[] = [
+interface EventColumnProps {
+   setDialogState: Dispatch<SetStateAction<any>>;
+}
+
+export const createEventColumn = (setDialogState: () => void): ColumnDef<Event>[] => [
    {
       id: 'select',
       size: 7,
@@ -71,14 +74,9 @@ export const eventColumns: ColumnDef<Event>[] = [
       header: 'Event',
       enableSorting: true,
       enableResizing: false,
-      cell: ({getValue, row}) => {
-         const taskId = row.original.id
-         const value = getValue()
-
-         return (
-            <CellWrapper cellValue={value as string} taskId={taskId} data={row} />
-         )
-      }
+      cell: ({ row }) => (
+         <CellWrapper rowData={row} setDialogState={setDialogState} />
+      ),
    },
    {
       id: 'time',
@@ -107,11 +105,9 @@ export const eventColumns: ColumnDef<Event>[] = [
       maxSize: 5,
       size: 5,
       enableResizing: false,
-      cell: ({ row }) => {
-         return (
-            <EditPopover data={row} />
-         );
-      },
+      cell: ({ row }) => (
+         <EditPopover rowData={row} setDialogState={setDialogState} />
+      ),
    },
    {
       id: 'status',
@@ -120,25 +116,22 @@ export const eventColumns: ColumnDef<Event>[] = [
    },
 ];
 
-export const EditPopover = ({data}):JSX.Element => {
-   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent()
-   const {setDialogState} = useActionsViewContext()
+export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
+   const { mutate: deleteEvent } = useDeleteEvent();
 
    const handleEdit = () => {
       setDialogState({
          isOpen: true,
-         id: data.original.id,
+         id: rowData.original.id,
          mode: 'view',
          actionType: 'event',
-         data : {
-            ...data.original
-         }
-      })
-   }
+         data: rowData.original,
+      });
+   };
 
    const handleDelete = () => {
-      deleteEvent(data.original.id)
-   }
+      deleteEvent(rowData.original.id);
+   };
 
    return (
       <Popover>
@@ -154,21 +147,27 @@ export const EditPopover = ({data}):JSX.Element => {
    );
 };
 
+interface CellWrapperProps {
+   rowData: Row<Event>;
+   setDialogState: Dispatch<SetStateAction<any>>;
+}
 
-export const CellWrapper = ({ taskId, cellValue, data }: { taskId:string, cellValue:string }): JSX.Element => {
-   const { setDialogState } = useActionsViewContext();
-
+export const CellWrapper = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
    const handleClick = () => {
       setDialogState({
-         id: taskId,
+         id: rowData.original.id,
          isOpen: true,
          mode: 'view',
          actionType: 'event',
-         data: data.original
-      })
-   }
+         data: rowData.original,
+      });
+   };
+
+   const eventName = rowData.original.name;
 
    return (
-      <p onClick={handleClick} className='cursor-pointer'>{cellValue}</p>
+      <p onClick={handleClick} className="cursor-pointer">
+         {eventName}
+      </p>
    );
 };

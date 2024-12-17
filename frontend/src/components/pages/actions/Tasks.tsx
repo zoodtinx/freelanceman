@@ -6,7 +6,7 @@ import {
    getSortedRowModel,
    getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import {
    ToggleGroup,
    ToggleGroupItem,
@@ -104,12 +104,12 @@ export default function Tasks() {
                   >
                      Planned
                   </ToggleGroupItem>
-                  <ToggleGroupItem>
+                  <ToggleGroupItem value='inProgress' onClick={() => filter('inProgress')}>
                      In progress
                   </ToggleGroupItem>
                   <ToggleGroupItem
-                     value="inProgress"
-                     onClick={() => filter('inProgress')}
+                     value="completed"
+                     onClick={() => filter('completed')}
                   >
                      Completed
                   </ToggleGroupItem>
