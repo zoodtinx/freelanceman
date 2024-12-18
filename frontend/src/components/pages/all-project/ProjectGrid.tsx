@@ -4,7 +4,7 @@ import { Dots, Task, Cross } from '@/components/shared/icons';
 import React, { useState, useRef } from 'react';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import { useNavigate } from 'react-router-dom';
-import type { ProjectPreview } from '@types';
+import type { Project, ProjectPreview } from '@types';
 
 const ProjectGrid = () => {
    const {
@@ -13,7 +13,7 @@ const ProjectGrid = () => {
 
    const projectCards =
       projects.length !== 0
-         ? projects.map((project: ProjectPreview) => {
+         ? projects.map((project: Project) => {
               return <ProjectCard project={project} key={project.id} />;
            })
          : 'no content';

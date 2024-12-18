@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getClientInfo } from "./mock/mockClientService";
+import { getClientInfo } from "./mock/mock-client-service";
 import type { ClientResponse } from "@types";
 
 interface ClientList {

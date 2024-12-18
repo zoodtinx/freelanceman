@@ -1,4 +1,5 @@
 import { TaskFormData, EventFormData } from '@types';
+import type { Project } from '@types';
 
 export interface TaskEventDialogState {
    isOpen: boolean;
@@ -10,7 +11,8 @@ export interface TaskEventDialogState {
 
 export interface ProjectSettingDialogState {
    isOpen: boolean;
-   id: string
+   id: string,
+   data: Project
 }
 
 export interface DialogProps<T> {

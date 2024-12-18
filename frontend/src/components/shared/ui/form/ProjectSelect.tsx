@@ -5,7 +5,7 @@ import {
    DialogueSelectTrigger,
    SelectValue,
 } from '@/components/shared/ui/FilterSelect';
-import { useActiveProjectsQuery } from '@/lib/api/projectApi';
+import { useFilteredProjectsQuery } from '@/lib/api/project-api';
 import { InputProps } from '../../../../lib/types/form-input-props.types';
 import { Controller } from 'react-hook-form';
 import type { ActionFormData } from '@types';
@@ -21,7 +21,7 @@ const ProjectSelect = ({
       formState: { errors },
       setValue
    } = formMethods;
-   const { data: activeProjects } = useActiveProjectsQuery();
+   const { data: activeProjects } = useFilteredProjectsQuery('projectStatus', 'active');
 
    if (!activeProjects) {
       return <>No projects available</>;

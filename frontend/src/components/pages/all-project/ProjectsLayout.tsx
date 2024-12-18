@@ -3,7 +3,7 @@ import ProjectList from './ProjectList';
 import ProjectFilterBar from './ProjectFilterBar';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import ProjectGrid from './ProjectGrid';
-import { useAllProjectsQuery } from '@/lib/api/projectApi';
+import { useAllProjectsQuery } from '@/lib/api/project-api';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
 import ProjectSettingsDialog from './ProjectSettingsDialog';
 

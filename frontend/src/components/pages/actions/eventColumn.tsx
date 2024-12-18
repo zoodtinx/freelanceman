@@ -9,7 +9,7 @@ import {
 import { Separator } from '@/components/shared/ui/separator';
 import { format, toZonedTime } from 'date-fns-tz';
 import { Dispatch, SetStateAction } from 'react';
-import { useDeleteEvent } from '@/lib/api/eventApi';
+import { useDeleteEvent } from '@/lib/api/event-api';
 
 function formatDate(isoString: string) {
    const date = new Date(isoString);

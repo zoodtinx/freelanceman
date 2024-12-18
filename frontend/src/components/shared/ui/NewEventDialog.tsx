@@ -19,7 +19,7 @@ import {
    Controller,
    Control
 } from 'react-hook-form';
-import { useCreateEvent } from '@/lib/api/eventApi';
+import { useCreateEvent } from 'src/lib/api/event-api';
 import { NewEventPayload } from '@types';
 import LinkInput from './form/LinkInput';
 import StatusSelect from './form/StatusSelect';

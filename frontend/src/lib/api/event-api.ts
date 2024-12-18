@@ -7,7 +7,7 @@ import {
    deleteEvent,
    bulkEditEvents,
    bulkDeleteEvents
-} from './mock/mockEventService';
+} from './mock/mock-event-service';
 import type { ActionResponsePayload, NewActionPayload } from '@types';
 
 export const useAllEventQuery = () => {

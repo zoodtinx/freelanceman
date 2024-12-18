@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import { InputProps } from '../../../lib/types/form-input-props.types';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
-import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/taskApi';
+import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api'
 
 const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const { mutate: editTask, isPending: editingTask } = useEditTask(

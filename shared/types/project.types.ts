@@ -6,20 +6,26 @@ export type PaymentStatus = 'notProcessed' | 'processing' | 'paid'
 
 export interface Project {
   id: string,
+  name: string;
   client: string;
   clientId: string;
-  name: string;
-  tasks: Task[];
-  events: Event[];
-  files: File[];
+  quickTaskId: string;
   brief: string;
-  documents: Document[];
-  contact: Contact[];
-  projectStatus: 'active' | 'onHold' | 'completed';
-  paymentStatus: 'notProcessed' | 'processing' | 'paid',
+  projectStatus: ProjectStatus;
+  paymentStatus: PaymentStatus,
   accentColor: string,
   dateCreated: string,
   dateModified: string,
+}
+
+export interface ProjectSettingFormData {
+  name?: string;
+  quickTaskId?: string;
+  brief?: string;
+  projectStatus?: ProjectStatus;
+  paymentStatus?: PaymentStatus;
+  accentColor?: string;
+  dateModified?: string;
 }
 
 export interface File {
@@ -46,4 +52,3 @@ export interface Contact {
   company: string,
   avatar: string
 }
-

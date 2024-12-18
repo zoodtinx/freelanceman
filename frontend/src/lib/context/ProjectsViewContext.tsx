@@ -6,7 +6,7 @@ import type {
    FilterType,
    StatusMap,
 } from '../types/project-view-context.types';
-import { TaskEventDialogState } from '../types/dialog.types';
+import { ProjectSettingDialogState, TaskEventDialogState } from '../types/dialog.types';
 import { formDefaultValue } from '@/components/shared/ui/form/utils';
 
 const useProjectsView = () => {
@@ -35,9 +35,22 @@ const useProjectsView = () => {
       },
    });
 
-   const [projectSettingDialogState, setProjectSettingDialogState] = useState({
+   const [projectSettingDialogState, setProjectSettingDialogState] = useState<ProjectSettingDialogState>({
       isOpen: false,
       id: '',
+      data: {
+         id: '',
+         name: '',
+         client: '',
+         clientId: '',
+         quickTaskId: '',
+         brief: '',
+         projectStatus: 'active', 
+         paymentStatus: 'notProcessed', 
+         accentColor: '',
+         dateCreated: '',
+         dateModified: ''
+       }
    });
 
    const setFilter = (type: FilterType, status: StatusMap[FilterType]) => {

@@ -9,7 +9,7 @@ import {
 } from '@/components/shared/ui/Table';
 import { flexRender, RowData } from '@tanstack/react-table';
 import { Table as TableType } from '@tanstack/react-table';
-import { useBulkEditEvent, useDeleteEvent } from '@/lib/api/eventApi';
+import { useBulkEditEvent, useDeleteEvent } from '@/lib/api/event-api';
 import { ActionResponsePayload } from '@types';
 
 interface TableProps<TData> {

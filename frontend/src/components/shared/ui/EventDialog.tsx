@@ -9,7 +9,7 @@ import {
 } from './Dialog';
 import { Button } from './button';
 import { Textarea } from './textarea';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/eventApi';
+import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
 import type { DialogProps } from './props.type';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import LinkInput from './form/LinkInput';

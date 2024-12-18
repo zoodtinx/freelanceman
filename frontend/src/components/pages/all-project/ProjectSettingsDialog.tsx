@@ -17,7 +17,7 @@ import { Button } from '@/components/shared/ui/button';
 import { Settings } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
-import { useEditProject, useProjectQuery } from '@/lib/api/projectApi';
+import { useEditProject, useProjectQuery } from '@/lib/api/project-api';
 import { ProjectSettingDialogState, DialogProps } from '@/lib/types/dialog.types';
 
 const ProjectSettingsDialog: React.FC<

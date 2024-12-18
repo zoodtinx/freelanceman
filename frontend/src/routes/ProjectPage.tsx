@@ -1,4 +1,4 @@
-import { useProjectQuery } from '@/lib/api/projectApi';
+import { useProjectQuery } from '@/lib/api/project-api';
 import { useParams } from 'react-router-dom';
 import ProjectSideBar from '@/components/pages/project/ProjectSideBar';
 import { Users, EllipsisVertical } from 'lucide-react';

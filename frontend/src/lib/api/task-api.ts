@@ -7,7 +7,7 @@ import {
    deleteTask,
    bulkEditTasks,
    bulkDeleteTasks,
-} from './mock/mockTaskService';
+} from './mock/mock-task-service';
 import type { ActionResponsePayload, NewActionPayload } from '@types';
 
 export const useAllTasksQuery = () => {

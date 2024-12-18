@@ -10,7 +10,7 @@ import { Separator } from '@/components/shared/ui/separator';
 import { format, toZonedTime } from 'date-fns-tz';
 import { Dispatch, SetStateAction } from 'react';
 import { DialogState } from 'src/lib/types/project-view-context.types';
-import { useDeleteTask } from '@/lib/api/taskApi';
+import { useDeleteTask } from '@/lib/api/task-api';
 
 
 function formatDate(isoString: string) {

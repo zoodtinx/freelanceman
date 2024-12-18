@@ -13,7 +13,7 @@ import {
    ToggleGroupItem,
 } from '@/components/shared/ui/ToggleGroup';
 import EventTable from './EventTable';
-import { useAllEventQuery } from '@/lib/api/eventApi';
+import { useAllEventQuery } from '@/lib/api/event-api'
 import EventDialog from '@/components/shared/ui/EventDialog';
 import { formDefaultValue } from '@/components/shared/ui/form/utils';
 import { DialogState } from 'src/lib/types/project-view-context.types';

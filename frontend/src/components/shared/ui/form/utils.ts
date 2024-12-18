@@ -1,4 +1,4 @@
-import { TaskStatus, EventStatus } from "@types";
+import { TaskStatus, EventStatus, Project } from "@types";
 import { id } from "date-fns/locale";
 
 export const formDefaultValue = (actionType: 'event' | 'task') => {
@@ -25,3 +25,17 @@ export const formDefaultValue = (actionType: 'event' | 'task') => {
       link: '',
    };
 };
+
+export const defaultProject: Project = {
+   id: '',
+   name: '',
+   client: '',
+   clientId: '',
+   quickTaskId: '',
+   brief: '',
+   projectStatus: 'active', // Default to 'active' as per ProjectStatus
+   paymentStatus: 'notProcessed', // Default to 'notProcessed' as per PaymentStatus
+   accentColor: '',
+   dateCreated: '',
+   dateModified: ''
+ };
