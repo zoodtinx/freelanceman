@@ -5,7 +5,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       client: "PixelEdge Studios",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
       name: "Rebrand for PixelEdge: Digital Campaign Launch",
       brief: "Develop a comprehensive branding overhaul and launch a digital campaign focusing on user engagement for PixelEdge Studios.",
@@ -26,11 +26,11 @@ export const mockAllProjects: Project[] = [
       accentColor: "#4CAF50",
       dateCreated: "2024-11-20T09:15:00Z",
       dateModified: "2024-12-03T18:30:00Z",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
    },
    {
       id: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       client: "BoldFrame Agency",
       clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c",
       name: "Social Media Graphics for BoldFrame Winter Campaign",
@@ -43,7 +43,7 @@ export const mockAllProjects: Project[] = [
    },
    {
       id: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       client: "Visionary Ads Ltd.",
       clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732",
       name: "360° Ad Campaign for Visionary Ads' New Product Line",
@@ -57,7 +57,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
       client: "NextWave Creations",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
       name: "Brand Identity for NextWave Creations",
       brief: "Develop a modern and cohesive brand identity for NextWave Creations to elevate its market presence and visual appeal.",
@@ -70,7 +70,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
       client: "LumeCreative Agency",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
       name: "Digital Branding for Lume's 'EcoSmart' Initiative",
       brief: "Create a compelling digital brand identity for Lume's 'EcoSmart' initiative, emphasizing sustainability and innovation.",
@@ -83,7 +83,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
       client: "WaveMakers Studio",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9",
       name: "Website Revamp for WaveMakers Studio",
       brief: "Redesign and optimize WaveMakers Studio’s website to enhance user experience and improve lead generation.",
@@ -96,7 +96,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
       client: "Skyline Creatives",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f",
       name: "Event Branding for Skyline's Annual Gala",
       brief: "Design branding materials, including banners, invitations, and digital assets, for Skyline Creatives' Annual Gala 2024.",
@@ -109,7 +109,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "e8c9f7d3-7b4f-4e1a-9d6c-5a7b8c2d1f3e",
       client: "InnovateAds Inc.",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "d3f7c8a9-567b-4a2e-b6c7-8f5a1d9c7e8b",
       name: "Product Launch Campaign for InnovateAds",
       brief: "Create a multi-platform campaign to promote InnovateAds' upcoming product, focusing on its innovative features.",
@@ -122,7 +122,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "f9a8c7d2-4b3e-4a1f-8c7d-9e6b5a2d3f7c",
       client: "BrightIdea Media",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f",
       name: "Ad Series for BrightIdea’s New Podcast Launch",
       brief: "Design a series of ads to promote BrightIdea Media’s new podcast across social media and streaming platforms.",
@@ -135,7 +135,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "c7e8a9d3-45f2-4b1c-8e9d-7a2c5b4f1e8b",
       client: "UrbanVista Agency",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "f3d7a2e9-456b-40c1-9d7e-8a5b3c2e1f7a",
       name: "Outdoor Ad Campaign for UrbanVista City Festival",
       brief: "Design billboards, transit ads, and posters for UrbanVista’s upcoming City Festival, showcasing the vibrant community culture.",
@@ -148,7 +148,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "e9c7f8d2-4a3b-4b6e-9d2f-7a1e5c8f4b3a",
       client: "NeoArts Collective",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "c8f9a3e7-45b4-4c2d-b7e8-5a9f3d7e4c2f",
       name: "Digital Strategy for NeoArts 'Vision 2025'",
       brief: "Develop a digital marketing strategy for NeoArts' 'Vision 2025' campaign, including SEO, social media, and PPC ads.",
@@ -161,7 +161,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "d5e7a9f3-4b8c-4a1e-9f7d-2c5b3e8f9a4c",
       client: "FutureFrame Studios",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "e3c7f9a4-567b-4c1d-b6e8-7f9a2d5c4b3e",
       name: "Logo Animation for FutureFrame’s Film Division",
       brief: "Create a dynamic logo animation for FutureFrame Studios to be used as a signature introduction in its film productions.",
@@ -174,7 +174,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "f2a8d7c4-9e3b-4b1f-8d5c-7a3e9c2f4b1e",
       client: "Greenline Media",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "d8c7f3a5-456e-4c1b-b7e9-5a4f9d3e8c2b",
       name: "Sustainability Campaign for Greenline Media",
       brief: "Design a visually engaging campaign to highlight Greenline Media’s eco-friendly initiatives and drive public awareness.",
@@ -187,7 +187,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "a9e7f3c5-4d8b-4a2c-9f5e-7b3a4c2d1e8f",
       client: "Bright Horizons Group",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "f7c5a8e3-456d-4b1c-b9e6-4a3f9d2e8c7b",
       name: "Infographic Series for Bright Horizons Report",
       brief: "Develop an infographic series to summarize key findings from Bright Horizons’ annual industry report.",
@@ -200,7 +200,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "e4f9c7d2-3b8a-4c1e-9f5a-7b2d3e8f9a4c",
       client: "PixelEdge Studios",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
       name: "Mobile App Design for PixelEdge's Interactive Platform",
       brief: "Design a user-friendly mobile app interface for PixelEdge’s new interactive storytelling platform.",
@@ -213,7 +213,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "c9d7f8e3-4a2b-4c5e-9d1f-7a3b4c8f2d9e",
       client: "Creative Hive Co.",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af",
       name: "Brochure Design for Creative Hive's New Service",
       brief: "Develop a visually captivating brochure to promote Creative Hive’s new graphic design consultation service.",
@@ -226,7 +226,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "d2a8c7f9-4b3e-4c1d-8f7a-9e5b3d4c2f7e",
       client: "BoldFrame Agency",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c",
       name: "Presentation Design for BoldFrame Annual Review",
       brief: "Create a professional and engaging presentation deck for BoldFrame Agency’s annual performance review.",
@@ -239,7 +239,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "f7e8c4d9-3a2b-4c1f-9d7e-5b4a3f8c2d9e",
       client: "Visionary Ads Ltd.",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732",
       name: "Ad Series for Visionary Ads Seasonal Campaign",
       brief: "Design an ad series for Visionary Ads’ winter sale, focusing on festive and warm visuals.",
@@ -252,7 +252,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "a9c7f8d2-4b3a-4c1e-8f5a-7d9e3c2b4f8e",
       client: "NextWave Creations",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
       name: "Social Media Content Pack for NextWave",
       brief: "Design a series of reusable social media templates for NextWave Creations’ regular updates and promotions.",
@@ -265,7 +265,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "f2c9a7d4-4b3e-4c1f-8d5e-7a9c4d2f3e8b",
       client: "LumeCreative Agency",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
       name: "Promotional Video for Lume's 'EcoSmart' Launch",
       brief: "Produce a short promotional video for Lume’s 'EcoSmart' launch, highlighting its innovative features and eco-friendly approach.",
@@ -278,7 +278,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "c8f7e9d3-4a2b-4c1d-8f7a-9d5b3e4c2a8f",
       client: "WaveMakers Studio",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9",
       name: "Event Graphics for WaveMakers’ Design Conference",
       brief: "Design a suite of event materials, including banners, badges, and programs, for WaveMakers Studio’s Annual Design Conference.",
@@ -291,7 +291,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "e9c4f8d2-3b8a-4c1f-9d5a-7f3e2d4b9c8f",
       client: "Skyline Creatives",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f",
       name: "E-book Design for Skyline Creatives’ Portfolio",
       brief: "Design a modern and visually appealing e-book portfolio for Skyline Creatives to showcase their work and attract new clients.",
@@ -304,7 +304,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "f3c7d9e4-4b2a-4c1f-8d7e-9a5b3e4f2a9c",
       client: "InnovateAds Inc.",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "d3f7c8a9-567b-4c1d-b6c7-8f5a1d9c7e8b",
       name: "Motion Graphics for InnovateAds Product Showcase",
       brief: "Create a series of motion graphics for InnovateAds to showcase their new product features on digital platforms.",
@@ -317,7 +317,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "d8e7a9f3-3b4c-4c1f-8f5e-7a9d2c4f3e8b",
       client: "BrightIdea Media",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f",
       name: "Ad Concept Development for BrightIdea Podcast Series",
       brief: "Develop creative ad concepts and visuals for BrightIdea Media’s new podcast series launch.",
@@ -330,7 +330,7 @@ export const mockAllProjects: Project[] = [
    {
       id: "a7d9c4f2-3b8e-4c1f-9d7a-5b4e3f8a2d9c",
       client: "PixelEdge Studios",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
       name: "Interactive Presentation for PixelEdge's Investor Pitch",
       brief: "Design and develop an interactive presentation for PixelEdge Studios' upcoming investor pitch, incorporating animations and charts.",
@@ -349,7 +349,7 @@ export const mockAllProjects: Project[] = [
       projectStatus: "onHold",
       paymentStatus: "notProcessed",
       accentColor: "#4CAF50",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       dateCreated: "2024-11-25T14:30:00Z",
       dateModified: "2024-12-05T09:00:00Z",
    },
@@ -362,7 +362,7 @@ export const mockAllProjects: Project[] = [
       projectStatus: "completed",
       paymentStatus: "paid",
       accentColor: "#03A9F4",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       dateCreated: "2024-10-30T10:15:00Z",
       dateModified: "2024-12-01T13:45:00Z",
    },
@@ -375,7 +375,7 @@ export const mockAllProjects: Project[] = [
       projectStatus: "active",
       paymentStatus: "processing",
       accentColor: "#FFC107",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       dateCreated: "2024-11-18T11:45:00Z",
       dateModified: "2024-12-06T12:15:00Z",
    },
@@ -388,7 +388,7 @@ export const mockAllProjects: Project[] = [
       projectStatus: "onHold",
       paymentStatus: "notProcessed",
       accentColor: "#FF9800",
-      quickTaskId: '',
+      quickTaskId: 'e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e',
       dateCreated: "2024-11-15T09:00:00Z",
       dateModified: "2024-12-03T11:30:00Z",
    },

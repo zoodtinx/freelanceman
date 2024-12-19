@@ -18,15 +18,17 @@ import { Settings } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { useEditProject, useProjectQuery } from '@/lib/api/project-api';
-import { ProjectSettingDialogState, DialogProps } from '@/lib/types/dialog.types';
+import {
+   ProjectSettingDialogState,
+   DialogProps,
+} from '@/lib/types/dialog.types';
+import { defaultProject } from '@/components/shared/ui/form/utils';
+import { useForm } from 'react-hook-form';
 
 const ProjectSettingsDialog: React.FC<
-DialogProps<ProjectSettingDialogState>
+   DialogProps<ProjectSettingDialogState>
 > = ({ dialogState, setDialogState }) => {
-   const {
-      data: project,
-      isLoading,
-   } = useProjectQuery(dialogState.id);
+   const { data: project, isLoading } = useProjectQuery(dialogState.id);
    const { mutate: editProject } = useEditProject(dialogState.id);
 
    if (isLoading) {
@@ -41,6 +43,7 @@ DialogProps<ProjectSettingDialogState>
       setDialogState({
          isOpen: false,
          id: '',
+         data: defaultProject,
       });
    };
 

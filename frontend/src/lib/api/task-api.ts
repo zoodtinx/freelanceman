@@ -8,7 +8,7 @@ import {
    bulkEditTasks,
    bulkDeleteTasks,
 } from './mock/mock-task-service';
-import type { ActionResponsePayload, NewActionPayload } from '@types';
+import type { ActionResponsePayload, NewActionPayload, Task } from '@types';
 
 export const useAllTasksQuery = () => {
    return useQuery({
@@ -20,13 +20,9 @@ export const useAllTasksQuery = () => {
 export const useTaskQuery = (taskId: string) => {
    const queryClient = useQueryClient();
 
-   return useQuery({
+   return useQuery<Task, Error, Task>({
       queryKey: ['tasks', taskId],
-      queryFn: () => {
-         const cachedTasks = queryClient.getQueryData<Task[]>(['tasks']);
-         const cachedTask = cachedTasks?.find((task) => task.id === taskId);
-         return cachedTask ?? getTask(taskId);
-      },
+      queryFn: () => getTask(taskId),
    });
 };
 

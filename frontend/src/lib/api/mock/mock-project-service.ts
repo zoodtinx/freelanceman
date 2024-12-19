@@ -3,10 +3,18 @@ import { mockSingleProject as sampleProject } from '@/lib/mock/singleProject';
 import { mockAllProjects as sampleAllPropjects } from '@mocks';
 
 export const getProject = (id: string): Promise<Project> => {
-   return new Promise((resolve) => {
-      setTimeout(() => resolve(sampleProject), 500);
+   const queriedProject = sampleAllPropjects.find((project) => project.id === id);
+   return new Promise((resolve, reject) => {
+      setTimeout(() => {
+         if (queriedProject) {
+            resolve(queriedProject);
+         } else {
+            reject(new Error(`Project with id ${id} not found`));
+         }
+      }, 500);
    });
 };
+
 
 export const editProject = <K extends keyof Partial<Project>>(
    key: K,
@@ -26,7 +34,7 @@ export const editProject = <K extends keyof Partial<Project>>(
    return Promise.resolve(sampleProject);
 };
 
-export const getAllProjects = (): Promise<ProjectPreview[]> => {
+export const getAllProjects = (): Promise<Project[]> => {
    return new Promise((resolve) => {
       setTimeout(() => resolve(sampleAllPropjects), 500);
    });

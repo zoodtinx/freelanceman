@@ -3,6 +3,7 @@ import { Client } from '@/components/shared/icons';
 import { Dots, Task, Cross } from '@/components/shared/icons';
 import React, { useState, useRef } from 'react';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
+import { useTaskQuery } from '@/lib/api/task-api';
 import { useNavigate } from 'react-router-dom';
 import type { Project, ProjectPreview } from '@types';
 
@@ -25,26 +26,38 @@ const ProjectGrid = () => {
    );
 };
 
-const ProjectCard: React.FC<{ project: ProjectPreview }> = ({ project }) => {
-   const { taskDialogState, setTaskDialogState, projectSettingDialogState, setProjectSettingDialogState } =
+const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
+   const { data: quickTask, isLoading } = useTaskQuery(project.quickTaskId);
+   const { setTaskDialogState, setProjectSettingDialogState } =
       useProjectsViewContext();
+   const navigate = useNavigate();
    const { t } = useTranslation();
 
-   const navigate = useNavigate();
+   if (isLoading) {
+      return null;
+   }
 
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
       setProjectSettingDialogState({
          isOpen: true,
          id: project.id,
+         data: {
+            ...project,
+         },
       });
    };
 
    const openTaskDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
       setTaskDialogState({
-         id: project.id,
-         isOpen: true,
+         isOpen: false,
+         id: quickTask.id,
+         actionType: 'task',
+         mode: 'view',
+         data: {
+            ...quickTask,
+         },
       });
    };
 
