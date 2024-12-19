@@ -7,12 +7,12 @@ import {
    DialogueSelectTrigger,
    SelectValue,
 } from '@/components/shared/ui/FilterSelect';
-import { ActionFormData } from '@types';
+import { TaskFormData } from '@types';
 
 const StatusSelect = ({
    formMethods,
    dialogState,
-}: InputProps<ActionFormData>): JSX.Element => {
+}: InputProps): JSX.Element => {
    if (!dialogState) {
       return <div></div>;
    }

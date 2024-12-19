@@ -89,8 +89,6 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       }
    };
 
-   const taskStatus = ['planned', 'inProgress', 'completed', 'cancelled']
-
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
@@ -120,7 +118,6 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                         <StatusSelect
                            formMethods={formMethods}
                            dialogState={dialogState}
-                           data={taskStatus}
                         />
                      </div>
                      <div className="w-1/2 font-semibold relative">

@@ -1,9 +1,10 @@
-import { DialogState } from "src/lib/types/project-view-context.types";
 import { FieldValues, UseFormReturn } from "react-hook-form";
+import { FormDialogState } from "./dialog.types";
 
-export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
+export interface InputProps<
+  TFieldValues extends FieldValues = FieldValues,
+> {
   formMethods: UseFormReturn<TFieldValues>;
-  dialogState?: DialogState
-  data?: unknown
+  dialogState?: FormDialogState;
 }
 
