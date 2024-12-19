@@ -1,13 +1,12 @@
 import { FieldValues, Path } from 'react-hook-form';
-import { InputProps } from '../../../../lib/types/form-input-props.types';
+import { InputProps } from '@/lib/types/form-input-props.types';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
-import { ActionFormData } from '@types';
 
-const LinkInput = ({
+const LinkInput = <TFieldValues extends FieldValues>({
    formMethods,
-}: InputProps<ActionFormData>): JSX.Element => {
+}: InputProps<TFieldValues>): JSX.Element => {
    const [isButtonMode, setIsButtonMode] = useState(false);
    const [url, setUrl] = useState('');
    const [error, setError] = useState('');
@@ -15,7 +14,7 @@ const LinkInput = ({
    const { register, setValue, getValues } = formMethods;
 
    useEffect(() => {
-      const currentUrl = getValues('link');
+      const currentUrl = getValues('link' as Path<TFieldValues>);
       if (currentUrl) {
          const { error } = validateUrl(currentUrl);
 
@@ -56,7 +55,7 @@ const LinkInput = ({
          }
 
          setUrl(inputValue);
-         setValue('link', inputValue);
+         setValue('link' as Path<TFieldValues>, inputValue);
          setError('');
          setIsButtonMode(true);
       }
@@ -70,7 +69,7 @@ const LinkInput = ({
    const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
       setIsButtonMode(false);
-      setValue('link', '');
+      setValue('link' as Path<TFieldValues>, '');
       setError('');
    };
 
@@ -99,7 +98,7 @@ const LinkInput = ({
             <div>
                <input
                   type="url"
-                  {...register?.('link')}
+                  {...register?.('link' as Path<TFieldValues>)}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   className="flex px-2 h-6 w-full border border-secondary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"

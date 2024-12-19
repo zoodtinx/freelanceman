@@ -6,20 +6,19 @@ import {
    SelectValue,
 } from '@/components/shared/ui/FilterSelect';
 import { useFilteredProjectsQuery } from '@/lib/api/project-api';
-import { InputProps } from '../../../../lib/types/form-input-props.types';
-import { Controller } from 'react-hook-form';
-import type { ActionFormData } from '@types';
+import { Controller, FieldValues, Path } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { InputProps } from '@/lib/types/form-input-props.types';
 
-const ProjectSelect = ({
+const ProjectSelect = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
-}: InputProps<ActionFormData>): JSX.Element => {
+}: InputProps<TFieldValues>): JSX.Element => {
    const {
       control,
       watch,
       formState: { errors },
-      setValue
+      setValue,
    } = formMethods;
    const { data: activeProjects } = useFilteredProjectsQuery('projectStatus', 'active');
 
@@ -32,22 +31,23 @@ const ProjectSelect = ({
       onChange: (value: string) => void
    ) => {
       onChange(value);
-      const selectedProject = activeProjects.find((project) => project.id === value)
-      console.log('selectedProject', selectedProject.client)
-      setValue('client', selectedProject.client)
-      setValue('clientId', selectedProject.clientId)
+      const selectedProject = activeProjects.find((project) => project.id === value);
+      if (selectedProject) {
+         setValue('client' as Path<TFieldValues>, selectedProject.client);
+         setValue('clientId' as Path<TFieldValues>, selectedProject.clientId);
+      }
    };
 
    if (dialogState?.mode === 'view') {
-      const currentProject = watch('project');
-      const currentProjectId = watch('projectId');
+      const currentProject = watch('project' as Path<TFieldValues>);
+      const currentProjectId = watch('projectId' as Path<TFieldValues>);
       return <Link to={`../${currentProjectId}`}>{currentProject}</Link>;
    }
 
    return (
       <div>
          <Controller
-            name="projectId"
+            name={'projectId' as Path<TFieldValues>}
             control={control}
             rules={{ required: 'Project is required' }}
             render={({ field }) => {
@@ -64,24 +64,22 @@ const ProjectSelect = ({
                         </p>
                      </DialogueSelectTrigger>
                      <SelectContent className="flex flex-col gap-1">
-                        {activeProjects.map((project) => {
-                           return (
-                              <DialogueSelectItem
-                                 key={project.id}
-                                 value={project.id!}
-                              >
-                                 {project.name}
-                              </DialogueSelectItem>
-                           );
-                        })}
+                        {activeProjects.map((project) => (
+                           <DialogueSelectItem
+                              key={project.id}
+                              value={project.id!}
+                           >
+                              {project.name}
+                           </DialogueSelectItem>
+                        ))}
                      </SelectContent>
                   </Select>
                );
             }}
          />
          {errors.projectId && (
-            <p className=" text-sm text-red-500 font-normal animate-shake">
-               {errors.projectId.message}
+            <p className="text-sm text-red-500 font-normal animate-shake">
+               {errors.projectId.message as string}
             </p>
          )}
       </div>

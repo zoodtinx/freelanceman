@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import { Controller } from 'react-hook-form';
-import { InputProps } from '../../../../lib/types/form-input-props.types';
+import { Controller, FieldValues, Path } from 'react-hook-form';
+import { InputProps } from '@/lib/types/form-input-props.types';
 import { ActionFormData } from '@types';
 import { format, parseISO, setHours, setMinutes, parse, setSeconds } from 'date-fns';
 
@@ -157,14 +157,15 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({ value, onChange }) => 
 
 
 
-const TimePicker = ({
+const TimePicker = <TFieldValues extends FieldValues>({
    formMethods,
-}: InputProps<ActionFormData>): JSX.Element => {
+   fieldName
+}: InputProps<TFieldValues>): JSX.Element => {
    const { control } = formMethods;
 
    return (
       <Controller
-         name="dueDate"
+         name={fieldName as Path<TFieldValues>}
          control={control}
          render={({ field: { value, onChange } }) => (
             <TimePickerInterface value={value} onChange={onChange} />
@@ -172,5 +173,6 @@ const TimePicker = ({
       />
    );
 };
+
 
 export default TimePicker;

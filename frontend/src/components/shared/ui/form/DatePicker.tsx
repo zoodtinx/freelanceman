@@ -1,12 +1,14 @@
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import { Controller, FieldValues } from 'react-hook-form';
-import { InputProps } from '../../../../lib/types/form-input-props.types';
+import { Controller, FieldValues, Path } from 'react-hook-form';
+import { InputProps } from '@/lib/types/form-input-props.types';
 import { Calendar } from '../calendar';
 import { cn } from '@/lib/helper/utils';
 import { format } from 'date-fns';
-import { ActionFormData } from '@types';
 
-const DatePicker = ({ formMethods }: InputProps<ActionFormData>): JSX.Element => {
+const DatePicker = <TFieldValues extends FieldValues>({
+   formMethods,
+   fieldName
+}: InputProps<TFieldValues>): JSX.Element => {
    const {
       control,
       formState: { errors },
@@ -14,7 +16,7 @@ const DatePicker = ({ formMethods }: InputProps<ActionFormData>): JSX.Element =>
 
    return (
       <Controller
-         name="dueDate"
+         name={fieldName as Path<TFieldValues>}
          control={control}
          rules={{ required: 'Date is required' }}
          render={({ field: { value, onChange } }) => (

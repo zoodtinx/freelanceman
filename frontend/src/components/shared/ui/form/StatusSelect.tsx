@@ -1,5 +1,4 @@
-import { Controller } from 'react-hook-form';
-import { InputProps } from '../../../../lib/types/form-input-props.types';
+import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
 import {
    Select,
    SelectContent,
@@ -7,68 +6,36 @@ import {
    DialogueSelectTrigger,
    SelectValue,
 } from '@/components/shared/ui/FilterSelect';
-import { TaskFormData } from '@types';
+import { SelectInputProps } from '@/lib/types/form-input-props.types';
 
-const StatusSelect = ({
+const StatusSelect = <TFormData extends FieldValues,>({
    formMethods,
    dialogState,
-}: InputProps): JSX.Element => {
+   selection,
+   fieldName
+}: SelectInputProps<TFormData>): JSX.Element => {
    if (!dialogState) {
       return <div></div>;
    }
 
    const { control } = formMethods;
 
-   const getStatusColor = (status: string) => {
-      const statusColors: Record<string, Record<string, string>> = {
-         event: {
-            scheduled: 'bg-yellow-100',
-            onGoing: 'bg-emerald-200',
-            completed: 'bg-blue-100',
-            cancelled: 'bg-red-200',
-         },
-         task: {
-            planned: 'bg-yellow-100',
-            inProgress: 'bg-emerald-200',
-            completed: 'bg-blue-100',
-            cancelled: 'bg-red-200',
-         },
-      };
-
-      return statusColors[dialogState.actionType]?.[status] || '';
-   };
-
-   const getStatuses = () => {
-      const statusOptions: Record<string, { value: string; text: string }[]> = {
-         task: [
-            { value: 'planned', text: 'Planned' },
-            { value: 'onGoing', text: 'Ongoing' },
-            { value: 'completed', text: 'Completed' },
-            { value: 'cancelled', text: 'Cancelled' },
-         ],
-         event: [
-            { value: 'scheduled', text: 'Scheduled' },
-            { value: 'inProgress', text: 'In Progress' },
-            { value: 'completed', text: 'Completed' },
-            { value: 'cancelled', text: 'Cancelled' },
-         ],
-      };
-
-      return statusOptions[dialogState.actionType] || [];
-   };
-
    return (
       <Controller
-         name="status"
+         name={fieldName as Path<TFormData>}
          control={control}
-         defaultValue="planned"
+         defaultValue={"planned" as PathValue<TFormData, Path<TFormData>>}
          rules={{ required: 'Please select a status' }}
          render={({ field }) => {
-            const color = getStatusColor(field.value);
-
             const handleStatusChange = (value: string) => {
                field.onChange(value);
             };
+
+            const currentSelection = selection.find(
+               (item) => item.value === field.value
+            );
+
+            const color = currentSelection?.color || '';
 
             return (
                <Select value={field.value} onValueChange={handleStatusChange}>
@@ -82,7 +49,7 @@ const StatusSelect = ({
                      </p>
                   </DialogueSelectTrigger>
                   <SelectContent className="flex flex-col gap-1">
-                     {getStatuses().map(({ value, text }) => (
+                     {selection.map(({ value, text }) => (
                         <DialogueSelectItem key={value} value={value}>
                            {text}
                         </DialogueSelectItem>

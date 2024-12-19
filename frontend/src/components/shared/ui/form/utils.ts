@@ -26,6 +26,33 @@ export const formDefaultValue = (actionType: 'event' | 'task') => {
    };
 };
 
+export const eventDefaultValues = {
+   id: '',
+   name: '',
+   details: '',
+   status: 'scheduled' as EventStatus,
+   dueDate: '',
+   project: '',
+   projectId: '',
+   client: '',
+   clientId: '',
+   link: '',
+};
+
+export const taskDefaultValues = {
+   id: '',
+   name: '',
+   details: '',
+   status: 'planned' as TaskStatus,
+   dueDate: '',
+   project: '',
+   projectId: '',
+   client: '',
+   clientId: '',
+   link: '',
+};
+
+
 export const defaultProject: Project = {
    id: '',
    name: '',
@@ -39,3 +66,17 @@ export const defaultProject: Project = {
    dateCreated: '',
    dateModified: ''
  };
+
+ export const taskStatusSelections = [
+   { value: 'planned', text: 'Planned', color: 'bg-yellow-100' },
+   { value: 'inProgress', text: 'In Progress', color: 'bg-emerald-200' },
+   { value: 'completed', text: 'Completed', color: 'bg-blue-100' },
+   { value: 'cancelled', text: 'Cancelled', color: 'bg-red-200' },
+];
+
+export const eventStatusSelections = [
+   { value: 'scheduled', text: 'Scheduled', color: 'bg-yellow-100' },
+   { value: 'inProgress', text: 'In Progress', color: 'bg-emerald-200' },
+   { value: 'completed', text: 'Completed', color: 'bg-blue-100' },
+   { value: 'cancelled', text: 'Cancelled', color: 'bg-red-200' },
+];

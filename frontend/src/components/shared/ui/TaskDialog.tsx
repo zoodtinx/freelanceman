@@ -9,19 +9,19 @@ import {
 } from './Dialog';
 import { Button } from './button';
 import { Textarea } from './textarea';
-import type { DialogProps } from './props.type';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { DialogProps } from '@/lib/types/dialog.types';
+import { FieldValues, Path, SubmitHandler, useForm } from 'react-hook-form';
 import LinkInput from './form/LinkInput';
 import StatusSelect from './form/StatusSelect';
 import ProjectSelect from './form/ProjectSelect';
-import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
-import { NewActionPayload } from '@types';
-import type { ActionFormData } from '@types';
+import TaskAndEventNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
+import type { NewTaskPayload, TaskFormData, TaskStatus } from '@types';
 import { Link } from 'react-router-dom';
-import { InputProps } from '../../../lib/types/form-input-props.types';
-import { formDefaultValue } from './form/utils';
+import { InputProps } from '@/lib/types/form-input-props.types';
 import DateTimePicker from './form/DateTimePicker';
-import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api'
+import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';
+import { taskStatusSelections } from './form/utils';
+import { taskDefaultValues } from './form/utils';
 
 const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const { mutate: editTask, isPending: editingTask } = useEditTask(
@@ -30,8 +30,8 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const { mutate: createTask, isPending: creatingTask } = useCreateTask();
    const { mutate: deleteTask, isPending: deletingTask } = useDeleteTask();
 
-   const formMethods = useForm<ActionFormData>({
-      defaultValues: formDefaultValue(dialogState.actionType),
+   const formMethods = useForm<TaskFormData>({
+      defaultValues: taskDefaultValues,
    });
 
    const { handleSubmit, reset } = formMethods;
@@ -40,7 +40,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       if (dialogState.mode === 'view') {
          reset(dialogState.data);
       } else if (dialogState.mode === 'create') {
-         reset(formDefaultValue(dialogState.actionType));
+         reset(taskDefaultValues);
       }
    }, [dialogState, reset]);
 
@@ -55,8 +55,8 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       });
    };
 
-   const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
-      const taskPayload: NewActionPayload = {
+   const onSubmit: SubmitHandler<NewTaskPayload> = (data) => {
+      const taskPayload: NewTaskPayload = {
          name: data.name,
          projectId: data.projectId,
          details: data.details,
@@ -81,13 +81,8 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       handleDialogClose();
    };
 
-   const buttonText = () => {
-      if (dialogState.mode === 'create') {
-         return 'Create task';
-      } else if (dialogState.mode === 'view') {
-         return 'Save';
-      }
-   };
+
+   const buttonText = dialogState.mode === 'create' ? 'Create Task' : 'Save';
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -105,7 +100,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
             <form onSubmit={handleSubmit(onSubmit, onError)}>
                <DialogHeader>
                   <DialogTitle>
-                     <TaskNameInput
+                     <TaskAndEventNameInput<TaskFormData>
                         formMethods={formMethods}
                         dialogState={dialogState}
                      />
@@ -115,30 +110,33 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Status</p>
-                        <StatusSelect
+                        <StatusSelect<TaskFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
+                           selection={taskStatusSelections}
+                           fieldName="status"
                         />
                      </div>
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Due Date</p>
-                        <DateTimePicker
+                        <DateTimePicker<TaskFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
+                           fieldName="dueDate"
                         />
                      </div>
                   </div>
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold relative">
                         <p className="text-secondary">Project</p>
-                        <ProjectSelect
+                        <ProjectSelect<TaskFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
                         />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        <ClientField
+                        <ClientField<TaskFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
                         />
@@ -154,7 +152,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                   </div>
                   <div className="w-full font-semibold relative">
                      <p className="text-secondary">Link</p>
-                     <LinkInput formMethods={formMethods} />
+                     <LinkInput<TaskFormData> formMethods={formMethods} />
                   </div>
                </div>
                <DialogFooter>
@@ -182,7 +180,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                         </Button>
                      </div>
                      <Button variant={'default'} type="submit">
-                        {buttonText()}
+                        {buttonText}
                      </Button>
                   </div>
                </DialogFooter>
@@ -192,14 +190,14 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    );
 };
 
-const ClientField = ({
+const ClientField = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
-}: InputProps<ActionFormData>) => {
+}: InputProps<TFieldValues>): JSX.Element => {
    const { watch } = formMethods;
 
-   const clientName = watch('client');
-   const clientId = watch('clientId');
+   const clientName = watch('client' as Path<TFieldValues>);
+   const clientId = watch('clientId' as Path<TFieldValues>);
 
    if (clientName && clientId) {
       if (dialogState?.mode === 'view') {
@@ -208,7 +206,7 @@ const ClientField = ({
          return <p className="cursor-default select-none">{clientName}</p>;
       }
    }
-   return 'Select a project';
+   return <span>Select a project</span>;
 };
 
 export default TaskDialog;

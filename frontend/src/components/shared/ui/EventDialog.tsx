@@ -1,3 +1,6 @@
+import { Path, useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import type { EventFormData, NewEventPayload, TaskFormData } from '@types';
+import { eventDefaultValues, eventStatusSelections } from './form/utils';
 import React, { useEffect } from 'react';
 import {
    DialogContent,
@@ -9,46 +12,51 @@ import {
 } from './Dialog';
 import { Button } from './button';
 import { Textarea } from './textarea';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
+import {
+   useCreateEvent,
+   useDeleteEvent,
+   useEditEvent,
+} from '@/lib/api/event-api';
 import type { DialogProps } from './props.type';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import LinkInput from './form/LinkInput';
 import StatusSelect from './form/StatusSelect';
 import ProjectSelect from './form/ProjectSelect';
 import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
-import { NewActionPayload } from '@types';
-import type { ActionFormData } from '@types';
 import { Link } from 'react-router-dom';
 import { InputProps } from '../../../lib/types/form-input-props.types';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
 
-interface EventDialogProps extends DialogProps {
-   dialogState: any;
-   setDialogState: React.Dispatch<React.SetStateAction<any>>;
-}
-
-const EventDialog: React.FC<EventDialogProps> = ({ dialogState, setDialogState }) => {
-   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(dialogState.id);
+const EventDialog: React.FC<DialogProps> = ({
+   dialogState,
+   setDialogState,
+}) => {
+   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
+      dialogState.id
+   );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
    const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
 
-   const formMethods = useForm<ActionFormData>({
-      defaultValues: formDefaultValue(dialogState.actionType),
+   const formMethods = useForm<EventFormData>({
+      defaultValues: eventDefaultValues,
    });
 
    const { handleSubmit, reset } = formMethods;
 
    useEffect(() => {
-      reset(dialogState.mode === 'view' ? dialogState.data : formDefaultValue(dialogState.actionType));
+      reset(
+         dialogState.mode === 'view'
+            ? dialogState.data
+            : formDefaultValue(dialogState.actionType)
+      );
    }, [dialogState, reset]);
 
    const handleDialogClose = () => {
       setDialogState({ ...dialogState, isOpen: false });
    };
 
-   const onSubmit: SubmitHandler<NewActionPayload> = (data) => {
-      const payload: NewActionPayload = {
+   const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
+      const payload: NewEventPayload = {
          name: data.name,
          projectId: data.projectId,
          details: data.details,
@@ -73,34 +81,57 @@ const EventDialog: React.FC<EventDialogProps> = ({ dialogState, setDialogState }
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
-            <Button variant="outline" className="hidden">Edit Event</Button>
+            <Button variant="outline" className="hidden">
+               Edit Event
+            </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px] flex flex-col" onInteractOutside={(e) => e.preventDefault()}>
+         <DialogContent
+            className="sm:max-w-[425px] flex flex-col"
+            onInteractOutside={(e) => e.preventDefault()}
+         >
             <form onSubmit={handleSubmit(onSubmit)}>
                <DialogHeader>
                   <DialogTitle>
-                     <TaskNameInput formMethods={formMethods} dialogState={dialogState} />
+                     <TaskNameInput<EventFormData>
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                     />
                   </DialogTitle>
                </DialogHeader>
                <div className="px-5 py-3 flex flex-col gap-3">
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Status</p>
-                        <StatusSelect formMethods={formMethods} dialogState={dialogState} />
+                        <StatusSelect<EventFormData>
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                           selection={eventStatusSelections}
+                           fieldName='status'
+                        />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Date</p>
-                        <DateTimePicker formMethods={formMethods} dialogState={dialogState} />
+                        <DateTimePicker<EventFormData>
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                           fieldName='dueDate'
+                        />
                      </div>
                   </div>
                   <div className="flex leading-tight">
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Project</p>
-                        <ProjectSelect formMethods={formMethods} dialogState={dialogState} />
+                        <ProjectSelect<EventFormData>
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
                      </div>
                      <div className="w-1/2 font-semibold">
                         <p className="text-secondary">Client</p>
-                        <ClientField formMethods={formMethods} dialogState={dialogState} />
+                        <ClientField<EventFormData>
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                        />
                      </div>
                   </div>
                   <div className="w-full font-semibold">
@@ -113,12 +144,12 @@ const EventDialog: React.FC<EventDialogProps> = ({ dialogState, setDialogState }
                   </div>
                   <div className="w-full font-semibold">
                      <p className="text-secondary">Link</p>
-                     <LinkInput formMethods={formMethods} />
+                     <LinkInput<EventFormData> formMethods={formMethods} />
                   </div>
                </div>
                <DialogFooter>
                   <div className="flex justify-between p-4">
-                     <div className='flex gap-1'>
+                     <div className="flex gap-1">
                         {dialogState.mode === 'view' && (
                            <Button
                               variant={'destructive'}
@@ -130,7 +161,10 @@ const EventDialog: React.FC<EventDialogProps> = ({ dialogState, setDialogState }
                               Delete
                            </Button>
                         )}
-                        <Button variant={'destructiveOutline'} onClick={handleDialogClose}>
+                        <Button
+                           variant={'destructiveOutline'}
+                           onClick={handleDialogClose}
+                        >
                            Discard
                         </Button>
                      </div>
@@ -145,20 +179,23 @@ const EventDialog: React.FC<EventDialogProps> = ({ dialogState, setDialogState }
    );
 };
 
-const ClientField = ({
+const ClientField = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
-}: InputProps<ActionFormData>) => {
+}: InputProps<TFieldValues>): JSX.Element => {
    const { watch } = formMethods;
 
-   const clientName = watch('client');
-   const clientId = watch('clientId');
+   const clientName = watch('client' as Path<TFieldValues>);
+   const clientId = watch('clientId' as Path<TFieldValues>);
 
    if (clientName && clientId) {
-      if (dialogState?.mode === 'view') return <Link to={`../client/${clientId}`}>{clientName}</Link>;
-      return <p className="cursor-default select-none">{clientName}</p>;
+      if (dialogState?.mode === 'view') {
+         return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+      } else if (dialogState?.mode === 'create') {
+         return <p className="cursor-default select-none">{clientName}</p>;
+      }
    }
-   return 'Select a project';
+   return <span>Select a project</span>;
 };
 
 export default EventDialog;
