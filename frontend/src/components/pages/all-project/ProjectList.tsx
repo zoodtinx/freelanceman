@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
-// add edge case in case of empty projects list
-
-const ProjectList = () => {
+const ProjectList = (): JSX.Element => {
    const { projects } = useProjectsViewContext();
 
    const projectTabs = projects.map((project) => (
@@ -18,21 +17,36 @@ const ProjectList = () => {
 };
 
 const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
+   const { setProjectSettingDialogState } = useProjectsViewContext();
    const { t } = useTranslation();
    const navigate = useNavigate();
 
-   const handleProjectNavigation = (e) => {
-      console.log('first', first);
+   const handleProjectNavigation = () => {
+      navigate(`../${project.id}`);
    };
 
    const handleClientNavigation = () => {
-      console.log('first', first);
+      navigate(`../client/${project.clientId}`);
    };
+
+   const openSettingDialog = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setProjectSettingDialogState({
+         isOpen: true,
+         id: project.id,
+         data: {
+            ...project,
+         },
+      });
+   };
+
+   const formattedDate = format(new Date(project.dateModified), 'dd MMM').toUpperCase();
+
 
    return (
       <div
          className="flex rounded-[15px] h-[40px] relative border-2 border-transparent hover:border-primary transition-colors"
-         style={{ backgroundColor: project.color }}
+         style={{ backgroundColor: project.accentColor }}
          onClick={handleProjectNavigation}
       >
          <div className="z-10 flex items-center pl-3 pr-2 justify-between w-full text-[#333333]">
@@ -48,10 +62,13 @@ const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
                   {project.client}
                </p>
                <p className="w-[170px]">
-                  {t('startedAt')} :{' '}
-                  {new Date(project.dateModified).toLocaleDateString()}
+                  {/* {t('startedAt')} :{' '} */}
+                  Modified : {formattedDate}
                </p>
-               <Dots className="h-[20px] w-[18px]" />
+               <Dots
+                  className="h-[20px] w-[18px] cursor-pointer"
+                  onClick={openSettingDialog}
+               />
             </div>
          </div>
          <div className="opacity-60 absolute rounded-[15px] inset-0 bg-gradient-to-l from-white to-transparent transition-opacity" />
