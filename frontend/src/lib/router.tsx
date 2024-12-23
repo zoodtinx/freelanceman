@@ -3,6 +3,7 @@ import Home from "../routes/HomePage";
 import ProjectPage from "@/routes/ProjectPage";
 import ActionPage from "@/routes/ActionPage";
 import AllProjectPage from "@/routes/AllProjectPage";
+import ClientsPage from "@/routes/ClientPage";
 import ProjectTasksPage from "@/routes/ProjectTaskPage";
 import { Navigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ export const router = createBrowserRouter([
          },
          {
             path: "clients",
-            element: <ActionPage/>
+            element: <ClientsPage/>
          },
          {
             path: "files",
