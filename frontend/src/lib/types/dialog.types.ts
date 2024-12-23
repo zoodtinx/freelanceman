@@ -21,7 +21,7 @@ export type FormDialogState =
         id: string;
         type: 'project';
         mode: 'view' | 'create';
-        data: ProjectSettingFormData;
+        data: Project;
      }
    | {
         isOpen: boolean;

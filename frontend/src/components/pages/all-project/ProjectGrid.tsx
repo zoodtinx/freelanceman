@@ -46,7 +46,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             ...project,
          },
       });
-   };
+   }; 
 
    const openTaskDialog = (e: React.MouseEvent) => {
       e.stopPropagation();

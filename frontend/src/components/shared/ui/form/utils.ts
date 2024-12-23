@@ -80,3 +80,15 @@ export const eventStatusSelections = [
    { value: 'completed', text: 'Completed', color: 'bg-blue-100' },
    { value: 'cancelled', text: 'Cancelled', color: 'bg-red-200' },
 ];
+
+export const projectStatusSelections = [
+   { value: 'active', text: 'Active', color: 'bg-green-100' },
+   { value: 'onHold', text: 'On Hold', color: 'bg-orange-200' },
+   { value: 'completed', text: 'Completed', color: 'bg-blue-200' },
+];
+
+export const paymentStatusSelections = [
+   { value: 'notProcessed', text: 'Not Processed', color: 'bg-gray-200' },
+   { value: 'processing', text: 'Processing', color: 'bg-yellow-200' },
+   { value: 'paid', text: 'Paid', color: 'bg-teal-100' },
+];

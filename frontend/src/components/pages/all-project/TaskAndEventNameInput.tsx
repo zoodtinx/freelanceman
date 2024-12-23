@@ -23,7 +23,6 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
       };
    };
 
-
    const taskName = getValues('name' as Path<TFieldValues>);
 
    const inputRef = useRef<HTMLDivElement | null>(null);

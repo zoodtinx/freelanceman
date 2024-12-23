@@ -18,15 +18,7 @@ export interface Project {
   dateModified: string,
 }
 
-export interface ProjectSettingFormData {
-  name?: string;
-  quickTaskId?: string;
-  brief?: string;
-  projectStatus?: ProjectStatus;
-  paymentStatus?: PaymentStatus;
-  accentColor?: string;
-  dateModified?: string;
-}
+export interface ProjectSettingFormData extends Partial<Omit<Project, 'id' | 'client' | 'clientId' | 'dateCreated'>> {}
 
 export interface File {
   id: string,
