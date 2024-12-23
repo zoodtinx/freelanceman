@@ -38,7 +38,7 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
          inputRef.current.textContent = taskName;
       }
    }, [taskName]);
-
+   
    const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
       clearErrors('name' as Path<TFieldValues>);
       setValue(
@@ -73,7 +73,6 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
                   }
                }}
             ></div>
-            ;
             <div className="w-[0px] shrink-0 text-secondary overflow-hidden peer-focus:w-[25px] peer-focus:text-primary group-hover:w-[25px] transition-all duration-100 order-1">
                <Pencil className="h-[18px] w-auto" />
             </div>

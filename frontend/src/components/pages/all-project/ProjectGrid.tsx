@@ -8,9 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Project, ProjectPreview } from '@types';
 
 const ProjectGrid = () => {
-   const {
-      projects,
-   } = useProjectsViewContext();
+   const { projects } = useProjectsViewContext();
 
    const projectCards =
       projects.length !== 0
@@ -20,7 +18,7 @@ const ProjectGrid = () => {
          : 'no content';
 
    return (
-      <div className="grid grid-cols-4 md:grid-cols-4 gap-3 w-full">
+      <div className="grid grid-cols-4 md:grid-cols-4 gap-2 w-full">
          {projectCards}
       </div>
    );
@@ -46,12 +44,12 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             ...project,
          },
       });
-   }; 
+   };
 
    const openTaskDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
       setTaskDialogState({
-         isOpen: false,
+         isOpen: true,
          id: quickTask.id,
          actionType: 'task',
          mode: 'view',
@@ -91,7 +89,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                <Client className="w-[20px]" />
                <p>{project.client}</p>
             </div>
-            <p className="text-lg line-clamp-3 cursor-default">
+            <p className="text-[20px] line-clamp-3 cursor-default">
                {project.name}
             </p>
          </div>
@@ -102,7 +100,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             }}
          >
             <Task className="text-primary h-[22px] w-auto" />
-            <p className="text-primary truncate">{project.quickTask}</p>
+            <p className="text-primary truncate">{quickTask.name}</p>
          </div>
          <div
             className="absolute inset-0 rounded-[30px] transition-opacity"

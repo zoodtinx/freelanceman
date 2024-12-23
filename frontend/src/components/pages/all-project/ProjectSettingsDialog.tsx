@@ -6,17 +6,10 @@ import {
    DialogTitle,
    DialogTrigger,
 } from '@/components/shared/ui/Dialog';
-import {
-   Select,
-   SelectValue,
-   SelectContent,
-   DialogueSelectTrigger,
-   DialogueSelectItem,
-} from '@/components/shared/ui/FilterSelect';
 import { Button } from '@/components/shared/ui/button';
 import { Pencil, Settings } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useEditProject, useProjectQuery } from '@/lib/api/project-api';
+import { useEditProject } from '@/lib/api/project-api';
 import { DialogProps } from '@/lib/types/dialog.types';
 import {
    defaultProject,
@@ -58,13 +51,11 @@ const ProjectSettingsDialog: React.FC<DialogProps> = ({
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
    };
-
+   
    const onSubmit: SubmitHandler<NewTaskPayload> = (data) => {
       console.log(data);
    };
-
-   const allValues = formMethods.getValues();
-
+   
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
          <DialogTrigger asChild>
