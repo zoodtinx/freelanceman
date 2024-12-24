@@ -42,6 +42,7 @@ export default {
                foreground: 'hsl(var(--secondary-foreground))',
             },
             tertiary: 'hsl(var(--tertiary))',
+            quaternary: 'hsl(var(--quaternary))',
             header: {
                DEFAULT: '#F8F8F8',
                dark: '#262626',

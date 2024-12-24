@@ -62,6 +62,7 @@
     --secondary-foreground: 0 0 9;
     --tertiary: 0 0 92;     /* #EEEEEE converted to hsl(0, 0, 93.3) */
     --tertiary-foreground: 0 0 9;
+    --quaternary: 0 0 96;   /* Example: #D9D9D9 converted to hsl(0, 0, 85) */
     --card-foreground: 0 0 3.9;
     --card: 0 0 100;
     --popover-foreground: 0 0 3.9;
@@ -91,6 +92,7 @@
     --secondary-foreground: 0 0 98;
     --tertiary: 0 0 30;
     --tertiary-foreground: 0 0 98;
+    --quaternary: 0 0 20; /* Example: #333333 converted to hsl(0, 0, 20) */
     --card: 0 0 3.9;
     --card-foreground: 0 0 98;
     --popover: 0 0 3.9;

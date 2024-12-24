@@ -2,6 +2,7 @@ import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import ClientCard from './ClientCard';
 import { mockAllClients as clients } from '@mocks';
+import { Building2 } from 'lucide-react';
 
 const ClientColumn = (): JSX.Element => {
    const handleNewClient = () => {
@@ -18,7 +19,10 @@ const ClientColumn = (): JSX.Element => {
    return (
       <div className="flex flex-col rounded-[30px] bg-foreground p-4 pt-5 h-full gap-[6px] grow">
          <div className="flex justify-between">
-            <p className="text-xl pt-1 leading-none mr-2">Clients</p>
+            <div className='flex items-center gap-1'>
+            <Building2 className='w-6 h-6' />
+               <p className="text-xl pt-1 leading-none mr-2">Clients</p>
+            </div>
             <button
                onClick={handleNewClient}
                className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer"

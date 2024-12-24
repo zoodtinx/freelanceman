@@ -1,4 +1,4 @@
-import { TaskStatus, EventStatus, Project } from "@types";
+import { TaskStatus, EventStatus, Project, Contact } from "@types";
 import { id } from "date-fns/locale";
 
 export const formDefaultValue = (actionType: 'event' | 'task') => {
@@ -52,6 +52,16 @@ export const taskDefaultValues = {
    link: '',
 };
 
+export const defaultContact: Contact = {
+   id: '',
+   company: '',
+   email: [],
+   details: '',
+   type: 'client',
+   name: '',
+   phoneNumber: [],
+   role: '',
+};
 
 export const defaultProject: Project = {
    id: '',

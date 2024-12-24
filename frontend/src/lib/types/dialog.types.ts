@@ -1,5 +1,5 @@
 import { TaskFormData, EventFormData } from '@types';
-import type { Project, ProjectSettingFormData } from '@types';
+import type { Contact, Project, ProjectSettingFormData } from '@types';
 
 export type FormDialogState =
    | {
@@ -36,7 +36,21 @@ export type FormDialogState =
         type: 'document';
         mode: 'view' | 'create';
         data: DocumentFormData;
-     };
+     }
+     | {
+      isOpen: boolean;
+      id: string;
+      type: 'clientContact';
+      mode: 'view' | 'create';
+      data: Contact;
+   }
+   | {
+      isOpen: boolean;
+      id: string;
+      type: 'partnerContact';
+      mode: 'view' | 'create';
+      data: Contact;
+   };
 
 export interface DialogProps {
    dialogState: FormDialogState;

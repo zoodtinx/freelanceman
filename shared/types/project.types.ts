@@ -35,12 +35,3 @@ export interface File {
 export interface Document {
   id: string,
 }
-
-export interface Contact {
-  id: string,
-  name: string,
-  position: string,
-  role: string,
-  company: string,
-  avatar: string
-}
