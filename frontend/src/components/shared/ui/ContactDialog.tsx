@@ -1,3 +1,4 @@
+import DialogHeaderNameInput from './form/DialogHeaderNameInput';
 import { cn } from '@/lib/helper/utils';
 import clsx from 'clsx';
 import { useForm, SubmitHandler, Path } from 'react-hook-form';
@@ -23,13 +24,15 @@ const ContactDialog = ({
    dialogState,
    setDialogState,
 }: DialogProps): JSX.Element => {
+   const [isEditing, setIsEditing] = useState(false)
    const formMethods = useForm<Contact>({
       defaultValues: defaultContact,
    });
 
-   const { handleSubmit, reset, register } = formMethods;
+   const { handleSubmit, reset, register, getValues } = formMethods;
 
    const handleDialogueClose = () => {
+      setIsEditing(false)
       setDialogState({
          isOpen: false,
          id: '',
@@ -68,6 +71,72 @@ const ContactDialog = ({
       );
    }
 
+   console.log('isEditing', isEditing)
+
+   const RightButton = () => {
+      if (dialogState.mode === 'view') {
+         if (!isEditing) {
+            return (
+               <Button
+                  type="submit"
+                  variant={'default'}
+                  onClick={() => setIsEditing(true)}
+               >
+                  Edit
+               </Button>
+            );
+         }
+         return (
+            <Button
+               type="submit"
+               variant={'default'}
+            >
+               Save
+            </Button>
+         );
+      } else if (dialogState.mode === 'create') {
+         return (
+            <Button
+               type="submit"
+               variant={'default'}
+            >
+               Create new contact
+            </Button>
+         )
+      }
+   };
+
+   const LeftButton = () => {
+      if (dialogState.mode === 'view') {
+         if (!isEditing) {
+            return (
+               <Button
+               variant={'destructive'}
+            >
+               Delete
+            </Button>
+            // <p className='flex items-center pl-1 text-base font-semibold text-red-500 cursor-pointer'>Delete Contact</p>
+            );
+         }
+         return (
+            <Button
+               variant={'link'}
+            >
+               Delete client
+            </Button>
+         );
+      } else if (dialogState.mode === 'create') {
+         return (
+            <Button
+                  variant={'destructiveOutline'}
+                  onClick={() => setIsEditing(false)}
+               >
+                  Discard
+               </Button>
+         )
+      }
+   };
+
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
          <DialogTrigger asChild>
@@ -101,11 +170,18 @@ const ContactDialog = ({
                         </div>
                         <div className="flex flex-col leading-5">
                            <p className="w-[80px] text-secondary">Company</p>
-                           <ClickEditInput
-                              formMethods={formMethods}
-                              fieldName="company"
-                              className="font-medium"
-                           />
+                           {isEditing ? (
+                              <Input
+                                 {...register('company', {
+                                    required:
+                                       'At least one phone number is required',
+                                 })}
+                              />
+                           ) : (
+                              <p className="text-md font-medium">
+                                 {getValues('company')}
+                              </p>
+                           )}
                         </div>
                         <div className="flex flex-col leading-5">
                            <p className="w-[80px] text-secondary">Role</p>
@@ -150,25 +226,8 @@ const ContactDialog = ({
                </div>
                <DialogFooter>
                   <div className="flex justify-between p-4">
-                     <div className="flex gap-1">
-                        <Button
-                           variant={'destructive'}
-                           onClick={handleDialogueClose}
-                        >
-                           Delete 
-                        </Button>
-                        <Button
-                           variant={'destructiveOutline'}
-                           onClick={handleDialogueClose}
-                        >
-                           Discard
-                        </Button>
-                     </div>
-                     <div className="flex gap-2">
-                        <Button type="submit" variant={'default'}>
-                           Edit
-                        </Button>
-                     </div>
+                     <LeftButton />
+                     <RightButton />
                   </div>
                </DialogFooter>
             </form>
