@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 
 type SideBarTabProps = {
-   tab: 'projects' | 'files' | 'actions' | 'clients' | 'documents' | 'notes';
+   tab: 'projects' | 'files' | 'actions' | 'contacts' | 'documents' | 'notes';
 };
 
 const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
@@ -39,10 +39,10 @@ const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
          icon = <Checkbox className='w-[27px] h-auto' />;
          route = 'actions';
          break;
-      case 'clients':
-         label = t('clients');
+      case 'contacts':
+         label = 'Contacts';
          icon = <Client className='w-[27px] h-auto' />;
-         route = 'clients';
+         route = 'contacts';
          break;
       case 'documents':
          label = t('documents');

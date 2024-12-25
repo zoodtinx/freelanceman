@@ -9,7 +9,7 @@ export default function SideBar() {
             <ul className="mb-2 flex flex-col gap-1">
                <SideBarTab tab="projects" />
                <SideBarTab tab="actions" />
-               <SideBarTab tab="clients" />
+               <SideBarTab tab="contacts" />
                <SideBarTab tab="files" />
                <SideBarTab tab="documents" />
                <SideBarTab tab="notes" />

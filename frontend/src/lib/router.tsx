@@ -9,63 +9,73 @@ import { Navigate } from "react-router-dom";
 
 export const router = createBrowserRouter([
    {
-      path: "/",
+      path: '/',
       element: <Home />,
    },
    {
-      path: "/home",
+      path: '/home',
       element: <Home />,
       children: [
          {
-            path: "",
+            path: '',
             element: <Navigate to={'projects'} />,
          },
          {
-            path: "projects",
-            element: <AllProjectPage/>,
+            path: 'projects',
+            element: <AllProjectPage />,
          },
          {
-            path: "actions",
-            element: <ActionPage/>
+            path: 'actions',
+            element: <ActionPage />,
          },
          {
-            path: "clients",
-            element: <ClientsPage/>
+            path: 'contacts',
+            element: <ClientsPage />,
+            children: [
+               {
+                  path: '',
+                  element: <Navigate to={'clients'} />,
+               },
+               {
+                  path: 'clients',
+                  element: <div>Hello</div>,
+               },
+            ],
          },
          {
-            path: "files",
-            element: <ActionPage/>
+            path: 'files',
+            element: <ActionPage />,
          },
          {
-            path: "documents",
-            element: <ActionPage/>
+            path: 'documents',
+            element: <ActionPage />,
          },
          {
-            path: "notes",
-            element: <ActionPage/>
+            path: 'notes',
+            element: <ActionPage />,
          },
          {
-            path: ":projectId",
+            path: ':projectId',
             element: <ProjectPage />,
             children: [
                {
-                  path: "",
-                  element: <div>Hello</div>
+                  path: '',
+                  element: <div>Hello</div>,
                },
                {
-                  path: "tasks",
-                  element: <ProjectTasksPage />
+                  path: 'tasks',
+                  element: <ProjectTasksPage />,
                },
                {
-                  path: "files",
+                  path: 'files',
                },
                {
-                  path: "documents",
+                  path: 'documents',
                },
                {
-                  path: "materials",
+                  path: 'materials',
                },
-            ]
+            ],
          },
       ],
    },

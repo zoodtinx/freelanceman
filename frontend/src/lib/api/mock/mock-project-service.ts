@@ -1,4 +1,4 @@
-import type { Project, ProjectPreview } from '@types';
+import type { Project, ProjectPreview, ProjectQueryOption } from '@types';
 import { mockSingleProject as sampleProject } from '@/lib/mock/singleProject';
 import { mockAllProjects as sampleAllPropjects } from '@mocks';
 
@@ -34,9 +34,45 @@ export const editProject = <K extends keyof Partial<Project>>(
    return Promise.resolve(sampleProject);
 };
 
-export const getAllProjects = (): Promise<Project[]> => {
+export const getAllProjects = (query: ProjectQueryOption): Promise<Project[]> => {
    return new Promise((resolve) => {
-      setTimeout(() => resolve(sampleAllPropjects), 500);
+      setTimeout(() => {
+         // Return all projects if no query terms are provided or name is an empty string
+         if (
+            !query ||
+            Object.keys(query).length === 0 ||
+            (query.name === '' && !query.clientId && !query.projectStatus && !query.paymentStatus && !query.dateCreated)
+         ) {
+            resolve(sampleAllPropjects);
+            return;
+         }
+
+         const filteredProjects = sampleAllPropjects.filter((project) => {
+            const matchesName =
+               query.name &&
+               query.name.trim() !== '' &&
+               project.name.toLowerCase().includes(query.name.toLowerCase());
+            const matchesClientId =
+               query.clientId && project.clientId === query.clientId;
+            const matchesProjectStatus =
+               query.projectStatus && project.projectStatus === query.projectStatus;
+            const matchesPaymentStatus =
+               query.paymentStatus && project.paymentStatus === query.paymentStatus;
+            const matchesDateCreated =
+               query.dateCreated &&
+               project.dateCreated === query.dateCreated;
+
+            return (
+               matchesName ||
+               matchesClientId ||
+               matchesProjectStatus ||
+               matchesPaymentStatus ||
+               matchesDateCreated
+            );
+         });
+
+         resolve(filteredProjects);
+      }, 500);
    });
 };
 

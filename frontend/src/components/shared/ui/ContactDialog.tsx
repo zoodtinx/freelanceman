@@ -1,9 +1,6 @@
 import { Separator } from './separator';
-import DialogHeaderNameInput from './form/DialogHeaderNameInput';
-import { cn } from '@/lib/helper/utils';
-import clsx from 'clsx';
-import { useForm, SubmitHandler, Path, useWatch } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
+import { useForm, SubmitHandler, Path, useWatch, Controller } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import {
    DialogContent,
    DialogHeader,
@@ -15,11 +12,13 @@ import {
 import { Button } from './button';
 import type { DialogProps } from '@/lib/types/dialog.types';
 import { defaultContact } from './form/utils';
-import { Client, Contact, NewContactPayload } from '@types';
+import { Client, Contact, NewContactPayload, ProjectQueryOption } from '@types';
 import { Input } from './input';
 import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck } from 'lucide-react';
 import { Textarea } from './textarea';
 import { InputProps } from '@/lib/types/form-input-props.types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './Select';
+import { useAllProjectsQuery, useProjectQuery } from '@/lib/api/project-api';
 
 const ContactDialog = ({
    dialogState,
@@ -289,6 +288,44 @@ const ContactDialog = ({
       </Dialog>
    );
 };
+
+const CompanySelect = ({
+   formMethods,
+   dialogState,
+   fieldName,
+}: InputProps<Contact> & { options: { value: string; label: string }[] }) => {
+   const { control } = formMethods;
+
+   const [searchOption, setSearchOption] = useState<ProjectQueryOption>({})
+
+   const {data: companyList, isLoading} = useAllProjectsQuery(searchOption)
+
+   return (
+      <Controller
+         name={fieldName as Path<Contact>}
+         control={control}
+         defaultValue="" 
+         render={({ field, fieldState }) => (
+            <Select
+               value={field.value} 
+               onValueChange={(value) => field.onChange(value)} 
+            >
+               <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a company" />
+               </SelectTrigger>
+               <SelectContent>
+                  {options.map((option) => (
+                     <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                     </SelectItem>
+                  ))}
+               </SelectContent>
+            </Select>
+         )}
+      />
+   );
+};
+
 
 const ArrayInput = ({
    formMethods,

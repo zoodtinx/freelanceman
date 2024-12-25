@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { editProject, getProject, getAllProjects, deleteProject } from './mock/mock-project-service';
-import type { Project, ProjectSettingFormData } from '@types';
+import type { Project, ProjectQueryOption, ProjectSettingFormData } from '@types';
 
 
 export const useProjectQuery = (projectId: string) => {
@@ -12,11 +12,10 @@ export const useProjectQuery = (projectId: string) => {
    return query;
 };
 
-
-export const useAllProjectsQuery = () => {
+export const useAllProjectsQuery = (option: ProjectQueryOption) => {
    const query = useQuery<Project[], Error>({
-      queryKey: ['projects'],
-      queryFn: () => getAllProjects(),
+      queryKey: ['projects', option],
+      queryFn: () => getAllProjects(option),
    });
 
    return query;

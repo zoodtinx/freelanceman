@@ -1,5 +1,6 @@
 import ClientColumn from '@/components/pages/clients/ClientColumn';
 import ContactColumn from '@/components/pages/clients/ContactColumn';
+import { Outlet } from 'react-router-dom';
 
 export default function ClientsPage() {
 
