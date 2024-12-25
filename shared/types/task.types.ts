@@ -6,14 +6,15 @@ export interface Task {
    status: TaskStatus;
    details: string;
    link: string;
-   createdAt: string;
    dueDate: string;
    project: string;
    projectId: string;
    client: string;
    clientId: string;
+   dateCreated: string,
+   dateModified: string,
 }
 
-export type NewTaskPayload = Omit<Task, 'createdAt' | 'project' | 'client'>;
+export type NewTaskPayload = Omit<Task, 'dateCreated' | 'project' | 'client' | 'dateModified'>;
 
-export type TaskFormData = Omit<Task, 'createdAt'>;
+export type TaskFormData = Omit<Task, 'dateCreated' | 'dateModified'>;

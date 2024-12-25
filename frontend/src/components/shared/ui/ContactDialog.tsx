@@ -1,7 +1,8 @@
+import { Separator } from './separator';
 import DialogHeaderNameInput from './form/DialogHeaderNameInput';
 import { cn } from '@/lib/helper/utils';
 import clsx from 'clsx';
-import { useForm, SubmitHandler, Path } from 'react-hook-form';
+import { useForm, SubmitHandler, Path, useWatch } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import {
    DialogContent,
@@ -16,7 +17,7 @@ import type { DialogProps } from '@/lib/types/dialog.types';
 import { defaultContact } from './form/utils';
 import { Client, Contact } from '@types';
 import { Input } from './input';
-import { CircleUserRound, User, Plus, X, Pencil } from 'lucide-react';
+import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck } from 'lucide-react';
 import { Textarea } from './textarea';
 import { InputProps } from '@/lib/types/form-input-props.types';
 
@@ -24,15 +25,21 @@ const ContactDialog = ({
    dialogState,
    setDialogState,
 }: DialogProps): JSX.Element => {
-   const [isEditing, setIsEditing] = useState(false)
+   const [isEditing, setIsEditing] = useState(false);
    const formMethods = useForm<Contact>({
       defaultValues: defaultContact,
    });
 
-   const { handleSubmit, reset, register, getValues } = formMethods;
+   const {
+      handleSubmit,
+      reset,
+      register,
+      getValues,
+      formState: { errors },
+   } = formMethods;
 
    const handleDialogueClose = () => {
-      setIsEditing(false)
+      setIsEditing(false);
       setDialogState({
          isOpen: false,
          id: '',
@@ -47,6 +54,7 @@ const ContactDialog = ({
          reset(dialogState.data);
       } else if (dialogState.mode === 'create') {
          reset(defaultContact);
+         setIsEditing(true);
       }
    }, [dialogState, reset]);
 
@@ -71,7 +79,7 @@ const ContactDialog = ({
       );
    }
 
-   console.log('isEditing', isEditing)
+   console.log('isEditing', isEditing);
 
    const RightButton = () => {
       if (dialogState.mode === 'view') {
@@ -81,28 +89,26 @@ const ContactDialog = ({
                   type="submit"
                   variant={'default'}
                   onClick={() => setIsEditing(true)}
+                  className='flex gap-1'
                >
                   Edit
+                  <Pencil className='w-4 h-4' />
                </Button>
             );
          }
          return (
-            <Button
-               type="submit"
-               variant={'default'}
-            >
+            <Button type="submit" variant={'submit'} className='flex gap-1'>
                Save
+               <CircleCheck className='w-4 h-4' />
             </Button>
          );
       } else if (dialogState.mode === 'create') {
          return (
-            <Button
-               type="submit"
-               variant={'default'}
-            >
+            <Button type="submit" variant={'submit'} className='flex gap-1'>
                Create new contact
+               <CircleCheck className='w-4 h-4' />
             </Button>
-         )
+         );
       }
    };
 
@@ -110,32 +116,38 @@ const ContactDialog = ({
       if (dialogState.mode === 'view') {
          if (!isEditing) {
             return (
-               <Button
-               variant={'destructive'}
-            >
-               Delete
-            </Button>
-            // <p className='flex items-center pl-1 text-base font-semibold text-red-500 cursor-pointer'>Delete Contact</p>
+               <Button variant={'destructive'} className='flex gap-1'>
+                  Delete
+                  <Trash2 className='w-4 h-4' />
+               </Button>
             );
          }
          return (
             <Button
-               variant={'link'}
+               variant={'destructiveOutline'}
+               onClick={() => setIsEditing(false)}
+               className='flex gap-1'
             >
-               Delete client
+               Discard
+               <ClipboardX className='w-4 h-4' />
             </Button>
          );
       } else if (dialogState.mode === 'create') {
          return (
             <Button
-                  variant={'destructiveOutline'}
-                  onClick={() => setIsEditing(false)}
-               >
-                  Discard
-               </Button>
-         )
+               variant={'destructiveOutline'}
+               onClick={handleDialogueClose}
+               className='flex gap-1'
+            >
+               Discard
+               <ClipboardX className='w-4 h-4' />
+            </Button>
+         );
       }
    };
+
+   const phoneNumbers = getValues('phoneNumber');
+   const emails = getValues('email');
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
@@ -144,7 +156,10 @@ const ContactDialog = ({
                Edit Contact
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px]">
+         <DialogContent
+            className="sm:max-w-[425px]"
+            onInteractOutside={(e) => e.preventDefault()}
+         >
             <form onSubmit={handleSubmit(onSubmit, onError)}>
                <DialogHeader>
                   <DialogTitle className="flex items-center gap-1">
@@ -158,25 +173,36 @@ const ContactDialog = ({
                   </DialogTitle>
                </DialogHeader>
                <div className="flex flex-col p-5 pt-3 gap-2">
-                  <div className="flex w-full gap-3 justify-between">
-                     <div className="flex flex-col w-1/2 gap-2">
+                  <div className="flex w-full gap-3 justify-between itm">
+                     <div className="flex flex-col w-3/5 gap-2">
                         <div className="flex flex-col leading-5">
                            <p className="w-[80px] text-secondary">Name</p>
-                           <ClickEditInput
-                              formMethods={formMethods}
-                              fieldName="name"
-                              className="text-lg font-medium"
-                           />
+                           {isEditing ? (
+                              <div className="flex flex-col">
+                                 <Input
+                                    {...register('name', {
+                                       required: 'At least a name is required',
+                                    })}
+                                    className='w-full'
+                                 />
+                                 {errors.name && (
+                                    <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                                       {typeof errors.name?.message === 'string'
+                                          ? errors.name.message
+                                          : ''}
+                                    </p>
+                                 )}
+                              </div>
+                           ) : (
+                              <p className="text-lg font-medium">
+                                 {getValues('name')}
+                              </p>
+                           )}
                         </div>
                         <div className="flex flex-col leading-5">
                            <p className="w-[80px] text-secondary">Company</p>
                            {isEditing ? (
-                              <Input
-                                 {...register('company', {
-                                    required:
-                                       'At least one phone number is required',
-                                 })}
-                              />
+                              <Input {...register('company')} />
                            ) : (
                               <p className="text-md font-medium">
                                  {getValues('company')}
@@ -185,43 +211,63 @@ const ContactDialog = ({
                         </div>
                         <div className="flex flex-col leading-5">
                            <p className="w-[80px] text-secondary">Role</p>
-                           <ClickEditInput
-                              formMethods={formMethods}
-                              fieldName="role"
-                              className="font-medium"
-                           />
+                           {isEditing ? (
+                              <Input {...register('role')} />
+                           ) : (
+                              <p className="text-md font-medium">
+                                 {getValues('role')}
+                              </p>
+                           )}
                         </div>
                      </div>
-                     <div className="flex w-[140px] h-[140px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
+                     <div className="flex w-[125px] h-[125px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
                         {avatar}
                      </div>
                   </div>
+                  <Separator className="my-2" />
                   <div className="flex w-full gap-2">
                      <div className="flex flex-col w-1/3">
                         <p className="text-secondary w-full">Phone Number</p>
-                        <ArrayInput
-                           formMethods={formMethods}
-                           fieldName="phoneNumber"
-                        />
+                        {isEditing ? (
+                           <ArrayInput
+                              formMethods={formMethods}
+                              fieldName="phoneNumber"
+                           />
+                        ) : (
+                           phoneNumbers.map((number) => (
+                              <p className="text-base">{number}</p>
+                           ))
+                        )}
                      </div>
-                     <div className="flex flex-col w-1/2">
+                     <div className="flex flex-col grow">
                         <p className="text-secondary w-full">Email</p>
-                        <ArrayInput
-                           formMethods={formMethods}
-                           dialogState={dialogState}
-                           fieldName="email"
-                        />
+                        {isEditing ? (
+                           <ArrayInput
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                              fieldName="email"
+                           />
+                        ) : (
+                           emails.map((email) => (
+                              <p className="text-base">{email}</p>
+                           ))
+                        )}
                      </div>
                   </div>
+                  <Separator className="my-2" />
                   <div>
-                     <p className="text-secondary w-full">Details</p>
-                     <Textarea
-                        {...register('details', {
-                           required: 'At least one phone number is required',
-                        })}
-                        className="resize-none"
-                        placeholder="Enter phone number"
-                     />
+                     <p className="text-secondary w-full">Info</p>
+                     {isEditing ? (
+                        <Textarea
+                           {...register('details')}
+                           className="resize-none"
+                           placeholder="Enter phone number"
+                        />
+                     ) : (
+                        <p className="text-base font-medium">
+                           {getValues('details')}
+                        </p>
+                     )}
                   </div>
                </div>
                <DialogFooter>
@@ -238,17 +284,16 @@ const ContactDialog = ({
 
 const ArrayInput = ({
    formMethods,
-   dialogState,
    fieldName,
 }: InputProps<Contact>): JSX.Element => {
-   const { watch, setValue, register } = formMethods;
-   const arrayValue = watch(fieldName as string) || [];
-   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+   const { getValues, setValue, register, watch } = formMethods;
+   const arrayValue =
+      useWatch({
+         control: formMethods.control,
+         name: fieldName,
+      }) || [];
 
-   const handleAddField = () => {
-      setEditingIndex(arrayValue.length);
-      setValue(fieldName as string, [...arrayValue, '']);
-   };
+   console.log('arrayValue', arrayValue);
 
    const handleRemoveField = (index: number) => {
       const updatedArray = [...arrayValue];
@@ -256,132 +301,61 @@ const ArrayInput = ({
       setValue(fieldName as string, updatedArray);
    };
 
-   const handleInputChange = (index: number, newValue: string) => {
-      const updatedArray = [...arrayValue];
-      updatedArray[index] = newValue;
-      setValue(fieldName as string, updatedArray);
+   const handleAddField = () => {
+      setValue(fieldName as string, [...arrayValue, '']);
+   };
+
+   const ArrayElement = () => {
+      if (arrayValue.length > 1) {
+         return (
+            <>
+               {arrayValue.map((value: string, index: number) => {
+                  const inputFieldName = `${fieldName}.${index}` as const;
+                  return (
+                     <div key={index} className="flex items-center gap-1">
+                        <Input
+                           {...register(inputFieldName)}
+                           defaultValue={value}
+                           className="input w-full"
+                           placeholder="Enter value"
+                        />
+                        <button
+                           type="button"
+                           onClick={() => handleRemoveField(index)}
+                           className="rounded-full p-[0.7px] bg-red-600 text-white cursor-default aspect-square h-4 w-4 flex items-center justify-center"
+                        >
+                           <X className="w-3 h-3 stroke-2" />
+                        </button>
+                     </div>
+                  );
+               })}
+            </>
+         );
+      } else {
+         return (
+            <div className="flex items-center gap-1">
+               <Input
+                  {...register(`${fieldName}.0` as const)}
+                  defaultValue=""
+                  className="input w-full"
+                  placeholder="Enter value"
+               />
+            </div>
+         );
+      }
    };
 
    return (
       <div className="flex flex-col gap-2">
-         {arrayValue.map((value: string, index: number) => {
-            const inputFieldName = `${fieldName}.${index}` as const;
-            return (
-               <div key={index} className="flex items-center gap-2 relative">
-                  {editingIndex === index ? (
-                     <Input
-                        {...register(inputFieldName)}
-                        defaultValue={value}
-                        onBlur={(e) => {
-                           handleInputChange(index, e.target.value);
-                           setEditingIndex(null);
-                        }}
-                        className="input w-full"
-                        placeholder="Enter value"
-                        autoFocus
-                     />
-                  ) : (
-                     <p
-                        className="cursor-pointer text-md"
-                        onClick={() => setEditingIndex(index)}
-                     >
-                        {value || 'Enter value'}
-                     </p>
-                  )}
-                  <button
-                     type="button"
-                     onClick={() => handleRemoveField(index)}
-                     className="text-red-500 hover:text-red-700"
-                  >
-                     <X className="w-4 h-4" />
-                  </button>
-               </div>
-            );
-         })}
-         {!arrayValue.length || editingIndex === arrayValue.length ? (
-            <div className="flex items-center gap-2">
-               <Input
-                  {...register(`${fieldName}.${arrayValue.length}` as const)}
-                  onBlur={(e) => {
-                     if (e.target.value.trim()) {
-                        handleInputChange(arrayValue.length, e.target.value);
-                     } else {
-                        const updatedArray = [...arrayValue];
-                        updatedArray.splice(arrayValue.length, 1);
-                        setValue(fieldName as string, updatedArray);
-                     }
-                     setEditingIndex(null);
-                  }}
-                  className="input w-full"
-                  placeholder="Enter value"
-                  autoFocus
-               />
-            </div>
-         ) : (
-            <button
-               type="button"
-               onClick={handleAddField}
-               className="flex border rounded-md w-fit text-sm items-center gap-1 px-1"
-            >
-               <Plus className="w-3 h-3" />
-               Add more
-            </button>
-         )}
-      </div>
-   );
-};
-
-const ClickEditInput: React.FC<InputProps<Contact>> = ({
-   fieldName,
-   formMethods,
-   className,
-}) => {
-   const [isEditing, setIsEditing] = useState(false);
-   const { register, setValue, watch } = formMethods;
-
-   const handleEditToggle = () => {
-      setIsEditing((prev) => !prev);
-   };
-
-   const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      setValue(fieldName as Path<Project>, event.target.value);
-      setIsEditing(false);
-   };
-
-   const value = watch(fieldName);
-
-   console.log('className', className);
-
-   return (
-      <div className="flex items-start w-full group">
-         {isEditing ? (
-            <Input
-               {...register(fieldName as Path<Project>)}
-               className="resize-none w-full border border-secondary rounded-md placeholder:text-secondary"
-               placeholder={'Enter a name'}
-               onBlur={handleBlur}
-               autoFocus
-            />
-         ) : (
-            <>
-               <div
-                  className={cn(
-                     'flex-1 border border-transparent rounded-md cursor-default font-semibold text-md',
-                     className
-                  )}
-               >
-                  {value || <span>{'Enter a name'}</span>}
-               </div>
-               <button
-                  type="button"
-                  className="p-1 bg-transparent border-none opacity-0 transition-opacity hover:bg-gray-100 group-hover:opacity-100 rounded-md"
-                  onClick={handleEditToggle}
-                  aria-label="Edit name"
-               >
-                  <Pencil className="w-4 h-4 " />
-               </button>
-            </>
-         )}
+         <ArrayElement />
+         <button
+            type="button"
+            onClick={handleAddField}
+            className="flex rounded-md w-fit text-sm items-center gap-1 px-1 bg-primary text-foreground"
+         >
+            <Plus className="w-3 h-3" />
+            Add more
+         </button>
       </div>
    );
 };
