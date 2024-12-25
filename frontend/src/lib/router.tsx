@@ -6,6 +6,7 @@ import AllProjectPage from "@/routes/AllProjectPage";
 import ClientsPage from "@/routes/ClientPage";
 import ProjectTasksPage from "@/routes/ProjectTaskPage";
 import { Navigate } from "react-router-dom";
+import ClientColumn from "@/components/pages/clients/ClientColumn";
 
 export const router = createBrowserRouter([
    {
@@ -38,7 +39,11 @@ export const router = createBrowserRouter([
                },
                {
                   path: 'clients',
-                  element: <div>Hello</div>,
+                  element: <ClientColumn/>,
+               },
+               {
+                  path: 'partners',
+                  element: <div>Partner</div>,
                },
             ],
          },
