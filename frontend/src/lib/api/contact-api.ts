@@ -6,12 +6,12 @@ import {
    createContact,
    deleteContact,
 } from './mock/mock-contact-service';
-import type { Contact, NewContactPayload } from '@types';
+import type { Contact, ContactSearchOption, NewContactPayload } from '@types';
 
-export const useAllContactsQuery = () => {
+export const useAllContactsQuery = (searchTerm : ContactSearchOption) => {
    return useQuery({
-      queryKey: ['contacts'],
-      queryFn: getAllContacts,
+      queryKey: ['contacts', searchTerm],
+      queryFn: () => getAllContacts(searchTerm),
    });
 };
 

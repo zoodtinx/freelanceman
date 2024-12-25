@@ -1,5 +1,5 @@
 import { mockContacts } from "@mocks";
-import type { Contact, NewContactPayload } from "@types";
+import type { Contact, ContactSearchOption, NewContactPayload } from "@types";
 
 export const getContact = (id: string) => {
    const contact = mockContacts.find((contact) => contact.id === id);
@@ -9,11 +9,36 @@ export const getContact = (id: string) => {
    });
 };
 
-export const getAllContacts = () => {
+export const getAllContacts = (searchTerm: ContactSearchOption) => {
    return new Promise((resolve) => {
-      setTimeout(() => resolve(mockContacts), 500);
+      setTimeout(() => {
+         // Return all contacts if no search terms are provided or name is an empty string
+         if (
+            !searchTerm ||
+            Object.keys(searchTerm).length === 0 ||
+            (searchTerm.name === '' && !searchTerm.companyId && !searchTerm.type)
+         ) {
+            resolve(mockContacts);
+            return;
+         }
+
+         const filteredContacts = mockContacts.filter((contact) => {
+            const matchesName =
+               searchTerm.name &&
+               searchTerm.name.trim() !== '' &&
+               contact.name.toLowerCase().includes(searchTerm.name.toLowerCase());
+            const matchesClientId =
+               searchTerm.companyId !== undefined && contact.companyId === searchTerm.companyId;
+            const matchesType = searchTerm.type && contact.type === searchTerm.type;
+
+            return matchesName || matchesClientId || matchesType;
+         });
+
+         resolve(filteredContacts);
+      }, 500);
    });
 };
+
 
 export const editContact = (id: string, contactPayload: Partial<Contact>) => {
    console.log('id', id);

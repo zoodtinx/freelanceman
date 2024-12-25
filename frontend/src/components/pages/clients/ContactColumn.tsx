@@ -5,7 +5,7 @@ import {
 } from '@/components/shared/ui/popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { Contact } from '@types';
+import { Contact, ContactSearchOption } from '@types';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from '@/components/shared/ui/form/utils';
@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { mockContacts as contacts } from '@mocks';
 import { CircleUserRound } from 'lucide-react';
+import { useAllContactsQuery } from '@/lib/api/contact-api';
 
 const ContactColumn = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -23,9 +24,14 @@ const ContactColumn = (): JSX.Element => {
       data: defaultContact,
    });
 
-   const contactList = contacts.map((contact) => {
-      return <ContactCard contact={contact} setDialogState={setDialogState} />;
+   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
    });
+
+   const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
+
+   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
+   };
 
    return (
       <div className="flex flex-col w-[350px] rounded-[30px] bg-foreground p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0">
@@ -36,12 +42,26 @@ const ContactColumn = (): JSX.Element => {
             </div>
             <NewContactButton setDialogState={setDialogState} />
          </div>
-         <SearchBox placeholder="Search contact" className="w-full" />
-         <div className="flex flex-col gap-1">{contactList}</div>
-         <ContactDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
+         <SearchBox
+            placeholder="Search contact"
+            className="w-full"
+            onChange={handleSearch}
+            value={searchOptions.name || ''}
          />
+         {isLoading ? (
+            <p>Loading...</p>
+         ) : (
+            <div className="flex flex-col gap-1">
+               {contacts?.map((contact) => (
+                  <ContactCard
+                     key={contact.id}
+                     contact={contact}
+                     setDialogState={setDialogState}
+                  />
+               ))}
+            </div>
+         )}
+         <ContactDialog dialogState={dialogState} setDialogState={setDialogState} />
       </div>
    );
 };

@@ -15,7 +15,7 @@ import {
 import { Button } from './button';
 import type { DialogProps } from '@/lib/types/dialog.types';
 import { defaultContact } from './form/utils';
-import { Client, Contact } from '@types';
+import { Client, Contact, NewContactPayload } from '@types';
 import { Input } from './input';
 import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck } from 'lucide-react';
 import { Textarea } from './textarea';
@@ -63,6 +63,16 @@ const ContactDialog = ({
    };
 
    const onSubmit: SubmitHandler<Contact> = (data) => {
+      const payload: NewContactPayload = {
+         name: data.name,
+         avatar: data.avatar,
+         clientId: data.clientId,
+         role: data.role,
+         details: data.details,
+         email: data.email,
+         phoneNumber: data.phoneNumber,
+         type: dialogState.type
+      }
       console.log(data);
    };
 
@@ -78,8 +88,6 @@ const ContactDialog = ({
          />
       );
    }
-
-   console.log('isEditing', isEditing);
 
    const RightButton = () => {
       if (dialogState.mode === 'view') {
@@ -165,7 +173,7 @@ const ContactDialog = ({
                   <DialogTitle className="flex items-center gap-1">
                      <User className="w-5 h-5" />
                      <p>
-                        {dialogState.type === 'clientContact'
+                        {dialogState.type === 'client-contact'
                            ? 'Client'
                            : 'Partner'}{' '}
                         Contact

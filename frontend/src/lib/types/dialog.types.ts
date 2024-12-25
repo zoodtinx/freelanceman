@@ -40,14 +40,14 @@ export type FormDialogState =
      | {
       isOpen: boolean;
       id: string;
-      type: 'clientContact';
+      type: 'client-contact';
       mode: 'view' | 'create';
       data: Contact;
    }
    | {
       isOpen: boolean;
       id: string;
-      type: 'partnerContact';
+      type: 'partner-contact';
       mode: 'view' | 'create';
       data: Contact;
    };
