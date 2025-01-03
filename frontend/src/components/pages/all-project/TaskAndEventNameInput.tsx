@@ -24,21 +24,23 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
    };
 
    const taskName = getValues('name' as Path<TFieldValues>);
-
    const inputRef = useRef<HTMLDivElement | null>(null);
 
    useEffect(() => {
-      if (dialogState?.mode === 'create') {
-         inputRef.current?.focus();
+      if (
+         (dialogState?.mode === 'create' || dialogState?.mode === 'edit') &&
+         inputRef.current
+      ) {
+         inputRef.current.textContent =
+            dialogState.mode === 'create' ? '' : taskName || '';
+         setValue(
+            'name' as Path<TFieldValues>,
+            '' as PathValue<TFieldValues, Path<TFieldValues>>
+         );
+         inputRef.current.focus();
       }
-   }, [dialogState, errors.name]);
+   }, [dialogState, taskName, setValue]);
 
-   useEffect(() => {
-      if (inputRef.current && taskName !== inputRef.current.textContent) {
-         inputRef.current.textContent = taskName;
-      }
-   }, [taskName]);
-   
    const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
       clearErrors('name' as Path<TFieldValues>);
       setValue(
@@ -50,12 +52,22 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
       );
    };
 
+   if (dialogState?.mode === 'view') {
+      return (
+         <div className="w-full">
+            <p className="text-lg font-medium">
+               {taskName || 'No name provided'}
+            </p>
+         </div>
+      );
+   }
+
    return (
       <div>
-         <div className="group w-full relative flex">
+         <div className="w-full relative flex">
             <div
                suppressContentEditableWarning
-               className="peer w-full rounded-md focus:outline-none order-2 break-words whitespace-pre-wrap pr-7"
+               className="peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap pr-7 text-lg font-medium"
                contentEditable="true"
                role="textbox"
                data-placeholder="Enter name"
@@ -73,12 +85,12 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
                   }
                }}
             ></div>
-            <div className="w-[0px] shrink-0 text-secondary overflow-hidden peer-focus:w-[25px] peer-focus:text-primary group-hover:w-[25px] transition-all duration-100 order-1">
+            <div className="absolute right-2 text-secondary transition-colors duration-150 peer-focus:text-primary group-hover:text-primary">
                <Pencil className="h-[18px] w-auto" />
             </div>
          </div>
          {errors.name && (
-            <p className="mt-1 text-sm text-red-500 font-normal animate-shake pt-1">
+            <p className="mt-1 text-lg text-red-500 font-normal animate-shake pt-1 text-sm">
                {typeof errors.name?.message === 'string'
                   ? errors.name.message
                   : ''}

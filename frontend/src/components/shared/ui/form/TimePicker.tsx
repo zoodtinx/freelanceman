@@ -2,26 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { InputProps } from '@/lib/types/form-input-props.types';
-import { ActionFormData } from '@types';
-import { format, parseISO, setHours, setMinutes, parse, setSeconds } from 'date-fns';
+import { parseISO, setHours, setMinutes } from 'date-fns';
 
 interface TimePickerProps {
-   value: string | null; // ISO string
-   onChange: (newValue: string) => void;
+   value: string | null;
+   onChange: (value: string) => void;
+   setValue: (field: string, value: boolean) => void;
+   watch: () => void
 }
 
-const TimePickerInterface: React.FC<TimePickerProps> = ({ value, onChange }) => {
-   const hours = Array.from({ length: 12 }, (_, i) =>
-      String(i + 1).padStart(2, '0')
-   );
-   const minutes = Array.from({ length: 60 }, (_, i) =>
-      String(i).padStart(2, '0')
-   );
+const TimePickerInterface: React.FC<TimePickerProps> = ({ value, onChange, setValue, watch }) => {
+   const isWithTime = watch('withTime'); // Check if time is enabled
+   const isDateSelected = watch('dueDate'); // Check if date is selected
 
-   const [selectedHour, setSelectedHour] = useState('01');
+   const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
+   const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
+
+   const [selectedHour, setSelectedHour] = useState('08');
    const [selectedMinute, setSelectedMinute] = useState('00');
    const [selectedPeriod, setSelectedPeriod] = useState('AM');
-   const [isWithTime, setIsWithTime] = useState(false);
+   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+   const [isInitialMount, setIsInitialMount] = useState(true); // Track if it's the first render
 
    const updateDueDate = () => {
       if (!value) return;
@@ -35,22 +36,48 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({ value, onChange }) => 
          hoursIn24Format = 0;
       }
 
-      // Set the new hours and minutes using date-fns
-      const updatedDate = setMinutes(setHours(currentDate, hoursIn24Format), parseInt(selectedMinute, 10));
-      
-      // Format to local ISO string
+      const updatedDate = setMinutes(
+         setHours(currentDate, hoursIn24Format),
+         parseInt(selectedMinute, 10)
+      );
+
       onChange(updatedDate.toISOString());
+      setValue('withTime', true);
    };
 
    const togglePeriod = () => {
       setSelectedPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
    };
 
-   const extractTime = () => {
-      if (!value) return;
+   const handleAddTime = () => {
+      if (!value) return; // Prevent adding time if no date is set
 
       const currentDate = parseISO(value);
-      if (isNaN(currentDate.getTime())) return; // Check for invalid date
+      const updatedDate = setMinutes(setHours(currentDate, 8), 0); // Default 8:00 AM
+      onChange(updatedDate.toISOString());
+      setValue('withTime', true);
+      setSelectedHour('08');
+      setSelectedMinute('00');
+      setSelectedPeriod('AM');
+      setIsPopoverOpen(true); // Keep the popover open
+   };
+
+   const clearTimeSelection = () => {
+      setSelectedHour('08');
+      setSelectedMinute('00');
+      setSelectedPeriod('AM');
+      setValue('withTime', false);
+      if (value) {
+         onChange(value.split('T')[0]); // Remove the time part from the ISO string
+      }
+      setIsPopoverOpen(false); // Close the popover
+   };
+
+   const extractTime = () => {
+      if (!value || !value.includes('T')) return;
+
+      const currentDate = parseISO(value);
+      if (isNaN(currentDate.getTime())) return;
 
       const hours = currentDate.getHours();
       const minutes = String(currentDate.getMinutes()).padStart(2, '0');
@@ -59,120 +86,141 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({ value, onChange }) => 
 
       setSelectedHour(String(displayHour).padStart(2, '0'));
       setSelectedMinute(minutes);
-      
-      // Set period based on extracted time
       setSelectedPeriod(period);
-
-      // If the ISO string contains time, set `isWithTime` to true
-      setIsWithTime(true);
    };
 
+   // Sync withTime on initial load (edit mode) but avoid default time in create mode
    useEffect(() => {
-      extractTime();
-   }, [value]);
+      if (isInitialMount) {
+         setIsInitialMount(false); // Prevent auto time addition after the first render
+         if (value && value.includes('T')) {
+            setValue('withTime', true); // Edit mode: set withTime if time exists
+            extractTime(); // Extract time from value
+         } else {
+            setValue('withTime', false); // Create mode: only set date by default
+         }
+      }
+   }, [value, setValue]);
+
+   useEffect(() => {
+      if (isWithTime) {
+         updateDueDate(); // Update due date if time picker values change
+      }
+   }, [selectedHour, selectedMinute, selectedPeriod]);
 
    const triggerText = () => {
       if (isWithTime) {
          return (
-            <p className="text-primary cursor-pointer">
-               {`${selectedHour}:${selectedMinute} ${selectedPeriod}`}
-            </p>
+            <div className="flex items-center gap-2 cursor-pointer">
+               <p className="text-primary">
+                  {`${selectedHour}:${selectedMinute} ${selectedPeriod}`}
+               </p>
+               <button
+                  className="text-red-500 hover:text-red-600 text-sm"
+                  onClick={(e) => {
+                     e.stopPropagation();
+                     clearTimeSelection();
+                  }}
+               >
+                  ✕
+               </button>
+            </div>
          );
       } else {
          return (
-            <p className="text-secondary cursor-pointer hover:text-primary">
+            <p
+               className="text-secondary cursor-pointer hover:text-primary"
+               onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddTime(); // Only add time when the user clicks "Add time"
+               }}
+            >
                Add time
             </p>
          );
       }
    };
 
-   return (
-      <Popover>
-         <PopoverTrigger asChild>
-            <div className="text-secondary">{triggerText()}</div>
-         </PopoverTrigger>
-         <PopoverContent className="w-fit p-4 flex">
-            <div className="flex gap-2">
-               <div>
-                  <label className="block text-sm font-medium mb-1">
-                     Hours
-                  </label>
-                  <select
-                     className="w-full border rounded-md p-2"
-                     value={selectedHour}
-                     onChange={(e) => {
-                        setIsWithTime(true);
-                        setSelectedHour(e.target.value);
-                        updateDueDate();
-                     }}
-                  >
-                     {hours.map((hour) => (
-                        <option key={hour} value={hour}>
-                           {hour}
-                        </option>
-                     ))}
-                  </select>
-               </div>
+   if (!isDateSelected) {
+      return <></>;
+   }
 
-               <div>
-                  <label className="block text-sm font-medium mb-1">
-                     Minutes
-                  </label>
-                  <select
-                     className="w-full border rounded-md p-2"
-                     value={selectedMinute}
-                     onChange={(e) => {
-                        setIsWithTime(true);
-                        setSelectedMinute(e.target.value);
-                        updateDueDate();
-                     }}
-                  >
-                     {minutes.map((minute) => (
-                        <option key={minute} value={minute}>
-                           {minute}
-                        </option>
-                     ))}
-                  </select>
-               </div>
-               <div className="mt-4 flex justify-between items-center">
-                  <button
-                     className="px-4 py-2 bg-gray-200 rounded-md"
-                     onClick={() => {
-                        setIsWithTime(true);
-                        togglePeriod();
-                        updateDueDate();
-                     }}
-                  >
-                     {selectedPeriod}
-                  </button>
-               </div>
+   return (
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+         <PopoverTrigger asChild>
+            <div className="text-secondary" onClick={() => setIsPopoverOpen(true)}>
+               {triggerText()}
             </div>
-         </PopoverContent>
+         </PopoverTrigger>
+         {value && (
+            <PopoverContent className="w-fit p-4 flex">
+               <div className="flex gap-2">
+                  <div>
+                     <label className="block text-sm font-medium mb-1">
+                        Hours
+                     </label>
+                     <select
+                        className="w-full border rounded-md p-2"
+                        value={selectedHour}
+                        onChange={(e) => setSelectedHour(e.target.value)}
+                     >
+                        {hours.map((hour) => (
+                           <option key={hour} value={hour}>
+                              {hour}
+                           </option>
+                        ))}
+                     </select>
+                  </div>
+
+                  <div>
+                     <label className="block text-sm font-medium mb-1">
+                        Minutes
+                     </label>
+                     <select
+                        className="w-full border rounded-md p-2"
+                        value={selectedMinute}
+                        onChange={(e) => setSelectedMinute(e.target.value)}
+                     >
+                        {minutes.map((minute) => (
+                           <option key={minute} value={minute}>
+                              {minute}
+                           </option>
+                        ))}
+                     </select>
+                  </div>
+                  <div className="mt-4 flex justify-between items-center">
+                     <button
+                        className="px-4 py-2 bg-gray-200 rounded-md"
+                        onClick={() => togglePeriod()}
+                     >
+                        {selectedPeriod}
+                     </button>
+                  </div>
+               </div>
+            </PopoverContent>
+         )}
       </Popover>
    );
 };
 
-
-
-
-
-const TimePicker = <TFieldValues extends FieldValues>({
+const DatePicker = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName
-}: InputProps<TFieldValues>): JSX.Element => {
-   const { control } = formMethods;
+}: InputProps<TFieldValues>): JSX.Element | null => {
+   const { control, setValue, watch } = formMethods;
+
+   
+   
 
    return (
       <Controller
          name={fieldName as Path<TFieldValues>}
          control={control}
          render={({ field: { value, onChange } }) => (
-            <TimePickerInterface value={value} onChange={onChange} />
+            <TimePickerInterface value={value || null} onChange={onChange} setValue={setValue} watch={watch} />
          )}
       />
    );
 };
 
-
-export default TimePicker;
+export default DatePicker;

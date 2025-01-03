@@ -1,3 +1,4 @@
+import { Separator } from './separator';
 import { Path, useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import type { EventFormData, NewEventPayload, TaskFormData } from '@types';
 import { eventDefaultValues, eventStatusSelections } from './form/utils';
@@ -26,6 +27,7 @@ import { Link } from 'react-router-dom';
 import { InputProps } from '../../../lib/types/form-input-props.types';
 import { formDefaultValue } from './form/utils';
 import DateTimePicker from './form/DateTimePicker';
+import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 
 const EventDialog: React.FC<DialogProps> = ({
    dialogState,
@@ -41,11 +43,11 @@ const EventDialog: React.FC<DialogProps> = ({
       defaultValues: eventDefaultValues,
    });
 
-   const { handleSubmit, reset } = formMethods;
+   const { handleSubmit, reset, watch } = formMethods;
 
    useEffect(() => {
       reset(
-         dialogState.mode === 'view'
+         dialogState.mode === 'view' || dialogState.mode === 'edit'
             ? dialogState.data
             : formDefaultValue(dialogState.actionType)
       );
@@ -54,6 +56,9 @@ const EventDialog: React.FC<DialogProps> = ({
    const handleDialogClose = () => {
       setDialogState({ ...dialogState, isOpen: false });
    };
+
+   const isWithTime = watch('withTime')
+   console.log('withTime', isWithTime)
 
    const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
       const payload: NewEventPayload = {
@@ -76,7 +81,88 @@ const EventDialog: React.FC<DialogProps> = ({
       handleDialogClose();
    };
 
-   const buttonText = dialogState.mode === 'create' ? 'Create Event' : 'Save';
+   const RightButton = () => {
+      switch (dialogState.mode) {
+         case 'view':
+            return (
+               <Button
+                  type="submit"
+                  variant={'default'}
+                  onClick={() => handleEditMode()}
+                  className="flex gap-1"
+               >
+                  Edit
+                  <Pencil className="w-4 h-4" />
+               </Button>
+            );
+
+         case 'edit':
+            return (
+               <Button type="submit" variant={'submit'} className="flex gap-1">
+                  Save
+                  <CircleCheck className="w-4 h-4" />
+               </Button>
+            );
+
+         case 'create':
+            return (
+               <Button type="submit" variant={'submit'} className="flex gap-1">
+                  Create new contact
+                  <CircleCheck className="w-4 h-4" />
+               </Button>
+            );
+
+         default:
+            return null;
+      }
+   };
+
+   const LeftButton = () => {
+      switch (dialogState.mode) {
+         case 'view':
+            return (
+               <Button variant={'destructive'} className="flex gap-1">
+                  Delete
+                  <Trash2 className="w-4 h-4" />
+               </Button>
+            );
+
+         case 'edit':
+            return (
+               <Button
+                  variant={'destructiveOutline'}
+                  onClick={handleCancelEdit}
+                  className="flex gap-1"
+               >
+                  Discard
+                  <ClipboardX className="w-4 h-4" />
+               </Button>
+            );
+
+         case 'create':
+            return (
+               <Button
+                  variant={'destructiveOutline'}
+                  onClick={handleDialogClose}
+                  className="flex gap-1"
+               >
+                  Discard
+                  <ClipboardX className="w-4 h-4" />
+               </Button>
+            );
+
+         default:
+            return null;
+      }
+   };
+
+   const handleEditMode = () => {
+      setDialogState({ ...dialogState, mode: 'edit' });
+   };
+
+   const handleCancelEdit = () => {
+      setDialogState({ ...dialogState, mode: 'view' });
+   };
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -90,43 +176,42 @@ const EventDialog: React.FC<DialogProps> = ({
             onInteractOutside={(e) => e.preventDefault()}
          >
             <form onSubmit={handleSubmit(onSubmit)}>
-               <DialogHeader>
-                  <DialogTitle>
-                     <TaskNameInput<EventFormData>
-                        formMethods={formMethods}
-                        dialogState={dialogState}
-                     />
-                  </DialogTitle>
+               <DialogHeader className="py-2">
+                  <DialogTitle className="text-base w-full">Event</DialogTitle>
                </DialogHeader>
                <div className="px-5 py-3 flex flex-col gap-3">
+                  <TaskNameInput<EventFormData>
+                     formMethods={formMethods}
+                     dialogState={dialogState}
+                  />
                   <div className="flex leading-tight">
-                     <div className="w-1/2 font-semibold">
+                     <div className="w-1/2">
                         <p className="text-secondary">Status</p>
                         <StatusSelect<EventFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
                            selection={eventStatusSelections}
-                           fieldName='status'
+                           fieldName="status"
                         />
                      </div>
-                     <div className="w-1/2 font-semibold">
+                     <div className="w-1/2">
                         <p className="text-secondary">Date</p>
                         <DateTimePicker<EventFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
-                           fieldName='dueDate'
+                           fieldName="dueDate"
                         />
                      </div>
                   </div>
                   <div className="flex leading-tight">
-                     <div className="w-1/2 font-semibold">
+                     <div className="w-1/2">
                         <p className="text-secondary">Project</p>
                         <ProjectSelect<EventFormData>
                            formMethods={formMethods}
                            dialogState={dialogState}
                         />
                      </div>
-                     <div className="w-1/2 font-semibold">
+                     <div className="w-1/2">
                         <p className="text-secondary">Client</p>
                         <ClientField<EventFormData>
                            formMethods={formMethods}
@@ -134,43 +219,19 @@ const EventDialog: React.FC<DialogProps> = ({
                         />
                      </div>
                   </div>
-                  <div className="w-full font-semibold">
+                  <div className="w-full">
                      <p className="text-secondary">Details</p>
-                     <Textarea
-                        className="resize-none border-secondary placeholder:text-secondary"
-                        placeholder="Describe this event like you're briefing your future self."
-                        {...formMethods.register('details')}
-                     />
+                     <DetailsInputField formMethods={formMethods} dialogState={dialogState} fieldName='details' />
                   </div>
-                  <div className="w-full font-semibold">
+                  <div className="w-full">
                      <p className="text-secondary">Link</p>
                      <LinkInput<EventFormData> formMethods={formMethods} />
                   </div>
                </div>
                <DialogFooter>
                   <div className="flex justify-between p-4">
-                     <div className="flex gap-1">
-                        {dialogState.mode === 'view' && (
-                           <Button
-                              variant={'destructive'}
-                              onClick={(e: React.MouseEvent) => {
-                                 e.preventDefault();
-                                 handleDelete();
-                              }}
-                           >
-                              Delete
-                           </Button>
-                        )}
-                        <Button
-                           variant={'destructiveOutline'}
-                           onClick={handleDialogClose}
-                        >
-                           Discard
-                        </Button>
-                     </div>
-                     <Button variant={'default'} type="submit">
-                        {buttonText}
-                     </Button>
+                     <LeftButton />
+                     <RightButton />
                   </div>
                </DialogFooter>
             </form>
@@ -178,6 +239,31 @@ const EventDialog: React.FC<DialogProps> = ({
       </Dialog>
    );
 };
+
+const DetailsInputField = <TFieldValues extends FieldValues>({
+   formMethods,
+   dialogState,
+   fieldName,
+}: InputProps<TFieldValues>): JSX.Element => {
+   const { register, getValues } = formMethods;
+   const details = getValues(fieldName as Path<TFieldValues>);
+
+   if (dialogState?.mode === 'view') {
+      return (
+            <p className="whitespace-pre-wrap">{details || 'No details provided.'}</p>
+      );
+   }
+
+   return (
+      <Textarea
+         className="resize-none border-secondary placeholder:text-secondary w-full p-2 rounded-md"
+         placeholder="Describe this event like you're briefing your future self."
+         defaultValue={dialogState?.mode === 'edit' ? details : ''} // Show current value in edit, empty in create
+         {...register(fieldName as Path<TFieldValues>)}
+      />
+   );
+};
+
 
 const ClientField = <TFieldValues extends FieldValues>({
    formMethods,
@@ -190,12 +276,29 @@ const ClientField = <TFieldValues extends FieldValues>({
 
    if (clientName && clientId) {
       if (dialogState?.mode === 'view') {
-         return <Link to={`../client/${clientId}`}>{clientName}</Link>;
+         return (
+            <Link
+               to={`../client/${clientId}`}
+               className="text-primary cursor-pointer hover:text-primary-dark"
+            >
+               {clientName}
+            </Link>
+         );
+      } else if (dialogState?.mode === 'edit') {
+         return (
+            <p className="text-secondary cursor-not-allowed select-none">
+               {clientName}
+            </p>
+         );
       } else if (dialogState?.mode === 'create') {
-         return <p className="cursor-default select-none">{clientName}</p>;
+         return (
+            <p className="cursor-default select-none">
+               {clientName}
+            </p>
+         );
       }
    }
-   return <span>Select a project</span>;
-};
 
+   return <span className="text-gray-500 italic">Select a project</span>;
+};
 export default EventDialog;

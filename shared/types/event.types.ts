@@ -8,6 +8,7 @@ export interface Event {
    link: string;
    createdAt: string;
    dueDate: string;
+   withTime: boolean;
    project: string;
    projectId: string;
    client: string;

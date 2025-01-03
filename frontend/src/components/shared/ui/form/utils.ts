@@ -1,4 +1,4 @@
-import { TaskStatus, EventStatus, Project, Contact } from "@types";
+import { TaskStatus, EventStatus, Project, Contact, Event, Task } from "@types";
 import { id } from "date-fns/locale";
 
 export const formDefaultValue = (actionType: 'event' | 'task') => {
@@ -20,36 +20,41 @@ export const formDefaultValue = (actionType: 'event' | 'task') => {
       dueDate: '',
       project: '',
       projectId: '',
+      withTime: false,
       client: '',
       clientId: '',
       link: '',
    };
 };
 
-export const eventDefaultValues = {
+export const eventDefaultValues: Event = {
    id: '',
    name: '',
    details: '',
    status: 'scheduled' as EventStatus,
    dueDate: '',
+   withTime: false,
    project: '',
    projectId: '',
    client: '',
    clientId: '',
    link: '',
+   createdAt: ''
 };
 
-export const taskDefaultValues = {
+export const taskDefaultValues: Task = {
    id: '',
    name: '',
    details: '',
    status: 'planned' as TaskStatus,
    dueDate: '',
+   withTime: false,
    project: '',
    projectId: '',
    client: '',
    clientId: '',
    link: '',
+   dateCreated: '',
 };
 
 export const defaultContact: Contact = {

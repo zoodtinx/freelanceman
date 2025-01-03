@@ -14,11 +14,20 @@ const StatusSelect = <TFormData extends FieldValues,>({
    selection,
    fieldName
 }: SelectInputProps<TFormData>): JSX.Element => {
-   if (!dialogState) {
-      return <div></div>;
-   }
-
    const { control } = formMethods;
+
+   if (dialogState?.mode === 'view') {
+      const currentSelection = selection.find((item) => item.value === formMethods.getValues(fieldName as Path<TFormData>));
+      const text = currentSelection?.text || 'No status selected';
+      const color = currentSelection?.color || '';
+
+      return (
+         <div className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}>
+            <div className="aspect-square w-[8px] rounded-full bg-primary" />
+            <p className="font-semibold">{text}</p>
+         </div>
+      );
+   }
 
    return (
       <Controller

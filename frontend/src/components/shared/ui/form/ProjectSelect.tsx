@@ -38,24 +38,37 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
       }
    };
 
+   const currentProject = watch('project' as Path<TFieldValues>);
+   const currentProjectId = watch('projectId' as Path<TFieldValues>);
+
    if (dialogState?.mode === 'view') {
-      const currentProject = watch('project' as Path<TFieldValues>);
-      const currentProjectId = watch('projectId' as Path<TFieldValues>);
-      return <Link to={`../${currentProjectId}`}>{currentProject}</Link>;
+      return currentProject ? (
+         <Link to={`../${currentProjectId}`} className="text-primary">
+            {currentProject}
+         </Link>
+      ) : (
+         <p className="text-gray-500">No project selected</p>
+      );
    }
 
-   return (
-      <div>
-         <Controller
-            name={'projectId' as Path<TFieldValues>}
-            control={control}
-            rules={{ required: 'Project is required' }}
-            render={({ field }) => {
-               return (
+   if (dialogState?.mode === 'edit') {
+      return (
+         <p className="text-secondary text-base">
+            {currentProject || 'No project selected'}
+         </p>
+      );
+   }
+
+   if (dialogState?.mode === 'create') {
+      return (
+         <div>
+            <Controller
+               name={'projectId' as Path<TFieldValues>}
+               control={control}
+               rules={{ required: 'Project is required' }}
+               render={({ field }) => (
                   <Select
-                     onValueChange={(value) =>
-                        handleProjectChange(value, field.onChange)
-                     }
+                     onValueChange={(value) => handleProjectChange(value, field.onChange)}
                      value={field.value}
                   >
                      <DialogueSelectTrigger mode="base">
@@ -65,25 +78,24 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
                      </DialogueSelectTrigger>
                      <SelectContent className="flex flex-col gap-1">
                         {activeProjects.map((project) => (
-                           <DialogueSelectItem
-                              key={project.id}
-                              value={project.id!}
-                           >
+                           <DialogueSelectItem key={project.id} value={project.id!}>
                               {project.name}
                            </DialogueSelectItem>
                         ))}
                      </SelectContent>
                   </Select>
-               );
-            }}
-         />
-         {errors.projectId && (
-            <p className="text-sm text-red-500 font-normal animate-shake">
-               {errors.projectId.message as string}
-            </p>
-         )}
-      </div>
-   );
+               )}
+            />
+            {errors.projectId && (
+               <p className="text-sm text-red-500 font-normal animate-shake">
+                  {errors.projectId.message as string}
+               </p>
+            )}
+         </div>
+      );
+   }
+
+   return null;
 };
 
 export default ProjectSelect;

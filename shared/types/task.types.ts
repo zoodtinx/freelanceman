@@ -7,12 +7,12 @@ export interface Task {
    details: string;
    link: string;
    dueDate: string;
+   withTime: boolean;
    project: string;
    projectId: string;
    client: string;
    clientId: string;
    dateCreated: string,
-   dateModified: string,
 }
 
 export type NewTaskPayload = Omit<Task, 'dateCreated' | 'project' | 'client' | 'dateModified'>;
