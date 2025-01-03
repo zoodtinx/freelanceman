@@ -299,6 +299,6 @@ const ClientField = <TFieldValues extends FieldValues>({
       }
    }
 
-   return <span className="text-gray-500 italic">Select a project</span>;
+   return <span className="text-gray-500">Select a project</span>;
 };
 export default EventDialog;
