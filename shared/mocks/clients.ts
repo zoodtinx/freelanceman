@@ -4,7 +4,7 @@ export const mockAllClients = [
       id: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
       contactCount: 10,
       projectCount: 15,
-      activeProjectCount: 5,
+      activeProjectCount: 0,
       accentColor: "#AEC6CF", 
    },
    {
@@ -28,7 +28,7 @@ export const mockAllClients = [
       id: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732",
       contactCount: 7,
       projectCount: 10,
-      activeProjectCount: 2,
+      activeProjectCount: 0,
       accentColor: "#B39EB5", 
    },
    {
@@ -36,7 +36,7 @@ export const mockAllClients = [
       id: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
       contactCount: 5,
       projectCount: 8,
-      activeProjectCount: 1,
+      activeProjectCount: 0,
       accentColor: "#77DD77", 
    },
    {
@@ -44,7 +44,7 @@ export const mockAllClients = [
       id: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
       contactCount: 12,
       projectCount: 18,
-      activeProjectCount: 6,
+      activeProjectCount: 0,
       accentColor: "#CFCFC4", 
    },
    {
@@ -60,7 +60,7 @@ export const mockAllClients = [
       id: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f",
       contactCount: 4,
       projectCount: 7,
-      activeProjectCount: 2,
+      activeProjectCount: 0,
       accentColor: "#FF6961", 
    },
    {
@@ -68,7 +68,7 @@ export const mockAllClients = [
       id: "d3f7c8a9-567b-4c1d-b6c7-8f5a1d9c7e8b",
       contactCount: 11,
       projectCount: 14,
-      activeProjectCount: 5,
+      activeProjectCount: 0,
       accentColor: "#CB99C9", 
    },
    {
@@ -76,7 +76,7 @@ export const mockAllClients = [
       id: "b7d9f3e8-4c2a-4e6b-b5c7-8f2a3d9e6c4f",
       contactCount: 7,
       projectCount: 11,
-      activeProjectCount: 3,
+      activeProjectCount: 0,
       accentColor: "#FDFD96", 
    },
    {
@@ -84,7 +84,7 @@ export const mockAllClients = [
       id: "f3d7a2e9-456b-40c1-9d7e-8a5b3c2e1f7a",
       contactCount: 6,
       projectCount: 10,
-      activeProjectCount: 2,
+      activeProjectCount: 0,
       accentColor: "#C2B280", 
    },
    {
@@ -108,7 +108,7 @@ export const mockAllClients = [
       id: "d8c7f3a5-456e-4c1b-b7e9-5a4f9d3e8c2b",
       contactCount: 5,
       projectCount: 9,
-      activeProjectCount: 1,
+      activeProjectCount: 0,
       accentColor: "#77DD77", 
    },
    {

@@ -6,6 +6,8 @@ import AllProjectPage from "@/routes/AllProjectPage";
 import ClientsPage from "@/routes/ClientPage";
 import ProjectTasksPage from "@/routes/ProjectTaskPage";
 import { Navigate } from "react-router-dom";
+import PartnersPage from "@/routes/PartnersPage";
+import FilePage from "@/routes/FilePage";
 
 export const router = createBrowserRouter([
    {
@@ -33,8 +35,12 @@ export const router = createBrowserRouter([
             element: <ClientsPage/>
          },
          {
+            path: "partners",
+            element: <PartnersPage />
+         },
+         {
             path: "files",
-            element: <ActionPage/>
+            element: <FilePage/>
          },
          {
             path: "documents",

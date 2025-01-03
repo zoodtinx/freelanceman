@@ -20,18 +20,3 @@ export interface Project {
 
 export interface ProjectSettingFormData extends Partial<Omit<Project, 'id' | 'client' | 'clientId' | 'dateCreated'>> {}
 
-export interface File {
-  id: string,
-  name: string,
-  link: string,
-  size: string,
-  type: string,
-  dateCreated: string,
-  dateModified: string,
-  version: string,
-  category: 'invoice' | 'quotation' | 'material' | 'workingFile'
-}
-
-export interface Document {
-  id: string,
-}

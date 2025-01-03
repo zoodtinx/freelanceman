@@ -5,7 +5,7 @@ import {
 } from '@/components/shared/ui/popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { Contact, ContactSearchOption } from '@types';
+import { Contact, ContactSearchOption, PartnerContact } from '@types';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from '@/components/shared/ui/form/utils';
@@ -14,8 +14,9 @@ import { User, BookUser } from 'lucide-react';
 import { mockContacts as contacts } from '@mocks';
 import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
+import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
 
-const ContactColumn = (): JSX.Element => {
+const PartnerContactLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
@@ -26,18 +27,18 @@ const ContactColumn = (): JSX.Element => {
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
 
-   const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
+   const { data: contacts, isLoading } = useAllPartnerContactsQuery(searchOptions);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
    return (
-      <div className="flex flex-col w-[350px] rounded-[30px] bg-foreground p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0">
+      <div className="flex flex-col grow rounded-[30px] bg-foreground p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
                <BookUser className="h-6 w-6" />
-               <p className="text-xl pt-1 leading-none mr-2">Client Contacts</p>
+               <p className="text-xl pt-1 leading-none mr-2">Partner Contacts</p>
             </div>
             <NewContactButton setDialogState={setDialogState} />
          </div>
@@ -50,9 +51,9 @@ const ContactColumn = (): JSX.Element => {
          {isLoading ? (
             <p>Loading...</p>
          ) : (
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 overflow-y-scroll  ">
                {contacts?.map((contact) => (
-                  <ContactCard
+                  <PartnerTab
                      key={contact.id}
                      contact={contact}
                      setDialogState={setDialogState}
@@ -65,12 +66,12 @@ const ContactColumn = (): JSX.Element => {
    );
 };
 
-const ContactCard = ({ contact, setDialogState }: { contact: Contact }) => {
+const PartnerTab = ({ contact, setDialogState }: { contact: PartnerContact }) => {
    const handleClick = () => {
       let dialogType;
-      if (contact.type === 'client') {
+      if (contact.type === 'client-contact') {
          dialogType = 'clientContact';
-      } else if (contact.type === 'partner') {
+      } else if (contact.type === 'partner-contact') {
          dialogType = 'partnerContact';
       }
       setDialogState({
@@ -81,29 +82,24 @@ const ContactCard = ({ contact, setDialogState }: { contact: Contact }) => {
          data: contact,
       });
    };
-
-   let avatar;
-   if (!contact.avatar) {
-      avatar = <User className="w-8 h-8" />;
-   } else {
-      avatar = <img src={contact.avatar} alt="Contact Avatar" className="w-full h-full object-cover" />;
-
-   }
-
    return (
       <div
+         className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary"
          onClick={handleClick}
-         className="flex w-full h-fit rounded-full bg-quaternary p-2 items-center gap-2 border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary cursor-default"
       >
-         <div className="flex w-14 h-14 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
-            {avatar}
-         </div>
-         <div className="flex flex-col leading-tight h-fit">
-            <p className="font-semibold text-md">{contact.name}</p>
-            <p className="font-semibold text-base text-secondary">
+         <div className="z-10 flex items-center px-4 justify-between w-full text-[#333333]">
+            <div className="flex items-center">
+               <p className="w-[190px] cursor-pointer hover:opacity-60 transition-opacity leading-tight">
+                  {contact.profession}
+               </p>
+               <div className='h-9 w-9 rounded-full bg-tertiary mr-3' />
+               <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
+                  {contact.name}
+               </p>
+            </div>
+            <p className="w-fit text-right cursor-pointer hover:opacity-60 transition-opacity">
                {contact.company}
             </p>
-            <p className="text-base text-secondary">{contact.role}</p>
          </div>
       </div>
    );
@@ -149,4 +145,4 @@ const NewContactButton = ({
    );
 };
 
-export default ContactColumn;
+export default PartnerContactLayout;

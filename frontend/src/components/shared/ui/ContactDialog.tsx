@@ -17,7 +17,7 @@ import type { DialogProps } from '@/lib/types/dialog.types';
 import { defaultContact } from './form/utils';
 import { Client, Contact, NewContactPayload } from '@types';
 import { Input } from './input';
-import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck } from 'lucide-react';
+import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck, Upload } from 'lucide-react';
 import { Textarea } from './textarea';
 import { InputProps } from '@/lib/types/form-input-props.types';
 
@@ -44,7 +44,7 @@ const ContactDialog = ({
          isOpen: false,
          id: '',
          mode: 'view',
-         type: 'clientContact',
+         type: 'client-contact',
          data: defaultContact,
       });
    };
@@ -102,6 +102,7 @@ const ContactDialog = ({
                   Edit
                   <Pencil className='w-4 h-4' />
                </Button>
+               
             );
          }
          return (
@@ -154,6 +155,18 @@ const ContactDialog = ({
       }
    };
 
+   const AvatarInputElement = () => isEditing ? (
+      <AvatarInput
+         formMethods={formMethods}
+         dialogState={dialogState}
+         fieldName='avatar'
+      />
+   ) : (
+      <div className="flex w-[125px] h-[125px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
+         {avatar}
+      </div>
+   );
+
    const phoneNumbers = getValues('phoneNumber');
    const emails = getValues('email');
 
@@ -173,9 +186,6 @@ const ContactDialog = ({
                   <DialogTitle className="flex items-center gap-1">
                      <User className="w-5 h-5" />
                      <p>
-                        {dialogState.type === 'client-contact'
-                           ? 'Client'
-                           : 'Partner'}{' '}
                         Contact
                      </p>
                   </DialogTitle>
@@ -228,9 +238,7 @@ const ContactDialog = ({
                            )}
                         </div>
                      </div>
-                     <div className="flex w-[125px] h-[125px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
-                        {avatar}
-                     </div>
+                     <AvatarInputElement />
                   </div>
                   <Separator className="my-2" />
                   <div className="flex w-full gap-2">
@@ -289,6 +297,68 @@ const ContactDialog = ({
       </Dialog>
    );
 };
+
+const AvatarInput = ({ formMethods }: InputProps) => {
+   const {
+      setValue,
+      watch,
+      formState: { errors },
+   } = formMethods;
+
+   const avatarFile = watch('avatar');
+
+   const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+         const reader = new FileReader();
+         reader.onload = () => {
+            setValue('avatar', reader.result, { shouldValidate: true });
+         };
+         reader.readAsDataURL(file);
+      }
+   };
+
+   return (
+      <div className="flex flex-col items-center gap-2">
+         <div
+            className={`relative w-[125px] h-[125px] ${
+               avatarFile ? '' : 'mr-3 mt-2 bg-tertiary text-secondary'
+            } rounded-full overflow-hidden flex items-center justify-center cursor-pointer`}
+            onClick={() => document.getElementById('avatar-upload')?.click()}
+         >
+            {avatarFile ? (
+               <>
+                  <img
+                     src={avatarFile}
+                     alt="Avatar Preview"
+                     className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-center">
+                     <span className="text-white text-sm font-medium mb-2">Edit</span>
+                  </div>
+               </>
+            ) : (
+               <Upload className='w-10 h-10' />
+            )}
+         </div>
+         <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            id="avatar-upload"
+            onChange={handleFileChange}
+         />
+         {errors.avatar && (
+            <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+               {errors.avatar.message}
+            </p>
+         )}
+      </div>
+   );
+};
+
+
+
 
 const ArrayInput = ({
    formMethods,

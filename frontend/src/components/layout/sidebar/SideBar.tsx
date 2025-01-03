@@ -10,6 +10,7 @@ export default function SideBar() {
                <SideBarTab tab="projects" />
                <SideBarTab tab="actions" />
                <SideBarTab tab="clients" />
+               <SideBarTab tab="partners" />
                <SideBarTab tab="files" />
                <SideBarTab tab="documents" />
                <SideBarTab tab="notes" />

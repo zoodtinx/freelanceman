@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 
 type SideBarTabProps = {
-   tab: 'projects' | 'files' | 'actions' | 'clients' | 'documents' | 'notes';
+   tab: 'projects' | 'files' | 'actions' | 'clients' | 'partners' | 'documents' | 'notes';
 };
 
 const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
@@ -28,6 +28,11 @@ const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
          label = t('projects');
          icon = <ProjectAll className='w-[27px] h-auto' />;
          route = 'projects';
+         break;
+         case 'partners':
+         label = 'Partners';
+         icon = <Client className='w-[27px] h-auto' />;
+         route = 'partners';
          break;
       case 'files':
          label = t('files');

@@ -8,8 +8,11 @@ import { ReactNode } from 'react';
 import type { Client } from '@types';
 import { useNavigate } from 'react-router-dom';
 
-const ClientCard = ({ client }: { client: Client }): JSX.Element => {
-   const projectWording = client.projectCount < 2 ? 'project' : 'projects';
+const ClientCard = ({ client }: { client: Client }): JSX.Element => { 
+   if (!client) {
+      return <></>
+   }
+   const projectWording = client?.projectCount < 2 ? 'project' : 'projects';
 
    const navigate = useNavigate();
 
