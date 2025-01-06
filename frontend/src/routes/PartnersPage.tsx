@@ -1,4 +1,13 @@
 import {
+   Select,
+   SelectContent,
+   SelectGroup,
+   SelectItem,
+   SelectLabel,
+   SelectTrigger,
+   SelectValue,
+} from '@/components/shared/ui/Select';
+import {
    Popover,
    PopoverTrigger,
    PopoverContent,
@@ -11,9 +20,6 @@ import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from '@/components/shared/ui/form/utils';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { mockContacts as contacts } from '@mocks';
-import { CircleUserRound } from 'lucide-react';
-import { useAllContactsQuery } from '@/lib/api/contact-api';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
 
 const PartnerContactLayout = (): JSX.Element => {
@@ -26,11 +32,29 @@ const PartnerContactLayout = (): JSX.Element => {
    });
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
+   const [searchMode, setSearchMode] = useState('name');
 
-   const { data: contacts, isLoading } = useAllPartnerContactsQuery(searchOptions);
+   console.log('searchOptions', searchOptions);
 
-   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
+   const { data: contacts, isLoading } =
+      useAllPartnerContactsQuery(searchOptions);
+
+   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+      switch (searchMode) {
+         case 'name':
+            setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
+            break;
+         case 'role':
+            setSearchOptions((prev) => ({ ...prev, role: event.target.value }));
+            break;
+            case 'company':
+            setSearchOptions((prev) => ({ ...prev, company: event.target.value }));
+            break;
+      }
+   };
+
+   const handleSearchOptionChange = (mode: string) => {
+      setSearchMode(mode);
    };
 
    return (
@@ -38,16 +62,21 @@ const PartnerContactLayout = (): JSX.Element => {
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
                <BookUser className="h-6 w-6" />
-               <p className="text-xl pt-1 leading-none mr-2">Partner Contacts</p>
+               <p className="text-xl pt-1 leading-none mr-2">
+                  Partner Contacts
+               </p>
             </div>
             <NewContactButton setDialogState={setDialogState} />
          </div>
-         <SearchBox
-            placeholder="Search contact"
-            className="w-full"
-            onChange={handleSearch}
-            value={searchOptions.name || ''}
-         />
+         <div className="flex gap-1">
+            <SearchCategory onChange={handleSearchOptionChange} />
+            <SearchBox
+               placeholder="Search contact"
+               className="w-full"
+               onChange={handleSearchValue}
+               value={searchOptions.name || ''}
+            />
+         </div>
          {isLoading ? (
             <p>Loading...</p>
          ) : (
@@ -61,12 +90,41 @@ const PartnerContactLayout = (): JSX.Element => {
                ))}
             </div>
          )}
-         <ContactDialog dialogState={dialogState} setDialogState={setDialogState} />
+         <ContactDialog
+            dialogState={dialogState}
+            setDialogState={setDialogState}
+         />
       </div>
    );
 };
 
-const PartnerTab = ({ contact, setDialogState }: { contact: PartnerContact }) => {
+const SearchCategory = ({
+   onChange,
+}: {
+   onChange: (value: string) => void;
+}) => {
+   return (
+      <Select onValueChange={(value) => onChange(value)}>
+         <SelectTrigger className="flex px-2 text-base w-[110px] gap-2 bg-primary text-foreground rounded-lg border-none">
+            <SelectValue placeholder="Name" />
+         </SelectTrigger>
+         <SelectContent>
+            <SelectGroup>
+               <SelectItem value="name">Name</SelectItem>
+               <SelectItem value="role">Role</SelectItem>
+               <SelectItem value="company">Company</SelectItem>
+            </SelectGroup>
+         </SelectContent>
+      </Select>
+   );
+};
+
+const PartnerTab = ({
+   contact,
+   setDialogState,
+}: {
+   contact: PartnerContact;
+}) => {
    const handleClick = () => {
       let dialogType;
       if (contact.type === 'client-contact') {
@@ -90,9 +148,9 @@ const PartnerTab = ({ contact, setDialogState }: { contact: PartnerContact }) =>
          <div className="z-10 flex items-center px-4 justify-between w-full text-[#333333]">
             <div className="flex items-center">
                <p className="w-[190px] cursor-pointer hover:opacity-60 transition-opacity leading-tight">
-                  {contact.profession}
+                  {contact.role}
                </p>
-               <div className='h-9 w-9 rounded-full bg-tertiary mr-3' />
+               <div className="h-9 w-9 rounded-full bg-tertiary mr-3" />
                <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
                   {contact.name}
                </p>

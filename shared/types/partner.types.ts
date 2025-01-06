@@ -3,7 +3,7 @@ export interface PartnerContact {
    name: string;
    company: string;
    companyId: string;
-   profession: string;
+   role: string;
    phoneNumber: string[];
    email: string[];
    details: string;
@@ -18,5 +18,5 @@ export type NewPartnerContactPayload = Omit<
 >;
 
 export type PartnerContactSearchOption = Partial<
-   Pick<PartnerContact, "name" | "companyId" | "profession">
+   Pick<PartnerContact, "name" | "companyId" | "role" | "company">
 >;

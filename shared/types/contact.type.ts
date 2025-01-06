@@ -16,4 +16,4 @@ export interface Contact {
 
 export type NewContactPayload = Omit<Contact, 'id' | 'dateCreated' | 'dateModified'>;
 
-export type ContactSearchOption = Partial<Pick<Contact, 'name' | 'companyId' | 'type'>>;
+export type ContactSearchOption = Partial<Pick<Contact, 'name' | 'companyId' | 'type' | 'role'>>;

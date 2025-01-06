@@ -8,7 +8,6 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
    dialogState,
 }: InputProps<TFieldValues>): JSX.Element => {
    const {
-      register,
       setValue,
       clearErrors,
       getValues,
