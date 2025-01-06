@@ -21,17 +21,17 @@ const FileTable = <TData extends RowData>({
 }: TableProps<TData>): JSX.Element => {
    const tableRef = useRef<HTMLTableElement | null>(null);
    return (
-      <div className="relative overflow-y-auto bg-">
+      <div className="relative overflow-y-auto">
          <Table
             className="overflow-hidden cursor-default relative"
             ref={tableRef}
          >
-            <TableHeader>
+            <TableHeader className=''>
                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow key={headerGroup.id} className=''>
                      {headerGroup.headers.map((header) => {
                         return (
-                           <TableHead key={header.id} width={header.getSize()}>
+                           <TableHead key={header.id} width={header.getSize().toString()}>
                               {header.isPlaceholder
                                  ? null
                                  : flexRender(

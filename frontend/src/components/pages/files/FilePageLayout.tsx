@@ -4,17 +4,11 @@ import {
    PopoverContent,
 } from '@/components/shared/ui/popover';
 import { Plus } from '@/components/shared/icons';
-import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { Contact, ContactSearchOption, PartnerContact } from '@types';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from '@/components/shared/ui/form/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User, BookUser, Folder } from 'lucide-react';
-import { mockContacts as contacts } from '@mocks';
-import { CircleUserRound } from 'lucide-react';
-import { useAllContactsQuery } from '@/lib/api/contact-api';
-import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
 import FileTable from './FileTable';
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { createFileColumns } from './FileColumn';
@@ -42,6 +36,9 @@ const FilePageLayout = (): JSX.Element => {
             getCoreRowModel: getCoreRowModel(),
             getSortedRowModel: getSortedRowModel(),
             getFilteredRowModel: getFilteredRowModel(),
+            defaultColumn: {
+               minSize: 0,
+            },
             state: {
                columnVisibility: {
                   status: false,
@@ -49,7 +46,6 @@ const FilePageLayout = (): JSX.Element => {
             },
          });
          
-
    
    return (
       <div className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden ">
@@ -58,7 +54,7 @@ const FilePageLayout = (): JSX.Element => {
                <Folder className="h-6 w-6 mt-1" />
                <p className="text-xl pt-1 leading-none mr-2">Files</p>
             </div>
-            <NewContactButton setDialogState={setDialogState} />
+            <NewFileButton setDialogState={setDialogState} />
          </div>
          <FileTable table={table} />
          <ContactDialog dialogState={dialogState} setDialogState={setDialogState} />
@@ -66,7 +62,7 @@ const FilePageLayout = (): JSX.Element => {
    );
 };
 
-const NewContactButton = ({
+const NewFileButton = ({
    setDialogState,
 }: {
    setDialogState: (dialogState: object) => void;

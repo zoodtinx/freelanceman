@@ -6,10 +6,10 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
+  <div className="relative w-full overflow-auto ">
     <table
       ref={ref}
-      className={cn("w-full caption-bottom table-fixed", className)}
+      className={cn("w-full caption-bottom table-fixed overflow-x-auto", className)}
       {...props}
     />
   </div>
@@ -67,20 +67,22 @@ const TableRow = React.forwardRef<
 TableRow.displayName = "TableRow"
 
 const TableHead = React.forwardRef<
-  HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, width, ...props }, ref) => (
-  <th
-    ref={ref}
-    style={{ width: `${width}px` }}
-    className={cn(
-      "h-7 text-left align-middle font-normal text-sm text-secondary border-tertiary border-b [&:has([role=checkbox])]:pr-0 ",
-      className,
-    )}
-    {...props}
-  />
-))
-TableHead.displayName = "TableHead"
+   HTMLTableCellElement,
+   React.ThHTMLAttributes<HTMLTableCellElement>
+>(({ className, width, ...props }, ref) => {
+   return (
+      <th
+         ref={ref}
+         style={{ width: `${width}px` }}
+         className={cn(
+            'h-7 text-left align-middle font-normal text-sm text-secondary border-tertiary border-b [&:has([role=checkbox])]:pr-0 ',
+            className
+         )}
+         {...props}
+      />
+   );
+});
+TableHead.displayName = 'TableHead';
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,

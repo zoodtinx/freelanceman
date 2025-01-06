@@ -44,3 +44,5 @@ export interface NewFilePayload {
    link: string;
    category: "document" | "project-assets" | "project-file";
 }
+
+export type FileCategory = "document" | "project-assets" | "project-file";

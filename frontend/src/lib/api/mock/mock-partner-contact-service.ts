@@ -16,7 +16,7 @@ export const getPartnerContact = (id: string) => {
 export const getAllPartnerContacts = (searchTerm: PartnerContactSearchOption) => {
    return new Promise((resolve) => {
       setTimeout(() => {
-         // Return all partner contacts if no search terms are provided or all fields are empty strings
+         
          if (
             !searchTerm ||
             Object.keys(searchTerm).length === 0 ||
@@ -32,22 +32,22 @@ export const getAllPartnerContacts = (searchTerm: PartnerContactSearchOption) =>
 
          const filteredPartnerContacts = mockPartnerContacts.filter((contact) => {
             const matchesName =
-               !searchTerm.name || searchTerm.name.trim() === "" || // Empty string returns true
+               !searchTerm.name || searchTerm.name.trim() === "" || 
                contact.name.toLowerCase().includes(searchTerm.name.toLowerCase());
 
             const matchesCompanyId =
                searchTerm.companyId === undefined || contact.companyId === searchTerm.companyId;
 
             const matchesType =
-               !searchTerm.type || searchTerm.type.trim() === "" || // Empty string returns true
+               !searchTerm.type || searchTerm.type.trim() === "" || 
                contact.type === searchTerm.type;
 
             const matchesRole =
-               !searchTerm.role || searchTerm.role.trim() === "" || // Empty string returns true
+               !searchTerm.role || searchTerm.role.trim() === "" || 
                contact.role.toLowerCase().includes(searchTerm.role.toLowerCase());
 
             const matchesCompany =
-               !searchTerm.company || searchTerm.company.trim() === "" || // Empty string returns true
+               !searchTerm.company || searchTerm.company.trim() === "" || 
                contact.company.toLowerCase().includes(searchTerm.company.toLowerCase());
 
             return matchesName && matchesCompanyId && matchesType && matchesRole && matchesCompany;
