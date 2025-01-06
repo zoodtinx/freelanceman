@@ -26,12 +26,15 @@ const FileTable = <TData extends RowData>({
             className="overflow-hidden cursor-default relative"
             ref={tableRef}
          >
-            <TableHeader className=''>
+            <TableHeader className="">
                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id} className=''>
+                  <TableRow key={headerGroup.id} className="">
                      {headerGroup.headers.map((header) => {
                         return (
-                           <TableHead key={header.id} width={header.getSize().toString()}>
+                           <TableHead
+                              key={header.id}
+                              width={header.getSize().toString()}
+                           >
                               {header.isPlaceholder
                                  ? null
                                  : flexRender(
@@ -150,7 +153,7 @@ const TaskBar = ({
          value: 'completed',
       });
       table.resetRowSelection();
-   }
+   };
 
    return (
       <div
@@ -164,7 +167,9 @@ const TaskBar = ({
             {selectedCount} selected
          </TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
-         <TaskBarItem onClick={handleMarkComplete}>Mark as completed</TaskBarItem>
+         <TaskBarItem onClick={handleMarkComplete}>
+            Mark as completed
+         </TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
          <TaskBarItem onClick={handleDelete} className="text-red-500">
             Delete

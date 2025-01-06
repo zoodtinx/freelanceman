@@ -14,10 +14,11 @@ import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable 
 import { createFileColumns } from './FileColumn';
 import { useFileQuery } from '@/lib/api/file-api';
 import { mockFiles } from '@mocks';
+import FileDialog from '@/components/shared/ui/FileDialog';
 
 const FilePageLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: false,
+      isOpen: true,
       id: '',
       type: 'clientContact',
       mode: 'view',
@@ -57,49 +58,37 @@ const FilePageLayout = (): JSX.Element => {
             <NewFileButton setDialogState={setDialogState} />
          </div>
          <FileTable table={table} />
-         <ContactDialog dialogState={dialogState} setDialogState={setDialogState} />
+         <FileDialog dialogState={dialogState} setDialogState={setDialogState} />
       </div>
    );
 };
 
 const NewFileButton = ({
    setDialogState,
+   type, // Accept "clientContact" or "partnerContact" as props
 }: {
    setDialogState: (dialogState: object) => void;
+   type: 'clientContact' | 'partnerContact';
 }) => {
-   const dialogState = {
-      isOpen: true,
-      id: '',
-      mode: 'create',
-      data: defaultContact,
-   };
-   const handleClick = (type: string) => {
-      if (type === 'client') {
-         setDialogState({
-            ...dialogState,
-            type: 'clientContact',
-         });
-      } else if (type === 'partner') {
-         setDialogState({
-            ...dialogState,
-            type: 'partnerContact',
-         });
-      }
+   const handleClick = () => {
+      setDialogState({
+         isOpen: true,
+         id: '',
+         mode: 'create',
+         data: defaultContact,
+         type, // Use the provided type prop
+      });
    };
 
    return (
-      <Popover>
-         <PopoverTrigger>
-            <button className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer">
-               <Plus className="aspect-square h-[20px]" />
-            </button>
-         </PopoverTrigger>
-         <PopoverContent className="w-fit cursor-default">
-            <p onClick={() => handleClick('client')}>Client contact</p>
-            <p onClick={() => handleClick('partner')}>Partner contact</p>
-         </PopoverContent>
-      </Popover>
+      <button
+         onClick={handleClick}
+         className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer"
+      >
+         <Plus className="aspect-square h-[20px]" />
+      </button>
    );
 };
+
 
 export default FilePageLayout;

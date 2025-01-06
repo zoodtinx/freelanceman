@@ -5,7 +5,7 @@ import { Building2 } from 'lucide-react';
 import { ClientSearchOption } from '@types';
 import { useState } from 'react';
 import { useAllClientsQuery } from '@/lib/api/client-api';
-import { Switch } from '@/components/shared/ui/Switch';
+import { Switch } from '@/components/shared/ui/switch';
 
 const ClientColumn = (): JSX.Element => {
    const [searchOptions, setSearchOptions] = useState<ClientSearchOption>({});

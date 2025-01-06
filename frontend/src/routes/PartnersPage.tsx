@@ -145,7 +145,7 @@ const PartnerTab = ({
          className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary"
          onClick={handleClick}
       >
-         <div className="z-10 flex items-center px-4 justify-between w-full text-[#333333]">
+         <div className="z-10 flex items-center px-4 justify-between w-full text-primary">
             <div className="flex items-center">
                <p className="w-[190px] cursor-pointer hover:opacity-60 transition-opacity leading-tight">
                   {contact.role}
