@@ -14,7 +14,7 @@ import {
 } from '@/components/shared/ui/popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { Contact, ContactSearchOption, PartnerContact } from '@types';
+import { Contact, ContactSearchOption, PartnerContact, PartnerContactSearchOption } from '@types';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from '@/components/shared/ui/form/utils';
@@ -31,7 +31,7 @@ const PartnerContactLayout = (): JSX.Element => {
       data: defaultContact,
    });
 
-   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
+   const [searchOptions, setSearchOptions] = useState<PartnerContactSearchOption>({});
    const [searchMode, setSearchMode] = useState('name');
 
    console.log('searchOptions', searchOptions);
@@ -42,13 +42,13 @@ const PartnerContactLayout = (): JSX.Element => {
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
       switch (searchMode) {
          case 'name':
-            setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
+            setSearchOptions({ name: event.target.value });
             break;
          case 'role':
-            setSearchOptions((prev) => ({ ...prev, role: event.target.value }));
+            setSearchOptions({ role: event.target.value });   
             break;
-            case 'company':
-            setSearchOptions((prev) => ({ ...prev, company: event.target.value }));
+         case 'company':
+            setSearchOptions({ company: event.target.value, });      
             break;
       }
    };
