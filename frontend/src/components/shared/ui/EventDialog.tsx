@@ -1,3 +1,4 @@
+import { Calendar } from 'lucide-react';
 import { Separator } from './separator';
 import { Path, useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import type { EventFormData, NewEventPayload, TaskFormData } from '@types';
@@ -176,64 +177,73 @@ const EventDialog: React.FC<DialogProps> = ({
             onInteractOutside={(e) => e.preventDefault()}
          >
             <form onSubmit={handleSubmit(onSubmit)}>
-               <DialogHeader className="py-2">
-                  <DialogTitle className="text-base w-full">Event</DialogTitle>
+               <DialogHeader className="py-1 bg-transparent">
+                  <DialogTitle className="flex text-base w-full text-center items-center gap-1">
+                     <Calendar className='w-[13px] h-[13px]' />
+                     <p>Event</p>
+                  </DialogTitle>
                </DialogHeader>
-               <div className="px-5 py-3 flex flex-col gap-3">
-                  <TaskNameInput<EventFormData>
-                     formMethods={formMethods}
-                     dialogState={dialogState}
-                  />
-                  <div className="flex leading-tight">
-                     <div className="w-1/2">
-                        <p className="text-secondary">Status</p>
-                        <StatusSelect<EventFormData>
+               <div className="bg-background rounded-2xl">
+                  <div className="px-5 py-3 flex flex-col gap-3">
+                     <TaskNameInput<EventFormData>
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                     />
+                     <div className="flex leading-tight">
+                        <div className="w-1/2">
+                           <p className="text-secondary">Status</p>
+                           <StatusSelect<EventFormData>
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                              selection={eventStatusSelections}
+                              fieldName="status"
+                           />
+                        </div>
+                        <div className="w-1/2">
+                           <p className="text-secondary">Date</p>
+                           <DateTimePicker<EventFormData>
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                              fieldName="dueDate"
+                           />
+                        </div>
+                     </div>
+                     <div className="flex leading-tight">
+                        <div className="w-1/2">
+                           <p className="text-secondary">Project</p>
+                           <ProjectSelect<EventFormData>
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                           />
+                        </div>
+                        <div className="w-1/2">
+                           <p className="text-secondary">Client</p>
+                           <ClientField<EventFormData>
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                           />
+                        </div>
+                     </div>
+                     <div className="w-full">
+                        <p className="text-secondary">Details</p>
+                        <DetailsInputField
                            formMethods={formMethods}
                            dialogState={dialogState}
-                           selection={eventStatusSelections}
-                           fieldName="status"
+                           fieldName="details"
                         />
                      </div>
-                     <div className="w-1/2">
-                        <p className="text-secondary">Date</p>
-                        <DateTimePicker<EventFormData>
-                           formMethods={formMethods}
-                           dialogState={dialogState}
-                           fieldName="dueDate"
-                        />
+                     <div className="w-full">
+                        <p className="text-secondary">Link</p>
+                        <LinkInput<EventFormData> formMethods={formMethods} />
                      </div>
                   </div>
-                  <div className="flex leading-tight">
-                     <div className="w-1/2">
-                        <p className="text-secondary">Project</p>
-                        <ProjectSelect<EventFormData>
-                           formMethods={formMethods}
-                           dialogState={dialogState}
-                        />
+                  <DialogFooter>
+                     <div className="flex justify-between p-4">
+                        <LeftButton />
+                        <RightButton />
                      </div>
-                     <div className="w-1/2">
-                        <p className="text-secondary">Client</p>
-                        <ClientField<EventFormData>
-                           formMethods={formMethods}
-                           dialogState={dialogState}
-                        />
-                     </div>
-                  </div>
-                  <div className="w-full">
-                     <p className="text-secondary">Details</p>
-                     <DetailsInputField formMethods={formMethods} dialogState={dialogState} fieldName='details' />
-                  </div>
-                  <div className="w-full">
-                     <p className="text-secondary">Link</p>
-                     <LinkInput<EventFormData> formMethods={formMethods} />
-                  </div>
+                  </DialogFooter>
                </div>
-               <DialogFooter>
-                  <div className="flex justify-between p-4">
-                     <LeftButton />
-                     <RightButton />
-                  </div>
-               </DialogFooter>
             </form>
          </DialogContent>
       </Dialog>
