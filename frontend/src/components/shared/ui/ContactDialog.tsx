@@ -1,5 +1,5 @@
-import { Separator } from './separator';
-import DialogHeaderNameInput from './form/DialogHeaderNameInput';
+import { Separator } from './primitives/Separator';
+import DialogHeaderNameInput from './primitives/DialogHeaderNameInput';
 import { cn } from '@/lib/helper/utils';
 import clsx from 'clsx';
 import { useForm, SubmitHandler, Path, useWatch } from 'react-hook-form';
@@ -11,14 +11,14 @@ import {
    DialogFooter,
    DialogTitle,
    DialogTrigger,
-} from './Dialog';
-import { Button } from './button';
+} from './primitives/Dialog';
+import { Button } from './primitives/Button';
 import type { DialogProps } from '@/lib/types/dialog.types';
-import { defaultContact } from './form/utils';
+import { defaultContact } from './primitives/utils';
 import { Client, Contact, NewContactPayload } from '@types';
-import { Input } from './input';
+import { Input } from './primitives/Input';
 import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck, Upload } from 'lucide-react';
-import { Textarea } from './textarea';
+import { Textarea } from './primitives/Textarea';
 import { InputProps } from '@/lib/types/form-input-props.types';
 
 const ContactDialog = ({

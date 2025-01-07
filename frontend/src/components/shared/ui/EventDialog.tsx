@@ -1,8 +1,8 @@
 import { Calendar } from 'lucide-react';
-import { Separator } from './separator';
+import { Separator } from './primitives/Separator';
 import { Path, useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import type { EventFormData, NewEventPayload, TaskFormData } from '@types';
-import { eventDefaultValues, eventStatusSelections } from './form/utils';
+import { eventDefaultValues, eventStatusSelections } from './primitives/utils';
 import React, { useEffect } from 'react';
 import {
    DialogContent,
@@ -11,23 +11,23 @@ import {
    DialogFooter,
    DialogTitle,
    DialogTrigger,
-} from './Dialog';
-import { Button } from './button';
-import { Textarea } from './textarea';
+} from './primitives/Dialog';
+import { Button } from './primitives/Button';
+import { Textarea } from './primitives/Textarea';
 import {
    useCreateEvent,
    useDeleteEvent,
    useEditEvent,
 } from '@/lib/api/event-api';
-import type { DialogProps } from './props.type';
-import LinkInput from './form/LinkInput';
-import StatusSelect from './form/StatusSelect';
-import ProjectSelect from './form/ProjectSelect';
-import TaskNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
+import type { DialogProps } from '../types/props.type';
+import LinkInput from './primitives/LinkInput';
+import StatusSelect from './form-field-elements/StatusSelect';
+import ProjectSelect from './form-field-elements/ProjectSelect';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';
 import { Link } from 'react-router-dom';
 import { InputProps } from '../../../lib/types/form-input-props.types';
-import { formDefaultValue } from './form/utils';
-import DateTimePicker from './form/DateTimePicker';
+import { formDefaultValue } from './primitives/utils';
+import DateTimePicker from '@/components/shared/ui/form-field-elements/DateTimePicker';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 
 const EventDialog: React.FC<DialogProps> = ({

@@ -7,7 +7,7 @@ import type {
    StatusMap,
 } from '../types/project-view-context.types';
 import { ProjectSettingDialogState, TaskEventDialogState } from '../types/dialog.types';
-import { formDefaultValue } from '@/components/shared/ui/form/utils';
+import { formDefaultValue } from 'src/components/shared/ui/primitives/utils';
 
 const useProjectsView = () => {
    const [projects, setProjects] = useState<Project[]>([]);

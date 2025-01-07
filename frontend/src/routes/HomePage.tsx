@@ -1,5 +1,5 @@
-import TopBar from '@/components/layout/topbar/TopBar';
-import SideBar from '@/components/layout/sidebar/SideBar';
+import TopBar from '@/components/page-elements/app-layout/topbar/TopBar';
+import SideBar from '@/components/page-elements/app-layout/sidebar/SideBar';
 import { Outlet } from 'react-router-dom';
 
 export default function HomePage() {

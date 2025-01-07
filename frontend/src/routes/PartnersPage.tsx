@@ -11,13 +11,13 @@ import {
    Popover,
    PopoverTrigger,
    PopoverContent,
-} from '@/components/shared/ui/popover';
+} from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Contact, ContactSearchOption, PartnerContact, PartnerContactSearchOption } from '@types';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
-import { defaultContact } from '@/components/shared/ui/form/utils';
+import { defaultContact } from 'src/components/shared/ui/primitives/utils';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';

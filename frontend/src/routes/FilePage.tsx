@@ -1,4 +1,4 @@
-import FilePageLayout from '@/components/pages/files/FilePageLayout';
+import FilePageLayout from 'src/components/page-elements/files/FilePageLayout';
 
 const FilePage = (): JSX.Element => {
    return (

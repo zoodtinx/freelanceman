@@ -11,8 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "src/components/shared/ui/Dialog.js"; // Adjust import based on your file structure
-import { Button } from "@/components/shared/ui/button";
+} from "src/components/shared/ui/primitives/Dialog.js"; // Adjust import based on your file structure
+import { Button } from "src/components/shared/ui/primitives/Button.js";
 
 const meta = {
    component: TaskDialogue,

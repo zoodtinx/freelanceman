@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { cn } from '@/lib/helper/utils';
 import { Search } from 'lucide-react';
+import { CleanTextInput } from '@/components/shared/ui/primitives/CleanTextInput';
 
 export const SearchBox = React.forwardRef<
    HTMLDivElement,
    React.ComponentProps<'div'> & { placeholder?: string }
->(({ className, placeholder = 'Search...', ...props }, ref) => {
+>(({ className, placeholder = 'Search', ...props }, ref) => {
    return (
       <div
          ref={ref}
@@ -16,8 +17,7 @@ export const SearchBox = React.forwardRef<
          {...props}
       >
          <Search className="w-5 h-auto text-secondary group-focus-within:text-primary" />
-         <input
-            type="text"
+         <CleanTextInput
             className="w-full bg-transparent outline-none"
             placeholder={placeholder}
          />

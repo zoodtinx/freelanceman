@@ -6,20 +6,20 @@ import {
    DialogFooter,
    DialogTitle,
    DialogTrigger,
-} from './Dialog';
-import { Button } from './button';
-import { Textarea } from './textarea';
+} from './primitives/Dialog';
+import { Button } from './primitives/Button';
+import { Textarea } from './primitives/Textarea';
 import { FieldValues, Path, SubmitHandler, useForm } from 'react-hook-form';
-import LinkInput from './form/LinkInput';
-import StatusSelect from './form/StatusSelect';
-import ProjectSelect from './form/ProjectSelect';
-import TaskAndEventNameInput from '@/components/pages/all-project/TaskAndEventNameInput';
+import LinkInput from './primitives/LinkInput';
+import StatusSelect from './form-field-elements/StatusSelect';
+import ProjectSelect from './form-field-elements/ProjectSelect';
+import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';
 import type { NewTaskPayload, TaskFormData } from '@types';
 import { Link } from 'react-router-dom';
 import { InputProps } from '@/lib/types/form-input-props.types';
-import DateTimePicker from './form/DateTimePicker';
+import DateTimePicker from '@/components/shared/ui/form-field-elements/DateTimePicker';
 import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';
-import { taskStatusSelections, taskDefaultValues } from './form/utils';
+import { taskStatusSelections, taskDefaultValues } from './primitives/utils';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 
 const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {

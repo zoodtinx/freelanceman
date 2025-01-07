@@ -1,5 +1,5 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shared/ui/Tabs"
-import { Separator } from './separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "src/components/shared/ui/primitives/Tabs"
+import { Separator } from './primitives/Separator';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import {
@@ -9,10 +9,10 @@ import {
    DialogFooter,
    DialogTitle,
    DialogTrigger,
-} from './Dialog';
-import { Button } from './button';
-import { Input } from './input';
-import { Textarea } from './textarea';
+} from './primitives/Dialog';
+import { Button } from './primitives/Button';
+import { Input } from './primitives/Input';
+import { Textarea } from './primitives/Textarea';
 import { CircleCheck, ClipboardX, Upload, X } from 'lucide-react';
 
 const FileDialog = ({ dialogState, setDialogState }) => {

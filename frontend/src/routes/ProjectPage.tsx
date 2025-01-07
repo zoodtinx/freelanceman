@@ -1,6 +1,6 @@
 import { useProjectQuery } from '@/lib/api/project-api';
 import { useParams } from 'react-router-dom';
-import ProjectSideBar from '@/components/pages/project/ProjectSideBar';
+import ProjectSideBar from 'src/components/page-elements/project/ProjectSideBar';
 import { Users, EllipsisVertical } from 'lucide-react';
 
 export default function ProjectPage() {
