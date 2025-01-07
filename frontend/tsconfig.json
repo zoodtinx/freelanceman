@@ -12,6 +12,6 @@
     "src",
     "../shared/types/**/*",
     "../shared/mocks/**/*"
-  ],
+, "src/components/shared/ui/primitives/Command.tsx"  ],
   "exclude": ["src/**/*.d.ts"]
 }

@@ -1,3 +1,4 @@
+import { SearchBox } from '@/components/shared/ui/SearchBox';
 import {
    Select,
    SelectContent,
@@ -68,7 +69,9 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
                rules={{ required: 'Project is required' }}
                render={({ field }) => (
                   <Select
-                     onValueChange={(value) => handleProjectChange(value, field.onChange)}
+                     onValueChange={(value) =>
+                        handleProjectChange(value, field.onChange)
+                     }
                      value={field.value}
                   >
                      <DialogueSelectTrigger mode="base">
@@ -76,9 +79,15 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
                            <SelectValue placeholder="Select a project" />
                         </p>
                      </DialogueSelectTrigger>
-                     <SelectContent className="flex flex-col gap-1">
+                     <SelectContent className="flex flex-col gap-1 relative">
+                        <SearchBox
+                           className="sticky"
+                        />
                         {activeProjects.map((project) => (
-                           <DialogueSelectItem key={project.id} value={project.id!}>
+                           <DialogueSelectItem
+                              key={project.id}
+                              value={project.id!}
+                           >
                               {project.name}
                            </DialogueSelectItem>
                         ))}

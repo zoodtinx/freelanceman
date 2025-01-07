@@ -20,7 +20,7 @@ import {
    useEditEvent,
 } from '@/lib/api/event-api';
 import type { DialogProps } from '../types/props.type';
-import LinkInput from './primitives/LinkInput';
+import LinkInput from './form-field-elements/LinkInput';
 import StatusSelect from './form-field-elements/StatusSelect';
 import ProjectSelect from './form-field-elements/ProjectSelect';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';

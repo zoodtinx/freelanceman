@@ -19,7 +19,7 @@ type SelectProps = Omit<
    React.ComponentPropsWithoutRef<typeof Select>,
    'children'
 > & {
-   selectContents: { value: string; text: string; color?: string }[];
+   selectContents: { value: string; label: string; color?: string }[];
    className?: string;
    onValueChange: (value: string) => void;
    value: string;
@@ -52,7 +52,7 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
             <SelectContent className="flex flex-col gap-1">
                {selectContents.map((selection) => (
                   <SelectItem key={selection.value} value={selection.value}>
-                     {selection.text}
+                     {selection.label}
                   </SelectItem>
                ))}
             </SelectContent>
@@ -77,7 +77,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       ref
    ) => {
       const [mode, setMode] = useState('base')
-      
+      console.log('selectContents', selectContents)
       useEffect(() => {
          if (!value) {
             setMode('base')
@@ -105,7 +105,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                <SelectContent className="flex flex-col gap-1">
                   {selectContents.map((selection) => (
                      <SelectItem key={selection.value} value={selection.value}>
-                        {selection.text}
+                        {selection.label}
                      </SelectItem>
                   ))}
                </SelectContent>

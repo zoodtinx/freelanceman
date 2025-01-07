@@ -10,7 +10,7 @@ import {
 import { Button } from './primitives/Button';
 import { Textarea } from './primitives/Textarea';
 import { FieldValues, Path, SubmitHandler, useForm } from 'react-hook-form';
-import LinkInput from './primitives/LinkInput';
+import LinkInput from './form-field-elements/LinkInput';
 import StatusSelect from './form-field-elements/StatusSelect';
 import ProjectSelect from './form-field-elements/ProjectSelect';
 import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';

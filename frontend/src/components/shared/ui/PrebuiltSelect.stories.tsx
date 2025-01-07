@@ -29,8 +29,8 @@ const Template = () => {
    };
 
    const selectContents = [
-      { value: 'thailand', displayValue: 'Thailand' },
-      { value: 'laos', displayValue: 'Laos' },
+      { value: 'thailand', label: 'Thailand' },
+      { value: 'laos', label: 'Laos' },
    ];
 
    const onValueChange = (value: string) => {

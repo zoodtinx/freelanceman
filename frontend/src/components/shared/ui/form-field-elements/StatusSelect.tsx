@@ -55,24 +55,6 @@ const StatusSelect = <TFormData extends FieldValues,>({
                   value={field.value}
                   className={`p-1 pl-3 pr-4 rounded-full flex font-semibold items-center gap-1 w-fit ${color}`}
                />
-               // <Select value={field.value} onValueChange={handleStatusChange}>
-               //    <DialogueSelectTrigger
-               //       mode="base"
-               //       className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}
-               //    >
-               //       <div className="aspect-square w-[8px] rounded-full bg-primary" />
-               //       <p className="font-semibold">
-               //          <SelectValue />
-               //       </p>
-               //    </DialogueSelectTrigger>
-               //    <SelectContent className="flex flex-col gap-1">
-               //       {selection.map(({ value, text }) => (
-               //          <DialogueSelectItem key={value} value={value}>
-               //             {text}
-               //          </DialogueSelectItem>
-               //       ))}
-               //    </SelectContent>
-               // </Select>
             );
          }}
       />

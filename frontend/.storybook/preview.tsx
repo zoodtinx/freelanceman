@@ -19,7 +19,7 @@ export const queryClient = new QueryClient();
 const preview: Preview = {
    decorators: [
       (Story) => (
-         <ThemeProvider enableSystem attribute="class" defaultTheme="light">
+         <ThemeProvider enableSystem attribute="class" defaultTheme="lights">
             <I18nextProvider i18n={i18next}>
                <QueryClientProvider client={queryClient}>
                   <Story />
