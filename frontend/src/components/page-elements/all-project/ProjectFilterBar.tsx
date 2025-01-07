@@ -1,3 +1,4 @@
+import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import {
    Select,
@@ -20,6 +21,7 @@ export default function ProjectFilterBar() {
             <ProjectStatusFilterBubble />
             <PaymentStatusFilterBubble />
             <ClientFilterBubble />
+            <SearchBox className="border-primary rounded-full" />
          </div>
          <ViewModeToggle />
       </div>
