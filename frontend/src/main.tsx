@@ -20,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
          attribute="class"
          defaultTheme="system"
          enableSystem
+         forcedTheme='light'
          disableTransitionOnChange
       >
          <QueryClientProvider client={queryClient}>

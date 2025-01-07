@@ -44,12 +44,13 @@ type SelectProps = Omit<
    React.ComponentPropsWithoutRef<typeof Popover>,
    'children'
 > & {
-   selectContents: { value: string; text: string; }[];
+   selectContents: { value: string; label: string; }[];
    className?: string;
    onValueChange: (value: string) => void;
    value: string;
    placeholder?: string;
    isWithIcon?: boolean;
+   size?: 'sm' | 'md' | 'lg' | 'xl'
 };
 
 const SelectWithSearch: React.FC<SelectProps> = ({
@@ -58,7 +59,7 @@ const SelectWithSearch: React.FC<SelectProps> = ({
   onValueChange,
   value,
   placeholder = 'Select',
-  isWithIcon,
+  isWithIcon = true,
 }) => {
   const [open, setOpen] = React.useState(false)
 
@@ -71,12 +72,12 @@ const SelectWithSearch: React.FC<SelectProps> = ({
           className={cn("flex justify-between", className)}
         >
           {value
-            ? selectContents.find((selection) => selection.value === value)?.text
-            : "Select project"}
+            ? selectContents.find((selection) => selection.value === value)?.label
+            : "Select a project"}
           {isWithIcon && <ChevronDown className="w-4 h-4" />}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[300px] p-0">
         <Command>
           <CommandInput placeholder={placeholder} className="h-9" />
           <CommandList>
@@ -90,13 +91,13 @@ const SelectWithSearch: React.FC<SelectProps> = ({
                     onValueChange(currentValue)
                   }}
                 >
-                  {selection.text}
-                  <Check
+                  <p className="truncate">{selection.label}</p>
+                  {/* <Check
                     className={cn(
                       "ml-auto",
                       value === selection.value ? "opacity-100" : "opacity-0"
                     )}
-                  />
+                  /> */}
                 </CommandItem>
               ))}
             </CommandGroup>

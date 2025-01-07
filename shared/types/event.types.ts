@@ -13,6 +13,7 @@ export interface Event {
    projectId: string;
    client: string;
    clientId: string;
+   color:string;
 }
 
 export type NewEventPayload = Omit<Event, 'createdAt' | 'project' | 'client'>;

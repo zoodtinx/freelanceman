@@ -3,7 +3,7 @@ import { Separator } from './primitives/Separator';
 import { Path, useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import type { EventFormData, NewEventPayload, TaskFormData } from '@types';
 import { eventDefaultValues, eventStatusSelections } from './primitives/utils';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    DialogContent,
    DialogHeader,
@@ -19,7 +19,7 @@ import {
    useDeleteEvent,
    useEditEvent,
 } from '@/lib/api/event-api';
-import type { DialogProps } from '../types/props.type';
+import { DialogProps } from '@/lib/types/dialog.types';
 import LinkInput from './form-field-elements/LinkInput';
 import StatusSelect from './form-field-elements/StatusSelect';
 import ProjectSelect from './form-field-elements/ProjectSelect';
@@ -46,20 +46,23 @@ const EventDialog: React.FC<DialogProps> = ({
 
    const { handleSubmit, reset, watch } = formMethods;
 
+   const [color, setColor] = useState('')
+
    useEffect(() => {
       reset(
          dialogState.mode === 'view' || dialogState.mode === 'edit'
             ? dialogState.data
             : formDefaultValue(dialogState.actionType)
       );
+      setColor(dialogState.data.color)
    }, [dialogState, reset]);
+
 
    const handleDialogClose = () => {
       setDialogState({ ...dialogState, isOpen: false });
    };
 
    const isWithTime = watch('withTime')
-   console.log('withTime', isWithTime)
 
    const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
       const payload: NewEventPayload = {
@@ -173,7 +176,10 @@ const EventDialog: React.FC<DialogProps> = ({
             </Button>
          </DialogTrigger>
          <DialogContent
-            className="sm:max-w-[425px] flex flex-col"
+            className="sm:max-w-[425px] flex flex-col focus:outline-none"
+            style={{
+               backgroundColor: color
+            }}
             onInteractOutside={(e) => e.preventDefault()}
          >
             <form onSubmit={handleSubmit(onSubmit)}>

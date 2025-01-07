@@ -41,6 +41,7 @@ export const mockEvents: Event[] = [
       project: "Rebrand for PixelEdge: Digital Campaign Launch",
       projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       withTime: true,
+      color: '#aae4f2',
       client: "PixelEdge Studios",
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
    },

@@ -37,8 +37,6 @@ const Template = () => {
       setValue(value)
    };
 
-   const mode = 'base'
-
    return (
       <main className="bg-background w-screen h-screen dark:bg-background-dark flex items-center justify-center">
          <div ref={dialogRef}>

@@ -10,6 +10,8 @@ import { useFilteredProjectsQuery } from '@/lib/api/project-api';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { InputProps } from '@/lib/types/form-input-props.types';
+import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
+import { Project } from '@types';
 
 const ProjectSelect = <TFieldValues extends FieldValues>({
    formMethods,
@@ -26,6 +28,8 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
    if (!activeProjects) {
       return <>No projects available</>;
    }
+
+   const selectContents = selectionConvert(activeProjects)
 
    const handleProjectChange = (
       value: string,
@@ -68,31 +72,13 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
                control={control}
                rules={{ required: 'Project is required' }}
                render={({ field }) => (
-                  <Select
-                     onValueChange={(value) =>
-                        handleProjectChange(value, field.onChange)
-                     }
+                  <SelectWithSearch
                      value={field.value}
-                  >
-                     <DialogueSelectTrigger mode="base">
-                        <p className="h-fit font-semibold flex gap-1 items-end text-wrap text-left line-clamp-3 overflow-hidden">
-                           <SelectValue placeholder="Select a project" />
-                        </p>
-                     </DialogueSelectTrigger>
-                     <SelectContent className="flex flex-col gap-1 relative">
-                        <SearchBox
-                           className="sticky"
-                        />
-                        {activeProjects.map((project) => (
-                           <DialogueSelectItem
-                              key={project.id}
-                              value={project.id!}
-                           >
-                              {project.name}
-                           </DialogueSelectItem>
-                        ))}
-                     </SelectContent>
-                  </Select>
+                     onValueChange={handleProjectChange}
+                     selectContents={selectContents}
+                     className='justify-normal items-center gap-1'
+                     
+                  />
                )}
             />
             {errors.projectId && (
@@ -106,5 +92,15 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
 
    return null;
 };
+
+const selectionConvert = (activeProject: Project[]) => {
+   const selectContents = activeProject.map((project) => {
+      return {
+         value: project.id,
+         label: project.name
+      }
+   })
+   return selectContents
+}
 
 export default ProjectSelect;

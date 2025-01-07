@@ -83,27 +83,27 @@ export const defaultProject: Project = {
  };
 
  export const taskStatusSelections = [
-   { value: 'planned', text: 'Planned', color: 'bg-yellow-100' },
-   { value: 'inProgress', text: 'In Progress', color: 'bg-emerald-200' },
-   { value: 'completed', text: 'Completed', color: 'bg-blue-100' },
-   { value: 'cancelled', text: 'Cancelled', color: 'bg-red-200' },
+   { value: 'planned', label: 'Planned', color: 'bg-yellow-100' },
+   { value: 'inProgress', label: 'In Progress', color: 'bg-emerald-200' },
+   { value: 'completed', label: 'Completed', color: 'bg-blue-100' },
+   { value: 'cancelled', label: 'Cancelled', color: 'bg-red-200' },
 ];
 
 export const eventStatusSelections = [
-   { value: 'scheduled', text: 'Scheduled', color: 'bg-yellow-100' },
-   { value: 'inProgress', text: 'In Progress', color: 'bg-emerald-200' },
-   { value: 'completed', text: 'Completed', color: 'bg-blue-100' },
-   { value: 'cancelled', text: 'Cancelled', color: 'bg-red-200' },
+   { value: 'scheduled', label: 'Scheduled', color: 'bg-yellow-100' },
+   { value: 'inProgress', label: 'In Progress', color: 'bg-emerald-200' },
+   { value: 'completed', label: 'Completed', color: 'bg-blue-100' },
+   { value: 'cancelled', label: 'Cancelled', color: 'bg-red-200' },
 ];
 
 export const projectStatusSelections = [
-   { value: 'active', text: 'Active', color: 'bg-green-100' },
-   { value: 'onHold', text: 'On Hold', color: 'bg-orange-200' },
-   { value: 'completed', text: 'Completed', color: 'bg-blue-200' },
+   { value: 'active', label: 'Active', color: 'bg-green-100' },
+   { value: 'onHold', label: 'On Hold', color: 'bg-orange-200' },
+   { value: 'completed', label: 'Completed', color: 'bg-blue-200' },
 ];
 
 export const paymentStatusSelections = [
-   { value: 'notProcessed', text: 'Not Processed', color: 'bg-gray-200' },
-   { value: 'processing', text: 'Processing', color: 'bg-yellow-200' },
-   { value: 'paid', text: 'Paid', color: 'bg-teal-100' },
+   { value: 'notProcessed', label: 'Not Processed', color: 'bg-gray-200' },
+   { value: 'processing', label: 'Processing', color: 'bg-yellow-200' },
+   { value: 'paid', label: 'Paid', color: 'bg-teal-100' },
 ];

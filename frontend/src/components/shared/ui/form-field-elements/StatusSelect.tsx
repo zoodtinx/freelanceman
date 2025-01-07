@@ -44,8 +44,7 @@ const StatusSelect = <TFormData extends FieldValues,>({
             const currentSelection = selection.find(
                (item) => item.value === field.value
             );
-
-            console.log('selection', selection)
+            
             const color = currentSelection?.color || '';
 
             return (
