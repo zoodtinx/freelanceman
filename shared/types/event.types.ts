@@ -3,7 +3,7 @@ export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled';
 export interface Event {
    id: string;
    name: string;
-   status: EventStatus;
+   status: EventStatus | 'all';
    details: string;
    link: string;
    createdAt: string;
@@ -19,3 +19,7 @@ export interface Event {
 export type NewEventPayload = Omit<Event, 'createdAt' | 'project' | 'client'>;
 
 export type EventFormData = Omit<Event, 'createdAt'>;
+
+export type EventSearchOptions = Partial<
+   Pick<Event, "status" | "createdAt" | "dueDate" | "withTime" | 'projectId' | 'clientId'>
+>;

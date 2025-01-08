@@ -8,12 +8,12 @@ import {
    bulkEditEvents,
    bulkDeleteEvents
 } from './mock/mock-event-service';
-import type { ActionResponsePayload, NewActionPayload } from '@types';
+import type { ActionResponsePayload, EventSearchOptions, NewActionPayload } from '@types';
 
-export const useAllEventQuery = () => {
+export const useAllEventQuery = (searchOptions: EventSearchOptions = {}) => {
    return useQuery({
-      queryKey: ['events'],
-      queryFn: getAllEvent,
+      queryKey: ['events', searchOptions],
+      queryFn: () => getAllEvent(searchOptions),
    });
 };
 

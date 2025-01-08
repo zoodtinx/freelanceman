@@ -7,40 +7,14 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import { Separator } from 'src/components/shared/ui/primitives/Separator';
-import { format, toZonedTime } from 'date-fns-tz';
 import { Dispatch, SetStateAction } from 'react';
 import { useDeleteEvent } from '@/lib/api/event-api';
+import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import { FormDialogState } from '@/lib/types/dialog.types';
 
-function formatDate(isoString: string) {
-   const date = new Date(isoString);
-   const monthAbbreviations = [
-      'JAN',
-      'FEB',
-      'MAR',
-      'APR',
-      'MAY',
-      'JUN',
-      'JUL',
-      'AUG',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DEC',
-   ];
-   return `${date.getDate()} ${monthAbbreviations[date.getMonth()]}`;
-}
+type SetDialogState = Dispatch<SetStateAction<FormDialogState>>;
 
-function formatTime(isoString: string) {
-   const systemTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-   const zonedDate = toZonedTime(isoString, systemTimeZone);
-   return format(zonedDate, 'h:mm a', { timeZone: systemTimeZone });
-}
-
-interface EventColumnProps {
-   setDialogState: Dispatch<SetStateAction<any>>;
-}
-
-export const createEventColumn = (setDialogState: () => void): ColumnDef<Event>[] => [
+export const createEventColumn = (setDialogState: SetDialogState): ColumnDef<Event>[] => [
    {
       id: 'select',
       size: 7,
@@ -116,6 +90,11 @@ export const createEventColumn = (setDialogState: () => void): ColumnDef<Event>[
    },
 ];
 
+interface CellWrapperProps {
+   rowData: Row<Event>;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+}
+
 export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
    const { mutate: deleteEvent } = useDeleteEvent();
 
@@ -124,7 +103,7 @@ export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.
          isOpen: true,
          id: rowData.original.id,
          mode: 'view',
-         actionType: 'event',
+         type: 'event',
          data: rowData.original,
       });
    };
@@ -147,18 +126,13 @@ export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.
    );
 };
 
-interface CellWrapperProps {
-   rowData: Row<Event>;
-   setDialogState: Dispatch<SetStateAction<any>>;
-}
-
 export const CellWrapper = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
    const handleClick = () => {
       setDialogState({
          id: rowData.original.id,
          isOpen: true,
          mode: 'view',
-         actionType: 'event',
+         type: 'event',
          data: rowData.original,
       });
    };

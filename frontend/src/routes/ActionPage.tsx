@@ -20,10 +20,3 @@ export default function ActionPage() {
       </ActionsViewProvider>
    );
 }
-
-// const Dialog = () => {
-//    const { dialogState, setDialogState } = useActionsViewContext();
-//    return (
-//       <EventDialog dialogState={dialogState} setDialogState={setDialogState} />
-//    );
-// };

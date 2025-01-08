@@ -18,7 +18,7 @@ export const mockEvents: Event[] = [
    {
       id: "bc4d0972-21c2-4f7f-9b87-9b4fa0421c7b",
       name: "Design Brief Submission",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Submitting the final design brief for approval before proceeding with the campaign.",
       link: "http://design-brief-link.com",
@@ -61,7 +61,7 @@ export const mockEvents: Event[] = [
    {
       id: "d9a80b6d-5741-4925-b6c2-e999b7f99c75",
       name: "Package Design Kick-Off",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Initial meeting to discuss the creative direction and packaging requirements for NatureBurst Granola.",
       link: "http://kickoff-link.com",
@@ -116,7 +116,7 @@ export const mockEvents: Event[] = [
    {
       id: "7c62ed5d-4c9f-44bb-9a69-7fc65f7ca99a",
       name: "Social Media Campaign Planning",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Planning the creative strategy for BoldFrame Winter Campaign on social media platforms.",
       link: "http://planning-link.com",
@@ -186,7 +186,7 @@ export const mockEvents: Event[] = [
    {
       id: "fb9a9a1d-9fc7-4322-bab1-1d5a17917e6e",
       name: "Ad Concept Review for New Product Line",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Reviewing initial ad concepts for Visionary Ads' new product line.",
       link: "http://concept-review-link.com",
@@ -228,7 +228,7 @@ export const mockEvents: Event[] = [
    {
       id: "f8b25613-bb65-4ff9-b840-6c71a59fa79a",
       name: "Brand Identity Discussion for NextWave",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Initial discussion about the brand identity direction for NextWave Creations.",
       link: "http://identity-discussion-link.com",
@@ -283,7 +283,7 @@ export const mockEvents: Event[] = [
    {
       id: "cf953d42-865d-476b-bf02-2b45a8855289",
       name: "Launch Planning for EcoSmart Branding",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Planning the digital branding strategy for LumeCreative's EcoSmart initiative.",
       link: "http://planning-link.com",
@@ -367,7 +367,7 @@ export const mockEvents: Event[] = [
    {
       id: "7a1633a4-775b-4b29-bf72-1a3466356708",
       name: "Design Mockups Review for WaveMakers Website",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Reviewing the design mockups for the new WaveMakers Studio website.",
       link: "http://mockups-review-link.com",
@@ -408,7 +408,7 @@ export const mockEvents: Event[] = [
    {
       id: "d28782c3-c60b-4788-885f-848a0710a7e3",
       name: "Gala Branding Strategy for Skyline",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Developing the branding strategy for Skyline's Annual Gala event.",
       link: "http://branding-strategy-link.com",
@@ -464,7 +464,7 @@ export const mockEvents: Event[] = [
    {
       id: "8d4cc23b-3eb8-4f65-8a0b-df9ef39a9c8f",
       name: "Product Launch Strategy for InnovateAds",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Developing the marketing strategy for InnovateAds' upcoming product launch.",
       link: "http://launch-strategy-link.com",
@@ -519,7 +519,7 @@ export const mockEvents: Event[] = [
    {
       id: "ef7fbc0e-3093-4b64-8c7e-3a0211c2f5f4",
       name: "Initial Podcast Ad Strategy",
-      status: "onGoing",
+      status: "ongoing",
       details:
          "Developing the strategy for BrightIdea Media's podcast ad series for the new podcast launch.",
       link: "http://podcast-strategy-link.com",

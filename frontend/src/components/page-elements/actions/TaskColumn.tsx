@@ -1,5 +1,5 @@
 import { ColumnDef, Row } from '@tanstack/react-table';
-import type { ActionResponsePayload } from '@types';
+import type { Task } from '@types';
 import { EllipsisVertical } from 'lucide-react';
 import {
    Popover,
@@ -7,42 +7,14 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import { Separator } from 'src/components/shared/ui/primitives/Separator';
-import { format, toZonedTime } from 'date-fns-tz';
 import { Dispatch, SetStateAction } from 'react';
-import { DialogState } from '@/lib/types/project-view-context.types';
 import { useDeleteTask } from '@/lib/api/task-api';
+import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import { FormDialogState } from '@/lib/types/dialog.types';
 
+type SetDialogState = Dispatch<SetStateAction<FormDialogState>>;
 
-function formatDate(isoString: string) {
-   const date = new Date(isoString);
-   const monthAbbreviations = [
-      'JAN',
-      'FEB',
-      'MAR',
-      'APR',
-      'MAY',
-      'JUN',
-      'JUL',
-      'AUG',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DEC',
-   ];
-   return `${date.getDate()} ${monthAbbreviations[date.getMonth()]}`;
-}
-
-function formatTime(isoString: string) {
-   const systemTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-   const zonedDate = toZonedTime(isoString, systemTimeZone);
-   return format(zonedDate, 'h:mm a', { timeZone: systemTimeZone });
-}
-
-interface TaskColumnProps {
-   setDialogState: Dispatch<SetStateAction<DialogState>>,
-}
-
-export const createTaskColumn = (setDialogState: () => void): ColumnDef<ActionResponsePayload>[] => [
+export const createTaskColumn = (setDialogState: SetDialogState): ColumnDef<Task>[] => [
    {
       id: 'select',
       size: 7,
@@ -69,19 +41,16 @@ export const createTaskColumn = (setDialogState: () => void): ColumnDef<ActionRe
       ),
    },
    {
-      id: 'eventName',
+      id: 'taskName',
       accessorKey: 'name',
       minSize: 0,
       maxSize: 500,
-      header: 'Event',
+      header: 'Task',
       enableSorting: true,
       enableResizing: false,
-      cell: ({ row }) => {
-
-         return (
-            <CellWrapper rowData={row} setDialogState={setDialogState} />
-         );
-      },
+      cell: ({ row }) => (
+         <CellWrapper rowData={row} setDialogState={setDialogState} />
+      ),
    },
    {
       id: 'time',
@@ -110,9 +79,9 @@ export const createTaskColumn = (setDialogState: () => void): ColumnDef<ActionRe
       maxSize: 5,
       size: 5,
       enableResizing: false,
-      cell: ({ row }) => {
-         return <EditPopover rowData={row} setDialogState={setDialogState} />;
-      },
+      cell: ({ row }) => (
+         <EditPopover rowData={row} setDialogState={setDialogState} />
+      ),
    },
    {
       id: 'status',
@@ -121,26 +90,27 @@ export const createTaskColumn = (setDialogState: () => void): ColumnDef<ActionRe
    },
 ];
 
+interface CellWrapperProps {
+   rowData: Row<Task>;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+}
 
-export const EditPopover = ({rowData, setDialogState}: CellWrapperProps):JSX.Element => {
-
-   const {mutate: deleteTask} = useDeleteTask()
+export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
+   const { mutate: deleteTask } = useDeleteTask();
 
    const handleEdit = () => {
       setDialogState({
          isOpen: true,
          id: rowData.original.id,
          mode: 'view',
-         actionType: 'task',
-         data : {
-            ...rowData.original
-         }
-      })
-   }
+         type: 'task',
+         data: rowData.original,
+      });
+   };
 
    const handleDelete = () => {
-      deleteTask(rowData.original.id)
-   }
+      deleteTask(rowData.original.id);
+   };
 
    return (
       <Popover>
@@ -156,27 +126,22 @@ export const EditPopover = ({rowData, setDialogState}: CellWrapperProps):JSX.Ele
    );
 };
 
-
-interface CellWrapperProps {
-   rowData: Row<ActionResponsePayload>,
-   setDialogState: Dispatch<SetStateAction<DialogState>>,
-}
-
 export const CellWrapper = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
-
    const handleClick = () => {
       setDialogState({
          id: rowData.original.id,
          isOpen: true,
          mode: 'view',
-         actionType: 'task',
-         data: rowData.original
-      })
-   }
+         type: 'task',
+         data: rowData.original,
+      });
+   };
 
-   const taskName = rowData.original.name
+   const taskName = rowData.original.name;
 
    return (
-      <p onClick={handleClick} className='cursor-pointer'>{taskName}</p>
+      <p onClick={handleClick} className="cursor-pointer">
+         {taskName}
+      </p>
    );
 };

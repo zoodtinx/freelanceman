@@ -8,15 +8,14 @@ import {
    bulkEditTasks,
    bulkDeleteTasks,
 } from './mock/mock-task-service';
-import type { ActionResponsePayload, NewActionPayload, Task } from '@types';
+import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions } from '@types';
 
-export const useAllTasksQuery = () => {
+export const useAllTasksQuery = (searchOptions: TaskSearchOptions = {}) => {
    return useQuery({
-      queryKey: ['tasks'],
-      queryFn: getAllTasks,
+      queryKey: ['events', searchOptions],
+      queryFn: () => getAllTasks(searchOptions),
    });
 };
-
 export const useTaskQuery = (taskId: string) => {
    const queryClient = useQueryClient();
 

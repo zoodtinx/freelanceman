@@ -1,5 +1,5 @@
 import { mockTasks } from "@mocks";
-import type { ActionResponsePayload, NewActionPayload } from "@types";
+import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions } from "@types";
 
 export const getTask = (id: string) => {
    const task = mockTasks.find(task => task.id === id);
@@ -9,12 +9,59 @@ export const getTask = (id: string) => {
    });
 };
 
-export const getAllTasks = () => {
+export const getAllTasks = (searchOptions: TaskSearchOptions = {}): Promise<Task[]> => {
    return new Promise((resolve) => {
-      setTimeout(() => resolve(mockTasks), 500);
+      setTimeout(() => {
+         if (!searchOptions || Object.keys(searchOptions).length === 0) {
+            console.log(Object.keys(searchOptions).length)
+            resolve(mockTasks);
+            return;
+         }
+
+         if (searchOptions.status === 'all') {
+            resolve(mockTasks);
+            return;
+         }
+
+         const filteredEvents = mockTasks.filter((event) => {
+            const matchesStatus =
+               searchOptions.status === undefined ||
+               searchOptions.status.trim() === "" ||
+               event.status === searchOptions.status.trim();
+
+            const matchesCreatedAt =
+               !searchOptions.createdAt || searchOptions.createdAt.trim() === "" ||
+               event.createdAt.startsWith(searchOptions.createdAt.trim());
+
+            const matchesDueDate =
+               !searchOptions.dueDate || searchOptions.dueDate.trim() === "" ||
+               event.dueDate.startsWith(searchOptions.dueDate.trim());
+
+            const matchesWithTime =
+               searchOptions.withTime === undefined || event.withTime === searchOptions.withTime;
+
+            const matchesProjectId =
+               !searchOptions.projectId || searchOptions.projectId.trim() === "" ||
+               event.projectId === searchOptions.projectId.trim();
+
+            const matchesClientId =
+               !searchOptions.clientId || searchOptions.clientId.trim() === "" ||
+               event.clientId === searchOptions.clientId.trim();
+
+            return (
+               matchesStatus &&
+               matchesCreatedAt &&
+               matchesDueDate &&
+               matchesWithTime &&
+               matchesProjectId &&
+               matchesClientId
+            );
+         });
+
+         resolve(filteredEvents);
+      }, 500);
    });
 };
-
 export const editTask = (id: string, taskPayload: NewActionPayload) => {
    console.log('id', id);
    console.log('taskPayload', taskPayload);

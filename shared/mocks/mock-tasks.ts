@@ -4,7 +4,7 @@ export const mockTasks = [
   {
     id: "a7e9c2d3-4f8b-4a1f-8d7c-5b3e9f4d2c8a",
     name: "Design Homepage Mockup",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a high-fidelity mockup for the homepage of the new PixelEdge project.",
     link: "https://mockup.pixelproject.com/homepage",
     createdAt: "2024-12-01T10:00:00Z",
@@ -30,7 +30,7 @@ export const mockTasks = [
   {
     id: "e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e",
     name: "Develop Landing Page Wireframes",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design wireframes for the landing page based on the approved concept.",
     link: "https://wireframes.pixelproject.com/landingpage",
     createdAt: "2024-12-02T09:15:00Z",
@@ -69,7 +69,7 @@ export const mockTasks = [
   {
     id: "e8c4a7f9-3b1d-4c6e-8d5a-7f2b9c3d4a5f",
     name: "Integrate Feedback into Designs",
-    status: "inProgress",
+    status: "in-progress",
     details: "Incorporate feedback from the team review into the current designs.",
     link: "https://designs.pixelproject.com/feedback",
     createdAt: "2024-12-04T08:00:00Z",
@@ -95,7 +95,7 @@ export const mockTasks = [
   {
     id: "c8e7f9d2-4a3b-4c1f-9d5e-7f2b4c8a3d9e",
     name: "Prototype User Testing",
-    status: "inProgress",
+    status: "in-progress",
     details: "Conduct user testing sessions for the interactive prototype.",
     link: "https://testing.pixelproject.com/prototype",
     createdAt: "2024-12-06T10:30:00Z",
@@ -134,7 +134,7 @@ export const mockTasks = [
   {
     id: "e2c9a7f4-3b8d-4c1f-8d5a-7f9b3c4a2d8e",
     name: "Initial Packaging Sketches",
-    status: "inProgress",
+    status: "in-progress",
     details: "Draft initial sketches for the NatureBurst Granola packaging concept.",
     link: "https://sketches.natureburst.com/initial",
     createdAt: "2024-12-01T10:00:00Z",
@@ -160,7 +160,7 @@ export const mockTasks = [
   {
     id: "c9e7f8d3-4b3a-4c1f-8d5a-7f2e9c4b3a9d",
     name: "Color Palette Approval",
-    status: "inProgress",
+    status: "in-progress",
     details: "Finalize the color palette for the NatureBurst packaging design.",
     link: "https://colors.natureburst.com/palette",
     createdAt: "2024-12-03T09:15:00Z",
@@ -199,7 +199,7 @@ export const mockTasks = [
   {
     id: "e7a9c8f4-3b1f-4c6d-9d5a-7b3e5a4c2f8d",
     name: "Incorporate Client Feedback",
-    status: "inProgress",
+    status: "in-progress",
     details: "Update the designs based on feedback received from the client review session.",
     link: "https://feedback.natureburst.com/incorporate",
     createdAt: "2024-12-05T08:00:00Z",
@@ -264,7 +264,7 @@ export const mockTasks = [
   {
     id: "e2f9d7c8-4a3b-4c1f-8d5a-7f8d2b5a9f9a",
     name: "Design Winter-Themed Social Media Banners",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a set of winter-themed social media banners for BoldFrame's campaign launch.",
     link: "https://banners.boldframe.com/winter-campaign",
     createdAt: "2024-12-01T10:00:00Z",
@@ -290,7 +290,7 @@ export const mockTasks = [
   {
     id: "c8e7d6f4-4b1d-4c6e-9f5a-7b2a8f5e4d8a",
     name: "Design Winter Promotion Post for Facebook",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design a Facebook post to promote the BoldFrame Winter Sale, incorporating campaign colors and theme.",
     link: "https://posts.boldframe.com/winter-promotion",
     createdAt: "2024-12-03T08:15:00Z",
@@ -329,7 +329,7 @@ export const mockTasks = [
   {
     id: "e3c7d9b5-4b3a-4c1f-9f5a-7a3e5b2c7f6e",
     name: "Develop Holiday-Themed Animated Ads for Facebook",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create animated holiday-themed ads for Facebook to highlight the winter sale.",
     link: "https://animations.boldframe.com/facebook-holiday",
     createdAt: "2024-12-06T08:45:00Z",
@@ -394,7 +394,7 @@ export const mockTasks = [
   {
     id: "f3e7c9a4-4b2d-4c1f-9f7a-7b8f5a9c2d8f",
     name: "Design TV Commercial Storyboard",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a storyboard for the 360° ad campaign TV commercial, highlighting the key features of Visionary Ads' new product.",
     link: "https://storyboard.visionaryads.com/tv-commercial",
     createdAt: "2024-12-01T09:30:00Z",
@@ -420,7 +420,7 @@ export const mockTasks = [
   {
     id: "d7c9f4e1-4b2a-4c6f-8e7d-7c9b2f3e4a9c",
     name: "Design Print Ad for Magazines",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a full-page print ad for magazines showcasing Visionary Ads' new product, with a focus on clean design and product features.",
     link: "https://ads.visionaryads.com/print-magazine",
     createdAt: "2024-12-03T11:15:00Z",
@@ -446,7 +446,7 @@ export const mockTasks = [
   {
     id: "c8d7f3e2-4b1d-4c2f-9f7a-7e5b9d3c8f6b",
     name: "Client Approval of Social Media Ads",
-    status: "inProgress",
+    status: "in-progress",
     details: "Present social media ad concepts to the client for approval before launching the campaign.",
     link: "https://meetings.visionaryads.com/client-social-media",
     createdAt: "2024-12-05T08:30:00Z",
@@ -485,7 +485,7 @@ export const mockTasks = [
   {
     id: "b8e7d6f9-4b1a-4c2e-9f7a-7d3b5a8c9d9f",
     name: "Finalize Print Ad Layout",
-    status: "inProgress",
+    status: "in-progress",
     details: "Finalize the layout and design elements for the print ad, ensuring all product details are accurately presented.",
     link: "https://layout.visionaryads.com/print-ad",
     createdAt: "2024-12-08T12:00:00Z",
@@ -511,7 +511,7 @@ export const mockTasks = [
   {
     id: "e8f7d9c2-4b3a-4c1f-9f7d-7a3e5b9c4d8a",
     name: "Design Logo Concepts for NextWave Creations",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create multiple logo concepts for NextWave Creations that reflect their innovative brand ethos.",
     link: "https://logos.nextwavecreations.com/concepts",
     createdAt: "2024-12-01T09:00:00Z",
@@ -537,7 +537,7 @@ export const mockTasks = [
   {
     id: "c9e8f7d2-4b2d-4c1f-9d5a-7f8c4e3d2b9d",
     name: "Develop Color Palette for Brand",
-    status: "inProgress",
+    status: "in-progress",
     details: "Finalize the color palette for NextWave Creations' new brand identity to ensure consistency across all media.",
     link: "https://colors.nextwavecreations.com/palette",
     createdAt: "2024-12-03T08:15:00Z",
@@ -563,7 +563,7 @@ export const mockTasks = [
   {
     id: "f9d2c8f7-4b1d-4c3e-9f7a-7e3d8c5b4a7d",
     name: "Design Brand Collateral",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design a range of brand collateral including letterheads, envelopes, and presentation templates for NextWave Creations.",
     link: "https://collateral.nextwavecreations.com",
     createdAt: "2024-12-05T10:00:00Z",
@@ -589,7 +589,7 @@ export const mockTasks = [
   {
     id: "c8d7e9f4-4b2a-4c1f-9e7a-7b4e3d9c5a9f",
     name: "Client Review of Brand Identity",
-    status: "inProgress",
+    status: "in-progress",
     details: "Present the initial brand identity elements, including logo and color palette, to the client for feedback.",
     link: "https://meetings.nextwavecreations.com/brand-review",
     createdAt: "2024-12-07T09:30:00Z",
@@ -602,7 +602,7 @@ export const mockTasks = [
   {
     id: "e7d3f9c8-4b2a-4c5e-8d7a-7b5f3c8d9e4f",
     name: "Incorporate Client Feedback",
-    status: "inProgress",
+    status: "in-progress",
     details: "Make revisions to the brand identity based on feedback from the client review session.",
     link: "https://designs.nextwavecreations.com/feedback",
     createdAt: "2024-12-08T08:45:00Z",
@@ -628,7 +628,7 @@ export const mockTasks = [
   {
     id: "e9f8c3d7-4b2a-4c1f-9f7a-7b5d3c4e8f6e",
     name: "Design EcoSmart Logo Concepts",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create several logo concepts for Lume's 'EcoSmart' initiative, focusing on sustainability and innovation.",
     link: "https://logos.lumeeco.com/ecosmart",
     createdAt: "2024-12-01T10:00:00Z",
@@ -654,7 +654,7 @@ export const mockTasks = [
   {
     id: "c9e5d7f1-4b3d-4c5e-9d7a-7f2b8e4d3f2a",
     name: "Design Brand Style Guide for EcoSmart",
-    status: "inProgress",
+    status: "in-progress",
     details: "Develop the full brand style guide for Lume's 'EcoSmart' initiative, including typography, iconography, and visual assets.",
     link: "https://styleguide.lumeeco.com/ecosmart",
     createdAt: "2024-12-03T09:00:00Z",
@@ -680,7 +680,7 @@ export const mockTasks = [
   {
     id: "c8d3e4f7-4b1a-4c2f-9d6e-7b9f5c2a7b9d",
     name: "Design Website Mockup for EcoSmart",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the homepage mockup for the EcoSmart initiative website, highlighting sustainability and innovation.",
     link: "https://website.lumeeco.com/ecosmart",
     createdAt: "2024-12-05T08:00:00Z",
@@ -706,7 +706,7 @@ export const mockTasks = [
   {
     id: "d7f9c8e4-4b1e-4c1f-9e5a-7e6c9d4a2f9e",
     name: "Prepare Pitch Deck for EcoSmart Launch",
-    status: "inProgress",
+    status: "in-progress",
     details: "Prepare the pitch deck for EcoSmart's product launch, showcasing the branding and key features of the initiative.",
     link: "https://pitchdeck.lumeeco.com/ecosmart",
     createdAt: "2024-12-07T10:00:00Z",
@@ -745,7 +745,7 @@ export const mockTasks = [
   {
     id: "f9d8c7a3-4b2a-4c1f-8d7a-7e3c2b9f5e8d",
     name: "Design Homepage Layout for WaveMakers Studio",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create the homepage layout for WaveMakers Studio's revamped website, incorporating the new design direction.",
     link: "https://designs.wavemakersstudio.com/homepage",
     createdAt: "2024-12-01T10:00:00Z",
@@ -771,7 +771,7 @@ export const mockTasks = [
   {
     id: "d8e7c9f5-4b2d-4c6f-9e7a-7c3d5f9e4a2d",
     name: "Create Service Pages for WaveMakers Studio",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the service pages for WaveMakers Studio's new website, clearly showcasing the range of services offered.",
     link: "https://services.wavemakersstudio.com",
     createdAt: "2024-12-03T09:00:00Z",
@@ -797,7 +797,7 @@ export const mockTasks = [
   {
     id: "f7c8e9d4-4b2a-4c6e-9f5a-7b4e2f9a8c7e",
     name: "Create Contact Page for Website",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the new Contact page, making it easy for users to get in touch with WaveMakers Studio.",
     link: "https://contact.wavemakersstudio.com",
     createdAt: "2024-12-05T08:00:00Z",
@@ -823,7 +823,7 @@ export const mockTasks = [
   {
     id: "b7f9d6e3-4a2b-4c5f-8d7a-7f9c5e3d9e4d",
     name: "Update Portfolio Section",
-    status: "inProgress",
+    status: "in-progress",
     details: "Redesign the portfolio section to showcase WaveMakers Studio's best work in a more visually striking manner.",
     link: "https://portfolio.wavemakersstudio.com",
     createdAt: "2024-12-07T11:00:00Z",
@@ -862,7 +862,7 @@ export const mockTasks = [
   {
     id: "e8c9f7d4-4b3a-4c1f-9e7a-7f9d2c8b5a7d",
     name: "Design Event Logo for Skyline Gala",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a unique logo for Skyline's Annual Gala to reflect the elegance and theme of the event.",
     link: "https://logos.skylinegala.com/event",
     createdAt: "2024-12-01T09:00:00Z",
@@ -888,7 +888,7 @@ export const mockTasks = [
   {
     id: "f9d2c8e3-4b1d-4c5e-8f7a-7b3e5d9c9a7f",
     name: "Design Gala Program Booklet",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create the layout and design for the program booklet, including the schedule of events and speaker bios.",
     link: "https://program.skylinegala.com",
     createdAt: "2024-12-03T09:30:00Z",
@@ -914,7 +914,7 @@ export const mockTasks = [
   {
     id: "e8f9c7d2-4b3a-4c6f-9e5a-7c9d3f8e9b7e",
     name: "Develop Digital Invitations for Event",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design digital invitations for Skyline's Annual Gala to be sent via email and social media.",
     link: "https://digitalinvites.skylinegala.com",
     createdAt: "2024-12-05T09:30:00Z",
@@ -979,7 +979,7 @@ export const mockTasks = [
   {
     id: "e3c9f7d4-4b2a-4c1f-9d7a-7b8e5c3f4d8f",
     name: "Design Landing Page for Product Launch",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create the landing page design for InnovateAds' new product launch, including product features and call-to-action buttons.",
     link: "https://landing.innovateads.com/product-launch",
     createdAt: "2024-12-01T09:00:00Z",
@@ -1005,7 +1005,7 @@ export const mockTasks = [
   {
     id: "c8e7f9d3-4b2a-4c1f-9d7a-7e4d3f5a2b9f",
     name: "Design Social Media Graphics for Product Launch",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create social media graphics for InnovateAds' new product launch, ensuring consistent branding across platforms.",
     link: "https://socialmedia.innovateads.com/product-launch",
     createdAt: "2024-12-03T08:30:00Z",
@@ -1031,7 +1031,7 @@ export const mockTasks = [
   {
     id: "e8d7f3c9-4b1e-4c1f-8d7a-7b3e5f6d9a9e",
     name: "Create Product Video for Launch",
-    status: "inProgress",
+    status: "in-progress",
     details: "Produce a promotional product video highlighting the features and benefits of InnovateAds' new product.",
     link: "https://video.innovateads.com/product-launch",
     createdAt: "2024-12-05T09:00:00Z",
@@ -1070,7 +1070,7 @@ export const mockTasks = [
   {
     id: "b9e7d8c4-4b2a-4c1f-9e7a-7f9c8f4e8d9f",
     name: "Client Review of Product Launch Materials",
-    status: "inProgress",
+    status: "in-progress",
     details: "Present the product launch materials to the client for review and approval before the campaign goes live.",
     link: "https://clientreview.innovateads.com/product-launch",
     createdAt: "2024-12-08T12:00:00Z",
@@ -1096,7 +1096,7 @@ export const mockTasks = [
   {
     id: "e7f9d3c4-4b2a-4c1f-9d7a-7b8f6e3c9d8a",
     name: "Design Ad Graphics for Podcast Launch",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create graphics for the ad series promoting BrightIdea's new podcast, focusing on engaging visuals and key podcast themes.",
     link: "https://ads.brightidea.com/podcast-launch",
     createdAt: "2024-12-01T10:30:00Z",
@@ -1122,7 +1122,7 @@ export const mockTasks = [
   {
     id: "c7d9e8f4-4b1a-4c6e-9d5a-7b3f9e5d8a9f",
     name: "Write Ad Copy for Podcast Promotion",
-    status: "inProgress",
+    status: "in-progress",
     details: "Write compelling ad copy for social media and digital ads promoting BrightIdea’s new podcast.",
     link: "https://copywriting.brightidea.com/podcast-launch",
     createdAt: "2024-12-03T10:30:00Z",
@@ -1148,7 +1148,7 @@ export const mockTasks = [
   {
     id: "d9f8e7c2-4b3a-4c1f-9e7a-7b9f5c4d2d9e",
     name: "Create Podcast Website Banner",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design a banner for the podcast website to promote the new episodes and highlight key topics.",
     link: "https://banner.brightidea.com/podcast-launch",
     createdAt: "2024-12-05T12:30:00Z",
@@ -1213,7 +1213,7 @@ export const mockTasks = [
   {
     id: "e7d9c8f3-4b2a-4c1f-9d7a-7b8d3c5e9f8e",
     name: "Design Billboard for City Festival",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a visually striking billboard design for UrbanVista’s City Festival, promoting key event attractions.",
     link: "https://billboard.urbanvista.com/city-festival",
     createdAt: "2024-12-01T10:00:00Z",
@@ -1239,7 +1239,7 @@ export const mockTasks = [
   {
     id: "c9e7d9f5-4b1d-4c5e-9d5a-7f2d8c4d9f8a",
     name: "Create Digital Ads for City Festival",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design digital ads for UrbanVista's City Festival to be used across social media and online platforms.",
     link: "https://digitalads.urbanvista.com/city-festival",
     createdAt: "2024-12-03T09:00:00Z",
@@ -1265,7 +1265,7 @@ export const mockTasks = [
   {
     id: "d9f8c7e4-4b2a-4c5f-9d7a-7b9d3c9e7b8a",
     name: "Create Social Media Graphics for City Festival",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design social media graphics for UrbanVista’s City Festival, tailored for Instagram and Facebook campaigns.",
     link: "https://socialmedia.urbanvista.com/city-festival",
     createdAt: "2024-12-05T09:15:00Z",
@@ -1304,7 +1304,7 @@ export const mockTasks = [
   {
     id: "d7e9f5c3-4b2a-4c1f-9e7a-7e9d8c3b7e7e",
     name: "Client Review of Event Branding",
-    status: "inProgress",
+    status: "in-progress",
     details: "Present the event branding materials to the client for review and approval before printing and production.",
     link: "https://review.urbanvista.com/city-festival",
     createdAt: "2024-12-08T10:30:00Z",
@@ -1330,7 +1330,7 @@ export const mockTasks = [
   {
     id: "f8d7e9f5-4b3a-4c1f-9d7a-7b5c3e9f9a8a",
     name: "Design Logo Animation for FutureFrame Film Division",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a dynamic logo animation for FutureFrame's Film Division to use in film intros and marketing materials.",
     link: "https://animation.futureframe.com/logo",
     createdAt: "2024-12-01T09:30:00Z",
@@ -1369,7 +1369,7 @@ export const mockTasks = [
   {
     id: "c8f7e3d4-4b2a-4c1f-9e7a-7d3e7f9d9e8a",
     name: "Design Promotional Social Media Graphics for FutureFrame",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design promotional social media graphics using the animated logo to announce the launch of FutureFrame's new film division.",
     link: "https://socialmedia.futureframe.com/logo-animation",
     createdAt: "2024-12-04T08:45:00Z",
@@ -1395,7 +1395,7 @@ export const mockTasks = [
   {
     id: "f8c7e9d2-4b2a-4c1f-9d7a-7d4f5c3e9d8e",
     name: "Develop Sustainability Campaign Strategy for Greenline Media",
-    status: "inProgress",
+    status: "in-progress",
     details: "Develop a comprehensive sustainability campaign strategy for Greenline Media, promoting eco-friendly practices.",
     link: "https://campaign.greenlinemedia.com/sustainability",
     createdAt: "2024-12-01T10:30:00Z",
@@ -1421,7 +1421,7 @@ export const mockTasks = [
   {
     id: "c9e7f3d9-4b2a-4c1f-9e5a-7b9e5f8b6e9f",
     name: "Design Email Templates for Sustainability Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design email templates to be sent out as part of Greenline Media's sustainability campaign, encouraging subscribers to engage.",
     link: "https://emails.greenlinemedia.com/sustainability",
     createdAt: "2024-12-03T09:30:00Z",
@@ -1460,7 +1460,7 @@ export const mockTasks = [
   {
     id: "c7e8f9d4-4b2a-4c1f-9d5a-7e2c8d9f7a9f",
     name: "Design Infographic for Bright Horizons Report",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design an infographic summarizing key data points from the Bright Horizons Annual Report.",
     link: "https://infographics.brighthorizons.com/report",
     createdAt: "2024-12-01T11:00:00Z",
@@ -1525,7 +1525,7 @@ export const mockTasks = [
   {
     id: "f8d7e9c4-4b2a-4c1f-9e7a-7b3f5e2d9e8a",
     name: "Design Mobile App Interface for PixelEdge's Interactive Platform",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the user interface for PixelEdge's new interactive platform app, focusing on a modern, user-friendly experience.",
     link: "https://mobileapp.pixeledge.com/interface",
     createdAt: "2024-12-01T09:30:00Z",
@@ -1551,7 +1551,7 @@ export const mockTasks = [
   {
     id: "e7f9d2c4-4b1a-4c1f-9d7a-7b8e5c9d7e9f",
     name: "Develop Prototype for PixelEdge Mobile App",
-    status: "inProgress",
+    status: "in-progress",
     details: "Develop an interactive prototype for the mobile app, showcasing the core features and app flow.",
     link: "https://prototype.pixeledge.com/mobileapp",
     createdAt: "2024-12-03T09:15:00Z",
@@ -1590,7 +1590,7 @@ export const mockTasks = [
   {
     id: "f9c7e8f4-4b2a-4c1f-9d7a-7b2e5c9e9f7d",
     name: "Design Brochure for Creative Hive's New Service",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a brochure design for Creative Hive’s new service, highlighting features and pricing details.",
     link: "https://brochure.creativehive.com/newservice",
     createdAt: "2024-12-01T10:45:00Z",
@@ -1616,7 +1616,7 @@ export const mockTasks = [
   {
     id: "f7d9e8c4-4b1a-4c2f-9d7a-7f2e5c9b9e7d",
     name: "Finalize Creative Hive Brochure Design",
-    status: "inProgress",
+    status: "in-progress",
     details: "Finalize the design for the brochure, incorporating all the necessary information and ensuring brand consistency.",
     link: "https://finalize.creativehive.com/brochure",
     createdAt: "2024-12-03T10:00:00Z",
@@ -1629,7 +1629,7 @@ export const mockTasks = [
   {
     id: "d7c9e6f4-4b3a-4c5f-9e7a-7b9f3c9b7e8f",
     name: "Prepare Presentation for BoldFrame Annual Review",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create a presentation design for BoldFrame’s Annual Review, focusing on their achievements and key metrics.",
     link: "https://presentation.boldframe.com/annualreview",
     createdAt: "2024-12-01T11:00:00Z",
@@ -1668,7 +1668,7 @@ export const mockTasks = [
   {
     id: "e9f7c8d4-4b2a-4c1f-9d7a-7e2c3d5b7f9a",
     name: "Design Digital Ads for Visionary Ads Seasonal Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design a set of digital ads for Visionary Ads’ seasonal campaign, featuring the new seasonal product line.",
     link: "https://digitalads.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-01T09:30:00Z",
@@ -1694,7 +1694,7 @@ export const mockTasks = [
   {
     id: "e2f9c7d4-4b3a-4c1f-9d7a-7b6e3c2d8e9f",
     name: "Create Video Ads for Visionary Ads Seasonal Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create video ads for the seasonal campaign, incorporating key product features and special offers.",
     link: "https://video.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-03T09:30:00Z",
@@ -1720,7 +1720,7 @@ export const mockTasks = [
   {
     id: "d7f8c9e4-4b2a-4c5e-9d7a-7b6f9c4e8e7d",
     name: "Develop Social Media Post Templates for Visionary Ads Seasonal Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create reusable social media post templates to keep the seasonal campaign on-brand across platforms.",
     link: "https://posts.visionaryads.com/seasonal-campaign",
     createdAt: "2024-12-05T09:15:00Z",
@@ -1733,7 +1733,7 @@ export const mockTasks = [
   {
     id: "f7c8d9e5-4b2a-4c1f-9d5a-7d3b8c5e9f8a",
     name: "Design Content Pack for NextWave's Social Media Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design a social media content pack for NextWave Creations to promote their new services, including templates and promotional graphics.",
     link: "https://content.nextwavecreations.com/social-media",
     createdAt: "2024-12-01T10:00:00Z",
@@ -1759,7 +1759,7 @@ export const mockTasks = [
   {
     id: "e9c8d7f4-4b2a-4c5e-9d7a-7d8e3c2b4e7d",
     name: "Design Mobile Ad Templates for NextWave Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design mobile ad templates for NextWave’s campaign, ensuring a consistent look and feel across devices.",
     link: "https://mobileads.nextwavecreations.com/campaign",
     createdAt: "2024-12-03T09:45:00Z",
@@ -1785,7 +1785,7 @@ export const mockTasks = [
   {
     id: "d8e7f9d4-4b2a-4c1f-9d7a-7b9d5f3e8e7d",
     name: "Design Promotional Video for Lume's 'EcoSmart' Launch",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design and produce a promotional video for Lume's 'EcoSmart' product launch, showcasing its features and sustainability impact.",
     link: "https://video.lumeeco.com/ecosmart-launch",
     createdAt: "2024-12-01T09:30:00Z",
@@ -1824,7 +1824,7 @@ export const mockTasks = [
   {
     id: "d7f9e8c4-4b1a-4c1f-9e7a-7b8e5c9d8a7d",
     name: "Design Event Graphics for WaveMakers’ Design Conference",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create event graphics for WaveMakers' Design Conference, including banners, signage, and digital displays.",
     link: "https://graphics.wavemakersstudio.com/design-conference",
     createdAt: "2024-12-01T09:00:00Z",
@@ -1850,7 +1850,7 @@ export const mockTasks = [
   {
     id: "f2c9d7e8-4b2a-4c1f-9d5a-7b3e5d9e7c7d",
     name: "Design Event Program for WaveMakers’ Design Conference",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create the event program, including the schedule, speaker bios, and key highlights of WaveMakers’ Design Conference.",
     link: "https://program.wavemakersstudio.com/design-conference",
     createdAt: "2024-12-03T11:00:00Z",
@@ -1863,7 +1863,7 @@ export const mockTasks = [
   {
     id: "e8f7d9c3-4b1a-4c5e-9d7a-7c4f5d9b7e8f",
     name: "Design E-book Layout for Skyline Creatives’ Portfolio",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the layout for Skyline Creatives’ portfolio e-book, showcasing their best design work in an interactive format.",
     link: "https://ebook.skylinecreatives.com/portfolio",
     createdAt: "2024-12-01T09:45:00Z",
@@ -1902,7 +1902,7 @@ export const mockTasks = [
   {
     id: "f7e9c6d4-4b2a-4c5e-9d5a-7b4e3d9f8e6f",
     name: "Design Motion Graphics for InnovateAds Product Showcase",
-    status: "inProgress",
+    status: "in-progress",
     details: "Create motion graphics to showcase InnovateAds’ new product features in a dynamic and engaging way.",
     link: "https://motiongraphics.innovateads.com/product-showcase",
     createdAt: "2024-12-01T10:00:00Z",
@@ -1941,7 +1941,7 @@ export const mockTasks = [
   {
     id: "e8f9c7d4-4b3a-4c1f-9d7a-7f5d2c9e9d9f",
     name: "Develop Ad Concepts for BrightIdea Podcast Series",
-    status: "inProgress",
+    status: "in-progress",
     details: "Develop a series of ad concepts to promote BrightIdea’s new podcast series, focusing on key topics and guest appearances.",
     link: "https://adconcepts.brightidea.com/podcast-series",
     createdAt: "2024-12-01T09:00:00Z",
@@ -1967,7 +1967,7 @@ export const mockTasks = [
   {
     id: "f8d7e3d9-4b1a-4c1f-9e5a-7c2f5d8b7e7e",
     name: "Create Video Ads for BrightIdea Podcast Series",
-    status: "inProgress",
+    status: "in-progress",
     details: "Develop engaging video ads to promote BrightIdea’s podcast series on various digital platforms.",
     link: "https://video.brightidea.com/podcast-series",
     createdAt: "2024-12-03T09:30:00Z",
@@ -1993,7 +1993,7 @@ export const mockTasks = [
   {
     id: "e9d7c9f4-4b3a-4c1f-9d7a-7b8f4d9e8e7d",
     name: "Develop Interactive Investor Presentation for PixelEdge",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design and develop an interactive presentation for PixelEdge’s investor pitch, incorporating dynamic visuals and key metrics.",
     link: "https://presentation.pixeledge.com/investor-pitch",
     createdAt: "2024-12-01T09:30:00Z",
@@ -2032,7 +2032,7 @@ export const mockTasks = [
   {
     id: "d9f7c8e3-4b2a-4c1f-9d5a-7b9f3c2d8e8d",
     name: "Design Digital Assets for Creative Hive's New Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design digital assets, including social media banners and email headers, for Creative Hive’s new campaign.",
     link: "https://digitalassets.creativehive.com/newcampaign",
     createdAt: "2024-12-01T10:00:00Z",
@@ -2058,7 +2058,7 @@ export const mockTasks = [
   {
     id: "e8d7c9f5-4b1a-4c1f-9d7a-7b4f8c9d7e7e",
     name: "Design Promotional Email Templates for Creative Hive’s Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design promotional email templates for Creative Hive’s new campaign, ensuring they are engaging and on-brand.",
     link: "https://emails.creativehive.com/newcampaign",
     createdAt: "2024-12-03T09:45:00Z",
@@ -2084,7 +2084,7 @@ export const mockTasks = [
   {
     id: "d9f7c9e4-4b1a-4c1f-9d7a-7c8e3d9e8f9e",
     name: "Design Infographics for BoldFrame's Annual Report",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design a series of infographics for BoldFrame's Annual Report, focusing on key statistics and achievements from the past year.",
     link: "https://infographics.boldframe.com/annual-report",
     createdAt: "2024-12-01T09:00:00Z",
@@ -2110,7 +2110,7 @@ export const mockTasks = [
   {
     id: "c8d9e7f4-4b3a-4c1f-9e7a-7b3e4c9d9f7e",
     name: "Design Annual Report Overview for BoldFrame",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design an overview section of BoldFrame’s Annual Report, highlighting the key areas of the business and their impact.",
     link: "https://overview.boldframe.com/annual-report",
     createdAt: "2024-12-03T09:45:00Z",
@@ -2123,7 +2123,7 @@ export const mockTasks = [
   {
     id: "e7f8d9e4-4b2a-4c5e-9d7a-7c9f3e9b8e7f",
     name: "Develop Creative Strategy for Visionary Ads' Summer Campaign",
-    status: "inProgress",
+    status: "in-progress",
     details: "Develop a creative strategy for Visionary Ads’ Summer Campaign, including key messaging, target audience, and visual direction.",
     link: "https://strategy.visionaryads.com/summer-campaign",
     createdAt: "2024-12-01T10:00:00Z",
@@ -2162,7 +2162,7 @@ export const mockTasks = [
   {
     id: "c8f7e9d4-4b2a-4c1f-9e5a-7b4e2c9f9e8f",
     name: "Design Website Mockups for NextWave's Client Portal",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the website mockups for NextWave’s new client portal, ensuring a clean and user-friendly interface.",
     link: "https://mockups.nextwavecreations.com/client-portal",
     createdAt: "2024-12-01T10:15:00Z",
@@ -2188,7 +2188,7 @@ export const mockTasks = [
   {
     id: "f9e7c9d2-4b1a-4c2f-9e7a-7d3e8c9b9f7e",
     name: "Create User Interface Mockups for NextWave Client Portal",
-    status: "inProgress",
+    status: "in-progress",
     details: "Design the user interface for NextWave’s client portal, focusing on an intuitive experience for easy navigation.",
     link: "https://ui.nextwavecreations.com/client-portal",
     createdAt: "2024-12-03T09:45:00Z",

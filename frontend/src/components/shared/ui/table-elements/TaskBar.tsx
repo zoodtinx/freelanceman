@@ -1,84 +1,6 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
-import {
-   Table,
-   TableBody,
-   TableCell,
-   TableHead,
-   TableHeader,
-   TableRow,
-} from 'src/components/shared/ui/primitives/Table';
-import { flexRender, RowData } from '@tanstack/react-table';
-import { Table as TableType } from '@tanstack/react-table';
 import { useBulkEditEvent, useDeleteEvent } from '@/lib/api/event-api';
-import { ActionResponsePayload } from '@types';
-
-interface TableProps<TData> {
-   table: TableType<TData>;
-}
-
-const EventTable = <TData extends RowData>({
-   table,
-}: TableProps<TData>): JSX.Element => {
-   const tableRef = useRef<HTMLTableElement | null>(null);
-   return (
-      <div className="relative overflow-y-auto">
-         <Table
-            className="overflow-hidden cursor-default relative"
-            ref={tableRef}
-         >
-            <TableHeader>
-               {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                     {headerGroup.headers.map((header) => {
-                        return (
-                           <TableHead key={header.id} width={header.getSize()}>
-                              {header.isPlaceholder
-                                 ? null
-                                 : flexRender(
-                                      header.column.columnDef.header,
-                                      header.getContext()
-                                   )}
-                           </TableHead>
-                        );
-                     })}
-                  </TableRow>
-               ))}
-            </TableHeader>
-            <TableBody>
-               {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                     <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && 'selected'}
-                     >
-                        {row.getVisibleCells().map((cell) => (
-                           <TableCell key={cell.id}>
-                              {flexRender(
-                                 cell.column.columnDef.cell,
-                                 cell.getContext()
-                              )}
-                           </TableCell>
-                        ))}
-                     </TableRow>
-                  ))
-               ) : (
-                  <TableRow>
-                     <TableCell
-                        colSpan={table.getAllColumns.length}
-                        className="h-24 text-center"
-                     >
-                        No results.
-                     </TableCell>
-                  </TableRow>
-               )}
-            </TableBody>
-         </Table>
-         <TaskBar table={table} tableRef={tableRef} />
-      </div>
-   );
-};
-
-export default EventTable;
+import { useEffect, useRef } from 'react';
+import { Table as TableType } from '@tanstack/react-table';
 
 interface TaskBarProps<TData> {
    table: TableType<TData>;
@@ -152,7 +74,7 @@ const TaskBar = ({
          value: 'completed',
       });
       table.resetRowSelection();
-   }
+   };
 
    return (
       <div
@@ -166,7 +88,9 @@ const TaskBar = ({
             {selectedCount} selected
          </TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
-         <TaskBarItem onClick={handleMarkComplete}>Mark as completed</TaskBarItem>
+         <TaskBarItem onClick={handleMarkComplete}>
+            Mark as completed
+         </TaskBarItem>
          <div className="border-[0.5px] h-full"></div>
          <TaskBarItem onClick={handleDelete} className="text-red-500">
             Delete
@@ -189,3 +113,5 @@ const TaskBarItem: React.FC<{
       <p>{children}</p>
    </div>
 );
+
+export default TaskBar

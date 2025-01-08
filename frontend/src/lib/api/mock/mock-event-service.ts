@@ -1,5 +1,5 @@
 import { mockEvents } from "@mocks";
-import type {  ActionResponsePayload, NewActionPayload } from "@types";
+import type {  ActionResponsePayload, EventSearchOptions, NewActionPayload } from "@types";
 
 export const getEvent = (id: string) => {
    
@@ -10,11 +10,60 @@ export const getEvent = (id: string) => {
    });
 };
 
-export const getAllEvent = () => {
+export const getAllEvent = (searchOptions: EventSearchOptions = {}): Promise<Event[]> => {
    return new Promise((resolve) => {
-      setTimeout(() => resolve(mockEvents), 500);
+      setTimeout(() => {
+         if (!searchOptions || Object.keys(searchOptions).length === 0) {
+            console.log(Object.keys(searchOptions).length)
+            resolve(mockEvents);
+            return;
+         }
+
+         if (searchOptions.status === 'all') {
+            resolve(mockEvents);
+            return;
+         }
+
+         const filteredEvents = mockEvents.filter((event) => {
+            const matchesStatus =
+               searchOptions.status === undefined ||
+               searchOptions.status.trim() === "" ||
+               event.status === searchOptions.status.trim();
+
+            const matchesCreatedAt =
+               !searchOptions.createdAt || searchOptions.createdAt.trim() === "" ||
+               event.createdAt.startsWith(searchOptions.createdAt.trim());
+
+            const matchesDueDate =
+               !searchOptions.dueDate || searchOptions.dueDate.trim() === "" ||
+               event.dueDate.startsWith(searchOptions.dueDate.trim());
+
+            const matchesWithTime =
+               searchOptions.withTime === undefined || event.withTime === searchOptions.withTime;
+
+            const matchesProjectId =
+               !searchOptions.projectId || searchOptions.projectId.trim() === "" ||
+               event.projectId === searchOptions.projectId.trim();
+
+            const matchesClientId =
+               !searchOptions.clientId || searchOptions.clientId.trim() === "" ||
+               event.clientId === searchOptions.clientId.trim();
+
+            return (
+               matchesStatus &&
+               matchesCreatedAt &&
+               matchesDueDate &&
+               matchesWithTime &&
+               matchesProjectId &&
+               matchesClientId
+            );
+         });
+
+         resolve(filteredEvents);
+      }, 500);
    });
-}
+};
+
 
 export const editEvent = (id:string, eventPayload: Partial<Event>) => {
    console.log('id', id)

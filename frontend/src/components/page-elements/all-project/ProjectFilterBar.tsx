@@ -140,7 +140,7 @@ const ClientFilterBubble: React.FC = () => {
 
    useEffect(() => {
       if (filter.clientId) {
-         setMode('selected')
+         setMode('selected') 
       } else {
          setMode('base')
       }

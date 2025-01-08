@@ -5,7 +5,7 @@ import {
    TableHead,
    TableHeader,
    TableRow,
-} from 'src/components/shared/ui/primitives/Table';
+} from 'src/components/shared/ui/table-elements/Table';
 import { Calendar, Client, Date, Plus } from '@/components/shared/icons';
 import {
    ToggleGroup,

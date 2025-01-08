@@ -6,7 +6,7 @@ import {
    TableHead,
    TableHeader,
    TableRow,
-} from 'src/components/shared/ui/primitives/Table';
+} from 'src/components/shared/ui/table-elements/Table';
 import { flexRender, RowData } from '@tanstack/react-table';
 import { Table as TableType } from '@tanstack/react-table';
 import { useBulkEditEvent, useDeleteEvent } from '@/lib/api/event-api';

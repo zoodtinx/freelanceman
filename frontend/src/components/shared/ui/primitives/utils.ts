@@ -39,6 +39,7 @@ export const eventDefaultValues: Event = {
    client: '',
    clientId: '',
    link: '',
+   color:'',
    createdAt: ''
 };
 
