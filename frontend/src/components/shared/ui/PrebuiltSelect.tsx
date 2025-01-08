@@ -77,7 +77,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       ref
    ) => {
       const [mode, setMode] = useState('base')
-      console.log('selectContents', selectContents)
+
       useEffect(() => {
          if (!value) {
             setMode('base')
@@ -88,7 +88,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
 
       return (
          <div className='flex gap-[1px]'>
-            <Select value={value} onValueChange={onValueChange} {...props}>
+            <Select value={value} onValueChange={(value) => {onValueChange(value)}} {...props}>
                <SelectTrigger
                   className={cn(
                      `flex h-5 gap-1 items-center justify-center focus:outline-none whitespace-nowrap border border-primary p-3 rounded-tl-full rounded-bl-full ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 bg-primary text-foreground ${

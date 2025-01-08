@@ -1,3 +1,4 @@
+import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import {
@@ -5,26 +6,49 @@ import {
    SelectContent,
    SelectGroup,
    SelectItem,
-   SelectLabel,
    SelectTrigger,
    SelectValue,
-   SelectScrollDownButton,
 } from '@/components/shared/ui/FilterSelect';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cross } from '@/components/shared/icons';
 import { Grid, List } from '@/components/shared/icons';
+import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { useAllClientsQuery } from '@/lib/api/client-api';
+import { ProjectSearchOptions, ProjectStatus } from '@types';
+import { Target, X } from 'lucide-react';
 
 export default function ProjectFilterBar() {
    return (
-      <div className="flex items-center justify-between pb-2">
+      <div className="flex items-center justify-between pb-2 select-none">
          <div className="flex gap-2">
             <ProjectStatusFilterBubble />
             <PaymentStatusFilterBubble />
             <ClientFilterBubble />
-            <SearchBox className="border-primary rounded-full" />
+            <ProjectSearchBox />
          </div>
          <ViewModeToggle />
       </div>
+   );
+}
+
+const ProjectSearchBox = () => {
+   const { setFilter, filter } = useProjectsViewContext();
+   
+   const setSearchTerm = (value: string) => {
+      setFilter((prev: ProjectSearchOptions) => ({
+         ...prev,
+         name: value,
+      }));
+   };
+
+   return (
+      <SearchBox
+         className="border-primary rounded-full h-[27px]"
+         value={filter.name}
+         onChange={(e) => {
+            setSearchTerm(e.target.value);
+         }}
+      />
    );
 }
 
@@ -33,7 +57,7 @@ const ViewModeToggle: React.FC = () => {
    const activeStyle = 'bg-primary text-foreground';
 
    return (
-      <div className="flex items-center h-full border border-primary rounded-full">
+      <div className="flex items-center border border-primary rounded-full h-[27px]">
          <div
             className={`flex items-center grow h-full rounded-tl-full rounded-bl-full px-2 ${
                viewMode === 'grid' ? activeStyle : ''
@@ -55,175 +79,117 @@ const ViewModeToggle: React.FC = () => {
 };
 
 const ProjectStatusFilterBubble: React.FC = () => {
-   const { setFilter, currentFilter } = useProjectsViewContext();
-   const [mode, setMode] = useState<'base' | 'selected'>('selected');
+   const { setFilter, filter } = useProjectsViewContext();
 
-   const selectValue = () => {
-      return currentFilter.projectStatus === 'all'
-         ? ''
-         : currentFilter.projectStatus;
-   };
+   const projectStatus = [
+      {value: 'active', label: 'Active'},
+      {value: 'on-hold', label: 'On Hold'},
+      {value: 'completed', label: 'Completed'},
+   ]
 
-   useEffect(() => {
-      if (currentFilter.projectStatus === 'all') {
-         setMode('base');
-      } else {
-         setMode('selected');
-      }
-   }, [currentFilter.projectStatus]);
+   const setProjectStatus = (value: string) => {
+      setFilter((prev: ProjectSearchOptions) => ({
+        ...prev,
+        projectStatus: value,
+      }));
+    };
 
    return (
-      <div className="flex gap-[0.75px]">
-         <Select
-            value={selectValue()}
-            onValueChange={(value) => {
-               setFilter('projectStatus', value);
-               setMode('selected');
-               if (value === 'all') {
-                  setMode('base');
-                  setMode('base');
-               }
-            }}
-         >
-            <SelectTrigger className="w-auto" mode={mode}>
-               <SelectValue placeholder="Project Status" />
-            </SelectTrigger>
-            <SelectContent>
-               <SelectGroup>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="onhold">On hold</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-               </SelectGroup>
-            </SelectContent>
-         </Select>
-         {mode === 'selected' && (
-            <div
-               className="flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full"
-               onClick={() => {
-                  setFilter('projectStatus', 'all');
-                  setMode('base');
-               }}
-            >
-               <Cross className="w-4 h-4" />
-            </div>
-         )}
-      </div>
+      <FilterSelect
+         selectContents={projectStatus}
+         value={filter.projectStatus || ''}
+         onValueChange={setProjectStatus}
+         placeholder='Project Status'
+         className='h-[27px]'
+      />
    );
 };
 
 const PaymentStatusFilterBubble: React.FC = () => {
-   const { setFilter, currentFilter } = useProjectsViewContext();
-   const [mode, setMode] = useState<'base' | 'selected'>('selected');
+   const { setFilter, filter } = useProjectsViewContext();
 
-   const selectValue = () => {
-      if (currentFilter.paymentStatus === 'all') {
-         return undefined;
-      } else {
-         return currentFilter.paymentStatus;
-      }
-   };
+   const paymentStatus = [
+      { value: 'not-processed', label: 'Not Processed' },
+      { value: 'processing', label: 'Processing' },
+      { value: 'paid', label: 'Paid' },
+   ];
 
-   useEffect(() => {
-      if (currentFilter.paymentStatus === 'all') {
-         setMode('base');
-      } else {
-         setMode('selected');
-      }
-   }, [currentFilter.paymentStatus]);
+   const setPaymentStatus = (value: string) => {
+      setFilter((prev: ProjectSearchOptions) => ({
+        ...prev,
+        paymentStatus: value,
+      }));
+    };
 
    return (
-      <div className="flex gap-[1.25px]">
-         <Select
-            value={selectValue()}
-            onValueChange={(value) => {
-               setFilter('paymentStatus', value);
-               setMode('selected');
-               if (value === 'all') {
-                  setMode('base');
-                  setMode('base');
-               }
-            }}
-         >
-            <SelectTrigger className="w-auto" mode={mode}>
-               <SelectValue placeholder="Payment Status" />
-            </SelectTrigger>
-            <SelectContent>
-               <SelectGroup>
-                  <SelectItem value="not processed">Not processed</SelectItem>
-                  <SelectItem value="processing">Processing</SelectItem>
-                  <SelectItem value="paid">Paid</SelectItem>
-               </SelectGroup>
-            </SelectContent>
-         </Select>
-         {mode === 'selected' && (
-            <div
-               className="flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full"
-               onClick={() => {
-                  setFilter('projectStatus', 'all');
-                  setMode('base');
-               }}
-            >
-               <Cross className="w-4 h-4" />
-            </div>
-         )}
-      </div>
+      <FilterSelect
+         selectContents={paymentStatus}
+         value={filter.paymentStatus || ''}
+         onValueChange={setPaymentStatus}
+         placeholder="Payment Status"
+         className='h-[27px]'
+      />
    );
 };
 
 const ClientFilterBubble: React.FC = () => {
-   const { setFilter, currentFilter, clientList } = useProjectsViewContext();
-   const [mode, setMode] = useState<'base' | 'selected'>('selected');
+   const [mode, setMode] = useState('base');
+   const { setFilter, filter } = useProjectsViewContext();
 
-   const selectValue = () => {
-      if (currentFilter.client === 'all') {
-         return '';
-      } else {
-         return currentFilter.client;
-      }
-   };
+   const { data: clientList, isLoading } = useAllClientsQuery();
 
    useEffect(() => {
-      if (currentFilter.client === 'all') {
-         setMode('base');
+      if (filter.clientId) {
+         setMode('selected')
       } else {
-         setMode('selected');
+         setMode('base')
       }
-   }, [currentFilter.client]);
+   },[filter.clientId])
+
+   if (isLoading) {
+      return null;
+   }
+
+   const clientSelection = clientList?.map((client) => {
+      return {
+         value: client.id,
+         label: client.name,
+      };
+   });
+
+   const setClientFilter = (value: string) => {
+      setFilter((prev: ProjectSearchOptions) => ({
+         ...prev,
+         clientId: value,
+      }));
+   };
 
    return (
-      <div className="flex gap-[1.25px]">
-         <Select
-            value={selectValue()}
-            onValueChange={(value) => {
-               setFilter('client', value);
-               setMode('selected');
-            }}
-         >
-            <SelectTrigger className="w-auto" mode={mode}>
-               <SelectValue placeholder="Client" />
-            </SelectTrigger>
-            <SelectContent>
-               <SelectGroup>
-                  {clientList.map((client) => (
-                     <SelectItem key={client} value={client}>
-                        {client}
-                     </SelectItem>
-                  ))}
-               </SelectGroup>
-            </SelectContent>
-         </Select>
+      <div className="flex gap-[1px]">
+         <SelectWithSearch
+            onValueChange={setClientFilter}
+            value={filter.clientId || ''}
+            selectContents={clientSelection || []}
+            className={`flex h-5 gap-1 items-center justify-center focus:outline-none whitespace-nowrap border border-primary p-3 rounded-tl-full rounded-bl-full ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 bg-primary text-foreground ${
+               mode === 'base' &&
+               'rounded-tr-full rounded-br-full bg-transparent text-primary'
+            }`}
+            placeholder="Client"
+         />
          {mode === 'selected' && (
             <div
                className="flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full"
                onClick={() => {
-                  setFilter('client', 'all');
+                  setFilter((prev: ProjectSearchOptions) => ({
+                     ...prev,
+                     clientId: '',
+                  }));
                   setMode('base');
                }}
             >
-               <Cross className="w-4 h-4" />
+               <X className="w-4 h-4" />
             </div>
          )}
       </div>
    );
-};
-
+}

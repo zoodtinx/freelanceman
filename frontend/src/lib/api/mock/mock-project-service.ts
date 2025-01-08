@@ -1,8 +1,10 @@
-import type { Project, ProjectPreview } from '@types';
+import type { Project, ProjectPreview, ProjectSearchOptions } from '@types';
 import { mockAllProjects as sampleAllPropjects } from '@mocks';
 
 export const getProject = (id: string): Promise<Project> => {
-   const queriedProject = sampleAllPropjects.find((project) => project.id === id);
+   const queriedProject = sampleAllPropjects.find(
+      (project) => project.id === id
+   );
    return new Promise((resolve, reject) => {
       setTimeout(() => {
          if (queriedProject) {
@@ -13,7 +15,6 @@ export const getProject = (id: string): Promise<Project> => {
       }, 500);
    });
 };
-
 
 export const editProject = <K extends keyof Partial<Project>>(
    key: K,
@@ -33,11 +34,50 @@ export const editProject = <K extends keyof Partial<Project>>(
    return Promise.resolve(sampleProject);
 };
 
-export const getAllProjects = (): Promise<Project[]> => {
+export const getAllProjects = (
+   searchTerm: ProjectSearchOptions
+): Promise<Project[]> => {
    return new Promise((resolve) => {
-      setTimeout(() => resolve(sampleAllPropjects), 500);
+      setTimeout(() => {
+         if (!searchTerm || Object.keys(searchTerm).length === 0) {
+            resolve(sampleAllPropjects);
+            return;
+         }
+
+         console.log('searchTermAPI', searchTerm);
+
+         const filteredProjects = sampleAllPropjects.filter((project) => {
+            const matchesName =
+               !searchTerm.name || searchTerm.name.trim() === "" ||
+               project.name.toLowerCase().includes(searchTerm.name.trim().toLowerCase());
+
+            const matchesPaymentStatus =
+               searchTerm.paymentStatus === undefined ||
+               searchTerm.paymentStatus.trim() === "" ||
+               project.paymentStatus === searchTerm.paymentStatus.trim();
+
+            const matchesProjectStatus =
+               searchTerm.projectStatus === undefined ||
+               searchTerm.projectStatus.trim() === "" ||
+               project.projectStatus === searchTerm.projectStatus.trim();
+
+            const matchesClientId =
+               !searchTerm.clientId || searchTerm.clientId.trim() === "" ||
+               project.clientId === searchTerm.clientId.trim();
+
+            return (
+               matchesName &&
+               matchesPaymentStatus &&
+               matchesProjectStatus &&
+               matchesClientId
+            );
+         });
+
+         resolve(filteredProjects);
+      }, 500);
    });
 };
+
 
 // export const createProject = (newProject: Project): Promise<Project> => {
 //    const projectWithDefaults: Project = {

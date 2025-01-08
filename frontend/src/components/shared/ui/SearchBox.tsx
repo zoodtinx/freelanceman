@@ -6,7 +6,7 @@ import { CleanTextInput } from '@/components/shared/ui/primitives/CleanTextInput
 export const SearchBox = React.forwardRef<
    HTMLDivElement,
    React.ComponentProps<'div'> & { placeholder?: string }
->(({ className, placeholder = 'Search', ...props }, ref) => {
+>(({ className, placeholder = 'Search', value, onChange, ...props }, ref) => {
    return (
       <div
          ref={ref}
@@ -21,6 +21,8 @@ export const SearchBox = React.forwardRef<
          <CleanTextInput
             className="w-full bg-transparent outline-none"
             placeholder={placeholder}
+            onChange={onChange}
+            value={value}
          />
       </div>
    );

@@ -1,5 +1,5 @@
 import { TaskEventDialogState, ProjectSettingDialogState } from './dialog.types';
-import type { Project } from '@types';
+import type { Project, ProjectSearchOptions } from '@types';
 
 interface Filter {
    projectStatus: Project['projectStatus'] | 'all';
@@ -12,18 +12,18 @@ interface Filter {
 }
 
 interface ProjectsViewContextType {
-   currentFilter: Filter;
    projects: Project[];
-   setFilter: (type: FilterType, status: StatusMap[FilterType]) => void;
    setProjects: (projects: Project[]) => void;
-   setViewMode: (viewMode: 'grid' | 'list') => void;
    viewMode: 'grid' | 'list';
-   clientList: string[];
+   setViewMode: (viewMode: 'grid' | 'list') => void;
    taskDialogState: TaskEventDialogState;
    setTaskDialogState: (state: TaskEventDialogState) => void;
    projectSettingDialogState: ProjectSettingDialogState;
    setProjectSettingDialogState: (state: ProjectSettingDialogState) => void;
+   filter: ProjectSearchOptions;
+   setFilter: (newFilter: ProjectSearchOptions | ((prevState: ProjectSearchOptions) => ProjectSearchOptions)) => void;
 }
+
 
 type FilterType = 'projectStatus' | 'paymentStatus' | 'client' | 'searchTerm';
 

@@ -2,7 +2,6 @@ import * as React from "react"
 import { Check, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/helper/utils"
-import { Button } from "@/components/shared/ui/primitives/Button"
 import {
   Command,
   CommandEmpty,
@@ -16,29 +15,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/shared/ui/primitives/Popover'
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
 
 type SelectProps = Omit<
    React.ComponentPropsWithoutRef<typeof Popover>,
@@ -73,7 +49,7 @@ const SelectWithSearch: React.FC<SelectProps> = ({
         >
           {value
             ? selectContents.find((selection) => selection.value === value)?.label
-            : "Select a project"}
+            : placeholder}
           {isWithIcon && <ChevronDown className="w-4 h-4" />}
         </div>
       </PopoverTrigger>
@@ -89,6 +65,7 @@ const SelectWithSearch: React.FC<SelectProps> = ({
                   value={selection.value}
                   onSelect={(currentValue) => {
                     onValueChange(currentValue)
+                    setOpen(false)
                   }}
                 >
                   <p className="truncate">{selection.label}</p>
