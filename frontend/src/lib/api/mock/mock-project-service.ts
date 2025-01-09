@@ -71,9 +71,9 @@ export const getAllProjects = (
                matchesProjectStatus &&
                matchesClientId
             );
-         });
+         })
 
-         resolve(filteredProjects);
+         resolve(filteredProjects || []);
       }, 500);
    });
 };

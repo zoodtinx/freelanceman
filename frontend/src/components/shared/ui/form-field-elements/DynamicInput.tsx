@@ -1,6 +1,6 @@
 import { InputProps } from 'src/lib/types/form-input-props.types';
 import { Pencil } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FieldValues, Path, PathValue } from 'react-hook-form';
 
 const TaskNameInput = <TFieldValues extends FieldValues>({
@@ -23,7 +23,7 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
          (dialogState?.mode === 'create' || dialogState?.mode === 'edit') &&
          inputRef.current
       ) {
-         inputRef.current.textContent = taskName
+         inputRef.current.textContent = taskName;
          inputRef.current.focus();
       }
    }, [dialogState, taskName]);
@@ -32,7 +32,10 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
       clearErrors('name' as Path<TFieldValues>);
       setValue(
          'name' as Path<TFieldValues>,
-         e.currentTarget.textContent as PathValue<TFieldValues, Path<TFieldValues>>
+         e.currentTarget.textContent as PathValue<
+            TFieldValues,
+            Path<TFieldValues>
+         >
       );
    };
 
@@ -63,13 +66,12 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
             </div>
          </div>
          {errors.name && (
-            <p className="mt-1 text-lg text-red-500 font-normal animate-shake pt-1 text-sm">
-               {typeof errors.name?.message === 'string' ? errors.name.message : ''}
+            <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">
+               {errors.name.message as string}
             </p>
          )}
       </div>
    );
 };
 
-
-export default TaskNameInput
+export default TaskNameInput;

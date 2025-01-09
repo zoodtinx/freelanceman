@@ -5,7 +5,8 @@ import { EventFormData, TaskFormData } from '@types';
 export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
    formMethods: UseFormReturn<TFieldValues>;
    dialogState?: FormDialogState;
-   fieldName?: string
+   fieldName?: string;
+   className?: string;
 }
 
 export interface SelectInputProps<
@@ -16,7 +17,7 @@ export interface SelectInputProps<
 
 interface Selection {
    value: string;
-   text: string;
+   label: string;
    color: string;
 }
 

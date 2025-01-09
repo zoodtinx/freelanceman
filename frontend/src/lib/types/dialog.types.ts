@@ -61,5 +61,5 @@ export interface FormDialogState {
    id: string;
    type: "task" | "event" | "project" | "file" | "document" | "client-contact" | "partner-contact";
    mode: 'view' | 'create' | 'edit';
-   data: object
+   data: Record<string, any>
 }

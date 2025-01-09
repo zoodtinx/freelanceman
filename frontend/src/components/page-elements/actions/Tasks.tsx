@@ -5,12 +5,7 @@ import {
    getSortedRowModel,
    getFilteredRowModel,
 } from '@tanstack/react-table';
-import { Calendar, Plus } from '@/components/shared/icons';
 import { createTaskColumn } from './TaskColumn';
-import {
-   ToggleGroup,
-   ToggleGroupItem,
-} from 'src/components/shared/ui/primitives/ToggleGroup';
 import { TableWithTaskBar } from '@/components/shared/ui/table-elements/PrebuiltTable';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
@@ -20,6 +15,7 @@ import { taskDefaultValues } from 'src/components/shared/ui/primitives/utils';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task, TaskSearchOptions, TaskStatus } from '@types';
 import FilterBar from '@/components/page-elements/actions/FilterBar';
+import { CircleCheck } from 'lucide-react';
 
 export default function Tasks() {
    const [taskDialogState, setTaskDialogState] = useState<FormDialogState>({
@@ -31,7 +27,7 @@ export default function Tasks() {
    });
 
    const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({
-      // show 'scheduled' tasks first when page loads
+      // show 'planned' tasks first when page loads
       status: 'planned',
    });
 
@@ -58,7 +54,7 @@ export default function Tasks() {
       <>
          <div className="flex w-full justify-between">
             <div className="flex items-end pb-3 gap-1">
-               <Calendar className="w-[28px] h-auto" />
+               <CircleCheck className="w-[28px] h-auto" />
                <p className="text-xl leading-none mr-2">Tasks</p>
                <FilterBar
                   onValueChange={setStatusFilter}

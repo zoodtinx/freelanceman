@@ -1,4 +1,4 @@
-import { FieldValues, Path } from 'react-hook-form';
+import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { InputProps } from '@/lib/types/form-input-props.types';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -55,7 +55,10 @@ const LinkInput = <TFieldValues extends FieldValues>({
          }
 
          setUrl(inputValue);
-         setValue('link' as Path<TFieldValues>, inputValue);
+         setValue(
+            'link' as Path<TFieldValues>,
+            inputValue as PathValue<TFieldValues, Path<TFieldValues>>
+         );
          setError('');
          setIsButtonMode(true);
       }
@@ -69,7 +72,10 @@ const LinkInput = <TFieldValues extends FieldValues>({
    const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
       setIsButtonMode(false);
-      setValue('link' as Path<TFieldValues>, '');
+      setValue(
+         'link' as Path<TFieldValues>,
+         '' as PathValue<TFieldValues, Path<TFieldValues>>
+      );
       setError('');
    };
 

@@ -22,7 +22,7 @@ type SelectProps = Omit<
 > & {
    selectContents: { value: string; label: string; }[];
    className?: string;
-   onValueChange: (value: string) => void;
+   onValueChange: (value: string, onChange?: (value: string) => void) => void;
    value: string;
    placeholder?: string;
    isWithIcon?: boolean;
@@ -69,12 +69,6 @@ const SelectWithSearch: React.FC<SelectProps> = ({
                   }}
                 >
                   <p className="truncate">{selection.label}</p>
-                  {/* <Check
-                    className={cn(
-                      "ml-auto",
-                      value === selection.value ? "opacity-100" : "opacity-0"
-                    )}
-                  /> */}
                 </CommandItem>
               ))}
             </CommandGroup>

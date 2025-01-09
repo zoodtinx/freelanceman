@@ -51,11 +51,11 @@ const ProjectSettingsDialog: React.FC<DialogProps> = ({
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
    };
-   
+
    const onSubmit: SubmitHandler<NewTaskPayload> = (data) => {
       console.log(data);
    };
-   
+
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
          <DialogTrigger asChild>
@@ -63,53 +63,59 @@ const ProjectSettingsDialog: React.FC<DialogProps> = ({
                Edit Profile
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px]">
+         <DialogContent className="sm:max-w-[425px] flex flex-col focus:outline-none bg-primary text-foreground">
             <form onSubmit={handleSubmit(onSubmit, onError)}>
-               <DialogHeader>
-                  <DialogTitle className="flex items-center gap-1">
-                     <Settings className="w-5 h-auto" />
+               <DialogHeader className="py-1 bg-transparent">
+                  <DialogTitle className="flex text-base w-full text-center items-center gap-1">
+                     <Settings className="w-[13px] h-[13px]" />
                      <p>Project Settings</p>
                   </DialogTitle>
                </DialogHeader>
-               <div className="p-4 flex flex-col gap-2">
-                  <div className="flex items-start text-md min-h-7 max-h-[700px]">
-                     <p className="text-md w-[140px] shrink-0">Project Name</p>
-                     <ProjectNameInput
-                        formMethods={formMethods}
-                        dialogState={dialogState}
-                        fieldName="name"
-                     />
+               <div className="bg-background rounded-2xl text-primary">
+                  <div className="p-4 flex flex-col gap-2">
+                     <div className="flex items-start text-md min-h-7 max-h-[700px]">
+                        <p className="text-md w-[140px] shrink-0">
+                           Project Name
+                        </p>
+                        <ProjectNameInput
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                           fieldName="name"
+                        />
+                     </div>
+                     <div className="flex items-center shrink-0">
+                        <p className="text-md w-[140px]">Project Status</p>
+                        <StatusSelect
+                           formMethods={formMethods}
+                           selection={projectStatusSelections}
+                           dialogState={dialogState}
+                           fieldName="projectStatus"
+                        />
+                     </div>
+                     <div className="flex items-center shrink-0">
+                        <p className="text-md w-[140px]">Payment Status</p>
+                        <StatusSelect
+                           formMethods={formMethods}
+                           selection={paymentStatusSelections}
+                           dialogState={dialogState}
+                           fieldName="paymentStatus"
+                        />
+                     </div>
                   </div>
-                  <div className="flex items-center shrink-0">
-                     <p className="text-md w-[140px]">Project Status</p>
-                     <StatusSelect
-                        formMethods={formMethods}
-                        selection={projectStatusSelections}
-                        dialogState={dialogState}
-                        fieldName="projectStatus"
-                     />
-                  </div>
-                  <div className="flex items-center shrink-0">
-                     <p className="text-md w-[140px]">Payment Status</p>
-                     <StatusSelect
-                        formMethods={formMethods}
-                        selection={paymentStatusSelections}
-                        dialogState={dialogState}
-                        fieldName="paymentStatus"
-                     />
-                  </div>
+                  <DialogFooter>
+                     <div className="flex justify-between p-4">
+                        <div>
+                           <Button variant={'destructiveOutline'}>
+                              Discard
+                           </Button>
+                           <Button variant={'link'}>Delete Project</Button>
+                        </div>
+                        <div className="flex gap-2">
+                           <Button variant={'default'}>Save</Button>
+                        </div>
+                     </div>
+                  </DialogFooter>
                </div>
-               <DialogFooter>
-                  <div className="flex justify-between p-4">
-                     <div>
-                        <Button variant={'destructiveOutline'}>Discard</Button>
-                        <Button variant={'link'}>Delete Project</Button>
-                     </div>
-                     <div className="flex gap-2">
-                        <Button variant={'default'}>Save</Button>
-                     </div>
-                  </div>
-               </DialogFooter>
             </form>
          </DialogContent>
       </Dialog>

@@ -1,29 +1,27 @@
 import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
-import {
-   Select,
-   SelectContent,
-   DialogueSelectItem,
-   DialogueSelectTrigger,
-   SelectValue,
-} from '@/components/shared/ui/FilterSelect';
 import { StandardSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { SelectInputProps } from '@/lib/types/form-input-props.types';
 
-const StatusSelect = <TFormData extends FieldValues,>({
+const StatusSelect = <TFormData extends FieldValues>({
    formMethods,
    dialogState,
    selection,
-   fieldName
+   fieldName,
 }: SelectInputProps<TFormData>): JSX.Element => {
    const { control } = formMethods;
 
    if (dialogState?.mode === 'view') {
-      const currentSelection = selection.find((item) => item.value === formMethods.getValues(fieldName as Path<TFormData>));
+      const currentSelection = selection.find(
+         (item) =>
+            item.value === formMethods.getValues(fieldName as Path<TFormData>)
+      );
       const text = currentSelection?.text || 'No status selected';
       const color = currentSelection?.color || '';
 
       return (
-         <div className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}>
+         <div
+            className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}
+         >
             <div className="aspect-square w-[8px] rounded-full bg-primary" />
             <p className="font-semibold">{text}</p>
          </div>
@@ -34,7 +32,7 @@ const StatusSelect = <TFormData extends FieldValues,>({
       <Controller
          name={fieldName as Path<TFormData>}
          control={control}
-         defaultValue={"planned" as PathValue<TFormData, Path<TFormData>>}
+         defaultValue={'planned' as PathValue<TFormData, Path<TFormData>>}
          rules={{ required: 'Please select a status' }}
          render={({ field }) => {
             const handleStatusChange = (value: string) => {
@@ -44,7 +42,7 @@ const StatusSelect = <TFormData extends FieldValues,>({
             const currentSelection = selection.find(
                (item) => item.value === field.value
             );
-            
+
             const color = currentSelection?.color || '';
 
             return (

@@ -17,7 +17,18 @@ import type { DialogProps } from '@/lib/types/dialog.types';
 import { defaultContact } from './primitives/utils';
 import { Client, Contact, NewContactPayload } from '@types';
 import { Input } from './primitives/Input';
-import { CircleUserRound, User, Plus, X, Pencil, Trash2, ClipboardX, Check, CircleCheck, Upload } from 'lucide-react';
+import {
+   CircleUserRound,
+   User,
+   Plus,
+   X,
+   Pencil,
+   Trash2,
+   ClipboardX,
+   Check,
+   CircleCheck,
+   Upload,
+} from 'lucide-react';
 import { Textarea } from './primitives/Textarea';
 import { InputProps } from '@/lib/types/form-input-props.types';
 
@@ -25,7 +36,8 @@ const ContactDialog = ({
    dialogState,
    setDialogState,
 }: DialogProps): JSX.Element => {
-   const [isEditing, setIsEditing] = useState(false);
+   const [color, setColor] = useState('');
+
    const formMethods = useForm<Contact>({
       defaultValues: defaultContact,
    });
@@ -39,7 +51,6 @@ const ContactDialog = ({
    } = formMethods;
 
    const handleDialogueClose = () => {
-      setIsEditing(false);
       setDialogState({
          isOpen: false,
          id: '',
@@ -50,12 +61,15 @@ const ContactDialog = ({
    };
 
    useEffect(() => {
-      if (dialogState.mode === 'view') {
-         reset(dialogState.data);
-      } else if (dialogState.mode === 'create') {
-         reset(defaultContact);
-         setIsEditing(true);
+      const { mode, data } = dialogState;
+
+      if (mode === 'view') {
+         reset(data);
+      } else if (mode === 'create' || mode === 'edit') {
+         reset(mode === 'create' ? defaultContact : data);
       }
+
+      setColor(mode === 'create' ? '' : data.color);
    }, [dialogState, reset]);
 
    const onError = (errors: any) => {
@@ -71,8 +85,8 @@ const ContactDialog = ({
          details: data.details,
          email: data.email,
          phoneNumber: data.phoneNumber,
-         type: dialogState.type
-      }
+         type: dialogState.type,
+      };
       console.log(data);
    };
 
@@ -91,31 +105,31 @@ const ContactDialog = ({
 
    const RightButton = () => {
       if (dialogState.mode === 'view') {
-         if (!isEditing) {
-            return (
-               <Button
-                  type="submit"
-                  variant={'default'}
-                  onClick={() => setIsEditing(true)}
-                  className='flex gap-1'
-               >
-                  Edit
-                  <Pencil className='w-4 h-4' />
-               </Button>
-               
-            );
-         }
          return (
-            <Button type="submit" variant={'submit'} className='flex gap-1'>
+            <Button
+               type="button"
+               variant="default"
+               onClick={() =>
+                  setDialogState((prev) => ({ ...prev, mode: 'edit' }))
+               }
+               className="flex gap-1"
+            >
+               Edit
+               <Pencil className="w-4 h-4" />
+            </Button>
+         );
+      } else if (dialogState.mode === 'edit') {
+         return (
+            <Button type="submit" variant="submit" className="flex gap-1">
                Save
-               <CircleCheck className='w-4 h-4' />
+               <CircleCheck className="w-4 h-4" />
             </Button>
          );
       } else if (dialogState.mode === 'create') {
          return (
-            <Button type="submit" variant={'submit'} className='flex gap-1'>
+            <Button type="submit" variant="submit" className="flex gap-1">
                Create new contact
-               <CircleCheck className='w-4 h-4' />
+               <CircleCheck className="w-4 h-4" />
             </Button>
          );
       }
@@ -123,52 +137,46 @@ const ContactDialog = ({
 
    const LeftButton = () => {
       if (dialogState.mode === 'view') {
-         if (!isEditing) {
-            return (
-               <Button variant={'destructive'} className='flex gap-1'>
-                  Delete
-                  <Trash2 className='w-4 h-4' />
-               </Button>
-            );
-         }
          return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={() => setIsEditing(false)}
-               className='flex gap-1'
-            >
-               Discard
-               <ClipboardX className='w-4 h-4' />
+            <Button variant="destructive" className="flex gap-1">
+               Delete
+               <Trash2 className="w-4 h-4" />
             </Button>
          );
-      } else if (dialogState.mode === 'create') {
+      } else if (dialogState.mode === 'edit' || dialogState.mode === 'create') {
          return (
             <Button
-               variant={'destructiveOutline'}
+               variant="destructiveOutline"
                onClick={handleDialogueClose}
-               className='flex gap-1'
+               className="flex gap-1"
             >
                Discard
-               <ClipboardX className='w-4 h-4' />
+               <ClipboardX className="w-4 h-4" />
             </Button>
          );
       }
    };
 
-   const AvatarInputElement = () => isEditing ? (
-      <AvatarInput
-         formMethods={formMethods}
-         dialogState={dialogState}
-         fieldName='avatar'
-      />
-   ) : (
-      <div className="flex w-[125px] h-[125px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
-         {avatar}
-      </div>
-   );
+   const AvatarInputElement = () =>
+      dialogState.mode === 'edit' || dialogState.mode === 'create' ? (
+         <AvatarInput
+            formMethods={formMethods}
+            dialogState={dialogState}
+            fieldName="avatar"
+         />
+      ) : (
+         <div className="flex w-[125px] h-[125px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
+            {avatar}
+         </div>
+      );
 
    const phoneNumbers = getValues('phoneNumber');
    const emails = getValues('email');
+
+   const headerText =
+      dialogState.mode === 'create' ? 'Create New Contact' : 'Contact';
+   const headerTextStyle =
+      dialogState.mode === 'view' ? 'text-primary' : 'text-foreground';
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
@@ -178,125 +186,129 @@ const ContactDialog = ({
             </Button>
          </DialogTrigger>
          <DialogContent
-            className="sm:max-w-[425px]"
+            className={`sm:max-w-[425px] flex flex-col focus:outline-none bg-primary text-foreground ${headerTextStyle}`}
+            style={{
+               backgroundColor: color,
+            }}
             onInteractOutside={(e) => e.preventDefault()}
          >
+            <DialogHeader className="py-1 bg-transparent">
+               <DialogTitle className="flex text-base w-full text-center items-center gap-1">
+                  <User className="w-[14px] h-[14px]" />
+                  <p>{headerText}</p>
+               </DialogTitle>
+            </DialogHeader>
             <form onSubmit={handleSubmit(onSubmit, onError)}>
-               <DialogHeader>
-                  <DialogTitle className="flex items-center gap-1">
-                     <User className="w-5 h-5" />
-                     <p>
-                        Contact
-                     </p>
-                  </DialogTitle>
-               </DialogHeader>
-               <div className="flex flex-col p-5 pt-3 gap-2">
-                  <div className="flex w-full gap-3 justify-between itm">
-                     <div className="flex flex-col w-3/5 gap-2">
-                        <div className="flex flex-col leading-5">
-                           <p className="w-[80px] text-secondary">Name</p>
-                           {isEditing ? (
-                              <div className="flex flex-col">
-                                 <Input
-                                    {...register('name', {
-                                       required: 'At least a name is required',
-                                    })}
-                                    className='w-full'
-                                 />
-                                 {errors.name && (
-                                    <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                                       {typeof errors.name?.message === 'string'
-                                          ? errors.name.message
-                                          : ''}
-                                    </p>
-                                 )}
-                              </div>
+               <div className="bg-background rounded-2xl text-primary">
+                  <div className="flex flex-col p-5 pt-3 gap-2">
+                     <div className="flex w-full gap-3 justify-between">
+                        <div className="flex flex-col w-3/5 gap-2">
+                           <div className="flex flex-col leading-5">
+                              <p className="w-[80px] text-secondary">Name</p>
+                              {dialogState.mode !== 'view' ? (
+                                 <div className="flex flex-col">
+                                    <Input
+                                       {...register('name', {
+                                          required: 'At least a name is required',
+                                       })}
+                                       className="w-full"
+                                    />
+                                    {errors.name && (
+                                       <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                                          {typeof errors.name?.message === 'string'
+                                             ? errors.name.message
+                                             : ''}
+                                       </p>
+                                    )}
+                                 </div>
+                              ) : (
+                                 <p className="text-lg font-medium">
+                                    {getValues('name')}
+                                 </p>
+                              )}
+                           </div>
+                           <div className="flex flex-col leading-5">
+                              <p className="w-[80px] text-secondary">Company</p>
+                              {dialogState.mode !== 'view' ? (
+                                 <Input {...register('company')} />
+                              ) : (
+                                 <p className="text-md font-medium">
+                                    {getValues('company')}
+                                 </p>
+                              )}
+                           </div>
+                           <div className="flex flex-col leading-5">
+                              <p className="w-[80px] text-secondary">Role</p>
+                              {dialogState.mode !== 'view' ? (
+                                 <Input {...register('role')} />
+                              ) : (
+                                 <p className="text-md font-medium">
+                                    {getValues('role')}
+                                 </p>
+                              )}
+                           </div>
+                        </div>
+                        <AvatarInputElement />
+                     </div>
+                     <Separator className="my-2" />
+                     <div className="flex w-full gap-2">
+                        <div className="flex flex-col w-1/3">
+                           <p className="text-secondary w-full">Phone Number</p>
+                           {dialogState.mode !== 'view' ? (
+                              <ArrayInput
+                                 formMethods={formMethods}
+                                 fieldName="phoneNumber"
+                              />
                            ) : (
-                              <p className="text-lg font-medium">
-                                 {getValues('name')}
-                              </p>
+                              phoneNumbers.map((number) => (
+                                 <p className="text-base">{number}</p>
+                              ))
                            )}
                         </div>
-                        <div className="flex flex-col leading-5">
-                           <p className="w-[80px] text-secondary">Company</p>
-                           {isEditing ? (
-                              <Input {...register('company')} />
+                        <div className="flex flex-col grow">
+                           <p className="text-secondary w-full">Email</p>
+                           {dialogState.mode !== 'view' ? (
+                              <ArrayInput
+                                 formMethods={formMethods}
+                                 dialogState={dialogState}
+                                 fieldName="email"
+                              />
                            ) : (
-                              <p className="text-md font-medium">
-                                 {getValues('company')}
-                              </p>
-                           )}
-                        </div>
-                        <div className="flex flex-col leading-5">
-                           <p className="w-[80px] text-secondary">Role</p>
-                           {isEditing ? (
-                              <Input {...register('role')} />
-                           ) : (
-                              <p className="text-md font-medium">
-                                 {getValues('role')}
-                              </p>
+                              emails.map((email) => (
+                                 <p className="text-base">{email}</p>
+                              ))
                            )}
                         </div>
                      </div>
-                     <AvatarInputElement />
-                  </div>
-                  <Separator className="my-2" />
-                  <div className="flex w-full gap-2">
-                     <div className="flex flex-col w-1/3">
-                        <p className="text-secondary w-full">Phone Number</p>
-                        {isEditing ? (
-                           <ArrayInput
-                              formMethods={formMethods}
-                              fieldName="phoneNumber"
+                     <Separator className="my-2" />
+                     <div>
+                        <p className="text-secondary w-full">Info</p>
+                        {dialogState.mode !== 'view' ? (
+                           <Textarea
+                              {...register('details')}
+                              className="resize-none"
+                              placeholder="Enter phone number"
                            />
                         ) : (
-                           phoneNumbers.map((number) => (
-                              <p className="text-base">{number}</p>
-                           ))
-                        )}
-                     </div>
-                     <div className="flex flex-col grow">
-                        <p className="text-secondary w-full">Email</p>
-                        {isEditing ? (
-                           <ArrayInput
-                              formMethods={formMethods}
-                              dialogState={dialogState}
-                              fieldName="email"
-                           />
-                        ) : (
-                           emails.map((email) => (
-                              <p className="text-base">{email}</p>
-                           ))
+                           <p className="text-base font-medium">
+                              {getValues('details')}
+                           </p>
                         )}
                      </div>
                   </div>
-                  <Separator className="my-2" />
-                  <div>
-                     <p className="text-secondary w-full">Info</p>
-                     {isEditing ? (
-                        <Textarea
-                           {...register('details')}
-                           className="resize-none"
-                           placeholder="Enter phone number"
-                        />
-                     ) : (
-                        <p className="text-base font-medium">
-                           {getValues('details')}
-                        </p>
-                     )}
-                  </div>
+                  <DialogFooter>
+                     <div className="flex justify-between p-4">
+                        <LeftButton />
+                        <RightButton />
+                     </div>
+                  </DialogFooter>
                </div>
-               <DialogFooter>
-                  <div className="flex justify-between p-4">
-                     <LeftButton />
-                     <RightButton />
-                  </div>
-               </DialogFooter>
             </form>
          </DialogContent>
       </Dialog>
    );
 };
+
 
 const AvatarInput = ({ formMethods }: InputProps) => {
    const {
@@ -334,11 +346,13 @@ const AvatarInput = ({ formMethods }: InputProps) => {
                      className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-center">
-                     <span className="text-white text-sm font-medium mb-2">Edit</span>
+                     <span className="text-white text-sm font-medium mb-2">
+                        Edit
+                     </span>
                   </div>
                </>
             ) : (
-               <Upload className='w-10 h-10' />
+               <Upload className="w-10 h-10" />
             )}
          </div>
          <input
@@ -350,15 +364,12 @@ const AvatarInput = ({ formMethods }: InputProps) => {
          />
          {errors.avatar && (
             <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-               {errors.avatar.message}
+               {errors.avatar.message as string}
             </p>
          )}
       </div>
    );
 };
-
-
-
 
 const ArrayInput = ({
    formMethods,

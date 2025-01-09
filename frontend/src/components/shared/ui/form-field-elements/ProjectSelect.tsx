@@ -1,45 +1,60 @@
-import { SearchBox } from '@/components/shared/ui/SearchBox';
-import {
-   Select,
-   SelectContent,
-   DialogueSelectItem,
-   DialogueSelectTrigger,
-   SelectValue,
-} from '@/components/shared/ui/FilterSelect';
-import { useFilteredProjectsQuery } from '@/lib/api/project-api';
-import { Controller, FieldValues, Path } from 'react-hook-form';
+import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { InputProps } from '@/lib/types/form-input-props.types';
 import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
-import { Project } from '@types';
+import { Project, ProjectSearchOptions } from '@types';
+
+interface ProjectSelectProps<TFieldValues extends FieldValues>
+   extends InputProps<TFieldValues> {
+   filter?: ProjectSearchOptions;
+}
 
 const ProjectSelect = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
-}: InputProps<TFieldValues>): JSX.Element => {
+   filter = { projectStatus: 'active' },
+}: ProjectSelectProps<TFieldValues>): JSX.Element => {
    const {
       control,
       watch,
       formState: { errors },
       setValue,
    } = formMethods;
-   const { data: activeProjects } = useFilteredProjectsQuery('projectStatus', 'active');
+   const { data: activeProjects = [], isLoading } = useAllProjectsQuery(filter);
 
-   if (!activeProjects) {
-      return <>No projects available</>;
+   if (!isLoading) {
+      return <>Loading</>;
    }
 
-   const selectContents = selectionConvert(activeProjects)
+   const selectContents = selectionConvert(activeProjects || []);
 
    const handleProjectChange = (
       value: string,
-      onChange: (value: string) => void
+      onChange?: (value: string) => void
    ) => {
-      onChange(value);
-      const selectedProject = activeProjects.find((project) => project.id === value);
+      if (onChange) {
+         onChange(value); 
+      }
+
+      const selectedProject = activeProjects.find(
+         (project) => project.id === value
+      );
       if (selectedProject) {
-         setValue('client' as Path<TFieldValues>, selectedProject.client);
-         setValue('clientId' as Path<TFieldValues>, selectedProject.clientId);
+         setValue(
+            'client' as Path<TFieldValues>,
+            selectedProject.client as PathValue<
+               TFieldValues,
+               Path<TFieldValues>
+            >
+         );
+         setValue(
+            'clientId' as Path<TFieldValues>,
+            selectedProject.clientId as PathValue<
+               TFieldValues,
+               Path<TFieldValues>
+            >
+         );
       }
    };
 
@@ -76,8 +91,7 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
                      value={field.value}
                      onValueChange={handleProjectChange}
                      selectContents={selectContents}
-                     className='justify-normal items-center gap-1'
-                     
+                     className="justify-normal items-center gap-1"
                   />
                )}
             />
@@ -90,17 +104,17 @@ const ProjectSelect = <TFieldValues extends FieldValues>({
       );
    }
 
-   return null;
+   return <></>;
 };
 
 const selectionConvert = (activeProject: Project[]) => {
    const selectContents = activeProject.map((project) => {
       return {
          value: project.id,
-         label: project.name
-      }
-   })
-   return selectContents
-}
+         label: project.name,
+      };
+   });
+   return selectContents;
+};
 
 export default ProjectSelect;

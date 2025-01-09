@@ -5,7 +5,7 @@ import {
    getSortedRowModel,
    getFilteredRowModel,
 } from '@tanstack/react-table';
-import { Calendar, Plus } from '@/components/shared/icons';
+import { Calendar } from 'lucide-react';
 import { createEventColumn } from './EventColumn';
 import { TableWithTaskBar } from '@/components/shared/ui/table-elements/PrebuiltTable';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
