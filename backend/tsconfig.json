@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -15,18 +16,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "paths": {
-      "@types": ["../shared/types"],
-      "@/*": ["./src/*"]
-    },
-  },
-  "include": [
-    "src/**/*" // Adjust based on where your source files are located
-  ],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "../shared"],
+    "noFallthroughCasesInSwitch": false
+  }
 }
