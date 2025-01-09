@@ -62,7 +62,7 @@ export default function Tasks() {
                <p className="text-xl leading-none mr-2">Tasks</p>
                <FilterBar
                   onValueChange={setStatusFilter}
-                  type="event"
+                  type="task"
                   value={taskFilter.status || ''}
                />
             </div>
