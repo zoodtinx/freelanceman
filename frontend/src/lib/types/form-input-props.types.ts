@@ -13,6 +13,8 @@ export interface SelectInputProps<
    TFieldValues extends FieldValues = FieldValues
 > extends InputProps<TFieldValues> {
    selection: Selection[];
+   placeholder?: string;
+   defaultValue?: string;
 }
 
 interface Selection {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
 
-const LinkInput = <TFieldValues extends FieldValues>({
+const LinkInputForm = <TFieldValues extends FieldValues>({
    formMethods,
 }: InputProps<TFieldValues>): JSX.Element => {
    const [isButtonMode, setIsButtonMode] = useState(false);
@@ -121,4 +121,4 @@ const LinkInput = <TFieldValues extends FieldValues>({
    );
 };
 
-export default LinkInput;
+export default LinkInputForm;

@@ -16,7 +16,7 @@ export interface File {
       | "project-management" 
       | "database"         
       | "other";           
-   category: "document" | "project-assets" | "project-file";
+   category: FileCategory;
    link: string;
    size?: number;
    dateCreated: string;
@@ -45,4 +45,4 @@ export interface NewFilePayload {
    category: "document" | "project-assets" | "project-file";
 }
 
-export type FileCategory = "document" | "project-assets" | "project-file";
+export type FileCategory = "document" | "project-assets" | "project-file" | "personal";

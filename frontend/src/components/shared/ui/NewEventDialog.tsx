@@ -21,11 +21,11 @@ import {
 } from 'react-hook-form';
 import { useCreateEvent } from 'src/lib/api/event-api';
 import { NewEventPayload } from '@types';
-import LinkInput from './form-field-elements/LinkInput';
-import StatusSelect from './form-field-elements/StatusSelect';
-import ProjectSelect from './form-field-elements/ProjectSelect';
+import LinkInput from './form-field-elements/LinkInputForm';
+import StatusSelect from './form-field-elements/StatusSelectForm';
+import ProjectSelect from './form-field-elements/ProjectSelectForm';
 import TimePicker from './primitives/TimePicker';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
 import DatePicker from './primitives/DatePicker';
 
 //Main Task Dialogue

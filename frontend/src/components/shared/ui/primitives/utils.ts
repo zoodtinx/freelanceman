@@ -1,5 +1,4 @@
-import { TaskStatus, EventStatus, Project, Contact, Event, Task } from "@types";
-import { id } from "date-fns/locale";
+import { TaskStatus, EventStatus, Project, Contact, Event, Task, File } from "@types";
 
 export const formDefaultValue = (actionType: 'event' | 'task') => {
    let defaultStatus: TaskStatus | EventStatus
@@ -76,12 +75,31 @@ export const defaultProject: Project = {
    clientId: '',
    quickTaskId: '',
    brief: '',
-   projectStatus: 'active', // Default to 'active' as per ProjectStatus
-   paymentStatus: 'notProcessed', // Default to 'notProcessed' as per PaymentStatus
+   projectStatus: 'active', 
+   paymentStatus: 'notProcessed', 
    accentColor: '',
    dateCreated: '',
    dateModified: ''
  };
+
+ export const defaultFile: File = {
+   id: "",
+   fileName: "",
+   name: "",
+   type: "other", 
+   category: "", 
+   link: "",
+   size: 0, 
+   dateCreated: new Date().toISOString(), 
+   dateModified: undefined, 
+   permissions: {
+     owner: "",
+     sharedWith: [] 
+   },
+   passwordProtected: false, 
+   encryptedPasswordHash: undefined 
+ };
+ 
 
  export const taskStatusSelections = [
    { value: 'planned', label: 'Planned', color: 'bg-yellow-100' },

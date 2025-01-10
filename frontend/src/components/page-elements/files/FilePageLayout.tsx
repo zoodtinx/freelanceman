@@ -15,14 +15,15 @@ import { createFileColumns } from './FileColumn';
 import { useFileQuery } from '@/lib/api/file-api';
 import { mockFiles } from '@mocks';
 import FileDialog from '@/components/shared/ui/FileDialog';
+import { defaultFile } from 'src/components/shared/ui/primitives/utils';
 
 const FilePageLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
       isOpen: true,
       id: '',
-      type: 'clientContact',
-      mode: 'view',
-      data: defaultContact,
+      type: 'file',
+      mode: 'create',
+      data: defaultFile,
    });
 
       const {data: fileList, isLoading} = useFileQuery

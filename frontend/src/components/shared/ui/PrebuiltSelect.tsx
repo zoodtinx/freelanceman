@@ -49,7 +49,7 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
             >
                <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent className="flex flex-col gap-1">
+            <SelectContent className="flex flex-col gap-1 max-h-[250px] overflow-y-auto">
                {selectContents.map((selection) => (
                   <SelectItem key={selection.value} value={selection.value}>
                      {selection.label}

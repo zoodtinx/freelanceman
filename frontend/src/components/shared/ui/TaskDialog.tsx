@@ -13,11 +13,11 @@ import { Button } from './primitives/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
-import StatusSelect from './form-field-elements/StatusSelect';
-import ProjectSelect from './form-field-elements/ProjectSelect';
-import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';
-import DateTimePicker from '@/components/shared/ui/form-field-elements/DateTimePicker';
-import LinkInput from '@/components/shared/ui/form-field-elements/LinkInput';
+import StatusSelect from './form-field-elements/StatusSelectForm';
+import ProjectSelect from './form-field-elements/ProjectSelectForm';
+import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
+import LinkInput from 'src/components/shared/ui/form-field-elements/LinkInputForm';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
 
 import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';

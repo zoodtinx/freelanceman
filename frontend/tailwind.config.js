@@ -31,6 +31,12 @@ export default {
             sm: 'calc(var(--radius) - 4px)',
          },
          colors: {
+            freelanceman : {
+               red: 'hsl(var(--freelanceman-red))',
+               green: 'hsl(var(--freelanceman-green))',
+               blue: 'hsl(var(--freelanceman-blue))',
+               darkgrey: 'hsl(var(--freelanceman-darkgrey))',
+            },
             background: 'hsl(var(--background))',
             foreground: 'hsl(var(--foreground))',
             primary: {

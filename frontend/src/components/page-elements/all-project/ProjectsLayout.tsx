@@ -20,8 +20,6 @@ const ProjectsLayout: React.FC = () => {
 
    const { data: projects, isLoading } = useAllProjectsQuery(filter);
 
-   console.log('filter', filter);
-
    useEffect(() => {
       setProjects(projects ?? []);
    }, [projects, setProjects]);

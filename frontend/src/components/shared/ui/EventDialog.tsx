@@ -4,11 +4,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import type { EventFormData, NewEventPayload } from '@types';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
 import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
-import DateTimePicker from '@/components/shared/ui/form-field-elements/DateTimePicker';
-import LinkInput from './form-field-elements/LinkInput';
-import StatusSelect from './form-field-elements/StatusSelect';
-import ProjectSelect from './form-field-elements/ProjectSelect';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInput';
+import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
+import LinkInput from './form-field-elements/LinkInputForm';
+import StatusSelect from './form-field-elements/StatusSelectForm';
+import ProjectSelect from './form-field-elements/ProjectSelectForm';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
 
 import {
    DialogContent,
@@ -96,8 +96,10 @@ const EventDialog: React.FC<DialogProps> = ({
       setDialogState({ ...dialogState, mode: 'view' });
    };
 
-   const headerText = dialogState.mode === 'create' ? 'Create New Event' : 'Event'
-   const headerTextStyle = dialogState.mode === 'view' ? 'text-primary' : 'text-foreground'
+   const headerText =
+      dialogState.mode === 'create' ? 'Create New Event' : 'Event';
+   const headerTextStyle =
+      dialogState.mode === 'view' ? 'text-primary' : 'text-foreground';
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -115,7 +117,9 @@ const EventDialog: React.FC<DialogProps> = ({
          >
             <form onSubmit={handleSubmit(onSubmit)}>
                <DialogHeader className="py-1 bg-transparent">
-                  <DialogTitle className={`flex text-base w-full text-center items-center gap-1`}>
+                  <DialogTitle
+                     className={`flex text-base w-full text-center items-center gap-1`}
+                  >
                      <Calendar className="w-[13px] h-[13px]" />
                      <p>{headerText}</p>
                   </DialogTitle>
