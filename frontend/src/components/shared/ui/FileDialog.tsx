@@ -1,3 +1,5 @@
+
+import { Link } from 'react-router-dom';
 import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';
 import LinkInputForm from '@/components/shared/ui/form-field-elements/LinkInputForm';
 import SelectForm from '@/components/shared/ui/form-field-elements/SelectForm';
@@ -34,7 +36,7 @@ import React, {
    useState,
 } from 'react';
 
-import { CircleCheck, ClipboardX, Folder, Upload } from 'lucide-react';
+import { CircleCheck, ClipboardX, Folder, Upload, Link as LinkIcon, ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
 
 // API Hooks
 import { useClientQuery, useAllClientsQuery } from '@/lib/api/client-api';
@@ -47,6 +49,7 @@ import { DialogProps } from '@/lib/types/dialog.types';
 // Utilities
 import { defaultFile } from '@/components/shared/ui/primitives/utils';
 import { formatBytes } from '@/lib/helper/formatFile';
+import { formatDate } from '@/lib/helper/formatDateTime';
 
 const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const [mode, setMode] = useState('upload');
@@ -57,7 +60,7 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       formState: { errors },
    } = formMethods;
 
-   const handleDialogueClose = () => {
+   const handleDialogClose = () => {
       setDialogState({
          isOpen: false,
          id: '',
@@ -121,7 +124,7 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    };
 
    return (
-      <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
+      <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Open File Dialog
@@ -146,7 +149,7 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                <div className="bg-background rounded-2xl text-primary">
                   {dialogState.mode === 'view' ? (
-                     <ViewModeContent formMethods={formMethods} />
+                     <ViewModeContent formMethods={formMethods} handleDialogClose={handleDialogClose} />
                   ) : (
                      <CreateAndEditModeContent
                         formMethods={formMethods}
@@ -161,26 +164,6 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                         setClientListFilter={setClientListFilter}
                      />
                   )}
-                  <DialogFooter>
-                     <div className="flex justify-between p-4">
-                        <Button
-                           variant={'destructiveOutline'}
-                           onClick={handleDialogueClose}
-                           className="flex gap-1"
-                        >
-                           Discard
-                           <ClipboardX className="w-4 h-4" />
-                        </Button>
-                        <Button
-                           type="submit"
-                           variant={'submit'}
-                           className="flex gap-1"
-                        >
-                           Save
-                           <CircleCheck className="w-4 h-4" />
-                        </Button>
-                     </div>
-                  </DialogFooter>
                </div>
             </form>
          </DialogContent>
@@ -188,20 +171,115 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    );
 };
 
-const ViewModeContent: React.FC<{ formMethods: any }> = ({ formMethods }) => {
+const ViewModeContent: React.FC<{
+   formMethods: any;
+   handleDialogClose: () => void;
+}> = ({ formMethods, handleDialogClose }) => {
+   const [copied, setCopied] = useState(false); // To show/hide the "Link copied" text
+
+   const {getValues, watch} = formMethods
    const fileName = formMethods.getValues('name');
    const fileSize = formatBytes(formMethods.watch('size'));
+   const link = watch('link')
+   const category = getValues('category')
+
+   const dateCreated = formatDate(getValues('dateCreated'), 'LONG')
+
+   const handleCopy = () => {
+      if (link) {
+        navigator.clipboard.writeText(link);
+        setCopied(true); // Show the "Link copied" message
+  
+        // Hide the message after 3 seconds
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      }
+    };
 
    return (
-      <div className='flex flex-col'>
-         <div className="flex gap-1 items-center p-5">
+      <div className="flex flex-col">
+         <div className="flex gap-1 items-center px-5 pt-4">
             <FileIconByExtension
                fileExtension={formMethods.getValues('type')}
                className="h-5 w-5"
             />
             <p className="text-lg">{fileName}</p>
          </div>
-         <p>{fileSize}</p>
+         <p className="px-5 pb-3">{fileSize}</p>
+         <div className="flex gap-2 px-5 pb-2">
+            <div className="flex flex-col leading-5 w-1/2">
+               <p className="text-secondary">Date Created</p>
+               <p>{dateCreated}</p>
+            </div>
+            <div className="flex flex-col leading-5 w-1/2">
+               <p className="text-secondary">Click to copy link</p>
+               <div
+                  className="cursor-default flex gap-1 relative"
+                  onClick={handleCopy}
+               >
+                  <LinkIcon className="w-5 h-5" />
+                  <p className="truncate">{link}</p>
+                  <p
+                     className={`absolute bg-primary rounded-md text-sm text-foreground px-2 w-full text-center transition-opacity duration-100 ${
+                        copied ? 'opacity-100' : 'opacity-0'
+                     }`}
+                  >
+                     Link copied to clipboard
+                  </p>
+               </div>
+            </div>
+         </div>
+         {category === 'project-file' ||
+            category === 'project-asset' ||
+            (category === 'project-document' && (
+               <div className="flex gap-2 px-5 pb-2">
+                  <div className="flex flex-col leading-5 w-1/2">
+                     <p className="text-secondary">Project</p>
+                     <Link to={`../${getValues('projectId')}`}>
+                        <p>{getValues('project')}</p>
+                     </Link>
+                  </div>
+                  <div className="flex flex-col leading-5 w-1/2">
+                     <p className="text-secondary">Client</p>
+                     <Link to={`../clients/${getValues('clientId')}`}>
+                        <p>{getValues('client')}</p>
+                     </Link>
+                  </div>
+               </div>
+            ))}
+         {category === 'client-file' && (
+            <div className="flex flex-col leading-5 w-1/2 px-5">
+               <p className="text-secondary">Client</p>
+               <p>{getValues('client')}</p>
+            </div>
+         )}
+         <DialogFooter className=''>
+            <div className="flex justify-between p-4">
+               <div className="flex gap-1">
+                  <Button
+                     variant={'destructive'}
+                     onClick={handleDialogClose}
+                     className="flex gap-1"
+                  >
+                     Delete
+                     <ClipboardX className="w-4 h-4" />
+                  </Button>
+                  <Button
+                     variant={'outline'}
+                     onClick={handleDialogClose}
+                     className="flex gap-1"
+                  >
+                     Edit
+                     <ClipboardX className="w-4 h-4" />
+                  </Button>
+               </div>
+               <Button type="submit" variant={'submit'} className="flex gap-1">
+                  Download
+                  <ArrowDownToLine className="w-4 h-4" />
+               </Button>
+            </div>
+         </DialogFooter>
       </div>
    );
 };
@@ -217,6 +295,7 @@ const CreateAndEditModeContent: React.FC<{
    isClientLoading: boolean;
    setProjectListFilter: Dispatch<SetStateAction<any>>;
    setClientListFilter: Dispatch<SetStateAction<any>>;
+   handleDialogClose: () => void
 }> = ({
    formMethods,
    mode,
@@ -228,6 +307,7 @@ const CreateAndEditModeContent: React.FC<{
    isClientLoading,
    setProjectListFilter,
    setClientListFilter,
+   handleDialogClose
 }) => {
    const {
       register,
@@ -236,6 +316,8 @@ const CreateAndEditModeContent: React.FC<{
    } = formMethods;
 
    const categoryValue = watch('category');
+
+   const selectedProject = watch('projectId')
 
    return (
       <>
@@ -340,6 +422,27 @@ const CreateAndEditModeContent: React.FC<{
                </div>
             )}
          </div>
+         <DialogFooter>
+                     <div className="flex justify-between p-4">
+                        <Button
+                           variant={'destructiveOutline'}
+                           onClick={handleDialogClose}
+                           className="flex gap-1"
+                        >
+                           Discard
+                           <ClipboardX className="w-4 h-4" />
+                        </Button>
+                        <Button
+                           type="submit"
+                           variant={'submit'}
+                           className="flex gap-1"
+                        >
+                           { mode === 'upload' && 'Upload' } 
+                           { mode === 'link' && 'Add' } 
+                           <ArrowUpFromLine className="w-4 h-4" />
+                        </Button>
+                     </div>
+                  </DialogFooter>
       </>
    );
 };
