@@ -1,12 +1,24 @@
+import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';
 import LinkInputForm from '@/components/shared/ui/form-field-elements/LinkInputForm';
 import SelectForm from '@/components/shared/ui/form-field-elements/SelectForm';
-import { FileCategory } from '@types';
 import { FileIconByExtension } from '@/components/page-elements/files/Helpers';
+
 import {
    Tabs,
    TabsList,
    TabsTrigger,
 } from 'src/components/shared/ui/primitives/Tabs';
+import {
+   DialogContent,
+   DialogHeader,
+   DialogFooter,
+   DialogTitle,
+   Dialog,
+   DialogTrigger,
+} from './primitives/Dialog';
+import { Button } from './primitives/Button';
+import { Input } from './primitives/Input';
+
 import {
    useForm,
    SubmitHandler,
@@ -21,35 +33,29 @@ import React, {
    useRef,
    useState,
 } from 'react';
-import {
-   DialogContent,
-   DialogHeader,
-   Dialog,
-   DialogFooter,
-   DialogTitle,
-   DialogTrigger,
-} from './primitives/Dialog';
-import { Button } from './primitives/Button';
-import { Input } from './primitives/Input';
-import { CircleCheck, ClipboardX, Upload, X } from 'lucide-react';
+
+import { CircleCheck, ClipboardX, Folder, Upload } from 'lucide-react';
+
+// API Hooks
+import { useClientQuery, useAllClientsQuery } from '@/lib/api/client-api';
+import { useAllProjectsQuery } from '@/lib/api/project-api';
+
+// Types
 import { InputProps } from '@/lib/types/form-input-props.types';
 import { DialogProps } from '@/lib/types/dialog.types';
+
+// Utilities
 import { defaultFile } from '@/components/shared/ui/primitives/utils';
+import { formatBytes } from '@/lib/helper/formatFile';
 
 const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const [mode, setMode] = useState('upload');
-   const formMethods = useForm({
-      defaultValues: defaultFile
-   });
+   const formMethods = useForm({ defaultValues: defaultFile });
    const {
       handleSubmit,
       reset,
-      register,
-      watch,
       formState: { errors },
    } = formMethods;
-
-   const categoryValue = watch('category');
 
    const handleDialogueClose = () => {
       setDialogState({
@@ -61,52 +67,57 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       });
    };
 
+   const [projectListFilter, setProjectListFilter] = useState({});
+   const { data: projectList, isLoading: isProjectLoading } =
+      useAllProjectsQuery(projectListFilter);
+   const projectSelection = projectList?.map((project) => ({
+      value: project.id,
+      label: project.name,
+   }));
+
+   const [clientListFilter, setClientListFilter] = useState({});
+   const { data: clientList, isLoading: isClientLoading } =
+      useAllClientsQuery(clientListFilter);
+   const clientSelection = clientList?.map((client) => ({
+      value: client.id,
+      label: client.name,
+   }));
+
    useEffect(() => {
-      reset({ fileName: '', description: '' });
+      if (dialogState.mode === 'create') {
+         reset(defaultFile);
+      } else {
+         reset(dialogState.data);
+      }
    }, [dialogState, reset]);
 
-   const onSubmit: SubmitHandler<{
-      fileName: string;
-      description: string;
-      category: string;
-      client?: string;
-      project?: string;
-   }> = (data) => {
+   const onSubmit: SubmitHandler<FieldValues> = (data) => {
       const { category, client, project } = data;
-
-      console.log('love')
-
       if (
-         category === 'project-document' ||
-         category === 'project-assets' ||
-         category === 'project-file'
+         ['project-document', 'project-assets', 'project-file'].includes(
+            category
+         ) &&
+         (!project || !client)
       ) {
-         if (!project) {
-            formMethods.setError('project', {
-               type: 'manual',
-               message: 'Project name is required for this category',
-            });
-         }
-         if (!client) {
-            formMethods.setError('client', {
-               type: 'manual',
-               message: 'Client name is required for this category',
-            });
-         }
-      } else if (category === 'client-file') {
-         if (!client) {
-            formMethods.setError('client', {
-               type: 'manual',
-               message: 'Client name is required for client files',
-            });
-         }
-      } else {
-         formMethods.clearErrors(['client', 'project']);
+         formMethods.setError(!project ? 'project' : 'client', {
+            type: 'manual',
+            message: `${
+               !project ? 'Project' : 'Client'
+            } name is required for this category`,
+         });
+         return;
       }
 
-      if (Object.keys(formMethods.formState.errors).length === 0) {
-         console.log('File saved:', data);
+      if (category === 'client-file' && !client) {
+         formMethods.setError('client', {
+            type: 'manual',
+            message: 'Client name is required for client files',
+         });
+         return;
       }
+
+      formMethods.clearErrors(['client', 'project']);
+      console.log('File saved:', data);
    };
 
    return (
@@ -119,132 +130,37 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
          <DialogContent className="sm:max-w-[425px] flex flex-col focus:outline-none bg-freelanceman-darkgrey text-foreground">
             <DialogHeader className="py-1 bg-transparent">
                <DialogTitle className="flex text-base w-full text-center items-center gap-1 text-white">
-                  <Upload className="w-[13px] h-[13px]" />
-                  <p>Add File</p>
+                  {dialogState.mode === 'create' ? (
+                     <>
+                        <Upload className="w-[13px] h-[13px]" />
+                        <p>Add File</p>
+                     </>
+                  ) : (
+                     <>
+                        <Folder className="w-[13px] h-[13px]" />
+                        <p>File</p>
+                     </>
+                  )}
                </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit(onSubmit)}>
                <div className="bg-background rounded-2xl text-primary">
-                  <div className="pt-3">
-                     <ModeSelect setMode={setMode} mode={mode} />
-                  </div>
-                  {mode === 'upload' && (
-                     <FileUploadField formMethods={formMethods} />
+                  {dialogState.mode === 'view' ? (
+                     <ViewModeContent formMethods={formMethods} />
+                  ) : (
+                     <CreateAndEditModeContent
+                        formMethods={formMethods}
+                        mode={mode}
+                        setMode={setMode}
+                        dialogState={dialogState}
+                        projectSelection={projectSelection}
+                        clientSelection={clientSelection}
+                        isProjectLoading={isProjectLoading}
+                        isClientLoading={isClientLoading}
+                        setProjectListFilter={setProjectListFilter}
+                        setClientListFilter={setClientListFilter}
+                     />
                   )}
-                  {mode === 'link' && (
-                     <div className="px-5 py-2">
-                        <label className="text-secondary">Add a link</label>
-                        <LinkInputForm
-                           formMethods={formMethods}
-                           dialogState={dialogState}
-                           fieldName="link"
-                        />
-                     </div>
-                  )}
-                  <div className="flex flex-col p-5 pt-3 gap-2">
-                     <div className="flex flex-col">
-                        <p className="text-secondary">Custom file name</p>
-                        <Input
-                           {...register('fileName', {
-                              required: 'File name is required',
-                           })}
-                           placeholder="Leave blank to use the original name"
-                           className="w-full"
-                        />
-                        {errors.fileName && (
-                           <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                              {errors.fileName.message as string}
-                           </p>
-                        )}
-                     </div>
-                     <div className="flex gap-2">
-                        <div className="flex flex-col leading-5 w-1/2">
-                           <p className="text-secondary">File type</p>
-                           <SelectForm
-                              formMethods={formMethods}
-                              selection={fileTypeSelections}
-                              dialogState={dialogState}
-                              fieldName="type"
-                              placeholder="Select file type"
-                           />
-                           {errors.type && (
-                              <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                                 {errors.type.message as string}
-                              </p>
-                           )}
-                        </div>
-                        <div className="flex flex-col leading-5 w-1/2">
-                           <p className="text-secondary">Category</p>
-
-                           <SelectForm
-                              formMethods={formMethods}
-                              selection={fileCategorySelections}
-                              dialogState={dialogState}
-                              fieldName="category"
-                              placeholder="Select category"
-                           />
-                           {errors.category && (
-                              <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                                 {errors.category.message as string}
-                              </p>
-                           )}
-                        </div>
-                     </div>
-                     {(categoryValue === 'project-document' ||
-                        categoryValue === 'project-assets' ||
-                        categoryValue === 'project-file') && (
-                        <div className="flex gap-2">
-                           <div className="flex flex-col leading-5 w-1/2">
-                              <p className="text-secondary">Project</p>
-                              <Input
-                                 {...register('project', {
-                                    required: 'Project name is required',
-                                 })}
-                                 placeholder="Enter project name"
-                                 className="w-full"
-                              />
-                              {errors.project && (
-                                 <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                                    {errors.project.message as string}
-                                 </p>
-                              )}
-                           </div>
-                           <div className="flex flex-col leading-5 w-1/2">
-                              <p className="text-secondary">Client</p>
-                              <Input
-                                 {...register('client', {
-                                    required: 'Client name is required',
-                                 })}
-                                 placeholder="Enter client name"
-                                 className="w-full"
-                              />
-                              {errors.client && (
-                                 <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                                    {errors.client.message as string}
-                                 </p>
-                              )}
-                           </div>
-                        </div>
-                     )}
-
-                     {categoryValue === 'client-file' && (
-                        <div className="flex flex-col leading-5 w-1/2">
-                           <p className="text-secondary">Client</p>
-                           <Input
-                              {...register('client', {
-                                 required: 'Client name is required',
-                              })}
-                              placeholder="Enter client name"
-                              className="w-full"
-                           />
-                           {errors.client && (
-                              <p className="mt-1 text-sm text-red-500 font-normal">
-                                 {errors.client.message as string}
-                              </p>
-                           )}
-                        </div>
-                     )}
-                  </div>
                   <DialogFooter>
                      <div className="flex justify-between p-4">
                         <Button
@@ -269,6 +185,162 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
             </form>
          </DialogContent>
       </Dialog>
+   );
+};
+
+const ViewModeContent: React.FC<{ formMethods: any }> = ({ formMethods }) => {
+   const fileName = formMethods.getValues('name');
+   const fileSize = formatBytes(formMethods.watch('size'));
+
+   return (
+      <div className='flex flex-col'>
+         <div className="flex gap-1 items-center p-5">
+            <FileIconByExtension
+               fileExtension={formMethods.getValues('type')}
+               className="h-5 w-5"
+            />
+            <p className="text-lg">{fileName}</p>
+         </div>
+         <p>{fileSize}</p>
+      </div>
+   );
+};
+
+const CreateAndEditModeContent: React.FC<{
+   formMethods: any;
+   mode: string;
+   setMode: Dispatch<SetStateAction<string>>;
+   dialogState: any;
+   projectSelection: any[];
+   clientSelection: any[];
+   isProjectLoading: boolean;
+   isClientLoading: boolean;
+   setProjectListFilter: Dispatch<SetStateAction<any>>;
+   setClientListFilter: Dispatch<SetStateAction<any>>;
+}> = ({
+   formMethods,
+   mode,
+   setMode,
+   dialogState,
+   projectSelection,
+   clientSelection,
+   isProjectLoading,
+   isClientLoading,
+   setProjectListFilter,
+   setClientListFilter,
+}) => {
+   const {
+      register,
+      formState: { errors },
+      watch,
+   } = formMethods;
+
+   const categoryValue = watch('category');
+
+   return (
+      <>
+         <div className="pt-3">
+            <ModeSelect setMode={setMode} mode={mode} />
+         </div>
+         {mode === 'upload' && <FileUploadField formMethods={formMethods} />}
+         {mode === 'link' && (
+            <div className="px-5 py-2">
+               <label className="text-secondary">Add a link</label>
+               <LinkInputForm
+                  formMethods={formMethods}
+                  dialogState={dialogState}
+                  fieldName="link"
+               />
+            </div>
+         )}
+         <div className="flex flex-col p-5 pt-3 gap-2">
+            <div className="flex flex-col">
+               <p className="text-secondary">Custom file name</p>
+               <Input
+                  {...register('fileName', {
+                     required: 'File name is required',
+                  })}
+                  placeholder="Leave blank to use the original name"
+                  className="w-full"
+               />
+               {errors.fileName && (
+                  <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                     {errors.fileName.message as string}
+                  </p>
+               )}
+            </div>
+            <div className="flex gap-2">
+               <div className="flex flex-col leading-5 w-1/2">
+                  <p className="text-secondary">File type</p>
+                  <SelectForm
+                     formMethods={formMethods}
+                     selection={fileTypeSelections}
+                     dialogState={dialogState}
+                     fieldName="type"
+                     placeholder="Select file type"
+                  />
+                  {errors.type && (
+                     <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                        {errors.type.message as string}
+                     </p>
+                  )}
+               </div>
+               <div className="flex flex-col leading-5 w-1/2">
+                  <p className="text-secondary">Category</p>
+                  <SelectForm
+                     formMethods={formMethods}
+                     selection={fileCategorySelections}
+                     dialogState={dialogState}
+                     fieldName="category"
+                     placeholder="Select category"
+                  />
+                  {errors.category && (
+                     <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                        {errors.category.message as string}
+                     </p>
+                  )}
+               </div>
+            </div>
+            {(categoryValue === 'document' ||
+               categoryValue === 'project-assets' ||
+               categoryValue === 'project-file') && (
+               <div className="flex gap-2">
+                  <div className="flex flex-col leading-5 w-1/2">
+                     <p className="text-secondary">Project</p>
+                     <SelectWithSearchForm
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                        selection={projectSelection}
+                        fieldName="projectId"
+                        isLoading={isProjectLoading}
+                        setFilter={setProjectListFilter}
+                     />
+                     {errors.project && (
+                        <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                           {errors.project.message as string}
+                        </p>
+                     )}
+                  </div>
+                  <div className="flex flex-col leading-5 w-1/2">
+                     <p className="text-secondary">Client</p>
+                     <SelectWithSearchForm
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                        selection={clientSelection}
+                        fieldName="clientId"
+                        isLoading={isClientLoading}
+                        setFilter={setClientListFilter}
+                     />
+                     {errors.client && (
+                        <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
+                           {errors.client.message as string}
+                        </p>
+                     )}
+                  </div>
+               </div>
+            )}
+         </div>
+      </>
    );
 };
 
@@ -323,7 +395,7 @@ const FileUploadField = <TFieldValues extends FieldValues>({
    };
 
    const handleUploadClick = () => {
-      inputRef.current?.click(); // Trigger file input when div is clicked
+      inputRef.current?.click();
    };
 
    const handleDropFile = (e: React.MouseEvent) => {

@@ -1,0 +1,56 @@
+import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
+import {
+   SelectInputProps,
+   SelectWithSearchInputProps,
+} from '@/lib/types/form-input-props.types';
+import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
+
+const SelectWithSearchForm = <TFormData extends FieldValues>({
+   formMethods,
+   dialogState,
+   fieldName,
+   placeholder,
+   className,
+   selection,
+   isLoading,
+   setFilter
+}: SelectWithSearchInputProps<TFormData>): JSX.Element => {
+   const { control, getValues } = formMethods;
+
+   if (dialogState?.mode === 'view') {
+      const currentSelection = selection.find(
+         (item) =>
+            item.value === formMethods.getValues(fieldName as Path<TFormData>)
+      );
+      const text = currentSelection?.text || 'No status selected';
+
+      return <p className={className}>{text}</p>;
+   }
+
+   return (
+      <Controller
+         name={fieldName as Path<TFormData>}
+         control={control}
+         rules={{ required: 'Please select a status' }}
+         render={({ field }) => {
+            const handleStatusChange = (value: string) => {
+               field.onChange(value);
+            };
+
+            return (
+               <SelectWithSearch
+                  onValueChange={handleStatusChange}
+                  selectContents={selection}
+                  value={field.value}
+                  placeholder={placeholder}
+                  className={className}
+                  isLoading={isLoading}
+                  onInputChange={setFilter}
+               />
+            );
+         }}
+      />
+   );
+};
+
+export default SelectWithSearchForm;

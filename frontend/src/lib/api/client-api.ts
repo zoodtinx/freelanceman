@@ -30,14 +30,6 @@ export const useClientQuery = (clientId: string) => {
    });
 };
 
-// export const useClientList = (clientName: string) => {
-//    const queryClient = useQueryClient();
-//    return useQuery({
-//       queryKey: ['clientlist', clientName],
-//       queryFn: () => getAllClients(searchTerm || {}),
-//    });
-// }
-
 export const useCreateClient = () => {
    const queryClient = useQueryClient();
 

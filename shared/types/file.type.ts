@@ -18,6 +18,8 @@ export interface File {
       | "other";           
    category: FileCategory;
    link: string;
+   projectId?: string;
+   clientId?: string;
    size?: number;
    dateCreated: string;
    dateModified?: string;
