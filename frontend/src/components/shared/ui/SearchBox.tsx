@@ -4,8 +4,8 @@ import { Search } from 'lucide-react';
 import { CleanTextInput } from '@/components/shared/ui/primitives/CleanTextInput';
 
 export const SearchBox = React.forwardRef<
-   HTMLDivElement,
-   React.ComponentProps<'div'> & { placeholder?: string }
+   HTMLInputElement,
+   React.ComponentProps<'input'> & { placeholder?: string }
 >(({ className, placeholder = 'Search', value, onChange, ...props }, ref) => {
    return (
       <div

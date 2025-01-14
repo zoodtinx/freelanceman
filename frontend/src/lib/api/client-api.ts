@@ -15,17 +15,16 @@ export const useAllClientsQuery = (searchTerm?: ClientSearchOption) => {
    });
 };
 
-export const useClientQuery = (clientId: string) => {
+export const useClientQuery = (
+   entityType: 'clientId' | 'projectId' | 'taskId' | 'eventId' | 'contactId',
+   id: string
+) => {
    const queryClient = useQueryClient();
 
    return useQuery({
       queryKey: ['clients', clientId],
       queryFn: () => {
-         const cachedClients = queryClient.getQueryData<Client[]>(['clients']);
-         const cachedClient = cachedClients?.find(
-            (client) => client.id === clientId
-         );
-         return cachedClient ?? getClient(clientId);
+         getClient(entityType, id);
       },
    });
 };

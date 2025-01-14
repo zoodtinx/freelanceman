@@ -11,7 +11,7 @@ import { TableWithTaskBar } from '@/components/shared/ui/table-elements/Prebuilt
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import EventDialog from '@/components/shared/ui/EventDialog';
 import { useAllEventQuery } from '@/lib/api/event-api';
-import { eventDefaultValues } from 'src/components/shared/ui/primitives/utils';
+import { eventDefaultValues } from 'src/components/shared/ui/constants';
 import FilterBar from '@/components/page-elements/actions/FilterBar';
 
 import type { FormDialogState } from '@/lib/types/dialog.types';

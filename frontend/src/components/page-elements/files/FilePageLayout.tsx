@@ -1,3 +1,4 @@
+import { fileTypeSelections } from 'src/components/shared/ui/constants';
 import {
    Popover,
    PopoverTrigger,
@@ -6,7 +7,7 @@ import {
 import { Plus } from '@/components/shared/icons';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
-import { defaultContact } from 'src/components/shared/ui/primitives/utils';
+import { defaultContact } from 'src/components/shared/ui/constants';
 import { useEffect, useState } from 'react';
 import { User, BookUser, Folder } from 'lucide-react';
 import FileTable from './FileTable';
@@ -15,22 +16,30 @@ import { createFileColumns } from './FileColumn';
 import { useFileQuery } from '@/lib/api/file-api';
 import { mockFiles } from '@mocks';
 import FileDialog from '@/components/shared/ui/FileDialog';
-import { defaultFile } from 'src/components/shared/ui/primitives/utils';
+import { defaultFile } from 'src/components/shared/ui/constants';
+import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { SearchBox } from '@/components/shared/ui/SearchBox';
 
 const FilePageLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: true,
+      isOpen: false,
       id: '',
       type: 'file',
       mode: 'create',
       data: defaultFile,
    });
 
-      const {data: fileList, isLoading} = useFileQuery
+      const [filter, setFilter] = useState({})
 
-      if (isLoading) {
-         return <></>
+      const onFileTypeChange = (value) => {
+         setFilter({ type: value })
       }
+
+      // const {data: fileList, isLoading} = useFileQuery
+
+      // if (isLoading) {
+      //    return <></>
+      // }
 
       const table = useReactTable({
             data: mockFiles,
@@ -58,8 +67,28 @@ const FilePageLayout = (): JSX.Element => {
             </div>
             <NewFileButton setDialogState={setDialogState} />
          </div>
+         <div className='flex gap-2'>
+            <FilterSelect
+               onValueChange={onFileTypeChange}
+               value=""
+               placeholder="Type"
+               selectContents={fileTypeSelections}
+               className='h-7'
+            />
+            <FilterSelect
+               onValueChange={onFileTypeChange}
+               value=""
+               placeholder="Category"
+               selectContents={fileTypeSelections}
+               className='h-7'
+            />
+            < SearchBox className='border border-primary rounded-full h-7' />
+         </div>
          <FileTable table={table} />
-         <FileDialog dialogState={dialogState} setDialogState={setDialogState} />
+         <FileDialog
+            dialogState={dialogState}
+            setDialogState={setDialogState}
+         />
       </div>
    );
 };

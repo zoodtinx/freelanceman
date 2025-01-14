@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';
+import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/SelectWithApiSearchForm';
 import LinkInputForm from '@/components/shared/ui/form-field-elements/LinkInputForm';
 import SelectForm from '@/components/shared/ui/form-field-elements/SelectForm';
 import { FileIconByExtension } from '@/components/page-elements/files/Helpers';
@@ -36,7 +36,7 @@ import React, {
    useState,
 } from 'react';
 
-import { CircleCheck, ClipboardX, Folder, Upload, Link as LinkIcon, ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
+import { CircleCheck, Files, ClipboardX, Folder, Upload, Link as LinkIcon, ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
 
 // API Hooks
 import { useClientQuery, useAllClientsQuery } from '@/lib/api/client-api';
@@ -47,9 +47,10 @@ import { InputProps } from '@/lib/types/form-input-props.types';
 import { DialogProps } from '@/lib/types/dialog.types';
 
 // Utilities
-import { defaultFile } from '@/components/shared/ui/primitives/utils';
+import { defaultFile } from 'src/components/shared/ui/constants';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
+import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';
 
 const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const [mode, setMode] = useState('upload');
@@ -57,14 +58,13 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
    const {
       handleSubmit,
       reset,
-      formState: { errors },
    } = formMethods;
 
    const handleDialogClose = () => {
       setDialogState({
          isOpen: false,
          id: '',
-         mode: 'create',
+         mode: dialogState.mode,
          type: 'file',
          data: {},
       });
@@ -218,7 +218,7 @@ const ViewModeContent: React.FC<{
                   className="cursor-default flex gap-1 relative"
                   onClick={handleCopy}
                >
-                  <LinkIcon className="w-5 h-5" />
+                  <Files className="w-5 h-5" />
                   <p className="truncate">{link}</p>
                   <p
                      className={`absolute bg-primary rounded-md text-sm text-foreground px-2 w-full text-center transition-opacity duration-100 ${
@@ -251,10 +251,12 @@ const ViewModeContent: React.FC<{
          {category === 'client-file' && (
             <div className="flex flex-col leading-5 w-1/2 px-5">
                <p className="text-secondary">Client</p>
-               <p>{getValues('client')}</p>
+               <Link to={`../clients/${getValues('clientId')}`}>
+                  <p>{getValues('client')}</p>
+               </Link>
             </div>
          )}
-         <DialogFooter className=''>
+         <DialogFooter className="">
             <div className="flex justify-between p-4">
                <div className="flex gap-1">
                   <Button
@@ -330,6 +332,7 @@ const CreateAndEditModeContent: React.FC<{
                <label className="text-secondary">Add a link</label>
                <LinkInputForm
                   formMethods={formMethods}
+
                   dialogState={dialogState}
                   fieldName="link"
                />
@@ -354,7 +357,7 @@ const CreateAndEditModeContent: React.FC<{
             <div className="flex gap-2">
                <div className="flex flex-col leading-5 w-1/2">
                   <p className="text-secondary">File type</p>
-                  <SelectForm
+                  <SelectWithSearchForm
                      formMethods={formMethods}
                      selection={fileTypeSelections}
                      dialogState={dialogState}
@@ -389,7 +392,7 @@ const CreateAndEditModeContent: React.FC<{
                <div className="flex gap-2">
                   <div className="flex flex-col leading-5 w-1/2">
                      <p className="text-secondary">Project</p>
-                     <SelectWithSearchForm
+                     <SelectWithApiSearchForm
                         formMethods={formMethods}
                         dialogState={dialogState}
                         selection={projectSelection}
@@ -405,7 +408,7 @@ const CreateAndEditModeContent: React.FC<{
                   </div>
                   <div className="flex flex-col leading-5 w-1/2">
                      <p className="text-secondary">Client</p>
-                     <SelectWithSearchForm
+                     <SelectWithApiSearchForm
                         formMethods={formMethods}
                         dialogState={dialogState}
                         selection={clientSelection}

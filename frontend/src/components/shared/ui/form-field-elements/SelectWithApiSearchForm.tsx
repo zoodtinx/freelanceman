@@ -4,18 +4,17 @@ import {
    SelectWithSearchInputProps,
 } from '@/lib/types/form-input-props.types';
 import { SelectWithApiSearch } from 'src/components/shared/ui/SelectWithApiSearch';
-import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
-import { useEffect, useState } from 'react';
 
-const SelectWithSearchForm = <TFormData extends FieldValues>({
+const SelectWithApiSearchForm = <TFormData extends FieldValues>({
    formMethods,
    dialogState,
    fieldName,
    placeholder,
    className,
    selection,
+   isLoading,
+   setFilter
 }: SelectWithSearchInputProps<TFormData>): JSX.Element => {
-   
    const { control, getValues } = formMethods;
 
    if (dialogState?.mode === 'view') {
@@ -39,12 +38,14 @@ const SelectWithSearchForm = <TFormData extends FieldValues>({
             };
 
             return (
-               <SelectWithSearch
+               <SelectWithApiSearch
                   onValueChange={handleStatusChange}
                   selectContents={selection}
                   value={field.value}
                   placeholder={placeholder}
                   className={className}
+                  isLoading={isLoading}
+                  onInputChange={setFilter}
                />
             );
          }}
@@ -52,4 +53,4 @@ const SelectWithSearchForm = <TFormData extends FieldValues>({
    );
 };
 
-export default SelectWithSearchForm;
+export default SelectWithApiSearchForm;

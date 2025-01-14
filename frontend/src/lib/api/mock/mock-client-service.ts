@@ -6,8 +6,27 @@ import type {
    ClientResponse,
 } from "@types";
 
-export const getClient = (id: string) => {
-   const client = mockClients.find((client) => client.id === id);
+export const getClient = (idType, idValue) => {
+   if (!idType || !idValue) {
+      return Promise.resolve(null); // Return null if no idType or idValue is provided
+   }
+
+   const client = mockClients.find((client) => {
+      switch (idType) {
+         case "clientId":
+            return client.id === idValue;
+         case "projectId":
+            return client.projects?.some((project) => project.id === idValue);
+         case "taskId":
+            return client.tasks?.some((task) => task.id === idValue);
+         case "eventId":
+            return client.events?.some((event) => event.id === idValue);
+         case "contactId":
+            return client.contacts?.some((contact) => contact.id === idValue);
+         default:
+            return false; // Return false if the idType is not recognized
+      }
+   });
 
    return new Promise((resolve) => {
       setTimeout(() => resolve(client), 500);

@@ -17,7 +17,7 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Contact, ContactSearchOption, PartnerContact, PartnerContactSearchOption } from '@types';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
-import { defaultContact } from 'src/components/shared/ui/primitives/utils';
+import { defaultContact } from 'src/components/shared/ui/constants';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
@@ -33,8 +33,6 @@ const PartnerContactLayout = (): JSX.Element => {
 
    const [searchOptions, setSearchOptions] = useState<PartnerContactSearchOption>({});
    const [searchMode, setSearchMode] = useState('name');
-
-   console.log('searchOptions', searchOptions);
 
    const { data: contacts, isLoading } =
       useAllPartnerContactsQuery(searchOptions);

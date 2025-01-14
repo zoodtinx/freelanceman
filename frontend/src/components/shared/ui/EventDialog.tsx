@@ -35,7 +35,7 @@ import {
 } from '@/lib/api/event-api';
 
 import { DialogProps, FormDialogState } from '@/lib/types/dialog.types';
-import { eventDefaultValues, eventStatusSelections } from './primitives/utils';
+import { eventDefaultValues, eventStatusSelections } from './constants';
 
 const EventDialog: React.FC<DialogProps> = ({
    dialogState,

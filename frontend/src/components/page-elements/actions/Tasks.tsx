@@ -10,7 +10,7 @@ import { TableWithTaskBar } from '@/components/shared/ui/table-elements/Prebuilt
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
 import { useAllTasksQuery } from '@/lib/api/task-api';
-import { taskDefaultValues } from 'src/components/shared/ui/primitives/utils';
+import { taskDefaultValues } from 'src/components/shared/ui/constants';
 
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task, TaskSearchOptions, TaskStatus } from '@types';

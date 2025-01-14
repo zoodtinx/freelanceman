@@ -24,7 +24,7 @@ import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';
 import type { NewTaskPayload, TaskFormData } from '@types';
 import { DialogProps, FormDialogState } from '@/lib/types/dialog.types';
 
-import { taskStatusSelections, taskDefaultValues } from './primitives/utils';
+import { taskStatusSelections, taskDefaultValues } from './constants';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 
 const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {

@@ -14,7 +14,7 @@ import {
 } from './primitives/Dialog';
 import { Button } from './primitives/Button';
 import type { DialogProps } from '@/lib/types/dialog.types';
-import { defaultContact } from './primitives/utils';
+import { defaultContact } from './constants';
 import { Client, Contact, NewContactPayload } from '@types';
 import { Input } from './primitives/Input';
 import {

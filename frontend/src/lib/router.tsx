@@ -8,6 +8,9 @@ import ProjectTasksPage from "@/routes/ProjectTaskPage";
 import { Navigate } from "react-router-dom";
 import PartnersPage from "@/routes/PartnersPage";
 import FilePage from "@/routes/FilePage";
+import DocumentPage from "@/routes/DocumentPage";
+import ViewDocumentLayout from "@/components/page-elements/documents/ViewDocumentLayout";
+import CreateDocumentPage from "@/components/page-elements/documents/CreateDocumentPage";
 
 export const router = createBrowserRouter([
    {
@@ -44,7 +47,17 @@ export const router = createBrowserRouter([
          },
          {
             path: "documents",
-            element: <ActionPage/>
+            element: <DocumentPage />,
+            children: [
+               {
+                  path: '',
+                  element: <ViewDocumentLayout />,
+               },
+               {
+                  path: 'create',
+                  element: <CreateDocumentPage />,
+               }
+            ]
          },
          {
             path: "notes",

@@ -22,8 +22,6 @@ const ClientColumn = (): JSX.Element => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
-   console.log('searchterm', searchOptions)
-
    const ActiveProjectButton = () => {
       const toggleActiveProjects = () => {
          setSearchOptions((prev) => ({

@@ -15,7 +15,7 @@ import {
    defaultProject,
    paymentStatusSelections,
    projectStatusSelections,
-} from 'src/components/shared/ui/primitives/utils';
+} from 'src/components/shared/ui/constants';
 import { Path, SubmitHandler, useForm } from 'react-hook-form';
 import type { NewTaskPayload, Project } from '@types';
 import { InputProps } from '@/lib/types/form-input-props.types';
