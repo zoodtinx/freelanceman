@@ -1,17 +1,21 @@
 import { TextInput, TextAreaInput } from '@/components/shared/ui/form-field-elements/TextInput';
 import { mockItems } from '@mocks';
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { Input } from '@/components/shared/ui/primitives/Input';
-import { Textarea } from '@/components/shared/ui/primitives/Textarea';
-import { cn } from '@/lib/helper/utils';
 import { SalesDocumentItem } from '@types';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { useForm, UseFormReturn, FieldValues } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';
 import DocumentItemDialog from '@/components/page-elements/documents/DocumentItemDialog';
+import { FormDialogState } from '@/lib/types/dialog.types';
 
 const CreateDocumentPage: React.FC = () => {
-   const [dialogState, setDialogState] = useState('');
+   const [dialogState, setDialogState] = useState<FormDialogState>({
+      type: 'invoice',
+      mode: 'create',
+      id: '',
+      isOpen: false,
+      data: {},
+   });
    const formMethods = useForm();
 
    return (
@@ -23,7 +27,7 @@ const CreateDocumentPage: React.FC = () => {
                   <PartyInfoField formMethods={formMethods} />
                </div>
                <div className="flex flex-col w-1/2 h-full gap-3">
-                  <ItemsField formMethods={formMethods} />
+                  <ItemsField formMethods={formMethods} setDialogState={setDialogState} />
                   <AdjustmentsField formMethods={formMethods} />
                </div>
             </div>
@@ -37,7 +41,6 @@ const CreateDocumentPage: React.FC = () => {
                </div>
             </footer>
          </form>
-         
       <DocumentItemDialog dialogState={dialogState} setDialogState={setDialogState} />
       </>
    );
@@ -49,13 +52,13 @@ const ProjectInfoField = ({ formMethods }) => {
          <div className="flex flex-col">
             <div className="flex gap-2 peer order-2">
                <div className="peer flex-1">
-                  <TextInput label="Number" formMethods={formMethods} />
+                  <TextInput fieldName="number" label="Number" formMethods={formMethods} />
                </div>
                <div className="peer flex-1">
-                  <TextInput label="Date" formMethods={formMethods} />
+                  <TextInput fieldName="issuedAt" label="Date" formMethods={formMethods} />
                </div>
                <div className="peer flex-1">
-                  <TextInput label="Currency" formMethods={formMethods} />
+                  <TextInput fieldName="currency" label="Currency" formMethods={formMethods} />
                </div>
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
@@ -64,16 +67,13 @@ const ProjectInfoField = ({ formMethods }) => {
          </div>
          <div className="flex flex-col grow">
             <div className="flex flex-col gap-2 peer order-2 h-full">
-               <TextInput label="Project Title" formMethods={formMethods} />
-               <TextInput label="Reference Number" formMethods={formMethods} />
-               <TextAreaInput
-                  label="Project Details"
-                  formMethods={formMethods}
-               />
+               <TextInput fieldName="projectTitle" label="Project Title" formMethods={formMethods} />
+               <TextInput fieldName="referenceNumber" label="Reference Number" formMethods={formMethods} />
+               <TextAreaInput fieldName="projectDescription" label="Project Details" formMethods={formMethods} />
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <p>Project Info</p>
-               <button className="h-6 text-sm px-2 rounded-lg  font-medium text-primary border border-primary">
+               <button className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary">
                   Select a project
                </button>
             </div>
@@ -88,21 +88,18 @@ const PartyInfoField = ({ formMethods }) => {
          <div className="flex flex-col h-full">
             <div className="flex flex-col gap-2 peer order-2 h-full">
                <div className="flex gap-2">
-                  <TextInput label="Project Title" formMethods={formMethods} className='flex-1' />
-                  <TextInput label="Reference Number" formMethods={formMethods} className='flex-1' />
+                  <TextInput fieldName="freelancerName" label="Project Title" formMethods={formMethods} className="flex-1" />
+                  <TextInput fieldName="freelancerTaxId" label="Reference Number" formMethods={formMethods} className="flex-1" />
                </div>
                <div className="flex gap-2">
-                  <TextInput label="Phone Number" formMethods={formMethods} className='flex-1' />
-                  <TextInput label="Tax ID" formMethods={formMethods} className='flex-1' />
+                  <TextInput fieldName="freelancerPhone" label="Phone Number" formMethods={formMethods} className="flex-1" />
+                  <TextInput fieldName="freelancerTaxId" label="Tax ID" formMethods={formMethods} className="flex-1" />
                </div>
-               <TextAreaInput
-                  label="Additional Detail"
-                  formMethods={formMethods}
-               />
+               <TextAreaInput fieldName="freelancerDetail" label="Additional Detail" formMethods={formMethods} />
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Freelancer Info</h2>
-               <button className="h-6 text-sm px-2 rounded-lg  font-medium text-primary border border-primary">
+               <button className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary">
                   Use your profile
                </button>
             </div>
@@ -110,22 +107,19 @@ const PartyInfoField = ({ formMethods }) => {
          <div className="flex flex-col">
             <div className="flex flex-col gap-2 peer order-2">
                <div className="flex gap-2">
-                  <TextInput label="Name" formMethods={formMethods} className='flex-1' />
-                  <TextInput label="Tax ID" formMethods={formMethods} className='flex-1' />
+                  <TextInput fieldName="clientName" label="Name" formMethods={formMethods} className="flex-1" />
+                  <TextInput fieldName="clientTaxId" label="Tax ID" formMethods={formMethods} className="flex-1" />
                </div>
-               <TextInput label="Address" formMethods={formMethods} className='flex-1' />
+               <TextInput fieldName="clientAddress" label="Address" formMethods={formMethods} className="flex-1" />
                <div className="flex gap-2">
-                  <TextInput label="Phone Number" formMethods={formMethods} className='flex-1' />
-                  <TextInput label="Office" formMethods={formMethods} className='flex-1' />
+                  <TextInput fieldName="clientPhone" label="Phone Number" formMethods={formMethods} className="flex-1" />
+                  <TextInput fieldName="clientOffice" label="Office" formMethods={formMethods} className="flex-1" />
                </div>
-               <TextAreaInput
-                  label="Additional Detail"
-                  formMethods={formMethods}
-               />
+               <TextAreaInput fieldName="clientDetail" label="Additional Detail" formMethods={formMethods} />
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Client Info</h2>
-               <button className="h-6 text-sm px-2 rounded-lg  font-medium text-primary border border-primary">
+               <button className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary">
                   Use your profile
                </button>
             </div>
@@ -134,24 +128,21 @@ const PartyInfoField = ({ formMethods }) => {
    );
 };
 
+
 const AdjustmentsField = ({ formMethods }) => {
-   
    return (
       <fieldset className="h-2/7 rounded-xl border border-tertiary p-3">
          <div className="flex flex-col">
             <div className="flex flex-col gap-2 peer order-2">
                <div className="flex gap-2">
-                  <TextInput label="Name" formMethods={formMethods} className='flex-1' />
-                  <TextInput label="Tax ID" formMethods={formMethods} className='flex-1' />
+                  <TextInput fieldName="subtotal" label="Subtotal" formMethods={formMethods} className="flex-1" />
+                  <TextInput fieldName="discount" label="Discount" formMethods={formMethods} className="flex-1" />
                </div>
                <div className="flex gap-2">
-                  <TextInput label="Phone Number" formMethods={formMethods} className='flex-1' />
-                  <TextInput label="Office" formMethods={formMethods} className='flex-1' />
+                  <TextInput fieldName="tax" label="Tax" formMethods={formMethods} className="flex-1" />
+                  <TextInput fieldName="customAdjustment" label="Custom Adjustment" formMethods={formMethods} className="flex-1" />
                </div>
-               <TextAreaInput
-                  label="Additional Detail"
-                  formMethods={formMethods}
-               />
+               <TextAreaInput fieldName="note" label="Additional Notes" formMethods={formMethods} />
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
                Adjustments & Notes
@@ -161,26 +152,53 @@ const AdjustmentsField = ({ formMethods }) => {
    );
 };
 
-const ItemsField = ({ formMethods }) => {
+
+const ItemsField = <TFieldValues extends FieldValues = FieldValues>({
+   formMethods,
+   setDialogState,
+}: {
+   formMethods: UseFormReturn<TFieldValues>;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>
+}) => {
    
-   const subtotal = 2000
-   const discount = 2000
-   const tax = 2000
-   const total = 2000
+   const subtotal = 2000;
+   const discount = 2000;
+   const tax = 2000;
+   const total = 2000;
+
+   const handleViewItem = (itemData) => {
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: true,
+            mode: 'view',
+            data: itemData,
+         }
+
+      })
+   }
+
+   const handleNewItem = () => {
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            mode: 'create',
+            isOpen: true,
+         }
+      })
+   }
 
    const itemList = mockItems.map((item) => {
-      return (
-         <ItemBar item={item} />
-      )
-   })
+      return <ItemBar item={item} handleClick={handleViewItem} />;
+   });
 
    return (
       <fieldset className="flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col gap-2 grow overflow-auto">
             <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
                {itemList}
-               <div className='cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75'>
-                  <Plus className='stroke-[3px]' />
+               <div className="cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75" onClick={handleNewItem}>
+                  <Plus className="stroke-[3px]" />
                </div>
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
@@ -205,11 +223,11 @@ const ItemsField = ({ formMethods }) => {
    );
 };
 
-const ItemBar = ({ item }: { item: SalesDocumentItem }) => {
+const ItemBar = ({ item, handleClick }: { item: SalesDocumentItem, handleClick: (itemData: any) => void }) => {
    const currency = 'THB';
    
    return (
-      <div className="flex flex-col gap-2 peer">
+      <div className="flex flex-col gap-2 peer cursor-default" onClick={() => handleClick(item)}>
          <div className="flex h-fit bg-rose-50 rounded-md">
             <div className="flex h-fit bg-foreground justify-between rounded-md border border-tertiary items-start grow px-2 py-2">
                <div className="leading-snug mr-2">

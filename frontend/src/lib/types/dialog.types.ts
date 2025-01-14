@@ -8,7 +8,7 @@ export interface DialogProps {
 export interface FormDialogState {
    isOpen: boolean,
    id: string;
-   type: "task" | "event" | "project" | "file" | "document" | "client-contact" | "partner-contact";
+   type: "task" | "event" | "project" | "file" | "document" | "client-contact" | "partner-contact" | "quotation"| "invoice"| "receipt";
    mode: 'view' | 'create' | 'edit';
    data: Record<string, any>
 }

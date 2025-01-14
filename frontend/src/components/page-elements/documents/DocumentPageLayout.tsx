@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Outlet, Link } from 'react-router-dom';
 import { createFileColumns } from '@/components/page-elements/files/FileColumn';
-import FileTable from '@/components/page-elements/files/FileTable';
 import { defaultFile } from '@/components/shared/ui/constants';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { mockFiles } from '@mocks';

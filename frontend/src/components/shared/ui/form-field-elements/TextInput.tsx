@@ -7,13 +7,14 @@ export const TextInput: React.FC<{
    formMethods: any;
    fieldName: string;
    className?: string;
-}> = ({ label, formMethods, className, fieldName }) => {
+   type?: string;
+}> = ({ label, formMethods, className, fieldName, type = 'text' }) => {
    const { register } = formMethods;
 
    return (
       <div className={cn(`flex flex-col`, className)}>
          <Input
-            type="text"
+            type={type}
             {...register(fieldName)}
             className="peer rounded-md order-2 w-full"
          />
