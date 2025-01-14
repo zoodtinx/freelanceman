@@ -12,7 +12,7 @@ import {
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { CircleDollarSign } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { DialogProps } from '@/lib/types/dialog.types';
 import { defaultProject } from 'src/components/shared/ui/constants';
 import { Path, SubmitHandler, useForm } from 'react-hook-form';
@@ -23,7 +23,6 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
    dialogState,
    setDialogState,
 }) => {
-
    const formMethods = useForm<SalesDocumentItem>({
       defaultValues: dialogState.data,
    });
@@ -32,11 +31,11 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
 
    useEffect(() => {
       if (dialogState.mode === 'create') {
-         reset({})   
+         reset({});
       } else if (dialogState.mode === 'view') {
-         reset(dialogState.data)
+         reset(dialogState.data);
       }
-   },[dialogState, reset])
+   }, [dialogState, reset]);
 
    const handleDialogueClose = () => {
       setDialogState({
@@ -73,16 +72,15 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
       }
    };
 
-   console.log('dialogState.type', dialogState.data)
+   console.log('dialogState.type', dialogState.data);
 
-   const rate = watch('rate')
-   const quantity = watch('quantity')
+   const rate = watch('rate');
+   const quantity = watch('quantity');
 
    const amountValue =
       !isNaN(Number(rate)) && !isNaN(Number(quantity))
          ? Number(rate) * Number(quantity)
-         : 0; 
-
+         : 0;
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
@@ -152,7 +150,12 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
                   <DialogFooter>
                      <div className="flex justify-between p-4">
                         <Button variant={'destructiveOutline'}>Delete</Button>
-                        <Button variant={'submit'} className='text-freelanceman-darkgrey'>Add</Button>
+                        <Button
+                           variant={'submit'}
+                           className="text-freelanceman-darkgrey"
+                        >
+                           Add
+                        </Button>
                      </div>
                   </DialogFooter>
                </div>

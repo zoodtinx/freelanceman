@@ -83,9 +83,17 @@
     --chart-5: 27 87 67;
     --radius: 0.5rem;
     --freelanceman-darkgrey: 0 0 20;
-    --freelanceman-blue: 222 100% 93;
-    --freelanceman-red: 350 100% 60;
-    --freelanceman-green: 150 100% 74;
+    --freelanceman-red: 1 100% 80;
+    --freelanceman-blue: 220 100% 80;
+    --freelanceman-green: 140 100% 80;
+    --freelanceman-yellow: 50 100% 80;
+    --freelanceman-mint: 160 100% 80;
+    --freelanceman-teal: 180 100% 80;
+    --freelanceman-orange: 30 100% 80;
+    --freelanceman-purple: 270 100% 80;
+    --freelanceman-pink: 320 100% 80;
+    --freelanceman-cyan: 223 100% 92;
+    --freelanceman-lime: 90 100% 80;
   }
   .dark {
     --foreground: 0 0 9.5;
@@ -115,9 +123,17 @@
     --chart-3: 30 80 55;
     --chart-4: 280 65 60;
     --chart-5: 340 75 55;
-    --freelanceman-blue: 203 72% 61;
-    --freelanceman-red: 350 100% 60;
-    --freelanceman-green: 150 100% 74;
+    --freelanceman-red: 357 100% 60;
+    --freelanceman-blue: 220 100% 60;
+    --freelanceman-green: 140 40% 50;
+    --freelanceman-yellow: 50 100% 60;
+    --freelanceman-mint: 160 100% 60;
+    --freelanceman-teal: 180 100% 60;
+    --freelanceman-orange: 30 100% 60;
+    --freelanceman-purple: 270 100% 60;
+    --freelanceman-pink: 320 100% 60;
+    --freelanceman-cyan: 217 63% 73;
+    --freelanceman-lime: 90 100% 60;
   }
   body {
     @apply text-primary;

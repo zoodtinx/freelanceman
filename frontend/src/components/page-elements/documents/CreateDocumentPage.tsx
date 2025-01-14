@@ -37,7 +37,7 @@ const CreateDocumentPage: React.FC = () => {
                </div>
                <div className="flex gap-2">
                   <Button variant={'outline'}>Save Draft</Button>
-                  <Button variant={'submit'}>Create PDF</Button>
+                  <Button variant={'submit'} className='bg-freelanceman-cyan text-freelanceman-darkgrey' >Create PDF</Button>
                </div>
             </footer>
          </form>
@@ -48,7 +48,7 @@ const CreateDocumentPage: React.FC = () => {
 
 const ProjectInfoField = ({ formMethods }) => {
    return (
-      <fieldset className="flex flex-col h-2/5 rounded-xl border border-tertiary p-3 relative focus-within:border-primary gap-3">
+      <fieldset className="flex flex-col h-2/5 rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col">
             <div className="flex gap-2 peer order-2">
                <div className="peer flex-1">
@@ -84,7 +84,7 @@ const ProjectInfoField = ({ formMethods }) => {
 
 const PartyInfoField = ({ formMethods }) => {
    return (
-      <fieldset className="flex flex-col h-3/5 rounded-xl border border-tertiary p-3 relative focus-within:border-primary gap-3">
+      <fieldset className="flex flex-col h-3/5 rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col h-full">
             <div className="flex flex-col gap-2 peer order-2 h-full">
                <div className="flex gap-2">
@@ -228,7 +228,7 @@ const ItemBar = ({ item, handleClick }: { item: SalesDocumentItem, handleClick: 
    
    return (
       <div className="flex flex-col gap-2 peer cursor-default" onClick={() => handleClick(item)}>
-         <div className="flex h-fit bg-rose-50 rounded-md">
+         <div className="flex h-fit bg-freelanceman-green rounded-md">
             <div className="flex h-fit bg-foreground justify-between rounded-md border border-tertiary items-start grow px-2 py-2">
                <div className="leading-snug mr-2">
                   <p className="line-clamp-2">{item.name}</p>
@@ -254,7 +254,7 @@ const ItemBar = ({ item, handleClick }: { item: SalesDocumentItem, handleClick: 
                </div>
             </div>
             <div className="flex w-[20px] items-center justify-center shrink-0">
-               <X className="w-[13px] h-[13px] stroke-[3px]" />
+               <X className="w-[13px] h-[13px] stroke-[3px] text-freelanceman-darkgrey" />
             </div>
          </div>
       </div>
