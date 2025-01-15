@@ -40,9 +40,9 @@ export interface SalesDocument {
   updatedAt: string;
 }
 
+export type SalesDocumentFormPayload = Omit<SalesDocument, 'id' | 'createdAt' | 'createdAt'>
 
 export interface SalesDocumentItem {
-   id: string;
    name: string;
    description: string;
    rate: number;

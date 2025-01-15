@@ -159,7 +159,7 @@ const ItemsField = ({
       isOpen: false,
       data: {},
    });
-   const { control, register } = formMethods;
+   const { control, register,watch } = formMethods;
    const fieldArrayMethods = useFieldArray<SalesDocument>({
       control,
       name: 'items',
@@ -204,6 +204,11 @@ const ItemsField = ({
          />
       );
    });
+
+   const items = watch('items')
+   console.log('items', items)
+
+
    return (
       <fieldset className="flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col gap-2 grow overflow-auto">
@@ -282,7 +287,7 @@ const ItemBar = ({
                   </div>
                   <div className="text-center w-1/3">
                      <p className="text-sm text-secondary">Amount</p>
-                     <p>{item.amount.toLocaleString()}</p>
+                     <p>{item?.amount?.toLocaleString() || ''}</p>
                      <p className="text-sm">{currency}</p>
                   </div>
                </div>

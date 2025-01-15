@@ -34,29 +34,28 @@ const DocumentItemDialog = ({
    formMethods: UseFormReturn<SalesDocument>;
    fieldArrayMethods: UseFieldArrayReturn<SalesDocument, 'items', 'id'>;
 }) => {
-   const [name, setName] = useState('')
-   const [rate, setRate] = useState('')
-   const [quantity, setQuantity] = useState('')
+   const [name, setName] = useState('');
+   const [rate, setRate] = useState('');
+   const [quantity, setQuantity] = useState('');
+   const [description, setDescription] = useState('')
 
-   const { fields, append, remove } = fieldArrayMethods; // Extract the fieldArray methods
+   const { fields, append, remove, update } = fieldArrayMethods; // Extract the fieldArray methods
 
-   const { handleSubmit, register, reset, watch, setValue } = formMethods;
+   const { setValue } = formMethods;
 
    useEffect(() => {
       if (dialogState.mode === 'create') {
-         setName('')
-         setRate('')
-         setQuantity('')
+         setName('');
+         setRate('');
+         setQuantity('');
+         setDescription('')
       } else if (dialogState.mode === 'view') {
-         setName(dialogState.data.name)
-         setRate(dialogState.data.rate)
-         setQuantity(dialogState.data.quantity)
+         setName(dialogState.data.name);
+         setRate(dialogState.data.rate);
+         setQuantity(dialogState.data.quantity);
+         setDescription(dialogState.data.description)
       }
-   }, [dialogState, reset]);
-
-   const onError = (errors: any) => {
-      console.error('Validation Errors:', errors);
-   };
+   }, [dialogState]);
 
    const handleDialogueClose = () => {
       setDialogState((prev) => {
@@ -65,10 +64,6 @@ const DocumentItemDialog = ({
             isOpen: false,
          };
       });
-   };
-
-   const onSubmit = () => {
-      console.log('Form submitted:', formMethods.fields); // Log form field values
    };
 
    const headerText = () => {
@@ -84,12 +79,22 @@ const DocumentItemDialog = ({
       }
    };
 
-   console.log('dialogState.type', dialogState.data);
-
    const amountValue =
       !isNaN(Number(rate)) && !isNaN(Number(quantity))
          ? Number(rate) * Number(quantity)
          : 0;
+
+   const handleSubmit = () => {
+      const index = dialogState.data.index
+      const rateNumber = Number(rate)
+      const quantityNumber = Number(quantity)
+      update(index, {
+         name,
+         rate : rateNumber,
+         quantity: quantityNumber,
+         description: description
+       });
+   };
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogueClose}>
@@ -99,84 +104,100 @@ const DocumentItemDialog = ({
             </Button>
          </DialogTrigger>
          <DialogContent className="sm:max-w-[425px] flex flex-col focus:outline-none bg-freelanceman-darkgrey text-white">
-            <form onSubmit={handleSubmit(onSubmit, onError)}>
-               <DialogHeader className="py-1 bg-transparent">
-                  <DialogTitle className="flex text-base w-full text-center items-center gap-1">
-                     <CircleDollarSign className="w-[13px] h-[13px]" />
-                     <p>{headerText()} Item</p>
-                  </DialogTitle>
-               </DialogHeader>
-               <div className="bg-background rounded-2xl text-primary">
-                  <div className="px-4 pt-3 flex flex-col">
+            <DialogHeader className="py-1 bg-transparent">
+               <DialogTitle className="flex text-base w-full text-center items-center gap-1">
+                  <CircleDollarSign className="w-[13px] h-[13px]" />
+                  <p>{headerText()} Item</p>
+               </DialogTitle>
+            </DialogHeader>
+            <div className="bg-background rounded-2xl text-primary">
+               <div className="px-4 pt-3 flex flex-col">
+                  <Input
+                     onChange={(e) => setName(e.target.value)}
+                     value={name}
+                     type="text"
+                     className="peer rounded-md order-2 w-full"
+                  />
+                  <label
+                     htmlFor=""
+                     className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
+                  >
+                     Item
+                  </label>
+               </div>
+               <div className="px-4 pt-2 flex flex-col">
+                  <Input
+                     onChange={(e) => setDescription(e.target.value)}
+                     value={description}
+                     type="text"
+                     className="peer rounded-md order-2 w-full"
+                  />
+                  <label
+                     htmlFor=""
+                     className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
+                  >
+                     Description (Optional)
+                  </label>
+               </div>
+               <div className="px-4 pt-2 pb-4 flex w-full gap-2">
+                  <div className="flex flex-col w-1/3">
                      <Input
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
+                        onChange={(e) => setRate(e.target.value)}
+                        value={Number(rate)}
                         type="text"
+                        inputMode="numeric"
+                        min={0}
                         className="peer rounded-md order-2 w-full"
                      />
                      <label
                         htmlFor=""
                         className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
                      >
-                        Name
+                        Rate
                      </label>
                   </div>
-                  <div className="px-4 pt-2 pb-4 flex w-full gap-2">
-                     <div className="flex flex-col w-1/3">
-                        <Input
-                           onChange={(e) => setRate(e.target.value)}
-                           value={Number(rate)}
-                           type="number"
-                           min="0"
-                           className="peer rounded-md order-2 w-full"
-                        />
-                        <label
-                           htmlFor=""
-                           className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
-                        >
-                           Rate
-                        </label>
-                     </div>
-                     <div className="flex flex-col w-1/3">
-                        <Input
-                           onChange={(e) => setQuantity(e.target.value)}
-                           value={Number(quantity)}
-                           inputMode="decimal"
-                           min="0"
-                           className="peer rounded-md order-2 w-full"
-                        />
-                        <label
-                           htmlFor=""
-                           className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
-                        >
-                           Quantity
-                        </label>
-                     </div>
-                     <div className="flex flex-col w-1/3">
-                        <p className="flex px-2 peer rounded-md order-2 items-center h-8 bg-tertiary w-full">
-                           {amountValue.toLocaleString()}
-                        </p>
-                        <label
-                           htmlFor=""
-                           className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
-                        >
-                           Amount
-                        </label>
-                     </div>
+                  <div className="flex flex-col w-1/3">
+                     <Input
+                        onChange={(e) => setQuantity(e.target.value)}
+                        value={Number(quantity)}
+                        type="text"
+                        inputMode="numeric"
+                        min={1}
+                        className="peer rounded-md order-2 w-full"
+                     />
+                     <label
+                        htmlFor=""
+                        className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
+                     >
+                        Quantity
+                     </label>
                   </div>
-                  <DialogFooter>
-                     <div className="flex justify-between p-4">
-                        <Button variant={'destructiveOutline'}>Delete</Button>
-                        <Button
-                           variant={'submit'}
-                           className="text-freelanceman-darkgrey"
-                        >
-                           Add
-                        </Button>
-                     </div>
-                  </DialogFooter>
+                  <div className="flex flex-col w-1/3">
+                     <p className="flex px-2 peer rounded-md order-2 items-center h-8 bg-tertiary w-full">
+                        {amountValue.toLocaleString()}
+                     </p>
+                     <label
+                        htmlFor=""
+                        className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
+                     >
+                        Amount
+                     </label>
+                  </div>
                </div>
-            </form>
+               <DialogFooter>
+                  <div className="flex justify-between p-4">
+                     <Button variant={'destructiveOutline'}>Delete</Button>
+                     <Button
+                        variant={'submit'}
+                        className="text-freelanceman-darkgrey"
+                        onClick={handleSubmit}
+                     >
+                        {dialogState.mode === 'create' && 'Add'}
+                        {dialogState.mode !== 'create' && 'Save'}
+                     </Button>
+                  </div>
+               </DialogFooter>
+            </div>
          </DialogContent>
       </Dialog>
    );
