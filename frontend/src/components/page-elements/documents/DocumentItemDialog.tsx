@@ -12,51 +12,63 @@ import {
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { CircleDollarSign } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { DialogProps } from '@/lib/types/dialog.types';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { DialogProps, FormDialogState } from '@/lib/types/dialog.types';
 import { defaultProject } from 'src/components/shared/ui/constants';
-import { Path, SubmitHandler, useForm } from 'react-hook-form';
-import type { NewTaskPayload, Project, SalesDocumentItem } from '@types';
+import {
+   FieldValues,
+   UseFieldArrayReturn,
+   UseFormReturn,
+} from 'react-hook-form';
 import { Input } from '@/components/shared/ui/primitives/Input';
+import { SalesDocument } from '@types';
 
-const DocumentItemDialog: React.FC<DialogProps> = ({
+const DocumentItemDialog = ({
    dialogState,
    setDialogState,
+   formMethods,
+   fieldArrayMethods,
+}: {
+   dialogState: FormDialogState;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   formMethods: UseFormReturn<SalesDocument>;
+   fieldArrayMethods: UseFieldArrayReturn<SalesDocument, 'items', 'id'>;
 }) => {
-   const formMethods = useForm<SalesDocumentItem>({
-      defaultValues: dialogState.data,
-   });
+   const [name, setName] = useState('')
+   const [rate, setRate] = useState('')
+   const [quantity, setQuantity] = useState('')
 
-   const { handleSubmit, reset, register, watch } = formMethods;
+   const { fields, append, remove } = fieldArrayMethods; // Extract the fieldArray methods
+
+   const { handleSubmit, register, reset, watch, setValue } = formMethods;
 
    useEffect(() => {
       if (dialogState.mode === 'create') {
-         reset({});
+         setName('')
+         setRate('')
+         setQuantity('')
       } else if (dialogState.mode === 'view') {
-         reset(dialogState.data);
+         setName(dialogState.data.name)
+         setRate(dialogState.data.rate)
+         setQuantity(dialogState.data.quantity)
       }
    }, [dialogState, reset]);
-
-   const handleDialogueClose = () => {
-      setDialogState({
-         isOpen: false,
-         id: '',
-         mode: 'view',
-         type: 'project',
-         data: defaultProject,
-      });
-   };
-
-   useEffect(() => {
-      formMethods.reset(dialogState.data);
-   }, [dialogState.data, formMethods]);
 
    const onError = (errors: any) => {
       console.error('Validation Errors:', errors);
    };
 
-   const onSubmit: SubmitHandler<NewTaskPayload> = (data) => {
-      console.log(data);
+   const handleDialogueClose = () => {
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
+
+   const onSubmit = () => {
+      console.log('Form submitted:', formMethods.fields); // Log form field values
    };
 
    const headerText = () => {
@@ -73,9 +85,6 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
    };
 
    console.log('dialogState.type', dialogState.data);
-
-   const rate = watch('rate');
-   const quantity = watch('quantity');
 
    const amountValue =
       !isNaN(Number(rate)) && !isNaN(Number(quantity))
@@ -100,7 +109,7 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
                <div className="bg-background rounded-2xl text-primary">
                   <div className="px-4 pt-3">
                      <TextInput
-                        fieldName="name"
+                        fieldName={`items.${dialogState.data.index}.name`}
                         formMethods={formMethods}
                         label="Item"
                      />
@@ -108,7 +117,8 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
                   <div className="px-4 pt-2 pb-4 flex w-full gap-2">
                      <div className="flex flex-col w-1/3">
                         <Input
-                           {...register('rate')}
+                           onChange={(e) => setRate(e.target.value)}
+                           value={Number(rate)}
                            type="number"
                            min="0"
                            className="peer rounded-md order-2 w-full"
@@ -122,9 +132,9 @@ const DocumentItemDialog: React.FC<DialogProps> = ({
                      </div>
                      <div className="flex flex-col w-1/3">
                         <Input
-                           {...register('quantity')}
-                           type="number"
-                           value={quantity}
+                           onChange={(e) => setQuantity(e.target.value)}
+                           value={Number(quantity)}
+                           inputMode='decimal'
                            min="0"
                            className="peer rounded-md order-2 w-full"
                         />

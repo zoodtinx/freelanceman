@@ -1,22 +1,17 @@
 import { TextInput, TextAreaInput } from '@/components/shared/ui/form-field-elements/TextInput';
 import { mockItems } from '@mocks';
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { SalesDocumentItem } from '@types';
+import { SalesDocument, SalesDocumentItem } from '@types';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useForm, UseFormReturn, FieldValues } from 'react-hook-form';
+import { useForm, useFieldArray, UseFormReturn, FieldValues, Path, ArrayPath, FieldArrayWithId } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';
 import DocumentItemDialog from '@/components/page-elements/documents/DocumentItemDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
 
 const CreateDocumentPage: React.FC = () => {
-   const [dialogState, setDialogState] = useState<FormDialogState>({
-      type: 'invoice',
-      mode: 'create',
-      id: '',
-      isOpen: false,
-      data: {},
+   const formMethods = useForm<SalesDocument>({
+      defaultValues: { projectTitle: 'Hello', items: mockItems },
    });
-   const formMethods = useForm();
 
    return (
       <>
@@ -27,7 +22,7 @@ const CreateDocumentPage: React.FC = () => {
                   <PartyInfoField formMethods={formMethods} />
                </div>
                <div className="flex flex-col w-1/2 h-full gap-3">
-                  <ItemsField formMethods={formMethods} setDialogState={setDialogState} />
+                  <ItemsField formMethods={formMethods} />
                   <AdjustmentsField formMethods={formMethods} />
                </div>
             </div>
@@ -41,7 +36,6 @@ const CreateDocumentPage: React.FC = () => {
                </div>
             </footer>
          </form>
-      <DocumentItemDialog dialogState={dialogState} setDialogState={setDialogState} />
       </>
    );
 };
@@ -153,30 +147,41 @@ const AdjustmentsField = ({ formMethods }) => {
 };
 
 
-const ItemsField = <TFieldValues extends FieldValues = FieldValues>({
+const ItemsField = ({
    formMethods,
-   setDialogState,
 }: {
-   formMethods: UseFormReturn<TFieldValues>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>
+   formMethods: UseFormReturn<SalesDocument>;
 }) => {
-   
+   const [dialogState, setDialogState] = useState<FormDialogState>({
+      type: 'invoice',
+      mode: 'create',
+      id: '',
+      isOpen: false,
+      data: {},
+   });
+   const { control, register } = formMethods;
+   const fieldArrayMethods = useFieldArray<SalesDocument>({
+      control,
+      name: 'items',
+   });
+
+   const { remove, fields } = fieldArrayMethods;
+
    const subtotal = 2000;
    const discount = 2000;
    const tax = 2000;
    const total = 2000;
 
-   const handleViewItem = (itemData) => {
+   const handleViewItem = (itemData, index) => {
       setDialogState((prev) => {
          return {
             ...prev,
             isOpen: true,
             mode: 'view',
-            data: itemData,
-         }
-
-      })
-   }
+            data: { ...itemData, index },
+         };
+      });
+   };
 
    const handleNewItem = () => {
       setDialogState((prev) => {
@@ -184,20 +189,30 @@ const ItemsField = <TFieldValues extends FieldValues = FieldValues>({
             ...prev,
             mode: 'create',
             isOpen: true,
-         }
-      })
-   }
+         };
+      });
+   };
 
-   const itemList = mockItems.map((item) => {
-      return <ItemBar item={item} handleClick={handleViewItem} />;
+   const itemList = fields.map((field, index) => {
+      return (
+         <ItemBar
+            key={field.id}
+            item={field as unknown as SalesDocumentItem}
+            index={index}
+            handleEdit={() => handleViewItem(field, index)}
+            handleDelete={remove}
+         />
+      );
    });
-
    return (
       <fieldset className="flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col gap-2 grow overflow-auto">
             <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
                {itemList}
-               <div className="cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75" onClick={handleNewItem}>
+               <div
+                  className="cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75"
+                  onClick={handleNewItem}
+               >
                   <Plus className="stroke-[3px]" />
                </div>
             </div>
@@ -219,17 +234,36 @@ const ItemsField = <TFieldValues extends FieldValues = FieldValues>({
                Total: <span className="text-primary">{total}</span>
             </span>
          </footer>
+         <DocumentItemDialog
+            dialogState={dialogState}
+            setDialogState={setDialogState}
+            fieldArrayMethods={fieldArrayMethods}
+            formMethods={formMethods}
+         />
       </fieldset>
    );
 };
 
-const ItemBar = ({ item, handleClick }: { item: SalesDocumentItem, handleClick: (itemData: any) => void }) => {
+const ItemBar = ({
+   item,
+   index,
+   handleEdit,
+   handleDelete
+}: {
+   item: SalesDocumentItem;
+   index: number;
+   handleEdit: (itemData: any) => void;
+   handleDelete: (index: number) => void;
+}) => {
    const currency = 'THB';
-   
+
    return (
-      <div className="flex flex-col gap-2 peer cursor-default" onClick={() => handleClick(item)}>
+      <div className="flex flex-col gap-2 peer cursor-default">
          <div className="flex h-fit bg-freelanceman-green rounded-md">
-            <div className="flex h-fit bg-foreground justify-between rounded-md border border-tertiary items-start grow px-2 py-2">
+            <div
+               className="flex h-fit bg-foreground justify-between rounded-md border border-tertiary items-start grow px-2 py-2"
+               onClick={() => handleEdit(item)}
+            >
                <div className="leading-snug mr-2">
                   <p className="line-clamp-2">{item.name}</p>
                   <p className="text-sm text-secondary line-clamp-1">
@@ -248,13 +282,16 @@ const ItemBar = ({ item, handleClick }: { item: SalesDocumentItem, handleClick: 
                   </div>
                   <div className="text-center w-1/3">
                      <p className="text-sm text-secondary">Amount</p>
-                     <p >{item.amount.toLocaleString()}</p>
+                     <p>{item.amount.toLocaleString()}</p>
                      <p className="text-sm">{currency}</p>
                   </div>
                </div>
             </div>
             <div className="flex w-[20px] items-center justify-center shrink-0">
-               <X className="w-[13px] h-[13px] stroke-[3px] text-freelanceman-darkgrey" />
+               <X
+                  className="w-[13px] h-[13px] stroke-[3px] text-freelanceman-darkgrey cursor-pointer"
+                  onClick={() => handleDelete(index)}
+               />
             </div>
          </div>
       </div>
