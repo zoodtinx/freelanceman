@@ -107,12 +107,19 @@ const DocumentItemDialog = ({
                   </DialogTitle>
                </DialogHeader>
                <div className="bg-background rounded-2xl text-primary">
-                  <div className="px-4 pt-3">
-                     <TextInput
-                        fieldName={`items.${dialogState.data.index}.name`}
-                        formMethods={formMethods}
-                        label="Item"
+                  <div className="px-4 pt-3 flex flex-col">
+                     <Input
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        type="text"
+                        className="peer rounded-md order-2 w-full"
                      />
+                     <label
+                        htmlFor=""
+                        className="text-secondary peer-focus:text-primary order-1 w-full text-sm"
+                     >
+                        Name
+                     </label>
                   </div>
                   <div className="px-4 pt-2 pb-4 flex w-full gap-2">
                      <div className="flex flex-col w-1/3">
@@ -134,7 +141,7 @@ const DocumentItemDialog = ({
                         <Input
                            onChange={(e) => setQuantity(e.target.value)}
                            value={Number(quantity)}
-                           inputMode='decimal'
+                           inputMode="decimal"
                            min="0"
                            className="peer rounded-md order-2 w-full"
                         />
