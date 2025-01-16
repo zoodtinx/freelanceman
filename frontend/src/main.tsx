@@ -19,7 +19,6 @@ createRoot(document.getElementById('root')!).render(
       <ThemeProvider
          attribute="class"
          defaultTheme="system"
-         forcedTheme='dark'
          enableSystem
          disableTransitionOnChange
       >

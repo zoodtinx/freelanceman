@@ -34,5 +34,5 @@ export interface SelectWithSearchInputProps<
    selection: Selection[];
    placeholder?: string;
    isLoading: boolean;
-   setFilter: (filter: any) => void;
+   ApiSearchFn: (value: string) => void;
 }

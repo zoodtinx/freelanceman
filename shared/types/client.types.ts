@@ -9,6 +9,11 @@ export interface Client {
    contactCount: number;
    projectCount: number;
    activeProjectCount: number;
+   taxId: string;
+   phoneNumber: string;
+   address: string;
+   office: string;
+   detail: string;
    accentColor: string; // Assuming this is a hex color string
 }
 

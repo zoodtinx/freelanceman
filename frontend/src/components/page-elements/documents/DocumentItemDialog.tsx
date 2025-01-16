@@ -88,12 +88,24 @@ const DocumentItemDialog = ({
       const index = dialogState.data.index
       const rateNumber = Number(rate)
       const quantityNumber = Number(quantity)
-      update(index, {
-         name,
-         rate : rateNumber,
-         quantity: quantityNumber,
-         description: description
-       });
+      if (dialogState.mode === 'create') {
+         append({
+            name,
+            rate : rateNumber,
+            quantity: quantityNumber,
+            description: description,
+            amount: rateNumber * quantityNumber
+          })
+      } else {
+         update(index, {
+            name,
+            rate : rateNumber,
+            quantity: quantityNumber,
+            description: description,
+            amount: rateNumber * quantityNumber
+          });
+      }
+       handleDialogueClose()
    };
 
    return (

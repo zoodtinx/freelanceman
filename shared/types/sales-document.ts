@@ -12,6 +12,7 @@ export interface SalesDocument {
   projectTitle: string;
   referenceNumber: string; 
   projectDescription: string; 
+  selectedProjectClientId: string; 
 
   freelancerName: string; 
   freelancerEmail: string; 

@@ -5,7 +5,12 @@ export const mockAllClients = [
       contactCount: 10,
       projectCount: 15,
       activeProjectCount: 0,
-      accentColor: "#AEC6CF", 
+      taxId: "TAX123456",
+      phoneNumber: "123-456-7890",
+      address: "123 Pixel Lane, Creative City",
+      office: "Main Branch",
+      accentColor: "#AEC6CF",
+      detail: 'Example detail'
    },
    {
       name: "Creative Hive Co.",
@@ -13,7 +18,12 @@ export const mockAllClients = [
       contactCount: 8,
       projectCount: 12,
       activeProjectCount: 3,
-      accentColor: "#FFD1DC", 
+      taxId: "TAX234567",
+      phoneNumber: "987-654-3210",
+      address: "45 Design Blvd, Innovation Hub",
+      office: "Headquarters",
+      accentColor: "#FFD1DC",
+      detail: 'Example detail'
    },
    {
       name: "BoldFrame Agency",
@@ -21,7 +31,12 @@ export const mockAllClients = [
       contactCount: 6,
       projectCount: 9,
       activeProjectCount: 4,
-      accentColor: "#FFB347", 
+      taxId: "TAX345678",
+      phoneNumber: "456-789-1234",
+      address: "78 Bold Avenue, Creative District",
+      office: "Downtown Office",
+      accentColor: "#FFB347",
+      detail: 'Example detail'
    },
    {
       name: "Visionary Ads Ltd.",
@@ -29,7 +44,12 @@ export const mockAllClients = [
       contactCount: 7,
       projectCount: 10,
       activeProjectCount: 0,
-      accentColor: "#B39EB5", 
+      taxId: "TAX456789",
+      phoneNumber: "321-987-6540",
+      address: "89 Vision Street, Ad Town",
+      office: "West Wing",
+      accentColor: "#B39EB5",
+      detail: 'Example detail'
    },
    {
       name: "NextWave Creations",
@@ -37,7 +57,12 @@ export const mockAllClients = [
       contactCount: 5,
       projectCount: 8,
       activeProjectCount: 0,
-      accentColor: "#77DD77", 
+      taxId: "TAX567890",
+      phoneNumber: "555-123-6789",
+      address: "99 Wave Road, Creator's Haven",
+      office: "Main Branch",
+      accentColor: "#77DD77",
+      detail: 'Example detail'
    },
    {
       name: "LumeCreative Agency",
@@ -45,7 +70,12 @@ export const mockAllClients = [
       contactCount: 12,
       projectCount: 18,
       activeProjectCount: 0,
-      accentColor: "#CFCFC4", 
+      taxId: "TAX678901",
+      phoneNumber: "678-901-2345",
+      address: "100 Bright Ideas Lane",
+      office: "Northside Office",
+      accentColor: "#CFCFC4",
+      detail: 'Example detail'
    },
    {
       name: "WaveMakers Studio",
@@ -53,7 +83,12 @@ export const mockAllClients = [
       contactCount: 9,
       projectCount: 13,
       activeProjectCount: 3,
-      accentColor: "#F49AC2", 
+      taxId: "TAX789012",
+      phoneNumber: "234-567-8901",
+      address: "17 Creative Wave Way",
+      office: "Main Hub",
+      accentColor: "#F49AC2",
+      detail: 'Example detail'
    },
    {
       name: "Skyline Creatives",
@@ -61,7 +96,12 @@ export const mockAllClients = [
       contactCount: 4,
       projectCount: 7,
       activeProjectCount: 0,
-      accentColor: "#FF6961", 
+      taxId: "TAX890123",
+      phoneNumber: "123-987-6543",
+      address: "56 Skyline Drive",
+      office: "City Center",
+      accentColor: "#FF6961",
+      detail: 'Example detail'
    },
    {
       name: "InnovateAds Inc.",
@@ -69,7 +109,12 @@ export const mockAllClients = [
       contactCount: 11,
       projectCount: 14,
       activeProjectCount: 0,
-      accentColor: "#CB99C9", 
+      taxId: "TAX901234",
+      phoneNumber: "456-321-0987",
+      address: "89 AdTech Lane",
+      office: "Tech District",
+      accentColor: "#CB99C9",
+      detail: 'Example detail'
    },
    {
       name: "BrightIdea Media",
@@ -77,7 +122,12 @@ export const mockAllClients = [
       contactCount: 7,
       projectCount: 11,
       activeProjectCount: 0,
-      accentColor: "#FDFD96", 
+      taxId: "TAX012345",
+      phoneNumber: "789-654-3210",
+      address: "45 Idea Boulevard",
+      office: "Innovation Park",
+      accentColor: "#FDFD96",
+      detail: 'Example detail'
    },
    {
       name: "UrbanVista Agency",
@@ -85,7 +135,13 @@ export const mockAllClients = [
       contactCount: 6,
       projectCount: 10,
       activeProjectCount: 0,
-      accentColor: "#C2B280", 
+      taxId: "TAX123890",
+      phoneNumber: "987-321-4567",
+      address: "120 Urban Square",
+      office: "Downtown Office",
+      accentColor: "#C2B280",
+      detail: 'Example detail'
+
    },
    {
       name: "NeoArts Collective",
@@ -93,7 +149,12 @@ export const mockAllClients = [
       contactCount: 8,
       projectCount: 13,
       activeProjectCount: 4,
-      accentColor: "#B19CD9", 
+      taxId: "TAX234901",
+      phoneNumber: "321-654-7890",
+      address: "200 Artistry Avenue",
+      office: "Main Studio",
+      accentColor: "#B19CD9",
+      detail: 'Example detail'
    },
    {
       name: "FutureFrame Studios",
@@ -101,7 +162,12 @@ export const mockAllClients = [
       contactCount: 9,
       projectCount: 12,
       activeProjectCount: 3,
-      accentColor: "#FFB7CE", 
+      taxId: "TAX345012",
+      phoneNumber: "654-321-0987",
+      address: "300 Future Lane",
+      office: "Main Hub",
+      accentColor: "#FFB7CE",
+      detail: 'Example detail'
    },
    {
       name: "Greenline Media",
@@ -109,7 +175,12 @@ export const mockAllClients = [
       contactCount: 5,
       projectCount: 9,
       activeProjectCount: 0,
-      accentColor: "#77DD77", 
+      taxId: "TAX456123",
+      phoneNumber: "456-789-0123",
+      address: "75 Green Park",
+      office: "Eco Branch",
+      accentColor: "#77DD77",
+      detail: 'Example detail'
    },
    {
       name: "Bright Horizons Group",
@@ -117,6 +188,11 @@ export const mockAllClients = [
       contactCount: 10,
       projectCount: 16,
       activeProjectCount: 5,
-      accentColor: "#AEC6CF", 
+      taxId: "TAX567234",
+      phoneNumber: "890-123-4567",
+      address: "123 Horizon Street",
+      office: "Global Headquarters",
+      accentColor: "#AEC6CF",
+      detail: 'Example detail'
    },
 ];

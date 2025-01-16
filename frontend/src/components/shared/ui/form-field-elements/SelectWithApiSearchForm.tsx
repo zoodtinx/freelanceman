@@ -13,7 +13,7 @@ const SelectWithApiSearchForm = <TFormData extends FieldValues>({
    className,
    selection,
    isLoading,
-   setFilter
+   ApiSearchFn
 }: SelectWithSearchInputProps<TFormData>): JSX.Element => {
    const { control, getValues } = formMethods;
 
@@ -45,7 +45,7 @@ const SelectWithApiSearchForm = <TFormData extends FieldValues>({
                   placeholder={placeholder}
                   className={className}
                   isLoading={isLoading}
-                  onInputChange={setFilter}
+                  onInputChange={ApiSearchFn}
                />
             );
          }}
