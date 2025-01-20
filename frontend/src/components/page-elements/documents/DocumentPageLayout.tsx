@@ -57,7 +57,7 @@ const DocumentPageLayout: React.FC = () => {
                {filteredPathnameArray.length > 0 &&
                   filteredPathnameArray.map((pathName) => {
                      return (
-                        <div className="flex">
+                        <div className="flex" key={pathName}>
                            <ChevronRight />
                            {pathName}
                         </div>

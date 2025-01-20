@@ -93,7 +93,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                   className={cn(
                      `flex h-5 gap-1 items-center justify-center focus:outline-none whitespace-nowrap border border-primary p-3 rounded-tl-full rounded-bl-full ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 bg-primary text-foreground ${
                         mode === 'base' &&
-                        'rounded-tr-full rounded-br-full bg-transparent text-primary'
+                        'rounded-tr-full rounded-br-full bg-transparent text-secondary border-secondary'
                      }`,
                      className
                   )}

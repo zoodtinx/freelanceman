@@ -11,6 +11,7 @@ import FilePage from "@/routes/FilePage";
 import DocumentPage from "@/routes/DocumentPage";
 import ViewDocumentLayout from "@/components/page-elements/documents/ViewDocumentLayout";
 import CreateDocumentPage from "@/components/page-elements/documents/CreateDocumentPage";
+import QuickNotesPage from "@/routes/QuickNotesPage";
 
 export const router = createBrowserRouter([
    {
@@ -55,13 +56,22 @@ export const router = createBrowserRouter([
                },
                {
                   path: 'create',
-                  element: <CreateDocumentPage />,
+                  children: [
+                     {
+                        path: "",
+                        element: <CreateDocumentPage />,
+                     },
+                     {
+                        path: ":draftId",
+                        element: <CreateDocumentPage />,
+                     }
+                  ]
                }
             ]
          },
          {
             path: "notes",
-            element: <ActionPage/>
+            element: <QuickNotesPage/>
          },
          {
             path: ":projectId",

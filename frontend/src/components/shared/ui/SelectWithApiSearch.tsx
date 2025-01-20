@@ -136,6 +136,7 @@ const SelectionList: React.FC<{
             selectContents.map((selection) => (
                <SelectItem
                   value={selection.value}
+                  key={selection.value}
                   className='px-2 mr-2 rounded cursor-pointer hover:bg-gray-200'
                   onClick={() => {onValueChange(selection.value); handleDialogClose()}}
                >

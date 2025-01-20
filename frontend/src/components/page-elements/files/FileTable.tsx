@@ -20,6 +20,7 @@ const FileTable = <TData extends RowData>({
    table,
 }: TableProps<TData>): JSX.Element => {
    const tableRef = useRef<HTMLTableElement | null>(null);
+
    return (
       <div className="relative overflow-y-auto">
          <Table

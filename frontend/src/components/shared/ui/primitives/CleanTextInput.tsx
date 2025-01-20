@@ -8,7 +8,7 @@ const CleanTextInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"
       <input
         type='text'
         className={cn(
-          "focus:outline-none bg-transparent",
+          "focus:outline-none bg-transparent placeholder:text-secondary",
           className
         )}
         ref={ref}

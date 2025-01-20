@@ -1,6 +1,8 @@
+import { DocumentDraftSelections } from '@/components/shared/ui/selections';
+import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { Folder, SquarePen } from 'lucide-react';
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import { createFileColumns } from '@/components/page-elements/files/FileColumn';
+import { createDocumentPageFileColumn } from '@/components/page-elements/documents/DocumentPageFileColumn';
 import FileTable from '@/components/page-elements/files/FileTable';
 import { defaultFile } from '@/components/shared/ui/constants';
 import { FormDialogState } from '@/lib/types/dialog.types';
@@ -12,6 +14,7 @@ import {
    useReactTable,
 } from '@tanstack/react-table';
 import { FileText, Plus } from 'lucide-react';
+import { SearchBox } from '@/components/shared/ui/SearchBox';
 
 const ViewDocumentLayout: React.FC = () => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -24,7 +27,7 @@ const ViewDocumentLayout: React.FC = () => {
 
    const table = useReactTable({
       data: mockFiles,
-      columns: createFileColumns(setDialogState),
+      columns: createDocumentPageFileColumn(setDialogState),
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
       getFilteredRowModel: getFilteredRowModel(),
@@ -40,20 +43,97 @@ const ViewDocumentLayout: React.FC = () => {
 
    return (
       <div className="flex w-full gap-2 grow">
-         <div className="flex flex-col border w-1/2 border-tertiary rounded-xl p-2">
-            <div className="flex items-center justify-between">
-               <p className="text-lg">File</p>
+         <FileColumn setDialogState={setDialogState} />
+         <DraftColumn setDialogState={setDialogState} />
+      </div>
+   );
+};
+
+const FileColumn = ({ setDialogState }) => {
+   const table = useReactTable({
+      data: mockFiles,
+      columns: createDocumentPageFileColumn(setDialogState),
+      getCoreRowModel: getCoreRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      defaultColumn: {
+         minSize: 0,
+      },
+      state: {
+         columnVisibility: {
+            status: false,
+         },
+      },
+   });
+
+   return (
+      <div className="flex flex-col border w-1/2 border-tertiary rounded-xl p-2 py-1">
+         <div className="flex items-center justify-between p-2 gap-2">
+            <div className="flex items-center gap-1">
+               <Folder className="w-5 h-5" />
+               <p className="text-lg">Files</p>
+            </div>
+            <div className="flex items-center gap-1">
                <NewButton />
             </div>
-            <FileTable table={table} />
          </div>
-         <div className="border w-1/2 border-tertiary rounded-xl  p-2">
-            <div className="flex items-center justify-between">
+         <div className="w-full px-1 flex mb-1 gap-1">
+            <FilterSelect
+               selectContents={DocumentDraftSelections}
+               placeholder="Type"
+               className="h-[25px] w-fit py-0 px-2"
+            />
+            <FilterSelect
+               selectContents={DocumentDraftSelections}
+               placeholder="Client"
+               className="h-[25px] w-fit py-0 px-2"
+            />
+            <SearchBox className="h-[25px] w-fit py-0 px-2 rounded-full border-secondary" />
+         </div>
+         <FileTable table={table} />
+      </div>
+   );
+};
+
+const DraftColumn = ({ setDialogState }) => {
+   const table = useReactTable({
+      data: mockFiles,
+      columns: createDocumentPageFileColumn(setDialogState),
+      getCoreRowModel: getCoreRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      defaultColumn: {
+         minSize: 0,
+      },
+      state: {
+         columnVisibility: {
+            status: false,
+         },
+      },
+   });
+
+   return (
+      <div className="flex flex-col border w-1/2 border-dashed border-tertiary rounded-xl p-2 py-1">
+         <div className="flex items-center justify-between p-2">
+            <div className="flex items-center gap-1">
+               <SquarePen className="w-5 h-5" />
                <p className="text-lg">Drafts</p>
-               <NewButton />
             </div>
-            <FileTable table={table} />
          </div>
+         <div className="w-full px-1 flex mb-1 gap-1">
+            <FilterSelect
+               selectContents={DocumentDraftSelections}
+               placeholder="Type"
+               className="h-[25px] w-fit py-0 px-2"
+            />
+            <FilterSelect
+               selectContents={DocumentDraftSelections}
+               placeholder="Client"
+               className="h-[25px] w-fit py-0 px-2"
+            />
+            <SearchBox className="h-[25px] w-fit py-0 px-2 rounded-full border-secondary" />
+         </div>
+         <FileTable table={table} />
       </div>
    );
 };
