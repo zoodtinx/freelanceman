@@ -15,7 +15,7 @@ import { mockContacts as contacts } from '@mocks';
 import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 
-const ContactColumn = (): JSX.Element => {
+export const ContactColumn = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
@@ -65,7 +65,7 @@ const ContactColumn = (): JSX.Element => {
    );
 };
 
-const ContactCard = ({ contact, setDialogState }: { contact: Contact }) => {
+export const ContactCard = ({ contact, setDialogState }: { contact: Contact }) => {
    const handleClick = () => {
       let dialogType;
       if (contact.type === 'client') {
@@ -109,7 +109,7 @@ const ContactCard = ({ contact, setDialogState }: { contact: Contact }) => {
    );
 };
 
-const NewContactButton = ({
+export const NewContactButton = ({
    setDialogState,
 }: {
    setDialogState: (dialogState: object) => void;

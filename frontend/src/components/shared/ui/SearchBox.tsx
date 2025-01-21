@@ -12,7 +12,7 @@ export const SearchBox = React.forwardRef<
          ref={ref}
          tabIndex={-1}
          className={cn(
-            'group relative flex gap-2 items-center rounded-lg border bg-transparent px-2 py-1 focus-within:border-primary',
+            'group relative flex gap-2 items-center rounded-lg border border-secondary bg-transparent px-2 py-1 focus-within:border-primary',
             className
          )}
          {...props}

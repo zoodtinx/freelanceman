@@ -3,6 +3,7 @@ import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { Folder, SquarePen } from 'lucide-react';
 import React, { useState } from 'react';
 import { createDocumentPageFileColumn } from '@/components/page-elements/documents/DocumentPageFileColumn';
+import DocumentDraftTable from 'src/components/page-elements/documents/DocumentDraftTable';
 import FileTable from '@/components/page-elements/files/FileTable';
 import { defaultFile } from '@/components/shared/ui/constants';
 import { FormDialogState } from '@/lib/types/dialog.types';
@@ -15,6 +16,7 @@ import {
 } from '@tanstack/react-table';
 import { FileText, Plus } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
+import { createDocumentDraftColumns } from '@/components/page-elements/documents/DocumentDraftColumn';
 
 const ViewDocumentLayout: React.FC = () => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -23,22 +25,6 @@ const ViewDocumentLayout: React.FC = () => {
       type: 'file',
       mode: 'create',
       data: defaultFile,
-   });
-
-   const table = useReactTable({
-      data: mockFiles,
-      columns: createDocumentPageFileColumn(setDialogState),
-      getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      defaultColumn: {
-         minSize: 0,
-      },
-      state: {
-         columnVisibility: {
-            status: false,
-         },
-      },
    });
 
    return (
@@ -90,7 +76,7 @@ const FileColumn = ({ setDialogState }) => {
             />
             <SearchBox className="h-[25px] w-fit py-0 px-2 rounded-full border-secondary" />
          </div>
-         <FileTable table={table} />
+         <FileTable table={table}/>
       </div>
    );
 };
@@ -98,7 +84,7 @@ const FileColumn = ({ setDialogState }) => {
 const DraftColumn = ({ setDialogState }) => {
    const table = useReactTable({
       data: mockFiles,
-      columns: createDocumentPageFileColumn(setDialogState),
+      columns: createDocumentDraftColumns(setDialogState),
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
       getFilteredRowModel: getFilteredRowModel(),
@@ -133,7 +119,7 @@ const DraftColumn = ({ setDialogState }) => {
             />
             <SearchBox className="h-[25px] w-fit py-0 px-2 rounded-full border-secondary" />
          </div>
-         <FileTable table={table} />
+         <DocumentDraftTable table={table}/>
       </div>
    );
 };

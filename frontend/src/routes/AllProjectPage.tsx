@@ -1,5 +1,5 @@
 import { ProjectsViewProvider } from '@/lib/context/ProjectsViewContext';
-import ProjectsLayout from 'src/components/page-elements/all-project/ProjectsLayout';
+import ProjectsLayout from 'src/components/page-elements/all-projects/ProjectsLayout';
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
 

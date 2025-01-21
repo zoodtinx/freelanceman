@@ -3,7 +3,6 @@ import Home from "../routes/HomePage";
 import ProjectPage from "@/routes/ProjectPage";
 import ActionPage from "@/routes/ActionPage";
 import AllProjectPage from "@/routes/AllProjectPage";
-import ClientsPage from "@/routes/ClientPage";
 import ProjectTasksPage from "@/routes/ProjectTaskPage";
 import { Navigate } from "react-router-dom";
 import PartnersPage from "@/routes/PartnersPage";
@@ -12,6 +11,8 @@ import DocumentPage from "@/routes/DocumentPage";
 import ViewDocumentLayout from "@/components/page-elements/documents/ViewDocumentLayout";
 import CreateDocumentPage from "@/components/page-elements/documents/CreateDocumentPage";
 import QuickNotesPage from "@/routes/QuickNotesPage";
+import AllClientsPage from "src/routes/AllClientPage";
+import ClientPage from "@/routes/ClientPage";
 
 export const router = createBrowserRouter([
    {
@@ -36,7 +37,16 @@ export const router = createBrowserRouter([
          },
          {
             path: "clients",
-            element: <ClientsPage/>
+            children: [
+               {
+                  path: '',
+                  element: <AllClientsPage/>,
+               },
+               {
+                  path: ':clientId',
+                  element: <ClientPage />
+               }
+            ]
          },
          {
             path: "partners",
