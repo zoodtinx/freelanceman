@@ -23,8 +23,8 @@ export interface File {
    client?: string;
    clientId?: string;
    size?: number;
-   dateCreated: string;
-   dateModified?: string;
+   createdAt: string;
+   modifiedAt?: string;
 }
 
 export type FileSearchOption = Partial<
@@ -46,8 +46,10 @@ export interface NewFilePayload {
 }
 
 export type FileCategory =
+   | "personal-file"
+   | "personal-document"
    | "client-file"
-   | "project-asset"
-   | "project-document"
+   | "client-document"
    | "project-file"
-   | "personal";
+   | "project-document"
+   | "project-asset"

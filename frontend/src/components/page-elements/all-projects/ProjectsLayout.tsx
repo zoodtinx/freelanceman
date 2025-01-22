@@ -1,22 +1,55 @@
-import { Building2, Folder, User } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
+import ProjectList from './ProjectList';
+import ProjectFilterBar from './ProjectFilterBar';
+import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
+import ProjectGrid from './ProjectGrid';
+import { useAllProjectsQuery } from '@/lib/api/project-api';
+import TaskDialog from '@/components/shared/ui/TaskDialog';
+import ProjectSettingsDialog from './ProjectSettingsDialog';
 
-const ClientLayout: React.FC = () => {
-   
-  const clientData = {
-      name: 'Sansiri PLC',
-   };
+const ProjectsLayout: React.FC = () => {
+   const {
+      viewMode,
+      setProjects,
+      taskDialogState,
+      setTaskDialogState,
+      projectSettingDialogState,
+      setProjectSettingDialogState,
+      filter,
+   } = useProjectsViewContext();
+
+   const { data: projects, isLoading } = useAllProjectsQuery(filter);
+
+   useEffect(() => {
+      setProjects(projects ?? []);
+   }, [projects, setProjects]);
 
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden ">
-         <div className="flex justify-between">
-            <div className="flex items-center gap-1 h-[40px]">
-               <Building2 className="h-6 w-6 mt-1" />
-               <p className="text-xl pt-1 leading-none mr-2">{clientData.name}</p>
+      <section className="w-full h-full flex flex-col gap-1 sm:flex-col">
+         <ProjectFilterBar />
+         {isLoading ? (
+            <>Loading</>
+         ) : (
+            <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto">
+               <div className="sm:hidden">
+                  {viewMode === 'grid' && <ProjectGrid />}
+                  {viewMode === 'list' && <ProjectList />}
+               </div>
+               <div className="hidden sm:block">
+                  <ProjectList />
+               </div>
             </div>
-         </div>
-      </div>
+         )}
+         <TaskDialog
+            dialogState={taskDialogState}
+            setDialogState={setTaskDialogState}
+         />
+         <ProjectSettingsDialog
+            dialogState={projectSettingDialogState}
+            setDialogState={setProjectSettingDialogState}
+         />
+      </section>
    );
 };
 
-export default ClientLayout;
+export default ProjectsLayout;

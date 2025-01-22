@@ -32,7 +32,7 @@ const ClientContactSection: React.FC = () => {
             <AddButton />
          </div>
          <SearchBox className="border rounded-full h-7" />
-         <div className="bg-cyan-300 grow overflow-y-auto h-0">
+         <div className=" grow overflow-y-auto h-0">
             {isLoading ? (
                <p>Loading...</p>
             ) : (

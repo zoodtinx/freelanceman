@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { getIcon, convertCategory } from '@/components/page-elements/files/Helpers';
+import { getIcon, formatCategory } from '@/components/page-elements/files/Helpers';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import type { File } from '@types';
 import { EllipsisVertical } from 'lucide-react';
@@ -35,7 +35,7 @@ export const createDocumentDraftColumns = (setDialogState: () => void): ColumnDe
       accessorKey: 'category',
       header: 'Category',
       size: 20,
-      cell: ({ getValue }) => <span>{convertCategory(getValue())}</span>,
+      cell: ({ getValue }) => <span>{formatCategory(getValue())}</span>,
    },
    {
       id: 'size',

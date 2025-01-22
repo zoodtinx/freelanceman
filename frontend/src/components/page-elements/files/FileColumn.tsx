@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { getIcon, convertCategory } from './Helpers';
+import { getIcon, formatCategory } from './Helpers';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import type { File } from '@types';
 import { EllipsisVertical } from 'lucide-react';
@@ -68,7 +68,7 @@ export const createFileColumns = (setDialogState: () => void): ColumnDef<File>[]
       accessorKey: 'category',
       header: 'Category',
       size: 20,
-      cell: ({ getValue }) => <span>{convertCategory(getValue())}</span>,
+      cell: ({ getValue }) => <span>{formatCategory(getValue())}</span>,
    },
    {
       id: 'size',

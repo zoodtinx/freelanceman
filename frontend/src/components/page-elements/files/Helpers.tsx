@@ -17,35 +17,37 @@ import {
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
-export const getIcon = (fileType: string): JSX.Element => {
+export const getIcon = (fileType: string, color: string = ''): JSX.Element => {
    switch (fileType) {
       case 'image':
-         return <Image />;
+         return <Image style={{
+            color: `${color}`
+         }} />;
       case 'video':
-         return <Video />;
-      case 'document':
-         return <FileText />;
-      case 'code':
-         return <Code />;
-      case 'design':
-         return <Layout />;
-      case 'spreadsheet':
-         return <Table />;
-      case 'presentation':
-         return <Monitor />;
-      case 'audio':
-         return <Music />;
-      case 'archive':
-         return <Archive />;
-      case 'video-editing':
-         return <Film />;
-      case 'project-management':
-         return <Briefcase />;
-      case 'database':
-         return <Database />;
-      case 'other':
-      default:
-         return <FileStack />;
+          return <Video style={{ color: `${color}` }} />;
+        case 'document':
+          return <FileText style={{ color: `${color}` }} />;
+        case 'code':
+          return <Code style={{ color: `${color}` }} />;
+        case 'design':
+          return <Layout style={{ color: `${color}` }} />;
+        case 'spreadsheet':
+          return <Table style={{ color: `${color}` }} />;
+        case 'presentation':
+          return <Monitor style={{ color: `${color}` }} />;
+        case 'audio':
+          return <Music style={{ color: `${color}` }} />;
+        case 'archive':
+          return <Archive style={{ color: `${color}` }} />;
+        case 'video-editing':
+          return <Film style={{ color: `${color}` }} />;
+        case 'project-management':
+          return <Briefcase style={{ color: `${color}` }} />;
+        case 'database':
+          return <Database style={{ color: `${color}` }} />;
+        case 'other':
+        default:
+          return <FileStack style={{ color: `${color}` }} />;
    }
 };
 
@@ -214,13 +216,22 @@ export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({ fileEx
 
 
 
-export const convertCategory = (fileCategory: FileCategory) => {
+export const formatCategory = (fileCategory: FileCategory) => {
    switch (fileCategory) {
-      case 'document':
-         return 'Document';
-      case 'project-assets':
-         return 'Project asset';
+      case 'project-document':
+         return 'Project Document';
+      case 'project-asset':
+         return 'Project Asset';
       case 'project-file':
-         return 'Project file';
-   }
-};
+         return 'Project File';
+      case 'client-file':
+         return 'Client File';
+      case 'client-document':
+         return 'Client Document';
+      case 'personal-file':
+         return 'Personal File';
+      case 'personal-document':
+         return 'Personal Document';
+      default:
+         return '';
+   }}

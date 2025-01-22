@@ -16,7 +16,7 @@ const ProjectList = (): JSX.Element => {
    return <div className="flex flex-col gap-2">{projectTabs}</div>;
 };
 
-const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
+export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
    const { setProjectSettingDialogState } = useProjectsViewContext();
    const { t } = useTranslation();
    const navigate = useNavigate();
