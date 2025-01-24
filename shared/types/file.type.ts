@@ -2,7 +2,7 @@ export interface File {
    id: string;
    fileName: string;
    name: string;
-   fileType:
+   type:
       | "image"
       | "video"
       | "document"
@@ -16,7 +16,7 @@ export interface File {
       | "project-management"
       | "database"
       | "other";
-   fileCategory: FileCategory;
+   category: FileCategory;
    link: string;
    project?: string;
    projectId?: string;
