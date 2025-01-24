@@ -1,8 +1,9 @@
-import { Building2, EllipsisVertical } from 'lucide-react';
+import { Building2, EllipsisVertical, FolderClock } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React from 'react';
 import { Switch } from '@/components/shared/ui/primitives/Switch';
 import { Dots } from '@/components/shared/icons';
+import { formatDate } from '@/lib/helper/formatDateTime';
 
 const ClientProjectSection: React.FC = () => {
    const clientData = {
@@ -41,8 +42,11 @@ const ClientProjectSection: React.FC = () => {
 const ProjectTab: React.FC = () => {
    const project = {
       title: 'New House Launch Campaign',
-      client: 'Sansiri'
+      client: 'Sansiri',
+      modifiedAt: "2025-01-10T10:00:00Z"
    }
+
+   const formattedDateModified = formatDate(project.modifiedAt, 'LONG')
 
    return (
       <div
@@ -52,15 +56,9 @@ const ProjectTab: React.FC = () => {
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
                {project.title}
             </p>
-            <div className="flex grow items-center justify-end text-base text-primary">
-               <p className="w-fit text-right mr-8 cursor-pointer hover:opacity-60 transition-opacity">
-                  {project.client}
-               </p>
-               <p className="w-[170px]">
-                  {/* {t('startedAt')} :{' '} */}
-                  Modified : {'formattedDate'}
-               </p>
-               <Dots className="h-[20px] w-[18px] cursor-pointer" />
+            <div className='flex items-center gap-2 text-secondary'>
+            <FolderClock className='w-4 h-4' />
+               <p>{formattedDateModified}</p>
             </div>
          </div>
       </div>

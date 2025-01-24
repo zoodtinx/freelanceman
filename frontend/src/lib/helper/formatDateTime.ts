@@ -1,10 +1,15 @@
 import { format, toZonedTime } from 'date-fns-tz';
 
 export function formatDate(
-   isoString: string,
+   isoString: string | undefined,
    format: 'SHORT' | 'LONG' = 'SHORT'
 ) {
+   if (!isoString) {
+      return '';
+   }
+   
    const date = new Date(isoString);
+   
    const monthAbbreviations = [
       'JAN',
       'FEB',

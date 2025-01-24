@@ -1,7 +1,7 @@
 import {
    TextAreaInput,
    TextInput,
-} from '@/components/shared/ui/form-field-elements/TextInput';
+} from 'src/components/shared/ui/form-field-elements/TextInputForm';
 import { SalesDocument } from '@types';
 import { UseFormReturn } from 'react-hook-form';
 

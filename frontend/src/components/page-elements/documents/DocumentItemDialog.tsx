@@ -1,7 +1,7 @@
 import {
    TextInput,
    TextAreaInput,
-} from '@/components/shared/ui/form-field-elements/TextInput';
+} from 'src/components/shared/ui/form-field-elements/TextInputForm';
 import {
    Dialog,
    DialogContent,

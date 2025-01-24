@@ -2,7 +2,7 @@ import { Currency } from "./misc.type";
 
 export interface SalesDocument {
   id: string; 
-  type: 'quotation' | 'invoice' | 'receipt'; 
+  category: 'quotation' | 'invoice' | 'receipt'; 
   
   number: string; 
   issuedAt: string;  

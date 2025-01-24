@@ -46,8 +46,9 @@ export const getIcon = (fileType: string, color: string = ''): JSX.Element => {
         case 'database':
           return <Database style={{ color: `${color}` }} />;
         case 'other':
-        default:
           return <FileStack style={{ color: `${color}` }} />;
+        default:
+          return <></>;
    }
 };
 
@@ -216,8 +217,10 @@ export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({ fileEx
 
 
 
-export const formatCategory = (fileCategory: FileCategory) => {
-   switch (fileCategory) {
+export const formatCategory = (fileCategory: FileCategory) => { 
+  if (!fileCategory) return '';
+  
+  switch (fileCategory) {
       case 'project-document':
          return 'Project Document';
       case 'project-asset':

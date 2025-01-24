@@ -1,4 +1,4 @@
-import { TextInput, TextAreaInput } from '@/components/shared/ui/form-field-elements/TextInput';
+import { TextInput, TextAreaInput } from 'src/components/shared/ui/form-field-elements/TextInputForm';
 import { SalesDocument, User } from '@types';
 import { UseFormReturn } from 'react-hook-form';
 import { useUserQuery } from '@/lib/api/user-api';

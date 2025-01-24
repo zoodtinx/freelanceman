@@ -6,7 +6,7 @@ export type PaymentStatus = 'not-processed' | 'processing' | 'paid';
 
 export interface Project {
   id: string;
-  name: string;
+  title: string;
   client: string;
   clientId: string;
   quickTaskId: string;
@@ -14,12 +14,12 @@ export interface Project {
   projectStatus: string;
   paymentStatus: string;
   accentColor: string;
-  dateCreated: string;
-  dateModified: string;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export interface ProjectSettingFormData extends Partial<Omit<Project, 'id' | 'client' | 'clientId' | 'dateCreated'>> {}
 
 export type ProjectSearchOptions = Partial<
-  Pick<Project, "name" | "paymentStatus" | "projectStatus" | "clientId">
+  Pick<Project, "title" | "paymentStatus" | "projectStatus" | "clientId">
 >;
