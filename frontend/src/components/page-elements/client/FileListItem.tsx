@@ -6,6 +6,7 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { FormDialogState } from '@/lib/types/dialog.types';
+import { File } from '@types';
 
 interface SelectState {
    enableSelect: boolean,
@@ -13,13 +14,13 @@ interface SelectState {
 }
 
 interface FileListItemProps {
-   data: File,
-   type: 'file' | 'document-draft',
-   selectState: SelectState,
-   setSelectState: Dispatch<SetStateAction<SelectState>>,
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>,
-   deleteFunction: () => void,
-   color?: string,
+   data: File;
+   type: 'file' | 'document-draft';
+   selectState: SelectState;
+   setSelectState: Dispatch<SetStateAction<SelectState>>;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   deleteFunction: () => void;
+   color?: string;
 }
 
 const FileListItem: React.FC<FileListItemProps> = ({
@@ -60,14 +61,34 @@ const FileListItem: React.FC<FileListItemProps> = ({
    };
 
    const handleClick = () => {
-      setDialogState({
-         isOpen: true,
-         data: data,
-         id: data.id,
-         mode: 'view',
-         type: 'file'
-      })
-   }
+      if (selectState.enableSelect) {
+         if (isSelected) {
+            setSelectState((prev) => {
+               return {
+                  ...prev,
+                  selectedValues: prev.selectedValues.filter(
+                     (id) => id !== data.id
+                  ),
+               };
+            });
+         } else {
+            setSelectState((prev) => {
+               return {
+                  enableSelect: true,
+                  selectedValues: [...prev.selectedValues, data.id],
+               };
+            });
+         }
+      } else if (!selectState.enableSelect) {
+         setDialogState({
+            isOpen: true,
+            data: data,
+            id: data.id,
+            mode: 'view',
+            type: 'file',
+         });
+      }
+   };
 
    return (
       <div className="flex flex-col cursor-default" onClick={handleClick}>
@@ -80,8 +101,6 @@ const FileListItem: React.FC<FileListItemProps> = ({
             <Checkbox
                className={cn('h-[14px] w-0 opacity-0 transition-all duration-150', {'w-[14px] mr-1  opacity-100' : selectState.enableSelect})}
                checked={isSelected}
-               onClick={(e) => e.stopPropagation()}
-               onCheckedChange={ handleSelect}
             />
             <div className="flex flex-col w-full mr-2">
                <div className="flex justify-between py-2 grow items-center">
