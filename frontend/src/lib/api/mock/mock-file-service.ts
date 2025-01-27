@@ -1,5 +1,5 @@
-import { mockFiles } from "@mocks";
-import type { FileFormData } from "@types";
+import { mockFiles } from '@mocks';
+import type { FileFormData, FileSearchOption } from '@types';
 
 export const getFile = (id: string) => {
    const file = mockFiles.find((file) => file.id === id);
@@ -15,23 +15,52 @@ export const getFile = (id: string) => {
    });
 };
 
-export const getAllFiles = (option?: Partial<FileFormData>) => {
+export const getAllFiles = (
+   searchOptions: FileSearchOption = {}
+): Promise<File[]> => {
+   console.log(searchOptions.name);
    return new Promise((resolve) => {
       setTimeout(() => {
-         const filteredFiles = mockFiles.filter((file: FileFormData) => {
-            if (!option) {
-               return true; // If no option provided, return all files
-            }
+         if (!searchOptions || Object.keys(searchOptions).length === 0) {
+            resolve(mockFiles);
+            return;
+         }
+
+         const filteredFiles = mockFiles.filter((file) => {
+            const matchesName =
+               !searchOptions.name ||
+               searchOptions.name.trim() === '' ||
+               file.name
+                  .toLowerCase()
+                  .includes(searchOptions.name.trim().toLowerCase());
+
+            const matchesFileName =
+               !searchOptions.fileName ||
+               searchOptions.fileName.trim() === '' ||
+               file.fileName
+                  .toLowerCase()
+                  .includes(searchOptions.fileName.trim().toLowerCase());
+
+            const matchesCategory =
+               !searchOptions.category ||
+               searchOptions.category.trim() === '' ||
+               file.category === searchOptions.category.trim();
+
+            const matchesType =
+               !searchOptions.type ||
+               searchOptions.type.trim() === '' ||
+               file.type === searchOptions.type.trim();
+
             return (
-               (!option.name || file.name.includes(option.name)) &&
-               (!option.category || file.category === option.category) &&
-               (!option.link || file.link.includes(option.link))
+               matchesName && matchesFileName && matchesCategory && matchesType
             );
          });
+         console.log(filteredFiles);
          resolve(filteredFiles);
       }, 500);
    });
 };
+
 export const editFile = (id: string, filePayload: Partial<FileFormData>) => {
    const file = mockFiles.find((f) => f.id === id);
 
@@ -40,8 +69,9 @@ export const editFile = (id: string, filePayload: Partial<FileFormData>) => {
    }
 
    Object.keys(filePayload).forEach((key) => {
-      if (key !== "id" && key in file) {
-         file[key as keyof FileFormData] = filePayload[key as keyof FileFormData];
+      if (key !== 'id' && key in file) {
+         file[key as keyof FileFormData] =
+            filePayload[key as keyof FileFormData];
       }
    });
 
@@ -50,7 +80,7 @@ export const editFile = (id: string, filePayload: Partial<FileFormData>) => {
    return Promise.resolve(file);
 };
 
-export const createFile = (newFile: Omit<FileFormData, "id">) => {
+export const createFile = (newFile: Omit<FileFormData, 'id'>) => {
    const createdFile = {
       ...newFile,
       id: crypto.randomUUID(),

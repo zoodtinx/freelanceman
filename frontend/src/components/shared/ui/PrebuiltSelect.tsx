@@ -22,7 +22,7 @@ type SelectProps = Omit<
    selectContents: { value: string; label: string; color?: string }[];
    className?: string;
    onValueChange: (value: string) => void;
-   value: string;
+   value?: string;
    placeholder?: string;
    isWithIcon?: boolean;
 };
@@ -77,6 +77,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       ref
    ) => {
       const [mode, setMode] = useState('base')
+      const [selectedValue, setSelectedValue] = useState({value: '', label: ''})
 
       useEffect(() => {
          if (!value) {
@@ -86,9 +87,22 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
          }
       }, [value])
 
+      const handleValueChange = (value: string) => {
+         const selected = selectContents.find((selection) => selection.value === value)
+         if (selected) {
+            setSelectedValue(selected)
+            onValueChange(value)
+         }
+      }
+
+      const handleDiscardFilter = () => {
+         setSelectedValue({value: '', label: ''})
+         onValueChange('')
+      }
+
       return (
          <div className='flex gap-[1px]'>
-            <Select value={value} onValueChange={(value) => {onValueChange(value)}} {...props}>
+            <Select value={value} onValueChange={handleValueChange}>
                <SelectTrigger
                   className={cn(
                      `flex h-5 gap-1 items-center justify-center focus:outline-none whitespace-nowrap border border-primary p-3 rounded-tl-full rounded-bl-full ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 bg-primary text-foreground ${
@@ -100,7 +114,9 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                   ref={ref}
                   isWithIcon={isWithIcon}
                >
-                  <SelectValue placeholder={placeholder} />
+                  <p className="truncate">
+               {selectedValue.label ? selectedValue.label : placeholder}
+            </p>
                </SelectTrigger>
                <SelectContent className="flex flex-col gap-1">
                   {selectContents.map((selection) => (
@@ -114,7 +130,7 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
             <div
                className="flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full"
                onClick={() => {
-                  onValueChange('')
+                  handleDiscardFilter()
                   setMode('base');
                }}
             >

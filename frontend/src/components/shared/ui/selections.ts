@@ -35,6 +35,13 @@ export const fileCategorySelections = [
    { value: 'project-assets', label: 'Project Assets' },
    { value: 'project-file', label: 'Working File' },
    { value: 'client-file', label: 'Client File' },
+];
+
+export const clientPageFileCategorySelections = [
+   { value: 'project-document', label: 'Project Document' },
+   { value: 'project-assets', label: 'Project Assets' },
+   { value: 'project-file', label: 'Working File' },
+   { value: 'client-file', label: 'Client File' },
    { value: 'personal', label: 'Personal' },
 ];
 
