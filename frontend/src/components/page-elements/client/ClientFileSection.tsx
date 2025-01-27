@@ -11,8 +11,16 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { CopyCheck, EllipsisVertical, FileStack } from 'lucide-react';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { mockFiles } from '@mocks';
+import FileDialog from '@/components/shared/ui/FileDialog';
 
 const ClientFileSection: React.FC = () => {
+   const [dialogState, setDialogState] = useState<FormDialogState>({
+      isOpen: false,
+      id: '',
+      mode: 'view',
+      type: 'file',
+      data: {}
+   })
    const [selectState, setSelectState] = useState({
          enableSelect: true,
          selectedValues: [] as string[]
@@ -46,6 +54,7 @@ const ClientFileSection: React.FC = () => {
                color={'F39E60'}
                type="file"
                selectState={selectState}
+               setDialogState={setDialogState}
             />
          );
       }) 
@@ -70,7 +79,7 @@ const ClientFileSection: React.FC = () => {
                className={cn(
                   'flex h-[27px] group w-auto border rounded-full px-2 items-center transition-colors duration-150 cursor-default',
                   'border-secondary hover:border-primary',
-                  { 'border-freelanceman-teal hover:border-freelanceman-teal bg-freelanceman-teal text-foreground': selectState.enableSelect }
+                  { 'border-freelanceman-teal hover:border-primary bg-freelanceman-teal text-foreground': selectState.enableSelect }
                )}
                onClick={enableMultiSelect}
             >
@@ -90,6 +99,7 @@ const ClientFileSection: React.FC = () => {
             <SearchBox className="border rounded-full h-[27px] w-[250px]" />
          </div>
          <div>{fileList()}</div>
+         <FileDialog dialogState={dialogState} setDialogState={setDialogState} />
       </div>
    );
 };
@@ -150,19 +160,29 @@ const FileListItem: React.FC<FileListItemProps> = ({
       }
    };
 
+   const handleClick = () => {
+      setDialogState({
+         isOpen: true,
+         data: data,
+         id: data.id,
+         mode: 'view',
+         type: 'file'
+      })
+   }
+
    return (
-      <div className="flex flex-col">
+      <div className="flex flex-col cursor-pointer" onClick={handleClick}>
          <div
             className={cn(
                'flex px-2 items-center bg-transparent hover:bg-quaternary transition-colors duration-100',
                { 'bg-quaternary': isSelected }
             )}
          >
-            {/* {selectState.enableSelect && <Checkbox className="w-[14px] h-[14px]" checked={isSelected} onCheckedChange={handleSelect} />} */}
             <Checkbox
                className={cn('h-[14px] w-0 opacity-0 transition-all duration-150', {'w-[14px] mr-1  opacity-100' : selectState.enableSelect})}
                checked={isSelected}
-               onCheckedChange={handleSelect}
+               onClick={(e) => e.stopPropagation()}
+               onCheckedChange={ handleSelect}
             />
             <div className="flex flex-col w-full mr-2">
                <div className="flex justify-between py-2 grow items-center">
@@ -185,7 +205,6 @@ const FileListItem: React.FC<FileListItemProps> = ({
                   </div>
                </div>
             </div>
-            <EllipsisVertical className="w-4 h-4" />
          </div>
          <Separator className="bg-quaternary h-[1px]" />
       </div>
