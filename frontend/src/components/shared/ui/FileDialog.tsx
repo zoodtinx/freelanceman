@@ -44,7 +44,7 @@ import { useAllProjectsQuery } from '@/lib/api/project-api';
 
 // Types
 import { InputProps } from '@/lib/types/form-input-props.types';
-import { DialogProps } from '@/lib/types/dialog.types';
+import { DialogProps, FormDialogState, PromptDialogState } from '@/lib/types/dialog.types';
 
 // Utilities
 import { defaultFile } from 'src/components/shared/ui/constants';
@@ -52,13 +52,14 @@ import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';
 
-const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
+const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState, setPromptDialogState }) => {
    const [mode, setMode] = useState('upload');
    const formMethods = useForm({ defaultValues: defaultFile });
    const {
       handleSubmit,
       reset,
    } = formMethods;
+
 
    const handleDialogClose = () => {
       setDialogState({
@@ -123,6 +124,19 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       console.log('File saved:', data);
    };
 
+
+   const openDeletePrompt = () => {
+      setPromptDialogState!({
+         data: {
+            label: dialogState.data.name,
+            action() {
+                console.log('hey')
+            },
+         },
+         isOpen: true
+      })
+   }
+
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
@@ -149,7 +163,7 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                <div className="bg-background rounded-2xl text-primary">
                   {dialogState.mode === 'view' ? (
-                     <ViewModeContent formMethods={formMethods} handleDialogClose={handleDialogClose} />
+                     <ViewModeContent formMethods={formMethods} setDialogState={setDialogState} openDeletePrompt={openDeletePrompt} />
                   ) : (
                      <CreateAndEditModeContent
                         formMethods={formMethods}
@@ -162,6 +176,8 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                         isClientLoading={isClientLoading}
                         setProjectListFilter={setProjectListFilter}
                         setClientListFilter={setClientListFilter}
+                        setDialogState={setDialogState}
+                        openDeletePrompt={openDeletePrompt}
                      />
                   )}
                </div>
@@ -173,8 +189,9 @@ const FileDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
 
 const ViewModeContent: React.FC<{
    formMethods: any;
-   handleDialogClose: () => void;
-}> = ({ formMethods, handleDialogClose }) => {
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   openDeletePrompt: () => void
+}> = ({ formMethods, setDialogState, openDeletePrompt }) => {
    const [copied, setCopied] = useState(false); // To show/hide the "Link copied" text
 
    const {getValues, watch} = formMethods
@@ -196,6 +213,16 @@ const ViewModeContent: React.FC<{
         }, 2000);
       }
     };
+
+    const handleDeleteButton = () => {
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+      openDeletePrompt()
+    }
 
    return (
       <div className="flex flex-col">
@@ -261,7 +288,7 @@ const ViewModeContent: React.FC<{
                <div className="flex gap-1">
                   <Button
                      variant={'destructive'}
-                     onClick={handleDialogClose}
+                     onClick={handleDeleteButton}
                      className="flex gap-1"
                   >
                      Delete
@@ -269,7 +296,6 @@ const ViewModeContent: React.FC<{
                   </Button>
                   <Button
                      variant={'outline'}
-                     onClick={handleDialogClose}
                      className="flex gap-1"
                   >
                      Edit
@@ -297,7 +323,8 @@ const CreateAndEditModeContent: React.FC<{
    isClientLoading: boolean;
    setProjectListFilter: Dispatch<SetStateAction<any>>;
    setClientListFilter: Dispatch<SetStateAction<any>>;
-   handleDialogClose: () => void
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   openDeletePrompt: () => void
 }> = ({
    formMethods,
    mode,
@@ -309,7 +336,8 @@ const CreateAndEditModeContent: React.FC<{
    isClientLoading,
    setProjectListFilter,
    setClientListFilter,
-   handleDialogClose
+   openDeletePrompt,
+   setDialogState
 }) => {
    const {
       register,
@@ -320,6 +348,17 @@ const CreateAndEditModeContent: React.FC<{
    const categoryValue = watch('category');
 
    const selectedProject = watch('projectId')
+
+
+   const handleDeleteButton = () => {
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+      openDeletePrompt()
+    }
 
    return (
       <>
@@ -429,7 +468,6 @@ const CreateAndEditModeContent: React.FC<{
                      <div className="flex justify-between p-4">
                         <Button
                            variant={'destructiveOutline'}
-                           onClick={handleDialogClose}
                            className="flex gap-1"
                         >
                            Discard
