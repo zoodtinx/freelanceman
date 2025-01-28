@@ -28,7 +28,7 @@ export interface File {
 }
 
 export type FileSearchOption = Partial<
-   Pick<File, "name" | "category" | "fileName" | "type">
+   Pick<File, "name" | "category" | "fileName" | "type" | "clientId" | "projectId">
 >;
 
 export interface FileFormData {

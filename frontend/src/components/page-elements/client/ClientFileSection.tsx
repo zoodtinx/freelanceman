@@ -22,8 +22,10 @@ import { clientPageFileCategorySelections } from '@/components/shared/ui/selecti
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import DeletePromptDialog from '@/components/shared/ui/DeletePromptDialog';
 import { cn } from '@/lib/helper/utils';
+import { useParams } from 'react-router-dom';
 
 const ClientFileSection: React.FC = () => {
+   const clientId = useParams().clientId || '';
    const fileSectionRef = useRef<HTMLDivElement | undefined>();
 
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -39,7 +41,9 @@ const ClientFileSection: React.FC = () => {
       selectedValues: [] as string[],
    });
 
-   const [fileFilter, setFileFilter] = useState<FileSearchOption>({});
+   const [fileFilter, setFileFilter] = useState<FileSearchOption>({
+      clientId: clientId
+   });
 
    const [promptDialogState, setPromptDialogState] =
       useState<PromptDialogState>({

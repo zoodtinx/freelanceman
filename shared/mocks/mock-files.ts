@@ -38,7 +38,7 @@ export const mockFiles = [
     project: "Annual Presentation Prep",
     projectId: "project-202",
     client: "Client B",
-    clientId: "client-002",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
     size: 512000000,
     createdAt: "2025-01-05T14:15:00Z",
     modifiedAt: "2025-01-06T10:00:00Z"
@@ -53,7 +53,7 @@ export const mockFiles = [
     project: "App Development",
     projectId: "project-303",
     client: "Client C",
-    clientId: "client-003",
+    clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
     size: 409600,
     createdAt: "2025-01-07T11:00:00Z"
   },

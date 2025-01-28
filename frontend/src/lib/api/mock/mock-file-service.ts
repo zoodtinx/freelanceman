@@ -18,7 +18,7 @@ export const getFile = (id: string) => {
 export const getAllFiles = (
    searchOptions: FileSearchOption = {}
 ): Promise<File[]> => {
-   console.log(searchOptions.name);
+   console.log(searchOptions);
    return new Promise((resolve) => {
       setTimeout(() => {
          if (!searchOptions || Object.keys(searchOptions).length === 0) {
@@ -29,37 +29,52 @@ export const getAllFiles = (
          const filteredFiles = mockFiles.filter((file) => {
             const matchesName =
                !searchOptions.name ||
-               searchOptions.name.trim() === '' ||
+               searchOptions.name.trim() === "" ||
                file.name
                   .toLowerCase()
                   .includes(searchOptions.name.trim().toLowerCase());
 
             const matchesFileName =
                !searchOptions.fileName ||
-               searchOptions.fileName.trim() === '' ||
+               searchOptions.fileName.trim() === "" ||
                file.fileName
                   .toLowerCase()
                   .includes(searchOptions.fileName.trim().toLowerCase());
 
             const matchesCategory =
                !searchOptions.category ||
-               searchOptions.category.trim() === '' ||
+               searchOptions.category.trim() === "" ||
                file.category === searchOptions.category.trim();
 
             const matchesType =
                !searchOptions.type ||
-               searchOptions.type.trim() === '' ||
+               searchOptions.type.trim() === "" ||
                file.type === searchOptions.type.trim();
 
+            const matchesClientId =
+               !searchOptions.clientId ||
+               file.clientId === searchOptions.clientId;
+
+            const matchesProjectId =
+               !searchOptions.projectId ||
+               file.projectId === searchOptions.projectId;
+
             return (
-               matchesName && matchesFileName && matchesCategory && matchesType
+               matchesName &&
+               matchesFileName &&
+               matchesCategory &&
+               matchesType &&
+               matchesClientId &&
+               matchesProjectId
             );
          });
+
          console.log(filteredFiles);
          resolve(filteredFiles);
       }, 500);
    });
 };
+
 
 export const editFile = (id: string, filePayload: Partial<FileFormData>) => {
    const file = mockFiles.find((f) => f.id === id);
