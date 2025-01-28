@@ -12,6 +12,7 @@ interface MultiSelectButtonProps {
    className: string;
    selectedCount: number;
    onDelete: UseMutateFunction<void, Error, string, unknown>
+   selectAllFn?: () => void;
    actionLabel?: string;
    actionFn?: () => void;
 }
@@ -23,6 +24,7 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
          setSelectState,
          enableMultiSelect,
          className,
+         selectAllFn,
          onDelete,
          selectedCount,
          actionFn,
@@ -110,7 +112,7 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
                      </p>
                   </div>
                   <div className="h-full border-[0.5px] border-secondary" />
-                  <button>Select all</button>
+                  <button onClick={selectAllFn}>Select all</button>
                   <div className="h-full border-[0.5px] border-secondary" />
                   <button
                      className="text-freelanceman-red"

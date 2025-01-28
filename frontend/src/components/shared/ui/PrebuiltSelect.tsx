@@ -76,32 +76,37 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       },
       ref
    ) => {
-      const [mode, setMode] = useState('base')
-      const [selectedValue, setSelectedValue] = useState({value: '', label: ''})
+      const [mode, setMode] = useState('base');
+      const [selectedValue, setSelectedValue] = useState({
+         value: '',
+         label: '',
+      });
 
       useEffect(() => {
          if (!value) {
-            setMode('base')
+            setMode('base');
          } else {
-            setMode('selected')
+            setMode('selected');
          }
-      }, [value])
+      }, [value]);
 
       const handleValueChange = (value: string) => {
-         const selected = selectContents.find((selection) => selection.value === value)
+         const selected = selectContents.find(
+            (selection) => selection.value === value
+         );
          if (selected) {
-            setSelectedValue(selected)
-            onValueChange(value)
+            setSelectedValue(selected);
+            onValueChange(value);
          }
-      }
+      };
 
       const handleDiscardFilter = () => {
-         setSelectedValue({value: '', label: ''})
-         onValueChange('')
-      }
+         setSelectedValue({ value: '', label: '' });
+         onValueChange('');
+      };
 
       return (
-         <div className='flex gap-[1px]'>
+         <div className="flex gap-[1px]">
             <Select value={value} onValueChange={handleValueChange}>
                <SelectTrigger
                   className={cn(
@@ -115,8 +120,8 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                   isWithIcon={isWithIcon}
                >
                   <p className="truncate">
-               {selectedValue.label ? selectedValue.label : placeholder}
-            </p>
+                     {selectedValue.label ? selectedValue.label : placeholder}
+                  </p>
                </SelectTrigger>
                <SelectContent className="flex flex-col gap-1">
                   {selectContents.map((selection) => (
@@ -127,16 +132,19 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                </SelectContent>
             </Select>
             {mode === 'selected' && (
-            <div
-               className="flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full"
-               onClick={() => {
-                  handleDiscardFilter()
-                  setMode('base');
-               }}
-            >
-               <X className="w-4 h-4" />
-            </div>
-         )}
+               <div
+                  className={cn(
+                     'flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full',
+                     className
+                  )}
+                  onClick={() => {
+                     handleDiscardFilter();
+                     setMode('base');
+                  }}
+               >
+                  <X className="w-4 h-4" />
+               </div>
+            )}
          </div>
       );
    }

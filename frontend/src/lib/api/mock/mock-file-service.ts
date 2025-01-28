@@ -1,5 +1,5 @@
 import { mockFiles } from '@mocks';
-import type { FileFormData, FileSearchOption } from '@types';
+import type { File, FileFormData, FileSearchOption } from '@types';
 
 export const getFile = (id: string) => {
    const file = mockFiles.find((file) => file.id === id);

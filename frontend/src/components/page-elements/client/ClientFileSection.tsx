@@ -21,6 +21,7 @@ import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { clientPageFileCategorySelections } from '@/components/shared/ui/selections';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import DeletePromptDialog from '@/components/shared/ui/DeletePromptDialog';
+import { cn } from '@/lib/helper/utils';
 
 const ClientFileSection: React.FC = () => {
    const fileSectionRef = useRef<HTMLDivElement | undefined>();
@@ -95,6 +96,21 @@ const ClientFileSection: React.FC = () => {
       });
    };
 
+   const selectAll = () => {
+      if (!filesData) {
+         return
+      }
+      setSelectState((prev) => {
+         const selected = filesData.map((file) => {
+            return file.id
+         })
+         return {
+            ...prev,
+            selectedValues: selected
+         }
+      })
+   }
+
    return (
       <div
          className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full gap-[6px] shrink-0 overflow-hidden h-1/2"
@@ -111,6 +127,7 @@ const ClientFileSection: React.FC = () => {
                   selectState={selectState}
                   setSelectState={setSelectState}
                   onDelete={deleteFile}
+                  selectAllFn={selectAll}
                   ref={fileSectionRef}
                />
             </div>
@@ -119,10 +136,13 @@ const ClientFileSection: React.FC = () => {
                selectContents={clientPageFileCategorySelections}
                value={fileFilter.category}
                placeholder="Category"
+               className={cn({ hidden: selectState.enableSelect })}
             />
             <SearchBox
                onChange={handleSearch}
-               className="border rounded-full h-[27px] w-[250px]"
+               className={cn('border rounded-full h-[27px] w-[250px]', {
+                  hidden: selectState.enableSelect,
+               })}
             />
          </div>
          <FileList
