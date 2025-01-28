@@ -3,7 +3,7 @@ export const mockContacts = [
       id: "contact-001",
       name: "John Smith",
       company: "PixelEdge Studios",
-      companyId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
+      companyId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
       type: "client",
       role: "Project Manager",
       phoneNumber: ["+123456789"],

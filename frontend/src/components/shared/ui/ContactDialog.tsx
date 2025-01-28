@@ -51,12 +51,11 @@ const ContactDialog = ({
    } = formMethods;
 
    const handleDialogueClose = () => {
-      setDialogState({
-         isOpen: false,
-         id: '',
-         mode: 'view',
-         type: 'client-contact',
-         data: defaultContact,
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
       });
    };
 

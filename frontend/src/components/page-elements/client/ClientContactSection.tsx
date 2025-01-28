@@ -7,9 +7,14 @@ import { useAllContactsQuery } from '@/lib/api/contact-api';
 import { ContactSearchOption } from '@types';
 import { defaultContact } from 'src/components/shared/ui/constants';
 import { FormDialogState } from '@/lib/types/dialog.types';
+import { useParams } from 'react-router-dom';
 
 const ClientContactSection: React.FC = () => {
-   const [dialogState, setDialogState] = useState<FormDialogStatee>({
+   const clientId = useParams().clientId || '';
+
+   console.log('clientId', clientId)
+
+   const [dialogState, setDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
       type: 'clientContact',
@@ -17,7 +22,11 @@ const ClientContactSection: React.FC = () => {
       data: defaultContact,
    });
 
-   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
+
+
+   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
+      companyId: clientId
+   });
 
    const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
 
@@ -25,14 +34,27 @@ const ClientContactSection: React.FC = () => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
+   const handleNewContact = () => {
+      setDialogState((prev) => {
+         return {
+            ...prev,
+            mode: 'create',
+            isOpen: true,
+            data: {
+               ...prev.data,
+               company: clientId     // fix this
+            }
+         }
+      })
+   }
+
    return (
       <div className="flex flex-col bg-foreground p-4 flex-1 rounded-3xl gap-1">
          <div className="flex justify-between items-center">
             <p className="text-lg">Contacts</p>
-            <AddButton />
+            <AddButton onClick={handleNewContact} />
          </div>
-         <SearchBox className="border rounded-full h-7" />
-         <div className=" grow overflow-y-auto h-0">
+         <div className="grow overflow-y-auto h-0 pt-1">
             {isLoading ? (
                <p>Loading...</p>
             ) : (
