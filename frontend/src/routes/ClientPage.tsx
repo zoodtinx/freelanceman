@@ -13,7 +13,7 @@ export default function ClientPage() {
          </div>
          <div className="flex flex-col w-[350px] gap-2 h-full">
             <ClientContactSection />
-            <ClientInfoSection clientData={mockAllClients[0]} />
+            <ClientInfoSection clientData={mockAllClients[1]} />
             <ClientActivitySection />
          </div>
       </section>
