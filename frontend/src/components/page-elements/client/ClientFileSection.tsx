@@ -1,3 +1,4 @@
+import { defaultFile } from '@/components/shared/ui/constants';
 import FileListItem from '@/components/page-elements/client/FileListItem';
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
@@ -57,7 +58,13 @@ const ClientFileSection: React.FC = () => {
    }
 
    const handleAddFile = () => {
-      console.log('added file');
+      setDialogState({
+         isOpen: true,
+         data: defaultFile,
+         id : defaultFile.id,
+         mode: 'create',
+         type: 'file'
+      })
    };
 
    const enableMultiSelect = () => {

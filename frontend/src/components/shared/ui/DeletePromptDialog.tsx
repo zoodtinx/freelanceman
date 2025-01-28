@@ -26,7 +26,7 @@ const DeletePromptDialog: React.FC<PromptDialogProps> = ({
          };
       });
    };
-   
+
    const handleCancel = () => {
       setPromptDialogState((prev) => {
          return {
@@ -56,7 +56,7 @@ const DeletePromptDialog: React.FC<PromptDialogProps> = ({
                   Delete file
                </DialogTitle>
             </DialogHeader>
-            <div className="bg-background rounded-2xl border text-primary">
+            <div className="bg-background rounded-2xl text-primary">
                <p className="text-wrap p-4 text-md">
                   Are you sure you want to delete{' '}
                   <p className="inline text-freelanceman-red font-semibold">
