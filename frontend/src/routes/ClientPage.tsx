@@ -2,6 +2,7 @@ import ClientInfoSection from '@/components/page-elements/client/ClientInfoSecti
 import ClientContactSection from '@/components/page-elements/client/ClientContactSection';
 import ClientProjectSection from '@/components/page-elements/client/ClientProjectSection';
 import ClientFileSection from '@/components/page-elements/client/ClientFileSection';
+import { mockAllClients } from '@mocks';
 
 export default function ClientPage() {
    return (
@@ -11,9 +12,19 @@ export default function ClientPage() {
             <ClientFileSection />
          </div>
          <div className="flex flex-col w-[350px] gap-2 h-full">
-            <ClientInfoSection />
             <ClientContactSection />
+            <ClientInfoSection clientData={mockAllClients[0]} />
+            <ClientActivitySection />
          </div>
       </section>
    );
+}
+
+const ClientActivitySection = () => {
+   return (
+      <div className="flex min-h-[200px] flex-col bg-foreground p-4 rounded-3xl shrink-0">
+         <p className="text-lg">Activity Timeline</p>
+         
+      </div>
+   )
 }

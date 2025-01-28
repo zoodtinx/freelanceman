@@ -5,9 +5,9 @@ export const mockAllClients = [
       contactCount: 10,
       projectCount: 15,
       activeProjectCount: 0,
-      taxId: "TAX123456",
-      phoneNumber: "123-456-7890",
-      address: "123 Pixel Lane, Creative City",
+      taxId: "",
+      phoneNumber: "",
+      address: "",
       office: "Main Branch",
       accentColor: "#AEC6CF",
       detail: 'Example detail'

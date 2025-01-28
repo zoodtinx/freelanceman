@@ -10,6 +10,7 @@ export interface Client {
    projectCount: number;
    activeProjectCount: number;
    taxId: string;
+   email: string;
    phoneNumber: string;
    address: string;
    office: string;
