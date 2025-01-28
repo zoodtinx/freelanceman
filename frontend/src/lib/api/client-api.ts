@@ -19,13 +19,9 @@ export const useClientQuery = (
    entityType: 'clientId' | 'projectId' | 'taskId' | 'eventId' | 'contactId',
    id: string
 ) => {
-   const queryClient = useQueryClient();
-
    return useQuery({
-      queryKey: ['clients', clientId],
-      queryFn: () => {
-         getClient(entityType, id);
-      },
+      queryKey: ['clients', entityType, id],
+      queryFn: () => getClient(entityType, id),
    });
 };
 

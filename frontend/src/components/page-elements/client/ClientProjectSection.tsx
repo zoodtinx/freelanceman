@@ -1,17 +1,61 @@
 import { Building2, EllipsisVertical, FolderClock } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch } from '@/components/shared/ui/primitives/Switch';
-import { Dots } from '@/components/shared/icons';
 import { formatDate } from '@/lib/helper/formatDateTime';
+import { Link, useParams } from 'react-router-dom';
+import { useClientQuery } from '@/lib/api/client-api';
+import { useAllProjectsQuery, useProjectQuery } from '@/lib/api/project-api';
+import { Project, ProjectSearchOptions } from '@types';
+import { cn } from '@/lib/helper/utils';
 
 const ClientProjectSection: React.FC = () => {
-   const clientData = {
-      name: 'Sansiri PLC',
+   const clientId = useParams().clientId || '';
+   
+   const [projectFilter, setProjectFilter] = useState<ProjectSearchOptions>({
+      clientId: clientId
+   })
+   
+   console.log('projectFilter', projectFilter)
+
+   const { data: clientData, isLoading: clientIsLoading } = useClientQuery('clientId', clientId);
+   const { data: projectsData, isLoading: projectIsLoading } = useAllProjectsQuery(projectFilter)
+
+
+   if (!clientId) {
+      return 'Client not found';
+   }
+
+   if (clientIsLoading && projectIsLoading) {
+      return 'Loading';
+   }
+
+   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const searchValue = e.target.value;
+      setProjectFilter((prevFilter) => ({
+         ...prevFilter,
+         title: searchValue
+      }));
    };
 
+   const handleToggleActive = (value: boolean) => {
+      let status
+      if (value === true) {
+         status = 'active'
+      } else {
+         status = ''
+      }
+      setProjectFilter((prevFilter) => ({
+         ...prevFilter,
+         projectStatus: status
+      }));
+   }
+
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full gap-[6px] shrink-0 overflow-hidden grow">
+      <div
+         className={`flex flex-col w-full sm:w-full gap-[6px] grow p-4 pt-5
+            bg-foreground rounded-[30px] overflow-hidden`}
+      >
          <div className="flex justify-between">
             <div className="flex items-center h-[40px] justify-between w-full">
                <div className="flex gap-1">
@@ -24,44 +68,72 @@ const ClientProjectSection: React.FC = () => {
             </div>
          </div>
          <div className="flex justify-between items-center">
-            <SearchBox className="border rounded-full h-7 w-[250px]" />
+            <SearchBox
+               className="border rounded-full h-7 w-[250px]"
+               onChange={handleSearchInput}
+            />
             <div className="flex">
                <div className="flex gap-1">
                   <p>active</p>
-                  <Switch />
+                  <Switch onCheckedChange={handleToggleActive} />
                </div>
             </div>
          </div>
-         <div>
-            <ProjectTab />
-         </div>
+         <ProjectList
+            projectsData={projectsData}
+            loadingState={projectIsLoading}
+            className="pt-1"
+         />
       </div>
    );
 };
 
-const ProjectTab: React.FC = () => {
-   const project = {
-      title: 'New House Launch Campaign',
-      client: 'Sansiri',
-      modifiedAt: "2025-01-10T10:00:00Z"
-   }
+interface ProjectListProps {
+   projectsData: Project[],
+   loadingState: boolean,
+   className: string
+}
 
-   const formattedDateModified = formatDate(project.modifiedAt, 'LONG')
+const ProjectList: React.FC<ProjectListProps> = ({projectsData, loadingState, className}) => {
+   if (loadingState) {
+      return 'Loading...'
+   }
+   
+   const projectListItems = projectsData.map((project) => {
+      return (
+         <ProjectTab project={project} key={project.id} />
+      )
+   })
 
    return (
-      <div
-         className="flex rounded-[15px] h-[40px] relative border-2 border-transparent hover:border-primary transition-colors bg-gray-200"
+      <div className={cn('flex flex-col gap-1', className)}>
+         {projectListItems}
+      </div>
+   )
+}
+
+const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
+   const formattedDateModified = formatDate(project.modifiedAt, 'LONG');
+
+   return (
+      <Link
+         to={`../../projects/${project.id}`}
+         style={{
+            backgroundColor: project.accentColor
+         }}
+         className={`flex rounded-[15px] h-[40px] relative transition-colors bg-gray-200
+            border-2 border-transparent hover:border-primary`}
       >
          <div className="z-10 flex items-center pl-3 pr-2 justify-between w-full text-[#333333]">
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
                {project.title}
             </p>
-            <div className='flex items-center gap-2 text-secondary'>
-            <FolderClock className='w-4 h-4' />
+            <div className="flex items-center gap-2 text-secondary">
+               <FolderClock className="w-4 h-4" />
                <p>{formattedDateModified}</p>
             </div>
          </div>
-      </div>
+      </Link>
    );
 };
 

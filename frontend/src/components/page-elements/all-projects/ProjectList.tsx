@@ -40,7 +40,7 @@ export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
       });
    };
 
-   const formattedDate = format(new Date(project.dateModified), 'dd MMM').toUpperCase();
+   const formattedDate = format(new Date(project.modifiedAt), 'dd MMM').toUpperCase();
 
 
    return (

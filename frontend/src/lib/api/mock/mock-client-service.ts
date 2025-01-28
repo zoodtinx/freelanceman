@@ -6,22 +6,22 @@ import type {
    ClientResponse,
 } from "@types";
 
-export const getClient = (idType, idValue) => {
+export const getClient = (idType: string, idValue: string) => {
    if (!idType || !idValue) {
       return Promise.resolve(null); // Return null if no idType or idValue is provided
    }
 
    const client = mockClients.find((client) => {
       switch (idType) {
-         case "clientId":
+         case 'clientId':
             return client.id === idValue;
-         case "projectId":
+         case 'projectId':
             return client.projects?.some((project) => project.id === idValue);
-         case "taskId":
+         case 'taskId':
             return client.tasks?.some((task) => task.id === idValue);
-         case "eventId":
+         case 'eventId':
             return client.events?.some((event) => event.id === idValue);
-         case "contactId":
+         case 'contactId':
             return client.contacts?.some((contact) => contact.id === idValue);
          default:
             return false; // Return false if the idType is not recognized
@@ -41,8 +41,6 @@ export const getAllClients = (searchTerm: ClientSearchOption) => {
             resolve(mockClients);
             return;
          }
-
-         console.log('searchTermAPI', searchTerm)
          
          const filteredClients = mockClients.filter((client) => {
             const matchesName =
@@ -74,9 +72,6 @@ export const getAllClients = (searchTerm: ClientSearchOption) => {
 
 
 export const editClient = (id: string, clientPayload: Partial<Client>) => {
-   console.log('id', id);
-   console.log('clientPayload', clientPayload);
-
    const client = mockClients.find((c) => c.id === id);
 
    if (!client) {

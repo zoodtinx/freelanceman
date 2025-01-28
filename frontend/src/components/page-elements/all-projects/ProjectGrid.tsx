@@ -60,7 +60,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
    };
 
    const handleProjectNavigation = () => {
-      navigate(`../${project.id}`);
+      navigate(`${project.id}`);
    };
 
    const handleClientNavigation = (e: React.MouseEvent) => {

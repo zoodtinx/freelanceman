@@ -29,7 +29,12 @@ export const router = createBrowserRouter([
          },
          {
             path: "projects",
+            children: [
+               {
+                  path: "",
             element: <AllProjectPage/>,
+               }
+            ]
          },
          {
             path: "actions",
