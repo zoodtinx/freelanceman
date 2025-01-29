@@ -39,7 +39,7 @@ export default function ProjectPage() {
                <p className="flex items-center px-2 h-11 text-lg">Contacts</p>
             </div>
             <div className="flex flex-col rounded-2xl bg-foreground p-2 h-1/3 relative">
-               <p className="flex items-center px-2 h-11 text-lg">Contacts</p>
+            <ProjectNoteSection />
             </div>
          </div>
          <div className="w-1/3 flex flex-col rounded-2xl gap-2">
