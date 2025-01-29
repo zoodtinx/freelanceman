@@ -16,53 +16,57 @@ import ClientPage from "@/routes/ClientPage";
 
 export const router = createBrowserRouter([
    {
-      path: "/",
-      element: <Home />,
+      path: '/',
+      element: <Navigate to={'home/projects'} />,
    },
    {
-      path: "/home",
+      path: '/home',
       element: <Home />,
       children: [
          {
-            path: "",
+            path: '',
             element: <Navigate to={'projects'} />,
          },
          {
-            path: "projects",
-            children: [
-               {
-                  path: "",
-            element: <AllProjectPage/>,
-               }
-            ]
-         },
-         {
-            path: "actions",
-            element: <ActionPage/>
-         },
-         {
-            path: "clients",
+            path: 'projects',
             children: [
                {
                   path: '',
-                  element: <AllClientsPage/>,
+                  element: <AllProjectPage />,
+               },
+               {
+                  path: ':projectId',
+                  element: <ProjectPage />,
+               },
+            ],
+         },
+         {
+            path: 'actions',
+            element: <ActionPage />,
+         },
+         {
+            path: 'clients',
+            children: [
+               {
+                  path: '',
+                  element: <AllClientsPage />,
                },
                {
                   path: ':clientId',
-                  element: <ClientPage />
-               }
-            ]
+                  element: <ClientPage />,
+               },
+            ],
          },
          {
-            path: "partners",
-            element: <PartnersPage />
+            path: 'partners',
+            element: <PartnersPage />,
          },
          {
-            path: "files",
-            element: <FilePage/>
+            path: 'files',
+            element: <FilePage />,
          },
          {
-            path: "documents",
+            path: 'documents',
             element: <DocumentPage />,
             children: [
                {
@@ -73,43 +77,43 @@ export const router = createBrowserRouter([
                   path: 'create',
                   children: [
                      {
-                        path: "",
+                        path: '',
                         element: <CreateDocumentPage />,
                      },
                      {
-                        path: ":draftId",
+                        path: ':draftId',
                         element: <CreateDocumentPage />,
-                     }
-                  ]
-               }
-            ]
+                     },
+                  ],
+               },
+            ],
          },
          {
-            path: "notes",
-            element: <QuickNotesPage/>
+            path: 'notes',
+            element: <QuickNotesPage />,
          },
          {
-            path: ":projectId",
+            path: ':projectId',
             element: <ProjectPage />,
             children: [
                {
-                  path: "",
-                  element: <div>Hello</div>
+                  path: '',
+                  element: <div>Hello</div>,
                },
                {
-                  path: "tasks",
-                  element: <ProjectTasksPage />
+                  path: 'tasks',
+                  element: <ProjectTasksPage />,
                },
                {
-                  path: "files",
+                  path: 'files',
                },
                {
-                  path: "documents",
+                  path: 'documents',
                },
                {
-                  path: "materials",
+                  path: 'materials',
                },
-            ]
+            ],
          },
       ],
    },

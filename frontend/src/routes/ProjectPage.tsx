@@ -20,7 +20,7 @@ export default function ProjectPage() {
    return (
       <section className="flex flex-col rounded-2xl bg-foreground p-4 pt-5 w-full h-full relative">
          <EllipsisVertical className='absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75'/>
-         <p className="text-xl">{project.name}</p>
+         <p className="text-xl">{project.title}</p>
          <div className="flex gap-1 cursor-default text-secondary hover:text-primary transition-colors duration-75">
             <Users className=" w-5 h-auto" />
             <p className="text-md font-medium">
