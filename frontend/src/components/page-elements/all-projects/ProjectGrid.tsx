@@ -90,7 +90,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                <p>{project.client}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default">
-               {project.name}
+               {project.title}
             </p>
          </div>
          <div

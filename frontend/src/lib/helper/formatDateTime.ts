@@ -51,7 +51,17 @@ export function formatDate(
    }
 }
 
-export function formatTime(isoString: string) {
+export function formatTime(isoString: string): string | null {
+   if (!isoString) {
+      return null;
+   }
+
+   const hasTime = isoString.includes('T');
+
+   if (!hasTime) {
+      return '';
+   }
+
    const systemTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
    const zonedDate = toZonedTime(isoString, systemTimeZone);
    return format(zonedDate, 'h:mm a', { timeZone: systemTimeZone });

@@ -37,7 +37,7 @@ export const mockEvents: Event[] = [
          "Reviewing initial digital assets for feedback and refinement before launch.",
       link: "http://asset-review-link.com",
       createdAt: "2024-12-11T14:00:00Z",
-      dueDate: "2024-12-14T10:00:00Z",
+      dueDate: "2024-12-14",
       project: "Rebrand for PixelEdge: Digital Campaign Launch",
       projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       withTime: true,

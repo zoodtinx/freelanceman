@@ -2,7 +2,6 @@ import Events from '@/components/page-elements/actions/Events';
 import Tasks from '@/components/page-elements/actions/Tasks';
 import {
    ActionsViewProvider,
-   useActionsViewContext,
 } from '@/lib/context/ActionsViewContext';
 
 export default function ActionPage() {

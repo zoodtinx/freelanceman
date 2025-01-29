@@ -76,11 +76,14 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       },
       ref
    ) => {
-      const [mode, setMode] = useState('base');
-      const [selectedValue, setSelectedValue] = useState({
-         value: '',
+      const initialValue = selectContents.find(
+         (selection) => selection.value === value
+      ) || {
          label: '',
-      });
+         value: ''
+      }
+      const [mode, setMode] = useState('base');
+      const [selectedValue, setSelectedValue] = useState(initialValue);
 
       useEffect(() => {
          if (!value) {
