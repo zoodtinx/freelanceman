@@ -1,7 +1,7 @@
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { Row } from '@tanstack/react-table';
 import { EllipsisVertical } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import {
    Popover,
    PopoverTrigger,
@@ -9,38 +9,42 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Separator } from 'src/components/shared/ui/primitives/Separator';
 
-interface CellWrapperProps {
-   rowData: Row<Event>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   tableType: string;
+interface EditPopoverProps {
+   deleteFn: () => void;
+   editFn: () => void;
 }
 
-export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.Element => {
-   const { mutate: deleteEvent } = useDeleteEvent();
-
-   const handleEdit = () => {
-      setDialogState({
-         isOpen: true,
-         id: rowData.original.id,
-         mode: 'view',
-         type: 'event',
-         data: rowData.original,
-      });
-   };
-
-   const handleDelete = () => {
-      deleteEvent(rowData.original.id);
-   };
+export const EditPopover: React.FC<EditPopoverProps> = ({
+   editFn,
+   deleteFn,
+}): JSX.Element => {
+   
+   const handleEdit = (e) => {
+      e.stopPropagation();
+      editFn();
+   }
+   
+   const handleDelete = (e) => {
+      e.stopPropagation();
+      deleteFn();
+   }
 
    return (
       <Popover>
-         <PopoverTrigger className="flex items-center">
+         <PopoverTrigger
+            className="flex items-center"
+            onClick={(e) => {
+               e.stopPropagation();
+            }}
+         >
             <EllipsisVertical className="w-4 h-4 text-secondary hover:text-primary transition-colors" />
          </PopoverTrigger>
-         <PopoverContent className="w-[80px] cursor-default">
-            <p onClick={handleEdit}>Edit</p>
+         <PopoverContent className="w-[80px] cursor-default select-none">
+            <p onClick={(e) => handleEdit(e)}>Edit</p>
             <Separator />
-            <p onClick={handleDelete} className="text-red-400">Delete</p>
+            <p onClick={(e) => handleDelete(e)} className="text-red-400">
+               Delete
+            </p>
          </PopoverContent>
       </Popover>
    );

@@ -7,6 +7,7 @@ import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task } from '@types';
+import { EditPopover } from '@/components/shared/ui/EditPopover';
 
 interface TaskListProps {
    tasksData: Task[] | undefined;
@@ -126,7 +127,7 @@ export const TaskListItem = ({
                   </div>
                </div>
             </div>
-            <EllipsisVertical className="h-4 w-4 text-secondary" />
+            <EditPopover />
          </div>
          <Separator className="bg-quaternary h-[1px]" />
       </div>

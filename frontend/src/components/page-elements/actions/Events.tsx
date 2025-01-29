@@ -14,7 +14,6 @@ import { EventList } from '@/components/page-elements/actions/EventList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
-import { EditPopover } from '@/components/shared/ui/EditPopover';
 
 export default function Events() {
    const eventSectionRef = useRef<HTMLDivElement | undefined>();
