@@ -1,35 +1,54 @@
 import { useProjectQuery } from '@/lib/api/project-api';
-import { useParams } from 'react-router-dom';
-import ProjectSideBar from 'src/components/page-elements/project/ProjectSideBar';
+import { Link, useParams } from 'react-router-dom';
 import { Users, EllipsisVertical } from 'lucide-react';
+import { ProjectContactSection } from '@/components/page-elements/project/ProjectContactSection';
+import ProjectFileSection from '@/components/page-elements/project/ProjectFileSection';
+import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSection';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
-   const { data: project } = useProjectQuery(projectId || '', 'full');
+   const { data: project, isLoading } = useProjectQuery(projectId);
 
-   if (!projectId) {
-      return <p>Oops</p>;
+   if (isLoading) {
+      return <div>Loading...</div>;
    }
 
    if (!project) {
-      return <div>Loading...</div>;
+      return <div>Project not found</div>;
    }
 
    console.log('project', project);
 
    return (
-      <section className="flex flex-col rounded-2xl bg-foreground p-4 pt-5 w-full h-full relative">
-         <EllipsisVertical className='absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75'/>
-         <p className="text-xl">{project.title}</p>
-         <div className="flex gap-1 cursor-default text-secondary hover:text-primary transition-colors duration-75">
-            <Users className=" w-5 h-auto" />
-            <p className="text-md font-medium">
-               {project.client}
-            </p>
+      <section className="flex grow gap-2">
+         <div className="flex flex-col w-2/3 rounded-2xl gap-2">
+            <div className="flex flex-col rounded-2xl p-4 w-full relative  bg-foreground ">
+               <EllipsisVertical className="absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75" />
+               <p className="text-xl">{project.title}</p>
+               <div className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75">
+                  <Users className=" w-5 h-auto" />
+                  <Link
+                     to={`../../clients/${project.clientId}`}
+                     className="text-md font-medium select-none cursor-default"
+                  >
+                     {project.client}
+                  </Link>
+               </div>
+            </div>
+            <div className="flex flex-col rounded-2xl bg-foreground p-2 grow relative">
+               <p className="flex items-center px-2 h-11 text-lg">Contacts</p>
+            </div>
+            <div className="flex flex-col rounded-2xl bg-foreground p-2 h-1/3 relative">
+               <p className="flex items-center px-2 h-11 text-lg">Contacts</p>
+            </div>
          </div>
-         <div className="flex w-full">
-            <div className="grow"></div>
-            <ProjectSideBar />
+         <div className="w-1/3 flex flex-col rounded-2xl gap-2">
+            <div className="flex flex-col rounded-2xl bg-foreground p-2 grow relative">
+            <ProjectFileSection />
+            </div>
+            <div className="flex flex-col rounded-2xl bg-foreground p-2 h-2/5 relative">
+               <ProjectContactSection />
+            </div>
          </div>
       </section>
    );
