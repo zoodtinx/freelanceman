@@ -10,7 +10,6 @@ import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { File } from '@types';
 import { getIcon, formatCategory } from '@/components/page-elements/files/Helpers';
 
-
 interface FileListProps {
    filesData: File[] | undefined;
    isLoading: boolean;

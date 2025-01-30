@@ -34,17 +34,18 @@ export const ProjectContactSection = (): JSX.Element => {
 
    return (
       <>
-         <div className="flex justify-between pb-2">
+         <div className="flex justify-between my-1 px-2">
             <p className="flex items-center px-2 h-11 text-lg gap-1">
                <BookUser className='w-5 h-5' />
                Contacts
             </p>
             <NewContactButton setDialogState={setDialogState} />
          </div>
+         <div className="w-full border-[0.5px] border-tertiary" />
          {isLoading ? (
             <p>Loading...</p>
          ) : (
-            <div className="flex flex-col gap-1 px-2 h-0 grow overflow-y-auto mb-2">
+            <div className="flex flex-col gap-1 h-0 grow overflow-y-auto p-3">
                {contacts?.map((contact) => (
                   <ContactCard
                      key={contact.id}

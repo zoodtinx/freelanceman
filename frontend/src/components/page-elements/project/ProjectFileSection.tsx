@@ -93,7 +93,7 @@ const ProjectFileSection: React.FC = () => {
 
    return (
       <>
-         <div className="flex justify-between items-center pb-1">
+         <div className="flex justify-between items-center my-1 px-2">
             <div className="flex items-center px-2  gap-3 h-11 text-lg cursor-default">
                <p
                   className={cn(
@@ -104,7 +104,7 @@ const ProjectFileSection: React.FC = () => {
                   )}
                   onClick={() => handleTabChange('drafts')}
                >
-                  <Paperclip className='w-5 h-5' />
+                  <Paperclip className="w-5 h-5" />
                   Draft
                </p>
                <p
@@ -116,22 +116,23 @@ const ProjectFileSection: React.FC = () => {
                   )}
                   onClick={() => handleTabChange('assets')}
                >
-                  <Package2 className='w-5 h-5' />
+                  <Package2 className="w-5 h-5" />
                   Assets
                </p>
             </div>
             <AddButton />
          </div>
-         <div>
-            <SearchBox className="rounded-full w-1/2 h-6 text-base " />
+         <div className="w-full border-[0.5px] border-tertiary" />
+         <div className="flex flex-col grow p-2 pt-3">
+            <SearchBox className="rounded-full w-1/2 h-6 text-base ml-2" />
+            <ProjectPageFileList
+               filesData={filesData}
+               isLoading={isLoading}
+               selectState={selectState}
+               setDialogState={setFileDialogState}
+               setSelectState={setSelectState}
+            />
          </div>
-         <ProjectPageFileList
-            filesData={filesData}
-            isLoading={isLoading}
-            selectState={selectState}
-            setDialogState={setFileDialogState}
-            setSelectState={setSelectState}
-         />
          <FileDialog
             dialogState={fileDialogState}
             setDialogState={setFileDialogState}

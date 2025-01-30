@@ -7,22 +7,18 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
-import type { File } from '@types';
-import {
-   getIcon,
-   formatCategory,
-} from '@/components/page-elements/files/Helpers';
+import type { Event } from '@types';
 
-interface FileListProps {
-   filesData: File[] | undefined;
+interface EventListProps {
+   eventsData: Event[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
-export const ProjectPageFileList: React.FC<FileListProps> = ({
-   filesData,
+export const EventList: React.FC<EventListProps> = ({
+   eventsData,
    isLoading,
    selectState,
    setDialogState,
@@ -32,48 +28,46 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
       return <p>Loading...</p>;
    }
 
-   console.log('filesData', filesData);
+   console.log('eventsData', eventsData);
 
-   if (!filesData || filesData.length === 0) {
-      return <p>No File available</p>;
+   if (!eventsData || eventsData.length === 0) {
+      return <p>No Event available</p>;
    }
 
-   const fileListItems = filesData.map((filesData) => (
-      <FileListItem
-         key={filesData.id}
-         data={filesData}
+   const fileListItems = eventsData.map((eventsData) => (
+      <EventListItem
+         key={eventsData.id}
+         data={eventsData}
          setSelectState={setSelectState}
          selectState={selectState}
          setDialogState={setDialogState}
       />
    ));
 
-   return (
-      <div className="flex flex-col h-0  pt-1 grow overflow-y-auto">
-         {fileListItems}
-      </div>
-   );
+   return <div className='flex flex-col h-0 grow overflow-y-auto'>{fileListItems}</div>;
 };
 
-interface FileListItemProps {
-   data: File;
+
+
+interface EventListItemProps {
+   data: Event;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    deleteFunction: () => void;
 }
 
-export const FileListItem = ({
+export const EventListItem = ({
    data,
    selectState,
    setSelectState,
    setDialogState,
    deleteFunction,
-}: FileListItemProps) => {
+}: EventListItemProps) => {
    const isSelected = selectState.selectedValues.includes(data.id);
 
-   const dateUploaded = formatDate(data.createdAt, 'SHORT');
-   const category = formatCategory(data.category);
+   const formattedDate = formatDate(data.dueDate, 'SHORT');
+   const formattedTime = formatTime(data.dueDate);
 
    const handleClick = () => {
       if (selectState.enableSelect) {
@@ -121,20 +115,23 @@ export const FileListItem = ({
                checked={isSelected}
             />
             <div className="flex flex-col w-full">
-               <div className="flex justify-between py-[7px] grow items-center">
-                  <div className="flex gap-2 items-center">
-                     {getIcon(data.type, 'w-4 h-4 text-secondary')}
-                     <div className="flex gap-1 items-center text-base">
-                        <p>{data.name}</p>
-                     </div>
+               <div className="flex justify-between py-2 grow items-center">
+                  <div className="flex gap-1 items-center text-[15px]">
+                     <p>{data.name}</p>
                   </div>
-                  <p className="text-sm text-secondary">{dateUploaded}</p>
+                  <div className="flex">
+                     <p className="text-sm text-secondary w-[60px]">
+                        {formattedTime}
+                     </p>
+                     <p className="text-sm text-secondary w-[50px]">
+                        {formattedDate}
+                     </p>
+                  </div>
                </div>
             </div>
+            <EditPopover />
          </div>
-         <div className="px-2">
-            <Separator className="bg-quaternary h-[1px]" />
-         </div>
+         <Separator className="bg-quaternary h-[1px]" />
       </div>
    );
 };
