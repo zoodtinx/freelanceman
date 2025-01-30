@@ -85,7 +85,7 @@ export default function Events() {
    };
 
    return (
-      <div className='flex flex-col grow'>
+      <div className="flex flex-col grow">
          <div className="flex w-full justify-between">
             <div className="flex items-end pb-3 gap-1">
                <Calendar className="w-[28px] h-auto" />

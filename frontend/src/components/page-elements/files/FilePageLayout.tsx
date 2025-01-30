@@ -1,63 +1,84 @@
-import { fileTypeSelections } from 'src/components/shared/ui/constants';
 import {
-   Popover,
-   PopoverTrigger,
-   PopoverContent,
-} from 'src/components/shared/ui/primitives/Popover';
+   fileTypeSelections,
+   fileCategorySelections,
+   defaultContact,
+} from 'src/components/shared/ui/constants';
 import { Plus } from '@/components/shared/icons';
-import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
-import { defaultContact } from 'src/components/shared/ui/constants';
 import { useEffect, useState } from 'react';
-import { User, BookUser, Folder } from 'lucide-react';
-import FileTable from './FileTable';
-import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { createFileColumns } from './FileColumn';
-import { useFileQuery } from '@/lib/api/file-api';
-import { mockFiles } from '@mocks';
+import { Folder } from 'lucide-react';
 import FileDialog from '@/components/shared/ui/FileDialog';
-import { defaultFile } from 'src/components/shared/ui/constants';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
+import { FileList } from '@/components/page-elements/files/FileList';
+import { FileSearchOptions } from '@types';
+import { useAllFilesQuery } from '@/lib/api/file-api';
+import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
+import { cn } from '@/lib/helper/utils';
 
 const FilePageLayout = (): JSX.Element => {
-   const [dialogState, setDialogState] = useState<FormDialogState>({
+   const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
+      mode: 'view',
       type: 'file',
-      mode: 'create',
-      data: defaultFile,
+      data: {},
    });
 
-      const [filter, setFilter] = useState({})
+   const [fileFilter, setFileFilter] = useState<FileSearchOptions>({
+      status: 'scheduled',
+   });
 
-      const onFileTypeChange = (value) => {
-         setFilter({ type: value })
+   const [selectState, setSelectState] = useState({
+      enableSelect: false,
+      selectedValues: [] as string[],
+   });
+
+   const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
+
+   const enableMultiSelect = () => {
+      if (selectState.enableSelect) {
+         return;
       }
+      setSelectState({
+         enableSelect: true,
+         selectedValues: [],
+      });
+   };
 
-      // const {data: fileList, isLoading} = useFileQuery
-
-      // if (isLoading) {
-      //    return <></>
-      // }
-
-      const table = useReactTable({
-            data: mockFiles,
-            columns: createFileColumns(setDialogState),
-            getCoreRowModel: getCoreRowModel(),
-            getSortedRowModel: getSortedRowModel(),
-            getFilteredRowModel: getFilteredRowModel(),
-            defaultColumn: {
-               minSize: 0,
-            },
-            state: {
-               columnVisibility: {
-                  status: false,
-               },
-            },
+   const selectAll = () => {
+      if (!filesData) {
+         return;
+      }
+      setSelectState((prev) => {
+         const selected = filesData.map((file) => {
+            return file.id;
          });
-         
-   
+         return {
+            ...prev,
+            selectedValues: selected,
+         };
+      });
+   };
+
+   const handleFileFilter = (type, value: any) => {
+      if (type === 'type') {
+         setFileFilter((prev) => {
+            return {
+               ...prev,
+               type: value,
+            };
+         });
+      } else if (type === 'category') {
+         setFileFilter((prev) => {
+            return {
+               ...prev,
+               category: value,
+            };
+         });
+      }
+   };
+
    return (
       <div className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden ">
          <div className="flex justify-between">
@@ -65,29 +86,45 @@ const FilePageLayout = (): JSX.Element => {
                <Folder className="h-6 w-6 mt-1" />
                <p className="text-xl pt-1 leading-none mr-2">Files</p>
             </div>
-            <NewFileButton setDialogState={setDialogState} />
+            <NewFileButton setDialogState={setFileDialogState} />
          </div>
-         <div className='flex gap-2'>
+         <div className="flex gap-1">
+            <MultiSelectButton
+               selectState={selectState}
+               setSelectState={setSelectState}
+               enableMultiSelect={enableMultiSelect}
+               selectAllFn={selectAll}
+            />
             <FilterSelect
-               onValueChange={onFileTypeChange}
-               value=""
+               onValueChange={(value) => handleFileFilter('type', value)}
+               selectContents={fileTypeSelections}
+               value={fileFilter.type}
                placeholder="Type"
-               selectContents={fileTypeSelections}
-               className='h-7'
+               className={cn({ hidden: selectState.enableSelect })}
             />
             <FilterSelect
-               onValueChange={onFileTypeChange}
-               value=""
+               onValueChange={(value) => handleFileFilter('category', value)}
+               selectContents={fileCategorySelections}
+               value={fileFilter.category}
                placeholder="Category"
-               selectContents={fileTypeSelections}
-               className='h-7'
+               className={cn({ hidden: selectState.enableSelect })}
             />
-            < SearchBox className='border border-primary rounded-full h-7' />
+            <SearchBox
+               className={cn('rounded-full h-7', {
+                  hidden: selectState.enableSelect,
+               })}
+            />
          </div>
-         <FileTable table={table} />
+         <FileList
+            filesData={filesData}
+            isLoading={isLoading}
+            selectState={selectState}
+            setDialogState={setFileDialogState}
+            setSelectState={setSelectState}
+         />
          <FileDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
+            dialogState={fileDialogState}
+            setDialogState={setFileDialogState}
          />
       </div>
    );
@@ -119,6 +156,5 @@ const NewFileButton = ({
       </button>
    );
 };
-
 
 export default FilePageLayout;

@@ -17,39 +17,37 @@ import {
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
-export const getIcon = (fileType: string, color: string = ''): JSX.Element => {
-   switch (fileType) {
-      case 'image':
-         return <Image style={{
-            color: `${color}`
-         }} />;
-      case 'video':
-          return <Video style={{ color: `${color}` }} />;
-        case 'document':
-          return <FileText style={{ color: `${color}` }} />;
-        case 'code':
-          return <Code style={{ color: `${color}` }} />;
-        case 'design':
-          return <Layout style={{ color: `${color}` }} />;
-        case 'spreadsheet':
-          return <Table style={{ color: `${color}` }} />;
-        case 'presentation':
-          return <Monitor style={{ color: `${color}` }} />;
-        case 'audio':
-          return <Music style={{ color: `${color}` }} />;
-        case 'archive':
-          return <Archive style={{ color: `${color}` }} />;
-        case 'video-editing':
-          return <Film style={{ color: `${color}` }} />;
-        case 'project-management':
-          return <Briefcase style={{ color: `${color}` }} />;
-        case 'database':
-          return <Database style={{ color: `${color}` }} />;
-        case 'other':
-          return <FileStack style={{ color: `${color}` }} />;
-        default:
-          return <></>;
-   }
+export const getIcon = (fileType: string, className: string = '', color: string = '',): JSX.Element => {
+  switch (fileType) {
+     case 'image':
+        return <Image style={{ color: `${color}` }} className={className} />;
+     case 'video':
+        return <Video style={{ color: `${color}` }} className={className} />;
+     case 'document':
+        return <FileText style={{ color: `${color}` }} className={className} />;
+     case 'code':
+        return <Code style={{ color: `${color}` }} className={className} />;
+     case 'design':
+        return <Layout style={{ color: `${color}` }} className={className} />;
+     case 'spreadsheet':
+        return <Table style={{ color: `${color}` }} className={className} />;
+     case 'presentation':
+        return <Monitor style={{ color: `${color}` }} className={className} />;
+     case 'audio':
+        return <Music style={{ color: `${color}` }} className={className} />;
+     case 'archive':
+        return <Archive style={{ color: `${color}` }} className={className} />;
+     case 'video-editing':
+        return <Film style={{ color: `${color}` }} className={className} />;
+     case 'project-management':
+        return <Briefcase style={{ color: `${color}` }} className={className} />;
+     case 'database':
+        return <Database style={{ color: `${color}` }} className={className} />;
+     case 'other':
+        return <FileStack style={{ color: `${color}` }} className={className} />;
+     default:
+        return <></>;
+  }
 };
 
 

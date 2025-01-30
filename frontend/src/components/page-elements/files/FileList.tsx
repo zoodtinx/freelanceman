@@ -1,0 +1,143 @@
+import { EditPopover } from '@/components/shared/ui/EditPopover';
+import { cn } from '@/lib/helper/utils';
+import { Dispatch, SetStateAction } from 'react';
+import { EllipsisVertical } from 'lucide-react';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
+import { SelectState } from '@/lib/types/list.type';
+import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import type { FormDialogState } from '@/lib/types/dialog.types';
+import type { File } from '@types';
+import { getIcon, formatCategory } from '@/components/page-elements/files/Helpers';
+
+interface FileListProps {
+   filesData: File[] | undefined;
+   isLoading: boolean;
+   selectState: SelectState;
+   setSelectState: Dispatch<SetStateAction<SelectState>>;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+}
+
+export const FileList: React.FC<FileListProps> = ({
+   filesData,
+   isLoading,
+   selectState,
+   setDialogState,
+   setSelectState,
+}) => {
+   if (isLoading) {
+      return <p>Loading...</p>;
+   }
+
+   console.log('filesData', filesData);
+
+   if (!filesData || filesData.length === 0) {
+      return <p>No File available</p>;
+   }
+
+   const fileListItems = filesData.map((filesData) => (
+      <FileListItem
+         key={filesData.id}
+         data={filesData}
+         setSelectState={setSelectState}
+         selectState={selectState}
+         setDialogState={setDialogState}
+      />
+   ));
+
+   return <div className='flex flex-col h-0 grow overflow-y-auto'>{fileListItems}</div>;
+};
+
+
+interface FileListItemProps {
+   data: File;
+   selectState: SelectState;
+   setSelectState: Dispatch<SetStateAction<SelectState>>;
+   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   deleteFunction: () => void;
+}
+
+export const FileListItem = ({
+   data,
+   selectState,
+   setSelectState,
+   setDialogState,
+   deleteFunction,
+}: FileListItemProps) => {
+   const isSelected = selectState.selectedValues.includes(data.id);
+
+   const dateUploaded = formatDate(data.createdAt, 'LONG');
+   const category = formatCategory(data.category)
+
+   const handleClick = () => {
+      if (selectState.enableSelect) {
+         if (isSelected) {
+            setSelectState((prev) => {
+               return {
+                  ...prev,
+                  selectedValues: prev.selectedValues.filter(
+                     (id) => id !== data.id
+                  ),
+               };
+            });
+         } else {
+            setSelectState((prev) => {
+               return {
+                  enableSelect: true,
+                  selectedValues: [...prev.selectedValues, data.id],
+               };
+            });
+         }
+      } else if (!selectState.enableSelect) {
+         setDialogState({
+            isOpen: true,
+            data: data,
+            id: data.id,
+            mode: 'view',
+            type: 'file',
+         });
+      }
+   };
+
+   return (
+      <div className="flex flex-col cursor-default" onClick={handleClick}>
+         <div
+            className={cn(
+               'flex px-2 items-center bg-transparent hover:bg-quaternary transition-colors duration-100',
+               { 'bg-quaternary': isSelected }
+            )}
+         >
+            <Checkbox
+               className={cn(
+                  'h-[14px] w-0 opacity-0 transition-all duration-150',
+                  { 'w-[14px] mr-1  opacity-100': selectState.enableSelect }
+               )}
+               checked={isSelected}
+            />
+            <div className="flex flex-col w-full">
+               <div className="flex justify-between py-[10px] grow items-center">
+                  <div className='flex gap-2 items-center'>
+                     {getIcon(data.type, 'w-4 h-4 text-secondary')}
+                     <div className="flex gap-1 items-center text-[15px]">
+                        <p>{data.name}</p>
+                     </div>
+                  </div>
+                  <div className="flex">
+                     <p className="text-sm text-secondary w-[150px]">
+                        {category}
+                     </p>
+                     <p className="text-sm text-secondary w-[150px]">
+                        {data.client}
+                     </p>
+                     <p className="text-sm text-secondary w-[120px]">
+                        {dateUploaded}
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <EditPopover />
+         </div>
+         <Separator className="bg-quaternary h-[1px]" />
+      </div>
+   );
+};

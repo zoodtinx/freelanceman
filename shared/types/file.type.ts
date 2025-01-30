@@ -27,7 +27,7 @@ export interface File {
    modifiedAt?: string;
 }
 
-export type FileSearchOption = Partial<
+export type FileSearchOptions = Partial<
    Pick<File, "name" | "category" | "fileName" | "type" | "clientId" | "projectId">
 >;
 
