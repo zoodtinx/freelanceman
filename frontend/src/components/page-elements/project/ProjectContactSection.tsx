@@ -34,8 +34,11 @@ export const ProjectContactSection = (): JSX.Element => {
 
    return (
       <>
-         <div className="flex justify-between">
-            <p className="flex items-center px-2 h-11 text-lg">Contacts</p>
+         <div className="flex justify-between pb-2">
+            <p className="flex items-center px-2 h-11 text-lg gap-1">
+               <BookUser className='w-5 h-5' />
+               Contacts
+            </p>
             <NewContactButton setDialogState={setDialogState} />
          </div>
          {isLoading ? (
