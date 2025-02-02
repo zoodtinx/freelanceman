@@ -25,9 +25,9 @@ export default function ProjectPage() {
    return (
       <section className="flex grow gap-2">
          <div className="flex flex-col w-2/3 rounded-2xl gap-2">
-            <div className="flex flex-col bg-transparent rounded-2xl px-1 py-3 w-full relative">
+            <div className="flex flex-col bg-foreground rounded-2xl px-4 py-3 w-full relative">
                <EllipsisVertical className="absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75" />
-               <p className="text-[1.7em]">{project.title}</p>
+               <p className="text-[1.6em]">{project.title}</p>
                <div className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75" style={{
                   color: project.accentColor
                }}>
@@ -63,7 +63,7 @@ export default function ProjectPage() {
             <div className="flex flex-col rounded-2xl bg-foreground grow relative">
                <ProjectFileSection />
             </div>
-            <div className="flex flex-col rounded-2xl bg-foreground h-2/5 relative">
+            <div className="flex flex-col rounded-2xl bg-foreground h-2/5 relative overflow-hidden">
                <ProjectContactSection />
             </div>
          </div>

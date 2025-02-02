@@ -93,36 +93,37 @@ const ProjectFileSection: React.FC = () => {
 
    return (
       <>
-         <div className="flex justify-between items-center my-1 px-2">
-            <div className="flex items-center px-2  gap-3 h-11 text-lg cursor-default">
+         <div className="flex items-center">
+            <div className="flex items-center h-9 text-md cursor-default">
                <p
                   className={cn(
-                     'flex items-center gap-1 text-secondary order-2 transition-colors duration-150',
+                     'flex items-center gap-1 px-4 pr-3 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary',
                      {
-                        'text-primary': tab === 'drafts',
+                        'text-primary border-r-[0.5px] border-b-0 border-tertiary': tab === 'drafts',
                      }
                   )}
                   onClick={() => handleTabChange('drafts')}
                >
-                  <Paperclip className="w-5 h-5" />
+                  <Paperclip className="w-4 h-4" />
                   Draft
                </p>
                <p
                   className={cn(
-                     'flex items-center gap-1 text-secondary order-2 transition-colors duration-150',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 px-3 h-full border-b-[0.5px] border-tertiary',
                      {
-                        'text-primary': tab === 'assets',
+                        'text-primary border-r-[0.5px] border-b-0 border-tertiary': tab === 'assets',
                      }
                   )}
                   onClick={() => handleTabChange('assets')}
                >
-                  <Package2 className="w-5 h-5" />
+                  <Package2 className="w-4 h-4" />
                   Assets
                </p>
             </div>
-            <AddButton />
+            <div className='flex items-center border-b-[0.5px] h-9 border-tertiary grow justify-end'>
+               <AddButton />
+            </div>
          </div>
-         <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow p-2 pt-3">
             <SearchBox className="rounded-full w-1/2 h-6 text-base ml-2" />
             <ProjectPageFileList

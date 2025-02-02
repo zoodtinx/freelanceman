@@ -35,17 +35,17 @@ export const ProjectTaskList: React.FC<TaskListProps> = ({
    }
 
    const fileListItems = tasksData.map((tasksData) => (
-      <TaskListItem
-         key={tasksData.id}
-         data={tasksData}
-         setSelectState={setSelectState}
-         selectState={selectState}
-         setDialogState={setDialogState}
-      />
+         <TaskListItem
+            key={tasksData.id}
+            data={tasksData}
+            setSelectState={setSelectState}
+            selectState={selectState}
+            setDialogState={setDialogState}
+         />
    ));
 
    return (
-      <div className="flex flex-col h-0 grow overflow-y-auto">
+      <div className="flex flex-col h-0 grow gap-3 overflow-y-auto">
          {fileListItems}
       </div>
    );
@@ -85,10 +85,6 @@ const TaskListItem = ({
                </p>
             )}
             <p className="text-sm text-secondary w-fit">{formattedDate}</p>
-         </div>
-         <div></div>
-         <div className="h-3 flex items-center">
-            {/* <Separator className="bg-quaternary h-[1px]" /> */}
          </div>
       </div>
    );
