@@ -1,14 +1,14 @@
 import { EllipsisVertical } from 'lucide-react';
 import { useAllEventQuery } from '@/lib/api/event-api';
 import { FormDialogState } from '@/lib/types/dialog.types';
-import { EventSearchOptions } from '@types';
+import { EventSearchOptions, Project } from '@types';
 import { Calendar } from 'lucide-react';
 import { useState } from 'react';
 import { ProjectEventList } from '@/components/page-elements/project/ProjectEventList';
 import AddButton from '@/components/shared/ui/AddButton';
 import EventDialog from '@/components/shared/ui/EventDialog';
 
-const ProjectEvent: React.FC = () => {
+const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
    const [eventDialogState, setEventDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
@@ -30,9 +30,11 @@ const ProjectEvent: React.FC = () => {
 
    return (
       <div className="flex flex-col w-1/2">
-         <div className="flex items-center justify-between pl-4 pr-3 h-11 text-lg cursor-default my-1">
-            <p className="flex items-center gap-1 text-primary transition-colors duration-150">
-               <Calendar className="w-5 h-5" />
+         <div className='flex justify-between items-center pl-3 pr-2'>
+            <p className="flex items-center h-9 text-md gap-1">
+               <Calendar className="w-4 h-4" style={{
+                  color: project.accentColor
+               }} />
                Event
             </p>
             <AddButton />

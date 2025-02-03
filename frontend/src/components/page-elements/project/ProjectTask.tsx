@@ -30,9 +30,9 @@ const ProjectTask: React.FC<{project: Project}> = ({project}) => {
 
    return (
       <div className="flex flex-col w-1/2">
-         <div className="flex items-center justify-between px-3 h-11 text-lg cursor-default my-1">
-            <p className="flex items-center gap-1 text-primary transition-colors duration-150">
-               <CircleCheck className="w-5 h-5" style={{
+         <div className='flex justify-between items-center pl-3 pr-2'>
+            <p className="flex items-center h-9 text-md gap-1">
+               <CircleCheck className="w-4 h-4" style={{
                   color: project.accentColor
                }} />
                Task

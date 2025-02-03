@@ -24,8 +24,8 @@ export default function ProjectPage() {
 
    return (
       <section className="flex grow gap-2">
-         <div className="flex flex-col w-2/3 rounded-2xl gap-2">
-            <div className="flex flex-col bg-foreground rounded-2xl px-4 py-3 w-full relative">
+         <div className="flex flex-col w-2/3xl gap-2">
+            <div className="flex flex-col bg-foreground rounded-xl px-4 py-3 w-full relative">
                <EllipsisVertical className="absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75" />
                <p className="text-[1.6em]">{project.title}</p>
                <div className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75" style={{
@@ -40,14 +40,14 @@ export default function ProjectPage() {
                   </Link>
                </div>
             </div>
-            <div className="flex rounded-2xl bg-foreground grow relative">
+            <div className="flex rounded-xl bg-foreground grow relative">
                <ProjectTask project={project} />
                <div className="flex h-full">
                   <div className="border-[0.5px] border-tertiary" />
                </div>
-               <ProjectEvent />
+               <ProjectEvent project={project} />
             </div>
-            <div className="flex rounded-2xl bg-foreground h-1/3 relative">
+            <div className="flex rounded-xl bg-foreground h-1/3 relative">
                <div className="flex flex-col flex-[5]">
                   <ProjectNoteSection />
                </div>
@@ -59,11 +59,11 @@ export default function ProjectPage() {
                </div>
             </div>
          </div>
-         <div className="w-1/3 flex flex-col rounded-2xl gap-2">
-            <div className="flex flex-col rounded-2xl bg-foreground grow relative">
+         <div className="w-1/3 flex flex-col rounded-xl gap-2">
+            <div className="flex flex-col rounded-xl bg-foreground grow relative">
                <ProjectFileSection />
             </div>
-            <div className="flex flex-col rounded-2xl bg-foreground h-2/5 relative overflow-hidden">
+            <div className="flex flex-col rounded-xl bg-foreground h-2/5 relative overflow-hidden">
                <ProjectContactSection />
             </div>
          </div>

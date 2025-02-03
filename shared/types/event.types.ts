@@ -14,6 +14,8 @@ export interface Event {
    client: string;
    clientId: string;
    color:string;
+   type: string;
+   location: string;
 }
 
 export type NewEventPayload = Omit<Event, 'createdAt' | 'project' | 'client'>;
