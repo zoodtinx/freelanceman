@@ -44,7 +44,7 @@ const DocumentPageLayout: React.FC = () => {
    });
 
    return (
-      <div className="flex flex-col w-full grow bg-foreground rounded-[30px] p-4 pt-6 sm:w-full h-full shrink-0">
+      <div className="flex flex-col w-full grow bg-foreground rounded-[30px] px-4 pt-6 sm:w-full h-full shrink-0">
          <div className="flex mb-3 justify-between">
             <div className="flex items-center gap-1">
                <FileText className="h-6 w-6 mt-1" />

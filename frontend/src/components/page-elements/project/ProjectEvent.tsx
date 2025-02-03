@@ -1,3 +1,4 @@
+import { EllipsisVertical } from 'lucide-react';
 import { useAllEventQuery } from '@/lib/api/event-api';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { EventSearchOptions } from '@types';

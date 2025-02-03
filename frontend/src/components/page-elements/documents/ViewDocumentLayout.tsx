@@ -28,7 +28,7 @@ const ViewDocumentLayout: React.FC = () => {
    });
 
    return (
-      <div className="flex w-full gap-2 grow">
+      <div className="flex w-full gap-3 grow ">
          <FileColumn setDialogState={setDialogState} />
          <DraftColumn setDialogState={setDialogState} />
       </div>
@@ -53,16 +53,7 @@ const FileColumn = ({ setDialogState }) => {
    });
 
    return (
-      <div className="flex flex-col border w-1/2 border-tertiary rounded-xl p-2 py-1">
-         <div className="flex items-center justify-between p-2 gap-2">
-            <div className="flex items-center gap-1">
-               <Folder className="w-5 h-5" />
-               <p className="text-lg">Files</p>
-            </div>
-            <div className="flex items-center gap-1">
-               <NewButton />
-            </div>
-         </div>
+      <div className="flex flex-col w-1/2 rounded-xl px-2">
          <div className="w-full px-1 flex mb-1 gap-1">
             <FilterSelect
                selectContents={DocumentDraftSelections}
@@ -99,7 +90,7 @@ const DraftColumn = ({ setDialogState }) => {
    });
 
    return (
-      <div className="flex flex-col border w-1/2 border-dashed border-tertiary rounded-xl p-2 py-1">
+      <div className="flex flex-col border border-dashed w-1/2 border-primary rounded-xl p-2 py-1">
          <div className="flex items-center justify-between p-2">
             <div className="flex items-center gap-1">
                <SquarePen className="w-5 h-5" />
@@ -119,7 +110,6 @@ const DraftColumn = ({ setDialogState }) => {
             />
             <SearchBox className="h-[25px] w-fit py-0 px-2 rounded-full border-secondary" />
          </div>
-         <DocumentDraftTable table={table}/>
       </div>
    );
 };

@@ -6,7 +6,7 @@ import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task } from '@types';
-import { EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, PencilLine } from 'lucide-react';
 import { EditPopover } from '@/components/shared/ui/EditPopover';
 
 interface TaskListProps {
@@ -35,13 +35,13 @@ export const ProjectTaskList: React.FC<TaskListProps> = ({
    }
 
    const fileListItems = tasksData.map((tasksData) => (
-         <TaskListItem
-            key={tasksData.id}
-            data={tasksData}
-            setSelectState={setSelectState}
-            selectState={selectState}
-            setDialogState={setDialogState}
-         />
+      <TaskListItem
+         key={tasksData.id}
+         data={tasksData}
+         setSelectState={setSelectState}
+         selectState={selectState}
+         setDialogState={setDialogState}
+      />
    ));
 
    return (
@@ -71,21 +71,40 @@ const TaskListItem = ({
    const formattedDate = formatDate(data.dueDate, 'LONG');
    const formattedTime = formatTime(data.dueDate);
 
+   const handleOpenDialog = () => {
+      setDialogState({
+         isOpen: true,
+         mode: 'view',
+         type: 'event',
+         data: data,
+         id: data.id,
+      });
+   };
+
    return (
-      <div className="grid grid-cols-[24px_auto] px-[10px]">
-         <div className="w-[24px] flex items-start pt-1">
-            <Checkbox className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150" />
+      <div className="flex justify-between items-center group pr-3">
+         <div className="grid grid-cols-[24px_auto] px-[10px]">
+            <div className="w-[24px] flex items-start pt-1">
+               <Checkbox className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150" />
+            </div>
+            <p>{data.name}</p>
+            <div></div>
+            <div className="flex">
+               {formattedTime && (
+                  <p className="text-sm text-secondary w-[60px]">
+                     {formattedTime}
+                  </p>
+               )}
+               <p className="text-sm text-secondary w-fit">{formattedDate}</p>
+            </div>
          </div>
-         <p>{data.name}</p>
-         <div></div>
-         <div className="flex">
-            {formattedTime && (
-               <p className="text-sm text-secondary w-[60px]">
-                  {formattedTime}
-               </p>
-            )}
-            <p className="text-sm text-secondary w-fit">{formattedDate}</p>
-         </div>
+         <PencilLine
+            className={`w-5 h-5 stroke-[1.5px] text-secondary opacity-0 cursor-pointer
+               group-hover:opacity-100 hover:text-primary
+               transition-all duration-100
+               `}
+            onClick={handleOpenDialog}
+         />
       </div>
    );
 };
