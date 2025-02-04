@@ -48,13 +48,13 @@ export default function ProjectPage() {
                <ProjectEvent project={project} />
             </div>
             <div className="flex rounded-xl bg-foreground h-1/3 relative">
-               <div className="flex flex-col flex-[5]">
+               <div className="flex flex-col w-3/5 shrink-0">
                   <ProjectNoteSection />
                </div>
                <div className="flex h-full">
                   <div className="border-[0.5px] border-tertiary" />
                </div>
-               <div className="flex flex-col flex-[3]">
+               <div className="flex flex-col w-2/5">
                   <ProjectLinkSection />
                </div>
             </div>
