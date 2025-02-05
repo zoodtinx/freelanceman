@@ -10,10 +10,11 @@ export interface Project {
   client: string;
   clientId: string;
   quickTaskId: string;
-  brief: string;
   projectStatus: string;
   paymentStatus: string;
   accentColor: string;
+  links: string[];
+  notes: string;
   createdAt: string;
   modifiedAt: string;
 }

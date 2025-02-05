@@ -113,15 +113,22 @@ const LinkItems = ({ links }: { links: string[] }) => {
       return link.replace(/^https?:\/\/(www\.)?/, '');
    };
 
-   const linkItems = links.map((link) => {
+   const deleteLink = (index: number) => {
+      console.log(index);
+   };
+
+   const linkItems = links.map((link, index) => {
       const formattedLink = formatLink(link);
       return (
-         <Link to={link} className='flex bg-background p-1 rounded-lg px-2 items-center gap-2'>
-            <p className="grow truncate">
-               {formattedLink}
-            </p>
-            <XIcon className='w-4 h-4 text-secondary' />
-         </Link>
+         <button
+            className="flex bg-background p-1 rounded-lg px-2 items-center gap-2"
+         >
+            <Link to={link} className="text-left grow truncate text-sm">{formattedLink}</Link>
+            <XIcon
+               className="w-4 h-4 text-secondary"
+               onClick={() => deleteLink(index)}
+            />
+         </button>
       );
    });
 
