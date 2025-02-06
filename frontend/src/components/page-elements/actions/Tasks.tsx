@@ -29,7 +29,7 @@ export default function Tasks() {
    });
 
    const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({
-      status: 'planned',
+      status: 'completed',
    });
 
    const [selectState, setSelectState] = useState({

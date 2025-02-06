@@ -50,7 +50,7 @@ export const EventList: React.FC<EventListProps> = ({
       return (
         <React.Fragment key={group.date}>
           <EventGroup eventGroupData={group} />
-          <div className="border-[0.5px] border-dotted border-primary" />
+          <div className="border-[0.5px] border-secondary" />
         </React.Fragment>
       );
     });
@@ -79,13 +79,18 @@ const EventGroup = ({eventGroupData}) => {
 
    const events = eventGroupData.events.map((data, index) => {
       return (
-         <EventListItem data={data} key={data.id} />
-      )
+         <React.Fragment key={data.id}>
+            <EventListItem data={data} />
+            {index !== eventGroupData.events.length - 1 && (
+               <div className="border-[0.5px] border-dotted" />
+            )}
+         </React.Fragment>
+      );
    })
 
    return (
       <div className='flex w-full cursor-default'>
-         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full border-x border-x-tertiary border-r-[0.75px] border-r-secondary">
+         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full border-x border-x-tertiary border-r-[0.75px] border-r-secondary bg-background">
             <p className='text-md'>{date}</p>
             <p className='font-medium'>{month}</p>
          </div>
@@ -94,11 +99,7 @@ const EventGroup = ({eventGroupData}) => {
    );
 }
 
-const EventListItem = ({
-   data,
-   setDialogState,
-}: EventListItemProps) => {
-
+const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
    const formattedDate = formatDate(data.dueDate, 'SHORT');
    const formattedTime = formatTime(data.dueDate);
 
@@ -116,16 +117,16 @@ const EventListItem = ({
    const tags = ['Meeting', 'London', 'Mechanical', 'Robot'];
 
    return (
-      <div className="flex border-b border-b-tertiary border-r border-r-tertiary justify-between items-center pr-3 group">
+      <div className="flex justify-between items-center pr-3 group">
          <div className="flex flex-col justify-center h-14 pl-3">
-               <p>{data.name}</p>
-               <div className="flex items-center">
-                  <p className="text-sm text-secondary w-[54px]">
-                     {formattedTime ? formattedTime : 'All day'}
-                  </p>
-                  <EventTags tags={tags} />
-               </div>
+            <p>{data.name}</p>
+            <div className="flex items-center">
+               <p className="text-sm text-secondary w-[54px]">
+                  {formattedTime ? formattedTime : 'All day'}
+               </p>
+               <EventTags tags={tags} />
             </div>
+         </div>
          <PencilLine
             className={`w-5 h-5 stroke-[1.5px] text-secondary opacity-0 cursor-pointer
                group-hover:opacity-100 hover:text-primary
