@@ -3,9 +3,7 @@ import type { SVGProps } from 'react';
 const SvgFreelancemanIcon = (props: SVGProps<SVGSVGElement>) => (
    <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={35}
-      height={35}
-      viewBox="0 0 155.19 112.72"
+      viewBox="0 0 155 113"
       fill="currentColor"
       {...props}
    >

@@ -49,7 +49,6 @@ export default function Tasks() {
                >
                   <ToggleGroupItem value="planned">Planned</ToggleGroupItem>
                   <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
-                  <ToggleGroupItem value="canceled">Canceled</ToggleGroupItem>
                </ToggleGroup>
             </div>
             <NewActionButton type="task" setDialogState={setTaskDialogState} />

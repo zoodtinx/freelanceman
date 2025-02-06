@@ -3,9 +3,7 @@ import type { SVGProps } from 'react';
 const SvgFreelancemanTypo = (props: SVGProps<SVGSVGElement>) => (
    <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={35}
-      height={35}
-      viewBox="0 0 208.58 80.36"
+      viewBox="0 0 215 85"
       fill="currentColor"
       {...props}
    >

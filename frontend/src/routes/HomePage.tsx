@@ -6,7 +6,7 @@ export default function HomePage() {
    return (
       <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative">
          <TopBar />
-         <main className="flex grow px-3 pb-3 gap-3 sm:px-2 sm:pb-2 relative">
+         <main className="flex grow px-2 pb-3 gap-3 sm:px-2 sm:pb-2 relative">
             <SideBar />
             <Outlet />
          </main>
