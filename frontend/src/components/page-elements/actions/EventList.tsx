@@ -95,6 +95,7 @@ export const EventListItem = ({
             id: data.id,
             mode: 'view',
             type: 'file',
+            page: 'project-page'
          });
       }
    };

@@ -14,6 +14,7 @@ export const mockEvents: Event[] = [
       projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       client: "PixelEdge Studios",
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
+      accentColor: '#FCEEE2',
    },
    {
       id: "bc4d0972-21c2-4f7f-9b87-9b4fa0421c7b",
@@ -28,6 +29,7 @@ export const mockEvents: Event[] = [
       projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       client: "PixelEdge Studios",
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
+      accentColor: '#FCEEE2',
    },
    {
       id: "a6fd7fd3-4cda-4307-8c3f-b17058b3bada",
@@ -41,6 +43,7 @@ export const mockEvents: Event[] = [
       project: "Rebrand for PixelEdge: Digital Campaign Launch",
       projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       withTime: true,
+      accentColor: '#FCEEE2',
       color: '#aae4f2',
       client: "PixelEdge Studios",
       clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
@@ -53,6 +56,7 @@ export const mockEvents: Event[] = [
       link: "http://launch-link.com",
       createdAt: "2024-12-15T09:00:00Z",
       dueDate: "2024-12-20T00:00:00Z",
+      accentColor: '#FCEEE2',
       project: "Rebrand for PixelEdge: Digital Campaign Launch",
       projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
       client: "PixelEdge Studios",
@@ -66,6 +70,7 @@ export const mockEvents: Event[] = [
          "Initial meeting to discuss the creative direction and packaging requirements for NatureBurst Granola.",
       link: "http://kickoff-link.com",
       createdAt: "2024-12-10T11:00:00Z",
+      accentColor: '#FCEEE2',
       dueDate: "2024-12-12T14:00:00Z",
       project: "Packaging Design for NatureBurst Granola",
       projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
@@ -84,6 +89,7 @@ export const mockEvents: Event[] = [
       project: "Packaging Design for NatureBurst Granola",
       projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
       client: "Creative Hive Co.",
+      accentColor: '#FCEEE2',
       clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af",
    },
    {
@@ -96,6 +102,7 @@ export const mockEvents: Event[] = [
       createdAt: "2024-12-13T12:00:00Z",
       dueDate: "2024-12-16T09:00:00Z",
       project: "Packaging Design for NatureBurst Granola",
+      accentColor: '#FCEEE2',
       projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
       client: "Creative Hive Co.",
       clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af",
@@ -109,6 +116,7 @@ export const mockEvents: Event[] = [
       createdAt: "2024-12-15T10:00:00Z",
       dueDate: "2024-12-20T12:00:00Z",
       project: "Packaging Design for NatureBurst Granola",
+      accentColor: '#FCEEE2',
       projectId: "c9e44d89-8a4f-439e-842f-706f80a9f379",
       client: "Creative Hive Co.",
       clientId: "b4c88e33-6d4a-4bc9-9a42-5f1ce894d4af",
@@ -139,6 +147,7 @@ export const mockEvents: Event[] = [
       project: "Social Media Graphics for BoldFrame Winter Campaign",
       projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
       client: "BoldFrame Agency",
+      accentColor: '#FCEEE2',
       clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c",
    },
    {
@@ -150,6 +159,7 @@ export const mockEvents: Event[] = [
       link: "http://final-graphics-approval.com",
       createdAt: "2024-12-12T14:00:00Z",
       dueDate: "2024-12-18T09:00:00Z",
+      accentColor: '#FCEEE2',
       project: "Social Media Graphics for BoldFrame Winter Campaign",
       projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
       client: "BoldFrame Agency",
@@ -167,6 +177,7 @@ export const mockEvents: Event[] = [
       project: "Social Media Graphics for BoldFrame Winter Campaign",
       projectId: "d7a8e789-bb7f-4c2e-a089-ef2853c5f303",
       client: "BoldFrame Agency",
+      accentColor: '#FCEEE2',
       clientId: "c9d55f77-7bca-4f3d-b3c6-a41d1e4bcf9c",
    },
    {
@@ -181,6 +192,7 @@ export const mockEvents: Event[] = [
       project: "360° Ad Campaign for Visionary Ads' New Product Line",
       projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
       client: "Visionary Ads Ltd.",
+      accentColor: '#FCEEE2',
       clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732",
    },
    {
@@ -192,6 +204,7 @@ export const mockEvents: Event[] = [
       link: "http://concept-review-link.com",
       createdAt: "2024-12-10T10:00:00Z",
       dueDate: "2024-12-14T12:00:00Z",
+      accentColor: '#FCEEE2',
       project: "360° Ad Campaign for Visionary Ads' New Product Line",
       projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
       client: "Visionary Ads Ltd.",
@@ -209,6 +222,7 @@ export const mockEvents: Event[] = [
       project: "360° Ad Campaign for Visionary Ads' New Product Line",
       projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
       client: "Visionary Ads Ltd.",
+      accentColor: '#FCEEE2',
       clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732",
    },
    {
@@ -223,6 +237,7 @@ export const mockEvents: Event[] = [
       project: "360° Ad Campaign for Visionary Ads' New Product Line",
       projectId: "e92c93b1-f5c3-438f-b489-27b34c4ffaba",
       client: "Visionary Ads Ltd.",
+      accentColor: '#FCEEE2',
       clientId: "d1a23c88-9bda-4f6b-bd54-3e7e942e5732",
    },
    {
@@ -237,6 +252,7 @@ export const mockEvents: Event[] = [
       project: "Brand Identity for NextWave Creations",
       projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
       client: "NextWave Creations",
+      accentColor: '#FCEEE2',
       clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
    },
    {
@@ -251,6 +267,7 @@ export const mockEvents: Event[] = [
       project: "Brand Identity for NextWave Creations",
       projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
       client: "NextWave Creations",
+      accentColor: '#FCEEE2',
       clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
    },
    {
@@ -265,6 +282,7 @@ export const mockEvents: Event[] = [
       project: "Brand Identity for NextWave Creations",
       projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
       client: "NextWave Creations",
+      accentColor: '#FCEEE2',
       clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
    },
    {
@@ -278,6 +296,7 @@ export const mockEvents: Event[] = [
       project: "Brand Identity for NextWave Creations",
       projectId: "f3d97e4b-7f1c-4c84-8bde-5411d5c6e4f1",
       client: "NextWave Creations",
+      accentColor: '#FCEEE2',
       clientId: "e8f34a56-3c4b-4fc1-b54d-7f8ab8d45632",
    },
    {
@@ -287,6 +306,7 @@ export const mockEvents: Event[] = [
       details:
          "Planning the digital branding strategy for LumeCreative's EcoSmart initiative.",
       link: "http://planning-link.com",
+      accentColor: '#FCEEE2',
       createdAt: "2024-12-10T12:00:00Z",
       dueDate: "2024-12-14T14:00:00Z",
       project: "Digital Branding for Lume's 'EcoSmart' Initiative",
@@ -306,11 +326,13 @@ export const mockEvents: Event[] = [
       project: "Digital Branding for Lume's 'EcoSmart' Initiative",
       projectId: "a3e8d7f1-98cf-4ed2-9e67-1c6d1b3f8b7a",
       client: "LumeCreative Agency",
+      accentColor: '#FCEEE2',
       clientId: "f2a8d7c9-456b-40d1-b9e6-4e71d3a4f1b2",
    },
    {
       id: "d1fc839e-63bb-445a-bd98-5e4f2491978d",
       name: "EcoSmart Branding Mockups Review",
+      accentColor: '#FCEEE2',
       status: "scheduled",
       details:
          "Reviewing the first mockups for the EcoSmart digital branding initiative.",
@@ -325,6 +347,7 @@ export const mockEvents: Event[] = [
    {
       id: "8f756212-d0ca-4ed2-b42d-45646064ec42",
       name: "Final Branding Approval for EcoSmart",
+      accentColor: '#FCEEE2',
       status: "completed",
       details:
          "Final approval of the digital branding materials for the EcoSmart initiative.",
@@ -340,6 +363,7 @@ export const mockEvents: Event[] = [
       id: "b1e7a1b9-b13f-4bc7-941b-07e1f8f9f34a",
       name: "EcoSmart Digital Branding Launch",
       status: "scheduled",
+      accentColor: '#FCEEE2',
       details:
          "Launch of the EcoSmart digital branding campaign across online platforms.",
       link: "http://digital-launch-link.com",
@@ -354,6 +378,7 @@ export const mockEvents: Event[] = [
       id: "fbd00c6b-9a79-4ab1-91fa-76f8b72a35b6",
       name: "Website Revamp Kick-Off Meeting",
       status: "scheduled",
+      accentColor: '#FCEEE2',
       details:
          "Initial meeting to discuss the requirements and vision for the website revamp for WaveMakers Studio.",
       link: "http://kickoff-link.com",
@@ -376,6 +401,7 @@ export const mockEvents: Event[] = [
       project: "Website Revamp for WaveMakers Studio",
       projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
       client: "WaveMakers Studio",
+      accentColor: '#FCEEE2',
       clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9",
    },
    {
@@ -387,6 +413,7 @@ export const mockEvents: Event[] = [
       link: "http://final-approval-link.com",
       createdAt: "2024-12-13T12:00:00Z",
       dueDate: "2024-12-17T14:00:00Z",
+      accentColor: '#FCEEE2',
       project: "Website Revamp for WaveMakers Studio",
       projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
       client: "WaveMakers Studio",
@@ -401,6 +428,7 @@ export const mockEvents: Event[] = [
       createdAt: "2024-12-15T10:30:00Z",
       dueDate: "2024-12-20T12:00:00Z",
       project: "Website Revamp for WaveMakers Studio",
+      accentColor: '#FCEEE2',
       projectId: "b7f9e5c3-89ab-4c6d-8d7e-12c9a34e5b7a",
       client: "WaveMakers Studio",
       clientId: "c3e8a7d4-567f-45b9-b6c8-7f12d4c5e8b9",
@@ -414,6 +442,7 @@ export const mockEvents: Event[] = [
       link: "http://branding-strategy-link.com",
       createdAt: "2024-12-10T11:30:00Z",
       dueDate: "2024-12-15T13:00:00Z",
+      accentColor: '#FCEEE2',
       project: "Event Branding for Skyline's Annual Gala",
       projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
       client: "Skyline Creatives",
@@ -431,6 +460,7 @@ export const mockEvents: Event[] = [
       project: "Event Branding for Skyline's Annual Gala",
       projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
       client: "Skyline Creatives",
+      accentColor: '#FCEEE2',
       clientId: "f9a7c8e3-456f-4b2d-b6e7-3c1a5d9e7b4f",
    },
    {
@@ -441,6 +471,7 @@ export const mockEvents: Event[] = [
          "Approval of final branding materials for Skyline's Annual Gala.",
       link: "http://final-approval-gala.com",
       createdAt: "2024-12-12T16:00:00Z",
+      accentColor: '#FCEEE2',
       dueDate: "2024-12-16T11:00:00Z",
       project: "Event Branding for Skyline's Annual Gala",
       projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
@@ -456,6 +487,7 @@ export const mockEvents: Event[] = [
       link: "http://gala-launch-link.com",
       createdAt: "2024-12-14T10:30:00Z",
       dueDate: "2024-12-20T13:00:00Z",
+      accentColor: '#FCEEE2',
       project: "Event Branding for Skyline's Annual Gala",
       projectId: "d4e7c6b9-8a1f-4c3d-8b6e-9f7a2c5e1a3b",
       client: "Skyline Creatives",
@@ -464,6 +496,7 @@ export const mockEvents: Event[] = [
    {
       id: "8d4cc23b-3eb8-4f65-8a0b-df9ef39a9c8f",
       name: "Product Launch Strategy for InnovateAds",
+      accentColor: '#FCEEE2',
       status: "ongoing",
       details:
          "Developing the marketing strategy for InnovateAds' upcoming product launch.",
@@ -479,6 +512,7 @@ export const mockEvents: Event[] = [
       id: "4f9a65c4-9023-4f8a-b0f0-7747edb171a5",
       name: "Product Launch Concept Review",
       status: "completed",
+      accentColor: '#FCEEE2',
       details:
          "Reviewing the initial concepts for InnovateAds' product launch campaign.",
       link: "http://concept-review-link.com",
@@ -492,6 +526,7 @@ export const mockEvents: Event[] = [
    {
       id: "cf25a829-0d1a-445a-a8c0-25f2b88b1704",
       name: "Final Ad Production Approval",
+      accentColor: '#FCEEE2',
       status: "scheduled",
       details:
          "Approval of final ad materials for InnovateAds' product launch.",
@@ -508,6 +543,7 @@ export const mockEvents: Event[] = [
       name: "Product Launch Campaign Launch",
       status: "completed",
       details: "Launch of InnovateAds' product across digital platforms.",
+      accentColor: '#FCEEE2',
       link: "http://product-launch-link.com",
       createdAt: "2024-12-15T10:00:00Z",
       dueDate: "2024-12-20T12:00:00Z",
@@ -518,6 +554,7 @@ export const mockEvents: Event[] = [
    },
    {
       id: "ef7fbc0e-3093-4b64-8c7e-3a0211c2f5f4",
+      accentColor: '#FCEEE2',
       name: "Initial Podcast Ad Strategy",
       status: "ongoing",
       details:
@@ -534,6 +571,7 @@ export const mockEvents: Event[] = [
       id: "3b4ef564-df3a-4ad2-b6d4-6989d5c5a38b",
       name: "Podcast Ad Mockup Review",
       status: "completed",
+      accentColor: '#FCEEE2',
       details:
          "Reviewing the first mockups of podcast ads for BrightIdea’s new podcast launch.",
       link: "http://ad-mockup-review.com",
@@ -548,6 +586,7 @@ export const mockEvents: Event[] = [
       id: "d76710b6-57fb-4b52-a473-badae6ad5fbb",
       name: "Final Podcast Ad Approval",
       status: "completed",
+      accentColor: '#FCEEE2',
       details:
          "Approval of final ad materials for the podcast launch campaign.",
       link: "http://final-podcast-approval.com",
@@ -562,6 +601,7 @@ export const mockEvents: Event[] = [
       id: "7e567ea9-e8f1-433f-bd96-3a2f0c2de126",
       name: "Podcast Ad Campaign Launch",
       status: "completed",
+      accentColor: '#FCEEE2',
       details: "Launch of the podcast ad series for BrightIdea’s new podcast.",
       link: "http://podcast-ad-launch.com",
       createdAt: "2024-12-13T10:00:00Z",

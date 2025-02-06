@@ -64,7 +64,7 @@ const EventDialog: React.FC<DialogProps> = ({
       if (dialogState.mode == 'create') {
          setColor('');
       } else {
-         setColor(dialogState.data.color);
+         setColor(dialogState.data.accentColor);
       }
    }, [dialogState, reset]);
 
@@ -149,21 +149,27 @@ const EventDialog: React.FC<DialogProps> = ({
                            />
                         </div>
                      </div>
-                     <div className="flex leading-tight">
-                        <div className="w-1/2">
-                           <p className="text-secondary">Project</p>
-                           <ProjectSelect
-                              formMethods={formMethods}
-                              dialogState={dialogState}
-                           />
+                     {dialogState.page !== 'project-page' && (
+                        <div className="flex leading-tight">
+                           <div className="w-1/2">
+                              <p className="text-secondary">Project</p>
+                              <ProjectSelect
+                                 formMethods={formMethods}
+                                 dialogState={dialogState}
+                              />
+                           </div>
+                           <div className="w-1/2">
+                              <p className="text-secondary">Client</p>
+                              <AutoClientField
+                                 formMethods={formMethods}
+                                 dialogState={dialogState}
+                              />
+                           </div>
                         </div>
-                        <div className="w-1/2">
-                           <p className="text-secondary">Client</p>
-                           <AutoClientField
-                              formMethods={formMethods}
-                              dialogState={dialogState}
-                           />
-                        </div>
+                     )}
+                     <div className="w-full">
+                        <p className="text-secondary">Tags</p>
+                        <TagField />
                      </div>
                      <div className="w-full">
                         <p className="text-secondary">Details</p>
@@ -197,6 +203,25 @@ const EventDialog: React.FC<DialogProps> = ({
       </Dialog>
    );
 };
+
+const TagField = ({formMethods}) => {
+   const tags = ['Meeting', 'Day', 'Impact Arena',]
+   const color = '#FCEEE2'
+   
+   const tagsDisplay = tags.map((tag) => {
+      return (
+         <div key={tag} className='text-sm font-medium px-2 py-1 rounded-full' style={{ backgroundColor: color}}>
+            {tag}
+         </div>
+      )
+   })
+
+   return (
+      <div className='flex gap-1 flex-wrap'>
+         {tagsDisplay}
+      </div>
+   )
+}
 
 const LeftButton: React.FC<{
    dialogState: FormDialogState;

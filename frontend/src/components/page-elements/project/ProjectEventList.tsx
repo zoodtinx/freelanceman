@@ -28,8 +28,6 @@ export const ProjectEventList: React.FC<EventListProps> = ({
       return <p>Loading...</p>;
    }
 
-   console.log('eventsData', eventsData);
-
    if (!eventsData || eventsData.length === 0) {
       return <p>No Event available</p>;
    }
@@ -78,8 +76,11 @@ const EventListItem = ({
          type: 'event',
          data: data,
          id: data.id,
+         page: 'project-page',
       });
    };
+
+   const tags = ['Meeting', 'London', 'Mechanical', 'Robot'];
 
    return (
       <div className="flex border-b border-b-tertiary justify-between items-center pr-3 group">
@@ -90,16 +91,11 @@ const EventListItem = ({
             </div>
             <div className="flex flex-col justify-center">
                <p>{data.name}</p>
-               <div></div>
-               <div className="flex">
-                  {formattedTime && (
-                     <p className="text-sm text-secondary w-[60px]">
-                        {formattedTime}
-                     </p>
-                  )}
-                  <p className="text-sm text-secondary w-fit">
-                     {formattedDate}
+               <div className="flex items-center">
+                  <p className="text-sm text-secondary w-[54px]">
+                     {formattedTime ? formattedTime : 'All day'}
                   </p>
+                  <EventTags tags={tags} />
                </div>
             </div>
          </div>
@@ -112,4 +108,19 @@ const EventListItem = ({
          />
       </div>
    );
+};
+
+const EventTags = ({ tags }: { tags: string[] }) => {
+   const eventsBubble = tags.map((tag) => {
+      return (
+         <p
+            key={tag}
+            className="text-sm py-0 px-2 border text-secondary rounded-full"
+         >
+            {tag}
+         </p>
+      );
+   });
+
+   return <div className="flex items-center gap-1">{eventsBubble}</div>;
 };

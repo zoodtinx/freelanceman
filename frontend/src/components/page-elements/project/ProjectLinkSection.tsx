@@ -25,7 +25,7 @@ const ProjectLinkSection: React.FC = () => {
          </div>
          <div className="w-full border-[0.5px] border-quaternary" />
          <div className="flex flex-col gap-1 w-full pt-2">
-         {mode === 'add' && <NewLinkField setMode={setMode} />}
+            {mode === 'add' && <NewLinkField setMode={setMode} />}
             <LinkItems links={links} />
          </div>
       </>
@@ -33,7 +33,7 @@ const ProjectLinkSection: React.FC = () => {
 };
 
 interface NewLinkFieldProps {
-   setMode: (mode: "view" | "add") => void;
+   setMode: (mode: 'view' | 'add') => void;
 }
 
 const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode }) => {
@@ -43,23 +43,26 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode }) => {
 
    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-         if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-            setMode("view");
+         if (
+            containerRef.current &&
+            !containerRef.current.contains(event.target as Node)
+         ) {
+            setMode('view');
          }
       };
 
       const handleKeyDown = (event: KeyboardEvent) => {
-         if (event.key === "Escape") {
-            setMode("view");
+         if (event.key === 'Escape') {
+            setMode('view');
          }
       };
 
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
 
       return () => {
-         document.removeEventListener("mousedown", handleClickOutside);
-         document.removeEventListener("keydown", handleKeyDown);
+         document.removeEventListener('mousedown', handleClickOutside);
+         document.removeEventListener('keydown', handleKeyDown);
       };
    }, [setMode]);
 
@@ -82,21 +85,24 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode }) => {
    };
 
    return (
-      <div ref={containerRef} className="flex flex-col gap-[0.5px] px-2 overflow-hidden">
+      <div
+         ref={containerRef}
+         className="flex flex-col gap-[0.5px] px-2 overflow-hidden"
+      >
          <div className="flex border border-primary p-1 rounded-lg px-2 items-center gap-2 peer">
             <CleanTextInput
                className="grow"
                ref={inputRef}
                onChange={() => setError(false)}
                onKeyDown={(e) => {
-                  if (e.key === "Enter" && inputRef.current) {
+                  if (e.key === 'Enter' && inputRef.current) {
                      addLink(inputRef.current.value.trim());
                   }
                }}
             />
             <XIcon
                className="w-4 h-4 text-primary cursor-pointer"
-               onClick={() => setMode("view")}
+               onClick={() => setMode('view')}
             />
          </div>
          {error && (
@@ -121,9 +127,12 @@ const LinkItems = ({ links }: { links: string[] }) => {
       const formattedLink = formatLink(link);
       return (
          <button
+            key={link}
             className="flex bg-background p-1 rounded-lg px-2 items-center gap-2"
          >
-            <Link to={link} className="text-left grow truncate text-sm">{formattedLink}</Link>
+            <Link to={link} className="text-left grow truncate text-sm">
+               {formattedLink}
+            </Link>
             <XIcon
                className="w-4 h-4 text-secondary"
                onClick={() => deleteLink(index)}

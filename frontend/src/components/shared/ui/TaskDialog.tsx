@@ -27,8 +27,12 @@ import { DialogProps, FormDialogState } from '@/lib/types/dialog.types';
 import { taskStatusSelections, taskDefaultValues } from './constants';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 
+
+
 const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
-   const { mutate: editTask, isPending: editingTask } = useEditTask(dialogState.id);
+   const { mutate: editTask, isPending: editingTask } = useEditTask(
+      dialogState.id
+   );
    const { mutate: createTask, isPending: creatingTask } = useCreateTask();
    const { mutate: deleteTask, isPending: deletingTask } = useDeleteTask();
 
@@ -38,7 +42,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
 
    const { handleSubmit, reset } = formMethods;
 
-   const [color, setColor] = useState('');
+   const [color, setColor] = useState('#e3e3e3');
 
    useEffect(() => {
       reset(
@@ -49,7 +53,7 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       if (dialogState.mode === 'create') {
          setColor('');
       } else {
-         setColor(dialogState.data.color || '');
+         setColor(dialogState.data.accentColor || '#e3e3e3');
       }
    }, [dialogState, reset]);
 
@@ -81,8 +85,10 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
       setDialogState({ ...dialogState, mode: 'view' });
    };
 
-   const headerText = dialogState.mode === 'create' ? 'Create New Task' : 'Task';
-   const headerTextStyle = dialogState.mode === 'view' ? 'text-primary' : 'text-foreground';
+   const headerText =
+      dialogState.mode === 'create' ? 'Create New Task' : 'Task';
+   const headerTextStyle =
+      dialogState.mode === 'view' ? 'text-primary' : 'text-foreground';
 
    return (
       <Dialog open={dialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -100,14 +106,19 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
          >
             <form onSubmit={handleSubmit(onSubmit)}>
                <DialogHeader className="py-1 bg-transparent">
-                  <DialogTitle className={`flex text-base w-full text-center items-center gap-1`}>
+                  <DialogTitle
+                     className={`flex text-base w-full text-center items-center gap-1`}
+                  >
                      <CircleCheck className="w-[13px] h-[13px]" />
                      <p>{headerText}</p>
                   </DialogTitle>
                </DialogHeader>
                <div className="bg-background rounded-2xl text-primary">
                   <div className="px-5 py-3 flex flex-col gap-3">
-                     <TaskAndEventNameInput formMethods={formMethods} dialogState={dialogState} />
+                     <TaskAndEventNameInput
+                        formMethods={formMethods}
+                        dialogState={dialogState}
+                     />
                      <div className="flex leading-tight">
                         <div className="w-1/2">
                            <p className="text-secondary">Status</p>
@@ -127,19 +138,29 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                            />
                         </div>
                      </div>
-                     <div className="flex leading-tight">
+                     {dialogState.page !== 'project-page' && <div className="flex leading-tight">
                         <div className="w-1/2">
                            <p className="text-secondary">Project</p>
-                           <ProjectSelect formMethods={formMethods} dialogState={dialogState} />
+                           <ProjectSelect
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                           />
                         </div>
                         <div className="w-1/2">
                            <p className="text-secondary">Client</p>
-                           <AutoClientField formMethods={formMethods} dialogState={dialogState} />
+                           <AutoClientField
+                              formMethods={formMethods}
+                              dialogState={dialogState}
+                           />
                         </div>
-                     </div>
+                     </div>}
                      <div className="w-full">
                         <p className="text-secondary">Details</p>
-                        <TextareaForm formMethods={formMethods} dialogState={dialogState} fieldName="details" />
+                        <TextareaForm
+                           formMethods={formMethods}
+                           dialogState={dialogState}
+                           fieldName="details"
+                        />
                      </div>
                      <div className="w-full">
                         <p className="text-secondary">Link</p>
@@ -154,7 +175,10 @@ const TaskDialog: React.FC<DialogProps> = ({ dialogState, setDialogState }) => {
                            handleDialogClose={handleDialogClose}
                            handleDelete={() => deleteTask(dialogState.id)}
                         />
-                        <RightButton dialogState={dialogState} handleEditMode={handleEditMode} />
+                        <RightButton
+                           dialogState={dialogState}
+                           handleEditMode={handleEditMode}
+                        />
                      </div>
                   </DialogFooter>
                </div>
@@ -173,7 +197,11 @@ const LeftButton: React.FC<{
    switch (dialogState.mode) {
       case 'view':
          return (
-            <Button variant="destructive" onClick={handleDelete} className="flex gap-1">
+            <Button
+               variant="destructive"
+               onClick={handleDelete}
+               className="flex gap-1"
+            >
                Delete
                <Trash2 className="w-4 h-4" />
             </Button>

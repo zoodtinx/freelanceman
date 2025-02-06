@@ -15,6 +15,7 @@ const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
       mode: 'view',
       type: 'event',
       data: {},
+      page: 'project-page'
    });
 
    const [eventFilter, setEventFilter] = useState<EventSearchOptions>({

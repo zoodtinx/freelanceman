@@ -14,6 +14,7 @@ const ProjectTask: React.FC<{project: Project}> = ({project}) => {
       mode: 'view',
       type: 'task',
       data: {},
+      page: 'project-page'
    });
 
    const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({

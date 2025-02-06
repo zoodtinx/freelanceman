@@ -78,6 +78,7 @@ const TaskListItem = ({
          type: 'event',
          data: data,
          id: data.id,
+         page: 'project-page'
       });
    };
 

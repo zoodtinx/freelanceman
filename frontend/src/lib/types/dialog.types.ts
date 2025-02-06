@@ -28,6 +28,7 @@ export interface FormDialogState {
       | 'receipt'
       | 'sales-document-item';
    mode: 'view' | 'create' | 'edit';
+   page: 'project-page' | 'action-page' ;
    data: Record<string, any>;
 }
 

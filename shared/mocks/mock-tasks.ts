@@ -12,7 +12,8 @@ export const mockTasks = [
     project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
     client: "PixelEdge Studios",
-    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
+    accentColor: '#FCEEE2'
   },
   {
     id: "d4f7c9e8-3a2b-4c1d-9e5a-7b8f4c2d1a9e",
@@ -25,7 +26,8 @@ export const mockTasks = [
     project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
     client: "PixelEdge Studios",
-    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
+    accentColor: '#FCEEE2'
   },
   {
     id: "e3c9a8f7-4b1a-4c6e-8d9f-7a2b5c4d3f8e",
@@ -38,7 +40,8 @@ export const mockTasks = [
     project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
     client: "PixelEdge Studios",
-    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
+    clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7",
+    accentColor: '#FCEEE2'
   },
   {
     id: "f8d2c7e9-4b3a-4c1f-8e9d-5a7f3c4b2d1a",
@@ -77,6 +80,7 @@ export const mockTasks = [
     project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
     client: "PixelEdge Studios",
+    accentColor: '#FCEEE2',
     clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {
@@ -90,6 +94,7 @@ export const mockTasks = [
     project: "Rebrand for PixelEdge: Digital Campaign Launch",
     projectId: "b1f37c4b-4a6e-4e22-9550-5eb9a0b25cd9",
     client: "PixelEdge Studios",
+    accentColor: '#FCEEE2',
     clientId: "a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7"
   },
   {

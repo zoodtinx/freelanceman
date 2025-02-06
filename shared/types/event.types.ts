@@ -16,6 +16,7 @@ export interface Event {
    color:string;
    type: string;
    location: string;
+   tags: string[]
 }
 
 export type NewEventPayload = Omit<Event, 'createdAt' | 'project' | 'client'>;

@@ -142,9 +142,9 @@ export const NewContactButton = ({
    return (
       <Popover>
          <PopoverTrigger>
-            <button className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer">
+            <div className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer">
                <Plus className="aspect-square h-[20px]" />
-            </button>
+            </div>
          </PopoverTrigger>
          <PopoverContent className="w-fit cursor-default">
             <p onClick={() => handleClick('client')}>Client contact</p>
