@@ -1,3 +1,4 @@
+import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
 import { cn } from '@/lib/helper/utils';
 import { taskStatusSelections } from '@/components/shared/ui/selections';
 import { useRef, useState } from 'react';
@@ -24,6 +25,7 @@ export default function Tasks() {
       mode: 'view',
       type: 'task',
       data: taskDefaultValues,
+      page: 'action-page'
    });
 
    const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({
@@ -86,41 +88,20 @@ export default function Tasks() {
    };
 
    return (
-      <div className='flex flex-col grow'>
-         <div className="flex w-full justify-between">
-            <div className="flex items-end pb-3 gap-1">
-               <CircleCheck className="w-[28px] h-auto" />
-               <p className="text-xl leading-none mr-2">Tasks</p>
+      <div className="flex flex-col grow">
+         <div className="flex w-full justify-between pb-1">
+            <div className="flex gap-1 items-center">
+               <div className="flex items-end pb-3 gap-1">
+                  <CircleCheck className="w-[28px] h-auto" />
+                  <p className="text-xl leading-none mr-2">Tasks</p>
+               </div>
+               <ToggleGroup type="single" value={taskFilter.status}>
+                  <ToggleGroupItem value='planned'>Planned</ToggleGroupItem>
+                  <ToggleGroupItem value='finished'>Completed</ToggleGroupItem>
+                  <ToggleGroupItem value='canceled'>Canceled</ToggleGroupItem>
+               </ToggleGroup>
             </div>
-            <NewActionButton
-               type="task"
-               setDialogState={setTaskDialogState}
-            />
-         </div>
-         <div className="flex gap-1 pt-1 pb-2">
-            <div className="relative">
-               <MultiSelectButton
-                  enableMultiSelect={enableMultiSelect}
-                  selectState={selectState}
-                  setSelectState={setSelectState}
-                  onDelete={deleteFile}
-                  selectAllFn={selectAll}
-                  ref={taskSectionRef}
-               />
-            </div>
-            <FilterSelect
-               onValueChange={handleStatusFilter}
-               selectContents={taskStatusSelections}
-               value={taskFilter.status}
-               placeholder="Status"
-               className={cn({ hidden: selectState.enableSelect })}
-            />
-            <SearchBox
-               onChange={handleSearch}
-               className={cn('border rounded-full h-[27px] w-[250px]', {
-                  hidden: selectState.enableSelect,
-               })}
-            />
+            <NewActionButton type="task" setDialogState={setTaskDialogState} />
          </div>
          <TaskList
             tasksData={tasksData}

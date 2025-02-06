@@ -10,56 +10,61 @@ export const getEvent = (id: string) => {
    });
 };
 
+
+const sortEventsByDate = (events: Event[], dateField: keyof Event) => {
+   return events.sort((a, b) => {
+      const dateA = new Date(a[dateField] as string).getTime();
+      const dateB = new Date(b[dateField] as string).getTime();
+      return dateA - dateB;
+   });
+};
+
 export const getAllEvent = (searchOptions: EventSearchOptions = {}): Promise<Event[]> => {
    return new Promise((resolve) => {
       setTimeout(() => {
-         if (!searchOptions || Object.keys(searchOptions).length === 0) {
-            console.log(Object.keys(searchOptions).length)
-            resolve(mockEvents);
-            return;
+         let events = mockEvents;
+
+         if (searchOptions && Object.keys(searchOptions).length > 0) {
+            if (searchOptions.status !== 'all') {
+               events = events.filter((event) => {
+                  const matchesStatus =
+                     searchOptions.status === undefined ||
+                     searchOptions.status.trim() === "" ||
+                     event.status === searchOptions.status.trim();
+
+                  const matchesCreatedAt =
+                     !searchOptions.createdAt || searchOptions.createdAt.trim() === "" ||
+                     event.createdAt.startsWith(searchOptions.createdAt.trim());
+
+                  const matchesDueDate =
+                     !searchOptions.dueDate || searchOptions.dueDate.trim() === "" ||
+                     event.dueDate.startsWith(searchOptions.dueDate.trim());
+
+                  const matchesWithTime =
+                     searchOptions.withTime === undefined || event.withTime === searchOptions.withTime;
+
+                  const matchesProjectId =
+                     !searchOptions.projectId || searchOptions.projectId.trim() === "" ||
+                     event.projectId === searchOptions.projectId.trim();
+
+                  const matchesClientId =
+                     !searchOptions.clientId || searchOptions.clientId.trim() === "" ||
+                     event.clientId === searchOptions.clientId.trim();
+
+                  return (
+                     matchesStatus &&
+                     matchesCreatedAt &&
+                     matchesDueDate &&
+                     matchesWithTime &&
+                     matchesProjectId &&
+                     matchesClientId
+                  );
+               });
+            }
          }
 
-         if (searchOptions.status === 'all') {
-            resolve(mockEvents);
-            return;
-         }
-
-         const filteredEvents = mockEvents.filter((event) => {
-            const matchesStatus =
-               searchOptions.status === undefined ||
-               searchOptions.status.trim() === "" ||
-               event.status === searchOptions.status.trim();
-
-            const matchesCreatedAt =
-               !searchOptions.createdAt || searchOptions.createdAt.trim() === "" ||
-               event.createdAt.startsWith(searchOptions.createdAt.trim());
-
-            const matchesDueDate =
-               !searchOptions.dueDate || searchOptions.dueDate.trim() === "" ||
-               event.dueDate.startsWith(searchOptions.dueDate.trim());
-
-            const matchesWithTime =
-               searchOptions.withTime === undefined || event.withTime === searchOptions.withTime;
-
-            const matchesProjectId =
-               !searchOptions.projectId || searchOptions.projectId.trim() === "" ||
-               event.projectId === searchOptions.projectId.trim();
-
-            const matchesClientId =
-               !searchOptions.clientId || searchOptions.clientId.trim() === "" ||
-               event.clientId === searchOptions.clientId.trim();
-
-            return (
-               matchesStatus &&
-               matchesCreatedAt &&
-               matchesDueDate &&
-               matchesWithTime &&
-               matchesProjectId &&
-               matchesClientId
-            );
-         });
-
-         resolve(filteredEvents);
+         events = sortEventsByDate(events, 'createdAt');
+         resolve(events);
       }, 500);
    });
 };

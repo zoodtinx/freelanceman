@@ -14,6 +14,7 @@ import { EventList } from '@/components/page-elements/actions/EventList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
+import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
 
 export default function Events() {
    const eventSectionRef = useRef<HTMLDivElement | undefined>();
@@ -23,6 +24,7 @@ export default function Events() {
       mode: 'view',
       type: 'event',
       data: eventDefaultValues,
+      page: 'action-page'
    });
 
    const [eventFilter, setEventFilter] = useState<EventSearchOptions>({
@@ -87,38 +89,20 @@ export default function Events() {
    return (
       <div className="flex flex-col grow">
          <div className="flex w-full justify-between">
-            <div className="flex items-end pb-3 gap-1">
-               <Calendar className="w-[28px] h-auto" />
-               <p className="text-xl leading-none mr-2">Events</p>
+         <div className="flex gap-1 items-center">
+               <div className="flex items-end pb-3 gap-1">
+                  <Calendar className="w-[28px] h-auto" />
+                  <p className="text-xl leading-none mr-2">Events</p>
+               </div>
+               <ToggleGroup type="single" value={eventFilter.status}>
+                  <ToggleGroupItem value='scheduled'>Scheduled</ToggleGroupItem>
+                  <ToggleGroupItem value='finished'>Completed</ToggleGroupItem>
+                  <ToggleGroupItem value='canceled'>Canceled</ToggleGroupItem>
+               </ToggleGroup>
             </div>
             <NewActionButton
                type="event"
                setDialogState={setEventDialogState}
-            />
-         </div>
-         <div className="flex gap-1 pt-1 pb-2">
-            <div className="relative">
-               <MultiSelectButton
-                  enableMultiSelect={enableMultiSelect}
-                  selectState={selectState}
-                  setSelectState={setSelectState}
-                  onDelete={deleteFile}
-                  selectAllFn={selectAll}
-                  ref={eventSectionRef}
-               />
-            </div>
-            <FilterSelect
-               onValueChange={handleStatusFilter}
-               selectContents={eventStatusSelections}
-               value={eventFilter.status}
-               placeholder="Status"
-               className={cn({ hidden: selectState.enableSelect })}
-            />
-            <SearchBox
-               onChange={handleSearch}
-               className={cn('border rounded-full h-[27px] w-[250px]', {
-                  hidden: selectState.enableSelect,
-               })}
             />
          </div>
          <EventList

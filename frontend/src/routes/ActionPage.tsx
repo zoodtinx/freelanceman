@@ -9,12 +9,11 @@ export default function ActionPage() {
       <ActionsViewProvider>
          <section className="w-full h-full flex gap-2 sm:flex-col">
             <div className="flex flex-col w-1/2 rounded-[30px] bg-foreground p-4 pt-5 sm:w-full grow h-full">
-               <Events />
-            </div>
-            <div className="flex flex-col w-1/2 rounded-[30px] bg-foreground p-4 pt-5 sm:w-full grow h-full">
                <Tasks />
             </div>
-            {/* <Dialog /> */}
+            <div className="flex flex-col w-1/2 rounded-[30px] bg-foreground p-4 pt-5 sm:w-full grow h-full">
+               <Events />
+            </div>
          </section>
       </ActionsViewProvider>
    );
