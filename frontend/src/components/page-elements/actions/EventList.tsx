@@ -20,9 +20,7 @@ interface EventListProps {
 export const EventList: React.FC<EventListProps> = ({
    eventsData,
    isLoading,
-   selectState = false,
    setDialogState,
-   setSelectState,
 }) => {
    if (isLoading) {
       return <p>Loading...</p>;
@@ -49,7 +47,7 @@ export const EventList: React.FC<EventListProps> = ({
    const eventGroups = processedEvents.map((group, index) => {
       return (
         <React.Fragment key={group.date}>
-          <EventGroup eventGroupData={group} />
+          <EventGroup eventGroupData={group} setDialogState={setDialogState} />
           <div className="border-[0.5px] border-secondary" />
         </React.Fragment>
       );
@@ -66,13 +64,10 @@ export const EventList: React.FC<EventListProps> = ({
 
 interface EventListItemProps {
    data: Event;
-   selectState: SelectState;
-   setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   deleteFunction: () => void;
 }
 
-const EventGroup = ({eventGroupData}) => {
+const EventGroup = ({eventGroupData, setDialogState}) => {
    const formattedDate = formatDate(eventGroupData.date, 'SHORT');
    const month = formattedDate.split(' ')[0]
    const date = formattedDate.split(' ')[1]
@@ -80,9 +75,9 @@ const EventGroup = ({eventGroupData}) => {
    const events = eventGroupData.events.map((data, index) => {
       return (
          <React.Fragment key={data.id}>
-            <EventListItem data={data} />
+            <EventListItem data={data} setDialogState={setDialogState} />
             {index !== eventGroupData.events.length - 1 && (
-               <div className="border-[0.5px] border-dotted" />
+               <div className="border-[0.5px] border-tertiary border-dotted" />
             )}
          </React.Fragment>
       );
@@ -90,7 +85,7 @@ const EventGroup = ({eventGroupData}) => {
 
    return (
       <div className='flex w-full cursor-default'>
-         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full border-x border-x-tertiary border-r-[0.75px] border-r-secondary bg-background">
+         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-background">
             <p className='text-md'>{date}</p>
             <p className='font-medium'>{month}</p>
          </div>
@@ -100,7 +95,6 @@ const EventGroup = ({eventGroupData}) => {
 }
 
 const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
-   const formattedDate = formatDate(data.dueDate, 'SHORT');
    const formattedTime = formatTime(data.dueDate);
 
    const handleOpenDialog = () => {
@@ -110,30 +104,24 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
          type: 'event',
          data: data,
          id: data.id,
-         page: 'project-page',
+         page: 'action-page',
       });
    };
 
    const tags = ['Meeting', 'London', 'Mechanical', 'Robot'];
 
    return (
-      <div className="flex justify-between items-center pr-3 group">
-         <div className="flex flex-col justify-center h-14 pl-3">
-            <p>{data.name}</p>
-            <div className="flex items-center">
-               <p className="text-sm text-secondary w-[54px]">
-                  {formattedTime ? formattedTime : 'All day'}
-               </p>
-               <EventTags tags={tags} />
-            </div>
+      <div
+         className="flex flex-col justify-center h-14 pl-3"
+         onClick={handleOpenDialog}
+      >
+         <p>{data.name}</p>
+         <div className="flex items-center">
+            <p className="text-sm text-secondary w-[54px]">
+               {formattedTime ? formattedTime : 'All day'}
+            </p>
+            <EventTags tags={tags} />
          </div>
-         <PencilLine
-            className={`w-5 h-5 stroke-[1.5px] text-secondary opacity-0 cursor-pointer
-               group-hover:opacity-100 hover:text-primary
-               transition-all duration-100
-               `}
-            onClick={handleOpenDialog}
-         />
       </div>
    );
 };
@@ -143,7 +131,7 @@ const EventTags = ({ tags }: { tags: string[] }) => {
       return (
          <p
             key={tag}
-            className="text-sm py-0 px-2 border text-secondary rounded-full leading-normal"
+            className="text-sm py-0 px-2 border border-tertiary text-secondary rounded-full leading-normal"
          >
             {tag}
          </p>

@@ -1,34 +1,25 @@
-import { cn } from '@/lib/helper/utils';
 import { Dispatch, SetStateAction } from 'react';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
-import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task } from '@types';
-import { EllipsisVertical, PencilLine } from 'lucide-react';
-import { EditPopover } from '@/components/shared/ui/EditPopover';
+import { PencilLine } from 'lucide-react';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
 interface TaskListProps {
    tasksData: Task[] | undefined;
    isLoading: boolean;
-   selectState: SelectState;
-   setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
 export const TaskList: React.FC<TaskListProps> = ({
    tasksData,
    isLoading,
-   selectState = false,
    setDialogState,
-   setSelectState,
 }) => {
    if (isLoading) {
       return <p>Loading...</p>;
    }
-
-   console.log('tasksData', tasksData);
 
    if (!tasksData || tasksData.length === 0) {
       return <p>No Task available</p>;
@@ -38,8 +29,6 @@ export const TaskList: React.FC<TaskListProps> = ({
       <TaskListItem
          key={tasksData.id}
          data={tasksData}
-         setSelectState={setSelectState}
-         selectState={selectState}
          setDialogState={setDialogState}
       />
    ));
@@ -53,21 +42,13 @@ export const TaskList: React.FC<TaskListProps> = ({
 
 interface TaskListItemProps {
    data: Task;
-   selectState: SelectState;
-   setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   deleteFunction: () => void;
 }
 
 const TaskListItem = ({
    data,
-   selectState,
-   setSelectState,
    setDialogState,
-   deleteFunction,
 }: TaskListItemProps) => {
-   const isSelected = selectState.selectedValues?.includes(data.id) || '';
-
    const formattedDate = formatDate(data.dueDate, 'LONG');
    const formattedTime = formatTime(data.dueDate);
 
@@ -82,15 +63,24 @@ const TaskListItem = ({
       });
    };
 
+   const handleCheck = (checked: CheckedState) => {
+      if (checked) {
+         // this block is for marking as completd
+         console.log(data.id, ' completed')
+      } else {
+         // this block is for undoing the task back to planned
+         console.log(data.id, ' back to planned')
+      }
+   }
+
    return (
-      <div className="flex justify-between items-center group">
-         <div className="grid grid-cols-[24px_auto]">
+         <div className="grid grid-cols-[24px_auto] cursor-default">
             <div className="w-[24px] flex items-start pt-1">
-               <Checkbox className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150" />
+               <Checkbox onCheckedChange={(checked) => handleCheck(checked)} className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150" />
             </div>
-            <p>{data.name}</p>
+            <p onClick={handleOpenDialog}>{data.name}</p>
             <div></div>
-            <div className="flex">
+            <div className="flex" onClick={handleOpenDialog}>
                {formattedTime && (
                   <p className="text-sm text-secondary w-[60px]">
                      {formattedTime}
@@ -99,13 +89,5 @@ const TaskListItem = ({
                <p className="text-sm text-secondary w-fit">{formattedDate}</p>
             </div>
          </div>
-         <PencilLine
-            className={`w-5 h-5 stroke-[1.5px] text-secondary opacity-0 cursor-pointer
-               group-hover:opacity-100 hover:text-primary
-               transition-all duration-100
-               `}
-            onClick={handleOpenDialog}
-         />
-      </div>
    );
 };
