@@ -1,13 +1,8 @@
-import { cn } from '@/lib/helper/utils';
 import React, { Dispatch, SetStateAction } from 'react';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
-import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Event } from '@types';
-import { EllipsisVertical, PencilLine } from 'lucide-react';
-import { EditPopover } from '@/components/shared/ui/EditPopover';
+import { SelectState } from '@/lib/types/list.type';
 
 interface EventListProps {
    eventsData: Event[] | undefined;
@@ -31,7 +26,7 @@ export const EventList: React.FC<EventListProps> = ({
    }
 
    const groupedEvents = eventsData.reduce((acc, event) => {
-      const date = formatDate(event.dueDate, 'SHORT');
+      const date = formatDate(event.dueAt, 'SHORT');
       if (!acc[date]) {
          acc[date] = [];
       }
@@ -46,18 +41,19 @@ export const EventList: React.FC<EventListProps> = ({
 
    const eventGroups = processedEvents.map((group, index) => {
       return (
-        <React.Fragment key={group.date}>
-          <EventGroup eventGroupData={group} setDialogState={setDialogState} />
-          <div className="border-[0.5px] border-secondary" />
-        </React.Fragment>
+         <React.Fragment key={group.date}>
+            <EventGroup
+               eventGroupData={group}
+               setDialogState={setDialogState}
+            />
+            <div className="border-[0.5px] border-secondary" />
+         </React.Fragment>
       );
-    });
+   });
 
    return (
       <div className="flex flex-col h-0 grow overflow-y-auto">
-         <div className="flex flex-col">
-            {eventGroups}
-         </div>
+         <div className="flex flex-col">{eventGroups}</div>
       </div>
    );
 };
@@ -67,10 +63,10 @@ interface EventListItemProps {
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
-const EventGroup = ({eventGroupData, setDialogState}) => {
+const EventGroup = ({ eventGroupData, setDialogState }) => {
    const formattedDate = formatDate(eventGroupData.date, 'SHORT');
-   const month = formattedDate.split(' ')[0]
-   const date = formattedDate.split(' ')[1]
+   const month = formattedDate.split(' ')[0];
+   const date = formattedDate.split(' ')[1];
 
    const events = eventGroupData.events.map((data, index) => {
       return (
@@ -81,21 +77,21 @@ const EventGroup = ({eventGroupData, setDialogState}) => {
             )}
          </React.Fragment>
       );
-   })
+   });
 
    return (
-      <div className='flex w-full cursor-default'>
+      <div className="flex w-full cursor-default">
          <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-background">
-            <p className='text-md'>{date}</p>
-            <p className='font-medium'>{month}</p>
+            <p className="text-md font-normal">{date}</p>
+            <p className="">{month}</p>
          </div>
-         <div className='flex flex-col w-full'>{events}</div>
+         <div className="flex flex-col w-full">{events}</div>
       </div>
    );
-}
+};
 
 const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
-   const formattedTime = formatTime(data.dueDate);
+   const formattedTime = formatTime(data.dueAt);
 
    const handleOpenDialog = () => {
       setDialogState({
@@ -108,8 +104,6 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
       });
    };
 
-   const tags = ['Meeting', 'London', 'Mechanical', 'Robot'];
-
    return (
       <div
          className="flex flex-col justify-center h-14 pl-3"
@@ -120,7 +114,7 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
             <p className="text-sm text-secondary w-[54px]">
                {formattedTime ? formattedTime : 'All day'}
             </p>
-            <EventTags tags={tags} />
+            <EventTags tags={data.tags} />
          </div>
       </div>
    );

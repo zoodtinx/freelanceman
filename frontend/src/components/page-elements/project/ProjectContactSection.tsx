@@ -15,7 +15,7 @@ import { mockContacts as contacts } from '@mocks';
 import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 
-export const ProjectContactSection = (): JSX.Element => {
+export const ProjectContactSection = ({project}): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
@@ -24,7 +24,9 @@ export const ProjectContactSection = (): JSX.Element => {
       data: defaultContact,
    });
 
-   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
+   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
+      companyId: project.clientId
+   });
 
    const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
 

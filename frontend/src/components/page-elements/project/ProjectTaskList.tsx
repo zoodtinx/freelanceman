@@ -68,8 +68,8 @@ const TaskListItem = ({
 }: TaskListItemProps) => {
    const isSelected = selectState.selectedValues?.includes(data.id) || '';
 
-   const formattedDate = formatDate(data.dueDate, 'LONG');
-   const formattedTime = formatTime(data.dueDate);
+   const formattedDate = formatDate(data.dueAt, 'LONG');
+   const formattedTime = formatTime(data.dueAt);
 
    const handleOpenDialog = () => {
       setDialogState({

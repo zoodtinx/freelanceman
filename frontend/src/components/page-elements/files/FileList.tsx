@@ -95,6 +95,7 @@ export const FileListItem = ({
             id: data.id,
             mode: 'view',
             type: 'file',
+            page: 'file-page'
          });
       }
    };
@@ -119,7 +120,7 @@ export const FileListItem = ({
                   <div className='flex gap-2 items-center'>
                      {getIcon(data.type, 'w-4 h-4 text-secondary')}
                      <div className="flex gap-1 items-center text-[15px]">
-                        <p>{data.name}</p>
+                        <p>{data.displayName}</p>
                      </div>
                   </div>
                   <div className="flex">

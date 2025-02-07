@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { FileList } from '@/components/page-elements/files/FileList';
 import FileDialog from '@/components/shared/ui/FileDialog';
 import AddButton from '@/components/shared/ui/AddButton';
 import React from 'react';
@@ -11,18 +10,20 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2, BookUser } from 'lucide-react';
 
-const ProjectFileSection: React.FC = () => {
-   const [tab, setTab] = useState<'drafts' | 'assets'>('drafts');
+const ProjectFileSection: React.FC = ({ project }) => {
+   const [tab, setTab] = useState('project-file');
    const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
       mode: 'view',
       type: 'file',
       data: {},
+      page: 'project-page',
    });
 
-   const [fileFilter, setFileFilter] = useState<FileSearchOptions>({
-      status: 'scheduled',
+   const [fileFilter, setFileFilter] = useState({
+      projectId: project.id,
+      category: 'project-file'
    });
 
    const [selectState, setSelectState] = useState({
@@ -32,61 +33,13 @@ const ProjectFileSection: React.FC = () => {
 
    const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
 
-   const enableMultiSelect = () => {
-      if (selectState.enableSelect) {
-         return;
-      }
-      setSelectState({
-         enableSelect: true,
-         selectedValues: [],
-      });
-   };
-
-   const selectAll = () => {
-      if (!filesData) {
-         return;
-      }
-      setSelectState((prev) => {
-         const selected = filesData.map((file) => {
-            return file.id;
-         });
-         return {
-            ...prev,
-            selectedValues: selected,
-         };
-      });
-   };
-
-   const handleFileFilter = (type, value: any) => {
-      if (type === 'type') {
-         setFileFilter((prev) => {
-            return {
-               ...prev,
-               type: value,
-            };
-         });
-      } else if (type === 'category') {
-         setFileFilter((prev) => {
-            return {
-               ...prev,
-               category: value,
-            };
-         });
-      }
-   };
-
-   const handleTabChange = (tab: 'drafts' | 'assets') => {
+   const handleTabChange = (tab: 'project-file' | 'project-asset') => {
       setTab(tab);
-      let category;
-      if (tab === 'assets') {
-         return 'project-asset';
-      } else if (tab === 'drafts') {
-         return 'working-file';
-      }
+      console.log('category', tab)
       setFileFilter((prev) => {
          return {
             ...prev,
-            category: category,
+            category: tab,
          };
       });
    };
@@ -99,10 +52,11 @@ const ProjectFileSection: React.FC = () => {
                   className={cn(
                      'flex items-center gap-1 px-4 pr-3 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary',
                      {
-                        'text-primary border-r-[0.5px] border-b-0 border-tertiary': tab === 'drafts',
+                        'text-primary border-r-[0.5px] border-b-0 border-tertiary':
+                           tab === 'project-file',
                      }
                   )}
-                  onClick={() => handleTabChange('drafts')}
+                  onClick={() => handleTabChange('project-file')}
                >
                   <Paperclip className="w-4 h-4" />
                   Draft
@@ -111,16 +65,17 @@ const ProjectFileSection: React.FC = () => {
                   className={cn(
                      'flex items-center gap-1 text-secondary transition-colors duration-150 px-3 h-full border-b-[0.5px] border-tertiary',
                      {
-                        'text-primary border-r-[0.5px] border-b-0 border-tertiary': tab === 'assets',
+                        'text-primary border-r-[0.5px] border-b-0 border-tertiary':
+                           tab === 'project-asset',
                      }
                   )}
-                  onClick={() => handleTabChange('assets')}
+                  onClick={() => handleTabChange('project-asset')}
                >
                   <Package2 className="w-4 h-4" />
                   Assets
                </p>
             </div>
-            <div className='flex items-center border-b-[0.5px] h-9 border-tertiary grow justify-end'>
+            <div className="flex items-center border-b-[0.5px] h-9 border-tertiary grow justify-end">
                <AddButton />
             </div>
          </div>

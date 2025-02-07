@@ -22,7 +22,7 @@ export default function Tasks() {
    });
 
    const [taskFilter, setTaskFilter] = useState({
-      status: 'planned',
+      status: 'pending',
    });
 
    const [selectState, setSelectState] = useState({
@@ -47,8 +47,9 @@ export default function Tasks() {
                      setTaskFilter((prev) => ({ ...prev, status: value }))
                   }
                >
-                  <ToggleGroupItem value="planned">Planned</ToggleGroupItem>
+                  <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
                   <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
+                  <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
             <NewActionButton type="task" setDialogState={setTaskDialogState} />

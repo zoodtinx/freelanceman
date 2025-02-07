@@ -1,11 +1,9 @@
-import { EditPopover } from '@/components/shared/ui/EditPopover';
 import { cn } from '@/lib/helper/utils';
 import { Dispatch, SetStateAction } from 'react';
-import { EllipsisVertical } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
-import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import { formatDate } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { File } from '@types';
 import {
@@ -31,8 +29,6 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
    if (isLoading) {
       return <p>Loading...</p>;
    }
-
-   console.log('filesData', filesData);
 
    if (!filesData || filesData.length === 0) {
       return <p>No File available</p>;
@@ -68,7 +64,6 @@ export const FileListItem = ({
    selectState,
    setSelectState,
    setDialogState,
-   deleteFunction,
 }: FileListItemProps) => {
    const isSelected = selectState.selectedValues.includes(data.id);
 
@@ -101,6 +96,7 @@ export const FileListItem = ({
             id: data.id,
             mode: 'view',
             type: 'file',
+            page: 'project-page'
          });
       }
    };
@@ -125,7 +121,7 @@ export const FileListItem = ({
                   <div className="flex gap-2 items-center">
                      {getIcon(data.type, 'w-4 h-4 text-secondary')}
                      <div className="flex gap-1 items-center text-base">
-                        <p>{data.name}</p>
+                        <p>{data.displayName}</p>
                      </div>
                   </div>
                   <p className="text-sm text-secondary">{dateUploaded}</p>

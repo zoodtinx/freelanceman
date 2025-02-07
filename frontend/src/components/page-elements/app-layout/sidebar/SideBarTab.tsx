@@ -1,4 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
+import clsx from 'clsx';
+
 import {
    ProjectAll,
    Files,
@@ -7,82 +10,41 @@ import {
    Checkbox,
    Notes,
 } from '@/components/shared/icons';
-import { Link } from 'react-router-dom';
-import clsx from 'clsx';
-import { useLocation } from 'react-router-dom';
 
 type SideBarTabProps = {
-   tab: 'projects' | 'files' | 'actions' | 'clients' | 'partners' | 'documents' | 'notes';
+   tab: keyof typeof tabConfig;
+};
+
+const tabConfig = {
+   projects: { labelKey: 'projects', icon: ProjectAll },
+   files: { labelKey: 'files', icon: Files },
+   actions: { labelKey: 'actions', icon: Checkbox },
+   clients: { labelKey: 'clients', icon: Client },
+   partners: { labelKey: 'partners', icon: Client },
+   documents: { labelKey: 'documents', icon: Documents },
+   notes: { labelKey: 'notes', icon: Notes },
 };
 
 const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
    const { t } = useTranslation();
-   const url = useLocation().pathname;
-   const isActiveTab = url === `/home/${tab}`;
+   const { pathname } = useLocation();
+   const isActive = pathname === `/home/${tab}`;
 
-   let icon;
-   let label;
-   let route;
-   switch (tab) {
-      case 'projects':
-         label = t('projects');
-         icon = <ProjectAll className='w-[27px] h-auto' />;
-         route = 'projects';
-         break;
-         case 'partners':
-         label = 'Partners';
-         icon = <Client className='w-[27px] h-auto' />;
-         route = 'partners';
-         break;
-      case 'files':
-         label = t('files');
-         icon = <Files className='w-[27px] h-auto' />;
-         route = 'files';
-         break;
-      case 'actions':
-         label = t('actions');
-         icon = <Checkbox className='w-[27px] h-auto' />;
-         route = 'actions';
-         break;
-      case 'clients':
-         label = t('clients');
-         icon = <Client className='w-[27px] h-auto' />;
-         route = 'clients';
-         break;
-      case 'documents':
-         label = t('documents');
-         icon = <Documents className='w-[27px] h-auto' />;
-         route = 'documents';
-         break;
-      case 'notes':
-         label = t('notes');
-         icon = <Notes className='w-[27px] h-auto' />;
-         route = 'notes';
-         break;
-   }
-
-   const containerStyle = {
-      base: 'flex w-full h-[46px] items-center gap-2 border-[1.75px] rounded-[13px] p-2 px-[10px] font-medium text-md cursor-pointer',
-      breakpoints: 'md:w-fit',
-      inactive:
-         'border-background text-secondary hover:text-primary transition-color duration-75',
-      active: 'border-background text-primary bg-foreground',
-   };
+   const { labelKey, icon: Icon } = tabConfig[tab];
 
    return (
       <li>
          <Link
-            to={route}
-            className={clsx([
-               containerStyle.base,
-               isActiveTab
-                  ? containerStyle.active
-                  : containerStyle.inactive,
-               containerStyle.breakpoints,
-            ])}
+            to={tab}
+            className={clsx(
+               'flex w-full items-center gap-2 border-[1.75px] rounded-lg p-1 px-[10px] text-md cursor-pointer transition-colors duration-75 md:w-fit',
+               isActive
+                  ? 'border-background text-primary bg-foreground'
+                  : 'border-background text-secondary hover:text-primary'
+            )}
          >
-            {icon}
-            <p className="md:hidden">{label}</p>
+            <Icon className="w-[22px] h-auto" />
+            <p className="md:hidden">{t(labelKey)}</p>
          </Link>
       </li>
    );

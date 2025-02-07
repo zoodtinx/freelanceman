@@ -20,16 +20,14 @@ export default function ProjectPage() {
       return <div>Project not found</div>;
    }
 
-   console.log('project', project);
-
    return (
       <section className="flex grow gap-2">
-         <div className="flex flex-col w-2/3xl gap-2">
+         <div className="flex flex-col w-2/3 gap-2">
             <div className="flex flex-col bg-foreground rounded-xl px-4 py-3 w-full relative">
                <EllipsisVertical className="absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75" />
                <p className="text-[1.6em]">{project.title}</p>
                <div className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75" style={{
-                  color: project.accentColor
+                  color: project.themeColor
                }}>
                   <Users className=" w-5 h-auto" />
                   <Link
@@ -61,10 +59,10 @@ export default function ProjectPage() {
          </div>
          <div className="w-1/3 flex flex-col rounded-xl gap-2">
             <div className="flex flex-col rounded-xl bg-foreground grow relative">
-               <ProjectFileSection />
+               <ProjectFileSection project={project} />
             </div>
             <div className="flex flex-col rounded-xl bg-foreground h-2/5 relative overflow-hidden">
-               <ProjectContactSection />
+               <ProjectContactSection project={project} />
             </div>
          </div>
       </section>

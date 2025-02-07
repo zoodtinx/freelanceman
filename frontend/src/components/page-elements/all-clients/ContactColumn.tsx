@@ -11,8 +11,6 @@ import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from 'src/components/shared/ui/constants';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { mockContacts as contacts } from '@mocks';
-import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 
 export const ContactColumn = (): JSX.Element => {
@@ -33,7 +31,7 @@ export const ContactColumn = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col w-[350px] rounded-[30px] bg-foreground p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0">
+      <div className="flex flex-col w-[335px] rounded-[30px] bg-foreground p-4 pt-5 sm:w-full h-auto gap-[6px] shrink-0">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
                <BookUser className="h-6 w-6" />
@@ -50,7 +48,7 @@ export const ContactColumn = (): JSX.Element => {
          {isLoading ? (
             <p>Loading...</p>
          ) : (
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 min-h-0 overflow-y-auto">
                {contacts?.map((contact) => (
                   <ContactCard
                      key={contact.id}
@@ -60,12 +58,20 @@ export const ContactColumn = (): JSX.Element => {
                ))}
             </div>
          )}
-         <ContactDialog dialogState={dialogState} setDialogState={setDialogState} />
+         <ContactDialog
+            dialogState={dialogState}
+            setDialogState={setDialogState}
+         />
       </div>
    );
 };
 
-export const ContactCard = ({ contact, setDialogState }: { contact: Contact }) => {
+export const ContactCard = ({
+   contact,
+   setDialogState,
+}: {
+   contact: Contact;
+}) => {
    const handleClick = () => {
       let dialogType;
       if (contact.type === 'client') {
@@ -86,8 +92,13 @@ export const ContactCard = ({ contact, setDialogState }: { contact: Contact }) =
    if (!contact.avatar) {
       avatar = <User className="w-8 h-8" />;
    } else {
-      avatar = <img src={contact.avatar} alt="Contact Avatar" className="w-full h-full object-cover" />;
-
+      avatar = (
+         <img
+            src={contact.avatar}
+            alt="Contact Avatar"
+            className="w-full h-full object-cover"
+         />
+      );
    }
 
    return (

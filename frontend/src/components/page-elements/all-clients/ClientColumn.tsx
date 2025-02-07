@@ -43,7 +43,7 @@ const ClientColumn = (): JSX.Element => {
    
 
    return (
-      <div className="flex flex-col rounded-[30px] bg-foreground p-4 pt-5 h-full gap-[6px] grow">
+      <div className="flex flex-col rounded-[30px] bg-foreground p-4 pt-5 h-full gap-[6px] flex-1">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
                <Building2 className="w-6 h-6" />

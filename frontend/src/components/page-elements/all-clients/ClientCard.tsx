@@ -26,7 +26,7 @@ const ClientCard = ({ client }: { client: Client }): JSX.Element => {
          onClick={handleSelectClient}
       >
          <div className="z-10 flex flex-col justify-between h-full p-1">
-            <div className="flex gap-1">
+            <div className="flex gap-1 asp">
                <p className="grow text-lg font-medium">{client.name}</p>
                {client.activeProjectCount > 0 && (
                   <ActiveProjectPopover>
@@ -49,7 +49,7 @@ const ClientCard = ({ client }: { client: Client }): JSX.Element => {
          </div>
          <div
             className="absolute inset-0 rounded-[26px] transition-opacity bg-slate-100"
-            style={{ backgroundColor: client.accentColor }}
+            style={{ backgroundColor: client.themeColor }}
          />
          <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent rounded-[26px] transition-opacity" />
       </div>
@@ -67,7 +67,7 @@ const ActiveProjectPopover: React.FC<{ children: ReactNode }> = ({
       <Popover>
          <PopoverTrigger
             onClick={handleClick}
-            className="border-2 border-transparent hover:border-primary-foreground transition-colors duration-75 flex text-lg text-red-500 bg-white rounded-full w-8 h-8 items-center justify-center"
+            className="border-2 border-transparent aspect-square hover:border-primary-foreground transition-colors duration-75 flex text-lg text-red-500 bg-white rounded-full w-7 h-7 items-center justify-center"
          >
             {children}
          </PopoverTrigger>

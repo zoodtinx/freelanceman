@@ -13,7 +13,7 @@ export default function TopBar() {
                   `}
       >
          <FreelanceManLogo />
-         <div className="flex gap-4 items-center justify-between text-secondary text-md bg-foreground h-[37px] sm:h-[43px] w-auto rounded-full px-4 sm:hidden">
+         <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-foreground h-[37px] sm:h-[43px] w-auto rounded-full px-4 sm:hidden">
             <p>Monday, 19 December 2025</p>
             <div className="flex items-center gap-1">
                <CircleCheck className="h-5 w-5" />

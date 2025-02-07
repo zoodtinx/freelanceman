@@ -49,6 +49,7 @@ export default function Events() {
                >
                   <ToggleGroupItem value="scheduled">Scheduled</ToggleGroupItem>
                   <ToggleGroupItem value="finished">Finished</ToggleGroupItem>
+                  <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
             <NewActionButton

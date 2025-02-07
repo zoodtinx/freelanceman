@@ -70,6 +70,12 @@ export const getAllProjects = (
             );
          });
 
+         filteredProjects.sort((a, b) => {
+            const dateA = new Date(a.modifiedAt).getTime();
+            const dateB = new Date(b.modifiedAt).getTime();
+            return dateB - dateA;
+         });
+
          resolve(filteredProjects || []);
       }, 500);
    });

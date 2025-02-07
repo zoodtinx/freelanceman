@@ -4,7 +4,7 @@ import ContactColumn from 'src/components/page-elements/all-clients/ContactColum
 export default function AllClientsPage() {
 
    return (
-      <section className="w-full h-full flex gap-2 sm:flex-col">
+      <section className=" flex gap-2 sm:flex-col grow">
          <ClientColumn />
          <ContactColumn />
       </section>

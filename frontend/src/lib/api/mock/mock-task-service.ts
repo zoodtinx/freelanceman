@@ -23,7 +23,7 @@ export const getAllTasks = (searchOptions: TaskSearchOptions = {}): Promise<Task
             return;
          }
 
-         const filteredEvents = mockTasks.filter((event) => {
+         const filteredTasks = mockTasks.filter((event) => {
             const matchesStatus =
                searchOptions.status === undefined ||
                searchOptions.status.trim() === "" ||
@@ -33,9 +33,9 @@ export const getAllTasks = (searchOptions: TaskSearchOptions = {}): Promise<Task
                !searchOptions.createdAt || searchOptions.createdAt.trim() === "" ||
                event.createdAt.startsWith(searchOptions.createdAt.trim());
 
-            const matchesDueDate =
-               !searchOptions.dueDate || searchOptions.dueDate.trim() === "" ||
-               event.dueDate.startsWith(searchOptions.dueDate.trim());
+            const matchesdueAt =
+               !searchOptions.dueAt || searchOptions.dueAt.trim() === "" ||
+               event.dueAt.startsWith(searchOptions.dueAt.trim());
 
             const matchesWithTime =
                searchOptions.withTime === undefined || event.withTime === searchOptions.withTime;
@@ -51,14 +51,16 @@ export const getAllTasks = (searchOptions: TaskSearchOptions = {}): Promise<Task
             return (
                matchesStatus &&
                matchesCreatedAt &&
-               matchesDueDate &&
+               matchesdueAt &&
                matchesWithTime &&
                matchesProjectId &&
                matchesClientId
             );
          });
 
-         resolve(filteredEvents);
+         filteredTasks.sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+
+         resolve(filteredTasks);
       }, 500);
    });
 };

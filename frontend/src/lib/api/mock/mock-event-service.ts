@@ -36,9 +36,9 @@ export const getAllEvent = (searchOptions: EventSearchOptions = {}): Promise<Eve
                      !searchOptions.createdAt || searchOptions.createdAt.trim() === "" ||
                      event.createdAt.startsWith(searchOptions.createdAt.trim());
 
-                  const matchesDueDate =
-                     !searchOptions.dueDate || searchOptions.dueDate.trim() === "" ||
-                     event.dueDate.startsWith(searchOptions.dueDate.trim());
+                  const matchesdueAt =
+                     !searchOptions.dueAt || searchOptions.dueAt.trim() === "" ||
+                     event.dueAt.startsWith(searchOptions.dueAt.trim());
 
                   const matchesWithTime =
                      searchOptions.withTime === undefined || event.withTime === searchOptions.withTime;
@@ -54,7 +54,7 @@ export const getAllEvent = (searchOptions: EventSearchOptions = {}): Promise<Eve
                   return (
                      matchesStatus &&
                      matchesCreatedAt &&
-                     matchesDueDate &&
+                     matchesdueAt &&
                      matchesWithTime &&
                      matchesProjectId &&
                      matchesClientId
@@ -63,7 +63,7 @@ export const getAllEvent = (searchOptions: EventSearchOptions = {}): Promise<Eve
             }
          }
 
-         events = sortEventsByDate(events, 'createdAt');
+         events = sortEventsByDate(events, 'dueAt');
          resolve(events);
       }, 500);
    });

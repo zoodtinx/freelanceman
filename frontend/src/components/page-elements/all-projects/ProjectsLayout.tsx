@@ -25,12 +25,12 @@ const ProjectsLayout: React.FC = () => {
    }, [projects, setProjects]);
 
    return (
-      <section className="w-full h-full flex flex-col gap-1 sm:flex-col">
+      <div className="overflow-hidden flex flex-col flex-grow min-h-0">
          <ProjectFilterBar />
          {isLoading ? (
             <>Loading</>
          ) : (
-            <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto">
+            <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto min-h-0">
                <div className="sm:hidden">
                   {viewMode === 'grid' && <ProjectGrid />}
                   {viewMode === 'list' && <ProjectList />}
@@ -48,7 +48,7 @@ const ProjectsLayout: React.FC = () => {
             dialogState={projectSettingDialogState}
             setDialogState={setProjectSettingDialogState}
          />
-      </section>
+      </div>
    );
 };
 

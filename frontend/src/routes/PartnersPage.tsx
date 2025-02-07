@@ -103,7 +103,7 @@ const SearchCategory = ({
 }) => {
    return (
       <Select onValueChange={(value) => onChange(value)}>
-         <SelectTrigger className="flex px-2 text-base w-[110px] gap-2 bg-primary text-foreground rounded-lg border-none">
+         <SelectTrigger className="flex pl-3 pr-2 text-base w-[120px] gap-2 bg-primary text-foreground rounded-full border-none">
             <SelectValue placeholder="Name" />
          </SelectTrigger>
          <SelectContent>

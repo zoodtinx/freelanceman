@@ -46,12 +46,12 @@ export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
    return (
       <div
          className="flex rounded-[15px] h-[40px] relative border-2 border-transparent hover:border-primary transition-colors"
-         style={{ backgroundColor: project.accentColor }}
+         style={{ backgroundColor: project.themeColor }}
          onClick={handleProjectNavigation}
       >
          <div className="z-10 flex items-center pl-3 pr-2 justify-between w-full text-[#333333]">
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
-               {project.name}
+               {project.title}
             </p>
 
             <div className="flex grow items-center justify-end text-base text-primary">
@@ -62,7 +62,6 @@ export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
                   {project.client}
                </p>
                <p className="w-[170px]">
-                  {/* {t('startedAt')} :{' '} */}
                   Modified : {formattedDate}
                </p>
                <Dots
@@ -71,7 +70,6 @@ export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
                />
             </div>
          </div>
-         <div className="opacity-60 absolute rounded-[15px] inset-0 bg-gradient-to-l from-white to-transparent transition-opacity" />
       </div>
    );
 };

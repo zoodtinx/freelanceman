@@ -18,7 +18,6 @@ export const getFile = (id: string) => {
 export const getAllFiles = (
    searchOptions: FileSearchOption = {}
 ): Promise<File[]> => {
-   console.log(searchOptions);
    return new Promise((resolve) => {
       setTimeout(() => {
          if (!searchOptions || Object.keys(searchOptions).length === 0) {
@@ -69,7 +68,7 @@ export const getAllFiles = (
             );
          });
 
-         console.log(filteredFiles);
+   
          resolve(filteredFiles);
       }, 500);
    });

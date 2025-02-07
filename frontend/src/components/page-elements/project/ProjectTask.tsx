@@ -6,20 +6,20 @@ import { useState } from 'react';
 import { ProjectTaskList } from '@/components/page-elements/project/ProjectTaskList';
 import AddButton from '@/components/shared/ui/AddButton';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
+import { TaskList } from '@/components/page-elements/actions/TaskList';
 
-const ProjectTask: React.FC<{project: Project}> = ({project}) => {
+const ProjectTask: React.FC<{ project: Project }> = ({ project }) => {
    const [taskDialogState, setTaskDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
       mode: 'view',
       type: 'task',
       data: {},
-      page: 'project-page'
+      page: 'project-page',
    });
 
    const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({
-      status: 'planned',
-      clientId: 'a1e45f22-5d78-4b2a-a24d-8c19ea5f3ef7'
+      projectId: project.id,
    });
 
    const [selectState, setSelectState] = useState({
@@ -31,18 +31,21 @@ const ProjectTask: React.FC<{project: Project}> = ({project}) => {
 
    return (
       <div className="flex flex-col w-1/2">
-         <div className='flex justify-between items-center pl-3 pr-2'>
+         <div className="flex justify-between items-center pl-3 pr-2">
             <p className="flex items-center h-9 text-md gap-1">
-               <CircleCheck className="w-4 h-4" style={{
-                  color: project.accentColor
-               }} />
+               <CircleCheck
+                  className="w-4 h-4"
+                  style={{
+                     color: project.themeColor,
+                  }}
+               />
                Task
             </p>
             <AddButton />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
-         <div className="flex flex-col grow px-1 pt-3">
-            <ProjectTaskList
+         <div className="flex flex-col grow px-3 pt-3">
+            <TaskList
                isLoading={isLoading}
                setDialogState={setTaskDialogState}
                tasksData={tasksData}

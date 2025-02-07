@@ -4,7 +4,7 @@ import PinnedProjects from './PinnedProjects';
 export default function SideBar() {
 
    return (
-      <nav className="max-w-[155px] w-full flex flex-col gap-2 h-full justify-between md:w-fit sm:hidden">
+      <nav className="w-[155px] flex flex-col gap-2 h-full justify-between md:w-fit sm:hidden">
          <div className="flex flex-col gap-5">
             <ul className="mb-2 flex flex-col gap-1">
                <SideBarTab tab="projects" />

@@ -1,5 +1,5 @@
 import { useContext, createContext, useState } from 'react';
-import type { Project, ProjectSearchOptions } from '@types';
+import type { Project, ProjectSearchOption } from '@types';
 import type {
    ProjectsViewContextType,
 } from '../types/project-view-context.types';
@@ -39,7 +39,9 @@ const useProjectsView = () => {
       }
    });
 
-   const [filter, setFilter] = useState<ProjectSearchOptions>({});
+   const [filter, setFilter] = useState<ProjectSearchOption>({
+      projectStatus: 'active'
+   });
 
    return {
       projects,

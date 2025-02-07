@@ -23,10 +23,10 @@ const FilePageLayout = (): JSX.Element => {
       mode: 'view',
       type: 'file',
       data: {},
+      page: ''
    });
 
    const [fileFilter, setFileFilter] = useState<FileSearchOptions>({
-      status: 'scheduled',
    });
 
    const [selectState, setSelectState] = useState({
