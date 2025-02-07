@@ -2,6 +2,7 @@ import { Currency } from "./misc.type";
 
 export interface SalesDocument {
   id: string; 
+  title: string;
   category: 'quotation' | 'invoice' | 'receipt'; 
   
   number: string; 
@@ -18,34 +19,48 @@ export interface SalesDocument {
   freelancerEmail: string; 
   freelancerPhone: string; 
   freelancerTaxId: string; 
-  freelancerDetail: string; 
+  freelancerDetail?: string; 
 
   clientId: string; 
   clientName: string; 
   clientTaxId: string; 
-  clientAddress: string; 
-  clientPhone: string; 
-  clientOffice: string; 
-  clientDetail: string; 
+  clientAddress?: string; 
+  clientPhone?: string; 
+  clientOffice?: string; 
+  clientDetail?: string; 
 
   items: SalesDocumentItem[]
 
   subtotal: number; 
-  discount: number; 
+  discount?: number; 
   tax: number; 
   total: number; 
-  customAdjustment: number; 
-  note: string; 
+  customAdjustment?: number; 
+  note?: string; 
 
   createdAt: string;
   updatedAt: string;
 }
 
-export type SalesDocumentFormPayload = Omit<SalesDocument, 'id' | 'createdAt' | 'createdAt'>
+export type CreateSalesDocumentDto = Omit<
+  SalesDocument,
+  "id" | "createdAt" | "updatedAt"
+>;
+
+export type EditSalesDocumentDto = Partial<
+  Omit<SalesDocument, "id" | "createdAt" | "updatedAt">
+>;
 
 export interface SalesDocumentItem {
-   name: string;
-   description: string;
+   title: string;
+   description?: string;
    rate: number;
    quantity: number;
+}
+
+export interface SalesDocumentSearchOption {
+   title: string;
+   clientId: string;
+   projectId: string;
+   category: "quotation" | "invoice" | "receipt";
 }

@@ -1,9 +1,3 @@
-import type { Event } from "./event.types";
-import type { Task } from "./task.types";
-
-export type ProjectStatus = 'active' | 'on-hold' | 'completed';
-export type PaymentStatus = 'not-processed' | 'processing' | 'paid';
-
 export interface Project {
   id: string;
   title: string;
@@ -12,15 +6,42 @@ export interface Project {
   quickTaskId: string;
   projectStatus: string;
   paymentStatus: string;
-  accentColor: string;
+  themeColor: string;
   links: string[];
-  notes: string;
+  note: string;
   createdAt: string;
   modifiedAt: string;
 }
 
-export interface ProjectSettingFormData extends Partial<Omit<Project, 'id' | 'client' | 'clientId' | 'dateCreated'>> {}
+export interface CreateProjectDto {
+  title: string;
+  clientId: string;
+  projectStatus: string;
+  paymentStatus: string;
+  contacts?: string[];
+  workingFiles?: string[];
+  assetFiles?: string[];
+}
 
-export type ProjectSearchOptions = Partial<
-  Pick<Project, "title" | "paymentStatus" | "projectStatus" | "clientId">
->;
+export interface EditProjectDto {
+  title?: string;
+  projectStatus?: string;
+  paymentStatus?: string;
+  contacts?: string[];
+  workingFiles?: string[];
+  assetFiles?: string[];
+  links?: string[];
+  note?: string[]; 
+}
+
+export interface ProjectSearchOption {
+  title?: string;
+  projectId?: string;
+  clientId?: string;
+  contactId?: string;
+  partnerId?: string;
+  eventId?: string;
+  taskId?: string;
+  paymentStatus?: string;
+  projectStatus?: string;
+}

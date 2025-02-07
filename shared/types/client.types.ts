@@ -1,7 +1,3 @@
-export interface ClientResponse {
-   id: string;
-   name: string;
-}
 
 export interface Client {
    name: string;
@@ -13,23 +9,38 @@ export interface Client {
    email: string;
    phoneNumber: string;
    address: string;
-   office: string;
    detail: string;
-   accentColor: string; // Assuming this is a hex color string
+   themeColor: string; 
 }
 
-export type ClientSearchOption = Partial<
-   Pick<Client, "name" | "projectCount" | "contactCount"> & {
-      hasActiveProjects: boolean; // New flag for filtering active projects
-   }
->;
+export interface ClientSearchOption {
+   name: string,
+   clientId: string,
+   projectId: string,
+   taskId: string,
+   eventId: string,
+   withActiveProject: boolean
+}
 
-
-export interface NewClientPayload {
+export interface CreateClientDto {
    name: string;
-   contactCount: number;
-   projectCount: number;
-   activeProjectCount: number;
-   accentColor: string;
+   taxId: string;
+   email: string;
+   phoneNumber: string;
+   address: string;
+   detail: string;
+   contact?: string[];
 }
 
+export type EditClientDto = Partial<
+   Pick<
+      Client,
+      | "name"
+      | "taxId"
+      | "email"
+      | "phoneNumber"
+      | "address"
+      | "detail"
+      | "themeColor"
+   >
+>;

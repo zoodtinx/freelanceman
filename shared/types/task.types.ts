@@ -1,25 +1,34 @@
-export type TaskStatus = 'planned' | 'in-progress' | 'completed' | 'cancelled';
+export type TaskStatus = "pending" | "finished" | "cancelled";
 
 export interface Task {
    id: string;
    name: string;
-   status: TaskStatus | 'all';
+   status: TaskStatus;
    details: string;
    link: string;
-   createdAt: string;
-   dueDate: string;
-   withTime: boolean;
+   dueAt: string;
    project: string;
    projectId: string;
    client: string;
    clientId: string;
-   color:string;
+   themeColor: string;
 }
 
-export type NewTaskPayload = Omit<Task, 'dateCreated' | 'project' | 'client' | 'dateModified'>;
+export type TaskSearchOption = Partial<
+   Pick<Task, "name" | "status" | "dueAt" | "projectId" | "clientId">
+>;
 
-export type TaskFormData = Omit<Task, 'dateCreated' | 'dateModified'>;
+export interface CreateTaskDto {
+   name: string;
+   status: string;
+   projectId: string;
+   clientId: string;
+   dueAt: string;
+   details?: string;
+   link?: string;
+   tags?: string;
+}
 
-export type TaskSearchOptions = Partial<
-   Pick<Task, "status" | "createdAt" | "dueDate" | "withTime" | 'projectId' | 'clientId'>
+export type EditTaskDto = Partial<
+   Pick<Task, "dueAt" | "link" | "details" | "status" | "name">
 >;

@@ -1,21 +1,30 @@
+export type FileType =
+   | "image"
+   | "video"
+   | "document"
+   | "code"
+   | "design"
+   | "spreadsheet"
+   | "presentation"
+   | "audio"
+   | "archive"
+   | "video-editing"
+   | "project-management"
+   | "database"
+   | "other";
+
+export type FileCategory =
+   | "personal-file"
+   | "personal-document"
+   | "client-document"
+   | "project-file"
+   | "project-asset";
+
 export interface File {
    id: string;
-   fileName: string;
-   name: string;
-   type:
-      | "image"
-      | "video"
-      | "document"
-      | "code"
-      | "design"
-      | "spreadsheet"
-      | "presentation"
-      | "audio"
-      | "archive"
-      | "video-editing"
-      | "project-management"
-      | "database"
-      | "other";
+   originalName: string;
+   displayName: string;
+   type: FileType;
    category: FileCategory;
    link: string;
    project?: string;
@@ -27,29 +36,20 @@ export interface File {
    modifiedAt?: string;
 }
 
-export type FileSearchOptions = Partial<
-   Pick<File, "name" | "category" | "fileName" | "type" | "clientId" | "projectId">
->;
-
-export interface FileFormData {
-   id: string;
-   name?: string;
-   link?: string;
-   category?: FileCategory;
-}
-
-export interface NewFilePayload {
-   id: string;
-   name: string;
-   link: string;
+export interface CreateFileDto {
+   originalName: string;
+   displayName: string;
+   type: FileType;
    category: FileCategory;
+   link: string;
+   projectId?: string;
+   clientId?: string;
+   size?: number;
 }
 
-export type FileCategory =
-   | "personal-file"
-   | "personal-document"
-   | "client-file"
-   | "client-document"
-   | "project-file"
-   | "project-document"
-   | "project-asset"
+export type FileSearchOptions = Partial<
+   Pick<
+      File,
+      "displayName" | "category" | "type" | "clientId" | "projectId"
+   >
+>;

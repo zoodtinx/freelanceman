@@ -1,28 +1,36 @@
-export type EventStatus = 'scheduled' | 'onGoing' | 'completed' | 'cancelled';
+export type EventStatus = "scheduled" | "completed" | "cancelled";
 
 export interface Event {
    id: string;
    name: string;
-   status: EventStatus | 'all';
+   status: EventStatus;
    details: string;
    link: string;
-   createdAt: string;
-   dueDate: string;
-   withTime: boolean;
+   dueAt: string;
    project: string;
    projectId: string;
    client: string;
    clientId: string;
-   color:string;
-   type: string;
-   location: string;
-   tags: string[]
+   themeColor: string;
+   tags: string[];
 }
 
-export type NewEventPayload = Omit<Event, 'createdAt' | 'project' | 'client'>;
-
-export type EventFormData = Omit<Event, 'createdAt'>;
-
-export type EventSearchOptions = Partial<
-   Pick<Event, "status" | "createdAt" | "dueDate" | "withTime" | 'projectId' | 'clientId'>
+export type EventSearchOption = Partial<
+   Pick<Event, "name" | "status" | "dueAt" | "projectId" | "clientId">
 >;
+
+export interface CreateEventDto {
+   name: string;
+   status: string;
+   projectId: string;
+   clientId: string;
+   dueAt: string;
+   details?: string;
+   link?: string;
+   tags?: string;
+}
+
+export type EditEventDto = Partial<
+   Pick<Event, "dueAt" | "link" | "details" | "status" | "tags" | "name">
+>;
+
