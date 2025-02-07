@@ -12,10 +12,11 @@ import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions }
 
 export const useAllTasksQuery = (searchOptions: TaskSearchOptions = {}) => {
    return useQuery({
-      queryKey: ['events', searchOptions],
+      queryKey: ['tasks', searchOptions],
       queryFn: () => getAllTasks(searchOptions),
    });
 };
+
 export const useTaskQuery = (taskId: string) => {
    const queryClient = useQueryClient();
 

@@ -100,11 +100,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             }}
          >
             <Task className="text-primary h-[22px] w-auto" />
-            <p className="text-primary truncate">{quickTask.name}</p>
+            <p className="text-primary truncate">{quickTask}</p>
          </div>
          <div
             className="absolute inset-0 rounded-[30px] transition-opacity"
-            style={{ backgroundColor: project.accentColor }}
+            style={{ backgroundColor: project.themeColor }}
          />
          <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent rounded-[30px] transition-opacity" />
       </div>

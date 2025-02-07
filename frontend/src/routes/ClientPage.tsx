@@ -2,7 +2,7 @@ import ClientInfoSection from '@/components/page-elements/client/ClientInfoSecti
 import ClientContactSection from '@/components/page-elements/client/ClientContactSection';
 import ClientProjectSection from '@/components/page-elements/client/ClientProjectSection';
 import ClientFileSection from '@/components/page-elements/client/ClientFileSection';
-import { mockAllClients } from '@mocks';
+import { mockClients } from '@mocks';
 
 export default function ClientPage() {
    return (

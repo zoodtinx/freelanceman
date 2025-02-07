@@ -5,8 +5,8 @@ export interface Contact {
    company: string;
    companyId: string;
    role: string;
-   phoneNumber: string[];
-   email: string[];
+   phoneNumber: string;
+   email: string;
    details: string;
    avatar: string;
 }

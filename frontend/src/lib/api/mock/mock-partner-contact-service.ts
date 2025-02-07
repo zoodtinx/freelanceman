@@ -1,4 +1,4 @@
-import { mockPartnerContacts } from "@mocks";
+import { mockPartners as mockPartnerContacts } from "@mocks";
 import type {
    PartnerContact,
    PartnerContactSearchOption,

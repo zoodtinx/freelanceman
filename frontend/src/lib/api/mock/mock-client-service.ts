@@ -1,4 +1,4 @@
-import { mockAllClients as mockClients } from "@mocks";
+import { mockClients as mockClients } from "@mocks";
 import type {
    Client,
    ClientSearchOption,

@@ -4,8 +4,8 @@ export interface Project {
   client: string;
   clientId: string;
   quickTaskId: string;
-  projectStatus: string;
-  paymentStatus: string;
+  projectStatus: "active" | "on-hold" | "completed"
+  paymentStatus: "unpaid" | "processing" | "paid"
   themeColor: string;
   links: string[];
   note: string;

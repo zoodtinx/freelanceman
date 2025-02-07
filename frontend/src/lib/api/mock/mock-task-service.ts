@@ -2,7 +2,7 @@ import { mockTasks } from "@mocks";
 import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions } from "@types";
 
 export const getTask = (id: string) => {
-   const task = mockTasks.find(task => task.id === id);
+   const task = 'This is a quick task.'
 
    return new Promise((resolve) => {
       setTimeout(() => resolve(task), 500);
