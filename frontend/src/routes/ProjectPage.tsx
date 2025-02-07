@@ -1,12 +1,13 @@
 import { useProjectQuery } from '@/lib/api/project-api';
 import { Link, useParams } from 'react-router-dom';
-import { Users, EllipsisVertical } from 'lucide-react';
+import { Users, EllipsisVertical, Wallet, Briefcase } from 'lucide-react';
 import { ProjectContactSection } from '@/components/page-elements/project/ProjectContactSection';
 import ProjectFileSection from '@/components/page-elements/project/ProjectFileSection';
 import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSection';
 import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSection';
 import ProjectTask from '@/components/page-elements/project/ProjectTask';
 import ProjectEvent from '@/components/page-elements/project/ProjectEvent';
+import { formatPaymentStatus, formatProjectStatus } from '@/components/page-elements/files/Helpers';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
@@ -24,18 +25,34 @@ export default function ProjectPage() {
       <section className="flex grow gap-2">
          <div className="flex flex-col w-2/3 gap-2">
             <div className="flex flex-col bg-foreground rounded-xl px-4 py-3 w-full relative">
-               <EllipsisVertical className="absolute top-3 right-2 text-secondary hover:text-primary transition-colors duration-75" />
                <p className="text-[1.6em]">{project.title}</p>
-               <div className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75" style={{
-                  color: project.themeColor
-               }}>
-                  <Users className=" w-5 h-auto" />
-                  <Link
-                     to={`../../clients/${project.clientId}`}
-                     className="text-md font-medium select-none cursor-default"
+               <div className="flex justify-between">
+                  <div
+                     className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75"
+                     style={{
+                        color: project.themeColor,
+                     }}
                   >
-                     {project.client}
-                  </Link>
+                     <Users className=" w-5 h-auto" />
+                     <Link
+                        to={`../../clients/${project.clientId}`}
+                        className="text-md font-medium select-none cursor-default"
+                     >
+                        {project.client}
+                     </Link>
+                  </div>
+                  <div className='flex gap-4'>
+                     <div className="flex items-center gap-1">
+                        <Briefcase className="w-4 h-4" />
+                        <p>Status :</p>
+                        <p>{formatProjectStatus(project.projectStatus)}</p>
+                     </div>
+                     <div className="flex items-center gap-1">
+                        <Wallet className="w-4 h-4" />
+                        <p>Payment :</p>
+                        <p>{formatPaymentStatus(project.paymentStatus)}</p>
+                     </div>
+                  </div>
                </div>
             </div>
             <div className="flex rounded-xl bg-foreground grow relative">

@@ -17,208 +17,207 @@ import {
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
-export const getIcon = (fileType: string, className: string = '', color: string = '',): JSX.Element => {
-  switch (fileType) {
-     case 'image':
-        return <Image style={{ color: `${color}` }} className={className} />;
-     case 'video':
-        return <Video style={{ color: `${color}` }} className={className} />;
-     case 'document':
-        return <FileText style={{ color: `${color}` }} className={className} />;
-     case 'code':
-        return <Code style={{ color: `${color}` }} className={className} />;
-     case 'design':
-        return <Layout style={{ color: `${color}` }} className={className} />;
-     case 'spreadsheet':
-        return <Table style={{ color: `${color}` }} className={className} />;
-     case 'presentation':
-        return <Monitor style={{ color: `${color}` }} className={className} />;
-     case 'audio':
-        return <Music style={{ color: `${color}` }} className={className} />;
-     case 'archive':
-        return <Archive style={{ color: `${color}` }} className={className} />;
-     case 'video-editing':
-        return <Film style={{ color: `${color}` }} className={className} />;
-     case 'project-management':
-        return <Briefcase style={{ color: `${color}` }} className={className} />;
-     case 'database':
-        return <Database style={{ color: `${color}` }} className={className} />;
-     case 'other':
-        return <FileStack style={{ color: `${color}` }} className={className} />;
-     default:
-        return <></>;
-  }
+export const getIcon = (
+   fileType: string,
+   className: string = '',
+   color: string = ''
+): JSX.Element => {
+   switch (fileType) {
+      case 'image':
+         return <Image style={{ color: `${color}` }} className={className} />;
+      case 'video':
+         return <Video style={{ color: `${color}` }} className={className} />;
+      case 'document':
+         return (
+            <FileText style={{ color: `${color}` }} className={className} />
+         );
+      case 'code':
+         return <Code style={{ color: `${color}` }} className={className} />;
+      case 'design':
+         return <Layout style={{ color: `${color}` }} className={className} />;
+      case 'spreadsheet':
+         return <Table style={{ color: `${color}` }} className={className} />;
+      case 'presentation':
+         return <Monitor style={{ color: `${color}` }} className={className} />;
+      case 'audio':
+         return <Music style={{ color: `${color}` }} className={className} />;
+      case 'archive':
+         return <Archive style={{ color: `${color}` }} className={className} />;
+      case 'video-editing':
+         return <Film style={{ color: `${color}` }} className={className} />;
+      case 'project-management':
+         return (
+            <Briefcase style={{ color: `${color}` }} className={className} />
+         );
+      case 'database':
+         return (
+            <Database style={{ color: `${color}` }} className={className} />
+         );
+      case 'other':
+         return (
+            <FileStack style={{ color: `${color}` }} className={className} />
+         );
+      default:
+         return <></>;
+   }
 };
-
 
 type FileIconByExtensionProps = {
-  fileExtension: string; 
-  className?: string;     
+   fileExtension: string;
+   className?: string;
 };
 
-export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({ fileExtension = 'default', className = '' }): JSX.Element => {
-  switch (fileExtension.toLowerCase()) {
-   
-    case 'png':
-    case 'jpg':
-    case 'jpeg':
-    case 'gif':
-    case 'bmp':
-    case 'svg':
-    case 'webp':
-    case 'ico':
-    case 'tiff':
-    case 'heic':
-    case 'raw':
-      return <Image className={className} />;
+export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({
+   fileExtension = 'default',
+   className = '',
+}): JSX.Element => {
+   switch (fileExtension.toLowerCase()) {
+      case 'png':
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+      case 'bmp':
+      case 'svg':
+      case 'webp':
+      case 'ico':
+      case 'tiff':
+      case 'heic':
+      case 'raw':
+         return <Image className={className} />;
 
-   
-    case 'mp4':
-    case 'mov':
-    case 'avi':
-    case 'mkv':
-    case 'webm':
-    case 'flv':
-    case 'wmv':
-    case 'm4v':
-    case 'mpg':
-    case 'mpeg':
-    case '3gp':
-      return <Video className={className} />;
+      case 'mp4':
+      case 'mov':
+      case 'avi':
+      case 'mkv':
+      case 'webm':
+      case 'flv':
+      case 'wmv':
+      case 'm4v':
+      case 'mpg':
+      case 'mpeg':
+      case '3gp':
+         return <Video className={className} />;
 
-   
-    case 'pdf':
-    case 'doc':
-    case 'docx':
-    case 'txt':
-    case 'rtf':
-    case 'odt':
-    case 'md':
-    case 'tex':
-    case 'epub':
-    case 'mobi':
-      return <FileText className={className} />;
+      case 'pdf':
+      case 'doc':
+      case 'docx':
+      case 'txt':
+      case 'rtf':
+      case 'odt':
+      case 'md':
+      case 'tex':
+      case 'epub':
+      case 'mobi':
+         return <FileText className={className} />;
 
-   
-    case 'js':
-    case 'ts':
-    case 'jsx':
-    case 'tsx':
-    case 'html':
-    case 'htm':
-    case 'css':
-    case 'scss':
-    case 'json':
-    case 'yaml':
-    case 'yml':
-    case 'xml':
-    case 'py':
-    case 'java':
-    case 'c':
-    case 'cpp':
-    case 'h':
-    case 'cs':
-    case 'php':
-    case 'rb':
-    case 'go':
-    case 'rs':
-    case 'sh':
-    case 'bat':
-    case 'dockerfile':
-      return <Code className={className} />;
+      case 'js':
+      case 'ts':
+      case 'jsx':
+      case 'tsx':
+      case 'html':
+      case 'htm':
+      case 'css':
+      case 'scss':
+      case 'json':
+      case 'yaml':
+      case 'yml':
+      case 'xml':
+      case 'py':
+      case 'java':
+      case 'c':
+      case 'cpp':
+      case 'h':
+      case 'cs':
+      case 'php':
+      case 'rb':
+      case 'go':
+      case 'rs':
+      case 'sh':
+      case 'bat':
+      case 'dockerfile':
+         return <Code className={className} />;
 
-   
-    case 'psd':
-    case 'ai':
-    case 'xd':
-    case 'sketch':
-    case 'fig':
-    case 'indd':
-    case 'afdesign':
-    case 'afphoto':
-    case 'blend':
-      return <Layout className={className} />;
+      case 'psd':
+      case 'ai':
+      case 'xd':
+      case 'sketch':
+      case 'fig':
+      case 'indd':
+      case 'afdesign':
+      case 'afphoto':
+      case 'blend':
+         return <Layout className={className} />;
 
-   
-    case 'xls':
-    case 'xlsx':
-    case 'ods':
-    case 'tsv':
-    case 'numbers':
-      return <Table className={className} />;
+      case 'xls':
+      case 'xlsx':
+      case 'ods':
+      case 'tsv':
+      case 'numbers':
+         return <Table className={className} />;
 
-   
-    case 'ppt':
-    case 'pptx':
-    case 'key':
-    case 'odp':
-    case 'pps':
-    case 'ppsx':
-      return <Monitor className={className} />;
+      case 'ppt':
+      case 'pptx':
+      case 'key':
+      case 'odp':
+      case 'pps':
+      case 'ppsx':
+         return <Monitor className={className} />;
 
-   
-    case 'mp3':
-    case 'wav':
-    case 'aac':
-    case 'flac':
-    case 'ogg':
-    case 'm4a':
-    case 'wma':
-    case 'opus':
-    case 'aiff':
-    case 'amr':
-      return <Music className={className} />;
+      case 'mp3':
+      case 'wav':
+      case 'aac':
+      case 'flac':
+      case 'ogg':
+      case 'm4a':
+      case 'wma':
+      case 'opus':
+      case 'aiff':
+      case 'amr':
+         return <Music className={className} />;
 
-   
-    case 'zip':
-    case 'rar':
-    case '7z':
-    case 'tar':
-    case 'gz':
-    case 'bz2':
-    case 'xz':
-    case 'iso':
-    case 'dmg':
-      return <Archive className={className} />;
+      case 'zip':
+      case 'rar':
+      case '7z':
+      case 'tar':
+      case 'gz':
+      case 'bz2':
+      case 'xz':
+      case 'iso':
+      case 'dmg':
+         return <Archive className={className} />;
 
-   
-    case 'prproj':
-    case 'veg':
-    case 'davinci':
-    case 'aep':
-    case 'drp':
-    case 'fcpxml':
-      return <Film className={className} />;
+      case 'prproj':
+      case 'veg':
+      case 'davinci':
+      case 'aep':
+      case 'drp':
+      case 'fcpxml':
+         return <Film className={className} />;
 
-   
-    case 'mpp':
-    case 'trello':
-    case 'asana':
-    case 'kanban':
-      return <Briefcase className={className} />;
+      case 'mpp':
+      case 'trello':
+      case 'asana':
+      case 'kanban':
+         return <Briefcase className={className} />;
 
-   
-    case 'sql':
-    case 'db':
-    case 'sqlite':
-    case 'mdb':
-    case 'accdb':
-    case 'csv':
-      return <Database className={className} />;
+      case 'sql':
+      case 'db':
+      case 'sqlite':
+      case 'mdb':
+      case 'accdb':
+      case 'csv':
+         return <Database className={className} />;
 
-   
-    case 'default':
-    default:
-      return <FileStack className={className} />;
-  }
+      case 'default':
+      default:
+         return <FileStack className={className} />;
+   }
 };
 
+export const formatCategory = (fileCategory: FileCategory) => {
+   if (!fileCategory) return '';
 
-
-export const formatCategory = (fileCategory: FileCategory) => { 
-  if (!fileCategory) return '';
-  
-  switch (fileCategory) {
+   switch (fileCategory) {
       case 'project-document':
          return 'Project Document';
       case 'project-asset':
@@ -235,4 +234,39 @@ export const formatCategory = (fileCategory: FileCategory) => {
          return 'Personal Document';
       default:
          return '';
-   }}
+   }
+};
+
+export const formatProjectStatus = (
+   projectStatus: 'active' | 'on-hold' | 'completed'
+) => {
+   if (!projectStatus) return '';
+
+   switch (projectStatus) {
+      case 'active':
+         return 'Active';
+      case 'on-hold':
+         return 'On Hold';
+      case 'completed':
+         return 'Completed';
+      default:
+         return '';
+   }
+};
+
+export const formatPaymentStatus = (
+   paymentStatus: 'unpaid' | 'processing' | 'paid'
+) => {
+   if (!paymentStatus) return '';
+
+   switch (paymentStatus) {
+      case 'unpaid':
+         return 'Unpaid';
+      case 'processing':
+         return 'Processing';
+      case 'paid':
+         return 'Paid';
+      default:
+         return '';
+   }
+};
