@@ -70,7 +70,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
    return (
       <div
-         className="relative flex flex-col justify-between rounded-[32px] h-[208.24px] p-4 pt-3 leading-tight transition-all text-[#333333] border-2 border-transparent hover:border-primary duration-75"
+         className="relative flex flex-col justify-between rounded-[20px] overflow-hidden h-[208.24px] p-4 pt-3 leading-tight transition-all text-[#333333] border-2 border-transparent hover:border-primary duration-75"
          onClick={handleProjectNavigation}
       >
          <Dots
@@ -103,10 +103,10 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             <p className="text-primary truncate">{quickTask}</p>
          </div>
          <div
-            className="absolute inset-0 rounded-[30px] transition-opacity"
+            className="absolute inset-0 transition-opacity"
             style={{ backgroundColor: project.themeColor }}
          />
-         <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent rounded-[30px] transition-opacity" />
+         <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent transition-opacity" />
       </div>
    );
 };

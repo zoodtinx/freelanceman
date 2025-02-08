@@ -43,7 +43,7 @@ export const mockContacts: Contact[] = [
       phoneNumber: "+1 555-4444",
       email: "diana@pixelperfect.com",
       details: "Front-end Developer at Pixel Perfect Studios",
-      avatar: "https://randomuser.me/api/portraits/men/2.jpg",
+      avatar: "https://randomuser.me/api/portraits/men/9.jpg",
    },
    {
       id: "90ab6596-0cf6-4138-85f4-8bc193590a4a",

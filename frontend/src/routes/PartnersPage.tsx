@@ -56,7 +56,7 @@ const PartnerContactLayout = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col grow rounded-[30px] bg-foreground p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0">
+      <div className="flex flex-col grow rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 shadow-md">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
                <BookUser className="h-6 w-6" />

@@ -80,7 +80,7 @@ const FilePageLayout = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden ">
+      <div className="flex flex-col w-full bg-foreground rounded-[20px] p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden shadow-md">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
                <Folder className="h-6 w-6 mt-1" />

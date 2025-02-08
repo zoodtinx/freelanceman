@@ -22,7 +22,7 @@ export default function ClientPage() {
 
 const ClientActivitySection = () => {
    return (
-      <div className="flex min-h-[200px] flex-col bg-foreground p-4 rounded-3xl shrink-0">
+      <div className="flex min-h-[200px] flex-col bg-foreground p-4 rounded-[20px] shrink-0">
          <p className="text-lg">Activity Timeline</p>
          
       </div>

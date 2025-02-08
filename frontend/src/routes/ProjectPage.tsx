@@ -24,7 +24,7 @@ export default function ProjectPage() {
    return (
       <section className="flex grow gap-2">
          <div className="flex flex-col w-2/3 gap-2">
-            <div className="flex flex-col bg-foreground rounded-xl px-4 py-3 w-full relative">
+            <div className="flex flex-col bg-foreground rounded-[20px] px-4 py-3 w-full relative shadow-md">
                <p className="text-[1.6em]">{project.title}</p>
                <div className="flex justify-between">
                   <div
@@ -55,14 +55,14 @@ export default function ProjectPage() {
                   </div>
                </div>
             </div>
-            <div className="flex rounded-xl bg-foreground grow relative">
+            <div className="flex rounded-[20px] bg-foreground grow relative shadow-md">
                <ProjectTask project={project} />
                <div className="flex h-full">
                   <div className="border-[0.5px] border-tertiary" />
                </div>
                <ProjectEvent project={project} />
             </div>
-            <div className="flex rounded-xl bg-foreground h-1/3 relative">
+            <div className="flex rounded-[20px] bg-foreground h-1/3 relative shadow-md">
                <div className="flex flex-col w-3/5 shrink-0">
                   <ProjectNoteSection />
                </div>
@@ -74,11 +74,11 @@ export default function ProjectPage() {
                </div>
             </div>
          </div>
-         <div className="w-1/3 flex flex-col rounded-xl gap-2">
-            <div className="flex flex-col rounded-xl bg-foreground grow relative">
+         <div className="w-1/3 flex flex-col rounded-[20px] gap-2">
+            <div className="flex flex-col rounded-[20px] bg-foreground grow relative shadow-md">
                <ProjectFileSection project={project} />
             </div>
-            <div className="flex flex-col rounded-xl bg-foreground h-2/5 relative overflow-hidden">
+            <div className="flex flex-col rounded-[20px] bg-foreground h-2/5 relative overflow-hidden shadow-md">
                <ProjectContactSection project={project} />
             </div>
          </div>

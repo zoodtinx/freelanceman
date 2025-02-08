@@ -8,10 +8,10 @@ export default function ActionPage() {
    return (
       <ActionsViewProvider>
          <section className="w-full h-full flex gap-2 sm:flex-col">
-            <div className="flex flex-col w-1/2 rounded-[30px] bg-foreground p-4 pt-5 sm:w-full grow h-full">
+            <div className="flex flex-col w-1/2 rounded-[20px] bg-foreground p-4 sm:w-full grow h-full shadow-md">
                <Tasks />
             </div>
-            <div className="flex flex-col w-1/2 rounded-[30px] bg-foreground p-4 pt-5 sm:w-full grow h-full">
+            <div className="flex flex-col w-1/2 rounded-[20px] bg-foreground p-4 sm:w-full grow h-full shadow-md">
                <Events />
             </div>
          </section>

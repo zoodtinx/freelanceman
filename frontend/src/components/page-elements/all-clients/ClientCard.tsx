@@ -22,7 +22,7 @@ const ClientCard = ({ client }: { client: Client }): JSX.Element => {
 
    return (
       <div
-         className="relative flex flex-col justify-between rounded-[26px] h-[170px] min-w-[150px] p-4 pt-3 leading-tight transition-all text-[#333333] border-2 border-transparent hover:border-primary duration-75 cursor-default"
+         className="relative flex flex-col justify-between rounded-[20px] overflow-hidden h-[170px] min-w-[150px] p-4 pt-3 leading-tight transition-all text-[#333333] border-2 border-transparent hover:border-primary duration-75 cursor-default"
          onClick={handleSelectClient}
       >
          <div className="z-10 flex flex-col justify-between h-full p-1">
@@ -48,10 +48,10 @@ const ClientCard = ({ client }: { client: Client }): JSX.Element => {
             </div>
          </div>
          <div
-            className="absolute inset-0 rounded-[26px] transition-opacity bg-slate-100"
+            className="absolute inset-0 transition-opacity bg-slate-100"
             style={{ backgroundColor: client.themeColor }}
          />
-         <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent rounded-[26px] transition-opacity" />
+         <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent transition-opacity" />
       </div>
    );
 };
