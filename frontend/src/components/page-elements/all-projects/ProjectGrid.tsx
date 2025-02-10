@@ -89,9 +89,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
       <div
          className={`
          relative flex flex-col justify-between rounded-[20px] overflow-hidden group
-         h-[205px] leading-tight transition-all text-[#333333] 
+         h-[205px] leading-tight transition-all text-freelanceman-darkgrey border
          border-transparent hover:border-primary duration-75 shadow-md
          `}
+         style={{
+            borderColor: project.themeColor
+         }}
          onClick={handleProjectNavigation}
       >
          <EllipsisVertical
@@ -134,7 +137,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
             style={{ backgroundColor: project.themeColor }}
          />
          <div
-            className={`absolute inset-0 opacity-30 group-hover:opacity-70
+            className={`absolute inset-0 opacity-35 group-hover:opacity-75
             bg-gradient-to-b from-white to-transparent transition-opacity`}
          />
       </div>

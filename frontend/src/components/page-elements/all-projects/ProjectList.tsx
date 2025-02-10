@@ -2,6 +2,7 @@ import { Dots } from '@/components/shared/icons';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { ProjectCardProps, ProjectListProps } from '@/components/page-elements/all-projects/props.type';
+import { EllipsisVertical } from 'lucide-react';
 
 const ProjectList: React.FC<ProjectListProps> = ({
    projects,
@@ -66,11 +67,11 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({
 
    return (
       <div
-         className="flex rounded-[15px] h-[40px] relative border-2 border-transparent hover:border-primary transition-colors"
+         className="flex rounded-[15px] h-[40px] relative overflow-hidden transition-colors group"
          style={{ backgroundColor: project.themeColor }}
          onClick={handleProjectNavigation}
       >
-         <div className="z-10 flex items-center pl-3 pr-2 justify-between w-full text-[#333333]">
+         <div className="z-10 flex items-center pl-3 justify-between w-full text-[#333333]">
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
                {project.title}
             </p>
@@ -82,13 +83,14 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({
                >
                   {project.client}
                </p>
-               <p className="w-[170px]">Modified : {formattedDate}</p>
-               <Dots
-                  className="h-[20px] w-[18px] cursor-pointer"
+               <p className="w-[140px]">Updated : <p className='inline font-semibold'>{formattedDate}</p></p>
+               <EllipsisVertical
+                  className="h-[19px] cursor-pointer pr-1"
                   onClick={openSettingDialog}
                />
             </div>
          </div>
+         <div className='absolute opacity-25 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white via-transparent to-transparent transition-opacity'></div>
       </div>
    );
 };
