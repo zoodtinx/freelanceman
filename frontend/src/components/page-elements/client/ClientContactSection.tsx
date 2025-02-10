@@ -1,4 +1,3 @@
-import { SearchBox } from '@/components/shared/ui/SearchBox';
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
@@ -8,8 +7,9 @@ import { ContactSearchOption } from '@types';
 import { defaultContact } from 'src/components/shared/ui/constants';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { useParams } from 'react-router-dom';
+import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 
-const ClientContactSection: React.FC = () => {
+const ClientContactSection: React.FC<ClientSectionProps> = () => {
    const clientId = useParams().clientId || '';
 
    console.log('clientId', clientId)
@@ -49,9 +49,9 @@ const ClientContactSection: React.FC = () => {
    }
 
    return (
-      <div className="flex flex-col bg-foreground p-4 flex-1 rounded-3xl gap-1">
+      <div className="flex flex-col bg-foreground p-2 flex-1 rounded-[20px] gap-1 shadow-md">
          <div className="flex justify-between items-center">
-            <p className="text-lg">Contacts</p>
+            <p className="text-lg px-2">Contacts</p>
             <AddButton onClick={handleNewContact} />
          </div>
          <div className="grow overflow-y-auto h-0 pt-1">

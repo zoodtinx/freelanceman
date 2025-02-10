@@ -15,7 +15,7 @@ import {
    PromptDialogState,
 } from '@/lib/types/dialog.types';
 import FileDialog from '@/components/shared/ui/FileDialog';
-import { File, FileSearchOption } from '@types';
+import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { clientPageFileCategorySelections } from '@/components/shared/ui/selections';
@@ -23,8 +23,10 @@ import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import DeletePromptDialog from '@/components/shared/ui/DeletePromptDialog';
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
+import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import { FileList } from '@/components/page-elements/files/FileList';
 
-const ClientFileSection: React.FC = () => {
+const ClientFileSection: React.FC<ClientSectionProps> = () => {
    const clientId = useParams().clientId || '';
    const fileSectionRef = useRef<HTMLDivElement | undefined>();
 
@@ -34,6 +36,7 @@ const ClientFileSection: React.FC = () => {
       mode: 'view',
       type: 'file',
       data: {},
+      page: 'client-page'
    });
 
    const [selectState, setSelectState] = useState({
@@ -42,7 +45,7 @@ const ClientFileSection: React.FC = () => {
    });
 
    const [fileFilter, setFileFilter] = useState<FileSearchOption>({
-      clientId: clientId
+      clientId: clientId,
    });
 
    const [promptDialogState, setPromptDialogState] =
@@ -68,7 +71,8 @@ const ClientFileSection: React.FC = () => {
          data: defaultFile,
          id : defaultFile.id,
          mode: 'create',
-         type: 'file'
+         type: 'file',
+         page: 'client-page'
       })
    };
 
@@ -117,14 +121,14 @@ const ClientFileSection: React.FC = () => {
 
    return (
       <div
-         className="flex flex-col w-full bg-foreground rounded-[30px] p-4 pt-5 sm:w-full gap-[6px] shrink-0 overflow-hidden h-1/2"
+         className="flex flex-col w-full bg-foreground rounded-[20px] p-2 sm:w-full gap-1 shrink-0 overflow-hidden h-1/2 shadow-md"
          ref={fileSectionRef}
       >
-         <div className="flex justify-between items-center h-[33px]">
-            <p className="text-lg">Files</p>
+         <div className="flex justify-between items-center">
+            <p className="text-lg pl-2">Files</p>
             <AddButton onClick={handleAddFile} />
          </div>
-         <div className="flex gap-1">
+         <div className="flex gap-1 px-2">
             <div className="relative">
                <MultiSelectButton
                   enableMultiSelect={enableMultiSelect}
@@ -155,6 +159,7 @@ const ClientFileSection: React.FC = () => {
             selectState={selectState}
             setDialogState={setDialogState}
             setSelectState={setSelectState}
+            size='md'
          />
          <DeletePromptDialog
             promptDialogState={promptDialogState}
@@ -168,49 +173,6 @@ const ClientFileSection: React.FC = () => {
          />
       </div>
    );
-};
-
-interface SelectState {
-   enableSelect: boolean;
-   selectedValues: string[];
-}
-
-interface FileListProps {
-   filesData: File[] | undefined;
-   isLoading: boolean;
-   selectState: SelectState;
-   setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-}
-
-const FileList: React.FC<FileListProps> = ({
-   filesData,
-   isLoading,
-   selectState,
-   setDialogState,
-   setSelectState,
-}) => {
-   if (isLoading) {
-      return <p>Loading...</p>;
-   }
-
-   if (!filesData || filesData.length === 0) {
-      return <p>No files available</p>;
-   }
-
-   const fileListItems = filesData.map((file) => (
-      <FileListItem
-         key={file.id}
-         data={file}
-         setSelectState={setSelectState}
-         color={'F39E60'}
-         type="file"
-         selectState={selectState}
-         setDialogState={setDialogState}
-      />
-   ));
-
-   return <div>{fileListItems}</div>;
 };
 
 export default ClientFileSection;

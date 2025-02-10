@@ -8,20 +8,32 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { Client } from '@types';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
+import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 
-const ClientInfoSection = ({ clientData }: { clientData: Client }) => {
+const ClientInfoSection: React.FC<ClientSectionProps> = ({
+   clientData,
+}: {
+   clientData: Client;
+}) => {
    const [mode, setMode] = useState<'view' | 'edit'>('view');
    const formMethods = useForm({
       defaultValues: clientData,
    });
 
    return (
-      <div className="flex flex-col bg-foreground p-4 rounded-3xl shrink-0 transition-all duration-150">
-         <div className='flex justify-between items-center'>
-            <p className="text-lg">Information</p>
-            <PencilLine className='w-5 h-5 mr-1' onClick={() => setMode('edit')} />
+      <div className="flex flex-col bg-foreground p-2 rounded-[20px] shrink-0 transition-all duration-150 shadow-md">
+         <div className="flex justify-between items-center">
+            <p className="text-lg px-2">Information</p>
+            <PencilLine
+               className="w-5 h-5 mr-1"
+               onClick={() => setMode('edit')}
+            />
          </div>
-         <AnimatedClientInfoForm formMethods={formMethods} mode={mode} setMode={setMode} />
+         <AnimatedClientInfoForm
+            formMethods={formMethods}
+            mode={mode}
+            setMode={setMode}
+         />
       </div>
    );
 };
@@ -29,11 +41,11 @@ const ClientInfoSection = ({ clientData }: { clientData: Client }) => {
 const ClientInfoForm = ({
    formMethods,
    mode,
-   setMode
+   setMode,
 }: {
    formMethods: UseFormReturn<Client>;
    mode: 'view' | 'edit';
-   setMode: Dispatch<SetStateAction<'view' | 'edit'>>
+   setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
 }) => {
    const { watch } = formMethods;
    const address = watch('address');
@@ -49,7 +61,7 @@ const ClientInfoForm = ({
    ) =>
       mode === 'view' ? (
          value && (
-            <div className='flex-1 shrink-0'>
+            <div className="flex-1 shrink-0">
                <p className="text-sm text-secondary">{label}</p>
                <p>{value}</p>
             </div>
@@ -70,7 +82,10 @@ const ClientInfoForm = ({
 
    if (!address && !email && !phoneNumber && !taxId && mode === 'view') {
       return (
-         <div className="flex flex-col pt-4 pb-5 items-center justify-center text-secondary cursor-pointer" onClick={() => setMode('edit')}>
+         <div
+            className="flex flex-col pt-4 pb-5 items-center justify-center text-secondary cursor-pointer"
+            onClick={() => setMode('edit')}
+         >
             <Plus className="h-5 w-5" />
             <p className="select-none">Add client details</p>
          </div>
@@ -78,8 +93,8 @@ const ClientInfoForm = ({
    }
 
    const handleDiscard = () => {
-      setMode('view')
-   }
+      setMode('view');
+   };
 
    return (
       <form className="flex flex-col gap-2 w-full">
@@ -91,9 +106,18 @@ const ClientInfoForm = ({
          </div>
 
          {renderField('Tax ID', taxId, 'taxId')}
-         <div className='flex justify-between pt-1'>
-            <Button size={'sm'} className='' variant={'destructiveOutline'} onClick={handleDiscard} >Discard</Button>
-            <Button size={'sm'} className='' variant={'submit'} >Save</Button>
+         <div className="flex justify-between pt-1">
+            <Button
+               size={'sm'}
+               className=""
+               variant={'destructiveOutline'}
+               onClick={handleDiscard}
+            >
+               Discard
+            </Button>
+            <Button size={'sm'} className="" variant={'submit'}>
+               Save
+            </Button>
          </div>
       </form>
    );
@@ -102,11 +126,11 @@ const ClientInfoForm = ({
 const AnimatedClientInfoForm = ({
    formMethods,
    mode,
-   setMode
+   setMode,
 }: {
    formMethods: UseFormReturn<Client>;
    mode: 'view' | 'edit';
-   setMode: Dispatch<SetStateAction<'view' | 'edit'>>
+   setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
 }) => {
    const { watch } = formMethods;
    const address = watch('address');
@@ -122,7 +146,7 @@ const AnimatedClientInfoForm = ({
    ) =>
       mode === 'view' ? (
          value && (
-            <div className='flex-1 shrink-0'>
+            <div className="flex-1 shrink-0">
                <p className="text-sm text-secondary">{label}</p>
                <p>{value}</p>
             </div>
@@ -144,110 +168,87 @@ const AnimatedClientInfoForm = ({
    const handleDiscard = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       setMode('view');
-   }
+   };
 
    return (
-      <div className="flex flex-col w-full">
-         <div
-            className={cn(
-               'flex flex-col items-center justify-center text-secondary cursor-pointer transition-all duration-150 max-h-0 opacity-0',
-               {
-                  'max-h-[100px] opacity-100':
-                     !address &&
-                     !email &&
-                     !phoneNumber &&
-                     !taxId &&
-                     mode === 'view',
-               }
-            )}
-            onClick={() => setMode('edit')}
-         >
-            <Plus className="h-5 w-5" />
-            <p className="select-none">Add client details</p>
-         </div>
-         <div
-            className={cn(
-               'flex flex-col gap-2 max-h-0 overflow-hidden opacity-0 transition-all duration-150',
-               { 'max-h-[1000px] opacity-100': mode === 'view' }
-            )}
-         >
-            {address && (
-               <div>
-                  <label className="text-secondary peer-focus:text-primary text-sm">
-                     Address
-                  </label>
-                  <p>{address}</p>
-               </div>
-            )}
-            <div className="flex">
+      <div className="flex flex-col w-full p-2">
+         {mode === 'view' && !address && !email && !phoneNumber && !taxId && (
+            <div
+               className="flex flex-col items-center justify-center text-secondary cursor-pointer"
+               onClick={() => setMode('edit')}
+            >
+               <Plus className="h-5 w-5" />
+               <p className="select-none">Add client details</p>
+            </div>
+         )}
+         {mode === 'view' && (
+            <div className="flex flex-col gap-2">
+               {address && (
+                  <div>
+                     <label className="text-secondary text-sm">Address</label>
+                     <p>{address}</p>
+                  </div>
+               )}
                {email && (
                   <div className="flex flex-1 flex-col">
-                     <label className="text-secondary peer-focus:text-primary text-sm">
-                        Email
-                     </label>
+                     <label className="text-secondary text-sm">Email</label>
                      <p>{email}</p>
                   </div>
                )}
                {phoneNumber && (
                   <div className="flex flex-1 flex-col">
-                     <label className="text-secondary peer-focus:text-primary text-sm">
+                     <label className="text-secondary text-sm">
                         Phone Number
                      </label>
                      <p>{phoneNumber}</p>
                   </div>
                )}
+               {taxId && (
+                  <div>
+                     <label className="text-secondary text-sm">Tax ID</label>
+                     <p>{taxId}</p>
+                  </div>
+               )}
             </div>
-            {taxId && (
-               <div>
-                  <label className="text-secondary peer-focus:text-primary text-sm">
-                     Tax ID
-                  </label>
-                  <p>{taxId}</p>
+         )}
+         {mode === 'edit' && (
+            <form className="flex flex-col gap-2">
+               <TextAreaInput
+                  formMethods={formMethods}
+                  fieldName="address"
+                  label="Address"
+               />
+               <div className="flex gap-2 w-full">
+                  <TextInput
+                     formMethods={formMethods}
+                     fieldName="email"
+                     label="Email"
+                  />
+                  <TextInput
+                     formMethods={formMethods}
+                     fieldName="phoneNumber"
+                     label="Phone Number"
+                  />
                </div>
-            )}
-         </div>
-         <form
-            className={cn(
-               'flex flex-col gap-2 max-h-0 overflow-hidden opacity-0 transition-all duration-150',
-               { 'max-h-[1000px] opacity-100': mode === 'edit' }
-            )}
-         >
-            <TextAreaInput
-               formMethods={formMethods}
-               fieldName="address"
-               label="Address"
-            />
-            <div className="flex gap-2 w-full">
                <TextInput
                   formMethods={formMethods}
-                  fieldName="email"
-                  label="Email"
+                  fieldName="taxId"
+                  label="Tax ID"
                />
-               <TextInput
-                  formMethods={formMethods}
-                  fieldName="phoneNumber"
-                  label="Phone Number"
-               />
-            </div>
-            <TextInput
-               formMethods={formMethods}
-               fieldName="taxId"
-               label="Tax ID"
-            />
-            <div className="flex justify-between pt-1">
-               <Button
-                  size={'sm'}
-                  className=""
-                  variant={'destructiveOutline'}
-                  onClick={handleDiscard}
-               >
-                  Discard
-               </Button>
-               <Button size={'sm'} className="" variant={'submit'}>
-                  Save
-               </Button>
-            </div>
-         </form>
+               <div className="flex justify-between pt-1">
+                  <Button
+                     size={'sm'}
+                     variant={'destructiveOutline'}
+                     onClick={handleDiscard}
+                  >
+                     Discard
+                  </Button>
+                  <Button size={'sm'} variant={'submit'}>
+                     Save
+                  </Button>
+               </div>
+            </form>
+         )}
       </div>
    );
 };

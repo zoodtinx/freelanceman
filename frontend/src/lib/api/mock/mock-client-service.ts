@@ -6,7 +6,7 @@ import type {
    ClientResponse,
 } from "@types";
 
-export const getClient = (idType: string, idValue: string) => {
+export const getClient = (idType: string, idValue: string): Promise<Client> => {
    if (!idType || !idValue) {
       return Promise.resolve(null); // Return null if no idType or idValue is provided
    }

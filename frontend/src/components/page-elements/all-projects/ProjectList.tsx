@@ -67,8 +67,8 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({
 
    return (
       <div
-         className="flex rounded-[15px] h-[40px] relative overflow-hidden transition-colors group"
-         style={{ backgroundColor: project.themeColor }}
+         className="flex rounded-[15px] h-[40px] relative border overflow-hidden transition-colors group"
+         style={{ backgroundColor: project.themeColor, borderColor: project.themeColor }}
          onClick={handleProjectNavigation}
       >
          <div className="z-10 flex items-center pl-3 justify-between w-full text-[#333333]">

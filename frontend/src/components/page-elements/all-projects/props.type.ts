@@ -1,5 +1,5 @@
 import { FormDialogState } from '@/lib/types/dialog.types';
-import { Project, ProjectSearchOption } from '@types';
+import { Project, ProjectSearchOption, Task } from '@types';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {
@@ -24,3 +24,9 @@ export interface ProjectFilterProps {
 
 export type ProjectFilterBubble = Pick<ProjectFilterProps, 'projectFilter' | 'setProjectFilter'>
 export type ViewModeToggleBubble = Pick<ProjectFilterProps, 'viewMode' | 'setViewMode'>
+
+export interface QuickTaskBubbleProps {
+   task: Task,
+   setTaskDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   projectStatus: "active" | "on-hold" | "completed"
+}

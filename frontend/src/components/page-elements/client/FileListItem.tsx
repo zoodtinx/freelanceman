@@ -108,7 +108,7 @@ const FileListItem: React.FC<FileListItemProps> = ({
                      {type === 'file' && (
                         <div className="flex w-4 h-4 items-center">{icon}</div>
                      )}
-                     <p>{data.name}</p>
+                     <p>{data.displayName}</p>
                   </div>
                   <div className="flex gap-2">
                      <p className="text-sm text-secondary w-[120px]">

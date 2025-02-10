@@ -3,28 +3,21 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
 import { Switch } from '@/components/shared/ui/primitives/Switch';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import { Link, useParams } from 'react-router-dom';
-import { useClientQuery } from '@/lib/api/client-api';
-import { useAllProjectsQuery, useProjectQuery } from '@/lib/api/project-api';
-import { Project, ProjectSearchOptions } from '@types';
+import { Link } from 'react-router-dom';
+import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { Project, ProjectSearchOption } from '@types';
 import { cn } from '@/lib/helper/utils';
+import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 
-const ClientProjectSection: React.FC = () => {
-   const clientId = useParams().clientId || '';
-   
-   const [projectFilter, setProjectFilter] = useState<ProjectSearchOptions>({
-      clientId: clientId
+const ClientProjectSection: React.FC<ClientSectionProps> = ({
+   clientData,
+   isLoading: clientIsLoading
+}) => {
+   const [projectFilter, setProjectFilter] = useState<ProjectSearchOption>({
+      clientId: clientData?.id
    })
    
-   console.log('projectFilter', projectFilter)
-
-   const { data: clientData, isLoading: clientIsLoading } = useClientQuery('clientId', clientId);
    const { data: projectsData, isLoading: projectIsLoading } = useAllProjectsQuery(projectFilter)
-
-
-   if (!clientId) {
-      return 'Client not found';
-   }
 
    if (clientIsLoading && projectIsLoading) {
       return 'Loading';
@@ -53,13 +46,13 @@ const ClientProjectSection: React.FC = () => {
 
    return (
       <div
-         className={`flex flex-col w-full sm:w-full gap-[6px] grow p-4 pt-5
-            bg-foreground rounded-[30px] overflow-hidden`}
+         className={`flex flex-col w-full sm:w-full gap-[6px] grow p-4 pt-2
+            bg-foreground rounded-[20px] overflow-hidden shadow-md`}
       >
          <div className="flex justify-between">
             <div className="flex items-center h-[40px] justify-between w-full">
-               <div className="flex gap-1">
-                  <Building2 className="h-6 w-6 mt-1" />
+               <div className="flex gap-1 items-center">
+                  <Building2 className="w-[28px] h-auto mt-1" />
                   <p className="text-xl pt-1 leading-none mr-2">
                      {clientData.name}
                   </p>
@@ -74,7 +67,7 @@ const ClientProjectSection: React.FC = () => {
             />
             <div className="flex">
                <div className="flex gap-1">
-                  <p>active</p>
+                  <p>Active</p>
                   <Switch onCheckedChange={handleToggleActive} />
                </div>
             </div>
@@ -118,21 +111,20 @@ const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
    return (
       <Link
          to={`../../projects/${project.id}`}
-         style={{
-            backgroundColor: project.accentColor
-         }}
-         className={`flex rounded-[15px] h-[40px] relative transition-colors bg-gray-200
-            border-2 border-transparent hover:border-primary`}
+         style={{ backgroundColor: project.themeColor, borderColor: project.themeColor }}
+         className={`flex rounded-[15px] h-[40px] relative transition-colors
+            hover:border-primary border group overflow-hidden cursor-default`}
       >
-         <div className="z-10 flex items-center pl-3 pr-2 justify-between w-full text-[#333333]">
+         <div className="z-10 flex items-center px-3 justify-between w-full text-[#333333]">
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
                {project.title}
             </p>
-            <div className="flex items-center gap-2 text-secondary">
+            <div className="flex items-center gap-2 text-freelanceman-darkgrey">
                <FolderClock className="w-4 h-4" />
                <p>{formattedDateModified}</p>
             </div>
          </div>
+         <div className='absolute opacity-30 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white to-transparent transition-opacity'></div>
       </Link>
    );
 };

@@ -47,7 +47,7 @@ export interface CreateFileDto {
    size?: number;
 }
 
-export type FileSearchOptions = Partial<
+export type FileSearchOption = Partial<
    Pick<
       File,
       "displayName" | "category" | "type" | "clientId" | "projectId"

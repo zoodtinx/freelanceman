@@ -29,7 +29,7 @@ export interface FormDialogState {
       | 'receipt'
       | 'sales-document-item';
    mode: 'view' | 'create' | 'edit';
-   page: 'project-page' | 'action-page' | 'file-page' | 'document-page' ;
+   page: 'project-page' | 'action-page' | 'file-page' | 'document-page' | 'client-page' ;
    data: Record<string, any>;
 }
 

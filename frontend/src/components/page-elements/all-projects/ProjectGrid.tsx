@@ -1,8 +1,8 @@
 import { useTaskQuery } from '@/lib/api/task-api';
 import { useNavigate } from 'react-router-dom';
-import type { Project } from '@types';
+import type { Project, Task } from '@types';
 import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
-import { ProjectListProps, ProjectCardProps } from '@/components/page-elements/all-projects/props.type';
+import { ProjectListProps, ProjectCardProps, QuickTaskBubbleProps } from '@/components/page-elements/all-projects/props.type';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({
    projects,
@@ -93,7 +93,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
          border-transparent hover:border-primary duration-75 shadow-md
          `}
          style={{
-            borderColor: project.themeColor
+            borderColor: project.themeColor,
          }}
          onClick={handleProjectNavigation}
       >
@@ -107,8 +107,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
             <div
                className={`
                   flex items-center gap-[5px] opacity-30 w-fit cursor-pointer
-                  hover:opacity-100 transition-opacity duration-100`
-               }
+                  hover:opacity-100 transition-opacity duration-100`}
                onClick={(e) => {
                   handleClientNavigation(e);
                }}
@@ -120,18 +119,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
                {project.title}
             </p>
          </div>
-         <div
-            className={`
-               flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background 
-               rounded-full h-[30px] z-10 cursor-pointer
-            `}
-            onClick={(e) => {
-               openTaskDialog(e);
-            }}
-         >
-            <CircleCheck className="text-primary h-[20px] w-auto" />
-            <p className="text-primary truncate">{quickTask}</p>
-         </div>
+         <QuickTaskBubble
+            projectStatus={project.projectStatus}
+            setTaskDialogState={setTaskDialogState}
+            task={quickTask}
+         />
          <div
             className="absolute inset-0 transition-opacity"
             style={{ backgroundColor: project.themeColor }}
@@ -142,6 +134,63 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
          />
       </div>
    );
+};
+
+const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
+   task,
+   setTaskDialogState,
+   projectStatus,
+}) => {
+   const isActive = task.dueAt && new Date(task.dueAt) > new Date();
+   const handleClick = () => {
+      setTaskDialogState({
+         id: task.id,
+         data: task,
+         isOpen: true,
+         mode: 'view',
+         page: 'project-page',
+         type: 'task',
+      });
+   };
+   
+   if (isActive) {
+      return (
+         <div
+            className={`
+               flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background 
+               rounded-full h-[30px] z-10 cursor-pointer
+            `}
+            onClick={handleClick}
+         >
+            <CircleCheck className=" h-[20px] w-auto" />
+            <p className=" truncate">{task.name}</p>
+         </div>
+      );
+   } else if (!isActive && projectStatus === 'completed') {
+      return (
+         <div
+         className={`
+            flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
+            rounded-full h-[30px] z-10 cursor-pointer
+         `}
+         >
+            <CircleCheck className=" h-[20px] w-auto" />
+            <p className=" truncate">Project is completed</p>
+         </div>
+      );
+   } else {
+      return (
+         <div
+         className={`
+            flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
+            rounded-full h-[30px] z-10 cursor-pointer
+         `}
+         >
+            <CircleCheck className=" h-[20px] w-auto" />
+            <p className=" truncate">No active task</p>
+         </div>
+      );
+   }
 };
 
 export default ProjectGrid;

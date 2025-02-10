@@ -1,14 +1,14 @@
 import { EditPopover } from '@/components/shared/ui/EditPopover';
 import { cn } from '@/lib/helper/utils';
 import { Dispatch, SetStateAction } from 'react';
-import { EllipsisVertical } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
-import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import { formatDate } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { File } from '@types';
 import { getIcon, formatCategory } from '@/components/page-elements/files/Helpers';
+import { size } from 'lodash';
 
 interface FileListProps {
    filesData: File[] | undefined;
@@ -16,6 +16,7 @@ interface FileListProps {
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   size: 'base' | 'sm' | 'md'
 }
 
 export const FileList: React.FC<FileListProps> = ({
@@ -24,6 +25,7 @@ export const FileList: React.FC<FileListProps> = ({
    selectState,
    setDialogState,
    setSelectState,
+   size
 }) => {
    if (isLoading) {
       return <p>Loading...</p>;
@@ -42,6 +44,7 @@ export const FileList: React.FC<FileListProps> = ({
          setSelectState={setSelectState}
          selectState={selectState}
          setDialogState={setDialogState}
+         size={size}
       />
    ));
 
@@ -55,6 +58,7 @@ interface FileListItemProps {
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    deleteFunction: () => void;
+   size: 'base' | 'sm' | 'md'
 }
 
 export const FileListItem = ({
@@ -62,12 +66,13 @@ export const FileListItem = ({
    selectState,
    setSelectState,
    setDialogState,
+   size,
    deleteFunction,
 }: FileListItemProps) => {
    const isSelected = selectState.selectedValues.includes(data.id);
 
    const dateUploaded = formatDate(data.createdAt, 'LONG');
-   const category = formatCategory(data.category)
+   const category = formatCategory(data.category);
 
    const handleClick = () => {
       if (selectState.enableSelect) {
@@ -95,7 +100,7 @@ export const FileListItem = ({
             id: data.id,
             mode: 'view',
             type: 'file',
-            page: 'file-page'
+            page: 'file-page',
          });
       }
    };
@@ -117,19 +122,21 @@ export const FileListItem = ({
             />
             <div className="flex flex-col w-full">
                <div className="flex justify-between py-[10px] grow items-center">
-                  <div className='flex gap-2 items-center'>
+                  <div className="flex gap-2 items-center">
                      {getIcon(data.type, 'w-4 h-4 text-secondary')}
                      <div className="flex gap-1 items-center text-[15px]">
                         <p>{data.displayName}</p>
                      </div>
                   </div>
                   <div className="flex">
-                     <p className="text-sm text-secondary w-[150px]">
+                     <p className="text-sm text-secondary w-[100px]">
                         {category}
                      </p>
-                     <p className="text-sm text-secondary w-[150px]">
-                        {data.client}
-                     </p>
+                     {size === 'base' && (
+                        <p className="text-sm text-secondary w-[150px] line-clamp-1">
+                           {data.client}
+                        </p>
+                     )}
                      <p className="text-sm text-secondary w-[120px]">
                         {dateUploaded}
                      </p>

@@ -19,7 +19,7 @@ export const useClientQuery = (
    entityType: 'clientId' | 'projectId' | 'taskId' | 'eventId' | 'contactId',
    id: string
 ) => {
-   return useQuery({
+   return useQuery<Client>({
       queryKey: ['clients', entityType, id],
       queryFn: () => getClient(entityType, id),
    });
