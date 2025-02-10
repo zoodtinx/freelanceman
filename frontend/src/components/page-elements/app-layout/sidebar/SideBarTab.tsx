@@ -11,7 +11,7 @@ import {
    Notes,
 } from '@/components/shared/icons';
 
-import { Layers, UsersRound, FileText, BookUser, CircleCheck, FolderOpen  } from 'lucide-react';
+import { Layers, UsersRound, FileText, BookUser, CircleCheck, Folder  } from 'lucide-react';
 
 type SideBarTabProps = {
    tab: keyof typeof tabConfig;
@@ -19,7 +19,7 @@ type SideBarTabProps = {
 
 const tabConfig = {
    projects: { labelKey: 'projects', icon: Layers },
-   files: { labelKey: 'files', icon: FolderOpen },
+   files: { labelKey: 'files', icon: Folder },
    actions: { labelKey: 'actions', icon: CircleCheck},
    clients: { labelKey: 'clients', icon: UsersRound },
    partners: { labelKey: 'partners', icon: BookUser },

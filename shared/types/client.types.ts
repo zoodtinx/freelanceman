@@ -19,7 +19,7 @@ export interface ClientSearchOption {
    projectId: string,
    taskId: string,
    eventId: string,
-   withActiveProject: boolean
+   hasActiveProject: boolean
 }
 
 export interface CreateClientDto {

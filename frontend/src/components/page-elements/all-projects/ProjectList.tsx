@@ -1,24 +1,40 @@
-import type { Project } from '@types';
 import { Dots } from '@/components/shared/icons';
-import { useTranslation } from 'react-i18next';
-import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
+import { ProjectCardProps, ProjectListProps } from '@/components/page-elements/all-projects/props.type';
 
-const ProjectList = (): JSX.Element => {
-   const { projects } = useProjectsViewContext();
+const ProjectList: React.FC<ProjectListProps> = ({
+   projects,
+   isLoading,
+   setTaskDialogState,
+   setProjectSettingDialogState
+}): JSX.Element => {
+
+
+   if (isLoading) {
+      return <p>Loading</p>
+   }
+
+   if (!projects || projects.length === 0) {
+      return <p>Get started by creating a new project</p>;
+    }
 
    const projectTabs = projects.map((project) => (
-      <ProjectTab project={project} key={project.id} />
+      <ProjectTab
+         project={project}
+         key={project.id}
+         setProjectSettingDialogState={setProjectSettingDialogState}
+         setTaskDialogState={setTaskDialogState}
+      />
    ));
 
    return <div className="flex flex-col gap-2">{projectTabs}</div>;
 };
 
-export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
-   const { setProjectSettingDialogState } = useProjectsViewContext();
-   const { t } = useTranslation();
+export const ProjectTab: React.FC<ProjectCardProps> = ({
+   project,
+   setProjectSettingDialogState,
+}) => {
    const navigate = useNavigate();
 
    const handleProjectNavigation = () => {
@@ -37,11 +53,16 @@ export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
          data: {
             ...project,
          },
+         mode: 'view',
+         page: 'project-page',
+         type: 'project-settings',
       });
    };
 
-   const formattedDate = format(new Date(project.modifiedAt), 'dd MMM').toUpperCase();
-
+   const formattedDate = format(
+      new Date(project.modifiedAt),
+      'dd MMM'
+   ).toUpperCase();
 
    return (
       <div
@@ -61,9 +82,7 @@ export const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
                >
                   {project.client}
                </p>
-               <p className="w-[170px]">
-                  Modified : {formattedDate}
-               </p>
+               <p className="w-[170px]">Modified : {formattedDate}</p>
                <Dots
                   className="h-[20px] w-[18px] cursor-pointer"
                   onClick={openSettingDialog}

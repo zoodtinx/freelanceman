@@ -21,6 +21,7 @@ export interface FormDialogState {
       | 'project'
       | 'file'
       | 'document'
+      | 'project-settings'
       | 'client-contact'
       | 'partner-contact'
       | 'quotation'

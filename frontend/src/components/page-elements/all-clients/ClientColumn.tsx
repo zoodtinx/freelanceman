@@ -10,7 +10,7 @@ import { Switch } from 'src/components/shared/ui/primitives/Switch';
 const ClientColumn = (): JSX.Element => {
    const [searchOptions, setSearchOptions] = useState<ClientSearchOption>({});
 
-   const isWithActiveProject = searchOptions.hasActiveProjects
+   const isWithActiveProject = searchOptions.hasActiveProject
 
    const { data: clients, isLoading } = useAllClientsQuery(searchOptions);
 
