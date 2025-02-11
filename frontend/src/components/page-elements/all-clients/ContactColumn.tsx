@@ -34,7 +34,7 @@ export const ContactColumn = (): JSX.Element => {
       <div className="flex flex-col w-[335px] rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-auto gap-[6px] shrink-0 shadow-md">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
-               <BookUser className="h-6 w-6" />
+               <BookUser className="h-auto w-[28px]" />
                <p className="text-xl pt-1 leading-none mr-2">Client Contacts</p>
             </div>
             <NewContactButton setDialogState={setDialogState} />

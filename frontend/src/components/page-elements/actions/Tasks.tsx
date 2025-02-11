@@ -7,7 +7,6 @@ import { useAllTasksQuery, useDeleteTask } from '@/lib/api/task-api';
 import { taskDefaultValues } from 'src/components/shared/ui/constants';
 
 import type { FormDialogState } from '@/lib/types/dialog.types';
-import type { TaskSearchOptions, TaskStatus } from '@types';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 

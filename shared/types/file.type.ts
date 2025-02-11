@@ -15,8 +15,7 @@ export type FileType =
 
 export type FileCategory =
    | "personal-file"
-   | "personal-document"
-   | "client-document"
+   | "document"
    | "project-file"
    | "project-asset";
 

@@ -131,7 +131,7 @@ const ItemBar = ({
                onClick={() => handleEdit(item)}
             >
                <div className="leading-snug mr-2">
-                  <p className="line-clamp-2">{item.name}</p>
+                  <p className="line-clamp-2">{item.title}</p>
                   <p className="text-sm text-secondary line-clamp-1">
                      {item.description}
                   </p>

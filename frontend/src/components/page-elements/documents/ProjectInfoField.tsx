@@ -26,16 +26,16 @@ const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDoc
    useEffect(() => {
       if (projectData) {
          setValue('projectId', projectData.id);
-         setValue('projectTitle', projectData.name);
+         setValue('projectTitle', projectData.title);
          setValue('referenceNumber', projectData.id);
-         setValue('projectDescription', projectData.detail);
+         setValue('projectDescription', projectData.note);
          setValue('selectedProjectClientId', projectData.clientId);
       }
    }, [projectData, setValue]);
 
    const projectSelection = projectList ? projectList.map((project) => {
       return (
-         {value: project.id, label: project.name}
+         {value: project.id, label: project.title}
       )
    }) : []
    return (

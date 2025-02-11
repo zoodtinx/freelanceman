@@ -180,6 +180,36 @@ export const mockFiles = [
       modifiedAt: new Date().toISOString()
     },
     {
+      id: "b2c3d4e5-6789-01ab-cdef-2345678901bc",
+      originalName: "orchestration_notes.pdf",
+      displayName: "Orchestration Notes",
+      type: "document",
+      category: "document",
+      link: "/files/orchestration_notes.pdf",
+      project: "Film Score Composition",
+      projectId: "fadbdf0a-de06-4da5-804b-d4bd06916422",
+      client: "Sonic Boom Audio",
+      clientId: "ba7cb739-b960-4a4a-a3e0-96dc89f407cd",
+      size: 512000,
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString()
+    },
+    {
+      id: "b2c3d4e5-6789-01ab-cdef-2345678901bc",
+      originalName: "orchestration_notes.pdf",
+      displayName: "Orchestration Notes",
+      type: "document",
+      category: "document",
+      link: "/files/orchestration_notes.pdf",
+      project: "Film Score Composition",
+      projectId: "fadbdf0a-de06-4da5-804b-d4bd06916422",
+      client: "Sonic Boom Audio",
+      clientId: "ba7cb739-b960-4a4a-a3e0-96dc89f407cd",
+      size: 512000,
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString()
+    },
+    {
       id: "c3d4e5f6-7890-12ab-cdef-3456789012cd",
       originalName: "film_score_midi.mid",
       displayName: "Film Score MIDI",

@@ -26,7 +26,8 @@ const PartnerContactLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
-      type: 'clientContact',
+      type: 'partner-contact',
+      page: 'client-page',
       mode: 'view',
       data: defaultContact,
    });
@@ -59,7 +60,7 @@ const PartnerContactLayout = (): JSX.Element => {
       <div className="flex flex-col grow rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 shadow-md">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
-               <BookUser className="h-6 w-6" />
+               <BookUser className="h-auto w-[28px]" />
                <p className="text-xl pt-1 leading-none mr-2">
                   Partner Contacts
                </p>

@@ -8,11 +8,12 @@ import { Navigate } from "react-router-dom";
 import PartnersPage from "@/routes/PartnersPage";
 import FilePage from "@/routes/FilePage";
 import DocumentPage from "@/routes/DocumentPage";
-import ViewDocumentLayout from "@/components/page-elements/documents/ViewDocumentLayout";
-import CreateDocumentPage from "@/components/page-elements/documents/CreateDocumentPage";
 import QuickNotesPage from "@/routes/QuickNotesPage";
 import AllClientsPage from "src/routes/AllClientPage";
 import ClientPage from "@/routes/ClientPage";
+import DocumentPageCreateMode from "src/components/page-elements/documents/DocumentPageCreateMode";
+import DocumentPageViewMode from "src/components/page-elements/documents/DocumentPageViewMode";
+import DocumentPageLayout from "@/components/page-elements/documents/DocumentPageLayout";
 
 export const router = createBrowserRouter([
    {
@@ -71,18 +72,18 @@ export const router = createBrowserRouter([
             children: [
                {
                   path: '',
-                  element: <ViewDocumentLayout />,
+                  element: <DocumentPageLayout />,
                },
                {
                   path: 'create',
                   children: [
                      {
                         path: '',
-                        element: <CreateDocumentPage />,
+                        element: <DocumentPageCreateMode />,
                      },
                      {
                         path: ':draftId',
-                        element: <CreateDocumentPage />,
+                        element: <DocumentPageCreateMode />,
                      },
                   ],
                },

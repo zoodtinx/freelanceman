@@ -6,24 +6,23 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
-import type { File } from '@types';
+import type { File, SalesDocument } from '@types';
 import {
    getIcon,
    formatCategory,
 } from '@/components/page-elements/files/Helpers';
 import { size } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 interface FileListProps {
-   filesData: File[] | undefined;
+   documentDraftData: File[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   size: 'base' | 'sm' | 'md';
 }
 
-export const FileList: React.FC<FileListProps> = ({
-   filesData,
+export const DocumentDraftList: React.FC<FileListProps> = ({
+   documentDraftData,
    isLoading,
    selectState,
    setDialogState,
@@ -34,14 +33,14 @@ export const FileList: React.FC<FileListProps> = ({
       return <p>Loading...</p>;
    }
 
-   if (!filesData || filesData.length === 0) {
+   if (!documentDraftData || documentDraftData.length === 0) {
       return <p>No File available</p>;
    }
 
-   const fileListItems = filesData.map((filesData) => (
-      <FileListItem
-         key={filesData.id}
-         data={filesData}
+   const fileListItems = documentDraftData.map((documentDraftData) => (
+      <DocumentListItem
+         key={documentDraftData.id}
+         data={documentDraftData}
          setSelectState={setSelectState}
          selectState={selectState}
          setDialogState={setDialogState}
@@ -50,29 +49,28 @@ export const FileList: React.FC<FileListProps> = ({
    ));
 
    return (
-      <div className="flex flex-col h-0 grow overflow-y-auto">
+      <div className="flex flex-col h-0 grow overflow-y-auto pl-1 pt-1">
          {fileListItems}
       </div>
    );
 };
 
-interface FileListItemProps {
-   data: File;
+interface DocumentListItemProps {
+   data: SalesDocument;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   deleteFunction: () => void;
-   size: 'base' | 'sm' | 'md';
+   deleteFunction?: () => void;
 }
 
-export const FileListItem = ({
+export const DocumentListItem = ({
    data,
    selectState,
    setSelectState,
    setDialogState,
    size = 'base',
    deleteFunction,
-}: FileListItemProps) => {
+}: DocumentListItemProps) => {
    const isSelected = selectState.selectedValues.includes(data.id);
 
    const dateUploaded = formatDate(data.createdAt, 'LONG');
@@ -109,12 +107,25 @@ export const FileListItem = ({
       }
    };
 
+   const documentCategory = data.category.charAt(0).toUpperCase() + data.category.slice(1);
+   const amountTotal = data.total.toLocaleString()
+
+   const navigate = useNavigate()
+
+   const handleOpenDocument = () => {
+      navigate(`./create/${data.id}`)
+   }
+
    return (
       <div className="flex flex-col cursor-default" onClick={handleClick}>
          <div
             className={cn(
-               'flex px-2 items-center bg-transparent hover:bg-quaternary transition-colors duration-100',
-               { 'bg-quaternary': isSelected }
+               'flex pr-1 pl-2 items-center bg-transparent hover:bg-quaternary',
+               'border-l-[6px] border-secondary transition-colors duration-100',
+               { 'bg-quaternary': isSelected },
+               { 'border-freelanceman-orange' : data.category === 'quotation'},
+               { 'border-freelanceman-cyan' : data.category === 'invoice'},
+               { 'border-freelanceman-green' : data.category === 'receipt'},
             )}
          >
             <Checkbox
@@ -124,28 +135,19 @@ export const FileListItem = ({
                )}
                checked={isSelected}
             />
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full pr-2" onClick={handleOpenDocument}>
                <div className="flex justify-between py-[10px] grow items-center">
-                  <div className="flex gap-2 items-center">
-                     {getIcon(data.type, 'w-4 h-4 text-secondary')}
-                     <div className="flex gap-1 items-center text-[15px]">
-                        <p>{data.displayName}</p>
-                     </div>
+                  <div className="flex flex-col leading-snug">
+                     <p className='text-sm'>{documentCategory}</p>
+                     <p className='text-md'>{data.clientName}</p>
+                     <p className='text-sm'>{data.projectTitle}</p>
                   </div>
-                  <div className="flex">
-                     {size === 'base' && (
-                        <p className="text-sm text-secondary w-[100px]">
-                           {category}
-                        </p>
-                     )}
-                     {size === 'base' && (
-                        <p className="text-sm text-secondary w-[150px] line-clamp-1">
-                           {data.client}
-                        </p>
-                     )}
-                     <p className="text-sm text-secondary w-[120px]">
-                        {dateUploaded}
-                     </p>
+                  <div className="flex flex-col justify-end">
+                     <div className='text-right  text-primary '>
+                        <p className="inline pr-1">{amountTotal}</p>
+                        <p className="inline text-sm">{data.currency}</p>
+                     </div>
+                     <p className="text-sm text-secondary">{dateUploaded}</p>
                   </div>
                </div>
             </div>

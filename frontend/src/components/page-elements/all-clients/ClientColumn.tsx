@@ -46,7 +46,7 @@ const ClientColumn = (): JSX.Element => {
       <div className="flex flex-col rounded-[20px] bg-foreground p-4 pt-2 h-full gap-[6px] flex-1 shadow-md">
          <div className="flex justify-between">
             <div className="flex items-center gap-1">
-               <Building2 className="w-6 h-6" />
+               <Building2 className="w-[28px] h-auto" />
                <p className="text-xl pt-1 leading-none mr-2">Clients</p>
             </div>
             <button

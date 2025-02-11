@@ -59,8 +59,9 @@ export interface SalesDocumentItem {
 }
 
 export interface SalesDocumentSearchOption {
-   title: string;
-   clientId: string;
-   projectId: string;
-   category: "quotation" | "invoice" | "receipt";
+  id?: string, 
+  title?: string;
+   clientId?: string;
+   projectId?: string;
+   category?: "quotation" | "invoice" | "receipt";
 }
