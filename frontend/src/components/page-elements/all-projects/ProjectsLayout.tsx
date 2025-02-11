@@ -72,10 +72,6 @@ const ProjectsLayout: React.FC = () => {
                />
             </div>
          </div>
-         <TaskDialog
-            dialogState={taskDialogState}
-            setDialogState={setTaskDialogState}
-         />
          <ProjectSettingsDialog
             dialogState={projectSettingDialogState}
             setDialogState={setProjectSettingDialogState}

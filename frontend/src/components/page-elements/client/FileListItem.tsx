@@ -1,6 +1,6 @@
 import { cn } from '@/lib/helper/utils';
 import React, { Dispatch, SetStateAction } from 'react';
-import { getIcon, formatCategory } from '@/components/page-elements/files/Helpers';
+import { getIcon, formatCategory } from 'src/components/shared/ui/helpers/Helpers';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';

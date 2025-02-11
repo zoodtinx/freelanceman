@@ -1,8 +1,8 @@
 import {
    fileTypeSelections,
    fileCategorySelections,
-   defaultContact,
-} from 'src/components/shared/ui/constants';
+} from 'src/components/shared/ui/constants/constants';
+import { defaultContact } from 'src/components/shared/ui/constants/default-values';
 import { Plus } from '@/components/shared/icons';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { useEffect, useState } from 'react';

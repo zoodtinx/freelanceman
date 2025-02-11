@@ -10,7 +10,7 @@ import type { File, SalesDocument } from '@types';
 import {
    getIcon,
    formatCategory,
-} from '@/components/page-elements/files/Helpers';
+} from 'src/components/shared/ui/helpers/Helpers';
 import { size } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 

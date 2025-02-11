@@ -1,4 +1,4 @@
-import { defaultFile } from '@/components/shared/ui/constants';
+import { defaultFile } from 'src/components/shared/ui/constants/default-values';
 import FileListItem from '@/components/page-elements/client/FileListItem';
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
@@ -18,7 +18,7 @@ import FileDialog from '@/components/shared/ui/FileDialog';
 import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
-import { clientPageFileCategorySelections } from '@/components/shared/ui/selections';
+import { clientPageFileCategorySelections } from 'src/components/shared/ui/constants/selections';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import DeletePromptDialog from '@/components/shared/ui/DeletePromptDialog';
 import { cn } from '@/lib/helper/utils';

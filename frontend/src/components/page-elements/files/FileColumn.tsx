@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { getIcon, formatCategory } from './Helpers';
+import { getIcon, formatCategory } from '../../shared/ui/helpers/Helpers';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import type { File } from '@types';
 import { EllipsisVertical } from 'lucide-react';

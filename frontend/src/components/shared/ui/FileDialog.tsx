@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/SelectWithApiSearchForm';
 import LinkInputForm from '@/components/shared/ui/form-field-elements/LinkInputForm';
 import SelectForm from '@/components/shared/ui/form-field-elements/SelectForm';
-import { FileIconByExtension } from '@/components/page-elements/files/Helpers';
+import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
 
 import {
    Tabs,
@@ -47,7 +47,7 @@ import { InputProps } from '@/lib/types/form-input-props.types';
 import { DialogProps, FormDialogState, PromptDialogState } from '@/lib/types/dialog.types';
 
 // Utilities
-import { defaultFile } from 'src/components/shared/ui/constants';
+import { defaultFile } from 'src/components/shared/ui/constants/default-values';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';

@@ -1,6 +1,7 @@
 import TopBar from '@/components/page-elements/app-layout/topbar/TopBar';
 import SideBar from '@/components/page-elements/app-layout/sidebar/SideBar';
 import { Outlet } from 'react-router-dom';
+import FormDialog from '@/components/shared/ui/FormDialog';
 
 export default function HomePage() {
    return (
@@ -12,6 +13,7 @@ export default function HomePage() {
                <Outlet />
             </section>
          </main>
+         <FormDialog />
       </div>
    );
 }

@@ -14,6 +14,11 @@ import {
    Briefcase,
    Database,
    Monitor,
+   CircleCheck,
+   Calendar,
+   UsersRound,
+   Coins,
+   Plus,
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
@@ -270,3 +275,48 @@ export const formatPaymentStatus = (
          return '';
    }
 };
+
+export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
+   const className = 'w-[13px] h-[13px]'
+   switch (dialogType) {
+     case 'task':
+       return <CircleCheck className={className} />;
+     case 'event':
+       return <Calendar className={className} />;
+     case 'file':
+       return <FileIcon />;
+     case 'project-settings':
+       return <ProjectIcon />;
+     case 'client-contact':
+       return <UsersRound />;
+     case 'partner-contact':
+       return <ContactB />;
+     case 'sales-document-item':
+       return <Coins />;
+     default:
+       return <Plus />;
+   }
+ };
+
+
+ export const getDialogHeaderText = (dialogType: string) => {
+   switch (dialogType) {
+     case 'task':
+       return 'Task';
+     case 'event':
+       return 'Event';
+     case 'file':
+       return 'File';
+     case 'project-settings':
+       return 'Project Settings';
+     case 'client-contact':
+       return 'Client Contact';
+     case 'partner-contact':
+       return 'Partner Contact';
+     case 'sales-document-item':
+       return 'Sales Document Item';
+     default:
+       return 'Dialog';
+   }
+ };
+ 

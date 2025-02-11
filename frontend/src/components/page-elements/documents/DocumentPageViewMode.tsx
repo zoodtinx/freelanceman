@@ -1,4 +1,4 @@
-import { DocumentDraftSelections } from '@/components/shared/ui/selections';
+import { DocumentDraftSelections } from 'src/components/shared/ui/constants/selections';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { FilePlus2, Plus, SquarePen } from 'lucide-react';
 import React, { useState } from 'react';

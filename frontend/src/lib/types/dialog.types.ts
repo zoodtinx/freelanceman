@@ -1,8 +1,16 @@
+import {
+   Contact,
+   Event,
+   Partner,
+   Project,
+   SalesDocumentItem,
+   Task,
+} from '@types';
 import { Dispatch, SetStateAction } from 'react';
 
-export interface DialogProps {
-   dialogState: FormDialogState;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+export interface FormDialogProps {
+   formDialogState: FormDialogState;
+   setFormDialogState: Dispatch<SetStateAction<FormDialogState>>;
    setPromptDialogState?: Dispatch<SetStateAction<PromptDialogState>>;
 }
 
@@ -12,31 +20,38 @@ export interface PromptDialogProps {
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
-export interface FormDialogState {
+export type FormDialogDataMap = {
+   task: Task;
+    event: Event;
+   file: File;
+   'project-settings': Project;
+   'client-contact': Contact;
+   'partner-contact': Partner;
+   'sales-document-item': SalesDocumentItem;
+};
+
+export interface FormDialogState<
+   T extends keyof FormDialogDataMap = keyof FormDialogDataMap
+> {
    isOpen: boolean;
-   id: string;
-   type:
-      | 'task'
-      | 'event'
-      | 'project'
-      | 'file'
-      | 'document'
-      | 'project-settings'
-      | 'client-contact'
-      | 'partner-contact'
-      | 'quotation'
-      | 'invoice'
-      | 'receipt'
-      | 'sales-document-item';
+   type: T;
    mode: 'view' | 'create' | 'edit';
-   page: 'project-page' | 'action-page' | 'file-page' | 'document-page' | 'client-page' ;
-   data: Record<string, any>;
+   openedOn:
+      | 'project-page'
+      | 'all-project-page'
+      | 'client-page'
+      | 'all-client-page'
+      | 'action-page'
+      | 'file-page'
+      | 'document-page'
+      | 'client-page';
+   data: FormDialogDataMap[T];
 }
 
 export interface PromptDialogState {
    isOpen: boolean;
    data: {
-      label: string,
-      action: () => void
+      label: string;
+      action: () => void;
    };
 }

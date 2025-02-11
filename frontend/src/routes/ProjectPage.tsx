@@ -7,7 +7,7 @@ import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSe
 import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSection';
 import ProjectTask from '@/components/page-elements/project/ProjectTask';
 import ProjectEvent from '@/components/page-elements/project/ProjectEvent';
-import { formatPaymentStatus, formatProjectStatus } from '@/components/page-elements/files/Helpers';
+import { formatPaymentStatus, formatProjectStatus } from 'src/components/shared/ui/helpers/Helpers';
 
 export default function ProjectPage() {
    const { projectId } = useParams();

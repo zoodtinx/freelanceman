@@ -4,7 +4,7 @@ import { CircleCheck } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
 import { useAllTasksQuery, useDeleteTask } from '@/lib/api/task-api';
-import { taskDefaultValues } from 'src/components/shared/ui/constants';
+import { taskDefaultValues } from 'src/components/shared/ui/constants/default-values';
 
 import type { FormDialogState } from '@/lib/types/dialog.types';
 

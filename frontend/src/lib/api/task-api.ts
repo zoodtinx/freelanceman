@@ -26,15 +26,14 @@ export const useTaskQuery = (taskId: string) => {
    });
 };
 
-export const useCreateTask = () => {
+export const useTaskMutation = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<Task, Error, NewActionPayload>({
+   const createMutation = useMutation<Task, Error, NewActionPayload>({
       mutationKey: ['createTask'],
-      mutationFn: async (newTask: NewActionPayload) => await createTask(newTask),
-      onMutate: async (newTask: NewActionPayload) => {
+      mutationFn: async (newTask) => await createTask(newTask),
+      onMutate: async (newTask) => {
          await queryClient.cancelQueries(['tasks']);
-
          const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
 
          queryClient.setQueryData<Task[]>(['tasks'], (old) => [
@@ -44,32 +43,23 @@ export const useCreateTask = () => {
 
          return { previousTasks };
       },
-      onError: (err, newTask, context: any) => {
+      onError: (err, newTask, context) => {
          if (context?.previousTasks) {
             queryClient.setQueryData(['tasks'], context.previousTasks);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['tasks'] });
+         queryClient.invalidateQueries(['tasks']);
       },
    });
-};
 
-export const useEditTask = (taskId: string) => {
-   const queryClient = useQueryClient();
-
-   return useMutation<
-      Task,
-      Error,
-      { key: keyof Task; value: Task[keyof Task] }
-   >({
+   const editMutation = useMutation<Task, Error, { taskId: string; key: keyof Task; value: Task[keyof Task] }>({
       mutationKey: ['editTask'],
-      mutationFn: async (taskPayload: NewActionPayload) => {
+      mutationFn: async ({ taskId, ...taskPayload }) => {
          await editTask(taskId, taskPayload);
       },
-      onMutate: async ({ key, value }) => {
+      onMutate: async ({ taskId, key, value }) => {
          await queryClient.cancelQueries(['tasks']);
-
          const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
 
          if (previousTasks) {
@@ -91,68 +81,18 @@ export const useEditTask = (taskId: string) => {
          queryClient.invalidateQueries(['tasks']);
       },
    });
-};
 
-export const useBulkEditTask = () => {
-   const queryClient = useQueryClient();
-
-   return useMutation<
-      ActionResponsePayload[],
-      Error,
-      {
-         selectedTasks: NewActionPayload[];
-         key: keyof NewActionPayload;
-         value: NewActionPayload[keyof NewActionPayload];
-      }
-   >({
-      mutationKey: ['bulkEditTask'],
-      mutationFn: async ({ selectedTasks, key, value }) => {
-         console.log('selectedTasks', selectedTasks);
-         return bulkEditTasks(selectedTasks, key, value);
-      },
-      onMutate: async ({ selectedTasks, key, value }) => {
-         await queryClient.cancelQueries(['tasks']);
-
-         const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
-
-         if (previousTasks) {
-            queryClient.setQueryData(['tasks'], (old: Task[] | undefined) =>
-               old?.map((task) =>
-                  selectedTasks.some((t) => t.id === task.id)
-                     ? { ...task, [key]: value }
-                     : task
-               )
-            );
-         }
-
-         return { previousTasks };
-      },
-      onError: (err, variables, context) => {
-         if (context?.previousTasks) {
-            queryClient.setQueryData(['tasks'], context.previousTasks);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries(['tasks']);
-      },
-   });
-};
-
-export const useDeleteTask = () => {
-   const queryClient = useQueryClient();
-
-   return useMutation<void, Error, string | string[]>({
+   const deleteMutation = useMutation<void, Error, string | string[]>({
       mutationKey: ['deleteTask'],
-      mutationFn: async (taskIds: string | string[]) => {
+      mutationFn: async (taskIds) => {
          if (typeof taskIds === 'string') {
             await deleteTask(taskIds);
          } else {
             await bulkDeleteTasks(taskIds);
          }
       },
-      onMutate: async (taskIds: string | string[]) => {
+      onMutate: async (taskIds) => {
          await queryClient.cancelQueries(['tasks']);
-
          const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
 
          if (previousTasks) {
@@ -165,7 +105,7 @@ export const useDeleteTask = () => {
 
          return { previousTasks };
       },
-      onError: (err, taskIds, context: any) => {
+      onError: (err, taskIds, context) => {
          if (context?.previousTasks) {
             queryClient.setQueryData(['tasks'], context.previousTasks);
          }
@@ -174,4 +114,16 @@ export const useDeleteTask = () => {
          queryClient.invalidateQueries(['tasks']);
       },
    });
+
+   return {
+      createTask: createMutation.mutate,
+      editTask: editMutation.mutate,
+      deleteTask: deleteMutation.mutate,
+      isLoading: createMutation.isLoading || editMutation.isLoading || deleteMutation.isLoading,
+      data: {
+         created: createMutation.data,
+         edited: editMutation.data,
+         deleted: deleteMutation.data,
+      },
+   };
 };

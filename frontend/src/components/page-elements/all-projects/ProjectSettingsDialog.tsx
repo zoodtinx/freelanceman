@@ -12,10 +12,10 @@ import React, { useEffect, useState } from 'react';
 import { useEditProject } from '@/lib/api/project-api';
 import { DialogProps } from '@/lib/types/dialog.types';
 import {
-   defaultProject,
    paymentStatusSelections,
    projectStatusSelections,
-} from 'src/components/shared/ui/constants';
+} from 'src/components/shared/ui/constants/constants';
+import { defaultProject } from 'src/components/shared/ui/constants/default-values';
 import { Path, SubmitHandler, useForm } from 'react-hook-form';
 import type { NewTaskPayload, Project } from '@types';
 import { InputProps } from '@/lib/types/form-input-props.types';

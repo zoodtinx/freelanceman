@@ -4,7 +4,7 @@ import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { ContactCard } from '@/components/page-elements/all-clients/ContactColumn';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 import { ContactSearchOption } from '@types';
-import { defaultContact } from 'src/components/shared/ui/constants';
+import { defaultContact } from 'src/components/shared/ui/constants/default-values';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';

@@ -1,4 +1,4 @@
-import { getIcon, formatCategory } from '@/components/page-elements/files/Helpers';
+import { getIcon, formatCategory } from 'src/components/shared/ui/helpers/Helpers';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { File } from '@types';
 import { formatDate } from '@/lib/helper/formatDateTime';

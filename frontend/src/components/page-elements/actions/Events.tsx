@@ -3,7 +3,7 @@ import { Calendar } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import EventDialog from '@/components/shared/ui/EventDialog';
 import { useAllEventQuery, useDeleteEvent } from '@/lib/api/event-api';
-import { eventDefaultValues } from 'src/components/shared/ui/constants';
+import { eventDefaultValues } from 'src/components/shared/ui/constants/default-values';
 
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { EventSearchOptions, EventStatus } from '@types';
