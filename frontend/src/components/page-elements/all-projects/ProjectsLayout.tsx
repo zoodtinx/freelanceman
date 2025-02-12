@@ -15,25 +15,6 @@ const ProjectsLayout: React.FC = () => {
 
    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-   const [projectSettingDialogState, setProjectSettingDialogState] =
-      useState<FormDialogState>({
-         isOpen: false,
-         type: 'project-settings',
-         mode: 'view',
-         page: 'project-page',
-         id: '',
-         data: {},
-      });
-
-   const [taskDialogState, setTaskDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      type: 'task',
-      mode: 'view',
-      page: 'project-page',
-      id: '',
-      data: {},
-   });
-
    const { data: projects, isLoading } = useAllProjectsQuery(projectFilter);
 
    return (
@@ -50,16 +31,12 @@ const ProjectsLayout: React.FC = () => {
                   <ProjectGrid
                      projects={projects}
                      isLoading={isLoading}
-                     setProjectSettingDialogState={setProjectSettingDialogState}
-                     setTaskDialogState={setTaskDialogState}
                   />
                )}
                {viewMode === 'list' && (
                   <ProjectList
                      projects={projects}
                      isLoading={isLoading}
-                     setProjectSettingDialogState={setProjectSettingDialogState}
-                     setTaskDialogState={setTaskDialogState}
                   />
                )}
             </div>
@@ -67,15 +44,9 @@ const ProjectsLayout: React.FC = () => {
                <ProjectList
                   projects={projects}
                   isLoading={isLoading}
-                  setProjectSettingDialogState={setProjectSettingDialogState}
-                  setTaskDialogState={setTaskDialogState}
                />
             </div>
          </div>
-         <ProjectSettingsDialog
-            dialogState={projectSettingDialogState}
-            setDialogState={setProjectSettingDialogState}
-         />
       </div>
    );
 };

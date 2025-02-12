@@ -1,23 +1,28 @@
 import { useTaskQuery } from '@/lib/api/task-api';
 import { useNavigate } from 'react-router-dom';
-import type { Project, Task } from '@types';
+import type { Project } from '@types';
 import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
-import { ProjectListProps, ProjectCardProps, QuickTaskBubbleProps } from '@/components/page-elements/all-projects/props.type';
+import {
+   ProjectListProps,
+   ProjectCardProps,
+   QuickTaskBubbleProps,
+} from '@/components/page-elements/all-projects/props.type';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { shallow } from 'zustand/shallow';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({
    projects,
    isLoading,
    setProjectSettingDialogState,
-   setTaskDialogState
+   setTaskDialogState,
 }) => {
-
    if (isLoading) {
-      return <p>Loading</p>
+      return <p>Loading</p>;
    }
 
    if (!projects || projects.length === 0) {
       return <p>Get started by creating a new project</p>;
-    }
+   }
 
    const projectCards =
       projects.length !== 0
@@ -26,8 +31,6 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
                  <ProjectCard
                     project={project}
                     key={project.id}
-                    setProjectSettingDialogState={setProjectSettingDialogState}
-                    setTaskDialogState={setTaskDialogState}
                  />
               );
            })
@@ -40,7 +43,11 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    );
 };
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDialogState, setTaskDialogState }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+   project
+}) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+
    const { data: quickTask, isLoading } = useTaskQuery(project.quickTaskId);
    const navigate = useNavigate();
 
@@ -50,29 +57,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
 
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
-      setProjectSettingDialogState({
+      setFormDialogState({
          isOpen: true,
-         id: project.id,
-         data: {
-            ...project,
-         },
          mode: 'view',
-         page: 'project-page',
-         type: 'project-settings'
+         openedOn: 'all-project-page',
+         type: 'project-settings',
+         data: project,
       });
    };
 
    const openTaskDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
-      setTaskDialogState({
+      setFormDialogState({
          isOpen: true,
-         id: quickTask.id,
-         type: 'task',
          mode: 'view',
-         page: 'project-page',
-         data: {
-            ...quickTask,
-         },
+         openedOn: 'all-project-page',
+         type: 'task',
+         data: quickTask,
       });
    };
 
@@ -98,7 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
          onClick={handleProjectNavigation}
       >
          <EllipsisVertical
-            className="absolute opacity-30 hover:opacity-100 right-2 top-3 z-20 w-[20px] cursor-pointer "
+            className="absolute opacity-30 hover:opacity-100 right-2 top-3 z-20 w-[20px] cursor-pointer transition-opacity duration-100"
             onClick={(e) => {
                openSettingDialog(e);
             }}
@@ -121,7 +122,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, setProjectSettingDia
          </div>
          <QuickTaskBubble
             projectStatus={project.projectStatus}
-            setTaskDialogState={setTaskDialogState}
+            setTaskDialogState={openTaskDialog}
             task={quickTask}
          />
          <div
@@ -152,7 +153,7 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
          type: 'task',
       });
    };
-   
+
    if (isActive) {
       return (
          <div
@@ -169,7 +170,7 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
    } else if (!isActive && projectStatus === 'completed') {
       return (
          <div
-         className={`
+            className={`
             flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
             rounded-full h-[30px] z-10 cursor-pointer
          `}
@@ -181,7 +182,7 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
    } else {
       return (
          <div
-         className={`
+            className={`
             flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
             rounded-full h-[30px] z-10 cursor-pointer
          `}

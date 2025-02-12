@@ -3,6 +3,7 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Event } from '@types';
 import { SelectState } from '@/lib/types/list.type';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 interface EventListProps {
    eventsData: Event[] | undefined;
@@ -91,17 +92,18 @@ const EventGroup = ({ eventGroupData, setDialogState }) => {
 };
 
 const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   
    const formattedTime = formatTime(data.dueAt);
 
    const handleOpenDialog = () => {
-      setDialogState({
+      setFormDialogState({
          isOpen: true,
          mode: 'view',
+         openedOn: 'action-page',
          type: 'event',
-         data: data,
-         id: data.id,
-         page: 'action-page',
-      });
+         data: data
+      })
    };
 
    return (

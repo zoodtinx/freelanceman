@@ -12,6 +12,8 @@ import { FormDialogState } from '@/lib/types/dialog.types';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import AddButton from '@/components/shared/ui/AddButton';
 import { Dialog } from '@/components/shared/ui/primitives/Dialog';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
 
 const DocumentPageViewMode: React.FC = () => {
    return (
@@ -23,14 +25,7 @@ const DocumentPageViewMode: React.FC = () => {
 };
 
 export const FileSection = () => {
-   const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'file',
-      data: {},
-      page: 'project-page',
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    const [fileFilter, setFileFilter] = useState<FileSearchOption>({
       category: 'document',
@@ -42,6 +37,16 @@ export const FileSection = () => {
    });
 
    const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
+
+   const handleNewFile = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'all-client-page',
+         type: 'client-contact',
+         data: defaultFileValues,
+      });
+   };
 
    return (
       <div className="flex flex-col h-full pt-3">
@@ -66,7 +71,6 @@ export const FileSection = () => {
             filesData={filesData}
             isLoading={isLoading}
             selectState={selectState}
-            setDialogState={setFileDialogState}
             setSelectState={setSelectState}
             size="sm"
          />

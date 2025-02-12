@@ -6,21 +6,16 @@ import {
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Contact, ContactSearchOption } from '@types';
-import ContactDialog from '@/components/shared/ui/ContactDialog';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from 'src/components/shared/ui/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
+import { defaultContactValues } from 'src/components/shared/ui/constants/default-values';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 export const ContactColumn = (): JSX.Element => {
-   const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      type: 'clientContact',
-      mode: 'view',
-      data: defaultContact,
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
 
@@ -30,6 +25,16 @@ export const ContactColumn = (): JSX.Element => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
+   const handleNewContact = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'all-client-page',
+         type: 'client-contact',
+         data: defaultContactValues
+      })
+   }
+
    return (
       <div className="flex flex-col w-[335px] rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-auto gap-[6px] shrink-0 shadow-md">
          <div className="flex justify-between">
@@ -37,7 +42,7 @@ export const ContactColumn = (): JSX.Element => {
                <BookUser className="h-auto w-[28px]" />
                <p className="text-xl pt-1 leading-none mr-2">Client Contacts</p>
             </div>
-            <NewContactButton setDialogState={setDialogState} />
+            <NewContactButton setDialogState={handleNewContact} />
          </div>
          <SearchBox
             placeholder="Search contact"
@@ -53,40 +58,20 @@ export const ContactColumn = (): JSX.Element => {
                   <ContactCard
                      key={contact.id}
                      contact={contact}
-                     setDialogState={setDialogState}
                   />
                ))}
             </div>
          )}
-         <ContactDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
-         />
       </div>
    );
 };
 
 export const ContactCard = ({
-   contact,
-   setDialogState,
+   contact
 }: {
    contact: Contact;
 }) => {
-   const handleClick = () => {
-      let dialogType;
-      if (contact.type === 'client') {
-         dialogType = 'clientContact';
-      } else if (contact.type === 'partner') {
-         dialogType = 'partnerContact';
-      }
-      setDialogState({
-         isOpen: true,
-         id: '',
-         type: dialogType,
-         mode: 'view',
-         data: contact,
-      });
-   };
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    let avatar;
    if (!contact.avatar) {
@@ -99,6 +84,16 @@ export const ContactCard = ({
             className="w-full h-full object-cover"
          />
       );
+   }
+
+   const handleClick = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'view',
+         openedOn: 'client-page',
+         type: 'client-contact',
+         data: contact
+      })
    }
 
    return (

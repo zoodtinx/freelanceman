@@ -1,31 +1,26 @@
-import { EllipsisVertical } from 'lucide-react';
 import { useAllEventQuery } from '@/lib/api/event-api';
-import { FormDialogState } from '@/lib/types/dialog.types';
-import { EventSearchOption, EventSearchOptions, Project } from '@types';
+import { EventSearchOption, Project } from '@types';
 import { Calendar } from 'lucide-react';
 import { useState } from 'react';
-import { ProjectEventList } from '@/components/page-elements/project/ProjectEventList';
 import AddButton from '@/components/shared/ui/AddButton';
-import EventDialog from '@/components/shared/ui/EventDialog';
 import { EventList } from '@/components/page-elements/actions/EventList';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultEventValues } from '@/components/shared/ui/constants/default-values';
 
 const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
-   const [eventDialogState, setEventDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'event',
-      data: {},
-      page: 'project-page'
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const handleNewEvent = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'project-page',
+         type: 'event',
+         data: defaultEventValues
+      })
+   }
 
    const [eventFilter, setEventFilter] = useState<EventSearchOption>({
       projectId: project.id
-   });
-
-   const [selectState, setSelectState] = useState({
-      enableSelect: false,
-      selectedValues: [] as string[],
    });
 
    const { data: eventsData, isLoading } = useAllEventQuery(eventFilter);
@@ -39,20 +34,15 @@ const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
                }} />
                Event
             </p>
-            <AddButton />
+            <AddButton onClick={handleNewEvent} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow">
             <EventList
                isLoading={isLoading}
-               setDialogState={setEventDialogState}
                eventsData={eventsData}
             />
          </div>
-         <EventDialog
-            dialogState={eventDialogState}
-            setDialogState={setEventDialogState}
-         />
       </div>
    );
 };

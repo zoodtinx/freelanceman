@@ -10,6 +10,8 @@ import {
    getIcon,
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
 
 interface FileListProps {
    filesData: File[] | undefined;
@@ -26,6 +28,7 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
    setDialogState,
    setSelectState,
 }) => {
+   
    if (isLoading) {
       return <p>Loading...</p>;
    }
@@ -40,7 +43,6 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
          data={filesData}
          setSelectState={setSelectState}
          selectState={selectState}
-         setDialogState={setDialogState}
       />
    ));
 
@@ -65,44 +67,23 @@ export const FileListItem = ({
    setSelectState,
    setDialogState,
 }: FileListItemProps) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const handleClickFile = () => {
+         setFormDialogState({
+            isOpen: true,
+            mode: 'view',
+            openedOn: 'project-page',
+            type: 'file',
+            data: data
+         })
+      }
    const isSelected = selectState.selectedValues.includes(data.id);
 
    const dateUploaded = formatDate(data.createdAt, 'SHORT');
    const category = formatCategory(data.category);
 
-   const handleClick = () => {
-      if (selectState.enableSelect) {
-         if (isSelected) {
-            setSelectState((prev) => {
-               return {
-                  ...prev,
-                  selectedValues: prev.selectedValues.filter(
-                     (id) => id !== data.id
-                  ),
-               };
-            });
-         } else {
-            setSelectState((prev) => {
-               return {
-                  enableSelect: true,
-                  selectedValues: [...prev.selectedValues, data.id],
-               };
-            });
-         }
-      } else if (!selectState.enableSelect) {
-         setDialogState({
-            isOpen: true,
-            data: data,
-            id: data.id,
-            mode: 'view',
-            type: 'file',
-            page: 'project-page'
-         });
-      }
-   };
-
    return (
-      <div className="flex flex-col cursor-default" onClick={handleClick}>
+      <div className="flex flex-col cursor-default" onClick={handleClickFile}>
          <div
             className={cn(
                'flex px-2 items-center bg-transparent hover:bg-quaternary transition-colors duration-100',

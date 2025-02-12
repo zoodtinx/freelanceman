@@ -9,17 +9,22 @@ import { ProjectPageFileList } from '@/components/page-elements/project/ProjectP
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2, BookUser } from 'lucide-react';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
 
 const ProjectFileSection: React.FC = ({ project }) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const handleNewFile = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'project-page',
+         type: 'file',
+         data: defaultFileValues
+      })
+   }
+   
    const [tab, setTab] = useState('project-file');
-   const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'file',
-      data: {},
-      page: 'project-page',
-   });
 
    const [fileFilter, setFileFilter] = useState({
       projectId: project.id,
@@ -76,7 +81,7 @@ const ProjectFileSection: React.FC = ({ project }) => {
                </p>
             </div>
             <div className="flex items-center border-b-[0.5px] h-9 border-tertiary grow justify-end">
-               <AddButton />
+               <AddButton onClick={handleNewFile} />
             </div>
          </div>
          <div className="flex flex-col grow p-2 pt-3">
@@ -85,14 +90,9 @@ const ProjectFileSection: React.FC = ({ project }) => {
                filesData={filesData}
                isLoading={isLoading}
                selectState={selectState}
-               setDialogState={setFileDialogState}
                setSelectState={setSelectState}
             />
          </div>
-         <FileDialog
-            dialogState={fileDialogState}
-            setDialogState={setFileDialogState}
-         />
       </>
    );
 };

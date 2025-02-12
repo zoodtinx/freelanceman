@@ -21,6 +21,8 @@ import { defaultContact } from 'src/components/shared/ui/constants/default-value
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultPartnerValues } from 'src/components/shared/ui/constants/default-values';
 
 const PartnerContactLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -89,10 +91,6 @@ const PartnerContactLayout = (): JSX.Element => {
                ))}
             </div>
          )}
-         <ContactDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
-         />
       </div>
    );
 };
@@ -118,27 +116,21 @@ const SearchCategory = ({
    );
 };
 
-const PartnerTab = ({
-   contact,
-   setDialogState,
-}: {
-   contact: PartnerContact;
-}) => {
+const PartnerTab = ({ contact }: { contact: PartnerContact }) => {
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
+
    const handleClick = () => {
-      let dialogType;
-      if (contact.type === 'client-contact') {
-         dialogType = 'clientContact';
-      } else if (contact.type === 'partner-contact') {
-         dialogType = 'partnerContact';
-      }
-      setDialogState({
+      setFormDialogState({
          isOpen: true,
-         id: '',
-         type: dialogType,
          mode: 'view',
+         openedOn: 'all-client-page',
+         type: 'client-contact',
          data: contact,
       });
    };
+
    return (
       <div
          className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary"

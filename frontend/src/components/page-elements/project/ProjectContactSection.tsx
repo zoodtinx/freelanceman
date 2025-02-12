@@ -14,15 +14,20 @@ import { User, BookUser } from 'lucide-react';
 import { mockContacts as contacts } from '@mocks';
 import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultContactValues } from 'src/components/shared/ui/constants/default-values';
 
 export const ProjectContactSection = ({project}): JSX.Element => {
-   const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      type: 'clientContact',
-      mode: 'view',
-      data: defaultContact,
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const handleAddContact = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'project-page',
+         type: 'client-contact',
+         data: defaultContactValues
+      })
+   }
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
       companyId: project.clientId
@@ -41,7 +46,7 @@ export const ProjectContactSection = ({project}): JSX.Element => {
                <BookUser className='w-4 h-4' />
                Contacts
             </p>
-            <NewContactButton setDialogState={setDialogState} />
+            <NewContactButton setDialogState={handleAddContact} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          {isLoading ? (
@@ -52,40 +57,29 @@ export const ProjectContactSection = ({project}): JSX.Element => {
                   <ContactCard
                      key={contact.id}
                      contact={contact}
-                     setDialogState={setDialogState}
                   />
                ))}
             </div>
          )}
-         <ContactDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
-         />
       </>
    );
 };
 
 export const ContactCard = ({
    contact,
-   setDialogState,
 }: {
    contact: Contact;
 }) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
    const handleClick = () => {
-      let dialogType;
-      if (contact.type === 'client') {
-         dialogType = 'clientContact';
-      } else if (contact.type === 'partner') {
-         dialogType = 'partnerContact';
-      }
-      setDialogState({
+      setFormDialogState({
          isOpen: true,
-         id: '',
-         type: dialogType,
          mode: 'view',
-         data: contact,
-      });
-   };
+         openedOn: 'project-page',
+         type: 'client-contact',
+         data: contact
+      })
+   }
 
    let avatar;
    if (!contact.avatar) {

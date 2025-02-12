@@ -1,4 +1,4 @@
-import { defaultFile } from 'src/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/constants/default-values';
 import FileListItem from '@/components/page-elements/client/FileListItem';
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
@@ -68,8 +68,8 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
    const handleAddFile = () => {
       setDialogState({
          isOpen: true,
-         data: defaultFile,
-         id : defaultFile.id,
+         data: defaultFileValues,
+         id : defaultFileValues.id,
          mode: 'create',
          type: 'file',
          page: 'client-page'

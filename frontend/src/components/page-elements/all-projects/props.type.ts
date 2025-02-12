@@ -11,8 +11,6 @@ export interface ProjectListProps {
 
 export interface ProjectCardProps {
    project: Project;
-   setTaskDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   setProjectSettingDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
 export interface ProjectFilterProps {

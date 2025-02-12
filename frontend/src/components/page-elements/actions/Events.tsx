@@ -1,36 +1,31 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
-import EventDialog from '@/components/shared/ui/EventDialog';
-import { useAllEventQuery, useDeleteEvent } from '@/lib/api/event-api';
-import { eventDefaultValues } from 'src/components/shared/ui/constants/default-values';
-
-import type { FormDialogState } from '@/lib/types/dialog.types';
-import type { EventSearchOptions, EventStatus } from '@types';
-
+import { useAllEventQuery } from '@/lib/api/event-api';
+import { defaultEventValues } from 'src/components/shared/ui/constants/default-values';
 import { EventList } from '@/components/page-elements/actions/EventList';
 import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 export default function Events() {
-   const [eventDialogState, setEventDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'event',
-      data: eventDefaultValues,
-      page: 'action-page'
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    const [eventFilter, setEventFilter] = useState({
       status: 'scheduled',
    });
 
-   const [selectState, setSelectState] = useState({
-      enableSelect: false,
-      selectedValues: [] as string[],
-   });
-
    const { data: eventsData, isLoading } = useAllEventQuery(eventFilter);
+
+   const handleNewEvent = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'action-page',
+         type: 'event',
+         data: defaultEventValues
+      })
+   }
+
 
    return (
       <div className="flex flex-col grow">
@@ -54,17 +49,13 @@ export default function Events() {
             </div>
             <NewActionButton
                type="event"
-               setDialogState={setEventDialogState}
+               setDialogState={handleNewEvent}
             />
          </div>
          <EventList
             eventsData={eventsData}
             isLoading={isLoading}
-            setDialogState={setEventDialogState}
-         />
-         <EventDialog
-            dialogState={eventDialogState}
-            setDialogState={setEventDialogState}
+            setDialogState={handleNewEvent}
          />
       </div>
    );

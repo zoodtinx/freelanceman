@@ -19,6 +19,10 @@ import {
    UsersRound,
    Coins,
    Plus,
+   Settings,
+   Folder,
+   BookUser,
+   CircleDollarSign,
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
@@ -277,26 +281,26 @@ export const formatPaymentStatus = (
 };
 
 export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
-   const className = 'w-[13px] h-[13px]'
+   const className = 'w-[13px] h-[13px]';
    switch (dialogType) {
-     case 'task':
-       return <CircleCheck className={className} />;
-     case 'event':
-       return <Calendar className={className} />;
-     case 'file':
-       return <FileIcon />;
-     case 'project-settings':
-       return <ProjectIcon />;
-     case 'client-contact':
-       return <UsersRound />;
-     case 'partner-contact':
-       return <ContactB />;
-     case 'sales-document-item':
-       return <Coins />;
-     default:
-       return <Plus />;
+      case 'task':
+         return <CircleCheck className={className} />;
+      case 'event':
+         return <Calendar className={className} />;
+      case 'file':
+         return <Folder className={className} />;
+      case 'project-settings':
+         return <Settings className={className} />;
+      case 'client-contact':
+         return <UsersRound className={className} />;
+      case 'partner-contact':
+         return <BookUser className={className} />;
+      case 'sales-document-item':
+         return <CircleDollarSign className={className} />;
+      default:
+         return <Plus />;
    }
- };
+};
 
 
  export const getDialogHeaderText = (dialogType: string) => {

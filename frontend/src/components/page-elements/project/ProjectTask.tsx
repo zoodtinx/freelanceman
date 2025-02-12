@@ -1,30 +1,26 @@
 import { useAllTasksQuery } from '@/lib/api/task-api';
-import { FormDialogState } from '@/lib/types/dialog.types';
 import { Project, TaskSearchOptions } from '@types';
 import { CircleCheck } from 'lucide-react';
 import { useState } from 'react';
-import { ProjectTaskList } from '@/components/page-elements/project/ProjectTaskList';
 import AddButton from '@/components/shared/ui/AddButton';
-import TaskDialog from '@/components/shared/ui/TaskDialog';
 import { TaskList } from '@/components/page-elements/actions/TaskList';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultTaskValue } from '@/components/shared/ui/constants/default-values';
 
 const ProjectTask: React.FC<{ project: Project }> = ({ project }) => {
-   const [taskDialogState, setTaskDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'task',
-      data: {},
-      page: 'project-page',
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const handleNewTask = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'project-page',
+         type: 'task',
+         data: defaultTaskValue
+      })
+   }
 
    const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({
       projectId: project.id,
-   });
-
-   const [selectState, setSelectState] = useState({
-      enableSelect: false,
-      selectedValues: [] as string[],
    });
 
    const { data: tasksData, isLoading } = useAllTasksQuery(taskFilter);
@@ -41,20 +37,15 @@ const ProjectTask: React.FC<{ project: Project }> = ({ project }) => {
                />
                Task
             </p>
-            <AddButton />
+            <AddButton onClick={handleNewTask} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow px-3 pt-3">
             <TaskList
                isLoading={isLoading}
-               setDialogState={setTaskDialogState}
                tasksData={tasksData}
             />
          </div>
-         <TaskDialog
-            dialogState={taskDialogState}
-            setDialogState={setTaskDialogState}
-         />
       </div>
    );
 };

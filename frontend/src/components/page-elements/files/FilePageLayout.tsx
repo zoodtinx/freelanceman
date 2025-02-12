@@ -15,8 +15,12 @@ import { FileSearchOptions } from '@types';
 import { useAllFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultFileValues } from 'src/components/shared/ui/constants/default-values';
 
 const FilePageLayout = (): JSX.Element => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+
    const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
       isOpen: false,
       id: '',
@@ -79,6 +83,17 @@ const FilePageLayout = (): JSX.Element => {
       }
    };
 
+   const handleNewFile = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'file-page',
+         type: 'file',
+         data: defaultFileValues,
+      });
+   };
+   
+
    return (
       <div className="flex flex-col w-full bg-foreground rounded-[20px] p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden shadow-md">
          <div className="flex justify-between">
@@ -86,7 +101,7 @@ const FilePageLayout = (): JSX.Element => {
                <Folder className="h-6 w-6 mt-1" />
                <p className="text-xl pt-1 leading-none mr-2">Files</p>
             </div>
-            <NewFileButton setDialogState={setFileDialogState} />
+            <NewFileButton setDialogState={handleNewFile} />
          </div>
          <div className="flex gap-1">
             <MultiSelectButton
@@ -121,10 +136,6 @@ const FilePageLayout = (): JSX.Element => {
             selectState={selectState}
             setDialogState={setFileDialogState}
             setSelectState={setSelectState}
-         />
-         <FileDialog
-            dialogState={fileDialogState}
-            setDialogState={setFileDialogState}
          />
       </div>
    );

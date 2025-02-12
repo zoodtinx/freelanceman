@@ -4,21 +4,15 @@ import { CircleCheck } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
 import { useAllTasksQuery, useDeleteTask } from '@/lib/api/task-api';
-import { taskDefaultValues } from 'src/components/shared/ui/constants/default-values';
+import { defaultTaskValue } from 'src/components/shared/ui/constants/default-values';
 
 import type { FormDialogState } from '@/lib/types/dialog.types';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 export default function Tasks() {
-   const [taskDialogState, setTaskDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'task',
-      data: taskDefaultValues,
-      page: 'action-page'
-   });
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    const [taskFilter, setTaskFilter] = useState({
       status: 'pending',
@@ -30,6 +24,16 @@ export default function Tasks() {
    });
 
    const { data: tasksData, isLoading } = useAllTasksQuery(taskFilter);
+
+   const handleNewTask = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'action-page',
+         type: 'task',
+         data: defaultTaskValue
+      })
+   }
 
    return (
       <div className="flex flex-col grow">
@@ -51,18 +55,13 @@ export default function Tasks() {
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
-            <NewActionButton type="task" setDialogState={setTaskDialogState} />
+            <NewActionButton type="task" setDialogState={handleNewTask} />
          </div>
          <TaskList
             tasksData={tasksData}
             isLoading={isLoading}
             selectState={selectState}
             setSelectState={setSelectState}
-            setDialogState={setTaskDialogState}
-         />
-         <TaskDialog
-            dialogState={taskDialogState}
-            setDialogState={setTaskDialogState}
          />
       </div>
    );

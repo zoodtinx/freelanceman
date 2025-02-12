@@ -4,11 +4,27 @@ import { FileText, Plus, ChevronRight } from 'lucide-react';
 import React, { useState } from 'react';
 import { FileSection, DraftSection } from '@/components/page-elements/documents/DocumentPageViewMode';
 import AddButton from '@/components/shared/ui/AddButton';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
 
 const DocumentPageLayout: React.FC = () => {
    const location = useLocation();
    const pathnameArray = location.pathname.split('/').filter((path) => path);
    const filteredPathnameArray = pathnameArray.slice(2);
+
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
+
+   const handleNewFile = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'client-page',
+         type: 'file',
+         data: defaultFileValues,
+      });
+   };
 
    return (
       <div className="flex w-full grow bg-foreground rounded-[20px] p-4 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3">
@@ -23,7 +39,7 @@ const DocumentPageLayout: React.FC = () => {
                      Documents
                   </Link>
                </div>
-               <AddButton />
+               <AddButton onClick={handleNewFile} />
             </div>
             <FileSection />
          </div>

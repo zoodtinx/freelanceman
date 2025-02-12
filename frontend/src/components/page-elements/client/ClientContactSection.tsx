@@ -69,10 +69,6 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
                </div>
             )}
          </div>
-         <ContactDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
-         />
       </div>
    );
 };

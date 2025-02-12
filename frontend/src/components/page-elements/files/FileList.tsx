@@ -12,6 +12,7 @@ import {
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
 import { size } from 'lodash';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 interface FileListProps {
    filesData: File[] | undefined;
@@ -73,6 +74,8 @@ export const FileListItem = ({
    size = 'base',
    deleteFunction,
 }: FileListItemProps) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   
    const isSelected = selectState.selectedValues.includes(data.id);
 
    const dateUploaded = formatDate(data.createdAt, 'LONG');
@@ -109,6 +112,16 @@ export const FileListItem = ({
       }
    };
 
+   const handleClickFile = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode:'view',
+         openedOn:'file-page',
+         type:'file',
+         data: data
+      })
+   }
+
    return (
       <div className="flex flex-col cursor-default" onClick={handleClick}>
          <div
@@ -124,7 +137,7 @@ export const FileListItem = ({
                )}
                checked={isSelected}
             />
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full" onClick={handleClickFile}>
                <div className="flex justify-between py-[10px] grow items-center">
                   <div className="flex gap-2 items-center">
                      {getIcon(data.type, 'w-4 h-4 text-secondary')}

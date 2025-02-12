@@ -1,4 +1,4 @@
-import { Task } from "@types";
+import { Event, EventStatus, File, Partner, Task } from "@types";
 
 export const formDefaultValue = (actionType: 'event' | 'task') => {
    let defaultStatus: TaskStatus | EventStatus
@@ -27,22 +27,38 @@ export const formDefaultValue = (actionType: 'event' | 'task') => {
 };
 
 export const eventDefaultValues: Event = {
-   id: '',
+
    name: '',
    details: '',
    status: 'scheduled' as EventStatus,
-   dueDate: '',
-   withTime: false,
+   dueAt: '',
    project: '',
    projectId: '',
    client: '',
    clientId: '',
    link: '',
-   color:'',             
-   createdAt: ''
+   themeColor:'',             
+   id: '',
+   tags: []
 };
 
+export const defaultEventValues: Event = eventDefaultValues
+
 export const taskDefaultValues: Task = {
+      id: "",
+      name: "",
+      status: "pending",
+      details: "",
+      link: "",
+      dueAt: "",
+      project: "",
+      projectId: "",
+      client: "",
+      clientId: "",
+      themeColor: "",
+};
+
+export const defaultTaskValue: Task = {
       id: "",
       name: "",
       status: "pending",
@@ -79,22 +95,39 @@ export const defaultProject: Project = {
    accentColor: '',
    dateCreated: '',
    dateModified: ''
- };
+};
 
- export const defaultFile: File = {
-   id: "",
-   fileName: "",
-   name: "",
-   type: "other", 
-   category: "", 
-   link: "",
+export const defaultFileValues: File = {
+   id: '',
+   displayName: '',
+   originalName: '',
+   type: 'other', 
+   category: 'project-file', 
+   link: '',
    size: 0, 
-   dateCreated: new Date().toISOString(), 
-   dateModified: undefined, 
-   permissions: {
-     owner: "",
-     sharedWith: [] 
-   },
-   passwordProtected: false, 
-   encryptedPasswordHash: undefined 
- };
+   createdAt: new Date().toISOString(), 
+};
+
+export const defaultContactValues = {
+   id: '',
+   name: '',
+   company: '',
+   companyId: '',
+   role: '',
+   phoneNumber: [],
+   email: '',
+   details: '',
+   avatar: '',
+};
+
+export const defaultPartnerValues: Partner = {
+   id: '',
+   name: '',
+   company: '',
+   companyId: '',
+   role: '',
+   phoneNumber: [],
+   email: '',
+   details: '',
+   avatar: '',
+};

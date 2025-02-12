@@ -7,13 +7,15 @@ import {
    DialogTrigger,
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
-import { Calendar, CircleCheck, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { DialogTitleIcon, getDialogHeaderText } from '@/components/shared/ui/helpers/Helpers';
-import { FormDialogProps } from '@/lib/types/dialog.types';
 import TaskDialog from '@/components/shared/ui/TaskDialog';
-import useFormDialogState from '@/lib/zustand/dialog-store';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import EventDialog from '@/components/shared/ui/EventDialog';
+import { useEffect } from 'react';
+import FileDialog from '@/components/shared/ui/FileDialog';
+import ContactDialog from '@/components/shared/ui/ContactDialog';
+import ProjectSettingsDialog from '@/components/page-elements/all-projects/ProjectSettingsDialog';
 
 const FormDialog = () => {
 
@@ -21,12 +23,18 @@ const FormDialog = () => {
 
    console.log('formDialogState', formDialogState)
 
-   const handleDialogueClose = () => {
-      console.log('clicked')
+   const handleDialogClose = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
    };
 
+
    return (
-      <Dialog open={true} onOpenChange={handleDialogueClose}>
+      <Dialog open={formDialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile
@@ -55,22 +63,21 @@ const FormDialogTitle = ({ dialogType }: { dialogType: string }) => {
    );
 };
 
-const FormDialogContent = ({ dialogType }:{ dialogType : string }) => {
+const FormDialogContent = ({ dialogType }: { dialogType: string }) => {
+   const mockType = 'task'
    switch (dialogType) {
       case 'task':
          return <TaskDialog />;
       case 'event':
          return <EventDialog />;
       case 'file':
-         return <FileIcon />;
+         return <FileDialog />;
       case 'project-settings':
-         return <ProjectIcon />;
+         return <ProjectSettingsDialog />;
       case 'client-contact':
-         return <UsersRound />;
+         return <ContactDialog />;
       case 'partner-contact':
-         return <ContactB />;
-      case 'sales-document-item':
-         return <Coins />;
+         return <ContactDialog />;
       default:
          return <Plus />;
    }

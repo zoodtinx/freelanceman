@@ -5,6 +5,7 @@ import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task } from '@types';
 import { PencilLine } from 'lucide-react';
 import { CheckedState } from '@radix-ui/react-checkbox';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 interface TaskListProps {
    tasksData: Task[] | undefined;
@@ -46,18 +47,19 @@ interface TaskListItemProps {
 }
 
 const TaskListItem = ({ data, setDialogState }: TaskListItemProps) => {
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   
    const formattedDate = formatDate(data.dueAt, 'LONG');
    const formattedTime = formatTime(data.dueAt);
 
    const handleOpenDialog = () => {
-      setDialogState({
+      setFormDialogState({
          isOpen: true,
          mode: 'view',
-         type: 'event',
-         data: data,
-         id: data.id,
-         page: 'project-page',
-      });
+         openedOn: 'action-page',
+         type: 'task',
+         data: data
+      })
    };
 
    const handleCheck = (checked: CheckedState) => {
