@@ -14,9 +14,9 @@ export default function SideBar() {
                <SideBarTab tab="files" />
                <SideBarTab tab="documents" />
             </ul>
-            <PinnedProjects />
          </div>
-         <div className="flex justify-center w-full mb-8">
+         <div className="flex flex-col gap-9 items-center w-full mb-8">
+            <PinnedProjects />
             <div className="bg-primary rounded-full w-16 aspect-square flex items-center justify-center text-white md:w-full">
                Add
             </div>

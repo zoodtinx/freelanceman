@@ -3,7 +3,6 @@ import {
    SelectContent,
    SelectGroup,
    SelectItem,
-   SelectLabel,
    SelectTrigger,
    SelectValue,
 } from '@/components/shared/ui/Select';
@@ -14,15 +13,13 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { Contact, ContactSearchOption, PartnerContact, PartnerContactSearchOption } from '@types';
-import ContactDialog from '@/components/shared/ui/ContactDialog';
+import { Partner, PartnerSearchOption } from '@types';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { defaultContact } from 'src/components/shared/ui/constants/default-values';
 import { useState } from 'react';
-import { User, BookUser } from 'lucide-react';
+import { BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultPartnerValues } from 'src/components/shared/ui/constants/default-values';
 
 const PartnerContactLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -34,7 +31,7 @@ const PartnerContactLayout = (): JSX.Element => {
       data: defaultContact,
    });
 
-   const [searchOptions, setSearchOptions] = useState<PartnerContactSearchOption>({});
+   const [searchOptions, setSearchOptions] = useState<PartnerSearchOption>({});
    const [searchMode, setSearchMode] = useState('name');
 
    const { data: contacts, isLoading } =
@@ -116,7 +113,7 @@ const SearchCategory = ({
    );
 };
 
-const PartnerTab = ({ contact }: { contact: PartnerContact }) => {
+const PartnerTab = ({ contact }: { contact: Partner }) => {
    const setFormDialogState = useDialogStore(
       (state) => state.setFormDialogState
    );

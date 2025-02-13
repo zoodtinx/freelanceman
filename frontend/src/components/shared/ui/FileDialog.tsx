@@ -20,7 +20,6 @@ import { defaultFileValues } from 'src/components/shared/ui/constants/default-va
 import FileDialogViewMode from '@/components/shared/ui/FileDialogViewMode';
 import FileDialogCreateMode from '@/components/shared/ui/FileDialogCreateMode';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { File } from '@types';
 
 const FileDialog: React.FC<DialogProps> = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();

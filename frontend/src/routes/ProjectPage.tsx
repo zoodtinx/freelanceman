@@ -8,9 +8,11 @@ import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSe
 import ProjectTask from '@/components/page-elements/project/ProjectTask';
 import ProjectEvent from '@/components/page-elements/project/ProjectEvent';
 import { formatPaymentStatus, formatProjectStatus } from 'src/components/shared/ui/helpers/Helpers';
+import { useState } from 'react';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
+
    const { data: project, isLoading } = useProjectQuery(projectId);
 
    if (isLoading) {

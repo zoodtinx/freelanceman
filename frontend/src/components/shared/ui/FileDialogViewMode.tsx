@@ -31,8 +31,6 @@ const FileDialogViewMode = ({ formMethods, setDialogState, openDeletePrompt }) =
       openDeletePrompt();
    };
 
-   console.log('first', category)
-
    return (
       <div className="flex flex-col">
          <div className="flex gap-1 items-center px-5 pt-4">

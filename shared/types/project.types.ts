@@ -9,6 +9,7 @@ export interface Project {
   themeColor: string;
   links: string[];
   note: string;
+  pinned?: boolean;
   createdAt: string;
   modifiedAt: string;
 }
@@ -44,4 +45,5 @@ export interface ProjectSearchOption {
   taskId?: string;
   paymentStatus?: string;
   projectStatus?: string;
+  pinned?: boolean;
 }

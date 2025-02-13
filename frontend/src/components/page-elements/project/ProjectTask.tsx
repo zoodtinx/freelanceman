@@ -9,6 +9,7 @@ import { defaultTaskValue } from '@/components/shared/ui/constants/default-value
 
 const ProjectTask: React.FC<{ project: Project }> = ({ project }) => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   
    const handleNewTask = () => {
       setFormDialogState({
          isOpen: true,

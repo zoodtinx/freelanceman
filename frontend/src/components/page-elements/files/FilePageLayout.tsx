@@ -7,11 +7,10 @@ import { Plus } from '@/components/shared/icons';
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { useEffect, useState } from 'react';
 import { Folder } from 'lucide-react';
-import FileDialog from '@/components/shared/ui/FileDialog';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
-import { FileSearchOptions } from '@types';
+import { FileSearchOption } from '@types';
 import { useAllFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
@@ -30,7 +29,7 @@ const FilePageLayout = (): JSX.Element => {
       page: ''
    });
 
-   const [fileFilter, setFileFilter] = useState<FileSearchOptions>({
+   const [fileFilter, setFileFilter] = useState<FileSearchOption>({
    });
 
    const [selectState, setSelectState] = useState({

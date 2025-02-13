@@ -8,10 +8,7 @@ import { useAllFilesQuery } from '@/lib/api/file-api';
 import { FileSearchOption, SalesDocumentSearchOption } from '@types';
 import { useDocumentDraftQuery } from '@/lib/api/document-draft-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
-import { FormDialogState } from '@/lib/types/dialog.types';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
-import AddButton from '@/components/shared/ui/AddButton';
-import { Dialog } from '@/components/shared/ui/primitives/Dialog';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
 
@@ -30,6 +27,8 @@ export const FileSection = () => {
    const [fileFilter, setFileFilter] = useState<FileSearchOption>({
       category: 'document',
    });
+
+   console.log('DocumentPage')
 
    const [selectState, setSelectState] = useState({
       enableSelect: false,

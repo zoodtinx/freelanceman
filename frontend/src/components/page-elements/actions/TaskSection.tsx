@@ -2,16 +2,13 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/
 import { useRef, useState } from 'react';
 import { CircleCheck } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
-import TaskDialog from '@/components/shared/ui/TaskDialog';
 import { useAllTasksQuery, useDeleteTask } from '@/lib/api/task-api';
 import { defaultTaskValue } from 'src/components/shared/ui/constants/default-values';
-
-import type { FormDialogState } from '@/lib/types/dialog.types';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
-export default function Tasks() {
+export default function TaskSection() {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    const [taskFilter, setTaskFilter] = useState({

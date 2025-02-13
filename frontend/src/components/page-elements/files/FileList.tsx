@@ -39,6 +39,8 @@ export const FileList: React.FC<FileListProps> = ({
       return <p>No File available</p>;
    }
 
+   console.log('first')
+
    const fileListItems = filesData.map((filesData) => (
       <FileListItem
          key={filesData.id}

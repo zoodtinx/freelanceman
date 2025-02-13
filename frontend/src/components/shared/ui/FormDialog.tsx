@@ -1,7 +1,6 @@
 import {
    Dialog,
    DialogContent,
-   DialogFooter,
    DialogHeader,
    DialogTitle,
    DialogTrigger,
@@ -12,16 +11,12 @@ import { DialogTitleIcon, getDialogHeaderText } from '@/components/shared/ui/hel
 import TaskDialog from '@/components/shared/ui/TaskDialog';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import EventDialog from '@/components/shared/ui/EventDialog';
-import { useEffect } from 'react';
 import FileDialog from '@/components/shared/ui/FileDialog';
 import ContactDialog from '@/components/shared/ui/ContactDialog';
 import ProjectSettingsDialog from '@/components/page-elements/all-projects/ProjectSettingsDialog';
 
 const FormDialog = () => {
-
    const { formDialogState, setFormDialogState } = useDialogStore()
-
-   console.log('formDialogState', formDialogState)
 
    const handleDialogClose = () => {
       setFormDialogState((prev) => {

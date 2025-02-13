@@ -13,7 +13,8 @@ export const mockProjects: Project[] = [
      links: [],
      note: "Project Commercial Jingle for Sonic Boom Audio",
      createdAt: "2025-02-07T05:32:58.970551",
-     modifiedAt: "2025-02-07T05:32:58.970566"
+     modifiedAt: "2025-02-07T05:32:58.970566",
+     pinned: true,
    },
    {
      id: "fadbdf0a-de06-4da5-804b-d4bd06916422",
@@ -27,6 +28,7 @@ export const mockProjects: Project[] = [
      links: [],
      note: "Project Film Score Composition for Sonic Boom Audio",
      createdAt: "2025-02-07T05:32:58.971480",
+     pinned: true,
      modifiedAt: "2025-02-07T05:32:58.971492"
    },
    {
@@ -41,6 +43,7 @@ export const mockProjects: Project[] = [
      links: [],
      note: "Project Podcast Production for Sonic Boom Audio",
      createdAt: "2025-02-07T05:32:58.971703",
+     pinned: true,
      modifiedAt: "2025-02-07T05:32:58.971707"
    },
    {
@@ -55,6 +58,7 @@ export const mockProjects: Project[] = [
      links: [],
      note: "Project Viral Social Campaign for MetaMorph Content House",
      createdAt: "2025-02-07T05:32:58.972652",
+     pinned: true,
      modifiedAt: "2025-02-07T05:32:58.972663"
    },
    {

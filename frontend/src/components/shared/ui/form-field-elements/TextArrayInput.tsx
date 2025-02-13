@@ -15,8 +15,6 @@ const TextArrayInput = ({
          name: fieldName,
       }) || [];
 
-   console.log('arrayValue', arrayValue);
-
    const handleRemoveField = (index: number) => {
       const updatedArray = [...arrayValue];
       updatedArray.splice(index, 1);

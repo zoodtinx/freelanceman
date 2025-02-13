@@ -3,7 +3,6 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from '@/lib/types/dialog.types';
 import type { Task } from '@types';
-import { PencilLine } from 'lucide-react';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
@@ -64,10 +63,8 @@ const TaskListItem = ({ data, setDialogState }: TaskListItemProps) => {
 
    const handleCheck = (checked: CheckedState) => {
       if (checked) {
-         // this block is for marking as completd
          console.log(data.id, ' completed');
       } else {
-         // this block is for undoing the task back to planned
          console.log(data.id, ' back to planned');
       }
    };

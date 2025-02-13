@@ -20,7 +20,7 @@ const tabConfig = {
 
 const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
    const { pathname } = useLocation();
-   const isActive = pathname === `/home/${tab}`;
+   const isActive = pathname === `/home/${tab}` || pathname === `/home/${tab}/` || pathname.includes(`/home/${tab}`);
 
    const { label, icon: Icon } = tabConfig[tab];
 

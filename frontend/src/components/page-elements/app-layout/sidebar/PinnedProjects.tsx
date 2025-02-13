@@ -1,8 +1,11 @@
+import { cn } from '@/lib/helper/utils';
 import { useTranslation } from 'react-i18next';
 import { Pin } from '@/components/shared/icons';
-import clsx from 'clsx';
-import { Project as ProjectIcon } from '@/components/shared/icons';
-import type { Project } from '@types';
+import { useState } from 'react';
+import { PencilRuler } from 'lucide-react';
+import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { Project } from '@types';
 
 const project = {
    name: 'Sansiri Dog Freindly House Launch Campaign Sansiri Dog Freindly House Launch Campaign',
@@ -17,34 +20,93 @@ export default function PinnedProjects() {
             <Pin width={16} height={16} />
             <p className="text-sub">{t('pinnedProjects')}</p>
          </div>
-         <PinnedProjectTab project={project} />
+         <PinnedProjectTabs />
       </div>
    );
 }
 
 
-const PinnedProjectTab: React.FC<SideBarTabProps> = ({ project, onClick, isActive }) => {
+const PinnedProjectTabs: React.FC = () => {
+   const { data: projects, isLoading } = useAllProjectsQuery({ pinned: true });
+   if (isLoading) {
+      return <p>Loading...</p>
+   }
 
-   const containerStyle = {
-      base: 'flex w-full h-[44px] items-center gap-2 border-[1.75px] rounded-[13px] p-2 px-[10px] font-medium text-[18px] cursor-pointer',
-      breakpoints: '',
-      inactive:
-         'border-background text-secondary hover:text-primary transition-color duration-75',
-      active: 'border-primary text-primary',
-   };
+   const pinnedProjects = projects.map((project) => {
+      return (
+          <PinnedProjectCard project={project} key={project.id} />
+      )
+   })
 
    return (
-      <div
-         className={clsx(
-            containerStyle.base,
-            isActive ? containerStyle.active : containerStyle.inactive
-         )}
-         onClick={onClick}
-      >
-         <ProjectIcon className="shrink-0" />
-         <p className="text-[14px] text-ellipsis line-clamp-2 overflow-hidden leading-tight">
-            {project.name}
-         </p>
+      <div className="flex flex-col px-[6px] gap-2">
+         {pinnedProjects}
       </div>
    );
 }
+
+// const PinnedProjectCard = ({ project }: { project: Project }) => {
+//    const { projectId } = useParams();
+//    const isActive = projectId === project.id
+
+//    return (
+//       <Link
+//          to={`/home/projects/${project.id}`}
+//          className={cn(
+//             'relative flex h-[50px] rounded-xl leading-tight text-sm cursor-default border overflow-hidden',
+//             'hover:border-primary hover:text-primary transition-colors duration-100 dark:border-tertiary dark:hover:border-secondary',
+//             isActive
+//                ? 'bg-transparent text-freelanceman-darkgrey border-transparent hover:border-transparent dark:hover:text-freelanceman-darkgrey'
+//                : 'text-secondary'
+//          )}
+//       >
+//          <p className="p-[6px] px-2 line-clamp-2 font-medium z-10">
+//             {project.title}
+//          </p>
+//          {isActive && (
+//             <div
+//                className="w-full h-full z-0 absolute"
+//                style={{
+//                   backgroundColor: project.themeColor,
+//                }}
+//             />
+//          )}
+//       </Link>
+//    );
+// };
+
+const PinnedProjectCard = ({ project }: { project: Project }) => {
+   const { projectId } = useParams();
+   const isActive = projectId === project.id
+
+   return (
+      <Link
+         to={`/home/projects/${project.id}`}
+         className={cn(
+            'relative flex h-[64px] rounded-xl overflow-hidden border border-secondary cursor-default',
+            isActive && ''
+         )}
+      >
+         <div
+            className={cn(
+               'w-full rounded-xl z-20 mt-2 bg-background text-secondary hover:text-primary transition-colors duration-75',
+               isActive && 'bg-foreground text-primary'
+            )}
+         >
+            <p className="p-[6px] px-2 line-clamp-2 font-medium">
+               {project.title}
+            </p>
+         </div>
+         {isActive ? (
+            <div
+               className="w-full h-1/2 z-10 absolute"
+               style={{
+                  backgroundColor: project.themeColor,
+               }}
+            />
+         ) : (
+            <div className="w-full h-1/2 z-10 absolute bg-tertiary" />
+         )}
+      </Link>
+   );
+};

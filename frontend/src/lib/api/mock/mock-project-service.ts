@@ -1,4 +1,4 @@
-import type { Project, ProjectPreview, ProjectSearchOptions } from '@types';
+import type { Project, ProjectPreview, ProjectSearchOption } from '@types';
 import { mockProjects as sampleAllPropjects } from '@mocks';
 
 export const getProject = (id: string): Promise<Project> => {
@@ -30,7 +30,7 @@ export const editProject = <K extends keyof Partial<Project>>(
 };
 
 export const getAllProjects = (
-   searchTerm: ProjectSearchOptions
+   searchTerm: ProjectSearchOption
 ): Promise<Project[]> => {
    return new Promise((resolve) => {
       setTimeout(() => {
@@ -62,11 +62,15 @@ export const getAllProjects = (
                searchTerm.clientId.trim() === '' ||
                project.clientId === searchTerm.clientId.trim();
 
+            const matchesPinned =
+               searchTerm.pinned === undefined || project.pinned === searchTerm.pinned;
+
             return (
                matchesName &&
                matchesPaymentStatus &&
                matchesProjectStatus &&
-               matchesClientId
+               matchesClientId &&
+               matchesPinned
             );
          });
 
@@ -80,6 +84,7 @@ export const getAllProjects = (
       }, 500);
    });
 };
+
 
 // export const createProject = (newProject: Project): Promise<Project> => {
 //    const projectWithDefaults: Project = {

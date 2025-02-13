@@ -166,11 +166,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
             setPromptDialogState={setPromptDialogState}
             setDialogState={setDialogState}
          />
-         <FileDialog
-            dialogState={dialogState}
-            setDialogState={setDialogState}
-            setPromptDialogState={setPromptDialogState}
-         />
       </div>
    );
 };

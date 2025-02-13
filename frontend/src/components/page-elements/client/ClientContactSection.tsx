@@ -8,24 +8,27 @@ import { defaultContact } from 'src/components/shared/ui/constants/default-value
 import { FormDialogState } from '@/lib/types/dialog.types';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { defaultContactValues } from 'src/components/shared/ui/constants/default-values';
 
 const ClientContactSection: React.FC<ClientSectionProps> = () => {
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
+   const handleNewContact = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'create',
+         openedOn: 'client-page',
+         type: 'client-contact',
+         data: defaultContactValues,
+      });
+   };
+
    const clientId = useParams().clientId || '';
 
-   console.log('clientId', clientId)
-
-   const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      type: 'clientContact',
-      mode: 'view',
-      data: defaultContact,
-   });
-
-
-
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
-      companyId: clientId
+      companyId: clientId,
    });
 
    const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
@@ -33,20 +36,6 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
-
-   const handleNewContact = () => {
-      setDialogState((prev) => {
-         return {
-            ...prev,
-            mode: 'create',
-            isOpen: true,
-            data: {
-               ...prev.data,
-               company: clientId     // fix this
-            }
-         }
-      })
-   }
 
    return (
       <div className="flex flex-col bg-foreground p-2 flex-1 rounded-[20px] gap-1 shadow-md">
@@ -63,7 +52,6 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
                      <ContactCard
                         key={contact.id}
                         contact={contact}
-                        setDialogState={setDialogState}
                      />
                   ))}
                </div>

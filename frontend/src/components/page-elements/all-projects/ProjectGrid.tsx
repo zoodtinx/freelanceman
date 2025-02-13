@@ -8,14 +8,9 @@ import {
    QuickTaskBubbleProps,
 } from '@/components/page-elements/all-projects/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { shallow } from 'zustand/shallow';
 
-const ProjectGrid: React.FC<ProjectListProps> = ({
-   projects,
-   isLoading,
-   setProjectSettingDialogState,
-   setTaskDialogState,
-}) => {
+
+const ProjectGrid: React.FC<ProjectListProps> = ({ projects, isLoading }) => {
    if (isLoading) {
       return <p>Loading</p>;
    }
@@ -27,26 +22,23 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    const projectCards =
       projects.length !== 0
          ? projects.map((project: Project) => {
-              return (
-                 <ProjectCard
-                    project={project}
-                    key={project.id}
-                 />
-              );
+              return <ProjectCard project={project} key={project.id} />;
            })
          : 'no content';
 
    return (
-      <div className="grid grid-cols-4 md:grid-cols-4 gap-3 w-full">
-         {projectCards}
-      </div>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 w-full">
+  {projectCards}
+</div>
+
    );
 };
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-   project
-}) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const { data: quickTask, isLoading } = useTaskQuery(project.quickTaskId);
    const navigate = useNavigate();
@@ -91,7 +83,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
          className={`
          relative flex flex-col justify-between rounded-[20px] overflow-hidden group
          h-[205px] leading-tight transition-all text-freelanceman-darkgrey border
-         border-transparent hover:border-primary duration-75 shadow-md
+         border-transparent hover:border-primary duration-75 shadow-md max-w-[400px]
          `}
          style={{
             borderColor: project.themeColor,
@@ -122,7 +114,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
          </div>
          <QuickTaskBubble
             projectStatus={project.projectStatus}
-            setTaskDialogState={openTaskDialog}
             task={quickTask}
          />
          <div
@@ -137,21 +128,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
    );
 };
 
+
 const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
    task,
-   setTaskDialogState,
    projectStatus,
 }) => {
    const isActive = task.dueAt && new Date(task.dueAt) > new Date();
    const handleClick = () => {
-      setTaskDialogState({
-         id: task.id,
-         data: task,
-         isOpen: true,
-         mode: 'view',
-         page: 'project-page',
-         type: 'task',
-      });
+      //open task dialog
    };
 
    if (isActive) {

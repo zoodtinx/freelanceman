@@ -7,7 +7,7 @@ import { EventList } from '@/components/page-elements/actions/EventList';
 import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
-export default function Events() {
+export default function EventSection() {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    const [eventFilter, setEventFilter] = useState({
