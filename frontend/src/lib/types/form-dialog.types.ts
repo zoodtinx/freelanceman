@@ -107,7 +107,8 @@ type OpenedOnType =
    | 'action-page'
    | 'file-page'
    | 'document-page'
-   | 'client-page';
+   | 'client-page'
+   | 'global-add-button';
 
 export interface PromptDialogState {
    isOpen: boolean;

@@ -1,8 +1,8 @@
 import SideBarTab from './SideBarTab';
 import PinnedProjects from './PinnedProjects';
+import GlobalAddButton from '@/components/page-elements/app-layout/sidebar/GlobalAddButton';
 
 export default function SideBar() {
-
    return (
       <nav className="w-[180px] flex flex-col gap-2 h-full justify-between md:w-fit sm:hidden">
          <div className="flex flex-col gap-5">
@@ -15,12 +15,11 @@ export default function SideBar() {
                <SideBarTab tab="documents" />
             </ul>
          </div>
-         <div className="flex flex-col gap-9 items-center w-full mb-8">
+         <div className="flex flex-col gap-5 items-center w-full mb-5">
             <PinnedProjects />
-            <div className="bg-primary rounded-full w-16 aspect-square flex items-center justify-center text-white md:w-full">
-               Add
-            </div>
+            <GlobalAddButton />
          </div>
       </nav>
    );
 }
+

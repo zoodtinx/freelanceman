@@ -9,6 +9,7 @@ export interface Contact {
    email: string;
    details: string;
    avatar: string;
+   type: 'client-contact' | 'partner-contact'
 }
 
 export type ContactSearchOption = Partial<
