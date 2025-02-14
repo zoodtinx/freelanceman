@@ -20,7 +20,7 @@ import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { clientPageFileCategorySelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
-import DeletePromptDialog from 'src/components/shared/ui/dialogs/prompt-dialog/DeletePromptDialog';
+import DeletePromptDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
