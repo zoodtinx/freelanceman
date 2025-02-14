@@ -1,15 +1,15 @@
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
-import ContactDialog from '@/components/shared/ui/ContactDialog';
+import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
 import { ContactCard } from '@/components/page-elements/all-clients/ContactColumn';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 import { ContactSearchOption } from '@types';
-import { defaultContact } from 'src/components/shared/ui/constants/default-values';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultContactValues } from 'src/components/shared/ui/constants/default-values';
+import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const ClientContactSection: React.FC<ClientSectionProps> = () => {
    const setFormDialogState = useDialogStore(

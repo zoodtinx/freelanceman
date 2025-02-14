@@ -2,11 +2,11 @@ import { Button } from 'src/components/shared/ui/primitives/Button';
 import { Pencil } from 'lucide-react';
 import React, { useState } from 'react';
 import { useEditProject } from '@/lib/api/project-api';
-import { DialogProps } from '@/lib/types/dialog.types';
+import { DialogProps } from 'src/lib/types/form-dialog.types';
 import {
    paymentStatusSelections,
    projectStatusSelections,
-} from 'src/components/shared/ui/constants/constants';
+} from 'src/components/shared/ui/helpers/constants/constants';
 import { Path, SubmitHandler, useForm } from 'react-hook-form';
 import type { NewTaskPayload, Project } from '@types';
 import { InputProps } from '@/lib/types/form-input-props.types';

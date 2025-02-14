@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';
 import DocumentItemDialog from '@/components/page-elements/documents/DocumentItemDialog';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import AdjustmentsField from '@/components/page-elements/documents/AdjustmentsField';
 
 const ItemsField = ({

@@ -3,10 +3,10 @@ import { Calendar, CircleCheck } from 'lucide-react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { useState } from 'react';
 import { cn } from '@/lib/helper/utils';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { EventSearchOptions } from '@types';
 import { useAllEventQuery } from '@/lib/api/event-api';
-import EventDialog from '@/components/shared/ui/EventDialog';
+import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialog';
 
 const ProjectTaskEventSection: React.FC = () => {
 

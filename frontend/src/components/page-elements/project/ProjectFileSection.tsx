@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import FileDialog from '@/components/shared/ui/FileDialog';
+import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
 import AddButton from '@/components/shared/ui/AddButton';
 import React from 'react';
 import { useAllFilesQuery } from '@/lib/api/file-api';
 import { FileSearchOptions } from '@types';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { ProjectPageFileList } from '@/components/page-elements/project/ProjectPageFileList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2, BookUser } from 'lucide-react';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const ProjectFileSection: React.FC = ({ project }) => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);

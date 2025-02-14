@@ -1,7 +1,8 @@
 import TopBar from '@/components/page-elements/app-layout/topbar/TopBar';
 import SideBar from '@/components/page-elements/app-layout/sidebar/SideBar';
 import { Outlet } from 'react-router-dom';
-import FormDialog from '@/components/shared/ui/FormDialog';
+import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog';
+import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 
 export default function HomePage() {
    return (
@@ -14,6 +15,7 @@ export default function HomePage() {
             </section>
          </main>
          <FormDialog />
+         <SelectorDialog />
       </div>
    );
 }

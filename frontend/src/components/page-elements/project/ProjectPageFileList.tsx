@@ -4,14 +4,14 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from '@/lib/types/dialog.types';
+import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import type { File } from '@types';
 import {
    getIcon,
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 interface FileListProps {
    filesData: File[] | undefined;

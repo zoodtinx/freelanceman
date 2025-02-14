@@ -4,7 +4,7 @@ import ProjectFilterBar from './ProjectFilterBar';
 import { useProjectsViewContext } from '@/lib/context/ProjectsViewContext';
 import ProjectGrid from './ProjectGrid';
 import { useAllProjectsQuery } from '@/lib/api/project-api';
-import TaskDialog from '@/components/shared/ui/TaskDialog';
+import TaskDialog from 'src/components/shared/ui/dialogs/form-dialog/TaskDialog';
 import ProjectSettingsDialog from './ProjectSettingsDialog';
 
 const ProjectsLayout: React.FC = () => {

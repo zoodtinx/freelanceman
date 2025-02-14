@@ -1,4 +1,4 @@
-import { DocumentDraftSelections } from 'src/components/shared/ui/constants/selections';
+import { DocumentDraftSelections } from 'src/components/shared/ui/helpers/constants/selections';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
 import { FilePlus2, Plus, SquarePen } from 'lucide-react';
 import React, { useState } from 'react';
@@ -10,7 +10,7 @@ import { useDocumentDraftQuery } from '@/lib/api/document-draft-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const DocumentPageViewMode: React.FC = () => {
    return (

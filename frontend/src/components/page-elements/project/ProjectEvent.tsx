@@ -5,7 +5,7 @@ import { useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventList } from '@/components/page-elements/actions/EventList';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultEventValues } from '@/components/shared/ui/constants/default-values';
+import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);

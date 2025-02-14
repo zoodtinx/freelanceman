@@ -1,4 +1,4 @@
-import { defaultFileValues } from 'src/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import FileListItem from '@/components/page-elements/client/FileListItem';
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
@@ -13,14 +13,14 @@ import {
    FormDialogState,
    PromptDialogProps,
    PromptDialogState,
-} from '@/lib/types/dialog.types';
-import FileDialog from '@/components/shared/ui/FileDialog';
+} from 'src/lib/types/form-dialog.types';
+import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
 import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
-import { clientPageFileCategorySelections } from 'src/components/shared/ui/constants/selections';
+import { clientPageFileCategorySelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
-import DeletePromptDialog from '@/components/shared/ui/DeletePromptDialog';
+import DeletePromptDialog from 'src/components/shared/ui/dialogs/prompt-dialog/DeletePromptDialog';
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';

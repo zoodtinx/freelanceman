@@ -13,12 +13,12 @@ import { useAllClientsQuery } from '@/lib/api/client-api';
 import { useAllProjectsQuery } from '@/lib/api/project-api';
 
 // Types
-import { DialogProps } from '@/lib/types/dialog.types';
+import { DialogProps } from 'src/lib/types/form-dialog.types';
 
 // Utilities
-import { defaultFileValues } from 'src/components/shared/ui/constants/default-values';
-import FileDialogViewMode from '@/components/shared/ui/FileDialogViewMode';
-import FileDialogCreateMode from '@/components/shared/ui/FileDialogCreateMode';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import FileDialogViewMode from 'src/components/shared/ui/dialogs/form-dialog/FileDialogViewMode';
+import FileDialogCreateMode from 'src/components/shared/ui/dialogs/form-dialog/FileDialogCreateMode';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
 const FileDialog: React.FC<DialogProps> = () => {

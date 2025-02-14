@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from '@/lib/types/dialog.types';
+import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import type { Event } from '@types';
 import { SelectState } from '@/lib/types/list.type';
 import useDialogStore from '@/lib/zustand/dialog-store';

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { CircleCheck } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import { useAllTasksQuery, useDeleteTask } from '@/lib/api/task-api';
-import { defaultTaskValue } from 'src/components/shared/ui/constants/default-values';
+import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 import useDialogStore from '@/lib/zustand/dialog-store';

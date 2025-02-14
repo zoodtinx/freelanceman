@@ -10,7 +10,7 @@ import { Separator } from 'src/components/shared/ui/primitives/Separator';
 import { Dispatch, SetStateAction } from 'react';
 import { useDeleteTask } from '@/lib/api/task-api';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 
 type SetDialogState = Dispatch<SetStateAction<FormDialogState>>;
 

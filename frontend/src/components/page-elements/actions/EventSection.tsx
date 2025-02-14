@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import { useAllEventQuery } from '@/lib/api/event-api';
-import { defaultEventValues } from 'src/components/shared/ui/constants/default-values';
+import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { EventList } from '@/components/page-elements/actions/EventList';
 import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
 import useDialogStore from '@/lib/zustand/dialog-store';

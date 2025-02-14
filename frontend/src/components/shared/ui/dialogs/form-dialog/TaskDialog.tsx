@@ -1,104 +1,86 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { useForm, SubmitHandler } from 'react-hook-form';
-import type { Event, CreateEventDto } from '@types';
-import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
+import { DialogFooter } from '../../primitives/Dialog';
+import { Button } from '../../primitives/Button';
+
+import { SubmitHandler, useForm } from 'react-hook-form';
+
 import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
+import StatusSelect from '../../form-field-elements/StatusSelectForm';
+import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
+import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
 import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
-import LinkInput from './form-field-elements/LinkInputForm';
-import StatusSelect from './form-field-elements/StatusSelectForm';
-import ProjectSelect from './form-field-elements/ProjectSelectForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import LinkInput from 'src/components/shared/ui/form-field-elements/LinkInputForm';
+import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
 
-import {
-   DialogContent,
-   DialogHeader,
-   Dialog,
-   DialogFooter,
-   DialogTitle,
-   DialogTrigger,
-} from './primitives/Dialog';
-import { Button } from './primitives/Button';
+import { useTaskMutation } from '@/lib/api/task-api';
+import type { Task, CreateTaskDto } from '@types';
+import { FormDialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
 
-import {
-   Calendar,
-   CircleCheck,
-   ClipboardX,
-   Pencil,
-   Trash2,
-} from 'lucide-react';
+import { taskStatusSelections } from '../../helpers/constants/constants';
+import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
+import useDialogStore from 'src/lib/zustand/dialog-store';
 
-import {
-   useCreateEvent,
-   useDeleteEvent,
-   useEditEvent,
-} from '@/lib/api/event-api';
-
-import { DialogProps, FormDialogState } from '@/lib/types/dialog.types';
-import { eventStatusSelections } from './constants/constants';
-import { eventDefaultValues } from 'src/components/shared/ui/constants/default-values';
-import useDialogStore from '@/lib/zustand/dialog-store';
-
-const EventDialog = () => {
+const TaskDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
-   const eventData = formDialogState.data as Event
+   const taskData = formDialogState.data as Task
 
-   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
-      formDialogState.data
-   );
-   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
-   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
+   const { createTask, editTask, deleteTask, isLoading, data } =
+      useTaskMutation();
 
-   const formMethods = useForm<NewEventPayload>({
-      defaultValues: eventData,
+   const formMethods = useForm<CreateTaskDto>({
+      defaultValues: taskData,
    });
 
    const { handleSubmit, reset } = formMethods;
 
    const handleDialogClose = () => {
-      console.log('close');
+      console.log('close')
    };
 
-   const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
-      const payload: NewEventPayload = {
+   const onSubmit: SubmitHandler<CreateTaskDto> = (data) => {
+      const payload: CreateTaskDto = {
          name: data.name,
          projectId: data.projectId,
          details: data.details,
-         dueDate: data.dueDate,
+         dueAt: data.dueAt,
          link: data.link,
          status: data.status,
       };
 
-      if (formDialogState.mode === 'create') createEvent(payload);
-      else editEvent(payload);
+      if (formDialogState.mode === 'create') createTask(payload);
+      else editTask(payload);
 
       handleDialogClose();
    };
 
    const handleEditMode = () => {
-      console.log('edit');
+      console.log('edit')
    };
 
    const handleCancelEdit = () => {
-      console.log('cancel');
+      console.log('cancel')
    };
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
-            <TaskNameInput formMethods={formMethods} dialogState={formDialogState} />
+            <TaskAndEventNameInput
+               formMethods={formMethods}
+               dialogState={formDialogState}
+            />
             <div className="flex leading-tight">
                <div className="w-1/2">
                   <p className="text-secondary">Status</p>
                   <StatusSelect
                      formMethods={formMethods}
                      dialogState={formDialogState}
-                     selection={eventStatusSelections}
+                     selection={taskStatusSelections}
                      fieldName="status"
                   />
                </div>
                <div className="w-1/2">
-                  <p className="text-secondary">Date</p>
+                  <p className="text-secondary">Due Date</p>
                   <DateTimePicker
                      formMethods={formMethods}
                      dialogState={formDialogState}
@@ -110,21 +92,27 @@ const EventDialog = () => {
                <div className="flex leading-tight">
                   <div className="w-1/2">
                      <p className="text-secondary">Project</p>
-                     <ProjectSelect formMethods={formMethods} dialogState={formDialogState} />
+                     <ProjectSelect
+                        formMethods={formMethods}
+                        dialogState={formDialogState}
+                     />
                   </div>
                   <div className="w-1/2">
                      <p className="text-secondary">Client</p>
-                     <AutoClientField formMethods={formMethods} dialogState={formDialogState} />
+                     <AutoClientField
+                        formMethods={formMethods}
+                        dialogState={formDialogState}
+                     />
                   </div>
                </div>
             )}
             <div className="w-full">
-               <p className="text-secondary">Tags</p>
-               <TagField />
-            </div>
-            <div className="w-full">
                <p className="text-secondary">Details</p>
-               <TextareaForm formMethods={formMethods} dialogState={formDialogState} fieldName="details" />
+               <TextareaForm
+                  formMethods={formMethods}
+                  dialogState={formDialogState}
+                  fieldName="details"
+               />
             </div>
             <div className="w-full">
                <p className="text-secondary">Link</p>
@@ -137,43 +125,32 @@ const EventDialog = () => {
                   dialogState={formDialogState}
                   handleCancelEdit={handleCancelEdit}
                   handleDialogClose={handleDialogClose}
-                  handleDelete={() => deleteEvent(formDialogState.id)}
+                  handleDelete={() => deleteTask(formDialogState.id)}
                />
-               <RightButton dialogState={formDialogState} handleEditMode={handleEditMode} />
+               <RightButton
+                  dialogState={formDialogState}
+                  handleEditMode={handleEditMode}
+               />
             </div>
          </DialogFooter>
       </form>
    );
 };
 
-const TagField = ({formMethods}) => {
-   const tags = ['Meeting', 'Day', 'Impact Arena',]
-   const color = '#FCEEE2'
-   
-   const tagsDisplay = tags.map((tag) => {
-      return (
-         <div key={tag} className='text-sm font-medium px-2 py-1 rounded-full' style={{ backgroundColor: color}}>
-            {tag}
-         </div>
-      )
-   })
-
-   return (
-      <div className='flex gap-1 flex-wrap'>
-         {tagsDisplay}
-      </div>
-   )
-}
-
 const LeftButton: React.FC<{
    dialogState: FormDialogState;
    handleCancelEdit: () => void;
    handleDialogClose: () => void;
-}> = ({ dialogState, handleCancelEdit, handleDialogClose }) => {
+   handleDelete: () => void;
+}> = ({ dialogState, handleCancelEdit, handleDialogClose, handleDelete }) => {
    switch (dialogState.mode) {
       case 'view':
          return (
-            <Button variant={'destructive'} className="flex gap-1">
+            <Button
+               variant="destructive"
+               onClick={handleDelete}
+               className="flex gap-1"
+            >
                Delete
                <Trash2 className="w-4 h-4" />
             </Button>
@@ -181,7 +158,7 @@ const LeftButton: React.FC<{
       case 'edit':
          return (
             <Button
-               variant={'destructiveOutline'}
+               variant="destructiveOutline"
                onClick={handleCancelEdit}
                className="flex gap-1"
             >
@@ -192,7 +169,7 @@ const LeftButton: React.FC<{
       case 'create':
          return (
             <Button
-               variant={'destructiveOutline'}
+               variant="destructiveOutline"
                onClick={handleDialogClose}
                className="flex gap-1"
             >
@@ -213,9 +190,9 @@ const RightButton: React.FC<{
       case 'view':
          return (
             <Button
-               type="submit"
-               variant={'default'}
-               onClick={() => handleEditMode()}
+               type="button"
+               variant="default"
+               onClick={handleEditMode}
                className="flex gap-1"
             >
                Edit
@@ -224,15 +201,15 @@ const RightButton: React.FC<{
          );
       case 'edit':
          return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
+            <Button type="submit" variant="submit" className="flex gap-1">
                Save
                <CircleCheck className="w-4 h-4" />
             </Button>
          );
       case 'create':
          return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Create new contact
+            <Button type="submit" variant="submit" className="flex gap-1">
+               Create Task
                <CircleCheck className="w-4 h-4" />
             </Button>
          );
@@ -241,4 +218,4 @@ const RightButton: React.FC<{
    }
 };
 
-export default EventDialog;
+export default TaskDialog;

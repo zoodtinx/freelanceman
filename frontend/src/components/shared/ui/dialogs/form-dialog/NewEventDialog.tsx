@@ -5,9 +5,9 @@ import {
    Dialog,
    DialogTitle,
    DialogTrigger,
-} from './primitives/Dialog';
-import { Button } from './primitives/Button';
-import { Textarea } from './primitives/Textarea';
+} from '../../primitives/Dialog';
+import { Button } from '../../primitives/Button';
+import { Textarea } from '../../primitives/Textarea';
 import { DialogueState } from 'src/lib/types/project-view-context.types';
 import {
    useForm,
@@ -21,12 +21,12 @@ import {
 } from 'react-hook-form';
 import { useCreateEvent } from 'src/lib/api/event-api';
 import { NewEventPayload } from '@types';
-import LinkInput from './form-field-elements/LinkInputForm';
-import StatusSelect from './form-field-elements/StatusSelectForm';
-import ProjectSelect from './form-field-elements/ProjectSelectForm';
-import TimePicker from './primitives/TimePicker';
+import LinkInput from '../../form-field-elements/LinkInputForm';
+import StatusSelect from '../../form-field-elements/StatusSelectForm';
+import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
+import TimePicker from '../../primitives/TimePicker';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
-import DatePicker from './primitives/DatePicker';
+import DatePicker from '../../primitives/DatePicker';
 
 //Main Task Dialogue
 interface NewActionDialogProps {

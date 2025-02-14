@@ -6,10 +6,10 @@ import {
    DialogTitle,
    DialogFooter,
    DialogTrigger,
-} from './primitives/Dialog';
-import { Button } from './primitives/Button';
+} from '../../primitives/Dialog';
+import { Button } from '../../primitives/Button';
 import { Trash2 } from 'lucide-react';
-import { PromptDialogProps } from '@/lib/types/dialog.types';
+import { PromptDialogProps } from 'src/lib/types/form-dialog.types';
 
 const DeletePromptDialog: React.FC<PromptDialogProps> = ({
    promptDialogState,

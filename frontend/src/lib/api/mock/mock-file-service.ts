@@ -26,28 +26,16 @@ export const getAllFiles = (
          }
 
          const filteredFiles = mockFiles.filter((file) => {
-            const matchesName =
-               !searchOptions.name ||
-               searchOptions.name.trim() === "" ||
-               file.name
-                  .toLowerCase()
-                  .includes(searchOptions.name.trim().toLowerCase());
-
-            const matchesFileName =
-               !searchOptions.fileName ||
-               searchOptions.fileName.trim() === "" ||
-               file.fileName
-                  .toLowerCase()
-                  .includes(searchOptions.fileName.trim().toLowerCase());
+            const matchesDisplayName =
+               !searchOptions.displayName?.trim() ||
+               file.displayName.toLowerCase().includes(searchOptions.displayName.trim().toLowerCase());
 
             const matchesCategory =
-               !searchOptions.category ||
-               searchOptions.category.trim() === "" ||
+               !searchOptions.category?.trim() ||
                file.category === searchOptions.category.trim();
 
             const matchesType =
-               !searchOptions.type ||
-               searchOptions.type.trim() === "" ||
+               !searchOptions.type?.trim() ||
                file.type === searchOptions.type.trim();
 
             const matchesClientId =
@@ -59,8 +47,7 @@ export const getAllFiles = (
                file.projectId === searchOptions.projectId;
 
             return (
-               matchesName &&
-               matchesFileName &&
+               matchesDisplayName &&
                matchesCategory &&
                matchesType &&
                matchesClientId &&
@@ -68,11 +55,11 @@ export const getAllFiles = (
             );
          });
 
-   
          resolve(filteredFiles);
       }, 500);
    });
 };
+
 
 
 export const editFile = (id: string, filePayload: Partial<FileFormData>) => {

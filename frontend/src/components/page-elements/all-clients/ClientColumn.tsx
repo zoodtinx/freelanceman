@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useAllClientsQuery } from '@/lib/api/client-api';
 import { Switch } from 'src/components/shared/ui/primitives/Switch';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultContactValues } from '@/components/shared/ui/constants/default-values';
+import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const ClientColumn = (): JSX.Element => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);

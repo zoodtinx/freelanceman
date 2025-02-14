@@ -14,8 +14,8 @@ import {
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Partner, PartnerSearchOption } from '@types';
-import { FormDialogState } from '@/lib/types/dialog.types';
-import { defaultContact } from 'src/components/shared/ui/constants/default-values';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';

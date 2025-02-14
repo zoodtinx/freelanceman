@@ -1,4 +1,4 @@
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { Row } from '@tanstack/react-table';
 import { EllipsisVertical } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';

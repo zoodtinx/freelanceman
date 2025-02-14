@@ -5,7 +5,7 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { File } from '@types';
 
 interface SelectState {

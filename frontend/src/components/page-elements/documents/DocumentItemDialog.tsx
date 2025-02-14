@@ -13,8 +13,8 @@ import {
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { CircleDollarSign } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { DialogProps, FormDialogState } from '@/lib/types/dialog.types';
-import { defaultProject } from 'src/components/shared/ui/constants/constants';
+import { DialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
+import { defaultProject } from 'src/components/shared/ui/helpers/constants/constants';
 import {
    FieldValues,
    UseFieldArrayReturn,

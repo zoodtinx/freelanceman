@@ -8,11 +8,11 @@ import {
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { Plus } from 'lucide-react';
 import { DialogTitleIcon, getDialogHeaderText } from '@/components/shared/ui/helpers/Helpers';
-import TaskDialog from '@/components/shared/ui/TaskDialog';
+import TaskDialog from 'src/components/shared/ui/dialogs/form-dialog/TaskDialog';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import EventDialog from '@/components/shared/ui/EventDialog';
-import FileDialog from '@/components/shared/ui/FileDialog';
-import ContactDialog from '@/components/shared/ui/ContactDialog';
+import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialog';
+import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
+import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
 import ProjectSettingsDialog from '@/components/page-elements/all-projects/ProjectSettingsDialog';
 
 const FormDialog = () => {

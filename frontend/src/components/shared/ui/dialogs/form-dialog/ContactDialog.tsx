@@ -1,4 +1,4 @@
-import { Separator } from './primitives/Separator';
+import { Separator } from '../../primitives/Separator';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import {
@@ -8,12 +8,12 @@ import {
    DialogFooter,
    DialogTitle,
    DialogTrigger,
-} from './primitives/Dialog';
-import { Button } from './primitives/Button';
-import type { DialogProps } from '@/lib/types/dialog.types';
-import { defaultContact } from 'src/components/shared/ui/constants/default-values';
+} from '../../primitives/Dialog';
+import { Button } from '../../primitives/Button';
+import type { DialogProps } from 'src/lib/types/form-dialog.types';
+import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Contact, NewContactPayload } from '@types';
-import { Input } from './primitives/Input';
+import { Input } from '../../primitives/Input';
 import {
    User,
    Pencil,
@@ -21,7 +21,7 @@ import {
    ClipboardX,
    CircleCheck,
 } from 'lucide-react';
-import { Textarea } from './primitives/Textarea';
+import { Textarea } from '../../primitives/Textarea';
 import AvatarInput from '@/components/shared/ui/form-field-elements/AvatarInput';
 import TextArrayInput from '@/components/shared/ui/form-field-elements/TextArrayInput';
 import useDialogStore from '@/lib/zustand/dialog-store';

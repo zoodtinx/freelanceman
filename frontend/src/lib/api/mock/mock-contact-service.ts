@@ -9,7 +9,7 @@ export const getContact = (id: string) => {
    });
 };
 
-export const getAllContacts = (searchTerm: ContactSearchOption) => {
+export const getAllContacts = (searchTerm: ContactSearchOption): Contact[] => {
    return new Promise((resolve) => {
       setTimeout(() => {
          // Return all contacts if no search terms are provided or name is an empty string

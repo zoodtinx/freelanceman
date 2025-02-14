@@ -5,7 +5,7 @@ import { useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultTaskValue } from '@/components/shared/ui/constants/default-values';
+import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const ProjectTask: React.FC<{ project: Project }> = ({ project }) => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);

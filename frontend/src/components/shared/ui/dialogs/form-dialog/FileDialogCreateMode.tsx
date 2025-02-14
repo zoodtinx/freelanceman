@@ -8,9 +8,9 @@ import {
    TabsList,
    TabsTrigger,
 } from 'src/components/shared/ui/primitives/Tabs';
-import { DialogFooter } from './primitives/Dialog';
-import { Button } from './primitives/Button';
-import { Input } from './primitives/Input';
+import { DialogFooter } from '../../primitives/Dialog';
+import { Button } from '../../primitives/Button';
+import { Input } from '../../primitives/Input';
 
 import {
    FieldValues,

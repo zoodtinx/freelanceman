@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
-import { DialogFooter } from './primitives/Dialog';
-import { Button } from './primitives/Button';
+import { DialogFooter } from '../../primitives/Dialog';
+import { Button } from '../../primitives/Button';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Files, ClipboardX, ArrowDownToLine } from 'lucide-react';
 

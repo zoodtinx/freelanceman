@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from '@/lib/types/dialog.types';
+import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import type { Task } from '@types';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useDialogStore from '@/lib/zustand/dialog-store';

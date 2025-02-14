@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { FileSection, DraftSection } from '@/components/page-elements/documents/DocumentPageViewMode';
 import AddButton from '@/components/shared/ui/AddButton';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultFileValues } from '@/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const DocumentPageLayout: React.FC = () => {
    const location = useLocation();

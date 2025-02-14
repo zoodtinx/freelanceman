@@ -1,4 +1,4 @@
-import { TaskEventDialogState, ProjectSettingDialogState } from './dialog.types';
+import { TaskEventDialogState, ProjectSettingDialogState } from './form-dialog.types';
 import type { Project, ProjectSearchOptions } from '@types';
 
 interface Filter {

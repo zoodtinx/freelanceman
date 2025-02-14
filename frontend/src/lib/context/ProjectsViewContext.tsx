@@ -3,8 +3,8 @@ import type { Project, ProjectSearchOption } from '@types';
 import type {
    ProjectsViewContextType,
 } from '../types/project-view-context.types';
-import { ProjectSettingDialogState, TaskEventDialogState } from '../types/dialog.types';
-import { formDefaultValue } from 'src/components/shared/ui/constants/default-values';
+import { ProjectSettingDialogState, TaskEventDialogState } from '../types/form-dialog.types';
+import { formDefaultValue } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const useProjectsView = () => {
    const [projects, setProjects] = useState<Project[]>([]);

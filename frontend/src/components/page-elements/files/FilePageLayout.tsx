@@ -1,10 +1,10 @@
 import {
    fileTypeSelections,
    fileCategorySelections,
-} from 'src/components/shared/ui/constants/constants';
-import { defaultContact } from 'src/components/shared/ui/constants/default-values';
+} from 'src/components/shared/ui/helpers/constants/constants';
+import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Plus } from '@/components/shared/icons';
-import { FormDialogState } from '@/lib/types/dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { useEffect, useState } from 'react';
 import { Folder } from 'lucide-react';
 import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
@@ -15,7 +15,7 @@ import { useAllFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultFileValues } from 'src/components/shared/ui/constants/default-values';
+import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);

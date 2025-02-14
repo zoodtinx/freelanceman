@@ -6,16 +6,16 @@ import {
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Contact, ContactSearchOption } from '@types';
-import ContactDialog from '@/components/shared/ui/ContactDialog';
-import { FormDialogState } from '@/lib/types/dialog.types';
-import { defaultContact } from 'src/components/shared/ui/constants/default-values';
+import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { mockContacts as contacts } from '@mocks';
 import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultContactValues } from 'src/components/shared/ui/constants/default-values';
+import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 export const ProjectContactSection = ({project}): JSX.Element => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
