@@ -8,9 +8,9 @@ import {
    bulkEditTasks,
    bulkDeleteTasks,
 } from './mock/mock-task-service';
-import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions } from '@types';
+import type { Task, TaskSearchOption } from '@types';
 
-export const useAllTasksQuery = (searchOptions: TaskSearchOptions = {}) => {
+export const useAllTasksQuery = (searchOptions: TaskSearchOption = {}) => {
    return useQuery({
       queryKey: ['tasks', searchOptions],
       queryFn: () => getAllTasks(searchOptions),

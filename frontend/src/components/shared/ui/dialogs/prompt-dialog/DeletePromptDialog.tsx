@@ -10,40 +10,26 @@ import {
 import { Button } from '../../primitives/Button';
 import { Trash2 } from 'lucide-react';
 import { PromptDialogProps } from 'src/lib/types/form-dialog.types';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
-const DeletePromptDialog: React.FC<PromptDialogProps> = ({
-   promptDialogState,
-   setPromptDialogState,
-   setDialogState,
-}) => {
-   
+const DeletePromptDialog: React.FC<PromptDialogProps> = () => {
+   const confirmationDialogState = useDialogStore(
+      (state) => state.confirmationDialogState
+   );
+   const setConfirmationDialogState = useDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+
    const handleSubmit = () => {
-      promptDialogState.data.action();
-      setPromptDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
+      console.log('submit')
    };
 
    const handleCancel = () => {
-      setPromptDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: true,
-         };
-      });
+      console.log('cancelled')
    };
 
    return (
-      <Dialog open={promptDialogState.isOpen}>
+      <Dialog open={false}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Contact
@@ -53,14 +39,14 @@ const DeletePromptDialog: React.FC<PromptDialogProps> = ({
             <DialogHeader className="py-1 bg-transparent text-md">
                <DialogTitle className="flex text-base w-full text-center items-center gap-1">
                   <Trash2 className="w-[14px] h-[14px]" />
-                  Delete file
+                  Confirm Delete
                </DialogTitle>
             </DialogHeader>
             <div className="bg-background rounded-2xl text-primary">
                <p className="text-wrap p-4 text-md">
                   Are you sure you want to delete{' '}
                   <p className="inline text-freelanceman-red font-semibold">
-                     {promptDialogState.data.label}
+                     {"Label"}
                   </p>
                </p>
                <DialogFooter>

@@ -1,10 +1,9 @@
 import { create } from 'zustand';
-import {
-   FormDialogState,
-} from 'src/lib/types/form-dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { taskDefaultValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { SetStateAction } from 'react';
 import { SelectorDialogState } from '@/lib/types/selector-dialog.types';
+import { ConfirmationDialogState } from '@/lib/types/confirmation-dialog.type';
 
 type State = {
    formDialogState: FormDialogState;
@@ -12,6 +11,10 @@ type State = {
    selectorDialogState: SelectorDialogState;
    setSelectorDialogState: (
       update: SetStateAction<SelectorDialogState>
+   ) => void;
+   confirmationDialogState: ConfirmationDialogState;
+   setConfirmationDialogState: (
+      update: SetStateAction<ConfirmationDialogState>
    ) => void;
 };
 
@@ -35,8 +38,9 @@ const useDialogStore = create<State>((set) => ({
    selectorDialogState: {
       isOpen: false,
       selected: [],
-      setSelected: () => {},
       type: 'file',
+      setSelected: () => {},
+      option: {},
    },
 
    setSelectorDialogState: (update) =>
@@ -44,6 +48,24 @@ const useDialogStore = create<State>((set) => ({
          selectorDialogState:
             typeof update === 'function'
                ? update(state.selectorDialogState)
+               : update,
+      })),
+
+   confirmationDialogState: {
+      isOpen: false,
+      actions: {
+         primary: () => {},
+         secondary: () => {},
+      },
+      message: '',
+      type: 'confirm',
+   },
+
+   setConfirmationDialogState: (update) =>
+      set((state) => ({
+         confirmationDialogState:
+            typeof update === 'function'
+               ? update(state.confirmationDialogState)
                : update,
       })),
 }));

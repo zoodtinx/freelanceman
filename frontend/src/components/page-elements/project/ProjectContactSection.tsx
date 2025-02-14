@@ -4,33 +4,30 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
-import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Contact, ContactSearchOption } from '@types';
-import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { mockContacts as contacts } from '@mocks';
-import { CircleUserRound } from 'lucide-react';
 import { useAllContactsQuery } from '@/lib/api/contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 
-export const ProjectContactSection = ({project}): JSX.Element => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+export const ProjectContactSection = ({ project }): JSX.Element => {
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
    const handleAddContact = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
          openedOn: 'project-page',
          type: 'client-contact',
-         data: defaultContactValues
-      })
-   }
+         data: defaultContactValues,
+      });
+   };
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
-      companyId: project.clientId
+      companyId: project.clientId,
    });
 
    const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
@@ -39,11 +36,21 @@ export const ProjectContactSection = ({project}): JSX.Element => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
+   useEffect(() => {
+      console.log('project.clientId', project.clientId)
+      if (project?.id) {
+         setSearchOptions((prev: ContactSearchOption) => ({
+            ...prev,
+            companyId: project.clientId,
+         }));
+      }
+   }, [project]);
+
    return (
       <>
          <div className="flex justify-between px-2 items-center">
             <p className="flex items-center px-2 h-9 text-md gap-1">
-               <BookUser className='w-4 h-4' />
+               <BookUser className="w-4 h-4" />
                Contacts
             </p>
             <NewContactButton setDialogState={handleAddContact} />
@@ -54,10 +61,7 @@ export const ProjectContactSection = ({project}): JSX.Element => {
          ) : (
             <div className="flex flex-col gap-1 h-0 grow overflow-y-auto p-3">
                {contacts?.map((contact) => (
-                  <ContactCard
-                     key={contact.id}
-                     contact={contact}
-                  />
+                  <ContactCard key={contact.id} contact={contact} />
                ))}
             </div>
          )}
@@ -65,21 +69,19 @@ export const ProjectContactSection = ({project}): JSX.Element => {
    );
 };
 
-export const ContactCard = ({
-   contact,
-}: {
-   contact: Contact;
-}) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+export const ContactCard = ({ contact }: { contact: Contact }) => {
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'view',
          openedOn: 'project-page',
          type: 'client-contact',
-         data: contact
-      })
-   }
+         data: contact,
+      });
+   };
 
    let avatar;
    if (!contact.avatar) {

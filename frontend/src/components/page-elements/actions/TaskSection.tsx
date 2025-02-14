@@ -57,7 +57,6 @@ export default function TaskSection() {
          <TaskList
             tasksData={tasksData}
             isLoading={isLoading}
-            selectState={selectState}
             setSelectState={setSelectState}
          />
       </div>

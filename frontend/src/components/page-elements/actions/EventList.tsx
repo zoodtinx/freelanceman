@@ -108,7 +108,7 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
 
    return (
       <div
-         className="flex flex-col justify-center h-14 pl-3"
+         className="flex flex-col justify-center h-14 pl-3 hover:bg-background transition-colors duration-75"
          onClick={handleOpenDialog}
       >
          <p>{data.name}</p>

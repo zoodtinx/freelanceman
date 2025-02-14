@@ -41,7 +41,7 @@ const SelectorDialog = () => {
    }
 
    return (
-      <Dialog open={true} onOpenChange={handleDialogClose}>
+      <Dialog open={selectorDialogState.isOpen} onOpenChange={handleDialogClose}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile

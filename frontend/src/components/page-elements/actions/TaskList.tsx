@@ -34,7 +34,7 @@ export const TaskList: React.FC<TaskListProps> = ({
    ));
 
    return (
-      <div className="flex flex-col h-0 grow gap-3 overflow-y-auto">
+      <div className="flex flex-col h-0 grow gap-1 overflow-y-auto">
          {fileListItems}
       </div>
    );
@@ -70,7 +70,7 @@ const TaskListItem = ({ data, setDialogState }: TaskListItemProps) => {
    };
 
    return (
-      <div className="grid grid-cols-[24px_auto] cursor-default">
+      <div className="grid grid-cols-[24px_auto] cursor-default hover:bg-background transition-colors duration-75 py-1 pl-2">
          <div className="w-[24px] flex items-start pt-1">
             <Checkbox
                onCheckedChange={(checked) => handleCheck(checked)}

@@ -1,10 +1,7 @@
-import { useState } from 'react';
-import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
+import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import React from 'react';
 import { useAllFilesQuery } from '@/lib/api/file-api';
-import { FileSearchOptions } from '@types';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { ProjectPageFileList } from '@/components/page-elements/project/ProjectPageFileList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
@@ -13,22 +10,24 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
 const ProjectFileSection: React.FC = ({ project }) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
    const handleNewFile = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
          openedOn: 'project-page',
          type: 'file',
-         data: defaultFileValues
-      })
-   }
-   
+         data: defaultFileValues,
+      });
+   };
+
    const [tab, setTab] = useState('project-file');
 
    const [fileFilter, setFileFilter] = useState({
       projectId: project.id,
-      category: 'project-file'
+      category: 'project-file',
    });
 
    const [selectState, setSelectState] = useState({
@@ -38,9 +37,18 @@ const ProjectFileSection: React.FC = ({ project }) => {
 
    const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
 
+   useEffect(() => {
+      if (project?.id) {
+         setFileFilter((prev) => ({
+            ...prev,
+            projectId: project.id,
+         }));
+      }
+   }, [project?.id]);
+
    const handleTabChange = (tab: 'project-file' | 'project-asset') => {
       setTab(tab);
-      console.log('category', tab)
+      console.log('category', tab);
       setFileFilter((prev) => {
          return {
             ...prev,

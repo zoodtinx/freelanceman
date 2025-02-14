@@ -1,13 +1,13 @@
 import { useAllEventQuery } from '@/lib/api/event-api';
 import { EventSearchOption, Project } from '@types';
 import { Calendar } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventList } from '@/components/page-elements/actions/EventList';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 
-const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
+const ProjectEventSection: React.FC<{project: Project}> = ({project}) => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
    const handleNewEvent = () => {
       setFormDialogState({
@@ -22,6 +22,15 @@ const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
    const [eventFilter, setEventFilter] = useState<EventSearchOption>({
       projectId: project.id
    });
+
+   useEffect(() => {
+         if (project?.id) {
+            setEventFilter((prev: EventSearchOption) => ({
+               ...prev,
+               projectId: project.id,
+            }));
+         }
+      }, [project?.id]);
 
    const { data: eventsData, isLoading } = useAllEventQuery(eventFilter);
 
@@ -47,4 +56,4 @@ const ProjectEvent: React.FC<{project: Project}> = ({project}) => {
    );
 };
 
-export default ProjectEvent;
+export default ProjectEventSection;

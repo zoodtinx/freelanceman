@@ -3,6 +3,7 @@ import SideBar from '@/components/page-elements/app-layout/sidebar/SideBar';
 import { Outlet } from 'react-router-dom';
 import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
+import DeletePromptDialog from '@/components/shared/ui/dialogs/prompt-dialog/DeletePromptDialog';
 
 export default function HomePage() {
    return (
@@ -16,6 +17,7 @@ export default function HomePage() {
          </main>
          <FormDialog />
          <SelectorDialog />
+         <DeletePromptDialog />
       </div>
    );
 }

@@ -5,10 +5,9 @@ import { ProjectContactSection } from '@/components/page-elements/project/Projec
 import ProjectFileSection from '@/components/page-elements/project/ProjectFileSection';
 import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSection';
 import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSection';
-import ProjectTask from '@/components/page-elements/project/ProjectTask';
-import ProjectEvent from '@/components/page-elements/project/ProjectEvent';
 import { formatPaymentStatus, formatProjectStatus } from 'src/components/shared/ui/helpers/Helpers';
-import { useState } from 'react';
+import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
+import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
@@ -58,11 +57,11 @@ export default function ProjectPage() {
                </div>
             </div>
             <div className="flex rounded-[20px] bg-foreground grow relative shadow-md">
-               <ProjectTask project={project} />
+               <ProjectTaskSection project={project} />
                <div className="flex h-full">
                   <div className="border-[0.5px] border-tertiary" />
                </div>
-               <ProjectEvent project={project} />
+               <ProjectEventSection project={project} />
             </div>
             <div className="flex rounded-[20px] bg-foreground h-1/3 relative shadow-md">
                <div className="flex flex-col w-3/5 shrink-0">
@@ -86,4 +85,8 @@ export default function ProjectPage() {
          </div>
       </section>
    );
+}
+
+const ProjectHeader = () => {
+   
 }

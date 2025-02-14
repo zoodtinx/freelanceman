@@ -4,7 +4,6 @@ import {
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
 import {
-   SelectedItemProps,
    SelectedListProps,
    SelectionListProps,
    SelectObject,
@@ -165,7 +164,6 @@ const FileSelectorList: React.FC<SelectionListProps> = ({
    selected,
    setSelected,
    fileFilter,
-   setMode,
 }) => {
    const { data, isLoading } = useAllFilesQuery(fileFilter);
 
