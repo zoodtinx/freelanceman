@@ -161,10 +161,10 @@ export const defaultUserValue: User = {
  
  export const defaultNewProjectValue = {
    title: "",
-  clientId: "",
-  projectStatus: "",
-  paymentStatus: "",
-  contacts: [],
-  workingFiles: [],
-  assetFiles: []
- }
+   clientId: "",
+   projectStatus: "",
+   paymentStatus: "",
+   contacts: [],
+   workingFiles: [],
+   assetFiles: [],
+ };

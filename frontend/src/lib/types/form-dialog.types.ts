@@ -113,7 +113,7 @@ export type FormDialogState =
         mode: 'create';
         openedOn: OpenedOnType;
         data: CreateProjectDto;
-     }
+     };
 
 type OpenedOnType =
    | 'project-page'

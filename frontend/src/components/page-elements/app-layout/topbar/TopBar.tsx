@@ -80,7 +80,7 @@ const SettingsPopover = () => {
                <Avatar />
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[250px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none">
+         <PopoverContent className="w-[250px] bg-foreground border-tertiary flex flex-col rounded-xl p-[6px] cursor-default select-none">
             <div className="flex items-center gap-[5px] justify-between">
                <div className="flex items-center gap-[5px] pl-1">
                   <Eclipse className="h-4 w-4" />

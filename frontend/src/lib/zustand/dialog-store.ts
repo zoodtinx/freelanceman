@@ -3,7 +3,7 @@ import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { SetStateAction } from 'react';
 import { SelectorDialogState } from '@/lib/types/selector-dialog.types';
 import { ConfirmationDialogState } from '@/lib/types/confirmation-dialog.type';
-import { mockUser } from '../../../../shared/mocks/mock-user';
+import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 type State = {
    formDialogState: FormDialogState;
@@ -21,10 +21,10 @@ type State = {
 const useDialogStore = create<State>((set) => ({
    formDialogState: {
       isOpen: true,
-      mode: 'view',
-      type: 'user-profile',
+      mode: 'create',
+      type: 'new-project',
       openedOn: 'action-page',
-      data: mockUser,
+      data: defaultNewProjectValue,
    },
 
    setFormDialogState: (update) =>

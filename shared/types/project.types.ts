@@ -25,7 +25,7 @@ export interface CreateProjectDto {
 }
 
 export interface EditProjectDto {
-  title?: string;
+  title?: string; 
   projectStatus?: string;
   paymentStatus?: string;
   contacts?: string[];
