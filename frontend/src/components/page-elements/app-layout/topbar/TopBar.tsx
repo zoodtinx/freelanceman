@@ -1,15 +1,25 @@
-import { Tabs,TabsTrigger, TabsList } from "@radix-ui/react-tabs";
+import { Tabs, TabsTrigger, TabsList } from '@radix-ui/react-tabs';
 import {
    Popover,
    PopoverContent,
    PopoverTrigger,
- } from "@/components/shared/ui/primitives/Popover"
-import { Eclipse, Moon, Plus, Settings2, Sun, UserRoundPen } from "lucide-react";
+} from '@/components/shared/ui/primitives/Popover';
+import {
+   Eclipse,
+   Moon,
+   Plus,
+   Settings2,
+   Sun,
+   UserRoundPen,
+} from 'lucide-react';
 import ProfileBar from './ProfileBar';
 import Avatar from './Avatar';
 import FreelanceManLogo from './Logo';
 import { SunIcon, Calendar, CircleCheck } from 'lucide-react';
-import { Separator } from "@/components/shared/ui/primitives/Separator";
+import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { useTheme } from 'next-themes';
+import useDialogStore from '@/lib/zustand/dialog-store';
+import { mockUser } from '@mocks';
 
 export default function TopBar() {
    return (
@@ -40,6 +50,29 @@ export default function TopBar() {
 }
 
 const SettingsPopover = () => {
+   const theme = useTheme();
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
+
+   const handleEditProfile = () => {
+      setFormDialogState({
+         isOpen: true,
+         mode: 'view',
+         openedOn: 'global-add-button',
+         type: 'user-profile',
+         data: mockUser,
+      });
+   };
+
+   const toggleTheme = (value: string) => {
+      if (value === 'light') {
+         theme.setTheme('light');
+      } else {
+         theme.setTheme('dark');
+      }
+   };
+
    return (
       <Popover>
          <PopoverTrigger asChild>
@@ -53,19 +86,32 @@ const SettingsPopover = () => {
                   <Eclipse className="h-4 w-4" />
                   <p>Appearance</p>
                </div>
-               <Tabs className="w-[100px] p-1 bg-tertiary rounded-md text-secondary" defaultValue="dark">
+               <Tabs
+                  className="w-[100px] p-1 bg-tertiary rounded-md text-secondary"
+                  value={theme.theme}
+                  onValueChange={toggleTheme}
+               >
                   <TabsList className="w-full flex">
-                     <TabsTrigger value="light" className="flex justify-center w-1/2 text-base data-[state=active]:text-primary data-[state=active]:bg-foreground py-[2px] rounded-sm">
+                     <TabsTrigger
+                        value="light"
+                        className="flex justify-center w-1/2 text-base data-[state=active]:text-primary data-[state=active]:bg-foreground py-[2px] rounded-sm"
+                     >
                         <Sun className="h-4 w-4" />
                      </TabsTrigger>
-                     <TabsTrigger value="dark" className="flex justify-center w-1/2 text-base data-[state=active]:text-primary data-[state=active]:bg-foreground py-[2px] rounded-sm">
+                     <TabsTrigger
+                        value="dark"
+                        className="flex justify-center w-1/2 text-base data-[state=active]:text-primary data-[state=active]:bg-foreground py-[2px] rounded-sm"
+                     >
                         <Moon className="h-4 w-4" />
                      </TabsTrigger>
                   </TabsList>
                </Tabs>
             </div>
             <div className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75">
-               <div className="flex items-center gap-[5px] pl-1 p-1">
+               <div
+                  className="flex items-center gap-[5px] pl-1 p-1"
+                  onClick={handleEditProfile}
+               >
                   <Settings2 className="h-4 w-4" />
                   <p>Edit Profile</p>
                </div>
@@ -80,4 +126,4 @@ const SettingsPopover = () => {
          </PopoverContent>
       </Popover>
    );
-}
+};

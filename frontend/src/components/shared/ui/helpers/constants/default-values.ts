@@ -131,3 +131,40 @@ export const defaultPartnerValues: Partner = {
    details: '',
    avatar: '',
 };
+
+export const defaultUserValue: User = {
+   id: '',
+   name: '',
+   email: '',
+   passwordHash: '',
+   role: 'freelancer',
+   avatarUrl: '',
+   createdAt: new Date(),
+   updatedAt: new Date(),
+   bio: '',
+   contacts: [],
+   projects: [],
+   settings: {
+     theme: 'light',
+     notifications: {
+       email: false,
+       push: false,
+     },
+   },
+   paymentDetails: {
+     accountHolderName: '',
+     accountNumber: '',
+     bankName: '',
+     swiftCode: '',
+   },
+ };
+ 
+ export const defaultNewProjectValue = {
+   title: "",
+  clientId: "",
+  projectStatus: "",
+  paymentStatus: "",
+  contacts: [],
+  workingFiles: [],
+  assetFiles: []
+ }

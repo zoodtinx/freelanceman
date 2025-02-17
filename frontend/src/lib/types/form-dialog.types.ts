@@ -1,10 +1,12 @@
 import {
    Contact,
+   CreateProjectDto,
    Event,
    Partner,
    Project,
    SalesDocumentItem,
    Task,
+   User,
 } from '@types';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -97,7 +99,21 @@ export type FormDialogState =
         mode: 'view' | 'create' | 'edit';
         openedOn: OpenedOnType;
         data: SalesDocumentItem;
-     };
+     }
+   | {
+        isOpen: boolean;
+        type: 'user-profile';
+        mode: 'view' | 'create' | 'edit';
+        openedOn: OpenedOnType;
+        data: User;
+     }
+   | {
+        isOpen: boolean;
+        type: 'new-project';
+        mode: 'create';
+        openedOn: OpenedOnType;
+        data: CreateProjectDto;
+     }
 
 type OpenedOnType =
    | 'project-page'

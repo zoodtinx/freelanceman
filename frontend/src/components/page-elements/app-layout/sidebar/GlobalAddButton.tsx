@@ -6,7 +6,7 @@ import {
 import { Separator } from "@/components/shared/ui/primitives/Separator";
 import { Building2, Calendar, CircleCheck, FilePlus2, Folder, FolderPlus, FolderUpIcon, PencilRuler, Plus, Upload, UserRound } from "lucide-react";
 import useDialogStore from "@/lib/zustand/dialog-store";
-import { defaultContactValues, defaultEventValues, defaultFileValues, defaultTaskValue } from "@/components/shared/ui/helpers/constants/default-values";
+import { defaultContactValues, defaultEventValues, defaultFileValues, defaultNewProjectValue, defaultTaskValue } from "@/components/shared/ui/helpers/constants/default-values";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 
@@ -52,6 +52,16 @@ const GlobalAddButton = () => {
       });
    };
    
+   const handleNewProject = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'new-project',
+         mode: 'create',
+         data: defaultNewProjectValue,
+         openedOn: 'global-add-button'
+      });
+   };
+   
    const handleNewFile = () => {
       setFormDialogState({
          isOpen: true,
@@ -71,7 +81,7 @@ const GlobalAddButton = () => {
       { Icon: CircleCheck, label: 'Task', action: handleNewTask },
       { Icon: Calendar, label: 'Event', action: handleNewEvent },
       'separator',
-      { Icon: PencilRuler, label: 'Project', action: handleNewContact  },
+      { Icon: PencilRuler, label: 'Project', action: handleNewProject  },
       'separator',
       { Icon: Building2, label: 'Client', action: handleNewContact  },
       { Icon: UserRound, label: 'Contact', action: handleNewContact },

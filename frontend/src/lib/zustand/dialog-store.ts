@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { taskDefaultValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { SetStateAction } from 'react';
 import { SelectorDialogState } from '@/lib/types/selector-dialog.types';
 import { ConfirmationDialogState } from '@/lib/types/confirmation-dialog.type';
+import { mockUser } from '../../../../shared/mocks/mock-user';
 
 type State = {
    formDialogState: FormDialogState;
@@ -20,11 +20,11 @@ type State = {
 
 const useDialogStore = create<State>((set) => ({
    formDialogState: {
-      isOpen: false,
+      isOpen: true,
       mode: 'view',
-      type: 'task',
+      type: 'user-profile',
       openedOn: 'action-page',
-      data: taskDefaultValues,
+      data: mockUser,
    },
 
    setFormDialogState: (update) =>

@@ -14,6 +14,7 @@ import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialo
 import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
 import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
 import ProjectSettingsDialog from '@/components/page-elements/all-projects/ProjectSettingsDialog';
+import UserProfileDialog from '@/components/shared/ui/dialogs/form-dialog/UserProfileDialog';
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore()
@@ -73,6 +74,10 @@ const FormDialogContent = ({ dialogType }: { dialogType: string }) => {
          return <ContactDialog />;
       case 'partner-contact':
          return <ContactDialog />;
+      case 'user-profile':
+         return <UserProfileDialog />;
+      case 'new-project':
+         return <EventDialog />;
       default:
          return <Plus />;
    }

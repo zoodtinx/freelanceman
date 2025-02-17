@@ -23,6 +23,8 @@ import {
    Folder,
    BookUser,
    CircleDollarSign,
+   UserRound,
+   PencilRuler,
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
@@ -281,7 +283,7 @@ export const formatPaymentStatus = (
 };
 
 export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
-   const className = 'w-[13px] h-[13px]';
+   const className = 'w-[14px] h-[15px]';
    switch (dialogType) {
       case 'task':
          return <CircleCheck className={className} />;
@@ -297,6 +299,10 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
          return <BookUser className={className} />;
       case 'sales-document-item':
          return <CircleDollarSign className={className} />;
+      case 'user-profile':
+         return <UserRound className={className} />;
+      case 'new-project':
+         return <PencilRuler className={className} />;
       default:
          return <Plus />;
    }
@@ -319,6 +325,10 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
        return 'Partner Contact';
      case 'sales-document-item':
        return 'Sales Document Item';
+     case 'user-profile':
+       return 'Profile';
+     case 'new-project':
+       return 'Create New Project';
      default:
        return 'Dialog';
    }
