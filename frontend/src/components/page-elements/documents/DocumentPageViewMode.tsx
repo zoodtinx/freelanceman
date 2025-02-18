@@ -1,5 +1,5 @@
 import { DocumentDraftSelections } from 'src/components/shared/ui/helpers/constants/selections';
-import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { FilePlus2, Plus, SquarePen } from 'lucide-react';
 import React, { useState } from 'react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
@@ -8,7 +8,7 @@ import { useAllFilesQuery } from '@/lib/api/file-api';
 import { FileSearchOption, SalesDocumentSearchOption } from '@types';
 import { useDocumentDraftQuery } from '@/lib/api/document-draft-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
-import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
+import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 

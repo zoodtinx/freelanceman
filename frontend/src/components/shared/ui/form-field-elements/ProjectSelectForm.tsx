@@ -2,7 +2,7 @@ import { useAllProjectsQuery } from '@/lib/api/project-api';
 import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { InputProps } from '@/lib/types/form-input-props.types';
-import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
+import { SelectWithSearch } from 'src/components/shared/ui/select/SelectWithSearch';
 import { Project, ProjectSearchOptions } from '@types';
 
 interface ProjectSelectProps<TFieldValues extends FieldValues>

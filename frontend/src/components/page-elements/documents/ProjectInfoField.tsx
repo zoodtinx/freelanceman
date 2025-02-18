@@ -2,7 +2,7 @@ import { TextInput, TextAreaInput } from 'src/components/shared/ui/form-field-el
 import { Project, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { SelectWithApiSearch } from '@/components/shared/ui/SelectWithApiSearch';
+import { SelectWithApiSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
 import { useAllProjectsQuery } from '@/lib/api/project-api';
 
 const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocument>} ) => {

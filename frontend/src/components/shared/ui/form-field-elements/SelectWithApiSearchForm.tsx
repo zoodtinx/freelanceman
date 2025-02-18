@@ -3,7 +3,7 @@ import {
    SelectInputProps,
    SelectWithSearchInputProps,
 } from '@/lib/types/form-input-props.types';
-import { SelectWithApiSearch } from 'src/components/shared/ui/SelectWithApiSearch';
+import { SelectWithApiSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
 
 const SelectWithApiSearchForm = <TFormData extends FieldValues>({
    formMethods,

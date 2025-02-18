@@ -20,7 +20,7 @@ const TextareaForm = <TFieldValues extends FieldValues>({
 
    return (
       <Textarea
-         className={cn("resize-none border-secondary placeholder:text-secondary w-full p-2 rounded-md", className)}
+         className={cn("resize-none placeholder:text-secondary w-full p-2 rounded-md", className)}
          placeholder="Describe this event like you're briefing your future self."
          defaultValue={dialogState?.mode === 'edit' ? details : ''} 
          {...register(fieldName as Path<TFieldValues>)}

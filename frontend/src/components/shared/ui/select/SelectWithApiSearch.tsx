@@ -56,7 +56,9 @@ const SelectWithApiSearch: React.FC<SelectProps> = ({
 
    const debouncedInputChange = React.useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-         if (onInputChange) onInputChange(e.target.value);
+         if (onInputChange){
+             onInputChange(e.target.value);
+            e.target.blur()}
       },
       [onInputChange]
    );

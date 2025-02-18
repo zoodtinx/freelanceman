@@ -1,27 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import type { Event } from '@types';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
-import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
-import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
-import LinkInput from '../../form-field-elements/LinkInputForm';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
-import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
-import { CircleCheck, ClipboardX, File, FilePlus, Package, PackagePlus, Pencil, PencilRuler, Trash2, User2, UserPlus, UserPlus2, UserRound } from 'lucide-react';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
+import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Trash2, UserRound } from 'lucide-react';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { eventStatusSelections } from '../../helpers/constants/constants';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { CreateProjectDto } from '@types';
-import { Input } from '@/components/shared/ui/primitives/Input';
+import { ClientSearchOption, CreateProjectDto } from '@types';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
+import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/SelectWithApiSearchForm';
+import { useClientSelectionQuery } from '@/lib/api/client-api';
+import { debounce } from 'lodash';
 
 const NewProjectDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
    const eventData = formDialogState.data as CreateProjectDto
+   const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
+   const {data: clientsData, isLoading} = useClientSelectionQuery(searchTerm)
 
    const formMethods = useForm<CreateProjectDto>({
       defaultValues: eventData,
@@ -45,6 +42,11 @@ const NewProjectDialog = () => {
       console.log('cancel');
    };
 
+   const searchClient = debounce((value: string) => {
+      console.log('value', value);
+      setSearchTerm({ name: value });
+   }, 300);
+   
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
@@ -54,7 +56,16 @@ const NewProjectDialog = () => {
             />
             <div className="w-full">
                <p className="text-secondary">Client</p>
-               <p className='text-md'>Sansiri PLC</p>
+               <SelectWithApiSearchForm
+                  formMethods={formMethods}
+                  isLoading={isLoading}
+                  selection={clientsData}
+                  fieldName='clientId'
+                  placeholder='Select a client'
+                  dialogState={formDialogState}
+                  ApiSearchFn={searchClient}
+                  className='border-0 p-0 text-md'
+               />
             </div>
             <div className="flex leading-tight">
                <div className="w-1/2">
@@ -83,20 +94,7 @@ const NewProjectDialog = () => {
                   className="h-[100px] bg-transparent pt-1"
                />
             </div>
-            <div className='w-full flex gap-1'>
-               <div className='flex w-1/3 h-[65px] rounded-xl bg-foreground p-2 gap-1'>
-                  <Package className='w-5 h-5' />
-                  <p>Add Asset</p>
-               </div>
-               <div className='flex w-1/3 h-[65px] rounded-xl bg-foreground p-2 gap-1'>
-                  <PencilRuler className='w-5 h-5' />
-                  <p>Add Draft</p>
-               </div>
-               <div className='flex w-1/3 h-[65px] rounded-xl bg-foreground p-2 gap-1'>
-                  <UserRound className='w-5 h-5' />
-                  <p>Add Contact</p>
-               </div>
-            </div>
+            <AddButtonGroup />
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
@@ -108,24 +106,26 @@ const NewProjectDialog = () => {
    );
 };
 
-const TagField = ({formMethods}) => {
-   const tags = ['Meeting', 'Day', 'Impact Arena',]
-   const color = '#FCEEE2'
-   
-   const tagsDisplay = tags.map((tag) => {
-      return (
-         <div key={tag} className='text-sm font-medium px-2 py-1 rounded-full' style={{ backgroundColor: color}}>
-            {tag}
-         </div>
-      )
-   })
+const AddButtonGroup = () => {
+   const handleAddAsset = () => {};
+   const handleAddDraft = () => {};
+   const handleAddContact = () => {};
 
-   return (
-      <div className='flex gap-1 flex-wrap'>
-         {tagsDisplay}
+   const buttonConfig = [
+      { icon: Package, label: 'Add Asset', handleClick: handleAddAsset },
+      { icon: PencilRuler, label: 'Add Draft', handleClick: handleAddDraft },
+      { icon: UserRound, label: 'Add Contact', handleClick: handleAddContact }
+   ];
+
+   const buttons = buttonConfig.map((data, index) => (
+      <div key={index} className="cursor-default select-none border border-transparent hover:border-primary transition-colors duration-75 flex w-1/3 h-[65px] rounded-xl bg-foreground p-2 gap-1" onClick={data.handleClick}>
+         <data.icon className="w-5 h-5" />
+         <p>{data.label}</p>
       </div>
-   )
-}
+   ));
+
+   return <div className="w-full flex gap-[5px]">{buttons}</div>;
+};
 
 const LeftButton: React.FC<{
    dialogState: FormDialogState;

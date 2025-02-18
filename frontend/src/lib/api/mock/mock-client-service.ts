@@ -6,6 +6,7 @@ import type {
    ClientResponse,
 } from "@types";
 
+
 export const getClient = (idType: string, idValue: string): Promise<Client> => {
    if (!idType || !idValue) {
       return Promise.resolve(null); // Return null if no idType or idValue is provided
@@ -65,6 +66,57 @@ export const getAllClients = (searchTerm: ClientSearchOption) => {
          });         
 
          resolve(filteredClients);
+      }, 500);
+   });
+};
+
+export const getClientSelections = (searchTerm: ClientSearchOption) => {
+   console.log('searchTerm in api', searchTerm)
+   return new Promise<Client[]>((resolve) => {
+      setTimeout(() => {
+         if (!searchTerm || Object.keys(searchTerm).length === 0) {
+            const clientSelections = mockClients.map((client) => {
+               return {
+                  value: client.id,
+                  label: client.name
+               }
+            })
+            resolve(clientSelections);
+            return;
+         }
+         
+         const filteredClients = mockClients.filter((client) => {
+            const matchesName =
+               !searchTerm.name || client.name.toLowerCase().includes(searchTerm.name.trim().toLowerCase());
+         
+            const matchesProjectCount =
+               searchTerm.projectCount === undefined || client.projectCount === searchTerm.projectCount;
+         
+            const matchesContactCount =
+               searchTerm.contactCount === undefined || client.contactCount === searchTerm.contactCount;
+         
+            const matchesActiveProjects =
+               searchTerm.hasActiveProjects === undefined ||
+               (searchTerm.hasActiveProjects ? client.activeProjectCount > 0 : true);
+         
+            return (
+               matchesName &&
+               matchesProjectCount &&
+               matchesContactCount &&
+               matchesActiveProjects
+            );
+         });         
+
+         const clientSelections = filteredClients.map((client) => {
+            return {
+               value: client.id,
+               label: client.name
+            }
+         })
+
+         console.log('clientSelectios', clientSelections)
+
+         resolve(clientSelections);
       }, 500);
    });
 };

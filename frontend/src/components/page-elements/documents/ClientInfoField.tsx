@@ -3,7 +3,7 @@ import { Client, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useAllClientsQuery } from '@/lib/api/client-api';
-import { SelectWithApiSearch } from '@/components/shared/ui/SelectWithApiSearch';
+import { SelectWithApiSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
 
 const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocument>} ) => {
    // const userData = some logic to fetch user data

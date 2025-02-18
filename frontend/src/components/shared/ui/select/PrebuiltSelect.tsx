@@ -2,15 +2,10 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
    Select,
-   SelectGroup,
    SelectValue,
    SelectTrigger,
    SelectContent,
-   SelectLabel,
    SelectItem,
-   SelectSeparator,
-   SelectScrollUpButton,
-   SelectScrollDownButton,
 } from 'src/components/shared/ui/primitives/Selection';
 import { cn } from '@/lib/helper/utils';
 import { X } from 'lucide-react';

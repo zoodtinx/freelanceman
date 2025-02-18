@@ -5,7 +5,7 @@ import {
    SelectItem,
    SelectTrigger,
    SelectValue,
-} from '@/components/shared/ui/Select';
+} from 'src/components/shared/ui/select/Select';
 import {
    Popover,
    PopoverTrigger,

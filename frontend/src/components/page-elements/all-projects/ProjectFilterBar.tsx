@@ -1,8 +1,8 @@
-import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
+import { SelectWithSearch } from 'src/components/shared/ui/select/SelectWithSearch';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useEffect, useState } from 'react';
 import { LayoutGrid, List, X } from 'lucide-react';
-import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { useAllClientsQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
 import { ProjectSearchOption } from '@types';

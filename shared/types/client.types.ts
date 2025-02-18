@@ -14,12 +14,12 @@ export interface Client {
 }
 
 export interface ClientSearchOption {
-   name: string,
-   clientId: string,
-   projectId: string,
-   taskId: string,
-   eventId: string,
-   hasActiveProject: boolean
+   name?: string;
+   clientId?: string;
+   projectId?: string;
+   taskId?: string;
+   eventId?: string;
+   hasActiveProject?: boolean;
 }
 
 export interface CreateClientDto {

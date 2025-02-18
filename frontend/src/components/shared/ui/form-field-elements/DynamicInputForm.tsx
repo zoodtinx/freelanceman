@@ -61,9 +61,6 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
                onInput={handleInput}
                ref={inputRef} // Use only one ref here
             ></div>
-            <div className="absolute right-2 text-secondary transition-colors duration-150 peer-focus:text-primary group-hover:text-primary">
-               <Pencil className="h-[18px] w-auto" />
-            </div>
          </div>
          {errors.name && (
             <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">

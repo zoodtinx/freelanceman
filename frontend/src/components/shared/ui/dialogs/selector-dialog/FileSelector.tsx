@@ -9,7 +9,7 @@ import {
    SelectObject,
 } from 'src/lib/types/selector-dialog.types';
 import { useState } from 'react';
-import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { FileSearchOption } from '@types';
 import {
    fileCategorySelections,

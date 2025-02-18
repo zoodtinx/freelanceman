@@ -5,6 +5,7 @@ import {
    getAllClients,
    createClient,
    deleteClient,
+   getClientSelections
 } from './mock/mock-client-service';
 import type { Client, ClientSearchOption, NewClientPayload } from '@types';
 
@@ -14,6 +15,13 @@ export const useAllClientsQuery = (searchTerm?: ClientSearchOption) => {
       queryFn: () => getAllClients(searchTerm || {}),
    });
 };
+
+export const useClientSelectionQuery = (searchTerm?: ClientSearchOption) => {
+   return useQuery({
+      queryKey: ['clientSelections', searchTerm || null],
+      queryFn: () => getClientSelections(searchTerm || {}),
+   });
+}
 
 export const useClientQuery = (
    entityType: 'clientId' | 'projectId' | 'taskId' | 'eventId' | 'contactId',

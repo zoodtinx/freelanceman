@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SelectWithSearch } from 'src/components/shared/ui/SelectWithApiSearch';
+import { SelectWithSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
 
 const meta: Meta<typeof SelectWithSearch> = {
    component: SelectWithSearch,

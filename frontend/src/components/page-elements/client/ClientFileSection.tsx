@@ -17,9 +17,9 @@ import {
 import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
 import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
-import { FilterSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { clientPageFileCategorySelections } from 'src/components/shared/ui/helpers/constants/selections';
-import MultiSelectButton from '@/components/shared/ui/MultiSelectButton';
+import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import DeletePromptDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';

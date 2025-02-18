@@ -3,8 +3,8 @@ import {
    SelectInputProps,
    SelectWithSearchInputProps,
 } from '@/lib/types/form-input-props.types';
-import { SelectWithApiSearch } from 'src/components/shared/ui/SelectWithApiSearch';
-import { SelectWithSearch } from '@/components/shared/ui/SelectWithSearch';
+import { SelectWithApiSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
+import { SelectWithSearch } from 'src/components/shared/ui/select/SelectWithSearch';
 import { useEffect, useState } from 'react';
 
 const SelectWithSearchForm = <TFormData extends FieldValues>({

@@ -1,5 +1,5 @@
 import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
-import { StandardSelect } from '@/components/shared/ui/PrebuiltSelect';
+import { StandardSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SelectInputProps } from '@/lib/types/form-input-props.types';
 
 const StatusSelect = <TFormData extends FieldValues>({
