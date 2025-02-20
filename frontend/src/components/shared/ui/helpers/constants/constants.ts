@@ -4,7 +4,7 @@ import { TaskStatus, EventStatus, Project, Contact, Event, Task, File } from "@t
  
 
  export const taskStatusSelections = [
-   { value: 'planned', label: 'Planned', color: 'bg-yellow-100' },
+   { value: 'pending', label: 'Planned', color: 'bg-yellow-100' },
    { value: 'inProgress', label: 'In Progress', color: 'bg-emerald-200' },
    { value: 'completed', label: 'Completed', color: 'bg-blue-100' },
    { value: 'cancelled', label: 'Cancelled', color: 'bg-red-200' },

@@ -21,11 +21,13 @@ const StatusSelect = <TFormData extends FieldValues>({
       const text = currentSelection?.label || 'No status selected';
       const color = currentSelection?.color || '';
 
+      console.log('currentSelection?.value', currentSelection?.value)
+
       return (
          <div
-            className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${color}`}
+            className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${getStatusColor(currentSelection?.value)}`}
          >
-            <div className="aspect-square w-[8px] rounded-full bg-primary" />
+            
             <p className="font-semibold">{text}</p>
          </div>
       );
@@ -57,5 +59,15 @@ const StatusSelect = <TFormData extends FieldValues>({
       />
    );
 };
+
+const getStatusColor = (status) => {
+   switch (status) {
+      case 'pending': return 'bg-status-active'
+      case 'scheduled': return 'bg-status-active'
+      case 'finished': return 'bg-status-completed'
+      case 'completed': return 'bg-status-completed'
+      case 'cancelled': return 'bg-constant-tertiary'
+   }
+}
 
 export default StatusSelect;

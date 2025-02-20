@@ -17,7 +17,7 @@ import { useTaskMutation } from '@/lib/api/task-api';
 import type { Task, CreateTaskDto } from '@types';
 import { FormDialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
 
-import { taskStatusSelections } from '../../helpers/constants/constants';
+import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 import useDialogStore from 'src/lib/zustand/dialog-store';
 
