@@ -38,9 +38,7 @@ const ProjectEventSection: React.FC<{project: Project}> = ({project}) => {
       <div className="flex flex-col w-1/2">
          <div className='flex justify-between items-center pl-3 pr-2'>
             <p className="flex items-center h-9 text-md gap-1">
-               <Calendar className="w-4 h-4" style={{
-                  color: project.themeColor
-               }} />
+               <Calendar className="w-4 h-4" />
                Event
             </p>
             <AddButton onClick={handleNewEvent} />

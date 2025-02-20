@@ -50,8 +50,8 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
       <div
          className="flex rounded-[15px] h-[40px] relative border overflow-hidden transition-colors group"
          style={{
-            backgroundColor: project.themeColor,
-            borderColor: project.themeColor,
+            backgroundColor: `var(--freelanceman-theme-${project.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.themeColor})`,
          }}
          onClick={handleProjectNavigation}
       >

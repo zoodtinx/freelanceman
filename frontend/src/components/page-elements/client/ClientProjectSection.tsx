@@ -111,7 +111,10 @@ const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
    return (
       <Link
          to={`../../projects/${project.id}`}
-         style={{ backgroundColor: project.themeColor, borderColor: project.themeColor }}
+         style={{
+            backgroundColor: `var(--freelanceman-theme-${project.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.themeColor})`,
+         }}
          className={`flex rounded-[15px] h-[40px] relative transition-colors
             hover:border-primary border group overflow-hidden cursor-default`}
       >
@@ -124,7 +127,7 @@ const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
                <p>{formattedDateModified}</p>
             </div>
          </div>
-         <div className='absolute opacity-30 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white to-transparent transition-opacity'></div>
+         <div className="absolute opacity-30 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white to-transparent transition-opacity"></div>
       </Link>
    );
 };

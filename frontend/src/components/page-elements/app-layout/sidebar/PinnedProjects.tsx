@@ -45,36 +45,6 @@ const PinnedProjectTabs: React.FC = () => {
    );
 }
 
-// const PinnedProjectCard = ({ project }: { project: Project }) => {
-//    const { projectId } = useParams();
-//    const isActive = projectId === project.id
-
-//    return (
-//       <Link
-//          to={`/home/projects/${project.id}`}
-//          className={cn(
-//             'relative flex h-[50px] rounded-xl leading-tight text-sm cursor-default border overflow-hidden',
-//             'hover:border-primary hover:text-primary transition-colors duration-100 dark:border-tertiary dark:hover:border-secondary',
-//             isActive
-//                ? 'bg-transparent text-freelanceman-darkgrey border-transparent hover:border-transparent dark:hover:text-freelanceman-darkgrey'
-//                : 'text-secondary'
-//          )}
-//       >
-//          <p className="p-[6px] px-2 line-clamp-2 font-medium z-10">
-//             {project.title}
-//          </p>
-//          {isActive && (
-//             <div
-//                className="w-full h-full z-0 absolute"
-//                style={{
-//                   backgroundColor: project.themeColor,
-//                }}
-//             />
-//          )}
-//       </Link>
-//    );
-// };
-
 const PinnedProjectCard = ({ project }: { project: Project }) => {
    const { projectId } = useParams();
    const isActive = projectId === project.id
@@ -101,7 +71,7 @@ const PinnedProjectCard = ({ project }: { project: Project }) => {
             <div
                className="w-full h-1/2 z-10 absolute"
                style={{
-                  backgroundColor: project.themeColor,
+                  backgroundColor: `var(--freelanceman-theme-${project.themeColor})`,
                }}
             />
          ) : (

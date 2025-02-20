@@ -49,7 +49,7 @@ const ClientCard = ({ client }: { client: Client }): JSX.Element => {
          </div>
          <div
             className="absolute inset-0 transition-opacity bg-slate-100"
-            style={{ backgroundColor: client.themeColor }}
+            style={{ backgroundColor: `var(--freelanceman-theme-${client.themeColor})`, }}
          />
          <div className="opacity-60 absolute inset-0 bg-gradient-to-b from-white to-transparent transition-opacity" />
       </div>

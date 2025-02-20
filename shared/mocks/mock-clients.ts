@@ -12,7 +12,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-1234",
      address: "123 Creative Ave, New York, NY",
      detail: "A leading design agency specializing in branding and UX/UI.",
-     themeColor: "#FFB6C1", // Light Pink
+     themeColor: "red", // Light Pink
    },
    {
      id: "aedfcf1a-48ea-49ec-bd2f-407938083384",
@@ -25,7 +25,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-5678",
      address: "456 Innovation Blvd, Los Angeles, CA",
      detail: "Experts in digital marketing and video production.",
-     themeColor: "#ADD8E6", // Light Blue
+     themeColor: "blue", // Light Blue
    },
    {
      id: "a36c029e-bae6-4104-92e6-a655c2321fa2",
@@ -38,7 +38,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-9012",
      address: "789 Studio Lane, Chicago, IL",
      detail: "A boutique video production house specializing in commercial ads.",
-     themeColor: "#FFDAB9", // Peach
+     themeColor: "lilac", // Peach
    },
    {
      id: "0c4b7d03-3885-40e6-aa6b-28b7d7e168d9",
@@ -51,7 +51,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-3456",
      address: "22 Marketing St, San Francisco, CA",
      detail: "Award-winning advertising agency with Fortune 500 clients.",
-     themeColor: "#E6E6FA", // Lavender
+     themeColor: "lavender", // Lavender
    },
    {
      id: "878c2384-d1e3-4067-b520-1ecd0723ca17",
@@ -64,7 +64,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-6789",
      address: "15 Art District, Austin, TX",
      detail: "A creative firm specializing in animations and motion graphics.",
-     themeColor: "#FFDEAD", // Navajo White
+     themeColor: "teal", // Navajo White
    },
    {
      id: "2b624a0a-7f90-429f-9e06-06ac426ffe50",
@@ -77,7 +77,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-7890",
      address: "320 Brand Road, Seattle, WA",
      detail: "Experts in strategic branding, logo design, and identity creation.",
-     themeColor: "#B0E0E6", // Powder Blue
+     themeColor: "taupe", // Powder Blue
    },
    {
      id: "076c28c0-0cd4-40ad-b9c2-597c7214eacd",
@@ -90,7 +90,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-6543",
      address: "77 Film Street, Miami, FL",
      detail: "High-end photography and videography for luxury brands.",
-     themeColor: "#F5F5DC", // Beige
+     themeColor: "magenta", // Beige
    },
    {
      id: "f4080015-626f-41b3-b849-dd822432cd66",
@@ -103,7 +103,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-8765",
      address: "11 Tech Park, Boston, MA",
      detail: "An innovation hub for interactive media and augmented reality ads.",
-     themeColor: "#C1E1C1", // Pastel Green
+     themeColor: "coral", // Pastel Green
    },
    {
      id: "ba7cb739-b960-4a4a-a3e0-96dc89f407cd",
@@ -116,7 +116,7 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-4321",
      address: "909 Sound Alley, Nashville, TN",
      detail: "Creative audio production studio for commercials and film scoring.",
-     themeColor: "#FADADD", // Pastel Pink
+     themeColor: "olive", // Pastel Pink
    },
    {
      id: "481cc0dc-6dca-4402-95ed-605d8d008318",
@@ -129,6 +129,6 @@ export const mockClients: Client[] = [
      phoneNumber: "+1 555-2109",
      address: "501 Digital Lane, Denver, CO",
      detail: "Content creators focusing on social media marketing and viral campaigns.",
-     themeColor: "#FAFAD2", // Light Goldenrod Yellow
+     themeColor: "zinc", // Light Goldenrod Yellow
    },
  ];
