@@ -123,9 +123,9 @@ export const DocumentListItem = ({
                'flex pr-1 pl-2 items-center bg-transparent hover:bg-quaternary',
                'border-l-[6px] border-secondary transition-colors duration-100',
                { 'bg-quaternary': isSelected },
-               { 'border-freelanceman-orange' : data.category === 'quotation'},
-               { 'border-freelanceman-cyan' : data.category === 'invoice'},
-               { 'border-freelanceman-green' : data.category === 'receipt'},
+               { 'border-document-quotation' : data.category === 'quotation'},
+               { 'border-document-invoice' : data.category === 'invoice'},
+               { 'border-document-receipt' : data.category === 'receipt'},
             )}
          >
             <Checkbox
