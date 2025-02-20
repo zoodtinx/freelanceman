@@ -4,23 +4,26 @@ export default {
    darkMode: ['class'],
    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
    safelist: [
-    "bg-primary",
-    "text-secondary",
-    { pattern: /bg-theme-(red|green|blue|yellow|mint|teal|orange|purple|pink|turquoise|magenta|olive|maroon|beige|coral|lavender|peach|bronze|taupe|lilac|zinc)/ },
-  ],
+      'bg-primary',
+      'text-secondary',
+      {
+         pattern:
+            /bg-theme-(red|green|blue|yellow|mint|teal|orange|purple|pink|turquoise|magenta|olive|maroon|beige|coral|lavender|peach|bronze|taupe|lilac|zinc)/,
+      },
+   ],
    theme: {
       extend: {
          animation: {
-            shake: "shake 0.3s ease-in-out",
-          },
-          keyframes: {
+            shake: 'shake 0.3s ease-in-out',
+         },
+         keyframes: {
             shake: {
-              "0%, 100%": { transform: "translateX(0)" },
-              "25%": { transform: "translateX(-2px)" },
-              "50%": { transform: "translateX(2px)" },
-              "75%": { transform: "translateX(-2px)" },
+               '0%, 100%': { transform: 'translateX(0)' },
+               '25%': { transform: 'translateX(-2px)' },
+               '50%': { transform: 'translateX(2px)' },
+               '75%': { transform: 'translateX(-2px)' },
             },
-          },
+         },
          screens: {
             sm: { min: '390px', max: '833px' }, // iPhone 14 Pro range
             md: { min: '834px', max: '1439px' }, // iPad Pro 11 range
@@ -59,20 +62,34 @@ export default {
                lilac: 'var(--freelanceman-theme-lilac)',
                zinc: 'var(--freelanceman-theme-zinc)',
             },
-            freelanceman: {
-               red: 'hsl(var(--freelanceman-red))',
-               green: 'hsl(var(--freelanceman-green))',
-               blue: 'hsl(var(--freelanceman-blue))',
-               yellow: 'hsl(var(--freelanceman-yellow))',
-               mint: 'hsl(var(--freelanceman-mint))',
-               teal: 'hsl(var(--freelanceman-teal))',
-               orange: 'hsl(var(--freelanceman-orange))',
-               purple: 'hsl(var(--freelanceman-purple))',
-               pink: 'hsl(var(--freelanceman-pink))',
-               cyan: 'hsl(var(--freelanceman-cyan))',
-               lime: 'hsl(var(--freelanceman-lime))',
-               darkgrey: 'hsl(var(--freelanceman-darkgrey))',
-             },
+            ui: {
+               red: 'var(--freelanceman-ui-red)',
+               green: 'var(--freelanceman-ui-green)',
+               blue: 'var(--freelanceman-ui-blue)',
+               yellow: 'var(--freelanceman-ui-yellow)',
+            },
+            status: {
+               active: 'var(--freelanceman-status-active)',
+               onhold: 'var(--freelanceman-status-onhold)',
+               completed: 'var(--freelanceman-status-completed)',
+            },
+
+            deadline: {
+               soon: 'var(--freelanceman-deadline-soon)',
+               past: 'var(--freelanceman-deadline-past)',
+            },
+
+            document: {
+               invoice: 'var(--freelanceman-document-invoice)',
+               quotation: 'var(--freelanceman-document-quotation)',
+               receipt: 'var(--freelanceman-document-receipt)',
+            },
+            constant: {
+               primary: 'hsl(var(--freelanceman-constant-primary))',
+               secondary: 'hsl(var(--freelanceman-constant-secondary))',
+               tertiary: 'hsl(var(--freelanceman-constant-tertiary))',
+               quartenary: 'hsl(var(--freelanceman-constant-quartenary))',
+            },
             background: 'hsl(var(--background))',
             foreground: 'hsl(var(--foreground))',
             primary: {

@@ -55,20 +55,14 @@
 @layer base {
   :root {
     --foreground: 0 0 100;
-    /* #FFFFFF already in hsl(0, 0, 100) */
     --background: 0 0 96;
-    /* #F8F8F8 converted to hsl(0, 0, 97.3) */
     --primary: 0 0 20;
-    /* #333333 converted to hsl(0, 0, 20) */
     --primary-foreground: 0 0 0;
     --secondary: 0 0 74.1;
-    /* #BDBBBB converted to hsl(0, 0, 74.1) */
     --secondary-foreground: 0 0 9;
     --tertiary: 0 0 92;
-    /* #EEEEEE converted to hsl(0, 0, 93.3) */
     --tertiary-foreground: 0 0 9;
     --quaternary: 0 0 96;
-    /* Example: #D9D9D9 converted to hsl(0, 0, 85) */
     --card-foreground: 0 0 3.9;
     --card: 0 0 100;
     --popover-foreground: 0 0 3.9;
@@ -88,22 +82,12 @@
     --chart-4: 43 74 66;
     --chart-5: 27 87 67;
     --radius: 0.5rem;
-    --freelanceman-darkgrey: 0 0 20;
-    --freelanceman-red: 1 100% 80;
-    --freelanceman-blue: 220 100% 80;
-    --freelanceman-green: 140 100% 80;
-    --freelanceman-yellow: 50 100% 80;
-    --freelanceman-mint: 160 100% 80;
-    --freelanceman-teal: 180 100% 80;
-    --freelanceman-orange: 30 100% 80;
-    --freelanceman-purple: 270 100% 80;
-    --freelanceman-pink: 320 100% 80;
-    --freelanceman-cyan: 223 100% 92;
-    --freelanceman-lime: 90 100% 80;
+
     --freelanceman-ui-red: #ff0000;
-    ---freelanceman-ui-green: #b5e550;
-    ---freelanceman-ui-blue: #a0d9ef;
-    ---freelanceman-ui-yellow: #ffea61;
+    --freelanceman-ui-green: #b5e550;
+    --freelanceman-ui-blue: #a0d9ef;
+    --freelanceman-ui-yellow: #ffea61;
+
     --freelanceman-theme-red: #f6c5c5;
     --freelanceman-theme-orange: #ffd7b5;
     --freelanceman-theme-yellow: #ffffb7;
@@ -125,6 +109,22 @@
     --freelanceman-theme-taupe: #e7e1da;
     --freelanceman-theme-lilac: #eddff7;
     --freelanceman-theme-zinc: #e9e7e8;
+
+    --freelanceman-status-active: #99dff9;
+    --freelanceman-status-onhold: #f8ed62;
+    --freelanceman-status-completed: #7be382;
+
+    --freelanceman-deadline-soon: #ffb71a;
+    --freelanceman-deadline-past: #ff0000;
+
+    --freelanceman-document-invoice: #c9e9f6;
+    --freelanceman-document-quotation: #ffc367;
+    --freelanceman-document-receipt: #89e1c9;
+
+    --freelanceman-constant-primary: 0 0 20;
+    --freelanceman-constant-secondary: 0 0 74.1;
+    --freelanceman-constant-tertiary: 0 0 92;
+    --freelanceman-constant-quaternary: 0 0 96;
   }
 
   .dark {
@@ -155,22 +155,11 @@
     --chart-3: 30 80 55;
     --chart-4: 280 65 60;
     --chart-5: 340 75 55;
+
     --freelanceman-ui-red: #dc0005;
-    ---freelanceman-ui-green: #809c13;
-    ---freelanceman-ui-blue: #20a7db;
-    ---freelanceman-ui-yellow: #ffd400;
-    --freelanceman-red: 357 100% 60;
-    --freelanceman-blue: 220 100% 60;
-    --freelanceman-green: 140 40% 50;
-    --freelanceman-yellow: 50 100% 60;
-    --freelanceman-mint: 160 100% 60;
-    --freelanceman-teal: 180 100% 60;
-    --freelanceman-orange: 30 100% 60;
-    --freelanceman-purple: 270 100% 60;
-    --freelanceman-pink: 320 100% 60;
-    --freelanceman-cyan: 217 63% 73;
-    --freelanceman-lime: 90 100% 60;
-    --freelanceman-ui-red: #c80004;
+    --freelanceman-ui-green: #809c13;
+    --freelanceman-ui-blue: #20a7db;
+    --freelanceman-ui-yellow: #ffd400;
 
     --freelanceman-theme-red: #f68181;
     --freelanceman-theme-orange: #ffb38a;
@@ -193,6 +182,17 @@
     --freelanceman-theme-taupe: #bfaf9c;
     --freelanceman-theme-lilac: #d3afe8;
     --freelanceman-theme-zinc: #a8a1a1;
+
+    --freelanceman-status-active: #33bef2;
+    --freelanceman-status-onhold: #dab600;
+    --freelanceman-status-completed: #22b600;
+
+    --freelanceman-deadline-soon: #ffb71a;
+    --freelanceman-deadline-past: #ff0000;
+
+    --freelanceman-document-invoice: #45b3e0;
+    --freelanceman-document-quotation: #ff7400;
+    --freelanceman-document-receipt: #6eba9e;
   }
 
   body {

@@ -34,7 +34,7 @@ const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({ project }) => {
          mode: 'create',
          openedOn: 'project-page',
          type: 'task',
-         data: defaultTaskValue,
+         data: {...defaultTaskValue, themeColor:project.themeColor},
       });
    };
 

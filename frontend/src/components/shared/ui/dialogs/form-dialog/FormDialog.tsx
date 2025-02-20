@@ -17,6 +17,7 @@ import ProjectSettingsDialog from '@/components/page-elements/all-projects/Proje
 import UserProfileDialog from '@/components/shared/ui/dialogs/form-dialog/UserProfileDialog';
 import NewProjectDialog from '@/components/shared/ui/dialogs/form-dialog/NewProjectDialog';
 import NewClientDialog from '@/components/shared/ui/dialogs/form-dialog/NewClientDialog';
+import { cn } from '@/lib/helper/utils';
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore()
@@ -30,6 +31,9 @@ const FormDialog = () => {
       })
    };
 
+   console.log('formDialogState.openedOn', formDialogState.openedOn)
+   console.log('theme color at dialog', formDialogState.data.themeColor)
+
 
    return (
       <Dialog open={formDialogState.isOpen} onOpenChange={handleDialogClose}>
@@ -38,16 +42,19 @@ const FormDialog = () => {
                Edit Profile
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px] flex flex-col focus:outline-none bg-freelanceman-darkgrey text-white">
+          <DialogContent
+            className={cn(
+               'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
+               formDialogState.mode !== 'create' && `text-constant-primary bg-theme-${formDialogState.data.themeColor}`
+            )}
+          >
             <DialogHeader className="py-1 bg-transparent">
                <FormDialogTitle dialogType={formDialogState.type} />
             </DialogHeader>
             <div className="bg-background rounded-2xl text-primary">
-               <FormDialogContent
-                  dialogType={formDialogState.type}
-               />
+               <FormDialogContent dialogType={formDialogState.type} />
             </div>
-         </DialogContent>
+          </DialogContent>
       </Dialog>
    );
 };

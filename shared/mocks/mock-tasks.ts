@@ -39,7 +39,7 @@ export const mockTasks = [
       projectId: "e7efac8e-e486-4aa3-b14d-b049799fb105",
       client: "Sonic Boom Audio",
       clientId: "ba7cb739-b960-4a4a-a3e0-96dc89f407cd",
-      themeColor: "#FADADD",
+      themeColor: "blue",
    },
    {
       id: "4d5e6f7g-8901-23ab-cdef-4567890123ab",
