@@ -9,7 +9,6 @@ import {
 } from '@/components/page-elements/all-projects/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
-
 const ProjectGrid: React.FC<ProjectListProps> = ({ projects, isLoading }) => {
    if (isLoading) {
       return <p>Loading</p>;
@@ -28,12 +27,10 @@ const ProjectGrid: React.FC<ProjectListProps> = ({ projects, isLoading }) => {
 
    return (
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 w-full">
-  {projectCards}
-</div>
-
+         {projectCards}
+      </div>
    );
 };
-
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
    const setFormDialogState = useDialogStore(
@@ -83,10 +80,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          className={`
          relative flex flex-col justify-between rounded-[20px] overflow-hidden group
          h-[205px] leading-tight transition-all text-freelanceman-darkgrey border
-         border-transparent hover:border-primary duration-75 shadow-md max-w-[400px]
+         duration-75 shadow-md max-w-[400px]
          `}
          style={{
-            borderColor: project.themeColor,
+            borderColor: `var(--freelanceman-theme-${project.themeColor})`,
          }}
          onClick={handleProjectNavigation}
       >
@@ -117,8 +114,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             task={quickTask}
          />
          <div
-            className="absolute inset-0 transition-opacity"
-            style={{ backgroundColor: project.themeColor }}
+            className={`absolute inset-0 transition-opacity bg-theme-${project.themeColor}`}
          />
          <div
             className={`absolute inset-0 opacity-35 group-hover:opacity-75
@@ -127,7 +123,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       </div>
    );
 };
-
 
 const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
    task,

@@ -54,15 +54,21 @@
 
 @layer base {
   :root {
-    --foreground: 0 0 100;    /* #FFFFFF already in hsl(0, 0, 100) */
-    --background: 0 0 96;   /* #F8F8F8 converted to hsl(0, 0, 97.3) */
-    --primary: 0 0 20;        /* #333333 converted to hsl(0, 0, 20) */
+    --foreground: 0 0 100;
+    /* #FFFFFF already in hsl(0, 0, 100) */
+    --background: 0 0 96;
+    /* #F8F8F8 converted to hsl(0, 0, 97.3) */
+    --primary: 0 0 20;
+    /* #333333 converted to hsl(0, 0, 20) */
     --primary-foreground: 0 0 0;
-    --secondary: 0 0 74.1;    /* #BDBBBB converted to hsl(0, 0, 74.1) */
+    --secondary: 0 0 74.1;
+    /* #BDBBBB converted to hsl(0, 0, 74.1) */
     --secondary-foreground: 0 0 9;
-    --tertiary: 0 0 92;     /* #EEEEEE converted to hsl(0, 0, 93.3) */
+    --tertiary: 0 0 92;
+    /* #EEEEEE converted to hsl(0, 0, 93.3) */
     --tertiary-foreground: 0 0 9;
-    --quaternary: 0 0 96;   /* Example: #D9D9D9 converted to hsl(0, 0, 85) */
+    --quaternary: 0 0 96;
+    /* Example: #D9D9D9 converted to hsl(0, 0, 85) */
     --card-foreground: 0 0 3.9;
     --card: 0 0 100;
     --popover-foreground: 0 0 3.9;
@@ -94,6 +100,10 @@
     --freelanceman-pink: 320 100% 80;
     --freelanceman-cyan: 223 100% 92;
     --freelanceman-lime: 90 100% 80;
+    --freelanceman-ui-red: #ff0000;
+    ---freelanceman-ui-green: #b5e550;
+    ---freelanceman-ui-blue: #a0d9ef;
+    ---freelanceman-ui-yellow: #ffea61;
     --freelanceman-theme-red: #f6c5c5;
     --freelanceman-theme-orange: #ffd7b5;
     --freelanceman-theme-yellow: #ffffb7;
@@ -116,6 +126,7 @@
     --freelanceman-theme-lilac: #eddff7;
     --freelanceman-theme-zinc: #e9e7e8;
   }
+
   .dark {
     --foreground: 0 0 9.5;
     --background: 0 0 15;
@@ -125,7 +136,7 @@
     --secondary-foreground: 0 0 98;
     --tertiary: 0 0 23;
     --tertiary-foreground: 0 0 98;
-    --quaternary: 0 0 20; 
+    --quaternary: 0 0 20;
     --card: 0 0 3.9;
     --card-foreground: 0 0 98;
     --popover: 0 0 3.9;
@@ -144,6 +155,10 @@
     --chart-3: 30 80 55;
     --chart-4: 280 65 60;
     --chart-5: 340 75 55;
+    --freelanceman-ui-red: #dc0005;
+    ---freelanceman-ui-green: #809c13;
+    ---freelanceman-ui-blue: #20a7db;
+    ---freelanceman-ui-yellow: #ffd400;
     --freelanceman-red: 357 100% 60;
     --freelanceman-blue: 220 100% 60;
     --freelanceman-green: 140 40% 50;
@@ -155,7 +170,9 @@
     --freelanceman-pink: 320 100% 60;
     --freelanceman-cyan: 217 63% 73;
     --freelanceman-lime: 90 100% 60;
-    --freelanceman-client-red: #f68181;
+    --freelanceman-ui-red: #c80004;
+
+    --freelanceman-theme-red: #f68181;
     --freelanceman-theme-orange: #ffb38a;
     --freelanceman-theme-yellow: #fff192;
     --freelanceman-theme-green: #77ab59;
@@ -177,6 +194,7 @@
     --freelanceman-theme-lilac: #d3afe8;
     --freelanceman-theme-zinc: #a8a1a1;
   }
+
   body {
     @apply text-primary;
     @apply text-base;
@@ -185,54 +203,90 @@
 
 
 .rdp-root {
-  --rdp-accent-color: blue; /* The accent color used for selected days and UI elements. */
-  --rdp-accent-background-color: #f0f0ff; /* The accent background color used for selected days and UI elements. */
+  --rdp-accent-color: blue;
+  /* The accent color used for selected days and UI elements. */
+  --rdp-accent-background-color: #f0f0ff;
+  /* The accent background color used for selected days and UI elements. */
 
-  --rdp-day-height: 2.75rem; /* The height of the day cells. */
-  --rdp-day-width: 2.75rem; /* The width of the day cells. */
-  
-  --rdp-day_button-border-radius: 100%; /* The border radius of the day cells. */
-  --rdp-day_button-border: 2px solid transparent; /* The border of the day cells. */
-  --rdp-day_button-height: var(--rdp-day-height); /* The height of the day cells. */
-  --rdp-day_button-width: var(--rdp-day-width); /* The width of the day cells. */
-  
-  --rdp-selected-border: 2px solid var(--rdp-accent-color); /* The border of the selected days. */
-  --rdp-disabled-opacity: 0.5; /* The opacity of the disabled days. */
-  --rdp-outside-opacity: 0.75; /* The opacity of the days outside the current month. */
-  --rdp-today-color: var(--rdp-accent-color); /* The color of the today's date. */
-  
-  --rdp-dropdown-gap: 0.5rem;/* The gap between the dropdowns used in the month captons. */
-  
-  --rdp-months-gap: 2rem; /* The gap between the months in the multi-month view. */
-  
-  --rdp-nav_button-disabled-opacity: 0.5; /* The opacity of the disabled navigation buttons. */
-  --rdp-nav_button-height: 2.25rem; /* The height of the navigation buttons. */
-  --rdp-nav_button-width: 2.25rem; /* The width of the navigation buttons. */
-  --rdp-nav-height: 2.75rem; /* The height of the navigation bar. */
-  
-  --rdp-range_middle-background-color: var(--rdp-accent-background-color); /* The color of the background for days in the middle of a range. */
-  --rdp-range_middle-foreground-color: white; /* The foregraound color for days in the middle of a range. */
-  --rdp-range_middle-color: inherit;/* The color of the range text. */
-  
-  --rdp-range_start-color: white; /* The color of the range text. */
-  --rdp-range_start-background: linear-gradient(var(--rdp-gradient-direction), transparent 50%, var(--rdp-range_middle-background-color) 50%); /* Used for the background of the start of the selected range. */
-  --rdp-range_start-date-background-color: var(--rdp-accent-color); /* The background color of the date when at the start of the selected range. */
-  
-  --rdp-range_end-background: linear-gradient(var(--rdp-gradient-direction), var(--rdp-range_middle-background-color) 50%, transparent 50%); /* Used for the background of the end of the selected range. */
-  --rdp-range_end-color: white;/* The color of the range text. */
-  --rdp-range_end-date-background-color: var(--rdp-accent-color); /* The background color of the date when at the end of the selected range. */
-  
-  --rdp-week_number-border-radius: 100%; /* The border radius of the week number. */
-  --rdp-week_number-border: 2px solid transparent; /* The border of the week number. */
-  
-  --rdp-week_number-height: var(--rdp-day-height); /* The height of the week number cells. */
-  --rdp-week_number-opacity: 0.75; /* The opacity of the week number. */
-  --rdp-week_number-width: var(--rdp-day-width); /* The width of the week number cells. */
-  --rdp-weeknumber-text-align: center; /* The text alignment of the weekday cells. */
+  --rdp-day-height: 2.75rem;
+  /* The height of the day cells. */
+  --rdp-day-width: 2.75rem;
+  /* The width of the day cells. */
 
-  --rdp-weekday-opacity: 0.75; /* The opacity of the weekday. */
-  --rdp-weekday-padding: 0.5rem 0rem; /* The padding of the weekday. */
-  --rdp-weekday-text-align: center; /* The text alignment of the weekday cells. */
+  --rdp-day_button-border-radius: 100%;
+  /* The border radius of the day cells. */
+  --rdp-day_button-border: 2px solid transparent;
+  /* The border of the day cells. */
+  --rdp-day_button-height: var(--rdp-day-height);
+  /* The height of the day cells. */
+  --rdp-day_button-width: var(--rdp-day-width);
+  /* The width of the day cells. */
+
+  --rdp-selected-border: 2px solid var(--rdp-accent-color);
+  /* The border of the selected days. */
+  --rdp-disabled-opacity: 0.5;
+  /* The opacity of the disabled days. */
+  --rdp-outside-opacity: 0.75;
+  /* The opacity of the days outside the current month. */
+  --rdp-today-color: var(--rdp-accent-color);
+  /* The color of the today's date. */
+
+  --rdp-dropdown-gap: 0.5rem;
+  /* The gap between the dropdowns used in the month captons. */
+
+  --rdp-months-gap: 2rem;
+  /* The gap between the months in the multi-month view. */
+
+  --rdp-nav_button-disabled-opacity: 0.5;
+  /* The opacity of the disabled navigation buttons. */
+  --rdp-nav_button-height: 2.25rem;
+  /* The height of the navigation buttons. */
+  --rdp-nav_button-width: 2.25rem;
+  /* The width of the navigation buttons. */
+  --rdp-nav-height: 2.75rem;
+  /* The height of the navigation bar. */
+
+  --rdp-range_middle-background-color: var(--rdp-accent-background-color);
+  /* The color of the background for days in the middle of a range. */
+  --rdp-range_middle-foreground-color: white;
+  /* The foregraound color for days in the middle of a range. */
+  --rdp-range_middle-color: inherit;
+  /* The color of the range text. */
+
+  --rdp-range_start-color: white;
+  /* The color of the range text. */
+  --rdp-range_start-background: linear-gradient(var(--rdp-gradient-direction), transparent 50%, var(--rdp-range_middle-background-color) 50%);
+  /* Used for the background of the start of the selected range. */
+  --rdp-range_start-date-background-color: var(--rdp-accent-color);
+  /* The background color of the date when at the start of the selected range. */
+
+  --rdp-range_end-background: linear-gradient(var(--rdp-gradient-direction), var(--rdp-range_middle-background-color) 50%, transparent 50%);
+  /* Used for the background of the end of the selected range. */
+  --rdp-range_end-color: white;
+  /* The color of the range text. */
+  --rdp-range_end-date-background-color: var(--rdp-accent-color);
+  /* The background color of the date when at the end of the selected range. */
+
+  --rdp-week_number-border-radius: 100%;
+  /* The border radius of the week number. */
+  --rdp-week_number-border: 2px solid transparent;
+  /* The border of the week number. */
+
+  --rdp-week_number-height: var(--rdp-day-height);
+  /* The height of the week number cells. */
+  --rdp-week_number-opacity: 0.75;
+  /* The opacity of the week number. */
+  --rdp-week_number-width: var(--rdp-day-width);
+  /* The width of the week number cells. */
+  --rdp-weeknumber-text-align: center;
+  /* The text alignment of the weekday cells. */
+
+  --rdp-weekday-opacity: 0.75;
+  /* The opacity of the weekday. */
+  --rdp-weekday-padding: 0.5rem 0rem;
+  /* The padding of the weekday. */
+  --rdp-weekday-text-align: center;
+  /* The text alignment of the weekday cells. */
 
   --rdp-gradient-direction: 90deg;
 }
@@ -243,7 +297,8 @@
 
 /* Root of the component. */
 .rdp-root {
-  position: relative; /* Required to position the navigation toolbar. */
+  position: relative;
+  /* Required to position the navigation toolbar. */
   box-sizing: border-box;
 }
 
@@ -337,6 +392,7 @@
   align-items: center;
   gap: var(--rdp-dropdown-gap);
 }
+
 .rdp-dropdown {
   z-index: 2;
 
@@ -483,7 +539,8 @@
 
 [data-placeholder]:empty::before {
   content: attr(data-placeholder);
-  color: #a0a0a0; /* Adjust placeholder color */
+  color: #a0a0a0;
+  /* Adjust placeholder color */
   pointer-events: none;
   display: block;
 }
