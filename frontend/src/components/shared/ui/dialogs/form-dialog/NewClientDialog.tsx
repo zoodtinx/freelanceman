@@ -125,8 +125,17 @@ const SelectColorPopover = () => {
    const ThemeColorLabel = () => {
       const colorName = getColorName(themeColor)
       return (
-         <p className={`p-1 px-2 w-full rounded-full text-center select-none cursor-default bg-theme-${themeColor}`}>
+         <p className={`p-1 px-2 w-full rounded-full border border-transparent text-center select-none cursor-default bg-theme-${themeColor}`}>
             {colorName}
+         </p>
+      )
+   }
+
+   const ThemeColorInput = () => {
+      const colorName = getColorName(themeColor)
+      return (
+         <p className={`p-1 px-2 w-full text-secondary border rounded-full text-center select-none cursor-default}`}>
+            Select a color
          </p>
       )
    }
@@ -135,10 +144,10 @@ const SelectColorPopover = () => {
       <Popover open={isOpen} >
          <PopoverTrigger asChild>
          <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none w-full">
-               {themeColor ? <ThemeColorLabel /> : <p>Select a color</p>}
+               {themeColor ? <ThemeColorLabel /> : <ThemeColorInput />}
             </button>
          </PopoverTrigger>
-         <PopoverContent align='start' className="bg-foreground border-tertiary grid grid-cols-7 gap-2 rounded-xl p-2 cursor-default select-none">
+         <PopoverContent className="bg-foreground border-tertiary grid grid-cols-7 gap-2 rounded-xl p-2 cursor-default select-none">
             <ThemeColorGroup setColor={((selectedColor) => handleSelectColor(selectedColor))} />
          </PopoverContent>
       </Popover>
