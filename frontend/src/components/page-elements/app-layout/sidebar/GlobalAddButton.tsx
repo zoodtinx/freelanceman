@@ -52,6 +52,16 @@ const GlobalAddButton = () => {
       });
    };
    
+   const handleNewClient = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'new-client',
+         mode: 'create',
+         data: defaultContactValues,
+         openedOn: 'global-add-button'
+      });
+   };
+
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
@@ -83,7 +93,7 @@ const GlobalAddButton = () => {
       'separator',
       { Icon: PencilRuler, label: 'Project', action: handleNewProject  },
       'separator',
-      { Icon: Building2, label: 'Client', action: handleNewContact  },
+      { Icon: Building2, label: 'Client', action: handleNewClient  },
       { Icon: UserRound, label: 'Contact', action: handleNewContact },
       'separator',
       { Icon: Plus, label: 'Add File', action: handleNewFile  },

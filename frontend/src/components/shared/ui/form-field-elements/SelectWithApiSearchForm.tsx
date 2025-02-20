@@ -34,6 +34,7 @@ const SelectWithApiSearchForm = <TFormData extends FieldValues>({
          rules={{ required: 'Please select a status' }}
          render={({ field }) => {
             const handleStatusChange = (value: string) => {
+               console.log('value', value)
                field.onChange(value);
             };
 

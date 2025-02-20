@@ -20,9 +20,13 @@ import { useAllFilesQuery } from '@/lib/api/file-api';
 import { debounce } from 'lodash';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
 import { formatCategory } from '@/components/shared/ui/helpers/Helpers';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 const FileSelector = () => {
-   const [selected, setSelected] = useState<SelectObject[]>([]);
+   const {setFormDialogState, setSelectorDialogState, selectorDialogState } = useDialogStore();
+   const selected = selectorDialogState.selected
+   const setSelected = selectorDialogState.setSelected
+   console.log('setSelected', setSelected)
    const [mode, setMode] = useState<'select' | 'view'>('select');
    const [fileFilter, setFileFilter] = useState<FileSearchOption>({});
 
@@ -48,6 +52,12 @@ const FileSelector = () => {
          setMode('select');
       }
    };
+
+   const handleDiscard = () => {
+      setSelected([])
+      setSelectorDialogState((prev) => {return {...prev, isOpen: false}})
+      setFormDialogState((prev) => {return {...prev, isOpen: true}})
+   }
 
    return (
       <>
@@ -115,7 +125,7 @@ const FileSelector = () => {
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
-               <Button variant={'destructiveOutline'}>Delete</Button>
+               <Button variant={'destructiveOutline'} onClick={handleDiscard}>Discard</Button>
                <Button
                   variant={'submit'}
                   className="text-freelanceman-darkgrey"
@@ -187,10 +197,10 @@ const FileSelectorList: React.FC<SelectionListProps> = ({
       );
       const handleCheck = () => {
          if (isSelected) {
-            setSelected((prev) => prev.filter((item) => item.id !== file.id));
+            setSelected(selected.filter((item) => item.id !== file.id));
          } else {
-            setSelected((prev) => [
-               ...prev,
+            setSelected([
+               ...selected,
                { id: file.id, value: file.displayName, detail: detail },
             ]);
          }

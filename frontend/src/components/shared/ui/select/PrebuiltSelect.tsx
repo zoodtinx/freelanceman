@@ -6,7 +6,7 @@ import {
    SelectTrigger,
    SelectContent,
    SelectItem,
-} from 'src/components/shared/ui/primitives/Selection';
+} from 'src/components/shared/ui/select/Select';
 import { cn } from '@/lib/helper/utils';
 import { X } from 'lucide-react';
 
@@ -31,12 +31,13 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
          value,
          placeholder = 'Select a value',
          isWithIcon = true,
+         defaultValue,
          ...props
       },
       ref
    ) => {
       return (
-         <Select value={value} onValueChange={onValueChange} {...props}>
+         <Select value={defaultValue} onValueChange={onValueChange} {...props}>
             <SelectTrigger
                className={className}
                ref={ref}
@@ -55,6 +56,7 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       );
    }
 );
+
 
 StandardSelect.displayName = 'StandardSelect';
 

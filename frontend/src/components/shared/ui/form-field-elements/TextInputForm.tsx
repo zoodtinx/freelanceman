@@ -52,3 +52,22 @@ export const TextAreaInput: React.FC<{
       </div>
    );
 };
+
+export const TextInputForm: React.FC<{
+   formMethods: any;
+   fieldName: string;
+   className?: string;
+   type?: string;
+}> = ({ label, formMethods, className, fieldName, type = 'text' }) => {
+   const { register } = formMethods;
+
+   return (
+      <div className={cn(`flex flex-col`, className)}>
+         <Input
+            type={type}
+            {...register(fieldName)}
+            className="rounded-md w-full bg-transparent py-1 px-2"
+         />
+      </div>
+   );
+};

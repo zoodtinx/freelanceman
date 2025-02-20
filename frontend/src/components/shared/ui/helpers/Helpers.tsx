@@ -25,6 +25,7 @@ import {
    CircleDollarSign,
    UserRound,
    PencilRuler,
+   Building2,
 } from 'lucide-react';
 import { FileCategory } from '@types';
 
@@ -303,8 +304,10 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
          return <UserRound className={className} />;
       case 'new-project':
          return <PencilRuler className={className} />;
+      case 'new-client':
+         return <Building2 className={className} />;
       default:
-         return <Plus />;
+         return <Plus  className={className}  />;
    }
 };
 
@@ -329,8 +332,36 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
        return 'Profile';
      case 'new-project':
        return 'Create New Project';
+     case 'new-client':
+       return 'Create New Client';
      default:
        return 'Dialog';
    }
  };
  
+ export const getColorName = (color) => {
+   switch (color.toLowerCase()) {
+       case 'red': return 'Ardentia';
+       case 'orange': return 'Aurea';
+       case 'yellow': return 'Lucerna';
+       case 'green': return 'Viridis';
+       case 'blue': return 'Caerulea';
+       case 'purple': return 'Regalis';
+       case 'pink': return 'Rosalia';
+       case 'turquoise': return 'Claritudo';
+       case 'magenta': return 'Vividus';
+       case 'teal': return 'Tranquilla';
+       case 'olive': return 'Harmonia';
+       case 'maroon': return 'Fidelitas';
+       case 'beige': return 'Serenitas';
+       case 'coral': return 'Calor';
+       case 'lavender': return 'Levita';
+       case 'peach': return 'Beatitudo';
+       case 'mint': return 'Frigidus';
+       case 'bronze': return 'Aeternum';
+       case 'taupe': return 'Umbra';
+       case 'lilac': return 'Somnium';
+       case 'zinc': return 'Mysticum';
+       default: return 'Unknown Color';
+   }
+};

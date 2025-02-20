@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
-import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Trash2, UserRound } from 'lucide-react';
+import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Plus, Trash2, UserRound } from 'lucide-react';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { ClientSearchOption, CreateProjectDto } from '@types';
@@ -13,15 +13,20 @@ import { paymentStatusSelections, projectStatusSelections } from '@/components/s
 import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/SelectWithApiSearchForm';
 import { useClientSelectionQuery } from '@/lib/api/client-api';
 import { debounce } from 'lodash';
+import { SelectObject } from '@/lib/types/selector-dialog.types';
 
 const NewProjectDialog = () => {
-   const { formDialogState, setFormDialogState } = useDialogStore();
-   const eventData = formDialogState.data as CreateProjectDto
+   const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
+   const newProjectData = formDialogState.data as CreateProjectDto
    const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
    const {data: clientsData, isLoading} = useClientSelectionQuery(searchTerm)
+   const [isHaveNote, setIsHaveNote] = useState(false)
+
+   const [addedAsset, setAddedAsset] = useState<string[]>([])
+   const [addedContact, setAddedContact] = useState<string[]>([])
 
    const formMethods = useForm<CreateProjectDto>({
-      defaultValues: eventData,
+      defaultValues: newProjectData,
    });
 
    const { handleSubmit, reset } = formMethods;
@@ -46,13 +51,17 @@ const NewProjectDialog = () => {
       console.log('value', value);
       setSearchTerm({ name: value });
    }, 300);
-   
+
+   console.log('paymentStatus', formMethods.watch('paymentStatus'))
+
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <div className="px-5 py-3 flex flex-col gap-3">
+         <div className="px-5 py-3 flex flex-col gap-2">
             <TaskNameInput
                formMethods={formMethods}
                dialogState={formDialogState}
+               className="pt-1"
+               placeholder="Enter client's name"
             />
             <div className="w-full">
                <p className="text-secondary">Client</p>
@@ -60,11 +69,11 @@ const NewProjectDialog = () => {
                   formMethods={formMethods}
                   isLoading={isLoading}
                   selection={clientsData}
-                  fieldName='clientId'
-                  placeholder='Select a client'
+                  fieldName="clientId"
+                  placeholder="Select a client"
                   dialogState={formDialogState}
                   ApiSearchFn={searchClient}
-                  className='border-0 p-0 text-md'
+                  className="border-0 p-0 text-md"
                />
             </div>
             <div className="flex leading-tight">
@@ -74,6 +83,8 @@ const NewProjectDialog = () => {
                      formMethods={formMethods}
                      fieldName="projectStatus"
                      selection={projectStatusSelections}
+                     dialogState={formDialogState}
+                     className="pt-1"
                   />
                </div>
                <div className="w-1/2">
@@ -82,18 +93,32 @@ const NewProjectDialog = () => {
                      formMethods={formMethods}
                      fieldName="paymentStatus"
                      selection={paymentStatusSelections}
+                     dialogState={formDialogState}
+                     className="pt-1"
                   />
                </div>
             </div>
-            <div className="w-full mb-1">
-               <p className="text-secondary">Notes</p>
-               <TextareaForm
-                  formMethods={formMethods}
-                  dialogState={formDialogState}
-                  fieldName="details"
-                  className="h-[100px] bg-transparent pt-1"
-               />
-            </div>
+            {!isHaveNote ? (
+               <div
+                  onClick={() => setIsHaveNote(true)}
+                  className={`border my-1 pl-1 pr-2 w-fit rounded-md flex items-center gap-1 text-secondary border-secondary
+                     hover:border-primary hover:text-primary transition-colors duration-75
+                     `}
+               >
+                  <Plus className="w-4 h-4 stroke-[2.5px]" />
+                  <p>Add Notes</p>
+               </div>
+            ) : (
+               <div className="w-full mb-1">
+                  <p className="text-secondary">Notes</p>
+                  <TextareaForm
+                     formMethods={formMethods}
+                     dialogState={formDialogState}
+                     fieldName="details"
+                     className="h-[100px] bg-transparent pt-1 border-secondary mt-1"
+                  />
+               </div>
+            )}
             <AddButtonGroup />
          </div>
          <DialogFooter>
@@ -106,19 +131,39 @@ const NewProjectDialog = () => {
    );
 };
 
-const AddButtonGroup = () => {
-   const handleAddAsset = () => {};
-   const handleAddDraft = () => {};
+const AddButtonGroup = ({
+
+}) => {
+   const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
+   const [addedAsset, setAddedAsset] = useState<SelectObject[]>([])
+   const handleAddAsset = () => {
+      setSelectorDialogState({
+         isOpen: true,
+         type: 'file',
+         selected: addedAsset,
+         setSelected: (items: SelectObject[]) => {
+            console.log('triggered');
+            setAddedAsset(items);
+         },
+      });
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen:false
+         }
+      })
+   };
    const handleAddContact = () => {};
+
+   console.log('addedAsset', addedAsset)
 
    const buttonConfig = [
       { icon: Package, label: 'Add Asset', handleClick: handleAddAsset },
-      { icon: PencilRuler, label: 'Add Draft', handleClick: handleAddDraft },
       { icon: UserRound, label: 'Add Contact', handleClick: handleAddContact }
    ];
 
    const buttons = buttonConfig.map((data, index) => (
-      <div key={index} className="cursor-default select-none border border-transparent hover:border-primary transition-colors duration-75 flex w-1/3 h-[65px] rounded-xl bg-foreground p-2 gap-1" onClick={data.handleClick}>
+      <div key={index} className="cursor-default select-none border border-transparent hover:border-primary transition-colors duration-75 flex flex-1 h-[60px] rounded-xl bg-foreground p-2 gap-1" onClick={data.handleClick}>
          <data.icon className="w-5 h-5" />
          <p>{data.label}</p>
       </div>

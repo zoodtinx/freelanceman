@@ -11,8 +11,7 @@ import {
    SelectItem,
    SelectTrigger,
    SelectValue,
-} from '@/components/shared/ui/primitives/Selection';
-import { div } from '@radix-ui/react-select';
+} from '@/components/shared/ui/select/Select';
 import { Check, ChevronDown } from 'lucide-react';
 
 import { cn } from '@/lib/helper/utils';
@@ -45,6 +44,29 @@ const SelectWithApiSearch: React.FC<SelectProps> = ({
 }) => {
    const [isOpen, setIsOpen] = useState(false)
    const [selectedValue, setSelectedValue] = useState({value: '', label: ''})
+   const selectRef = useRef()
+
+   useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+         if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
+         }
+      };
+
+      const handleEscapeKey = (event: KeyboardEvent) => {
+         if (event.key === 'Escape') {
+            setIsOpen(false);
+         }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+
+      return () => {
+         document.removeEventListener('mousedown', handleClickOutside);
+         document.removeEventListener('keydown', handleEscapeKey);
+      };
+   }, []);
 
    const handleValueChange = (value: string) => {
       const selected = selectContents.find((selection) => selection.value === value)
@@ -58,7 +80,7 @@ const SelectWithApiSearch: React.FC<SelectProps> = ({
       (e: React.ChangeEvent<HTMLInputElement>) => {
          if (onInputChange){
              onInputChange(e.target.value);
-            e.target.blur()}
+            }
       },
       [onInputChange]
    );
@@ -71,28 +93,35 @@ const SelectWithApiSearch: React.FC<SelectProps> = ({
       setIsOpen(false)
    }
 
+   const handleInputChange = (e) => {
+      onInputChange(e.target.value)
+   }
+
+   
    return (
       <Select
          value={value}
          onOpenChange={handleNewSelection}
          onValueChange={(value) => handleValueChange(value)}
+         open={isOpen}
       >
          <SelectTrigger
             className={cn(
                className,
-               'flex justify-between items-center cursor-pointer'
+               'flex justify-between items-center cursor-pointer font-medium'
             )}
+            onClick={() => setIsOpen(true)}
          >
             <p className="truncate">
                {selectedValue.label ? selectedValue.label : placeholder}
             </p>
-            {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />}
+            {/* {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />} */}
          </SelectTrigger>
-         <SelectContent className="border-0 bg-foreground rounded-xl p-1 overflow-hidden text-sm font-normal w-[300px]">
-            <div className="w-full max-h-[250px] pr-2 bg-foreground rounded-md border-0 flex flex-col">
+         <SelectContent className="bg-foreground rounded-xl p-1 overflow-hidden text-sm font-normal w-[300px] shadow-sm" ref={selectRef}>
+            <div className="w-full max-h-[250px] bg-foreground rounded-md border-0 flex flex-col">
                <SearchBox
-                  onChange={debouncedInputChange}
-                  className="w-full mb-2 bg-background"
+                  onChange={handleInputChange}
+                  className="w-full mb-2 bg-background rounded-md"
                   placeholder="Search..."
                />
                <SelectionList
@@ -136,14 +165,14 @@ const SelectionList: React.FC<{
             <div className="text-gray-500 text-sm px-2 py-2">Loading...</div>
          ) : selectContents.length > 0 ? (
             selectContents.map((selection) => (
-               <SelectItem
+               <div
                   value={selection.value}
                   key={selection.value}
-                  className='px-2 mr-2 rounded cursor-pointer hover:bg-gray-200'
+                  className='p-1 px-2 rounded cursor-pointer hover:bg-background'
                   onClick={() => {onValueChange(selection.value); handleDialogClose()}}
                >
                   <p className='w-full pr-5 line-clamp-2'>{selection.label}</p>
-               </SelectItem>
+               </div>
             ))
          ) : (
             <div className="text-gray-500 text-sm px-2 py-2">No results found</div>

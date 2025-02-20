@@ -7,6 +7,7 @@ export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
    dialogState?: FormDialogState;
    fieldName?: string;
    className?: string;
+   placeholder?: string;
 }
 
 export interface SelectInputProps<

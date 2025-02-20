@@ -2,10 +2,13 @@ import { InputProps } from 'src/lib/types/form-input-props.types';
 import { Pencil } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { FieldValues, Path, PathValue } from 'react-hook-form';
+import { cn } from '@/lib/helper/utils';
 
 const TaskNameInput = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
+   className,
+   placeholder
 }: InputProps<TFieldValues>): JSX.Element => {
    const {
       setValue,
@@ -54,10 +57,10 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
          <div className="w-full relative flex">
             <div
                suppressContentEditableWarning
-               className="peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap pr-7 text-lg font-medium"
+               className={cn("peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap pr-7 text-lg font-medium", className)}
                contentEditable
                role="textbox"
-               data-placeholder="Enter name"
+               data-placeholder={placeholder}
                onInput={handleInput}
                ref={inputRef} // Use only one ref here
             ></div>

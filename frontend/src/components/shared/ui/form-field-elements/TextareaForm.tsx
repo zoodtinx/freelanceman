@@ -7,7 +7,8 @@ const TextareaForm = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
    fieldName,
-   className
+   className,
+   placeholder = "Describe this event like you're briefing your future self."
 }: InputProps<TFieldValues>): JSX.Element => {
    const { register, getValues } = formMethods;
    const details = getValues(fieldName as Path<TFieldValues>);
@@ -20,8 +21,8 @@ const TextareaForm = <TFieldValues extends FieldValues>({
 
    return (
       <Textarea
-         className={cn("resize-none placeholder:text-secondary w-full p-2 rounded-md", className)}
-         placeholder="Describe this event like you're briefing your future self."
+         className={cn("resize-none placeholder:text-secondary w-full p-1 px-2 rounded-md", className)}
+         placeholder={placeholder}
          defaultValue={dialogState?.mode === 'edit' ? details : ''} 
          {...register(fieldName as Path<TFieldValues>)}
       />

@@ -1,4 +1,4 @@
-import { Event, EventStatus, File, Partner, Task } from "@types";
+import { CreateProjectDto, Event, EventStatus, File, Partner, Task } from "@types";
 
 export const formDefaultValue = (actionType: 'event' | 'task') => {
    let defaultStatus: TaskStatus | EventStatus
@@ -159,11 +159,11 @@ export const defaultUserValue: User = {
    },
  };
  
- export const defaultNewProjectValue = {
+ export const defaultNewProjectValue: CreateProjectDto = {
    title: "",
    clientId: "",
-   projectStatus: "",
-   paymentStatus: "",
+   projectStatus: "active",
+   paymentStatus: "notProcessed",
    contacts: [],
    workingFiles: [],
    assetFiles: [],

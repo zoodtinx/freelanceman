@@ -7,11 +7,11 @@ import DeletePromptDialog from 'src/components/shared/ui/dialogs/ConfirmationDia
 
 export default function HomePage() {
    return (
-      <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative">
+      <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative pt-1 pl-1">
          <TopBar />
          <main className="flex flex-grow min-h-0 px-2 pb-3 gap-2 sm:px-2 sm:pb-2 relative">
             <SideBar />
-            <section className="flex-grow max-w-screen-lg w-full mx-auto min-h-0 flex">
+            <section className="flex-grow max-w-screen-lg w-full mx-auto min-h-0 flex pr-2 pb-2">
                <Outlet />
             </section>
          </main>

@@ -1,12 +1,15 @@
 import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
 import { StandardSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SelectInputProps } from '@/lib/types/form-input-props.types';
+import { cn } from '@/lib/helper/utils';
 
 const StatusSelect = <TFormData extends FieldValues>({
    formMethods,
    dialogState,
    selection,
    fieldName,
+   placeholder, 
+   className
 }: SelectInputProps<TFormData>): JSX.Element => {
    const { control } = formMethods;
 
@@ -15,7 +18,7 @@ const StatusSelect = <TFormData extends FieldValues>({
          (item) =>
             item.value === formMethods.getValues(fieldName as Path<TFormData>)
       );
-      const text = currentSelection?.text || 'No status selected';
+      const text = currentSelection?.label || 'No status selected';
       const color = currentSelection?.color || '';
 
       return (
@@ -32,25 +35,22 @@ const StatusSelect = <TFormData extends FieldValues>({
       <Controller
          name={fieldName as Path<TFormData>}
          control={control}
-         defaultValue={'planned' as PathValue<TFormData, Path<TFormData>>}
          rules={{ required: 'Please select a status' }}
          render={({ field }) => {
-            const handleStatusChange = (value: string) => {
-               field.onChange(value);
-            };
-
-            const currentSelection = selection.find(
-               (item) => item.value === field.value
-            );
-
-            const color = currentSelection?.color || '';
+            console.log('field value', field.value)
+            console.log('selections', selection)
+            
+            const handleValueChange = (value) => {
+               console.log('value', value)
+               field.onChange(value)
+            }
 
             return (
                <StandardSelect
-                  onValueChange={handleStatusChange}
+                  onValueChange={handleValueChange}
                   selectContents={selection}
-                  value={field.value}
-                  className={`p-1 pl-3 pr-4 rounded-full flex font-semibold items-center gap-1 w-fit ${color}`}
+                  defaultValue={field.value}
+                  className={cn('shadow-none border-none text-base font-medium', className)}
                />
             );
          }}

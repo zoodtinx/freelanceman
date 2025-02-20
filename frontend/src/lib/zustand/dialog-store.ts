@@ -22,9 +22,9 @@ const useDialogStore = create<State>((set) => ({
    formDialogState: {
       isOpen: true,
       mode: 'create',
-      type: 'new-project',
-      openedOn: 'action-page',
-      data: defaultNewProjectValue,
+      type: 'new-client',
+      openedOn: 'global-add-button',
+      data: {},
    },
 
    setFormDialogState: (update) =>

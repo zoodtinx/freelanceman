@@ -94,6 +94,27 @@
     --freelanceman-pink: 320 100% 80;
     --freelanceman-cyan: 223 100% 92;
     --freelanceman-lime: 90 100% 80;
+    --freelanceman-theme-red: #f6c5c5;
+    --freelanceman-theme-orange: #ffd7b5;
+    --freelanceman-theme-yellow: #ffffb7;
+    --freelanceman-theme-green: #c9df8a;
+    --freelanceman-theme-blue: #b3cde0;
+    --freelanceman-theme-purple: #deb7ff;
+    --freelanceman-theme-pink: #ffc2cd;
+    --freelanceman-theme-turquoise: #8bd9ef;
+    --freelanceman-theme-magenta: #f9d2da;
+    --freelanceman-theme-teal: #b2d8d8;
+    --freelanceman-theme-olive: #b8e596;
+    --freelanceman-theme-maroon: #dda6c3;
+    --freelanceman-theme-beige: #fce5cd;
+    --freelanceman-theme-coral: #ffb3a5;
+    --freelanceman-theme-lavender: #d9c9ea;
+    --freelanceman-theme-peach: #ffe7dc;
+    --freelanceman-theme-mint: #9ddecb;
+    --freelanceman-theme-bronze: #e6ddd2;
+    --freelanceman-theme-taupe: #e7e1da;
+    --freelanceman-theme-lilac: #eddff7;
+    --freelanceman-theme-zinc: #e9e7e8;
   }
   .dark {
     --foreground: 0 0 9.5;
@@ -134,6 +155,27 @@
     --freelanceman-pink: 320 100% 60;
     --freelanceman-cyan: 217 63% 73;
     --freelanceman-lime: 90 100% 60;
+    --freelanceman-client-red: #f68181;
+    --freelanceman-theme-orange: #ffb38a;
+    --freelanceman-theme-yellow: #fff192;
+    --freelanceman-theme-green: #77ab59;
+    --freelanceman-theme-blue: #6497b1;
+    --freelanceman-theme-purple: #c785ec;
+    --freelanceman-theme-pink: #ff6289;
+    --freelanceman-theme-turquoise: #3ec1d5;
+    --freelanceman-theme-magenta: #f19eb1;
+    --freelanceman-theme-teal: #66b2b2;
+    --freelanceman-theme-olive: #7fc73e;
+    --freelanceman-theme-maroon: #c17fa0;
+    --freelanceman-theme-beige: #dcc5ad;
+    --freelanceman-theme-coral: #ff664b;
+    --freelanceman-theme-lavender: #bfa4dc;
+    --freelanceman-theme-peach: #ffc0a1;
+    --freelanceman-theme-mint: #58a58e;
+    --freelanceman-theme-bronze: #b59a79;
+    --freelanceman-theme-taupe: #bfaf9c;
+    --freelanceman-theme-lilac: #d3afe8;
+    --freelanceman-theme-zinc: #a8a1a1;
   }
   body {
     @apply text-primary;

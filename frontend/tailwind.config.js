@@ -3,6 +3,11 @@
 export default {
    darkMode: ['class'],
    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+   safelist: [
+    "bg-primary",
+    "text-secondary",
+    { pattern: /bg-theme-(red|green|blue|yellow|mint|teal|orange|purple|pink|turquoise|magenta|olive|maroon|beige|coral|lavender|peach|bronze|taupe|lilac|zinc)/ },
+  ],
    theme: {
       extend: {
          animation: {
@@ -31,6 +36,29 @@ export default {
             sm: 'calc(var(--radius) - 4px)',
          },
          colors: {
+            theme: {
+               red: 'var(--freelanceman-theme-red)',
+               green: 'var(--freelanceman-theme-green)',
+               blue: 'var(--freelanceman-theme-blue)',
+               yellow: 'var(--freelanceman-theme-yellow)',
+               mint: 'var(--freelanceman-theme-mint)',
+               teal: 'var(--freelanceman-theme-teal)',
+               orange: 'var(--freelanceman-theme-orange)',
+               purple: 'var(--freelanceman-theme-purple)',
+               pink: 'var(--freelanceman-theme-pink)',
+               turquoise: 'var(--freelanceman-theme-turquoise)',
+               magenta: 'var(--freelanceman-theme-magenta)',
+               olive: 'var(--freelanceman-theme-olive)',
+               maroon: 'var(--freelanceman-theme-maroon)',
+               beige: 'var(--freelanceman-theme-beige)',
+               coral: 'var(--freelanceman-theme-coral)',
+               lavender: 'var(--freelanceman-theme-lavender)',
+               peach: 'var(--freelanceman-theme-peach)',
+               bronze: 'var(--freelanceman-theme-bronze)',
+               taupe: 'var(--freelanceman-theme-taupe)',
+               lilac: 'var(--freelanceman-theme-lilac)',
+               zinc: 'var(--freelanceman-theme-zinc)',
+            },
             freelanceman: {
                red: 'hsl(var(--freelanceman-red))',
                green: 'hsl(var(--freelanceman-green))',
