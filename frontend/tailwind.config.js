@@ -72,6 +72,7 @@ export default {
                active: 'var(--freelanceman-status-active)',
                onhold: 'var(--freelanceman-status-onhold)',
                completed: 'var(--freelanceman-status-completed)',
+               cancelled: 'var(--freelanceman-status-cancelled)',
             },
 
             deadline: {

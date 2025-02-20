@@ -8,6 +8,7 @@ import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSe
 import {
    formatPaymentStatus,
    formatProjectStatus,
+   getStatusColor,
 } from 'src/components/shared/ui/helpers/Helpers';
 import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
@@ -86,7 +87,7 @@ export default function ProjectPage() {
 }
 
 const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
-
+   
    return (
       <>
          <p className="text-[1.6em]">{project.title}</p>
@@ -105,13 +106,13 @@ const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
                   {project.client}
                </Link>
             </div>
-            <div className="flex gap-4">
-               <div className="flex items-center gap-1">
+            <div className="flex gap-1">
+               <div className={`flex items-center gap-1 px-3 rounded-full text-constant-primary bg-${getStatusColor(project.projectStatus)}`}>
                   <Briefcase className="w-4 h-4" />
                   <p>Status :</p>
                   <p>{formatProjectStatus(project.projectStatus)}</p>
                </div>
-               <div className="flex items-center gap-1">
+               <div className={`flex items-center gap-1 px-3 rounded-full text-constant-primary bg-${getStatusColor(project.paymentStatus)}`}>
                   <Wallet className="w-4 h-4" />
                   <p>Payment :</p>
                   <p>{formatPaymentStatus(project.paymentStatus)}</p>

@@ -365,3 +365,28 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
        default: return 'Unknown Color';
    }
 };
+
+export const getStatusColor = (status: string) => {
+   switch (status.toLowerCase()) {
+     case "active":
+     case "unpaid":
+     case "pending":
+     case "scheduled":
+       return "status-active";
+ 
+     case "on-hold":
+     case "processing":
+       return "status-onhold";
+ 
+     case "completed":
+     case "paid":
+     case "finished":
+       return "status-completed";
+ 
+     case "cancelled":
+       return "status-cancelled";
+ 
+     default:
+       return "status-active"; 
+   }
+ };
