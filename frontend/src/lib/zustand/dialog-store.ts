@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { SetStateAction } from 'react';
-import { SelectorDialogState } from '@/lib/types/selector-dialog.types';
+import { SelectObject, SelectorDialogState } from '@/lib/types/selector-dialog.types';
 import { ConfirmationDialogState } from '@/lib/types/confirmation-dialog.type';
-import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 type State = {
    formDialogState: FormDialogState;
@@ -16,11 +15,15 @@ type State = {
    setConfirmationDialogState: (
       update: SetStateAction<ConfirmationDialogState>
    ) => void;
+   selectedTask: SelectObject[];
+   selectedFile: SelectObject[];
+   selectedContact: SelectObject[];
+   selectedDraft: SelectObject[];
 };
 
 const useDialogStore = create<State>((set) => ({
    formDialogState: {
-      isOpen: true,
+      isOpen: false,
       mode: 'create',
       type: 'new-client',
       openedOn: 'global-add-button',
@@ -57,7 +60,8 @@ const useDialogStore = create<State>((set) => ({
          primary: () => {},
          secondary: () => {},
       },
-      message: '',
+      message: () => {},
+      openedFrom: 'file',
       type: 'confirm',
    },
 

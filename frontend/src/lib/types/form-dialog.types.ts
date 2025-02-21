@@ -123,6 +123,18 @@ export type FormDialogState =
         data: CreateClientDto;
      };
 
+export type FormDialogType =
+   | 'task'
+   | 'event'
+   | 'file'
+   | 'project-settings'
+   | 'client-contact'
+   | 'partner-contact'
+   | 'sales-document-item'
+   | 'user-profile'
+   | 'new-project'
+   | 'new-client';
+
 type OpenedOnType =
    | 'project-page'
    | 'all-project-page'
@@ -141,4 +153,3 @@ export interface PromptDialogState {
       action: () => void;
    };
 }
-

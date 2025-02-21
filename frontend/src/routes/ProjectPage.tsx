@@ -1,6 +1,6 @@
 import { useProjectQuery } from '@/lib/api/project-api';
 import { Link, useParams } from 'react-router-dom';
-import { Users, EllipsisVertical, Wallet, Briefcase } from 'lucide-react';
+import { Users, SlidersHorizontal, Wallet, Briefcase, Settings, UsersRound } from 'lucide-react';
 import { ProjectContactSection } from '@/components/page-elements/project/ProjectContactSection';
 import ProjectFileSection from '@/components/page-elements/project/ProjectFileSection';
 import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSection';
@@ -14,6 +14,7 @@ import ProjectTaskSection from 'src/components/page-elements/project/ProjectTask
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
 import { Project } from '@types';
 import { UseQueryResult } from '@tanstack/react-query';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 export interface ProjectPageSectionProps {
    projectQuery: UseQueryResult<Project, Error>;
@@ -87,21 +88,35 @@ export default function ProjectPage() {
 }
 
 const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
+
+   const { formDialogState, setFormDialogState } = useDialogStore();
    
+   const handleOpenDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: true,
+            mode: 'edit',
+            data: project,
+            type: 'project-settings',
+         };
+      });
+   }
+
    return (
       <>
-         <p className="text-[1.6em]">{project.title}</p>
+         <div className='flex justify-between items-start'>
+            <p className="text-[1.6em]">{project.title}</p>
+            <Settings onClick={handleOpenDialog} className='w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors' />
+         </div>
          <div className="flex justify-between">
             <div
-               className="flex gap-1 cursor-default text-secondary hover:text-primary w-fit transition-colors duration-75"
-               style={{
-                  color: project.themeColor,
-               }}
+               className="flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer"
             >
-               <Users className=" w-5 h-auto" />
+               <UsersRound className=" w-5 h-auto" />
                <Link
                   to={`../../clients/${project.clientId}`}
-                  className="text-md font-medium select-none cursor-default"
+                  className="text-md font-medium select-none"
                >
                   {project.client}
                </Link>

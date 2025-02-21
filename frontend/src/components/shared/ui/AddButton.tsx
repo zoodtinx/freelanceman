@@ -10,7 +10,7 @@ const AddButton: React.FC<AddButtonProps> = ({ onClick }) => {
       <button
          type="button"
          onClick={onClick}
-         className="hover:bg-tertiary rounded-lg transition-colors h-[30px] w-[30px] flex justify-center items-center cursor-pointer"
+         className="h-[30px] w-[30px] flex justify-center items-center cursor-pointer text-secondary hover:text-primary transition-colors"
       >
          <Plus className="stroke-[2.75px] w-5 h-5" />
       </button>

@@ -88,7 +88,7 @@ const ProjectFileSection: React.FC = ({ project }) => {
                   Assets
                </p>
             </div>
-            <div className="flex items-center border-b-[0.5px] h-9 border-tertiary grow justify-end">
+            <div className="flex duration-75 items-center border-b-[0.5px] pr-2 h-9 border-tertiary grow justify-end">
                <AddButton onClick={handleNewFile} />
             </div>
          </div>

@@ -96,16 +96,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          <div className="z-10 p-3 px-4">
             <div
                className={`
-                  flex items-center gap-[5px] opacity-30 w-fit cursor-pointer
+                  flex items-center gap-[5px] w-fit cursor-pointer
                   hover:opacity-100 transition-opacity duration-100`}
                onClick={(e) => {
                   handleClientNavigation(e);
                }}
             >
                <UsersRound className="w-[17px]" />
-               <p>{project.client}</p>
+               <p className=''>{project.client}</p>
             </div>
-            <p className="text-[20px] line-clamp-3 cursor-default">
+            <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
                {project.title}
             </p>
          </div>

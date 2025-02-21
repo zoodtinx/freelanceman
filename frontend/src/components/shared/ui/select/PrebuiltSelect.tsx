@@ -9,6 +9,7 @@ import {
 } from 'src/components/shared/ui/select/Select';
 import { cn } from '@/lib/helper/utils';
 import { X } from 'lucide-react';
+import { getStatusColor } from '@/components/shared/ui/helpers/Helpers';
 
 type SelectProps = Omit<
    React.ComponentPropsWithoutRef<typeof Select>,
@@ -32,18 +33,24 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
          placeholder = 'Select a value',
          isWithIcon = true,
          defaultValue,
+         color,
          ...props
       },
       ref
    ) => {
+      
       return (
-         <Select value={defaultValue} onValueChange={onValueChange} {...props}>
+         <Select value={value} onValueChange={onValueChange} {...props}>
             <SelectTrigger
                className={className}
                ref={ref}
                isWithIcon={isWithIcon}
             >
-               <SelectValue placeholder={placeholder} />
+               <div
+                  className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit bg-${color}`}
+               >
+                  <SelectValue placeholder={placeholder} />
+               </div>
             </SelectTrigger>
             <SelectContent className="flex flex-col gap-1 max-h-[250px] overflow-y-auto">
                {selectContents.map((selection) => (

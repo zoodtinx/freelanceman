@@ -8,8 +8,17 @@ import { Files, ClipboardX, ArrowDownToLine } from 'lucide-react';
 // Utilities
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
-const FileDialogViewMode = ({ formMethods, setDialogState, openDeletePrompt }) => {
+const FileDialogViewMode = ({ formMethods, setDialogState }) => {
+   const setConfirmationDialogState = useDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+   
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
+   
    const [copied, setCopied] = useState(false);
    const { getValues, watch } = formMethods;
    const fileName = getValues('name');
@@ -27,8 +36,11 @@ const FileDialogViewMode = ({ formMethods, setDialogState, openDeletePrompt }) =
    };
 
    const handleDeleteButton = () => {
-      setDialogState((prev) => ({ ...prev, isOpen: false }));
-      openDeletePrompt();
+      setFormDialogState((prev) => {
+         console.log('prev', prev)
+         return { ...prev, isOpen: false };
+      });
+      setConfirmationDialogState({isOpen: true, actions: { primary: () => {}}, message: 'Are you sure you want to delete this file?', type: 'delete'})
    };
 
    return (

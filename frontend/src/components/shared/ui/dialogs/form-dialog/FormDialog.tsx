@@ -13,30 +13,29 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialog';
 import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
 import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
-import ProjectSettingsDialog from '@/components/page-elements/all-projects/ProjectSettingsDialog';
+import ProjectSettingsDialog from 'src/components/shared/ui/dialogs/form-dialog/ProjectSettingsDialog';
 import UserProfileDialog from '@/components/shared/ui/dialogs/form-dialog/UserProfileDialog';
 import NewProjectDialog from '@/components/shared/ui/dialogs/form-dialog/NewProjectDialog';
 import NewClientDialog from '@/components/shared/ui/dialogs/form-dialog/NewClientDialog';
 import { cn } from '@/lib/helper/utils';
+import ProjectDialog from '@/components/shared/ui/dialogs/form-dialog/ProjectDialog';
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore()
 
-   const handleDialogClose = () => {
+   console.log('current state', formDialogState)
+
+   const handleOpenChange = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
             isOpen: false
          }
       })
-   };
-
-   console.log('formDialogState.openedOn', formDialogState.openedOn)
-   console.log('theme color at dialog', formDialogState.data.themeColor)
-
+   }
 
    return (
-      <Dialog open={formDialogState.isOpen} onOpenChange={handleDialogClose}>
+      <Dialog open={formDialogState.isOpen} onOpenChange={handleOpenChange}>
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Profile
@@ -59,7 +58,7 @@ const FormDialog = () => {
    );
 };
 
-const FormDialogTitle = ({ dialogType }: { dialogType: string }) => {
+const FormDialogTitle = ({ dialogType }: { dialogType: string }) =>  {
    return (
       <DialogTitle className="flex text-base w-full text-center items-center gap-1">
          <DialogTitleIcon dialogType={dialogType} />
@@ -78,7 +77,7 @@ const FormDialogContent = ({ dialogType }: { dialogType: string }) => {
       case 'file':
          return <FileDialog />;
       case 'project-settings':
-         return <ProjectSettingsDialog />;
+         return <ProjectDialog />;
       case 'client-contact':
          return <ContactDialog />;
       case 'partner-contact':

@@ -83,10 +83,10 @@
     --chart-5: 27 87 67;
     --radius: 0.5rem;
 
-    --freelanceman-ui-red: #ff0000;
-    --freelanceman-ui-green: #b5e550;
-    --freelanceman-ui-blue: #a0d9ef;
-    --freelanceman-ui-yellow: #ffea61;
+    --freelanceman-button-red: #ff0000;
+    --freelanceman-button-green: #b5e550;
+    --freelanceman-button-blue: #a0d9ef;
+    --freelanceman-button-yellow: #ffea61;
 
     --freelanceman-theme-red: #f6c5c5;
     --freelanceman-theme-orange: #ffd7b5;
@@ -156,10 +156,10 @@
     --chart-4: 280 65 60;
     --chart-5: 340 75 55;
 
-    --freelanceman-ui-red: #dc0005;
-    --freelanceman-ui-green: #809c13;
-    --freelanceman-ui-blue: #20a7db;
-    --freelanceman-ui-yellow: #ffd400;
+    --freelanceman-button-red: #dc0005;
+    --freelanceman-button-green: #809c13;
+    --freelanceman-button-blue: #20a7db;
+    --freelanceman-button-yellow: #ffd400;
 
     --freelanceman-theme-red: #f68181;
     --freelanceman-theme-orange: #ffb38a;
@@ -205,7 +205,7 @@
 .rdp-root {
   --rdp-accent-color: blue;
   /* The accent color used for selected days and UI elements. */
-  --rdp-accent-background-color: #f0f0ff;
+  --rdp-accent-background-color: var(--rdp-day-width);
   /* The accent background color used for selected days and UI elements. */
 
   --rdp-day-height: 2.75rem;

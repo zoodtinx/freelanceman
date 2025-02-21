@@ -366,8 +366,12 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
    }
 };
 
-export const getStatusColor = (status: string) => {
-   switch (status.toLowerCase()) {
+export const getStatusColor = (status: string = '') => {
+   const formattedStatus = status?.toLowerCase() ?? ''
+
+   console.log('formattedStatus', formattedStatus)
+   
+   switch (formattedStatus) {
      case "active":
      case "unpaid":
      case "pending":

@@ -9,15 +9,19 @@ import {
 } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { Trash2 } from 'lucide-react';
-import { PromptDialogProps } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
-const DeletePromptDialog = () => {
+const ConfirmationDialog = () => {
    const confirmationDialogState = useDialogStore(
       (state) => state.confirmationDialogState
    );
+
    const setConfirmationDialogState = useDialogStore(
       (state) => state.setConfirmationDialogState
+   );
+   
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
    );
 
    const handleSubmit = () => {
@@ -25,6 +29,18 @@ const DeletePromptDialog = () => {
    };
 
    const handleCancel = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: true
+         }
+      })
+      setConfirmationDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
       console.log('cancelled')
    };
 
@@ -34,7 +50,7 @@ const DeletePromptDialog = () => {
    const type = confirmationDialogState.type
 
    return (
-      <Dialog open={false}>
+      <Dialog open={confirmationDialogState.isOpen} onOpenChange={handleCancel} >
          <DialogTrigger asChild>
             <Button variant="outline" className="hidden">
                Edit Contact
@@ -48,12 +64,9 @@ const DeletePromptDialog = () => {
                </DialogTitle>
             </DialogHeader>
             <div className="bg-background rounded-2xl text-primary">
-               <p className="text-wrap p-4 text-md">
-                  Are you sure you want to delete{' '}
-                  <p className="inline text-freelanceman-red font-semibold">
-                     {"Label"}
-                  </p>
-               </p>
+               <div className="text-wrap p-4 text-md">
+                  {message()}
+               </div>
                <DialogFooter>
                   <div className="flex justify-between p-4">
                      <Button
@@ -79,4 +92,4 @@ const DeletePromptDialog = () => {
    );
 };
 
-export default DeletePromptDialog;
+export default ConfirmationDialog;

@@ -86,25 +86,12 @@ const FileDialog: React.FC<DialogProps> = () => {
       console.log('File saved:', data);
    };
 
-   const openDeletePrompt = () => {
-      setFormDialogState!({
-         data: {
-            label: formDialogState.data.name,
-            action() {
-               console.log('hey');
-            },
-         },
-         isOpen: true,
-      });
-   };
-
    return (
          <div className="bg-background rounded-2xl text-primary">
             {formDialogState.mode === 'view' ? (
                <FileDialogViewMode
                   formMethods={formMethods}
                   setDialogState={setFormDialogState}
-                  openDeletePrompt={openDeletePrompt}
                />
             ) : (
                <FileDialogCreateMode

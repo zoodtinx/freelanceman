@@ -55,7 +55,12 @@ const TaskDialog = () => {
    };
 
    const handleEditMode = () => {
-      console.log('edit')
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            mode: 'edit'
+         }
+      })
    };
 
    const handleCancelEdit = () => {

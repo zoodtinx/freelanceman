@@ -1,4 +1,4 @@
-import { Building2, EllipsisVertical, FolderClock } from 'lucide-react';
+import { Building2, EllipsisVertical, FolderClock, Settings } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
 import { Switch } from '@/components/shared/ui/primitives/Switch';
@@ -57,7 +57,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
                      {clientData.name}
                   </p>
                </div>
-               <EllipsisVertical className="w-5 h-5 text-secondary" />
+               <Settings className='w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors' />
             </div>
          </div>
          <div className="flex justify-between items-center">

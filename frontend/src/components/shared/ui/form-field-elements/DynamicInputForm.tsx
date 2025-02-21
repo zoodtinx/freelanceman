@@ -1,8 +1,8 @@
 import { InputProps } from 'src/lib/types/form-input-props.types';
-import { Pencil } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { cn } from '@/lib/helper/utils';
+import { Pencil, PencilLine } from 'lucide-react';
 
 const TaskNameInput = <TFieldValues extends FieldValues>({
    formMethods,
@@ -19,7 +19,7 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
 
    const inputRef = useRef<HTMLDivElement | null>(null);
 
-   const taskName = getValues('name' as Path<TFieldValues>);
+   const taskName = getValues('title' as Path<TFieldValues>);
 
    useEffect(() => {
       if (
@@ -54,7 +54,7 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
 
    return (
       <div>
-         <div className="w-full relative flex">
+         <div className="w-full relative flex ">
             <div
                suppressContentEditableWarning
                className={cn("peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap pr-7 text-lg font-medium", className)}
@@ -63,7 +63,8 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
                data-placeholder={placeholder}
                onInput={handleInput}
                ref={inputRef} // Use only one ref here
-            ></div>
+            />
+            <Pencil className='w-6 h-6 text-secondary' />
          </div>
          {errors.name && (
             <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">

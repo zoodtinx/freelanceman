@@ -2,6 +2,7 @@ import { Controller, FieldValues, Path, PathValue } from 'react-hook-form';
 import { StandardSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SelectInputProps } from '@/lib/types/form-input-props.types';
 import { cn } from '@/lib/helper/utils';
+import { getStatusColor } from '@/components/shared/ui/helpers/Helpers';
 
 const StatusSelect = <TFormData extends FieldValues>({
    formMethods,
@@ -25,7 +26,7 @@ const StatusSelect = <TFormData extends FieldValues>({
 
       return (
          <div
-            className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit ${getStatusColor(currentSelection?.value)}`}
+            className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit bg-${getStatusColor(currentSelection?.value)}`}
          >
             
             <p className="font-semibold">{text}</p>
@@ -47,11 +48,14 @@ const StatusSelect = <TFormData extends FieldValues>({
                field.onChange(value)
             }
 
+            const color = getStatusColor(field.value)
+
             return (
                <StandardSelect
                   onValueChange={handleValueChange}
                   selectContents={selection}
-                  defaultValue={field.value}
+                  value={field.value}
+                  color={color}
                   className={cn('shadow-none border-none text-base font-medium', className)}
                />
             );
@@ -59,15 +63,5 @@ const StatusSelect = <TFormData extends FieldValues>({
       />
    );
 };
-
-const getStatusColor = (status) => {
-   switch (status) {
-      case 'pending': return 'bg-status-active'
-      case 'scheduled': return 'bg-status-active'
-      case 'finished': return 'bg-status-completed'
-      case 'completed': return 'bg-status-completed'
-      case 'cancelled': return 'bg-constant-tertiary'
-   }
-}
 
 export default StatusSelect;
