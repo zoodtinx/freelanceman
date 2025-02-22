@@ -306,6 +306,8 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
          return <PencilRuler className={className} />;
       case 'new-client':
          return <Building2 className={className} />;
+      case 'client-settings':
+         return <Settings className={className} />;
       default:
          return <Plus  className={className}  />;
    }
@@ -334,6 +336,8 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
        return 'Create New Project';
      case 'new-client':
        return 'Create New Client';
+     case 'client-settings':
+       return 'Edit Client';
      default:
        return 'Dialog';
    }
@@ -368,9 +372,6 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
 
 export const getStatusColor = (status: string = '') => {
    const formattedStatus = status?.toLowerCase() ?? ''
-
-   console.log('formattedStatus', formattedStatus)
-   
    switch (formattedStatus) {
      case "active":
      case "unpaid":

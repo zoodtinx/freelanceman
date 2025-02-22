@@ -8,7 +8,8 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
    formMethods,
    dialogState,
    className,
-   placeholder
+   placeholder,
+   fieldName
 }: InputProps<TFieldValues>): JSX.Element => {
    const {
       setValue,
@@ -19,7 +20,7 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
 
    const inputRef = useRef<HTMLDivElement | null>(null);
 
-   const taskName = getValues('title' as Path<TFieldValues>);
+   const taskName = getValues(fieldName as Path<TFieldValues>);
 
    useEffect(() => {
       if (

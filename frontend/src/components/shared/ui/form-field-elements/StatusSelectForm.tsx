@@ -40,11 +40,7 @@ const StatusSelect = <TFormData extends FieldValues>({
          control={control}
          rules={{ required: 'Please select a status' }}
          render={({ field }) => {
-            console.log('field value', field.value)
-            console.log('selections', selection)
-            
             const handleValueChange = (value) => {
-               console.log('value', value)
                field.onChange(value)
             }
 

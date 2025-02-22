@@ -2,6 +2,7 @@ import {
    Contact,
    CreateClientDto,
    CreateProjectDto,
+   EditClientDto,
    Event,
    Partner,
    Project,
@@ -121,6 +122,13 @@ export type FormDialogState =
         mode: 'create';
         openedOn: OpenedOnType;
         data: CreateClientDto;
+     }
+   | {
+        isOpen: boolean;
+        type: 'client-settings';
+        mode: 'edit';
+        openedOn: OpenedOnType;
+        data: EditClientDto;
      };
 
 export type FormDialogType =

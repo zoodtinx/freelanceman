@@ -1,5 +1,5 @@
-import ClientColumn from 'src/components/page-elements/all-clients/ClientColumn';
-import ContactColumn from 'src/components/page-elements/all-clients/ContactColumn';
+import ClientColumn from 'src/components/page-elements/all-clients/ClientPageClient';
+import ContactColumn from 'src/components/page-elements/all-clients/ClientPageContact';
 
 export default function AllClientsPage() {
 

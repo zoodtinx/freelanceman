@@ -8,6 +8,7 @@ import { useAllProjectsQuery } from '@/lib/api/project-api';
 import { Project, ProjectSearchOption } from '@types';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 const ClientProjectSection: React.FC<ClientSectionProps> = ({
    clientData,
@@ -16,8 +17,8 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
    const [projectFilter, setProjectFilter] = useState<ProjectSearchOption>({
       clientId: clientData?.id
    })
-   
    const { data: projectsData, isLoading: projectIsLoading } = useAllProjectsQuery(projectFilter)
+   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
    if (clientIsLoading && projectIsLoading) {
       return 'Loading';
@@ -44,6 +45,16 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
       }));
    }
 
+   const handleClientSettings = () => {
+      setFormDialogState({
+         isOpen:true,
+         mode: 'edit',
+         openedOn: 'client-page',
+         data: clientData,
+         type: 'client-settings'
+      })
+   }
+
    return (
       <div
          className={`flex flex-col w-full sm:w-full gap-[6px] grow p-4 pt-2
@@ -57,7 +68,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
                      {clientData.name}
                   </p>
                </div>
-               <Settings className='w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors' />
+               <Settings onClick={handleClientSettings} className='w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors' />
             </div>
          </div>
          <div className="flex justify-between items-center">

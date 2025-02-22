@@ -22,7 +22,7 @@ const ClientCard = ({ client }: { client: Client }): JSX.Element => {
 
    return (
       <div
-         className="relative flex flex-col justify-between rounded-[20px] overflow-hidden h-[170px] min-w-[150px] p-4 pt-3 leading-tight transition-all text-[#333333] border-2 border-transparent hover:border-primary duration-75 cursor-default"
+         className="relative flex flex-col justify-between rounded-[20px] overflow-hidden h-[170px] p-4 pt-3 leading-tight transition-all text-constant-primary border-2 border-transparent hover:border-primary duration-75 cursor-default"
          onClick={handleSelectClient}
       >
          <div className="z-10 flex flex-col justify-between h-full p-1">

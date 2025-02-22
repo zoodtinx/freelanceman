@@ -5,6 +5,7 @@ import ClientFileSection from '@/components/page-elements/client/ClientFileSecti
 import { useParams } from 'react-router-dom';
 import { useClientQuery } from '@/lib/api/client-api';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import useDialogStore from '@/lib/zustand/dialog-store';
 
 export default function ClientPage() {
    const { clientId } = useParams();

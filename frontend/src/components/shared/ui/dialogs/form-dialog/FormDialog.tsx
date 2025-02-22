@@ -19,6 +19,7 @@ import NewProjectDialog from '@/components/shared/ui/dialogs/form-dialog/NewProj
 import NewClientDialog from '@/components/shared/ui/dialogs/form-dialog/NewClientDialog';
 import { cn } from '@/lib/helper/utils';
 import ProjectDialog from '@/components/shared/ui/dialogs/form-dialog/ProjectDialog';
+import ClientDialog from '@/components/shared/ui/dialogs/form-dialog/ClientDialog';
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore()
@@ -88,6 +89,8 @@ const FormDialogContent = ({ dialogType }: { dialogType: string }) => {
          return <NewProjectDialog />;
       case 'new-client':
          return <NewClientDialog />;
+      case 'client-settings':
+         return <ClientDialog />;
       default:
          return <Plus />;
    }

@@ -69,7 +69,7 @@ const ClientColumn = (): JSX.Element => {
             />
             <ActiveProjectButton />
          </div>
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 w-fit">
+         <div className="grid grid-cols-[repeat(auto-fit,minmax(215px,1fr))] gap-2 w-full">
          {isLoading ? (
             <p>Loading...</p>
          ) : (
