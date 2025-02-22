@@ -12,6 +12,8 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import { Input } from '@/components/shared/ui/primitives/Input';
+import { Textarea } from '@/components/shared/ui/primitives/Textarea';
 
 const ClientDialog = () => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
@@ -67,6 +69,8 @@ const ClientDialog = () => {
       })
    }
 
+   const {getValues, register} = formMethods
+
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
@@ -76,58 +80,47 @@ const ClientDialog = () => {
                placeholder="Enter client's name"
                fieldName="name"
             />
-            <div className="flex leading-tight">
-               <div className="w-1/2">
-                  <p className="text-secondary pb-1">Project Status</p>
-                  <StatusSelect
-                     formMethods={formMethods}
-                     dialogState={formDialogState}
-                     selection={projectStatusSelections}
-                     fieldName="projectStatus"
-                  />
-               </div>
-               <div className="w-1/2">
-                  <p className="text-secondary  pb-1">Payment Status</p>
-                  <StatusSelect
-                     formMethods={formMethods}
-                     dialogState={formDialogState}
-                     selection={paymentStatusSelections}
-                     fieldName="paymentStatus"
-                  />
-               </div>
-            </div>
-            <div className="">
-               <Separator />
-            </div>
-            <div className="flex flex-col gap-2">
-               <div className="w-full">
-                  <p className="text-secondary">Client</p>
-                  <p className="text-md leading-tight">
-                     {formMethods.getValues('client')}
-                  </p>
-               </div>
-               <div className="flex leading-tight">
+            <div className="flex flex-col gap-3">
+               <div className="flex gap-2">
                   <div className="w-1/2">
-                     <p className="text-secondary">Date Created</p>
-                     <p>
-                        {formatDate(formMethods.getValues('createdAt'), 'LONG')}
-                     </p>
-                     <p className="text-sm">
-                        {formatTime(formMethods.getValues('createdAt'))}
-                     </p>
+                     <p className="text-secondary ">Tax ID</p>
+                     {formDialogState.mode !== 'view' ? (
+                        <Input variant='outline' {...register('taxId')} className='w-full p-1 px-2' />
+                     ) : (
+                        <p className=" font-medium">{getValues('taxId')}</p>
+                     )}
                   </div>
                   <div className="w-1/2">
-                     <p className="text-secondary">Last Update</p>
-                     <p>
-                        {formatDate(
-                           formMethods.getValues('modifiedAt'),
-                           'LONG'
-                        )}
-                     </p>
-                     <p className="text-sm">
-                        {formatTime(formMethods.getValues('modifiedAt'))}
-                     </p>
+                     <p className="text-secondary ">Phone Number</p>
+                     {formDialogState.mode !== 'view' ? (
+                        <Input variant='outline' {...register('phoneNumber')} className='w-full py-1 px-2' />
+                     ) : (
+                        <p className=" font-medium">
+                           {getValues('phoneNumber')}
+                        </p>
+                     )}
                   </div>
+               </div>
+               <div>
+                  <p className="text-secondary">Email</p>
+                  {formDialogState.mode !== 'view' ? (
+                     <Input variant='outline' {...register('email')} className='w-full py-1 px-2' />
+                  ) : (
+                     <p className=" font-medium">{getValues('email')}</p>
+                  )}
+               </div>
+               <div className="">
+                  <p className="text-secondary ">Address</p>
+                  {formDialogState.mode !== 'view' ? (
+                     <Textarea
+                        {...register('address')}
+                        variant='outline'
+                        className="resize-none mt-1 w-full py-1 px-2"
+                        placeholder="Enter details"
+                     />
+                  ) : (
+                     <p className=" font-medium">{getValues('address')}</p>
+                  )}
                </div>
             </div>
          </div>
@@ -135,10 +128,17 @@ const ClientDialog = () => {
             <div className="flex justify-between p-4">
                <Button
                   variant={'destructiveOutline'}
-                  size={'sm'}
+                  size={'default'}
                   onClick={handleDeleteProject}
                >
                   Delete Client
+               </Button>
+               <Button
+                  variant={'submit'}
+                  size={'default'}
+                  onClick={handleDeleteProject}
+               >
+                  Save Changes
                </Button>
             </div>
          </DialogFooter>
