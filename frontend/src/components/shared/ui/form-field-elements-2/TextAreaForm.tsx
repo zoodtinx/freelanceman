@@ -1,6 +1,7 @@
 import { FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
 import { Input } from '@/components/shared/ui/primitives/Input';
+import { Textarea } from '@/components/shared/ui/primitives/Textarea';
 
 export const TextInputForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -17,7 +18,7 @@ export const TextInputForm = <TFieldValues extends FieldValues>({
 
    return (
       <div className="flex flex-col">
-         <Input
+         <Textarea
             {...register(fieldName as Path<TFieldValues>, {
                required: required ? errorMessage || 'This field is required' : false
             })}
