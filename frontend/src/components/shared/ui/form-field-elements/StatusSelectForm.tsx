@@ -22,8 +22,6 @@ const StatusSelect = <TFormData extends FieldValues>({
       const text = currentSelection?.label || 'No status selected';
       const color = currentSelection?.color || '';
 
-      console.log('currentSelection?.value', currentSelection?.value)
-
       return (
          <div
             className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit bg-${getStatusColor(currentSelection?.value)}`}

@@ -33,9 +33,9 @@ const TaskNameInput = <TFieldValues extends FieldValues>({
    }, [dialogState, taskName]);
 
    const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
-      clearErrors('name' as Path<TFieldValues>);
+      clearErrors(fieldName as Path<TFieldValues>);
       setValue(
-         'name' as Path<TFieldValues>,
+         fieldName as Path<TFieldValues>,
          e.currentTarget.textContent as PathValue<
             TFieldValues,
             Path<TFieldValues>

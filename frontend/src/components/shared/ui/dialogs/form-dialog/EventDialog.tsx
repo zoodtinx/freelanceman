@@ -86,7 +86,7 @@ const EventDialog = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
-            <TaskNameInput formMethods={formMethods} dialogState={formDialogState} />
+            <TaskNameInput formMethods={formMethods} dialogState={formDialogState} fieldName='name' />
             <div className="flex leading-tight">
                <div className="w-1/2">
                   <p className="text-secondary">Status</p>

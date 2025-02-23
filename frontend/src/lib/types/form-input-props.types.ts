@@ -5,7 +5,7 @@ import { EventFormData, TaskFormData } from '@types';
 export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
    formMethods: UseFormReturn<TFieldValues>;
    dialogState?: FormDialogState;
-   fieldName?: string;
+   fieldName: string;
    className?: string;
    placeholder?: string;
 }

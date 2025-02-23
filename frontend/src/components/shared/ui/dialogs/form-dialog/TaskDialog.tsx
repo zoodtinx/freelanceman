@@ -73,6 +73,7 @@ const TaskDialog = () => {
             <TaskAndEventNameInput
                formMethods={formMethods}
                dialogState={formDialogState}
+               fieldName='name'
             />
             <div className="flex leading-tight">
                <div className="w-1/2">

@@ -19,7 +19,6 @@ interface FileListProps {
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    size: 'base' | 'sm' | 'md';
 }
 
@@ -27,7 +26,6 @@ export const FileList: React.FC<FileListProps> = ({
    filesData,
    isLoading,
    selectState,
-   setDialogState,
    setSelectState,
    size,
 }) => {
@@ -39,7 +37,8 @@ export const FileList: React.FC<FileListProps> = ({
       return <p>No File available</p>;
    }
 
-   console.log('first')
+   const setDialogState = useDialogStore((state) => state.setFormDialogState);
+
 
    const fileListItems = filesData.map((filesData) => (
       <FileListItem

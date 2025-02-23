@@ -24,8 +24,6 @@ import ClientDialog from '@/components/shared/ui/dialogs/form-dialog/ClientDialo
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore()
 
-   console.log('current state', formDialogState)
-
    const handleOpenChange = () => {
       setFormDialogState((prev) => {
          return {
@@ -45,7 +43,7 @@ const FormDialog = () => {
           <DialogContent
             className={cn(
                'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
-               formDialogState.mode !== 'create' && `text-constant-primary bg-theme-${formDialogState.data.themeColor}`
+               formDialogState.data.themeColor && `text-constant-primary bg-theme-${formDialogState.data.themeColor}`
             )}
           >
             <DialogHeader className="py-1 bg-transparent">
