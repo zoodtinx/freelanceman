@@ -1,5 +1,4 @@
 import { SelectItemContent } from '@/components/shared/ui/select/select.type';
-import { SelectObject } from '@/lib/types/selector-dialog.types';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormElementProps<
@@ -17,5 +16,14 @@ export interface SelectFormElementProps<
    TFieldValues extends FieldValues = FieldValues
 > extends FormElementProps<TFieldValues> {
    selection: SelectItemContent[];
-   isWithIcon: boolean;
+   isWithIcon?: boolean;
+}
+
+export interface SelectWithSearchFormElementProps<
+   TFieldValues extends FieldValues = FieldValues
+> extends FormElementProps<TFieldValues> {
+   isLoading: boolean;
+   size: 'sm' | 'base' | 'lg';
+   type: 'client' | 'project'
+   isWithIcon?: boolean;
 }

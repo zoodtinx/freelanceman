@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
-import StatusSelect from '../../form-field-elements/StatusSelectForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Plus, Trash2, UserRound } from 'lucide-react';
@@ -10,12 +8,12 @@ import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { ClientSearchOption, CreateProjectDto } from '@types';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
-import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/SelectWithApiSearchForm';
 import { useClientSelectionQuery } from '@/lib/api/client-api';
 import { debounce } from 'lodash';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
 import StatusSelectForm from '@/components/shared/ui/form-field-elements-2/StatusSelectForm';
 import DynamicHeightTextInputForm from '@/components/shared/ui/form-field-elements-2/DynamicHeightTextInputForm';
+import SelectWithSearchForm from '@/components/shared/ui/form-field-elements-2/SelectWithSearchForm';
 
 const NewProjectDialog = () => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
@@ -50,11 +48,9 @@ const NewProjectDialog = () => {
    };
 
    const searchClient = debounce((value: string) => {
-      console.log('value', value);
+      console.log('triggered')
       setSearchTerm({ name: value });
    }, 300);
-
-   console.log('paymentStatus', formMethods.watch('paymentStatus'))
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,15 +64,17 @@ const NewProjectDialog = () => {
             />
             <div className="w-full">
                <p className="text-secondary">Client</p>
-               <SelectWithApiSearchForm
+               <SelectWithSearchForm<CreateProjectDto>
                   formMethods={formMethods}
                   isLoading={isLoading}
-                  selection={clientsData}
                   fieldName="clientId"
                   placeholder="Select a client"
-                  dialogState={formDialogState}
-                  ApiSearchFn={searchClient}
+                  type='client' 
+                  size='base'
+                  errorMessage='Please select a client'
                   className="border-0 p-0 text-md"
+                  isWithIcon
+                  required
                />
             </div>
             <div className="flex leading-tight">
@@ -155,8 +153,6 @@ const AddButtonGroup = ({
       })
    };
    const handleAddContact = () => {};
-
-   console.log('addedAsset', addedAsset)
 
    const buttonConfig = [
       { icon: Package, label: 'Add Asset', handleClick: handleAddAsset },

@@ -395,3 +395,18 @@ export const getStatusColor = (status: string = '') => {
        return "status-active"; 
    }
  };
+
+ export const validateUrl = (inputValue: string) => {
+   if (!inputValue.trim()) {
+      return { error: 'URL cannot be empty.' };
+   }
+
+   try {
+      new URL(inputValue);
+      return { error: '' };
+   } catch {
+      return {
+         error: 'Please enter a valid link. (Starting with http:// or https://)',
+      };
+   }
+};

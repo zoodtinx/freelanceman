@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 
 const DatePicker = <TFieldValues extends FieldValues>({
    formMethods,
-   fieldName
+   fieldName,
 }: InputProps<TFieldValues>): JSX.Element => {
    const {
       control,

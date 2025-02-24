@@ -20,6 +20,8 @@ import { FormDialogProps, FormDialogState } from 'src/lib/types/form-dialog.type
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 import useDialogStore from 'src/lib/zustand/dialog-store';
+import LinkInputForm from '@/components/shared/ui/form-field-elements-2/LinkInputForm';
+import DateTimePickerForm from '@/components/shared/ui/form-field-elements-2/DateTimePickerForm';
 
 const TaskDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
@@ -87,10 +89,9 @@ const TaskDialog = () => {
                </div>
                <div className="w-1/2">
                   <p className="text-secondary">Due Date</p>
-                  <DateTimePicker
+                  <DateTimePickerForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
-                     fieldName="dueDate"
+                     fieldName="dueAt"
                   />
                </div>
             </div>
@@ -122,7 +123,7 @@ const TaskDialog = () => {
             </div>
             <div className="w-full">
                <p className="text-secondary">Link</p>
-               <LinkInput formMethods={formMethods} />
+               <LinkInputForm formMethods={formMethods} fieldName='link' />
             </div>
          </div>
          <DialogFooter>

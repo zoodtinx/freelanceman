@@ -23,9 +23,6 @@ const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
       { className, isWithIcon = true, selections, value, handleValueChange },
       ref
    ) => {
-
-      console.log('getStatusColor(value)', getStatusColor(value))
-
       return (
          <div className={cn("bg-foreground w-fit rounded-full py-1 px-2", className)}>
             <Select value={value} onValueChange={handleValueChange}>

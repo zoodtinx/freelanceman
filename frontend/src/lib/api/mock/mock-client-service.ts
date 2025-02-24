@@ -71,7 +71,6 @@ export const getAllClients = (searchTerm: ClientSearchOption) => {
 };
 
 export const getClientSelections = (searchTerm: ClientSearchOption) => {
-   console.log('searchTerm in api', searchTerm)
    return new Promise<Client[]>((resolve) => {
       setTimeout(() => {
          if (!searchTerm || Object.keys(searchTerm).length === 0) {
@@ -113,8 +112,6 @@ export const getClientSelections = (searchTerm: ClientSearchOption) => {
                label: client.name
             }
          })
-
-         console.log('clientSelectios', clientSelections)
 
          resolve(clientSelections);
       }, 500);

@@ -16,7 +16,7 @@ export const useAllClientsQuery = (searchTerm?: ClientSearchOption) => {
    });
 };
 
-export const useClientSelectionQuery = (searchTerm?: ClientSearchOption) => {
+export const useClientSelectionQuery = (searchTerm: ClientSearchOption = {}) => {
    return useQuery({
       queryKey: ['clientSelections', searchTerm || null],
       queryFn: () => getClientSelections(searchTerm || {}),

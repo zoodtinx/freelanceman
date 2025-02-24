@@ -1,24 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from './Popover';
+import { Popover, PopoverContent, PopoverTrigger } from '../primitives/Popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
-import { InputProps } from '@/lib/types/form-input-props.types';
 import { parseISO, setHours, setMinutes } from 'date-fns';
+import { FormElementProps } from '@/lib/types/form-element.type';
+
+const TimePickerForm = <TFieldValues extends FieldValues>({
+   formMethods,
+   fieldName,
+}: FormElementProps<TFieldValues>): JSX.Element | null => {
+   const { control, watch } = formMethods;
+
+   return (
+      <Controller
+         name={fieldName as Path<TFieldValues>}
+         control={control}
+         render={({ field }) => {
+            const handleChange = (value: string) => {
+               field.onChange(value);
+            };
+
+            const value = watch(fieldName as Path<TFieldValues>);
+
+            return (
+               <TimePicker
+                  value={value || null}
+                  handleChange={handleChange}
+               />
+            );
+         }}
+      />
+   );
+};
 
 interface TimePickerProps {
    value: string | null;
-   onChange: (value: string) => void;
-   setValue: (field: string, value: boolean) => void;
-   watch: () => void;
+   handleChange: (value: string) => void;
 }
 
-const TimePickerInterface: React.FC<TimePickerProps> = ({
+const TimePicker: React.FC<TimePickerProps> = ({
    value,
-   onChange,
-   setValue,
-   watch,
+   handleChange
 }) => {
-   const isWithTime = watch('withTime'); // Check if time is enabled
-   const isDateSelected = watch('dueDate'); // Check if date is selected
+   const isWithTime = value && value.includes('T');
 
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
@@ -31,7 +54,6 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
    const [selectedMinute, setSelectedMinute] = useState('00');
    const [selectedPeriod, setSelectedPeriod] = useState('AM');
    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-   const [isInitialMount, setIsInitialMount] = useState(true); // Track if it's the first render
 
    const updateDueDate = () => {
       if (!value) return;
@@ -50,8 +72,7 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
          parseInt(selectedMinute, 10)
       );
 
-      onChange(updatedDate.toISOString());
-      setValue('withTime', true);
+      handleChange(updatedDate.toISOString());
    };
 
    const togglePeriod = () => {
@@ -63,8 +84,7 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
 
       const currentDate = parseISO(value);
       const updatedDate = setMinutes(setHours(currentDate, 8), 0); // Default 8:00 AM
-      onChange(updatedDate.toISOString());
-      setValue('withTime', true);
+      handleChange(updatedDate.toISOString());
       setSelectedHour('08');
       setSelectedMinute('00');
       setSelectedPeriod('AM');
@@ -75,9 +95,8 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
       setSelectedHour('08');
       setSelectedMinute('00');
       setSelectedPeriod('AM');
-      setValue('withTime', false);
       if (value) {
-         onChange(value.split('T')[0]); // Remove the time part from the ISO string
+         handleChange(value.split('T')[0]); // Remove the time part from the ISO string
       }
       setIsPopoverOpen(false); // Close the popover
    };
@@ -97,19 +116,6 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
       setSelectedMinute(minutes);
       setSelectedPeriod(period);
    };
-
-   // Sync withTime on initial load (edit mode) but avoid default time in create mode
-   useEffect(() => {
-      if (isInitialMount) {
-         setIsInitialMount(false); // Prevent auto time addition after the first render
-         if (value && value.includes('T')) {
-            setValue('withTime', true); // Edit mode: set withTime if time exists
-            extractTime(); // Extract time from value
-         } else {
-            setValue('withTime', false); // Create mode: only set date by default
-         }
-      }
-   }, [value, setValue]);
 
    useEffect(() => {
       if (isWithTime) {
@@ -150,8 +156,8 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
       }
    };
 
-   if (!isDateSelected) {
-      return <></>;
+   if (!value) {
+      return <p>Add time</p>;
    }
 
    return (
@@ -165,14 +171,14 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
             </div>
          </PopoverTrigger>
          {value && (
-            <PopoverContent className="w-fit p-4 flex">
-               <div className="flex gap-2">
-                  <div>
-                     <label className="block text-sm font-medium mb-1">
+            <PopoverContent className="w-[150px] p-2 flex bg-foreground rounded-xl">
+               <div className="flex gap-1 w-full">
+                  <div className='w-1/2'>
+                     <label className="block text-sm text-secondary font-medium mb-1 text-center">
                         Hours
                      </label>
                      <select
-                        className="w-full border rounded-md p-2"
+                        className="w-full border rounded-md p-1 appearance-none text-md text-center"
                         value={selectedHour}
                         onChange={(e) => setSelectedHour(e.target.value)}
                      >
@@ -184,12 +190,12 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
                      </select>
                   </div>
 
-                  <div>
-                     <label className="block text-sm font-medium mb-1">
+                  <div className='w-1/2'>
+                     <label className="block text-sm text-secondary mb-1 text-center">
                         Minutes
                      </label>
                      <select
-                        className="w-full border rounded-md p-2"
+                        className="w-full border rounded-md p-1 appearance-none text-md text-center"
                         value={selectedMinute}
                         onChange={(e) => setSelectedMinute(e.target.value)}
                      >
@@ -200,41 +206,17 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
                         ))}
                      </select>
                   </div>
-                  <div className="mt-4 flex justify-between items-center">
-                     <button
-                        className="px-4 py-2 bg-gray-200 rounded-md"
-                        onClick={() => togglePeriod()}
-                     >
-                        {selectedPeriod}
-                     </button>
-                  </div>
                </div>
+               <button
+                  className="px-4 py-1 bg-gray-200 rounded-md"
+                  onClick={() => togglePeriod()}
+               >
+                  {selectedPeriod}
+               </button>
             </PopoverContent>
          )}
       </Popover>
    );
 };
 
-const DatePicker = <TFieldValues extends FieldValues>({
-   formMethods,
-   fieldName,
-}: InputProps<TFieldValues>): JSX.Element | null => {
-   const { control, setValue, watch } = formMethods;
-
-   return (
-      <Controller
-         name={fieldName as Path<TFieldValues>}
-         control={control}
-         render={({ field: { value, onChange } }) => (
-            <TimePickerInterface
-               value={value || null}
-               onChange={onChange}
-               setValue={setValue}
-               watch={watch}
-            />
-         )}
-      />
-   );
-};
-
-export default DatePicker;
+export default TimePickerForm;

@@ -33,7 +33,7 @@ export const mockTasks = [
       name: "Review Client Feedback",
       status: "pending",
       details: "Analyze client feedback and make necessary revisions.",
-      link: "",
+      link: "https://www.google.com",
       dueAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
       project: "Commercial Jingle",
       projectId: "e7efac8e-e486-4aa3-b14d-b049799fb105",
