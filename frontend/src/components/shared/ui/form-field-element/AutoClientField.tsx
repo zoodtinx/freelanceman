@@ -1,8 +1,7 @@
 import { InputProps } from '@/lib/types/form-input-props.types';
 import { FieldValues, Path } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 
-const AutoClientField = <TFieldValues extends FieldValues>({
+export const AutoClientField = <TFieldValues extends FieldValues>({
    formMethods,
 }: InputProps<TFieldValues>): JSX.Element => {
    const { watch } = formMethods;
@@ -16,5 +15,3 @@ const AutoClientField = <TFieldValues extends FieldValues>({
 
    return <span className="text-gray-500">Select a project</span>;
 };
-
-export default AutoClientField;

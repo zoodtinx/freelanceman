@@ -2,7 +2,7 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { SelectFormElementProps } from '@/lib/types/form-element.type';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 
-const StatusSelectForm = <TFormData extends FieldValues>({
+export const StatusSelectForm = <TFormData extends FieldValues>({
    formMethods,
    className,
    fieldName,
@@ -48,5 +48,3 @@ const StatusSelectForm = <TFormData extends FieldValues>({
       />
    );
 };
-
-export default StatusSelectForm;

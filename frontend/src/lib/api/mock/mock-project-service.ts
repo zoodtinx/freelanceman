@@ -85,6 +85,76 @@ export const getAllProjects = (
    });
 };
 
+export const getProjectSelections = (
+   searchTerm: ProjectSearchOption
+): Promise<Project[]> => {
+   return new Promise((resolve) => {
+      setTimeout(() => {
+         if (!searchTerm || Object.keys(searchTerm).length === 0) {
+            const projectSelections = sampleAllPropjects.map((project) => {
+               return {
+                  value: project.id,
+                  label: project.title
+               }
+            })
+            
+            resolve(projectSelections);
+            return;
+         }
+
+         const filteredProjects = sampleAllPropjects.filter((project) => {
+            const matchesName =
+               !searchTerm.title ||
+               searchTerm.title.trim() === '' ||
+               project.title
+                  .toLowerCase()
+                  .includes(searchTerm.title.trim().toLowerCase());
+
+            const matchesPaymentStatus =
+               searchTerm.paymentStatus === undefined ||
+               searchTerm.paymentStatus.trim() === '' ||
+               project.paymentStatus === searchTerm.paymentStatus.trim();
+
+            const matchesProjectStatus =
+               searchTerm.projectStatus === undefined ||
+               searchTerm.projectStatus.trim() === '' ||
+               project.projectStatus === searchTerm.projectStatus.trim();
+
+            const matchesClientId =
+               !searchTerm.clientId ||
+               searchTerm.clientId.trim() === '' ||
+               project.clientId === searchTerm.clientId.trim();
+
+            const matchesPinned =
+               searchTerm.pinned === undefined || project.pinned === searchTerm.pinned;
+
+            return (
+               matchesName &&
+               matchesPaymentStatus &&
+               matchesProjectStatus &&
+               matchesClientId &&
+               matchesPinned
+            );
+         });
+
+         filteredProjects.sort((a, b) => {
+            const dateA = new Date(a.modifiedAt).getTime();
+            const dateB = new Date(b.modifiedAt).getTime();
+            return dateB - dateA;
+         });
+
+         const projectSelections = filteredProjects.map((project) => {
+            return {
+               value: project.id,
+               label: project.title
+            }
+         })
+
+         resolve(projectSelections || []);
+      }, 500);
+   });
+};
+
 
 // export const createProject = (newProject: Project): Promise<Project> => {
 //    const projectWithDefaults: Project = {

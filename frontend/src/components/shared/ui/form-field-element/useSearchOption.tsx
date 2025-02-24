@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce';
 
 type Type = 'client' | 'project'
 
-const useSearchOption = (type: Type) => {
+export const useSearchOption = (type: Type) => {
    const [searchTerm, setSearchTerm] = useState({})
 
    const handleSearch = debounce((value: string) => {
@@ -16,5 +16,3 @@ const useSearchOption = (type: Type) => {
 
    return {searchTerm, handleSearch}
 }
-
-export default useSearchOption

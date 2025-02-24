@@ -18,7 +18,7 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import StatusSelectForm from '@/components/shared/ui/form-field-elements-2/StatusSelectForm';
+import StatusSelectForm from 'src/components/shared/ui/form-field-element/StatusSelectForm';
 
 const ProjectDialog = () => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();

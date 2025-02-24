@@ -22,7 +22,6 @@ export interface SelectFormElementProps<
 export interface SelectWithSearchFormElementProps<
    TFieldValues extends FieldValues = FieldValues
 > extends FormElementProps<TFieldValues> {
-   isLoading: boolean;
    size: 'sm' | 'base' | 'lg';
    type: 'client' | 'project'
    isWithIcon?: boolean;

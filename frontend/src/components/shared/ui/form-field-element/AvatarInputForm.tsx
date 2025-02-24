@@ -1,7 +1,7 @@
 import { InputProps } from '@/lib/types/form-input-props.types';
 import { Upload } from 'lucide-react';
 
-const AvatarInputForm = ({ formMethods }: InputProps) => {
+export const AvatarInputForm = ({ formMethods }: InputProps) => {
    const {
       setValue,
       watch,
@@ -78,5 +78,3 @@ const AvatarInputForm = ({ formMethods }: InputProps) => {
       </div>
    );
 };
-
-export default AvatarInputForm

@@ -1,8 +1,8 @@
 import { FormElementProps } from '@/lib/types/form-element.type';
-import DatePickerForm from '@/components/shared/ui/form-field-elements-2/DatePickerForm';
-import TimePickerForm from '@/components/shared/ui/form-field-elements-2/TimePickerForm';
+import {DatePickerForm} from '@/components/shared/ui/form-field-element/DatePickerForm';
+import {TimePickerForm} from '@/components/shared/ui/form-field-element/TimePickerForm';
 
-const DateTimePickerForm = <TFieldValues extends FieldValues>({
+export const DateTimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
    required,
@@ -32,5 +32,3 @@ const DateTimePickerForm = <TFieldValues extends FieldValues>({
       </div>
    );
 };
-
-export default DateTimePickerForm;

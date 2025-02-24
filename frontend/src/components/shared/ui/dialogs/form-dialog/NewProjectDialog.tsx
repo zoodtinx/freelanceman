@@ -11,9 +11,8 @@ import { paymentStatusSelections, projectStatusSelections } from '@/components/s
 import { useClientSelectionQuery } from '@/lib/api/client-api';
 import { debounce } from 'lodash';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
-import StatusSelectForm from '@/components/shared/ui/form-field-elements-2/StatusSelectForm';
-import DynamicHeightTextInputForm from '@/components/shared/ui/form-field-elements-2/DynamicHeightTextInputForm';
-import SelectWithSearchForm from '@/components/shared/ui/form-field-elements-2/SelectWithSearchForm';
+
+import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from '@/components/shared/ui/form-field-element';
 
 const NewProjectDialog = () => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();

@@ -1,47 +1,18 @@
-import React, { useEffect, useState } from 'react';
-
+import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import type { Event, CreateEventDto } from '@types';
-import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
-import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
-import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
-import LinkInput from '../../form-field-elements/LinkInputForm';
-import StatusSelect from '../../form-field-elements/StatusSelectForm';
-import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
-
-import {
-   DialogContent,
-   DialogHeader,
-   Dialog,
-   DialogFooter,
-   DialogTitle,
-   DialogTrigger,
-} from '../../primitives/Dialog';
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm } from 'src/components/shared/ui/form-field-element';
+import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
-
-import {
-   Calendar,
-   CircleCheck,
-   ClipboardX,
-   Pencil,
-   Trash2,
-} from 'lucide-react';
-
-import {
-   useCreateEvent,
-   useDeleteEvent,
-   useEditEvent,
-} from '@/lib/api/event-api';
-
-import { DialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
+import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
+import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { eventStatusSelections } from '../../helpers/constants/constants';
-import { eventDefaultValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import { CreateEventDto } from '@types';
 
 const EventDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
-   const eventData = formDialogState.data as Event
+   const eventData = formDialogState.data as Event;
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
       formDialogState.data
@@ -49,7 +20,7 @@ const EventDialog = () => {
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
    const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
 
-   const formMethods = useForm<NewEventPayload>({
+   const formMethods = useForm({
       defaultValues: eventData,
    });
 
@@ -60,11 +31,11 @@ const EventDialog = () => {
    };
 
    const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
-      const payload: NewEventPayload = {
+      const payload: CreateEventDto = {
          name: data.name,
          projectId: data.projectId,
          details: data.details,
-         dueDate: data.dueDate,
+         dueAt: data.dueDate,
          link: data.link,
          status: data.status,
       };
@@ -86,23 +57,27 @@ const EventDialog = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
-            <TaskNameInput formMethods={formMethods} dialogState={formDialogState} fieldName='name' />
+            <DynamicHeightTextInputForm
+               formMethods={formMethods}
+               fieldName="name"
+               required={true}
+               errorMessage="Please name your event"
+               placeholder="What's the event?"
+            />
             <div className="flex leading-tight">
                <div className="w-1/2">
                   <p className="text-secondary">Status</p>
-                  <StatusSelect
+                  <StatusSelectForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
                      selection={eventStatusSelections}
                      fieldName="status"
                   />
                </div>
                <div className="w-1/2">
-                  <p className="text-secondary">Date</p>
-                  <DateTimePicker
+                  <p className="text-secondary">Due Date</p>
+                  <DateTimePickerForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
-                     fieldName="dueDate"
+                     fieldName="dueAt"
                   />
                </div>
             </div>
@@ -110,11 +85,19 @@ const EventDialog = () => {
                <div className="flex leading-tight">
                   <div className="w-1/2">
                      <p className="text-secondary">Project</p>
-                     <ProjectSelect formMethods={formMethods} dialogState={formDialogState} />
+                     <SelectWithSearchForm
+                        formMethods={formMethods}
+                        fieldName="projectId"
+                        type="project"
+                        size="base"
+                     />
                   </div>
                   <div className="w-1/2">
                      <p className="text-secondary">Client</p>
-                     <AutoClientField formMethods={formMethods} dialogState={formDialogState} />
+                     <AutoClientField
+                        formMethods={formMethods}
+                        fieldName="client"
+                     />
                   </div>
                </div>
             )}
@@ -124,11 +107,15 @@ const EventDialog = () => {
             </div>
             <div className="w-full">
                <p className="text-secondary">Details</p>
-               <TextareaForm formMethods={formMethods} dialogState={formDialogState} fieldName="details" />
+               <TextAreaForm
+                  formMethods={formMethods}
+                  fieldName="details"
+                  placeholder="Describe the event"
+               />
             </div>
             <div className="w-full">
                <p className="text-secondary">Link</p>
-               <LinkInput formMethods={formMethods} />
+               <LinkInputForm formMethods={formMethods} fieldName="link" />
             </div>
          </div>
          <DialogFooter>
@@ -139,31 +126,34 @@ const EventDialog = () => {
                   handleDialogClose={handleDialogClose}
                   handleDelete={() => deleteEvent(formDialogState.id)}
                />
-               <RightButton dialogState={formDialogState} handleEditMode={handleEditMode} />
+               <RightButton
+                  dialogState={formDialogState}
+                  handleEditMode={handleEditMode}
+               />
             </div>
          </DialogFooter>
       </form>
    );
 };
 
-const TagField = ({formMethods}) => {
-   const tags = ['Meeting', 'Day', 'Impact Arena',]
-   const color = '#FCEEE2'
-   
+const TagField = ({ formMethods }) => {
+   const tags = ['Meeting', 'Day', 'Impact Arena'];
+   const color = '#FCEEE2';
+
    const tagsDisplay = tags.map((tag) => {
       return (
-         <div key={tag} className='text-sm font-medium px-2 py-1 rounded-full' style={{ backgroundColor: color}}>
+         <div
+            key={tag}
+            className="text-sm font-medium px-2 py-1 rounded-full"
+            style={{ backgroundColor: color }}
+         >
             {tag}
          </div>
-      )
-   })
+      );
+   });
 
-   return (
-      <div className='flex gap-1 flex-wrap'>
-         {tagsDisplay}
-      </div>
-   )
-}
+   return <div className="flex gap-1 flex-wrap">{tagsDisplay}</div>;
+};
 
 const LeftButton: React.FC<{
    dialogState: FormDialogState;

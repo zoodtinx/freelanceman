@@ -1,5 +1,5 @@
 import { useClientSelectionQuery } from "@/lib/api/client-api"
-import { useAllProjectsQuery, useProjectQuery } from "@/lib/api/project-api"
+import { useAllProjectsQuery, useProjectQuery, useProjectSelectionsQuery } from "@/lib/api/project-api"
 
 type Type = 'client' | 'project'
 
@@ -8,7 +8,7 @@ export const useSelectionQuery = (type: Type) => {
       case 'client':
          return useClientSelectionQuery;
       case 'project':
-         return useAllProjectsQuery;
+         return useProjectSelectionsQuery;
       default:
          throw new Error(`Unknown selection type: ${type}`);
    }

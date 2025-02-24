@@ -1,9 +1,9 @@
 import { FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
-import { Input } from '@/components/shared/ui/primitives/Input';
 import { Textarea } from '@/components/shared/ui/primitives/Textarea';
+import { cn } from '@/lib/helper/utils';
 
-export const TextInputForm = <TFieldValues extends FieldValues>({
+export const TextAreaForm = <TFieldValues extends FieldValues>({
    formMethods,
    className,
    fieldName,
@@ -22,7 +22,7 @@ export const TextInputForm = <TFieldValues extends FieldValues>({
             {...register(fieldName as Path<TFieldValues>, {
                required: required ? errorMessage || 'This field is required' : false
             })}
-            className={className}
+            className={cn('bg-transparent border-tertiary py-1 px-2 resize-none h-20' ,className)}
             placeholder={placeholder}
          />
          {errors[fieldName] && (

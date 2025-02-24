@@ -5,23 +5,15 @@ import { Button } from '../../primitives/Button';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
-import StatusSelect from '../../form-field-elements/StatusSelectForm';
-import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
-import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
-import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
-import LinkInput from 'src/components/shared/ui/form-field-elements/LinkInputForm';
-import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
-
 import { useTaskMutation } from '@/lib/api/task-api';
 import type { Task, CreateTaskDto } from '@types';
-import { FormDialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 import useDialogStore from 'src/lib/zustand/dialog-store';
-import LinkInputForm from '@/components/shared/ui/form-field-elements-2/LinkInputForm';
-import DateTimePickerForm from '@/components/shared/ui/form-field-elements-2/DateTimePickerForm';
+
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-element';
 
 const TaskDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
@@ -50,10 +42,9 @@ const TaskDialog = () => {
          status: data.status,
       };
 
-      if (formDialogState.mode === 'create') createTask(payload);
-      else editTask(payload);
+      console.log('payload', payload)
 
-      handleDialogClose();
+      // handleDialogClose();
    };
 
    const handleEditMode = () => {
@@ -72,17 +63,18 @@ const TaskDialog = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
-            <TaskAndEventNameInput
+            <DynamicHeightTextInputForm
                formMethods={formMethods}
-               dialogState={formDialogState}
                fieldName='name'
+               required={true}
+               errorMessage='Please name your task'
+               placeholder='What do you need to do?'
             />
             <div className="flex leading-tight">
                <div className="w-1/2">
                   <p className="text-secondary">Status</p>
-                  <StatusSelect
+                  <StatusSelectForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
                      selection={taskStatusSelections}
                      fieldName="status"
                   />
@@ -99,26 +91,28 @@ const TaskDialog = () => {
                <div className="flex leading-tight">
                   <div className="w-1/2">
                      <p className="text-secondary">Project</p>
-                     <ProjectSelect
+                     <SelectWithSearchForm
                         formMethods={formMethods}
-                        dialogState={formDialogState}
+                        fieldName='projectId'
+                        type='project'
+                        size='base'
                      />
                   </div>
                   <div className="w-1/2">
                      <p className="text-secondary">Client</p>
                      <AutoClientField
                         formMethods={formMethods}
-                        dialogState={formDialogState}
+                        fieldName='client'
                      />
                   </div>
                </div>
             )}
             <div className="w-full">
                <p className="text-secondary">Details</p>
-               <TextareaForm
+               <TextAreaForm
                   formMethods={formMethods}
-                  dialogState={formDialogState}
                   fieldName="details"
+                  placeholder='Describe the task'
                />
             </div>
             <div className="w-full">
@@ -128,7 +122,7 @@ const TaskDialog = () => {
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
-               <LeftButton
+               {/* <LeftButton
                   dialogState={formDialogState}
                   handleCancelEdit={handleCancelEdit}
                   handleDialogClose={handleDialogClose}
@@ -137,7 +131,8 @@ const TaskDialog = () => {
                <RightButton
                   dialogState={formDialogState}
                   handleEditMode={handleEditMode}
-               />
+               /> */}
+               <Button type='submit'>Submit</Button>
             </div>
          </DialogFooter>
       </form>

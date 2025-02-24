@@ -4,7 +4,7 @@ import { Pencil } from 'lucide-react';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
 
-const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
+export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
    formMethods,
    className,
    fieldName,
@@ -44,7 +44,7 @@ const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
                      placeholder={placeholder}
                   />
                   {errors[fieldName] && (
-                     <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">
+                     <p className="mt-1 text-red-500 font-normal animate-shake text-sm">
                         {errors[fieldName]?.message as string}
                      </p>
                   )}
@@ -54,8 +54,6 @@ const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
       />
    );
 };
-
-export default DynamicHeightTextInputForm;
 
 interface DynamicHeightTextInputProps {
    className?: string;

@@ -4,7 +4,7 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { parseISO, setHours, setMinutes } from 'date-fns';
 import { FormElementProps } from '@/lib/types/form-element.type';
 
-const TimePickerForm = <TFieldValues extends FieldValues>({
+export const TimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
 }: FormElementProps<TFieldValues>): JSX.Element | null => {
@@ -178,7 +178,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                         Hours
                      </label>
                      <select
-                        className="w-full border rounded-md p-1 appearance-none text-md text-center"
+                        className="w-full border border-tertiary rounded-md p-1 appearance-none text-md text-center"
                         value={selectedHour}
                         onChange={(e) => setSelectedHour(e.target.value)}
                      >
@@ -195,7 +195,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                         Minutes
                      </label>
                      <select
-                        className="w-full border rounded-md p-1 appearance-none text-md text-center"
+                        className="w-full border border-tertiary rounded-md p-1 appearance-none text-md text-center"
                         value={selectedMinute}
                         onChange={(e) => setSelectedMinute(e.target.value)}
                      >
@@ -208,7 +208,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                   </div>
                </div>
                <button
-                  className="px-4 py-1 bg-gray-200 rounded-md"
+                  className="px-4 py-1 bg-tertiary rounded-md"
                   onClick={() => togglePeriod()}
                >
                   {selectedPeriod}
@@ -218,5 +218,3 @@ const TimePicker: React.FC<TimePickerProps> = ({
       </Popover>
    );
 };
-
-export default TimePickerForm;

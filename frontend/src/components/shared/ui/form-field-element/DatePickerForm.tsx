@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { useState } from 'react';
 import { FormElementProps } from '@/lib/types/form-element.type';
 
-const DatePickerForm = <TFieldValues extends FieldValues>({
+export const DatePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
 }: FormElementProps<TFieldValues>): JSX.Element => {
@@ -51,5 +51,3 @@ const DatePickerForm = <TFieldValues extends FieldValues>({
       />
    );
 };
-
-export default DatePickerForm;

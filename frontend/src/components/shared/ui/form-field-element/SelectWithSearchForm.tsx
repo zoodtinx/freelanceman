@@ -12,9 +12,9 @@ import { SelectWithSearchFormElementProps } from '@/lib/types/form-element.type'
 import { SelectItemContent } from '@/components/shared/ui/select/select.type';
 import { ChevronDown } from 'lucide-react';
 import { useSelectionQuery } from '@/lib/api/selection-api';
-import useSearchOption from '@/components/shared/ui/form-field-elements-2/useSearchOption';
+import { useSearchOption } from '@/components/shared/ui/form-field-element/useSearchOption';
 
-const SelectWithSearchForm = <TFieldValues extends FieldValues>({
+export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
    formMethods,
    className,
    fieldName,
@@ -23,7 +23,7 @@ const SelectWithSearchForm = <TFieldValues extends FieldValues>({
    size,
    required,
    errorMessage,
-   type
+   type,
 }: SelectWithSearchFormElementProps<TFieldValues>): JSX.Element => {
    const {
       control,
@@ -32,11 +32,11 @@ const SelectWithSearchForm = <TFieldValues extends FieldValues>({
       watch,
    } = formMethods;
 
-   const { searchTerm, handleSearch } = useSearchOption(type)
+   const { searchTerm, handleSearch } = useSearchOption(type);
 
-   const query = useSelectionQuery(type)
+   const query = useSelectionQuery(type);
 
-   const {data: selections, isLoading} = query(searchTerm)
+   const { data: selections, isLoading } = query(searchTerm);
 
    return (
       <Controller
@@ -82,16 +82,13 @@ const SelectWithSearchForm = <TFieldValues extends FieldValues>({
 
 type SelectWithSearchProps = Pick<
    SelectWithSearchFormElementProps<FieldValues>,
-   | 'isWithIcon'
-   | 'size'
-   | 'placeholder'
-   | 'className'
+   'isWithIcon' | 'size' | 'placeholder' | 'className'
 > & {
    handleSelect: (value: string, onChange?: (value: string) => void) => void;
    value?: string;
    selections: SelectItemContent[];
    isLoading: boolean;
-   handleSearch: (value:string) => void
+   handleSearch: (value: string) => void;
 };
 
 const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
@@ -102,7 +99,7 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    value,
    className,
    placeholder,
-   isWithIcon,
+   isWithIcon = true,
    size,
 }) => {
    const [isOpen, setIsOpen] = useState(false);
@@ -110,7 +107,18 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
       value: '',
       label: '',
    });
+
    const selectRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      if (value) {
+         const selectedValueContent = selections?.find((selection) =>  selection.value === value)
+         setSelectedValue(selectedValueContent as SelectItemContent || {
+            value: '',
+            label: '',
+         })
+      }
+   },[selections, value])
 
    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -156,14 +164,11 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    };
 
    const handleOpen = () => {
-      setIsOpen(true)
-   }
+      setIsOpen(true);
+   };
 
    return (
-      <Select
-         value={value}
-         open={isOpen}
-      >
+      <Select value={value} open={isOpen}>
          <SelectTrigger
             className={cn(
                className,
@@ -171,7 +176,7 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             )}
             onClick={handleOpen}
          >
-            <p className="truncate">
+            <p className="truncate text-base font-normal">
                {selectedValue.label ? selectedValue.label : placeholder}
             </p>
             {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />}
@@ -201,17 +206,16 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
 type SelectionListProps = Pick<
    SelectWithSearchProps,
    'selections' | 'isLoading' | 'handleSelect'
->& {
-   handleClose: () => void
-}
+> & {
+   handleClose: () => void;
+};
 
 const SelectionList: React.FC<SelectionListProps> = ({
    handleSelect,
    isLoading,
    selections,
-   handleClose
+   handleClose,
 }) => {
-   
    return (
       <div className="max-h-[250px] pr-2 overflow-y-auto overflow-x-hidden">
          {isLoading ? (
@@ -237,5 +241,3 @@ const SelectionList: React.FC<SelectionListProps> = ({
       </div>
    );
 };
-
-export default SelectWithSearchForm;

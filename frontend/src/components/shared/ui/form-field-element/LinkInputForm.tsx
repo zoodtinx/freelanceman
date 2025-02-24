@@ -5,7 +5,7 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
 import { validateUrl } from '@/components/shared/ui/helpers/Helpers';
 
-const LinkInputForm = <TFieldValues extends FieldValues>({
+export const LinkInputForm = <TFieldValues extends FieldValues>({
    formMethods,
    className,
    fieldName,
@@ -60,8 +60,6 @@ const LinkInputForm = <TFieldValues extends FieldValues>({
       />
    );
 };
-
-export default LinkInputForm
 
 interface LinkInputProps {
    value: string;
