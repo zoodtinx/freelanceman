@@ -1,0 +1,105 @@
+import { useEffect, useRef } from 'react';
+import { cn } from '@/lib/helper/utils';
+import { Pencil } from 'lucide-react';
+import { Controller, FieldValues, Path } from 'react-hook-form';
+import { FormElementProps } from '@/lib/types/form-element.type';
+
+const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
+   formMethods,
+   className,
+   fieldName,
+   placeholder,
+   required,
+   errorMessage,
+}: FormElementProps<TFieldValues>): JSX.Element => {
+   const {
+      control,
+      formState: { errors },
+      clearErrors,
+      watch,
+   } = formMethods;
+
+   return (
+      <Controller
+         name={fieldName as Path<TFieldValues>}
+         control={control}
+         rules={{
+            required: required
+               ? errorMessage || 'Please select a status'
+               : false,
+         }}
+         render={({ field }) => {
+            const handleValueChange = (value: string) => {
+               clearErrors(fieldName as Path<TFieldValues>);
+               field.onChange(value);
+            };
+
+            const value = watch(fieldName as Path<TFieldValues>);
+
+            return (
+               <div className={className}>
+                  <DynamicHeightTextInput
+                     value={value}
+                     handleChanges={handleValueChange}
+                     placeholder={placeholder}
+                  />
+                  {errors[fieldName] && (
+                     <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">
+                        {errors[fieldName]?.message as string}
+                     </p>
+                  )}
+               </div>
+            );
+         }}
+      />
+   );
+};
+
+export default DynamicHeightTextInputForm;
+
+interface DynamicHeightTextInputProps {
+   className?: string;
+   placeholder?: string;
+   value: string;
+   handleChanges: (value: string) => void;
+}
+
+const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
+   className,
+   placeholder = 'Title',
+   value,
+   handleChanges,
+}) => {
+   const inputRef = useRef<HTMLDivElement | null>(null);
+
+   useEffect(() => {
+      if (inputRef.current) {
+         inputRef.current.textContent = value;
+         inputRef.current.focus();
+      }
+   }, [value]);
+
+   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
+      handleChanges(e.currentTarget.textContent as string);
+   };
+
+   return (
+      <div>
+         <div className="w-full relative flex ">
+            <div
+               suppressContentEditableWarning
+               className={cn(
+                  'peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap pr-7 text-lg font-medium',
+                  className
+               )}
+               contentEditable
+               role="textbox"
+               data-placeholder={placeholder}
+               onInput={handleInput}
+               ref={inputRef}
+            />
+            <Pencil className="w-6 h-6 text-secondary" />
+         </div>
+      </div>
+   );
+};

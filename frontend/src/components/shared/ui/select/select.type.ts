@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface SelectedItem {
+export interface SelectItemContent {
    value: string;
    label: string;
 }
 
 export interface SelectComponentProps {
-   selected: SelectedItem | undefined;
-   setSelected: Dispatch<SetStateAction<SelectedItem | undefined>>;
+   selected: SelectItemContent | undefined;
+   setSelected: Dispatch<SetStateAction<SelectItemContent | undefined>>;
    className?: string;
 }

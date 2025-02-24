@@ -1,0 +1,54 @@
+import * as React from 'react';
+import {
+   Select,
+   SelectValue,
+   SelectTrigger,
+   SelectContent,
+   SelectItem,
+} from 'src/components/shared/ui/select/Select';
+import { SelectItemContent } from '@/components/shared/ui/select/select.type';
+import { getStatusColor } from '@/components/shared/ui/helpers/Helpers';
+import { cn } from '@/lib/helper/utils';
+
+interface StandardSelectProps {
+   selections: SelectItemContent[];
+   isWithIcon?: boolean;
+   value: string;
+   handleValueChange: (value: string) => void;
+   className?: string;
+}
+
+const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
+   (
+      { className, isWithIcon = true, selections, value, handleValueChange },
+      ref
+   ) => {
+
+      console.log('getStatusColor(value)', getStatusColor(value))
+
+      return (
+         <div className={cn("bg-foreground w-fit rounded-full py-1 px-2", className)}>
+            <Select value={value} onValueChange={handleValueChange}>
+               <SelectTrigger
+                  ref={ref}
+                  isWithIcon={isWithIcon}
+               >
+                  <div className="flex gap-1 items-center text-base font-medium">
+                     <div className={`w-3 h-3 rounded-full bg-${getStatusColor(value)}`} />
+                     <SelectValue />
+                  </div>
+               </SelectTrigger>
+               <SelectContent className="flex flex-col gap-1 max-h-[250px] overflow-y-auto">
+                  {selections.map((selection) => (
+                     <SelectItem key={selection.value} value={selection.value}>
+                        {selection.label}
+                     </SelectItem>
+                  ))}
+               </SelectContent>
+            </Select>
+         </div>
+      );
+   }
+);
+
+export default StatusSelect;

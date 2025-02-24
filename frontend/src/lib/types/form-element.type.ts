@@ -1,3 +1,5 @@
+import { SelectItemContent } from '@/components/shared/ui/select/select.type';
+import { SelectObject } from '@/lib/types/selector-dialog.types';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormElementProps<
@@ -11,9 +13,9 @@ export interface FormElementProps<
    className?: string;
 }
 
-export interface SelectElementProps<
+export interface SelectFormElementProps<
    TFieldValues extends FieldValues = FieldValues
 > extends FormElementProps<TFieldValues> {
-   options: { label: string; value: string | number }[];
-   multiple?: boolean;
+   selection: SelectItemContent[];
+   isWithIcon: boolean;
 }

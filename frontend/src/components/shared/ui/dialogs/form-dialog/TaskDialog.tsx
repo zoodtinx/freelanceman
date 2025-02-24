@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
 import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
-import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import TaskAndEventNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
 import LinkInput from 'src/components/shared/ui/form-field-elements/LinkInputForm';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';

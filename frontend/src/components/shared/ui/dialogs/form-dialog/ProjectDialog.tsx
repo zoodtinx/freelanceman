@@ -7,7 +7,7 @@ import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTim
 import LinkInput from '../../form-field-elements/LinkInputForm';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
 import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
@@ -18,6 +18,7 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import StatusSelectForm from '@/components/shared/ui/form-field-elements-2/StatusSelectForm';
 
 const ProjectDialog = () => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();

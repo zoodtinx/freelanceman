@@ -8,7 +8,7 @@ import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTim
 import LinkInput from '../../form-field-elements/LinkInputForm';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
 import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 
 import {
    DialogContent,

@@ -25,7 +25,7 @@ import LinkInput from '../../form-field-elements/LinkInputForm';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
 import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
 import TimePicker from '../../primitives/TimePicker';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/';
 import DatePicker from '../../primitives/DatePicker';
 
 //Main Task Dialogue

@@ -10,12 +10,13 @@ import {
 import { cn } from '@/lib/helper/utils';
 import { X } from 'lucide-react';
 import { getStatusColor } from '@/components/shared/ui/helpers/Helpers';
+import { SelectObject } from '@/lib/types/selector-dialog.types';
 
 type SelectProps = Omit<
    React.ComponentPropsWithoutRef<typeof Select>,
    'children'
 > & {
-   selectContents: { value: string; label: string; color?: string }[];
+   selectContents: SelectObject[];
    className?: string;
    onValueChange: (value: string) => void;
    value?: string;

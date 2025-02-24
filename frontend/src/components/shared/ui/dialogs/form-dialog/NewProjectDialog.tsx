@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
 import StatusSelect from '../../form-field-elements/StatusSelectForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/DynamicInputForm';
+import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Plus, Trash2, UserRound } from 'lucide-react';
@@ -14,6 +14,8 @@ import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/
 import { useClientSelectionQuery } from '@/lib/api/client-api';
 import { debounce } from 'lodash';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
+import StatusSelectForm from '@/components/shared/ui/form-field-elements-2/StatusSelectForm';
+import DynamicHeightTextInputForm from '@/components/shared/ui/form-field-elements-2/DynamicHeightTextInputForm';
 
 const NewProjectDialog = () => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
@@ -57,11 +59,12 @@ const NewProjectDialog = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-2">
-            <TaskNameInput
+            <DynamicHeightTextInputForm
                formMethods={formMethods}
                dialogState={formDialogState}
                className="pt-1"
-               placeholder="Enter client's name"
+               fieldName='title'
+               placeholder="Enter project name"
             />
             <div className="w-full">
                <p className="text-secondary">Client</p>
@@ -78,23 +81,21 @@ const NewProjectDialog = () => {
             </div>
             <div className="flex leading-tight">
                <div className="w-1/2">
-                  <p className="text-secondary">Project Status</p>
-                  <StatusSelect
+                  <p className="text-secondary mb-1">Project Status</p>
+                  <StatusSelectForm
                      formMethods={formMethods}
                      fieldName="projectStatus"
                      selection={projectStatusSelections}
                      dialogState={formDialogState}
-                     className="pt-1"
                   />
                </div>
                <div className="w-1/2">
-                  <p className="text-secondary">Payment Status</p>
-                  <StatusSelect
+                  <p className="text-secondary mb-1">Payment Status</p>
+                  <StatusSelectForm
                      formMethods={formMethods}
                      fieldName="paymentStatus"
                      selection={paymentStatusSelections}
                      dialogState={formDialogState}
-                     className="pt-1"
                   />
                </div>
             </div>
