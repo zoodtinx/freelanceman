@@ -1,47 +1,96 @@
-import { FieldValues, Path, PathValue } from 'react-hook-form';
-import { InputProps } from '@/lib/types/form-input-props.types';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
+import { Controller, FieldValues, Path } from 'react-hook-form';
+import { FormElementProps } from '@/lib/types/form-element.type';
+import { validateUrl } from '@/components/shared/ui/helpers/Helpers';
 
-const LinkInputForm = <TFieldValues extends FieldValues>({
+export const LinkInputForm = <TFieldValues extends FieldValues>({
    formMethods,
-}: InputProps<TFieldValues>): JSX.Element => {
+   className,
+   fieldName,
+   placeholder,
+   required,
+   errorMessage,
+}: FormElementProps<TFieldValues>): JSX.Element => {
+   const {
+      control,
+      formState: { errors },
+      clearErrors,
+      watch,
+   } = formMethods;
+
+   return (
+      <Controller
+         name={fieldName as Path<TFieldValues>}
+         control={control}
+         rules={{
+            required: required
+               ? errorMessage || 'Please enter a link'
+               : false,
+         }}
+         render={({ field }) => {
+            const handleValueChange = (value: string) => {
+               clearErrors(fieldName as Path<TFieldValues>);
+               field.onChange(value);
+            };
+
+            const handleDiscardValue = () => {
+               field.onChange('');
+            }
+
+            const value = watch(fieldName as Path<TFieldValues>);
+
+            return (
+               <div className={className}>
+                  <LinkInput
+                     value={value}
+                     placeholder={placeholder}
+                     handleValueChange={handleValueChange}
+                     handleDiscardValue={handleDiscardValue}
+                  />
+                  {errors[fieldName] && (
+                     <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">
+                        {errors[fieldName]?.message as string}
+                     </p>
+                  )}
+               </div>
+            );
+         }}
+      />
+   );
+};
+
+interface LinkInputProps {
+   value: string;
+   handleValueChange: (value: string) => void;
+   handleDiscardValue: () => void;
+   placeholder?: string 
+}
+
+const LinkInput:React.FC<LinkInputProps> = ({
+   value,
+   handleValueChange,
+   handleDiscardValue,
+   placeholder = 'Add a link'
+}) => {
    const [isButtonMode, setIsButtonMode] = useState(false);
    const [url, setUrl] = useState('');
    const [error, setError] = useState('');
 
-   const { register, setValue, getValues } = formMethods;
-
    useEffect(() => {
-      const currentUrl = getValues('link' as Path<TFieldValues>);
-      if (currentUrl) {
-         const { error } = validateUrl(currentUrl);
+      if (value) {
+         const { error } = validateUrl(value);
 
          if (!error) {
-            setUrl(currentUrl);
+            setUrl(value);
             setIsButtonMode(true);
          } else {
             setError(error);
             setIsButtonMode(false);
          }
       }
-   }, [getValues]);
-
-   const validateUrl = (inputValue: string) => {
-      if (!inputValue.trim()) {
-         return { error: 'URL cannot be empty.' };
-      }
-
-      try {
-         new URL(inputValue);
-         return { error: '' };
-      } catch {
-         return {
-            error: 'Invalid URL. Please enter a valid link. (Or leave empty)',
-         };
-      }
-   };
+   }, [value]);
 
    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
       const inputValue = e.target.value.trim();
@@ -55,16 +104,13 @@ const LinkInputForm = <TFieldValues extends FieldValues>({
          }
 
          setUrl(inputValue);
-         setValue(
-            'link' as Path<TFieldValues>,
-            inputValue as PathValue<TFieldValues, Path<TFieldValues>>
-         );
+         handleValueChange(inputValue)
          setError('');
          setIsButtonMode(true);
       }
    };
 
-   const handleChange = () => {
+   const handleChange = (e) => {
       setError('');
       setIsButtonMode(false);
    };
@@ -72,10 +118,7 @@ const LinkInputForm = <TFieldValues extends FieldValues>({
    const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
       setIsButtonMode(false);
-      setValue(
-         'link' as Path<TFieldValues>,
-         '' as PathValue<TFieldValues, Path<TFieldValues>>
-      );
+      handleValueChange('')
       setError('');
    };
 
@@ -104,21 +147,21 @@ const LinkInputForm = <TFieldValues extends FieldValues>({
             <div>
                <input
                   type="url"
-                  {...register?.('link' as Path<TFieldValues>)}
                   onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   className="flex px-2 h-6 w-full border border-secondary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  placeholder="Enter your link"
+                  placeholder={placeholder}
                />
-               {error && (
-                  <p className="mt-1 text-sm text-red-500 animate-shake">
-                     {error}
-                  </p>
-               )}
             </div>
+            
+         )}
+         {error && (
+            <p className="mt-1 text-red-500 font-normal animate-shake text-sm">
+               {error}
+            </p>
          )}
       </div>
    );
 };
 
-export default LinkInputForm;
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm } from 'src/components/shared/ui/form-field-element';
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';

@@ -4,20 +4,22 @@ import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Contact, NewContactPayload } from '@types';
-import { Input } from '../../primitives/Input';
 import { User, Pencil, Trash2, ClipboardX, CircleCheck } from 'lucide-react';
-import { Textarea } from '../../primitives/Textarea';
-import AvatarInput from '@/components/shared/ui/form-field-elements/AvatarInput';
-import TextArrayInput from '@/components/shared/ui/form-field-elements/TextArrayInput';
+import { AvatarInputForm } from 'src/components/shared/ui/form-field-elements';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, TextInputForm, } from 'src/components/shared/ui/form-field-element';
+import {
+   DynamicHeightTextInputForm,
+   SelectWithSearchForm,
+   TextAreaForm,
+   TextInputForm,
+} from 'src/components/shared/ui/form-field-elements';
 
 const ContactDialog = (): JSX.Element => {
    const [color, setColor] = useState('');
 
-   const { formDialogState, setFormDialogState } = useDialogStore()
-   const contactData = formDialogState.data as Contact
+   const { formDialogState, setFormDialogState } = useDialogStore();
+   const contactData = formDialogState.data as Contact;
 
    const formMethods = useForm<Contact>({
       defaultValues: contactData,
@@ -123,7 +125,10 @@ const ContactDialog = (): JSX.Element => {
                <Trash2 className="w-4 h-4" />
             </Button>
          );
-      } else if (formDialogState.mode === 'edit' || formDialogState.mode === 'create') {
+      } else if (
+         formDialogState.mode === 'edit' ||
+         formDialogState.mode === 'create'
+      ) {
          return (
             <Button
                variant="destructiveOutline"
@@ -139,7 +144,7 @@ const ContactDialog = (): JSX.Element => {
 
    const AvatarInputElement = () =>
       formDialogState.mode === 'edit' || formDialogState.mode === 'create' ? (
-         <AvatarInput
+         <AvatarInputForm
             formMethods={formMethods}
             formDialogState={formDialogState}
             fieldName="avatar"
@@ -173,20 +178,24 @@ const ContactDialog = (): JSX.Element => {
                            errorMessage="Please enter a name"
                            placeholder="Contact Name"
                            isWithIcon={false}
-                           className='text-lg'
+                           className="text-lg"
                         />
                      </div>
                      <div className="flex flex-col leading-5">
                         <p className="w-[80px] text-secondary">Company</p>
-                        {formDialogState.mode === 'view' && <p className="text-md">{formMethods.getValues('company')}</p>}
+                        {formDialogState.mode === 'view' && (
+                           <p className="text-md">
+                              {formMethods.getValues('company')}
+                           </p>
+                        )}
                         {formDialogState.mode !== 'view' && (
                            <SelectWithSearchForm
-                                                   formMethods={formMethods}
-                                                   fieldName='company'
-                                                   type='client'
-                                                   size='base'
-                                                   placeholder='Select Company'
-                                                />
+                              formMethods={formMethods}
+                              fieldName="company"
+                              type="client"
+                              size="base"
+                              placeholder="Select Company"
+                           />
                         )}
                      </div>
                      <div className="flex flex-col leading-5">

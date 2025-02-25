@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
+import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
+import { DynamicHeightTextInputForm } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
@@ -9,7 +9,6 @@ import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { ClientSearchOption, CreateProjectDto } from '@types';
 import { debounce } from 'lodash';
-import { TextInputForm } from '@/components/shared/ui/form-field-elements/TextInputForm';
 import {
    Popover,
    PopoverContent,
@@ -52,7 +51,7 @@ const NewClientDialog = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-2">
-            <TaskNameInput
+            <DynamicHeightTextInputForm
                formMethods={formMethods}
                dialogState={formDialogState}
                className="pt-1"
@@ -85,7 +84,7 @@ const NewClientDialog = () => {
             </div>
             <div className="flex flex-col grow">
                <p className="text-secondary pb-1 text-sm">Address</p>
-               <TextareaForm
+               <TextAreaForm
                   fieldName="email"
                   className="bg-transparent "
                   formMethods={formMethods}

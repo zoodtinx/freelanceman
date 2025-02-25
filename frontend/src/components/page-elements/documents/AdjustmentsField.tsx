@@ -1,7 +1,8 @@
 import {
-   TextAreaInput,
-   TextInput,
-} from 'src/components/shared/ui/form-field-elements/TextInputForm';
+   TextAreaForm,
+   TextInputForm,
+} from 'src/components/shared/ui/form-field-elements';
+
 import { SalesDocument } from '@types';
 import { UseFormReturn } from 'react-hook-form';
 
@@ -15,26 +16,26 @@ const AdjustmentsField = ({
          <div className="flex flex-col">
             <div className="flex flex-col gap-2 peer order-2">
                <div className="flex gap-2">
-                  <TextInput
+                  <TextInputForm
                      fieldName="adjustment"
                      label="Adjustments"
                      formMethods={formMethods}
                      className="flex-1"
                   />
-                  <TextInput
+                  <TextInputForm
                      fieldName="discount"
                      label="Discount"
                      formMethods={formMethods}
                      className="flex-1"
                   />
-                  <TextInput
+                  <TextInputForm
                      fieldName="tax"
                      label="Tax"
                      formMethods={formMethods}
                      className="flex-1"
                   />
                </div>
-               <TextAreaInput
+               <TextAreaForm
                   fieldName="note"
                   label="Additional Notes"
                   formMethods={formMethods}

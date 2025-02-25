@@ -1,6 +1,8 @@
-import SelectWithApiSearchForm from '@/components/shared/ui/form-field-elements/SelectWithApiSearchForm';
-import LinkInputForm from '@/components/shared/ui/form-field-elements/LinkInputForm';
-import SelectForm from '@/components/shared/ui/form-field-elements/SelectForm';
+import {
+   LinkInputForm,
+   SelectWithSearchForm,
+   StatusSelectForm,
+} from 'src/components/shared/ui/form-field-elements';
 import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
 
 import {
@@ -12,21 +14,10 @@ import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { Input } from '../../primitives/Input';
 
-import {
-   FieldValues,
-   Path,
-   PathValue,
-} from 'react-hook-form';
-import React, {
-   Dispatch,
-   SetStateAction,
-   useRef,
-   useState,
-} from 'react';
+import { FieldValues, Path, PathValue } from 'react-hook-form';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import { ClipboardX, ArrowUpFromLine } from 'lucide-react';
-
-import SelectWithSearchForm from '@/components/shared/ui/form-field-elements/SelectWithSearchForm';
 
 const FileDialogCreateMode: React.FC<{
    formMethods: any;
@@ -40,7 +31,7 @@ const FileDialogCreateMode: React.FC<{
    setProjectListFilter: Dispatch<SetStateAction<any>>;
    setClientListFilter: Dispatch<SetStateAction<any>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   openDeletePrompt: () => void
+   openDeletePrompt: () => void;
 }> = ({
    formMethods,
    mode,
@@ -53,7 +44,7 @@ const FileDialogCreateMode: React.FC<{
    setProjectListFilter,
    setClientListFilter,
    openDeletePrompt,
-   setDialogState
+   setDialogState,
 }) => {
    const {
       register,
@@ -63,21 +54,23 @@ const FileDialogCreateMode: React.FC<{
 
    const categoryValue = watch('category');
 
-   const selectedProject = watch('projectId')
-
+   const selectedProject = watch('projectId');
 
    const handleDeleteButton = () => {
       setDialogState((prev) => {
          return {
             ...prev,
-            isOpen: false
-         }
-      })
-      openDeletePrompt()
-    }
+            isOpen: false,
+         };
+      });
+      openDeletePrompt();
+   };
 
    return (
-      <form onSubmit={formMethods.handleSubmit(() => {})} className="flex flex-col">
+      <form
+         onSubmit={formMethods.handleSubmit(() => {})}
+         className="flex flex-col"
+      >
          <div className="pt-3">
             <ModeSelect setMode={setMode} mode={mode} />
          </div>
@@ -87,7 +80,6 @@ const FileDialogCreateMode: React.FC<{
                <label className="text-secondary">Add a link</label>
                <LinkInputForm
                   formMethods={formMethods}
-
                   dialogState={dialogState}
                   fieldName="link"
                />
@@ -127,7 +119,7 @@ const FileDialogCreateMode: React.FC<{
                </div>
                <div className="flex flex-col leading-5 w-1/2">
                   <p className="text-secondary">Category</p>
-                  <SelectForm
+                  <StatusSelectForm
                      formMethods={formMethods}
                      selection={fileCategorySelections}
                      dialogState={dialogState}
@@ -147,7 +139,7 @@ const FileDialogCreateMode: React.FC<{
                <div className="flex gap-2">
                   <div className="flex flex-col leading-5 w-1/2">
                      <p className="text-secondary">Project</p>
-                     <SelectWithApiSearchForm
+                     <SelectWithSearchForm
                         formMethods={formMethods}
                         dialogState={dialogState}
                         selection={projectSelection}
@@ -163,7 +155,7 @@ const FileDialogCreateMode: React.FC<{
                   </div>
                   <div className="flex flex-col leading-5 w-1/2">
                      <p className="text-secondary">Client</p>
-                     <SelectWithApiSearchForm
+                     <SelectWithSearchForm
                         formMethods={formMethods}
                         dialogState={dialogState}
                         selection={clientSelection}
@@ -181,26 +173,19 @@ const FileDialogCreateMode: React.FC<{
             )}
          </div>
          <DialogFooter>
-                     <div className="flex justify-between p-4">
-                        <Button
-                           variant={'destructiveOutline'}
-                           className="flex gap-1"
-                        >
-                           Discard
-                           <ClipboardX className="w-4 h-4" />
-                        </Button>
-                        <Button
-                           type="submit"
-                           variant={'submit'}
-                           className="flex gap-1"
-                        >
-                           { mode === 'upload' && 'Upload' } 
-                           { mode === 'link' && 'Add' } 
-                           <ArrowUpFromLine className="w-4 h-4" />
-                        </Button>
-                     </div>
-                  </DialogFooter>
-                  </form>
+            <div className="flex justify-between p-4">
+               <Button variant={'destructiveOutline'} className="flex gap-1">
+                  Discard
+                  <ClipboardX className="w-4 h-4" />
+               </Button>
+               <Button type="submit" variant={'submit'} className="flex gap-1">
+                  {mode === 'upload' && 'Upload'}
+                  {mode === 'link' && 'Add'}
+                  <ArrowUpFromLine className="w-4 h-4" />
+               </Button>
+            </div>
+         </DialogFooter>
+      </form>
    );
 };
 
@@ -324,4 +309,4 @@ const fileTypeSelections = [
    { value: 'other', label: 'Other' },
 ];
 
-export default FileDialogCreateMode
+export default FileDialogCreateMode;

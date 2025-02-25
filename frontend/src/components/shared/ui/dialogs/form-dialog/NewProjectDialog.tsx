@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
+import { TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Plus, Trash2, UserRound } from 'lucide-react';
@@ -12,7 +12,7 @@ import { useClientSelectionQuery } from '@/lib/api/client-api';
 import { debounce } from 'lodash';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
 
-import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from '@/components/shared/ui/form-field-element';
+import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from 'src/components/shared/ui/form-field-elements';
 
 const NewProjectDialog = () => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
@@ -109,7 +109,7 @@ const NewProjectDialog = () => {
             ) : (
                <div className="w-full mb-1">
                   <p className="text-secondary">Notes</p>
-                  <TextareaForm
+                  <TextAreaForm
                      formMethods={formMethods}
                      dialogState={formDialogState}
                      fieldName="details"

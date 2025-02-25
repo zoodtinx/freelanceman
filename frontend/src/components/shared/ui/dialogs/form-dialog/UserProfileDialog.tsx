@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../../primitives/Button';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Contact } from '@types';
-import { Input } from '../../primitives/Input';
 import {
    Pencil,
    Trash2,
@@ -11,24 +10,17 @@ import {
    CircleCheck,
    UserIcon,
 } from 'lucide-react';
-import { Textarea } from '../../primitives/Textarea';
-import AvatarInput from '@/components/shared/ui/form-field-elements/AvatarInput';
+import { AvatarInputForm } from 'src/components/shared/ui/form-field-elements';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { mockUser } from '@mocks';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
 import { cn } from '@/lib/helper/utils';
-
 import {
-   AutoClientField,
-   DateTimePickerForm,
    DynamicHeightTextInputForm,
-   LinkInputForm,
-   SelectWithSearchForm,
-   StatusSelectForm,
    TextAreaForm,
    TextInputForm,
-} from 'src/components/shared/ui/form-field-element';
+} from 'src/components/shared/ui/form-field-elements';
 
 const UserProfileDialogLayout = () => {
    return <div></div>;
@@ -162,9 +154,9 @@ const UserProfileDialog = (): JSX.Element => {
    };
 
 
-   const AvatarInputElement = () => 
+   const AvatarInputFormElement = () => 
       formDialogState.mode === 'edit' || formDialogState.mode === 'create' ? (
-         <AvatarInput
+         <AvatarInputForm
             formMethods={formMethods}
             formDialogState={formDialogState}
             fieldName="avatar"
@@ -180,7 +172,7 @@ const UserProfileDialog = (): JSX.Element => {
          onSubmit={handleSubmit(onSubmit, onError)}
          className="flex flex-col items-center pt-5"
       >
-         <AvatarInputElement />
+         <AvatarInputFormElement />
          <DynamicHeightTextInputForm
             formMethods={formMethods}
             fieldName="name"

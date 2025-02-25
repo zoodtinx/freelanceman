@@ -1,4 +1,5 @@
-import { TextInput, TextAreaInput } from 'src/components/shared/ui/form-field-elements/TextInputForm';
+import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
+
 import { Project, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
@@ -43,13 +44,13 @@ const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDoc
          <div className="flex flex-col">
             <div className="flex gap-2 peer order-2">
                <div className="peer flex-1">
-                  <TextInput fieldName="number" label="Number" formMethods={formMethods} />
+                  <TextInputForm fieldName="number" label="Number" formMethods={formMethods} />
                </div>
                <div className="peer flex-1">
-                  <TextInput fieldName="issuedAt" label="Issue date" formMethods={formMethods} />
+                  <TextInputForm fieldName="issuedAt" label="Issue date" formMethods={formMethods} />
                </div>
                <div className="peer flex-1">
-                  <TextInput fieldName="currency" label="Currency" formMethods={formMethods} />
+                  <TextInputForm fieldName="currency" label="Currency" formMethods={formMethods} />
                </div>
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
@@ -58,9 +59,9 @@ const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDoc
          </div>
          <div className="flex flex-col grow">
             <div className="flex flex-col gap-2 peer order-2 h-full">
-               <TextInput fieldName="projectTitle" label="Project Title" formMethods={formMethods} />
-               <TextInput fieldName="referenceNumber" label="Reference Number" formMethods={formMethods} />
-               <TextAreaInput fieldName="projectDescription" label="Project Details" formMethods={formMethods} />
+               <TextInputForm fieldName="projectTitle" label="Project Title" formMethods={formMethods} />
+               <TextInputForm fieldName="referenceNumber" label="Reference Number" formMethods={formMethods} />
+               <TextAreaForm fieldName="projectDescription" label="Project Details" formMethods={formMethods} />
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <p>Project Info</p>

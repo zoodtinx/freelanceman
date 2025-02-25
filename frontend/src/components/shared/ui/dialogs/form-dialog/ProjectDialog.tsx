@@ -12,7 +12,7 @@ import { paymentStatusSelections, projectStatusSelections } from '@/components/s
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-element';
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
 
 const ProjectDialog = () => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();

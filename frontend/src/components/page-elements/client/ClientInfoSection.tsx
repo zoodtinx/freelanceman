@@ -1,9 +1,6 @@
 import { Plus, PencilLine } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import {
-   TextAreaInput,
-   TextInput,
-} from '@/components/shared/ui/form-field-elements/TextInputForm';
+import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { Client } from '@types';
 import { Button } from '@/components/shared/ui/primitives/Button';
@@ -67,13 +64,13 @@ const ClientInfoForm = ({
             </div>
          )
       ) : isTextArea ? (
-         <TextAreaInput
+         <TextAreaForm
             formMethods={formMethods}
             fieldName={fieldName}
             label={label}
          />
       ) : (
-         <TextInput
+         <TextInputForm
             formMethods={formMethods}
             fieldName={fieldName}
             label={label}
@@ -152,13 +149,13 @@ const AnimatedClientInfoForm = ({
             </div>
          )
       ) : isTextArea ? (
-         <TextAreaInput
+         <TextAreaForm
             formMethods={formMethods}
             fieldName={fieldName}
             label={label}
          />
       ) : (
-         <TextInput
+         <TextInputForm
             formMethods={formMethods}
             fieldName={fieldName}
             label={label}
@@ -213,24 +210,24 @@ const AnimatedClientInfoForm = ({
          )}
          {mode === 'edit' && (
             <form className="flex flex-col gap-2">
-               <TextAreaInput
+               <TextAreaForm
                   formMethods={formMethods}
                   fieldName="address"
                   label="Address"
                />
                <div className="flex gap-2 w-full">
-                  <TextInput
+                  <TextInputForm
                      formMethods={formMethods}
                      fieldName="email"
                      label="Email"
                   />
-                  <TextInput
+                  <TextInputForm
                      formMethods={formMethods}
                      fieldName="phoneNumber"
                      label="Phone Number"
                   />
                </div>
-               <TextInput
+               <TextInputForm
                   formMethods={formMethods}
                   fieldName="taxId"
                   label="Tax ID"

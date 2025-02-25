@@ -1,4 +1,4 @@
-import { TextInput, TextAreaInput } from 'src/components/shared/ui/form-field-elements/TextInputForm';
+import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { SalesDocument, User } from '@types';
 import { UseFormReturn } from 'react-hook-form';
 import { useUserQuery } from '@/lib/api/user-api';
@@ -25,13 +25,13 @@ const FreelancerInfoField = ({ formMethods }:{ formMethods : UseFormReturn<Sales
       <fieldset className="flex flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col gap-2 peer order-2 h-full">
             <div className="flex gap-2">
-               <TextInput
+               <TextInputForm
                   fieldName="freelancerName"
                   label="Name"
                   formMethods={formMethods}
                   className="flex-1"
                />
-               <TextInput
+               <TextInputForm
                   fieldName="freelancerTaxId"
                   label="Tax ID"
                   formMethods={formMethods}
@@ -39,26 +39,26 @@ const FreelancerInfoField = ({ formMethods }:{ formMethods : UseFormReturn<Sales
                />
             </div>
             <div className="flex gap-2">
-               <TextInput
+               <TextInputForm
                   fieldName="freelancerPhone"
                   label="Phone Number"
                   formMethods={formMethods}
                   className="flex-1"
                />
-               <TextInput
+               <TextInputForm
                   fieldName="freelancerEmail"
                   label="Email"
                   formMethods={formMethods}
                   className="flex-1"
                />
             </div>
-            <TextInput
+            <TextInputForm
                   fieldName="freelancerAddress"
                   label="Address"
                   formMethods={formMethods}
                   className="flex-1"
                />
-            <TextAreaInput
+            <TextAreaForm
                fieldName="freelancerDetail"
                label="Additional Detail"
                formMethods={formMethods}

@@ -19,7 +19,7 @@ import {
    StatusSelectForm,
    TextAreaForm,
    TextInputForm,
-} from 'src/components/shared/ui/form-field-element';
+} from 'src/components/shared/ui/form-field-elements';
 
 const ClientDialog = () => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } =

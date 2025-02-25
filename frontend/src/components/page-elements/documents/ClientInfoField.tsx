@@ -1,4 +1,4 @@
-import { TextInput, TextAreaInput } from 'src/components/shared/ui/form-field-elements/TextInputForm';
+import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { Client, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
@@ -67,40 +67,40 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
          <div className="flex flex-col h-full">
             <div className="flex flex-col gap-2 peer order-2 h-full">
                <div className="flex gap-2">
-                  <TextInput
+                  <TextInputForm
                      fieldName="clientName"
                      label="Name"
                      formMethods={formMethods}
                      className="flex-1"
                   />
-                  <TextInput
+                  <TextInputForm
                      fieldName="clientTaxId"
                      label="Tax ID"
                      formMethods={formMethods}
                      className="flex-1"
                   />
                </div>
-               <TextInput
+               <TextInputForm
                   fieldName="clientAddress"
                   label="Address"
                   formMethods={formMethods}
                   className="flex-1"
                />
                <div className="flex gap-2">
-                  <TextInput
+                  <TextInputForm
                      fieldName="clientPhone"
                      label="Phone Number"
                      formMethods={formMethods}
                      className="flex-1"
                   />
-                  <TextInput
+                  <TextInputForm
                      fieldName="clientOffice"
                      label="Office"
                      formMethods={formMethods}
                      className="flex-1"
                   />
                </div>
-               <TextAreaInput
+               <TextAreaForm
                   fieldName="clientDetail"
                   className='h-full'
                   label="Additional Detail"

@@ -13,7 +13,7 @@ import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/s
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 import useDialogStore from 'src/lib/zustand/dialog-store';
 
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-element';
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
 
 const TaskDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();

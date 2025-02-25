@@ -9,7 +9,7 @@ import { Files, ClipboardX, ArrowDownToLine } from 'lucide-react';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { DynamicHeightTextInputForm } from '@/components/shared/ui/form-field-element';
+import { DynamicHeightTextInputForm } from 'src/components/shared/ui/form-field-elements';
 
 const FileDialogViewMode = ({ formMethods, setDialogState }) => {
    const setConfirmationDialogState = useDialogStore(
