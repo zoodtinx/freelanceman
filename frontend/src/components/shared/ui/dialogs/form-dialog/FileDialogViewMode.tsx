@@ -9,6 +9,7 @@ import { Files, ClipboardX, ArrowDownToLine } from 'lucide-react';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import { DynamicHeightTextInputForm } from '@/components/shared/ui/form-field-element';
 
 const FileDialogViewMode = ({ formMethods, setDialogState }) => {
    const setConfirmationDialogState = useDialogStore(
@@ -25,7 +26,7 @@ const FileDialogViewMode = ({ formMethods, setDialogState }) => {
    const fileSize = formatBytes(watch('size'));
    const link = watch('link');
    const category = getValues('category');
-   const dateCreated = formatDate(getValues('dateCreated'), 'LONG');
+   const dateCreated = formatDate(getValues('createdAt'), 'LONG');
 
    const handleCopy = () => {
       if (link) {
@@ -47,7 +48,14 @@ const FileDialogViewMode = ({ formMethods, setDialogState }) => {
       <div className="flex flex-col">
          <div className="flex gap-1 items-center px-5 pt-4">
             <FileIconByExtension fileExtension={getValues('type')} className="h-5 w-5" />
-            <p className="text-lg">{fileName}</p>
+            <DynamicHeightTextInputForm
+                           formMethods={formMethods}
+                           fieldName='displayName'
+                           required={true}
+                           errorMessage='Please name your file'
+                           placeholder='File Name'
+                           className='w-full'
+                        />
          </div>
          <p className="px-5 pb-3">{fileSize}</p>
          <div className="flex gap-2 px-5 pb-2">

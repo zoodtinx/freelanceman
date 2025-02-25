@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/helper/utils';
 import { Pencil } from 'lucide-react';
 import { Controller, FieldValues, Path } from 'react-hook-form';
-import { FormElementProps } from '@/lib/types/form-element.type';
+import { DynamicHeightTextInputFormElementProps, FormElementProps } from '@/lib/types/form-element.type';
 
 export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -11,7 +11,8 @@ export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
    placeholder,
    required,
    errorMessage,
-}: FormElementProps<TFieldValues>): JSX.Element => {
+   isWithIcon = true
+}: DynamicHeightTextInputFormElementProps<TFieldValues>): JSX.Element => {
    const {
       control,
       formState: { errors },
@@ -37,11 +38,13 @@ export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
-               <div className={className}>
+               <div>
                   <DynamicHeightTextInput
                      value={value}
                      handleChanges={handleValueChange}
                      placeholder={placeholder}
+                     isWithIcon={isWithIcon}
+                     className={className}
                   />
                   {errors[fieldName] && (
                      <p className="mt-1 text-red-500 font-normal animate-shake text-sm">
@@ -60,6 +63,7 @@ interface DynamicHeightTextInputProps {
    placeholder?: string;
    value: string;
    handleChanges: (value: string) => void;
+   isWithIcon?:boolean
 }
 
 const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
@@ -67,6 +71,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
    placeholder = 'Title',
    value,
    handleChanges,
+   isWithIcon = true
 }) => {
    const inputRef = useRef<HTMLDivElement | null>(null);
 
@@ -87,7 +92,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
             <div
                suppressContentEditableWarning
                className={cn(
-                  'peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap pr-7 text-lg font-medium',
+                  'peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap text-lg font-medium',
                   className
                )}
                contentEditable
@@ -96,7 +101,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
                onInput={handleInput}
                ref={inputRef}
             />
-            <Pencil className="w-6 h-6 text-secondary" />
+            {isWithIcon && <Pencil className="w-6 h-6 text-secondary" />}
          </div>
       </div>
    );

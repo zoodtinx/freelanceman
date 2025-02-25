@@ -10,6 +10,12 @@ export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
    placeholder?: string;
 }
 
+export interface DynamicHeightTextInputProps<
+   TFieldValues extends FieldValues = FieldValues
+> extends InputProps<TFieldValues> {
+   isWithIcon: boolean;
+}
+
 export interface SelectInputProps<
    TFieldValues extends FieldValues = FieldValues
 > extends InputProps<TFieldValues> {

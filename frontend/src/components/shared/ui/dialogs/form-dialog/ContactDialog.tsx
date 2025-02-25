@@ -1,30 +1,17 @@
-import { Separator } from '../../primitives/Separator';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
-import {
-   DialogContent,
-   DialogHeader,
-   Dialog,
-   DialogFooter,
-   DialogTitle,
-   DialogTrigger,
-} from '../../primitives/Dialog';
+import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
-import type { DialogProps } from 'src/lib/types/form-dialog.types';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Contact, NewContactPayload } from '@types';
 import { Input } from '../../primitives/Input';
-import {
-   User,
-   Pencil,
-   Trash2,
-   ClipboardX,
-   CircleCheck,
-} from 'lucide-react';
+import { User, Pencil, Trash2, ClipboardX, CircleCheck } from 'lucide-react';
 import { Textarea } from '../../primitives/Textarea';
 import AvatarInput from '@/components/shared/ui/form-field-elements/AvatarInput';
 import TextArrayInput from '@/components/shared/ui/form-field-elements/TextArrayInput';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, TextInputForm, } from 'src/components/shared/ui/form-field-element';
 
 const ContactDialog = (): JSX.Element => {
    const [color, setColor] = useState('');
@@ -179,47 +166,36 @@ const ContactDialog = (): JSX.Element => {
                   <div className="flex flex-col w-3/5 gap-2">
                      <div className="flex flex-col leading-5">
                         <p className="w-[80px] text-secondary">Name</p>
-                        {formDialogState.mode !== 'view' ? (
-                           <div className="flex flex-col">
-                              <Input
-                                 {...register('name', {
-                                    required: 'At least a name is required',
-                                 })}
-                                 className="w-full"
-                              />
-                              {errors.name && (
-                                 <p className="mt-1 text-sm text-red-500 font-normal animate-shake">
-                                    {typeof errors.name?.message === 'string'
-                                       ? errors.name.message
-                                       : ''}
-                                 </p>
-                              )}
-                           </div>
-                        ) : (
-                           <p className="text-lg font-medium">
-                              {getValues('name')}
-                           </p>
-                        )}
+                        <DynamicHeightTextInputForm
+                           formMethods={formMethods}
+                           fieldName="name"
+                           required={true}
+                           errorMessage="Please enter a name"
+                           placeholder="Contact Name"
+                           isWithIcon={false}
+                           className='text-lg'
+                        />
                      </div>
                      <div className="flex flex-col leading-5">
                         <p className="w-[80px] text-secondary">Company</p>
-                        {formDialogState.mode !== 'view' ? (
-                           <Input {...register('company')} />
-                        ) : (
-                           <p className="text-md font-medium">
-                              {getValues('company')}
-                           </p>
+                        {formDialogState.mode === 'view' && <p className="text-md">{formMethods.getValues('company')}</p>}
+                        {formDialogState.mode !== 'view' && (
+                           <SelectWithSearchForm
+                                                   formMethods={formMethods}
+                                                   fieldName='company'
+                                                   type='client'
+                                                   size='base'
+                                                   placeholder='Select Company'
+                                                />
                         )}
                      </div>
                      <div className="flex flex-col leading-5">
                         <p className="w-[80px] text-secondary">Role</p>
-                        {formDialogState.mode !== 'view' ? (
-                           <Input {...register('role')} />
-                        ) : (
-                           <p className="text-md font-medium">
-                              {getValues('role')}
-                           </p>
-                        )}
+                        <TextInputForm
+                           formMethods={formMethods}
+                           fieldName="role"
+                           placeholder="Describe this contact."
+                        />
                      </div>
                   </div>
                   <AvatarInputElement />
@@ -228,40 +204,29 @@ const ContactDialog = (): JSX.Element => {
                <div className="flex w-full gap-2">
                   <div className="flex flex-col w-1/2">
                      <p className="text-secondary w-full">Phone Number</p>
-                     {formDialogState.mode !== 'view' ? (
-                        <TextArrayInput
-                           formMethods={formMethods}
-                           fieldName="phoneNumber"
-                        />
-                     ) : (
-                        phoneNumbers?.map((number) => (
-                           <p className="text-base">{number}</p>
-                        ))
-                     )}
+                     <TextInputForm
+                        formMethods={formMethods}
+                        fieldName="phoneNumber"
+                        placeholder="Describe this contact."
+                     />
                   </div>
                   <div className="flex flex-col w-1/2">
                      <p className="text-secondary w-full">Email</p>
-                     {formDialogState.mode !== 'view' ? (
-                        <Input {...register('email')} />
-                     ) : (
-                        <p className="text-base">{getValues('email')}</p>
-                     )}
+                     <TextInputForm
+                        formMethods={formMethods}
+                        fieldName="email"
+                        placeholder="Describe this contact."
+                     />
                   </div>
                </div>
                <Separator className="my-2" />
                <div>
                   <p className="text-secondary w-full">Info</p>
-                  {formDialogState.mode !== 'view' ? (
-                     <Textarea
-                        {...register('details')}
-                        className="resize-none"
-                        placeholder="Enter phone number"
-                     />
-                  ) : (
-                     <p className="text-base font-medium">
-                        {getValues('details')}
-                     </p>
-                  )}
+                  <TextAreaForm
+                     formMethods={formMethods}
+                     fieldName="details"
+                     placeholder="Describe this contact."
+                  />
                </div>
             </div>
             <DialogFooter>

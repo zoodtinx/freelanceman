@@ -25,7 +25,7 @@ const AvatarInput = ({ formMethods }: InputProps) => {
       <div className="flex flex-col items-center gap-2">
          <div
             className={`relative w-[125px] h-[125px] ${
-               avatarFile ? '' : 'mr-3 mt-2 bg-tertiary text-secondary'
+               avatarFile ? '' : 'mt-2 bg-tertiary text-secondary'
             } rounded-full overflow-hidden flex items-center justify-center cursor-pointer`}
             onClick={() => document.getElementById('avatar-upload')?.click()}
          >

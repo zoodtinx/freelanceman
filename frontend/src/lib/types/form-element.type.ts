@@ -26,3 +26,9 @@ export interface SelectWithSearchFormElementProps<
    type: 'client' | 'project'
    isWithIcon?: boolean;
 }
+
+export interface DynamicHeightTextInputFormElementProps<
+   TFieldValues extends FieldValues = FieldValues
+> extends FormElementProps<TFieldValues> {
+   isWithIcon?: boolean;
+}

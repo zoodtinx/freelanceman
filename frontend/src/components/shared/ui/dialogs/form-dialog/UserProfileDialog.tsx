@@ -19,6 +19,17 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
 import { cn } from '@/lib/helper/utils';
 
+import {
+   AutoClientField,
+   DateTimePickerForm,
+   DynamicHeightTextInputForm,
+   LinkInputForm,
+   SelectWithSearchForm,
+   StatusSelectForm,
+   TextAreaForm,
+   TextInputForm,
+} from 'src/components/shared/ui/form-field-element';
+
 const UserProfileDialogLayout = () => {
    return <div></div>;
 };
@@ -159,81 +170,82 @@ const UserProfileDialog = (): JSX.Element => {
             fieldName="avatar"
          />
       ) : (
-         <div className="flex w-[125px] h-[125px] mr-3 mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
+         <div className="flex w-[125px] h-[125px] mt-2 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
             {avatar}
          </div>
       );
 
    return (
-      <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col items-center pt-5'>
-            <AvatarInputElement />
-            <h2 className="text-xl font-semibold mt-2">
-               {getValues('name') || 'Full Name'}
-            </h2>
-            <SpecializationBubble
-               data={formMethods.getValues('specialization')}
-               className='mt-2 mb-4'
-            />
+      <form
+         onSubmit={handleSubmit(onSubmit, onError)}
+         className="flex flex-col items-center pt-5"
+      >
+         <AvatarInputElement />
+         <DynamicHeightTextInputForm
+            formMethods={formMethods}
+            fieldName="name"
+            required={true}
+            errorMessage="Please enter your name."
+            placeholder="What's youe name?"
+            isWithIcon={false}
+            className="pt-1"
+         />
+         <SpecializationBubble
+            data={formMethods.getValues('specialization')}
+            className="mt-2 mb-4"
+         />
 
          <div className="flex flex-col px-5 pb-5 w-full">
             <div className="">
                <p className="text-secondary ">Bio</p>
-               {formDialogState.mode !== 'view' ? (
-                  <Textarea
-                     {...register('bio')}
-                     className="resize-none w-full"
-                     placeholder="Enter details"
-                  />
-               ) : (
-                  <p className=" font-medium">{getValues('bio')}</p>
-               )}
+               <TextAreaForm
+                  formMethods={formMethods}
+                  fieldName="bio"
+                  placeholder="Introduce yourself."
+                  className="h-20"
+               />
             </div>
             <Separator className="my-4" />
             <div className="flex flex-col gap-3">
                <div className="flex gap-2">
                   <div className="w-1/2">
                      <p className="text-secondary ">Tax ID</p>
-                     {formDialogState.mode !== 'view' ? (
-                        <Input {...register('taxId')} className='w-full' />
-                     ) : (
-                        <p className=" font-medium">{getValues('taxId')}</p>
-                     )}
+                     <TextInputForm
+                        formMethods={formMethods}
+                        fieldName="taxId"
+                        placeholder="Introduce yourself."
+                     />
                   </div>
                   <div className="w-1/2">
                      <p className="text-secondary ">Phone Number</p>
-                     {formDialogState.mode !== 'view' ? (
-                        <Input {...register('phoneNumber')} className='w-full' />
-                     ) : (
-                        <p className=" font-medium">
-                           {getValues('phoneNumber')}
-                        </p>
-                     )}
+                     <TextInputForm
+                        formMethods={formMethods}
+                        fieldName="phoneNumber"
+                        placeholder="Introduce yourself."
+                     />
                   </div>
                </div>
                <div>
                   <p className="text-secondary">Email</p>
-                  {formDialogState.mode !== 'view' ? (
-                     <Input {...register('email')} className='w-full' />
-                  ) : (
-                     <p className=" font-medium">{getValues('email')}</p>
-                  )}
+                  <TextInputForm
+                     formMethods={formMethods}
+                     fieldName="email"
+                     placeholder="Enter Email"
+                  />
                </div>
                <div className="">
                   <p className="text-secondary ">Address</p>
-                  {formDialogState.mode !== 'view' ? (
-                     <Textarea
-                        {...register('address')}
-                        className="resize-none mt-1 w-full"
-                        placeholder="Enter details"
-                     />
-                  ) : (
-                     <p className=" font-medium">{getValues('address')}</p>
-                  )}
+                  <TextAreaForm
+                     formMethods={formMethods}
+                     fieldName="address"
+                     placeholder="Introduce yourself."
+                     className="h-14"
+                  />
                </div>
             </div>
          </div>
 
-         <DialogFooter className='w-full'>
+         <DialogFooter className="w-full">
             <div className="flex justify-between p-4">
                <LeftButton />
                <RightButton />

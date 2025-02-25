@@ -1,24 +1,18 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import type { EditProjectDto, Event, Project } from '@types';
-import TextareaForm from '@/components/shared/ui/form-field-elements/TextareaForm';
-import AutoClientField from '@/components/shared/ui/form-field-elements/AutoClientField';
-import DateTimePicker from 'src/components/shared/ui/form-field-elements/DateTimePickerForm';
-import LinkInput from '../../form-field-elements/LinkInputForm';
-import StatusSelect from '../../form-field-elements/StatusSelectForm';
-import ProjectSelect from '../../form-field-elements/ProjectSelectForm';
+import type { EditProjectDto, Project } from '@types';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { eventStatusSelections } from '../../helpers/constants/constants';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import StatusSelectForm from 'src/components/shared/ui/form-field-element/StatusSelectForm';
+
+import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-element';
 
 const ProjectDialog = () => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
@@ -90,27 +84,26 @@ const ProjectDialog = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
-            <TaskNameInput
+            <DynamicHeightTextInputForm
                formMethods={formMethods}
-               dialogState={formDialogState}
-               placeholder="Enter project name"
-               fieldName="title"
+               fieldName='title'
+               required={true}
+               errorMessage='Please name your project'
+               placeholder='Project Title'
             />
             <div className="flex leading-tight">
                <div className="w-1/2">
                   <p className="text-secondary pb-1">Project Status</p>
-                  <StatusSelect
+                  <StatusSelectForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
                      selection={projectStatusSelections}
                      fieldName="projectStatus"
                   />
                </div>
                <div className="w-1/2">
                   <p className="text-secondary  pb-1">Payment Status</p>
-                  <StatusSelect
+                  <StatusSelectForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
                      selection={paymentStatusSelections}
                      fieldName="paymentStatus"
                   />
