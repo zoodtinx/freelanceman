@@ -100,7 +100,7 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
       setFormDialogState({
          isOpen: true,
          mode: 'view',
-         openedOn: 'action-page',
+         openedOn: 'project-page',
          type: 'event',
          data: data
       })

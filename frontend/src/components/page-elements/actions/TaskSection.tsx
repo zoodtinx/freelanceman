@@ -1,23 +1,24 @@
-import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
-import { useRef, useState } from 'react';
+import {
+   ToggleGroup,
+   ToggleGroupItem,
+} from '@/components/shared/ui/primitives/ToggleGroup';
+import { useState } from 'react';
 import { CircleCheck } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
-import { useAllTasksQuery, useDeleteTask } from '@/lib/api/task-api';
+import { useAllTasksQuery } from '@/lib/api/task-api';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import { TaskSearchOption, TaskStatus } from '@types';
 
 export default function TaskSection() {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
 
-   const [taskFilter, setTaskFilter] = useState({
+   const [taskFilter, setTaskFilter] = useState<TaskSearchOption>({
       status: 'pending',
-   });
-
-   const [selectState, setSelectState] = useState({
-      enableSelect: false,
-      selectedValues: [] as string[],
    });
 
    const { data: tasksData, isLoading } = useAllTasksQuery(taskFilter);
@@ -28,9 +29,9 @@ export default function TaskSection() {
          mode: 'create',
          openedOn: 'action-page',
          type: 'task',
-         data: defaultTaskValue
-      })
-   }
+         data: defaultTaskValue,
+      });
+   };
 
    return (
       <div className="flex flex-col grow">
@@ -44,7 +45,10 @@ export default function TaskSection() {
                   type="single"
                   value={taskFilter.status}
                   onValueChange={(value) =>
-                     setTaskFilter((prev) => ({ ...prev, status: value }))
+                     setTaskFilter((prev) => ({
+                        ...prev,
+                        status: value as TaskStatus,
+                     }))
                   }
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
@@ -57,7 +61,7 @@ export default function TaskSection() {
          <TaskList
             tasksData={tasksData}
             isLoading={isLoading}
-            setSelectState={setSelectState}
+            page="project-page"
          />
       </div>
    );

@@ -3,15 +3,33 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { Calendar } from '@/components/shared/ui/primitives/Calendar';
 import { cn } from '@/lib/helper/utils';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormElementProps } from '@/lib/types/form-element.type';
+import { useRef } from 'react';
 
 export const DatePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
-}: FormElementProps<TFieldValues>): JSX.Element => {
+}: FormElementProps<TFieldValues>) => {
    const { control } = formMethods;
    const [isOpen, setIsOpen] = useState(false);
+   const popoverRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+         if (
+            popoverRef.current &&
+            !popoverRef.current.contains(event.target as Node)
+         ) {
+            setIsOpen(false);
+         }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+         document.removeEventListener('mousedown', handleClickOutside);
+      };
+   }, []);
 
    return (
       <Controller
@@ -19,7 +37,6 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
          control={control}
          rules={{ required: 'Date is required' }}
          render={({ field: { value, onChange } }) => {
-            
             return (
                <Popover open={isOpen}>
                   <PopoverTrigger asChild>
@@ -33,7 +50,10 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
                         {value ? formatDate(value, 'LONG') : 'Pick a date'}
                      </p>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
+                  <PopoverContent
+                     className="p-0 bg-foreground rounded-xl"
+                     ref={popoverRef}
+                  >
                      <Calendar
                         mode="single"
                         selected={value ? new Date(value) : undefined}

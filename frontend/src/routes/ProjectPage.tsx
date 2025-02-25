@@ -17,7 +17,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
 export interface ProjectPageSectionProps {
-   projectQuery: UseQueryResult<Project, Error>;
+   project: Project
 }
 
 export default function ProjectPage() {

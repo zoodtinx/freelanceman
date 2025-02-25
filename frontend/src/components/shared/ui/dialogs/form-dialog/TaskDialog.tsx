@@ -1,37 +1,40 @@
 import React from 'react';
-
+import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
-
-import { SubmitHandler, useForm } from 'react-hook-form';
-
+import {
+   AutoClientField,
+   DateTimePickerForm,
+   DynamicHeightTextInputForm,
+   LinkInputForm,
+   SelectWithSearchForm,
+   StatusSelectForm,
+   TextAreaForm,
+} from 'src/components/shared/ui/form-field-elements';
 import { useTaskMutation } from '@/lib/api/task-api';
+import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
+import useDialogStore from 'src/lib/zustand/dialog-store';
 import type { Task, CreateTaskDto } from '@types';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { Label } from '@/components/shared/ui/form-field-elements/Label';
+import { CircleCheck, PencilLine, Trash2 } from 'lucide-react';
 
-import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
-import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
-import useDialogStore from 'src/lib/zustand/dialog-store';
-
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
 
 const TaskDialog = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
-   const taskData = formDialogState.data as Task
+   const taskData = formDialogState.data as Task;
+   const formMethods = useForm({
+      defaultValues: taskData,
+   });
+   
+   const {
+      handleSubmit,
+      formState: { isDirty, dirtyFields },
+   } = formMethods;
 
    const { createTask, editTask, deleteTask, isLoading, data } =
       useTaskMutation();
-
-   const formMethods = useForm<CreateTaskDto>({
-      defaultValues: taskData,
-   });
-
-   const { handleSubmit, reset } = formMethods;
-
-   const handleDialogClose = () => {
-      console.log('close')
-   };
-
+   
    const onSubmit: SubmitHandler<CreateTaskDto> = (data) => {
       const payload: CreateTaskDto = {
          name: data.name,
@@ -42,37 +45,35 @@ const TaskDialog = () => {
          status: data.status,
       };
 
-      console.log('payload', payload)
+      console.log('payload', payload);
 
       // handleDialogClose();
    };
 
-   const handleEditMode = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            mode: 'edit'
-         }
-      })
+   const handleDialogClose = () => {
+      console.log('close');
    };
 
-   const handleCancelEdit = () => {
-      console.log('cancel')
-   };
+   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      console.log('delete');
+   }
+
+   // console.log('time string', formMethods.watch('dueAt'))
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
-               fieldName='name'
+               fieldName="name"
                required={true}
-               errorMessage='Please name your task'
-               placeholder='What do you need to do?'
+               errorMessage="Please name your task"
+               placeholder="What do you need to do?"
             />
             <div className="flex leading-tight">
                <div className="w-1/2">
-                  <p className="text-secondary">Status</p>
+                  <Label>Status</Label>
                   <StatusSelectForm
                      formMethods={formMethods}
                      selection={taskStatusSelections}
@@ -80,144 +81,147 @@ const TaskDialog = () => {
                   />
                </div>
                <div className="w-1/2">
-                  <p className="text-secondary">Due Date</p>
+                  <Label className="pb-0">Due Date</Label>
                   <DateTimePickerForm
                      formMethods={formMethods}
                      fieldName="dueAt"
+                     required={true}
+                     errorMessage='Please select deadline'
                   />
                </div>
             </div>
-            {formDialogState.openedOn !== 'project-page' && (
-               <div className="flex leading-tight">
-                  <div className="w-1/2">
-                     <p className="text-secondary">Project</p>
-                     <SelectWithSearchForm
-                        formMethods={formMethods}
-                        fieldName='projectId'
-                        type='project'
-                        size='base'
-                     />
-                  </div>
-                  <div className="w-1/2">
-                     <p className="text-secondary">Client</p>
-                     <AutoClientField
-                        formMethods={formMethods}
-                        fieldName='client'
-                     />
-                  </div>
-               </div>
-            )}
+            <ProjectField
+               formMethods={formMethods}
+               formDialogState={formDialogState}
+            />
             <div className="w-full">
-               <p className="text-secondary">Details</p>
+               <Label>Details</Label>
                <TextAreaForm
                   formMethods={formMethods}
                   fieldName="details"
-                  placeholder='Describe the task'
+                  placeholder="Describe the task"
+                  className='min-h-14 h-14 max-h-52'
                />
             </div>
             <div className="w-full">
-               <p className="text-secondary">Link</p>
-               <LinkInputForm formMethods={formMethods} fieldName='link' />
+               <Label>Link</Label>
+               <LinkInputForm formMethods={formMethods} fieldName="link" />
             </div>
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
-               {/* <LeftButton
-                  dialogState={formDialogState}
-                  handleCancelEdit={handleCancelEdit}
-                  handleDialogClose={handleDialogClose}
-                  handleDelete={() => deleteTask(formDialogState.id)}
-               />
-               <RightButton
-                  dialogState={formDialogState}
-                  handleEditMode={handleEditMode}
-               /> */}
-               <Button type='submit'>Submit</Button>
+               <Button
+                  variant={'destructiveOutline'}
+                  className="gap-1 pl-2 pr-3"
+                  onClick={handleDelete}
+               >
+                  <Trash2 className="w-4 h-4" />
+                  Delete
+               </Button>
+               <SubmitButton formDialogState={formDialogState} formMethods={formMethods} />
             </div>
          </DialogFooter>
       </form>
    );
 };
 
-const LeftButton: React.FC<{
-   dialogState: FormDialogState;
-   handleCancelEdit: () => void;
-   handleDialogClose: () => void;
-   handleDelete: () => void;
-}> = ({ dialogState, handleCancelEdit, handleDialogClose, handleDelete }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button
-               variant="destructive"
-               onClick={handleDelete}
-               className="flex gap-1"
-            >
-               Delete
-               <Trash2 className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button
-               variant="destructiveOutline"
-               onClick={handleCancelEdit}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button
-               variant="destructiveOutline"
-               onClick={handleDialogClose}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
+const SubmitButton = ({
+   formMethods,
+   formDialogState,
+}: {
+   formMethods: UseFormReturn<Task>;
+   formDialogState: FormDialogState;
+}) => {
+   const {
+      formState: { isDirty  },
+   } = formMethods;
+
+   if (formDialogState.mode === 'edit' || formDialogState.mode === 'view') {
+      return (
+         <Button
+            variant={isDirty ? 'submit' : 'ghost'}
+            type="submit"
+            className="gap-1 pl-2 pr-3 items-center"
+         >
+            <CircleCheck className="w-4 h-4" />
+            Save Changes
+         </Button>
+      );
+   } else if (formDialogState.mode === 'create') {
+      return (
+         <Button
+            variant={'submit'}
+            type="submit"
+            className="gap-1 pl-2 pr-3 items-center"
+         >
+            <PencilLine className="w-4 h-4" />
+            Add Task
+         </Button>
+      );
    }
+
+   // const textContent = formDialogState.mode === 'create' ? 'Add Task' : 'Save Changes';
+   // const icon = formDialogState.mode === 'create' ? <CircleCheck className="w-4 h-4" /> : <PencilLine className="w-4 h-4" />;
+
+   // return (
+   //    <Button
+   //       variant={isDirty ? 'submit' : 'ghost'}
+   //       type="submit"
+   //       className="gap-1 pl-2 pr-3 items-center"
+   //    >
+   //       {icon}
+   //       {textContent}
+   //    </Button>
+   // );
 };
 
-const RightButton: React.FC<{
-   dialogState: FormDialogState;
-   handleEditMode: () => void;
-}> = ({ dialogState, handleEditMode }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button
-               type="button"
-               variant="default"
-               onClick={handleEditMode}
-               className="flex gap-1"
-            >
-               Edit
-               <Pencil className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button type="submit" variant="submit" className="flex gap-1">
-               Save
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button type="submit" variant="submit" className="flex gap-1">
-               Create Task
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
+const ProjectField = ({
+   formMethods,
+   formDialogState,
+}: {
+   formMethods: UseFormReturn<Task>;
+   formDialogState: FormDialogState;
+}) => {
+   
+   const isOnProjectPage = formDialogState.openedOn === 'project-page'
+   const isCreateMode = formDialogState.mode === 'create'
+
+   if (isCreateMode && !isOnProjectPage) {
+      return (
+         <div className="flex leading-tight">
+            <div className="w-1/2">
+               <Label>Project</Label>
+               <SelectWithSearchForm
+                  formMethods={formMethods}
+                  fieldName="projectId"
+                  type="project"
+                  size="base"
+                  placeholder='Select a Project'   
+                  required={true}
+                  errorMessage='Please select a project'
+               />
+            </div>
+            <div className="w-1/2">
+               <Label>Client</Label>
+               <AutoClientField formMethods={formMethods} fieldName="client" />
+            </div>
+         </div>
+      );
+   } else {
+      return (
+         <div className="flex leading-tight">
+            <div className="w-1/2">
+            <Label className='pb-0'>Project</Label>
+               <p>{formMethods.getValues('project')}</p>
+            </div>
+            <div className="w-1/2">
+            <Label className='pb-0'>Client</Label>
+               <p>{formMethods.getValues('client')}</p>
+            </div>
+         </div>
+      );
    }
+
 };
 
 export default TaskDialog;

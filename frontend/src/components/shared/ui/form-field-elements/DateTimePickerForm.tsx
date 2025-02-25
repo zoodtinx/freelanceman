@@ -1,6 +1,7 @@
 import { FormElementProps } from '@/lib/types/form-element.type';
 import {DatePickerForm} from '@/components/shared/ui/form-field-elements/DatePickerForm';
 import {TimePickerForm} from '@/components/shared/ui/form-field-elements/TimePickerForm';
+import { FieldValues } from 'react-hook-form';
 
 export const DateTimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -24,9 +25,9 @@ export const DateTimePickerForm = <TFieldValues extends FieldValues>({
             fieldName={fieldName}
             formMethods={formMethods}
          />
-         {errors.dueDate && (
+         {errors[fieldName] && (
             <p className="text-sm text-red-500 font-normal animate-shake">
-               {errors.dueDate.message as string}
+               {errors[fieldName].message as string}
             </p>
          )}
       </div>

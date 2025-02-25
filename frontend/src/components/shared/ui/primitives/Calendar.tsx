@@ -16,6 +16,7 @@ function Calendar({
   return (
     <DayPicker
       captionLayout="dropdown"
+      
       showOutsideDays={showOutsideDays}
       className="p-4"
       {...props}

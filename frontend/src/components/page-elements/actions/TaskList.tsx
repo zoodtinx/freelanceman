@@ -1,7 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import type { Task } from '@types';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useDialogStore from '@/lib/zustand/dialog-store';
@@ -9,13 +7,13 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 interface TaskListProps {
    tasksData: Task[] | undefined;
    isLoading: boolean;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   page: 'action-page' | 'project-page';
 }
 
 export const TaskList: React.FC<TaskListProps> = ({
    tasksData,
    isLoading,
-   setDialogState,
+   page,
 }) => {
    if (isLoading) {
       return <p>Loading...</p>;
@@ -25,29 +23,27 @@ export const TaskList: React.FC<TaskListProps> = ({
       return <p>No Task available</p>;
    }
 
-   const fileListItems = tasksData.map((tasksData) => (
-      <TaskListItem
-         key={tasksData.id}
-         data={tasksData}
-         setDialogState={setDialogState}
-      />
+   const taskListItems = tasksData.map((tasksData) => (
+      <TaskListItem key={tasksData.id} data={tasksData} openedOn={page} />
    ));
 
    return (
       <div className="flex flex-col h-0 grow gap-1 overflow-y-auto">
-         {fileListItems}
+         {taskListItems}
       </div>
    );
 };
 
 interface TaskListItemProps {
    data: Task;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
+   openedOn: 'action-page' | 'project-page';
 }
 
-const TaskListItem = ({ data, setDialogState }: TaskListItemProps) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
-   
+const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
+
    const formattedDate = formatDate(data.dueAt, 'LONG');
    const formattedTime = formatTime(data.dueAt);
 
@@ -55,10 +51,10 @@ const TaskListItem = ({ data, setDialogState }: TaskListItemProps) => {
       setFormDialogState({
          isOpen: true,
          mode: 'view',
-         openedOn: 'action-page',
+         openedOn: openedOn,
          type: 'task',
-         data: data
-      })
+         data: data,
+      });
    };
 
    const handleCheck = (checked: CheckedState) => {

@@ -69,7 +69,7 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
                      size={size}
                   />
                   {errors[fieldName] && (
-                     <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">
+                     <p className="text-red-500 font-normal animate-shake text-sm">
                         {errors[fieldName]?.message as string}
                      </p>
                   )}

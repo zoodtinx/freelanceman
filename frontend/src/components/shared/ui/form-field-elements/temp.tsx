@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../primitives/Popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
-import { setHours, setMinutes, format } from 'date-fns';
+import { parseISO, setHours, setMinutes } from 'date-fns';
 import { FormElementProps } from '@/lib/types/form-element.type';
-import { XIcon } from 'lucide-react';
 
 export const TimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -36,8 +35,8 @@ interface TimePickerProps {
 }
 
 const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
-
-   const dateObject = new Date(value as string)
+   const
+   const isWithTime = value && value.includes('T');
 
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
@@ -46,51 +45,20 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
       String(i).padStart(2, '0')
    );
 
-   const [selectedHour, setSelectedHour] = useState('00');
+   const [selectedHour, setSelectedHour] = useState('08');
    const [selectedMinute, setSelectedMinute] = useState('00');
    const [selectedPeriod, setSelectedPeriod] = useState('AM');
    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-   const [isWithTime, setIsWithTime] = useState(value && value.includes('T'))
-
-   useEffect(() => {
-      if (!value || !value.includes('T')) {
-         return
-      }
-      const formattedDate = format(dateObject, 'hh:mm a');
-      const [time, period] = formattedDate.split(' ');
-      const [hour, minute] = time.split(':');
-      setSelectedHour(hour);
-      setSelectedMinute(minute);
-      setSelectedPeriod(period);
-
-   }, []);
-
-   useEffect(() => {
-      if (!value || !value.includes('T')) {
-         return;
-      }
-
-      let hour = Number(selectedHour);
-   
-      if (selectedPeriod === 'AM' && hour === 12) {
-         hour = 0; 
-      } else if (selectedPeriod === 'PM' && hour !== 12) {
-         hour += 12; 
-      }
-   
-      const updatedDate = setMinutes(setHours(dateObject, hour), Number(selectedMinute));
-      handleChange(updatedDate.toISOString());
-   }, [selectedHour, selectedMinute, selectedPeriod, dateObject, handleChange, value]);
-
 
    const togglePeriod = () => {
       setSelectedPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
    };
 
    const handleAddTime = () => {
-      setIsWithTime(true)
-      setIsPopoverOpen(true)
-      const updatedDate = setMinutes(setHours(dateObject, 8), 0);
+      if (!value) return;
+
+      const currentDate = parseISO(value);
+      const updatedDate = setMinutes(setHours(currentDate, 8), 0);
       handleChange(updatedDate.toISOString());
       setSelectedHour('08');
       setSelectedMinute('00');
@@ -99,32 +67,31 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
    };
 
    const clearTimeSelection = () => {
-      if (value) {
-         handleChange(value.split('T')[0]);
-      }
       setSelectedHour('08');
       setSelectedMinute('00');
       setSelectedPeriod('AM');
-      setIsWithTime(false)
+      if (value) {
+         handleChange(value.split('T')[0]);
+      }
       setIsPopoverOpen(false);
    };
 
    const triggerText = () => {
       if (isWithTime) {
          return (
-            <div className="flex items-center gap-1 cursor-pointer group">
+            <div className="flex items-center gap-2 cursor-pointer">
                <p className="text-primary">
                   {`${selectedHour}:${selectedMinute} ${selectedPeriod}`}
                </p>
-               <div
-                  className="text-secondary text-sm opacity-0 hover:text-red-500 group-hover:opacity-100 transition-all duration-150"
+               <button
+                  className="text-red-500 hover:text-red-600 text-sm"
                   onClick={(e) => {
                      e.stopPropagation();
                      clearTimeSelection();
                   }}
                >
-                  <XIcon className='h-[14px] w-[14px] stroke-[3px]' />
-               </div>
+                  ✕
+               </button>
             </div>
          );
       } else {
@@ -141,10 +108,15 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
          );
       }
    };
+   
+   if (!isWithTime) {
+      return null
+   }
 
    if (!value) {
-      return <></>
+      return <p>Add time</p>;
    }
+
 
    return (
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>

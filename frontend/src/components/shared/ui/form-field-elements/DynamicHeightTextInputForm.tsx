@@ -47,7 +47,7 @@ export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
                      className={className}
                   />
                   {errors[fieldName] && (
-                     <p className="mt-1 text-red-500 font-normal animate-shake text-sm">
+                     <p className="text-red-500 font-normal animate-shake text-sm">
                         {errors[fieldName]?.message as string}
                      </p>
                   )}

@@ -72,13 +72,13 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
    };
 
    const clearTimeSelection = () => {
+      if (value) {
+         onChange(value.split('T')[0]); // Remove the time part from the ISO string
+      }
       setSelectedHour('08');
       setSelectedMinute('00');
       setSelectedPeriod('AM');
       setValue('withTime', false);
-      if (value) {
-         onChange(value.split('T')[0]); // Remove the time part from the ISO string
-      }
       setIsPopoverOpen(false); // Close the popover
    };
 
@@ -149,10 +149,6 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
          );
       }
    };
-
-   if (!isDateSelected) {
-      return <></>;
-   }
 
    return (
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>

@@ -8,7 +8,7 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 import { ProjectPageSectionProps } from '@/routes/ProjectPage';
 
-const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({ project }) => {
+const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({project}) => {
    const setFormDialogState = useDialogStore(
       (state) => state.setFormDialogState
    );
@@ -34,7 +34,14 @@ const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({ project }) => {
          mode: 'create',
          openedOn: 'project-page',
          type: 'task',
-         data: {...defaultTaskValue, themeColor:project.themeColor},
+         data: {
+            ...defaultTaskValue,
+            themeColor: project.themeColor,
+            client: project.client,
+            clientId: project.clientId,
+            project: project.title,
+            projectId: project.id
+         },
       });
    };
 

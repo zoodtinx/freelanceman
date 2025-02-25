@@ -149,7 +149,7 @@ const LinkInput:React.FC<LinkInputProps> = ({
                   type="url"
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e)}
-                  className="flex px-2 h-6 w-full border border-secondary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="flex px-2 h-6 w-full border border-tertiary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   placeholder={placeholder}
                />
             </div>
