@@ -17,6 +17,13 @@ export const useAllTasksQuery = (searchOptions: TaskSearchOption = {}) => {
    });
 };
 
+export const useTasksQuery = (searchOptions: TaskSearchOption = {}) => {
+   return useQuery({
+      queryKey: ['tasks', searchOptions],
+      queryFn: () => getAllTasks(searchOptions),
+   });
+};
+
 export const useTaskQuery = (taskId: string) => {
    const queryClient = useQueryClient();
 
