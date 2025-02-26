@@ -16,17 +16,12 @@ import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } fro
 
 const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
-   const newProjectData = formDialogState.data as CreateProjectDto
    const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
    const {data: clientsData, isLoading} = useClientSelectionQuery(searchTerm)
    const [isHaveNote, setIsHaveNote] = useState(false)
 
    const [addedAsset, setAddedAsset] = useState<string[]>([])
    const [addedContact, setAddedContact] = useState<string[]>([])
-
-   const formMethods = useForm<CreateProjectDto>({
-      defaultValues: newProjectData,
-   });
 
    const { handleSubmit, reset } = formMethods;
 

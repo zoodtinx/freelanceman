@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
-import { Button } from '../../primitives/Button';
 import {
    AutoClientField,
    DateTimePickerForm,
@@ -11,9 +10,9 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useTaskMutation } from '@/lib/api/task-api';
+import { useCreateTask, useDeleteTask, useEditTask, useTaskApi, useTaskMutation } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
-import type { Task, CreateTaskDto } from '@types';
+import type { Task, CreateTaskDto, EditTaskDto, TaskStatus } from '@types';
 import {
    FormDialogState,
    FormDialogType,
@@ -23,81 +22,40 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { ApiLoadingState } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
 import { DiscardButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import { useEditClient } from '@/lib/api/client-api';
 
 const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
+   const { createTask, editTask, deleteTask } = useTaskApi()
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
    const taskData = formDialogState.data as Task;
-   // const formMethods = useForm({
-   //    defaultValues: taskData,
-   // });
+
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'discard',
+   });
 
    const {
       handleSubmit,
       formState: { isDirty },
    } = formMethods;
 
-   useEffect(() => {
-      const handleDialogClose = () => {
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-         setConfirmationDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-      };
-
-      const handleEscapeWithChange = () => {
-         if (isDirty) {
-            setConfirmationDialogState({
-               isOpen: true,
-               actions: {
-                  primary: handleDialogClose,
-               },
-               message: () => 'Changes that will be lost if you leave.',
-               type: 'unsaved-changes',
-               dialogRequested: {
-                  mode: formDialogState.mode,
-                  type: formDialogState.type as FormDialogType,
-               },
-            });
-         } else {
-            handleDialogClose();
-         }
-      };
-
-      const handleEscKey = (event: KeyboardEvent) => {
-         if (event.key === 'Escape') {
-            handleEscapeWithChange();
-         }
-      };
-
-      document.addEventListener('keydown', handleEscKey);
-
-      return () => {
-         document.removeEventListener('keydown', handleEscKey);
-      };
-   }, [
-      setConfirmationDialogState,
-      isDirty,
-      setFormDialogState,
-      formDialogState,
-   ]);
-
-   const { createTask, editTask, deleteTask, isLoading, data } =
-      useTaskMutation();
+   const handleDialogClose = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+      setConfirmationDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    const onSubmit: SubmitHandler<CreateTaskDto> = (data) => {
       if (!isDirty) {
@@ -108,18 +66,32 @@ const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
          isLoading: true,
          type: 'submit',
       });
-   
-      const payload: CreateTaskDto = {
-         name: data.name,
-         projectId: data.projectId,
-         details: data.details,
-         dueAt: data.dueAt,
-         link: data.link,
-         status: data.status,
-      };
 
-      //onSucess setLoading false
-      // handleDialogClose();
+      if (formDialogState.mode === 'create') {
+         const payload: CreateTaskDto = {
+            name: data.name,
+            projectId: data.projectId,
+            details: data.details,
+            dueAt: data.dueAt,
+            link: data.link,
+            status: data.status,
+            clientId: data.clientId,
+            tags: data.tags
+         };
+         createTask.mutate(formDialogState.data.id, payload)
+      } else if (formDialogState.mode === 'edit') {
+         const payload: EditTaskDto = {
+            name: data.name,
+            details: data.details,
+            dueAt: data.dueAt,
+            link: data.link,
+            status: data.status as TaskStatus
+         };
+         editTask.mutate(formDialogState.data.id, payload)
+      }
+
+      setIsApiLoading({isLoading: false, type:'submit'})
+      handleDialogClose();
    };
 
    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {

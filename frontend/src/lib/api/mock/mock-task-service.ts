@@ -1,8 +1,9 @@
+import { defaultTaskValue } from "@/components/shared/ui/helpers/constants/default-values";
 import { mockTasks } from "@mocks";
 import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions } from "@types";
 
-export const getTask = (id: string) => {
-   const task = 'This is a quick task.'
+export const getTask = (id: string): Promise<Task> => {
+   const task = defaultTaskValue
 
    return new Promise((resolve) => {
       setTimeout(() => resolve(task), 500);

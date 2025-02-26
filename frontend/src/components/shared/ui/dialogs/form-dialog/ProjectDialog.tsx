@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import type { EditProjectDto, Project } from '@types';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import { DialogFooter } from '../../primitives/Dialog';
@@ -16,17 +16,12 @@ import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkIn
 
 const ProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
-   const projectData = formDialogState.data as Project
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
       formDialogState.data
    );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
    const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
-
-   const formMethods = useForm<Project>({
-      defaultValues: projectData,
-   });
 
    const { handleSubmit, reset } = formMethods;
 

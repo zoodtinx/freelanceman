@@ -12,17 +12,12 @@ import { CreateEventDto } from '@types';
 
 const EventDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
-   const eventData = formDialogState.data as Event;
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
       formDialogState.data
    );
    const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
    const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
-
-   const formMethods = useForm({
-      defaultValues: eventData,
-   });
 
    const { handleSubmit, reset } = formMethods;
 

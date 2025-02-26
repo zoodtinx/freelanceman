@@ -24,10 +24,8 @@ import useDialogStore from '@/lib/zustand/dialog-store';
 
 const FileDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
-   let fileData
 
    const [mode, setMode] = useState('upload');
-   const formMethods = useForm({ defaultValues: fileData });
    const { handleSubmit, reset } = formMethods;
 
    const handleDialogClose = () => {

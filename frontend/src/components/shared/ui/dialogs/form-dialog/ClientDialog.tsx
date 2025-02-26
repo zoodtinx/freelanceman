@@ -26,10 +26,6 @@ const ClientDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
       useDialogStore();
    const clientData = formDialogState.data as Client;
 
-   const formMethods = useForm<Client>({
-      defaultValues: clientData,
-   });
-
    const { handleSubmit, reset } = formMethods;
 
    const handleDialogClose = () => {
