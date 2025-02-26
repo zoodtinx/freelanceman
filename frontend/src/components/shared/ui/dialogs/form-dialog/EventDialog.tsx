@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
@@ -10,7 +10,7 @@ import { eventStatusSelections } from '../../helpers/constants/constants';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { CreateEventDto } from '@types';
 
-const EventDialog = () => {
+const EventDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
    const eventData = formDialogState.data as Event;
 

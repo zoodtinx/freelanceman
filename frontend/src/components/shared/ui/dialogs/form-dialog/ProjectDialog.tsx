@@ -14,7 +14,7 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 
 import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
 
-const ProjectDialog = () => {
+const ProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
    const projectData = formDialogState.data as Project
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import type { Client, EditClientDto } from '@types';
 import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
 import { DialogFooter } from '../../primitives/Dialog';
@@ -21,7 +21,7 @@ import {
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
 
-const ClientDialog = () => {
+const ClientDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } =
       useDialogStore();
    const clientData = formDialogState.data as Client;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
@@ -14,7 +14,7 @@ import { SelectObject } from '@/lib/types/selector-dialog.types';
 
 import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from 'src/components/shared/ui/form-field-elements';
 
-const NewProjectDialog = () => {
+const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
    const newProjectData = formDialogState.data as CreateProjectDto
    const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})

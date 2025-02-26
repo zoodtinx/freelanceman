@@ -63,7 +63,7 @@ const ConfirmationDialog = () => {
                'sm:max-w-[425px] w-[400px] flex flex-col focus:outline-none rounded-2xl text-white',
                confirmationDialogState.type === 'delete' && 'bg-black',
                confirmationDialogState.type === 'unsaved-changes' &&
-                  'bg-general-yellow'
+                  'bg-constant-primary'
             )}
          >
             <DialogHeader className="py-1 bg-transparent text-md">
@@ -85,7 +85,7 @@ const ConfirmationDialog = () => {
                      <Button
                         type="submit"
                         variant="default"
-                        className="flex gap-1 bg-button-yellow"
+                        className="flex gap-1 bg-primary text-foreground"
                         onClick={confirmationDialogState.actions.primary}
                      >
                         Leave

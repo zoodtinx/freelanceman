@@ -2,6 +2,7 @@ import {
    useForm,
    SubmitHandler,
    FieldValues,
+   UseFormReturn,
 } from 'react-hook-form';
 import React, {
    useEffect,
@@ -21,7 +22,7 @@ import FileDialogViewMode from 'src/components/shared/ui/dialogs/form-dialog/Fil
 import FileDialogCreateMode from 'src/components/shared/ui/dialogs/form-dialog/FileDialogCreateMode';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
-const FileDialog: React.FC<DialogProps> = () => {
+const FileDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
    let fileData
 
