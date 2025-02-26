@@ -39,7 +39,7 @@ export interface PromptDialogProps {
 // > {
 //    isOpen: boolean;
 //    type: T;
-//    mode: 'view' | 'create' | 'edit';
+//    mode:  'create' | 'edit';
 //    openedOn:
 //       | 'project-page'
 //       | 'all-project-page'
@@ -56,56 +56,56 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         type: 'task';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: Task;
      }
    | {
         isOpen: boolean;
         type: 'event';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: Event;
      }
    | {
         isOpen: boolean;
         type: 'file';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: File;
      }
    | {
         isOpen: boolean;
         type: 'project-settings';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: Project;
      }
    | {
         isOpen: boolean;
         type: 'client-contact';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: Contact;
      }
    | {
         isOpen: boolean;
         type: 'partner-contact';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: Partner;
      }
    | {
         isOpen: boolean;
         type: 'sales-document-item';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: SalesDocumentItem;
      }
    | {
         isOpen: boolean;
         type: 'user-profile';
-        mode: 'view' | 'create' | 'edit';
+        mode:  'create' | 'edit';
         openedOn: OpenedOnType;
         data: User;
      }
@@ -143,7 +143,7 @@ export type FormDialogType =
    | 'new-project'
    | 'new-client';
 
-type OpenedOnType =
+export type OpenedOnType =
    | 'project-page'
    | 'all-project-page'
    | 'client-page'

@@ -5,13 +5,13 @@ import {
  } from "@/components/shared/ui/primitives/Popover"
 import { Separator } from "@/components/shared/ui/primitives/Separator";
 import { Building2, Calendar, CircleCheck, FilePlus2, Folder, FolderPlus, FolderUpIcon, PencilRuler, Plus, Upload, UserRound } from "lucide-react";
-import useDialogStore from "@/lib/zustand/dialog-store";
 import { defaultContactValues, defaultEventValues, defaultFileValues, defaultNewProjectValue, defaultTaskValue } from "@/components/shared/ui/helpers/constants/default-values";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
+import useFormDialogStore from "@/lib/zustand/form-dialog-store";
 
 const GlobalAddButton = () => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState);
    const navigate = useNavigate();
    const [open, setOpen] = useState(false);
 

@@ -1,12 +1,21 @@
-import { FormDialogType } from "@/lib/types/form-dialog.types";
+import { FormDialogType, OpenedOnType } from "@/lib/types/form-dialog.types";
 
 export interface ConfirmationDialogState {
    isOpen: boolean;
-   type: 'delete' | 'confirm';
-   openedFrom: FormDialogType;
-   message: string;
+   type: 'delete' | 'unsaved-changes';
+   dialogRequested: {
+      type: FormDialogType;
+      mode: 'create' | 'edit'
+   };
+   message: () => string;
    actions: {
       primary: () => void;
-      secondary: () => void;
+      secondary?: () => void;
    };
+   appearance?: {
+      overlay: boolean;
+      size: 'sm' | 'md' | 'lg'
+   }
 }
+
+

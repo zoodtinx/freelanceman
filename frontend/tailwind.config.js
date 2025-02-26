@@ -80,6 +80,10 @@ export default {
             sm: 'calc(var(--radius) - 4px)',
          },
          colors: {
+            general: {
+               red: 'var(--freelanceman-general-red)',
+               yellow: 'var(--freelanceman-general-yellow)',
+            },
             theme: {
                red: 'var(--freelanceman-theme-red)',
                green: 'var(--freelanceman-theme-green)',

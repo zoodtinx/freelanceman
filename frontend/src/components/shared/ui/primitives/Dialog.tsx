@@ -29,12 +29,17 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
+interface DialogContentWithOverlaySettingProps
+  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  overlay?: boolean;
+}
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  DialogContentWithOverlaySettingProps
+>(({ className, children,overlay = true, ...props }, ref) => (
   <DialogPortal>
-    <DialogOverlay />
+    {/* <DialogOverlay className={overlay ? 'opacity-100' : 'opacity-0'} /> */}
     <DialogPrimitive.Content
       ref={ref}
       className={cn(

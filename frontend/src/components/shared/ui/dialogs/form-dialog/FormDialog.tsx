@@ -9,20 +9,19 @@ import { Button } from 'src/components/shared/ui/primitives/Button';
 import { Plus } from 'lucide-react';
 import { DialogTitleIcon, getDialogHeaderText } from '@/components/shared/ui/helpers/Helpers';
 import TaskDialog from 'src/components/shared/ui/dialogs/form-dialog/TaskDialog';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialog';
 import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
 import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
-import ProjectSettingsDialog from 'src/components/shared/ui/dialogs/form-dialog/ProjectSettingsDialog';
 import UserProfileDialog from '@/components/shared/ui/dialogs/form-dialog/UserProfileDialog';
 import NewProjectDialog from '@/components/shared/ui/dialogs/form-dialog/NewProjectDialog';
 import NewClientDialog from '@/components/shared/ui/dialogs/form-dialog/NewClientDialog';
 import { cn } from '@/lib/helper/utils';
 import ProjectDialog from '@/components/shared/ui/dialogs/form-dialog/ProjectDialog';
 import ClientDialog from '@/components/shared/ui/dialogs/form-dialog/ClientDialog';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const FormDialog = () => {
-   const { formDialogState, setFormDialogState } = useDialogStore()
+   const { formDialogState, setFormDialogState } = useFormDialogStore()
 
    const handleOpenChange = () => {
       setFormDialogState((prev) => {
@@ -41,6 +40,8 @@ const FormDialog = () => {
             </Button>
          </DialogTrigger>
           <DialogContent
+            onEscapeKeyDown={(e) => e.preventDefault()}
+            onInteractOutside={(e) => e.preventDefault()}
             className={cn(
                'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
                formDialogState.data.themeColor && `text-constant-primary bg-theme-${formDialogState.data.themeColor}`

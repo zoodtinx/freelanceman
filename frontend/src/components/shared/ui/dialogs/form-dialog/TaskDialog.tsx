@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
@@ -13,15 +13,18 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { useTaskMutation } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
-import useDialogStore from 'src/lib/zustand/dialog-store';
 import type { Task, CreateTaskDto } from '@types';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { FormDialogState, FormDialogType } from 'src/lib/types/form-dialog.types';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { CircleCheck, PencilLine, Trash2 } from 'lucide-react';
-
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 const TaskDialog = () => {
-   const { formDialogState, setFormDialogState } = useDialogStore();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
    const taskData = formDialogState.data as Task;
    const formMethods = useForm({
       defaultValues: taskData,
@@ -29,8 +32,58 @@ const TaskDialog = () => {
    
    const {
       handleSubmit,
-      formState: { isDirty, dirtyFields },
+      formState: { isDirty },
    } = formMethods;
+
+   useEffect(() => {
+      const handleDialogClose = () => {
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false
+            }
+         })
+         setConfirmationDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen:false
+            }
+         })
+      };
+
+      const handleEscapeWithChange = () => {
+         console.log('isDirty', isDirty)
+         if (isDirty) {
+            setConfirmationDialogState({
+               isOpen:true,
+               actions: {
+                  primary: handleDialogClose
+               },
+               message: () => 'Changes that will be lost if you leave.',
+               type: 'unsaved-changes',
+               dialogRequested: {
+                  mode: formDialogState.mode,
+                  type: formDialogState.type as FormDialogType
+               }
+            })
+         } else {
+            handleDialogClose()
+         }
+      }
+
+      const handleEscKey = (event: KeyboardEvent) => {
+         if (event.key === 'Escape') {
+            console.log('escape key pressed')
+            handleEscapeWithChange();
+         }
+      };
+
+      document.addEventListener('keydown', handleEscKey);
+
+      return () => {
+         document.removeEventListener('keydown', handleEscKey);
+      };
+   },[setConfirmationDialogState, isDirty, setFormDialogState, formDialogState])
 
    const { createTask, editTask, deleteTask, isLoading, data } =
       useTaskMutation();
@@ -50,16 +103,10 @@ const TaskDialog = () => {
       // handleDialogClose();
    };
 
-   const handleDialogClose = () => {
-      console.log('close');
-   };
-
    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       console.log('delete');
    }
-
-   // console.log('time string', formMethods.watch('dueAt'))
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>

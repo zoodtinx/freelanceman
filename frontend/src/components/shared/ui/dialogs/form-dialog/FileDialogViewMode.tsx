@@ -41,7 +41,12 @@ const FileDialogViewMode = ({ formMethods, setDialogState }) => {
          console.log('prev', prev)
          return { ...prev, isOpen: false };
       });
-      setConfirmationDialogState({isOpen: true, actions: { primary: () => {}}, message: 'Are you sure you want to delete this file?', type: 'delete'})
+      setConfirmationDialogState({
+         isOpen: true,
+         actions: { primary: () => {} },
+         message: 'Are you sure you want to delete this file?',
+         type: 'delete',
+      });
    };
 
    return (

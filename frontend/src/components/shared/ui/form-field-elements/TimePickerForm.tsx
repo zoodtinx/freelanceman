@@ -98,7 +98,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
       setIsPopoverOpen(true);
    };
 
-   const clearTimeSelection = () => {
+   const clearTimeSelection = () => {า
       if (value) {
          handleChange(value.split('T')[0]);
       }
