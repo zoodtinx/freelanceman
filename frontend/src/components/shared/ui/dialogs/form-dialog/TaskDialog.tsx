@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
+import React, { useState } from 'react';
+import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
 import {
    AutoClientField,
@@ -10,21 +10,18 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useCreateTask, useDeleteTask, useEditTask, useTaskApi, useTaskMutation } from '@/lib/api/task-api';
+import { useTaskApi } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import type { Task, CreateTaskDto, EditTaskDto, TaskStatus } from '@types';
-import {
-   FormDialogState,
-   FormDialogType,
-} from 'src/lib/types/form-dialog.types';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { ApiLoadingState } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
 import { DiscardButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { useEditClient } from '@/lib/api/client-api';
+import { FormDialogState } from '@/lib/types/form-dialog.types';
 
-const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+
+export const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { createTask, editTask, deleteTask } = useTaskApi()
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
@@ -78,7 +75,7 @@ const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
             clientId: data.clientId,
             tags: data.tags
          };
-         createTask.mutate(formDialogState.data.id, payload)
+         createTask.mutate(payload)
       } else if (formDialogState.mode === 'edit') {
          const payload: EditTaskDto = {
             name: data.name,
@@ -87,7 +84,10 @@ const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
             link: data.link,
             status: data.status as TaskStatus
          };
-         editTask.mutate(formDialogState.data.id, payload)
+         editTask.mutate({
+            taskId: formDialogState.data.id, 
+            taskPayload: payload
+         })
       }
 
       setIsApiLoading({isLoading: false, type:'submit'})
@@ -96,11 +96,11 @@ const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
 
    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      deleteTask(taskData.id);
+      deleteTask.mutate(taskData.id);
    };
 
    return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
          <div className="px-5 py-3 flex flex-col gap-3">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
@@ -212,5 +212,3 @@ const ProjectField = ({
       );
    }
 };
-
-export default TaskDialog;

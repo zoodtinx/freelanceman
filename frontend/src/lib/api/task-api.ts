@@ -8,12 +8,23 @@ import {
 } from './mock/mock-task-service';
 import type { CreateTaskDto, EditTaskDto, Task, TaskSearchOption } from '@types';
 
+
+export const useTaskApi = () => {
+   return {
+      createTask: useCreateTask(),
+      deleteTask: useDeleteTask(),
+      editTask: useEditTask()
+   }
+}
+
+
 export const useAllTasksQuery = (searchOptions: TaskSearchOption = {}) => {
    return useQuery({
       queryKey: ['tasks', searchOptions],
       queryFn: () => getAllTasks(searchOptions),
    });
 };
+
 
 export const useTasksQuery = (searchOptions: TaskSearchOption = {}) => {
    return useQuery({
@@ -22,12 +33,14 @@ export const useTasksQuery = (searchOptions: TaskSearchOption = {}) => {
    });
 };
 
+
 export const useTaskQuery = (taskId: string) => {
    return useQuery<Task, Error, Task>({
       queryKey: ['tasks', taskId],
       queryFn: () => getTask(taskId),
    });
 };
+
 
 export const useCreateTask = () => {
    const queryClient = useQueryClient();
@@ -58,6 +71,7 @@ export const useCreateTask = () => {
       },
    });
 };
+
 
 interface EditTaskMutationPayload {
    taskId: string;
@@ -97,6 +111,7 @@ export const useEditTask = () => {
    });
 };
 
+
 export const useDeleteTask = () => {
    const queryClient = useQueryClient();
 
@@ -129,11 +144,3 @@ export const useDeleteTask = () => {
       },
    });
 };
-
-export const useTaskApi = () => {
-   return {
-      createTask: useCreateTask(),
-      deleteTask: useDeleteTask(),
-      editTask: useEditTask()
-   }
-}

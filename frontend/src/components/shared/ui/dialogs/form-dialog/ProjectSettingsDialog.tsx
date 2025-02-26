@@ -15,7 +15,7 @@ import { Textarea } from 'src/components/shared/ui/primitives/Textarea';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
 
-const ProjectSettingsDialog: React.FC<DialogProps> = () => {
+export const ProjectSettingsDialog: React.FC<DialogProps> = () => {
    const { formDialogState, setFormDialogState } = useDialogStore();
    const projectData = formDialogState.data as Project
 
@@ -139,5 +139,3 @@ const ProjectNameInput: React.FC<InputProps<Project>> = ({
       </div>
    );
 };
-
-export default ProjectSettingsDialog;

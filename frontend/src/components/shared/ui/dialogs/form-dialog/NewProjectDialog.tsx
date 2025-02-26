@@ -14,7 +14,7 @@ import { SelectObject } from '@/lib/types/selector-dialog.types';
 
 import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from 'src/components/shared/ui/form-field-elements';
 
-const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
    const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
    const {data: clientsData, isLoading} = useClientSelectionQuery(searchTerm)
@@ -238,5 +238,3 @@ const RightButton: React.FC<{
          return null;
    }
 };
-
-export default NewProjectDialog;

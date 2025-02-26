@@ -36,7 +36,7 @@ interface NewActionDialogProps {
 
 type FormData = NewEventPayload
 
-const NewEventDialog: React.FC<NewActionDialogProps> = ({
+export const NewEventDialog: React.FC<NewActionDialogProps> = ({
    dialogueState,
    setDialogueState,
 }) => {
@@ -160,5 +160,3 @@ const NewEventDialog: React.FC<NewActionDialogProps> = ({
       </Dialog>
    );
 };
-
-export default NewEventDialog

@@ -14,7 +14,7 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 
 import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
 
-const ProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const ProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
@@ -248,5 +248,3 @@ const RightButton: React.FC<{
          return null;
    }
 };
-
-export default ProjectDialog;

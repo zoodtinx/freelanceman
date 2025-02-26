@@ -15,7 +15,7 @@ import {
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
 
-const ContactDialog = (): JSX.Element => {
+export const ContactDialog = (): JSX.Element => {
    const [color, setColor] = useState('');
 
    const { formDialogState, setFormDialogState } = useDialogStore();
@@ -249,4 +249,3 @@ const ContactDialog = (): JSX.Element => {
    );
 };
 
-export default ContactDialog;

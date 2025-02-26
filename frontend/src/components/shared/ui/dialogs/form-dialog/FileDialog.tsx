@@ -22,7 +22,7 @@ import FileDialogViewMode from 'src/components/shared/ui/dialogs/form-dialog/Fil
 import FileDialogCreateMode from 'src/components/shared/ui/dialogs/form-dialog/FileDialogCreateMode';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
-const FileDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const FileDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
 
    const [mode, setMode] = useState('upload');
@@ -111,5 +111,3 @@ const FileDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
          </div>
    );
 };
-
-export default FileDialog;

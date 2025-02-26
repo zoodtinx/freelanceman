@@ -26,7 +26,7 @@ const UserProfileDialogLayout = () => {
    return <div></div>;
 };
 
-const UserProfileDialog = (): JSX.Element => {
+export const UserProfileDialog = (): JSX.Element => {
    const [color, setColor] = useState('');
 
    const { formDialogState, setFormDialogState } = useDialogStore();
@@ -270,5 +270,3 @@ const SpecializationBubble = ({
 
    return <div className="flex gap-2">{bubbles}</div>;
 };
-
-export default UserProfileDialog;

@@ -10,7 +10,7 @@ import { eventStatusSelections } from '../../helpers/constants/constants';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { CreateEventDto } from '@types';
 
-const EventDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const EventDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
@@ -225,5 +225,3 @@ const RightButton: React.FC<{
          return null;
    }
 };
-
-export default EventDialog;

@@ -11,21 +11,14 @@ import {
    DialogTitleIcon,
    getDialogHeaderText,
 } from '@/components/shared/ui/helpers/Helpers';
-import TaskDialog from 'src/components/shared/ui/dialogs/form-dialog/TaskDialog';
-import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialog';
-import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
-import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
-import UserProfileDialog from '@/components/shared/ui/dialogs/form-dialog/UserProfileDialog';
-import NewProjectDialog from '@/components/shared/ui/dialogs/form-dialog/NewProjectDialog';
-import NewClientDialog from '@/components/shared/ui/dialogs/form-dialog/NewClientDialog';
+import * as Dialogs from 'src/components/shared/ui/dialogs/form-dialog';
 import { cn } from '@/lib/helper/utils';
-import ProjectDialog from '@/components/shared/ui/dialogs/form-dialog/ProjectDialog';
-import ClientDialog from '@/components/shared/ui/dialogs/form-dialog/ClientDialog';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect } from 'react';
 import { FormDialogType } from '@/lib/types/form-dialog.types';
+
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -63,7 +56,7 @@ const FormDialog = () => {
             actions: {
                primary: handleDialogClose,
             },
-            message: () => 'Changes will be lost if you leave.',
+            message: () => 'Unsaved changes will be lost if you leave.',
             type: 'unsaved-changes',
             dialogRequested: {
                mode: formDialogState.mode,
@@ -146,8 +139,21 @@ const FormDialogContent = ({
    formMethods,
 }: {
    dialogType: string;
+   formMethods: UseFormReturn
 }) => {
-   const mockType = 'task';
+
+   const {
+      TaskDialog,
+      EventDialog,
+      FileDialog,
+      ContactDialog,
+      UserProfileDialog,
+      NewProjectDialog,
+      NewClientDialog,
+      ProjectDialog,
+      ClientDialog,
+   } = Dialogs;
+
    switch (dialogType) {
       case 'task':
          return <TaskDialog formMethods={formMethods} />;

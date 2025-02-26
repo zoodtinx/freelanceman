@@ -16,7 +16,7 @@ import {
 } from '@/components/shared/ui/primitives/Popover';
 import { getColorName } from '@/components/shared/ui/helpers/Helpers';
 
-const NewClientDialog = () => {
+export const NewClientDialog = () => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
    const newProjectData = formDialogState.data as CreateProjectDto
    const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
@@ -271,5 +271,3 @@ const RightButton: React.FC<{
          return null;
    }
 };
-
-export default NewClientDialog;

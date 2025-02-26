@@ -21,7 +21,7 @@ import {
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
 
-const ClientDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const ClientDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } =
       useDialogStore();
    const clientData = formDialogState.data as Client;
@@ -215,5 +215,3 @@ const RightButton: React.FC<{
          return null;
    }
 };
-
-export default ClientDialog;
