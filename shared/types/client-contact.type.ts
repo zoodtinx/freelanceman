@@ -1,5 +1,4 @@
-
-export interface Contact {
+export interface ClientContact {
    id: string;
    name: string;
    company: string;
@@ -12,11 +11,11 @@ export interface Contact {
    type: 'client-contact' | 'partner-contact'
 }
 
-export type ContactSearchOption = Partial<
-   Pick<Contact, "name" | "companyId" | "email" | "phoneNumber" | "id">
+export type ClientContactSearchOption = Partial<
+   Pick<ClientContact, "name" | "companyId" | "email" | "phoneNumber" | "id">
 >;
 
-export interface CreateContactDto {
+export interface CreateClientContactDto {
    name: string;
    companyId: string;
    role?: string;
@@ -26,9 +25,10 @@ export interface CreateContactDto {
    avatar?: string;
 }
 
-export type EditContactDto = Partial<
+export type EditClientContactDto = Partial<
    Pick<
-      Contact,
+      ClientContact,
       "name" | "role" | "phoneNumber" | "email" | "details" | "avatar"
    >
 >;
+

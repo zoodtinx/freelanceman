@@ -1,4 +1,4 @@
-export interface Partner {
+export interface PartnerContact {
    id: string;
    name: string;
    company: string;
@@ -12,11 +12,11 @@ export interface Partner {
    dateModified: string;
 }
 
-export type PartnerSearchOption = Partial<
-   Pick<Partner, "name" | "companyId" | "email" | "phoneNumber" | "id" | "role">
+export type PartnerContactSearchOption = Partial<
+   Pick<PartnerContact, "name" | "companyId" | "email" | "phoneNumber" | "id" | "role">
 >;
 
-export interface CreatePartnerDto {
+export interface CreatePartnerContactDto {
    name: string;
    role: string;
    companyId?: string;
@@ -26,9 +26,9 @@ export interface CreatePartnerDto {
    avatar?: string;
 }
 
-export type EditPartnerDto = Partial<
+export type EditPartnerContactDto = Partial<
    Pick<
-      Partner,
+      PartnerContact,
       "name" | "role" | "phoneNumber" | "email" | "details" | "avatar"
    >
 >;

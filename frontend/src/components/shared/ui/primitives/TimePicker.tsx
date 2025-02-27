@@ -23,9 +23,10 @@ const TimePickerInterface: React.FC<TimePickerProps> = ({
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
    );
-   const minutes = Array.from({ length: 60 }, (_, i) =>
-      String(i).padStart(2, '0')
-   );
+   const minutes = Array.from({ length: 12 }, (_, i) =>
+      String(i * 5).padStart(2, '0')
+    );
+    
 
    const [selectedHour, setSelectedHour] = useState('08');
    const [selectedMinute, setSelectedMinute] = useState('00');

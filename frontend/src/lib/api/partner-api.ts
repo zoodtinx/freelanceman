@@ -6,50 +6,62 @@ import {
    createPartnerContact,
    deletePartnerContact,
 } from './mock/mock-partner-contact-service';
-import type { PartnerContact, PartnerContactSearchOption, NewPartnerContactPayload } from '@types';
+import type { CreatePartnerContactDto, EditPartnerContactDto, PartnerContact, PartnerContactSearchOption } from '@types';
 
-export const useAllPartnerContactsQuery = (searchTerm: PartnerContactSearchOption) => {
+
+export const usePartnerContactApi = () => {
+   return {
+      createPartnerContact: useCreatePartnerContact(),
+      deletePartnerContact: useDeletePartnerContact(),
+      editPartnerContact: useEditPartnerContact()
+   }
+}
+
+
+export const useAllPartnerContactsQuery = (searchOptions: PartnerContactSearchOption = {}) => {
    return useQuery({
-      queryKey: ['partnerContacts', searchTerm],
-      queryFn: () => getAllPartnerContacts(searchTerm),
+      queryKey: ['partnerContacts', searchOptions],
+      queryFn: () => getAllPartnerContacts(searchOptions),
    });
 };
+
+
+export const usePartnerContactsQuery = (searchOptions: PartnerContactSearchOption = {}) => {
+   return useQuery({
+      queryKey: ['partnerContacts', JSON.stringify(searchOptions)],
+      queryFn: () => getAllPartnerContacts(searchOptions),
+   });
+};
+
 
 export const usePartnerContactQuery = (partnerContactId: string) => {
-   const queryClient = useQueryClient();
-
-   return useQuery({
+   return useQuery<PartnerContact, Error, PartnerContact>({
       queryKey: ['partnerContacts', partnerContactId],
-      queryFn: () => {
-         const cachedPartnerContacts = queryClient.getQueryData<PartnerContact[]>(['partnerContacts']);
-         const cachedPartnerContact = cachedPartnerContacts?.find(
-            (partnerContact) => partnerContact.id === partnerContactId
-         );
-         return cachedPartnerContact ?? getPartnerContact(partnerContactId);
-      },
+      queryFn: () => getPartnerContact(partnerContactId),
    });
 };
+
 
 export const useCreatePartnerContact = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<PartnerContact, Error, NewPartnerContactPayload>({
+   return useMutation({
       mutationKey: ['createPartnerContact'],
-      mutationFn: async (newPartnerContact: NewPartnerContactPayload) =>
-         await createPartnerContact(newPartnerContact),
-      onMutate: async (newPartnerContact: NewPartnerContactPayload) => {
-         await queryClient.cancelQueries(['partnerContacts']);
+      mutationFn: async (newPartnerContact: CreatePartnerContactDto) => await createPartnerContact(newPartnerContact),
+      onMutate: async (newPartnerContact: CreatePartnerContactDto) => {
+         await queryClient.cancelQueries({ queryKey: ['partnerContacts'] });
+         const previousPartnerContacts = queryClient.getQueryData(['partnerContacts']);
 
-         const previousPartnerContacts = queryClient.getQueryData<PartnerContact[]>(['partnerContacts']);
-
-         queryClient.setQueryData<PartnerContact[]>(['partnerContacts'], (old) => [
+         queryClient.setQueryData(['partnerContacts'], (old: PartnerContact[]) => [
             ...(old || []),
             { ...newPartnerContact, id: 'temp-id' },
          ]);
 
          return { previousPartnerContacts };
       },
-      onError: (err, newPartnerContact, context: any) => {
+      onError: (err, newPartnerContact, context) => {
+         console.log('New partner contact ', newPartnerContact);
+         console.log(err);
          if (context?.previousPartnerContacts) {
             queryClient.setQueryData(['partnerContacts'], context.previousPartnerContacts);
          }
@@ -60,72 +72,75 @@ export const useCreatePartnerContact = () => {
    });
 };
 
-export const useEditPartnerContact = (partnerContactId: string) => {
+
+interface EditPartnerContactMutationPayload {
+   partnerContactId: string;
+   partnerContactPayload: EditPartnerContactDto;
+}
+
+export const useEditPartnerContact = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<
-      PartnerContact,
-      Error,
-      { key: keyof PartnerContact; value: PartnerContact[keyof PartnerContact] }
-   >({
+   return useMutation({
       mutationKey: ['editPartnerContact'],
-      mutationFn: async (partnerContactPayload: { key: keyof PartnerContact; value: PartnerContact[keyof PartnerContact] }) => {
+      mutationFn: async ({ partnerContactId, partnerContactPayload }: EditPartnerContactMutationPayload) => {
          await editPartnerContact(partnerContactId, partnerContactPayload);
       },
-      onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['partnerContacts']);
-
-         const previousPartnerContacts = queryClient.getQueryData<PartnerContact[]>(['partnerContacts']);
+      onMutate: async ({ partnerContactId, partnerContactPayload }) => {
+         await queryClient.cancelQueries({ queryKey: ['partnerContacts'] });
+         const previousPartnerContacts = queryClient.getQueryData(['partnerContacts']);
 
          if (previousPartnerContacts) {
-            queryClient.setQueryData(['partnerContacts'], (old) =>
-               old?.map((partnerContact) =>
-                  partnerContact.id === partnerContactId ? { ...partnerContact, [key]: value } : partnerContact
-               )
+            queryClient.setQueryData(['partnerContacts'], (old: PartnerContact[]) =>
+               old?.map((partnerContact) => (partnerContact.id === partnerContactId ? partnerContactPayload : partnerContact))
             );
          }
 
          return { previousPartnerContacts };
       },
-      onError: (err, variables, context) => {
+      onError: (err, newPartnerContactPayload, context) => {
+         console.log('New partner contact ', newPartnerContactPayload);
+         console.log(err);
          if (context?.previousPartnerContacts) {
             queryClient.setQueryData(['partnerContacts'], context.previousPartnerContacts);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['partnerContacts']);
+         queryClient.invalidateQueries({ queryKey: ['partnerContacts'] });
       },
    });
 };
 
+
 export const useDeletePartnerContact = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<void, Error, string>({
+   return useMutation({
       mutationKey: ['deletePartnerContact'],
       mutationFn: async (partnerContactId: string) => {
          await deletePartnerContact(partnerContactId);
       },
       onMutate: async (partnerContactId: string) => {
-         await queryClient.cancelQueries(['partnerContacts']);
-
-         const previousPartnerContacts = queryClient.getQueryData<PartnerContact[]>(['partnerContacts']);
+         await queryClient.cancelQueries({ queryKey: ['partnerContacts'] });
+         const previousPartnerContacts = queryClient.getQueryData(['partnerContacts']);
 
          if (previousPartnerContacts) {
-            queryClient.setQueryData<PartnerContact[]>(['partnerContacts'], (old) =>
+            queryClient.setQueryData(['partnerContacts'], (old: PartnerContact[]) =>
                old?.filter((partnerContact) => partnerContact.id !== partnerContactId)
             );
          }
 
          return { previousPartnerContacts };
       },
-      onError: (err, partnerContactId, context: any) => {
+      onError: (err, partnerContactIds, context) => {
+         console.log('Partner contact deleting ', partnerContactIds);
+         console.log(err);
          if (context?.previousPartnerContacts) {
             queryClient.setQueryData(['partnerContacts'], context.previousPartnerContacts);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['partnerContacts']);
+         queryClient.invalidateQueries({ queryKey: ['partnerContacts'] });
       },
    });
 };

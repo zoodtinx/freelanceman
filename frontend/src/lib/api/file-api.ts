@@ -1,128 +1,146 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-   getAllFiles,
-   getFile,
-   createFile,
    editFile,
+   getFile,
+   getAllFiles,
+   createFile,
    deleteFile,
 } from './mock/mock-file-service';
-import type { File, FileSearchOption, NewFilePayload } from '@types';
+import type { CreateFileDto, EditFileDto, File, FileSearchOption } from '@types';
 
-export const useAllFilesQuery = (searchTerm: FileSearchOption) => {
+
+export const useFileApi = () => {
+   return {
+      createFile: useCreateFile(),
+      deleteFile: useDeleteFile(),
+      editFile: useEditFile()
+   }
+}
+
+
+export const useAllFilesQuery = (searchOptions: FileSearchOption = {}) => {
    return useQuery({
-      queryKey: ['files', searchTerm],
-      queryFn: () => getAllFiles(searchTerm),
+      queryKey: ['files', searchOptions],
+      queryFn: () => getAllFiles(searchOptions),
    });
 };
+
+
+export const useFilesQuery = (searchOptions: FileSearchOption = {}) => {
+   return useQuery({
+      queryKey: ['files', JSON.stringify(searchOptions)],
+      queryFn: () => getAllFiles(searchOptions),
+   });
+};
+
 
 export const useFileQuery = (fileId: string) => {
-   const queryClient = useQueryClient();
-
-   return useQuery({
+   return useQuery<File, Error, File>({
       queryKey: ['files', fileId],
-      queryFn: () => {
-         const cachedFiles = queryClient.getQueryData<File[]>(['files']);
-         const cachedFile = cachedFiles?.find((file) => file.id === fileId);
-         return cachedFile ?? getFile(fileId);
-      },
+      queryFn: () => getFile(fileId),
    });
 };
+
 
 export const useCreateFile = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<File, Error, NewFilePayload>({
+   return useMutation({
       mutationKey: ['createFile'],
-      mutationFn: async (newFile: NewFilePayload) => await createFile(newFile),
-      onMutate: async (newFile: NewFilePayload) => {
-         await queryClient.cancelQueries(['files']);
+      mutationFn: async (newFile: CreateFileDto) => await createFile(newFile),
+      onMutate: async (newFile: CreateFileDto) => {
+         await queryClient.cancelQueries({ queryKey: ['files'] });
+         const previousFiles = queryClient.getQueryData(['files']);
 
-         const previousFiles = queryClient.getQueryData<File[]>(['files']);
-
-         queryClient.setQueryData<File[]>(['files'], (old) => [
+         queryClient.setQueryData(['files'], (old: File[]) => [
             ...(old || []),
             { ...newFile, id: 'temp-id' },
          ]);
 
          return { previousFiles };
       },
-      onError: (err, newFile, context: any) => {
+      onError: (err, newFile, context) => {
+         console.log('New file ', newFile);
+         console.log(err);
          if (context?.previousFiles) {
             queryClient.setQueryData(['files'], context.previousFiles);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['files']);
+         queryClient.invalidateQueries({ queryKey: ['files'] });
       },
    });
 };
 
-export const useEditFile = (fileId: string) => {
+
+interface EditFileMutationPayload {
+   fileId: string;
+   filePayload: EditFileDto;
+}
+
+export const useEditFile = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<
-      File,
-      Error,
-      { key: keyof File; value: File[keyof File] }
-   >({
+   return useMutation({
       mutationKey: ['editFile'],
-      mutationFn: async (filePayload: { key: keyof File; value: File[keyof File] }) => {
+      mutationFn: async ({ fileId, filePayload }: EditFileMutationPayload) => {
          await editFile(fileId, filePayload);
       },
-      onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['files']);
-
-         const previousFiles = queryClient.getQueryData<File[]>(['files']);
+      onMutate: async ({ fileId, filePayload }) => {
+         await queryClient.cancelQueries({ queryKey: ['files'] });
+         const previousFiles = queryClient.getQueryData(['files']);
 
          if (previousFiles) {
-            queryClient.setQueryData(['files'], (old) =>
-               old?.map((file) =>
-                  file.id === fileId ? { ...file, [key]: value } : file
-               )
+            queryClient.setQueryData(['files'], (old: File[]) =>
+               old?.map((file) => (file.id === fileId ? filePayload : file))
             );
          }
 
          return { previousFiles };
       },
-      onError: (err, variables, context) => {
+      onError: (err, newFilePayload, context) => {
+         console.log('New file ', newFilePayload);
+         console.log(err);
          if (context?.previousFiles) {
             queryClient.setQueryData(['files'], context.previousFiles);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['files']);
+         queryClient.invalidateQueries({ queryKey: ['files'] });
       },
    });
 };
 
+
 export const useDeleteFile = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<void, Error, string>({
+   return useMutation({
       mutationKey: ['deleteFile'],
       mutationFn: async (fileId: string) => {
          await deleteFile(fileId);
       },
       onMutate: async (fileId: string) => {
-         await queryClient.cancelQueries(['files']);
-
-         const previousFiles = queryClient.getQueryData<File[]>(['files']);
+         await queryClient.cancelQueries({ queryKey: ['files'] });
+         const previousFiles = queryClient.getQueryData(['files']);
 
          if (previousFiles) {
-            queryClient.setQueryData<File[]>(['files'], (old) =>
+            queryClient.setQueryData(['files'], (old: File[]) =>
                old?.filter((file) => file.id !== fileId)
             );
          }
 
          return { previousFiles };
       },
-      onError: (err, fileId, context: any) => {
+      onError: (err, fileIds, context) => {
+         console.log('File deleting ', fileIds);
+         console.log(err);
          if (context?.previousFiles) {
             queryClient.setQueryData(['files'], context.previousFiles);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['files']);
+         queryClient.invalidateQueries({ queryKey: ['files'] });
       },
    });
 };

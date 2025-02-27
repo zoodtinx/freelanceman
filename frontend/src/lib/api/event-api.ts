@@ -2,56 +2,65 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
    editEvent,
    getEvent,
-   getAllEvent,
    createEvent,
    deleteEvent,
-   bulkEditEvents,
-   bulkDeleteEvents
 } from './mock/mock-event-service';
-import type { ActionResponsePayload, EventSearchOptions, NewActionPayload } from '@types';
+import type { CreateEventDto, EditEventDto, Event, EventSearchOption } from '@types';
 
-export const useAllEventQuery = (searchOptions: EventSearchOptions = {}) => {
+
+export const useEventApi = () => {
+   return {
+      createEvent: useCreateEvent(),
+      deleteEvent: useDeleteEvent(),
+      editEvent: useEditEvent()
+   }
+}
+
+
+export const useAllEventsQuery = (searchOptions: EventSearchOption = {}) => {
    return useQuery({
       queryKey: ['events', searchOptions],
-      queryFn: () => getAllEvent(searchOptions),
+      queryFn: () => getAllEvents(searchOptions),
    });
 };
+
+
+export const useEventsQuery = (searchOptions: EventSearchOption = {}) => {
+   return useQuery({
+      queryKey: ['events', JSON.stringify(searchOptions)],
+      queryFn: () => getAllEvents(searchOptions),
+   });
+};
+
 
 export const useEventQuery = (eventId: string) => {
-   const queryClient = useQueryClient();
-
-   return useQuery({
+   return useQuery<Event, Error, Event>({
       queryKey: ['events', eventId],
-      queryFn: () => {
-         const cachedEvents = queryClient.getQueryData<Event[]>(['events']);
-         const cachedEvent = cachedEvents?.find(
-            (event) => event.id === eventId
-         );
-         return cachedEvent ?? getEvent(eventId); 
-      },
+      queryFn: () => getEvent(eventId),
    });
 };
+
 
 export const useCreateEvent = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<Event, Error, NewActionPayload>({
+   return useMutation({
       mutationKey: ['createEvent'],
-      mutationFn: async (newEvent: NewActionPayload) =>
-         await createEvent(newEvent),
-      onMutate: async (newEvent: NewActionPayload) => {
-         await queryClient.cancelQueries(['events']);
+      mutationFn: async (newEvent: CreateEventDto) => await createEvent(newEvent),
+      onMutate: async (newEvent: CreateEventDto) => {
+         await queryClient.cancelQueries({ queryKey: ['events'] });
+         const previousEvents = queryClient.getQueryData(['events']);
 
-         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
-
-         queryClient.setQueryData<Event[]>(['events'], (old) => [
+         queryClient.setQueryData(['events'], (old: Event[]) => [
             ...(old || []),
             { ...newEvent, id: 'temp-id' },
          ]);
 
          return { previousEvents };
       },
-      onError: (err, newEvent, context: any) => {
+      onError: (err, newEvent, context) => {
+         console.log('New event ', newEvent);
+         console.log(err);
          if (context?.previousEvents) {
             queryClient.setQueryData(['events'], context.previousEvents);
          }
@@ -62,123 +71,75 @@ export const useCreateEvent = () => {
    });
 };
 
-export const useEditEvent = (eventId: string) => {
+
+interface EditEventMutationPayload {
+   eventId: string;
+   eventPayload: EditEventDto;
+}
+
+export const useEditEvent = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<
-      Event,
-      Error,
-      { key: keyof Event; value: Event[keyof Event] }
-   >({
+   return useMutation({
       mutationKey: ['editEvent'],
-      mutationFn: async (eventPayload: NewActionPayload) => {
+      mutationFn: async ({ eventId, eventPayload }: EditEventMutationPayload) => {
          await editEvent(eventId, eventPayload);
       },
-      onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['events']);
-
-         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
+      onMutate: async ({ eventId, eventPayload }) => {
+         await queryClient.cancelQueries({ queryKey: ['events'] });
+         const previousEvents = queryClient.getQueryData(['events']);
 
          if (previousEvents) {
-            queryClient.setQueryData(['events'], (old) =>
-               old?.map((event) =>
-                  event.id === eventId ? { ...event, [key]: value } : event
-               )
+            queryClient.setQueryData(['events'], (old: Event[]) =>
+               old?.map((event) => (event.id === eventId ? eventPayload : event))
             );
          }
 
          return { previousEvents };
       },
-      onError: (err, variables, context) => {
+      onError: (err, newEventPayload, context) => {
+         console.log('New event ', newEventPayload);
+         console.log(err);
          if (context?.previousEvents) {
             queryClient.setQueryData(['events'], context.previousEvents);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['events']);
+         queryClient.invalidateQueries({ queryKey: ['events'] });
       },
    });
 };
 
-export const useBulkEditEvent = () => {
-   const queryClient = useQueryClient();
-
-   return useMutation<
-      ActionResponsePayload[],
-      Error,
-      {
-         selectedEvents: NewActionPayload[];
-         key: keyof NewActionPayload;
-         value: NewActionPayload[keyof NewActionPayload];
-      }
-   >({
-      mutationKey: ['bulkEditEvent'], 
-      mutationFn: async ({ selectedEvents, key, value }) => {
-         console.log('selectedEvents', selectedEvents);
-         return bulkEditEvents(selectedEvents, key, value);
-      },
-      onMutate: async ({ selectedEvents, key, value }) => {
-         await queryClient.cancelQueries(['events']); 
-
-         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
-
-         if (previousEvents) {
-            queryClient.setQueryData(['events'], (old: Event[] | undefined) =>
-               old?.map((event) =>
-                  selectedEvents.some((e) => e.id === event.id)
-                     ? { ...event, [key]: value }
-                     : event
-               )
-            );
-         }
-
-         return { previousEvents }; 
-      },
-      onError: (err, variables, context) => {
-         if (context?.previousEvents) {
-            queryClient.setQueryData(['events'], context.previousEvents);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries(['events']);
-      },
-   });
-};
 
 export const useDeleteEvent = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<void, Error, string | string[]>({
+   return useMutation({
       mutationKey: ['deleteEvent'],
-      mutationFn: async (eventIds: string | string[]) => {
-         if (typeof eventIds === 'string') {
-            await deleteEvent(eventIds);
-         } else {
-            await bulkDeleteEvents(eventIds);
-         }
+      mutationFn: async (eventId: string) => {
+         await deleteEvent(eventId);
       },
-      onMutate: async (eventIds: string | string[]) => {
-         await queryClient.cancelQueries(['events']);
-
-         const previousEvents = queryClient.getQueryData<Event[]>(['events']);
+      onMutate: async (eventId: string) => {
+         await queryClient.cancelQueries({ queryKey: ['events'] });
+         const previousEvents = queryClient.getQueryData(['events']);
 
          if (previousEvents) {
-            queryClient.setQueryData<Event[]>(['events'], (old) =>
-               typeof eventIds === 'string'
-                  ? old?.filter((event) => event.id !== eventIds)
-                  : old?.filter((event) => !eventIds.includes(event.id))
+            queryClient.setQueryData(['events'], (old: Event[]) =>
+               old?.filter((event) => event.id !== eventId)
             );
          }
 
          return { previousEvents };
       },
-      onError: (err, eventIds, context: any) => {
+      onError: (err, eventIds, context) => {
+         console.log('Event deleting ', eventIds);
+         console.log(err);
          if (context?.previousEvents) {
             queryClient.setQueryData(['events'], context.previousEvents);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['events']);
+         queryClient.invalidateQueries({ queryKey: ['events'] });
       },
    });
 };

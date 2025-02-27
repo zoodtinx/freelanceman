@@ -5,54 +5,63 @@ import {
    getAllClients,
    createClient,
    deleteClient,
-   getClientSelections
 } from './mock/mock-client-service';
-import type { Client, ClientSearchOption, NewClientPayload } from '@types';
+import type { CreateClientDto, EditClientDto, Client, ClientSearchOption } from '@types';
 
-export const useAllClientsQuery = (searchTerm?: ClientSearchOption) => {
-   return useQuery({
-      queryKey: ['clients', searchTerm || null],
-      queryFn: () => getAllClients(searchTerm || {}),
-   });
-};
 
-export const useClientSelectionQuery = (searchTerm: ClientSearchOption = {}) => {
-   return useQuery({
-      queryKey: ['clientSelections', searchTerm || null],
-      queryFn: () => getClientSelections(searchTerm || {}),
-   });
+export const useClientApi = () => {
+   return {
+      createClient: useCreateClient(),
+      deleteClient: useDeleteClient(),
+      editClient: useEditClient()
+   }
 }
 
-export const useClientQuery = (
-   entityType: 'clientId' | 'projectId' | 'taskId' | 'eventId' | 'contactId',
-   id: string
-) => {
-   return useQuery<Client>({
-      queryKey: ['clients', entityType, id],
-      queryFn: () => getClient(entityType, id),
+
+export const useAllClientsQuery = (searchOptions: ClientSearchOption = {}) => {
+   return useQuery({
+      queryKey: ['clients', searchOptions],
+      queryFn: () => getAllClients(searchOptions),
    });
 };
+
+
+export const useClientsQuery = (searchOptions: ClientSearchOption = {}) => {
+   return useQuery({
+      queryKey: ['clients', JSON.stringify(searchOptions)],
+      queryFn: () => getAllClients(searchOptions),
+   });
+};
+
+
+export const useClientQuery = (clientId: string) => {
+   return useQuery<Client, Error, Client>({
+      queryKey: ['clients', clientId],
+      queryFn: () => getClient(clientId),
+   });
+};
+
 
 export const useCreateClient = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<Client, Error, NewClientPayload>({
+   return useMutation({
       mutationKey: ['createClient'],
-      mutationFn: async (newClient: NewClientPayload) =>
-         await createClient(newClient),
-      onMutate: async (newClient: NewClientPayload) => {
-         await queryClient.cancelQueries(['clients']);
+      mutationFn: async (newClient: CreateClientDto) => await createClient(newClient),
+      onMutate: async (newClient: CreateClientDto) => {
+         await queryClient.cancelQueries({ queryKey: ['clients'] });
+         const previousClients = queryClient.getQueryData(['clients']);
 
-         const previousClients = queryClient.getQueryData<Client[]>(['clients']);
-
-         queryClient.setQueryData<Client[]>(['clients'], (old) => [
+         queryClient.setQueryData(['clients'], (old: Client[]) => [
             ...(old || []),
             { ...newClient, id: 'temp-id' },
          ]);
 
          return { previousClients };
       },
-      onError: (err, newClient, context: any) => {
+      onError: (err, newClient, context) => {
+         console.log('New client ', newClient);
+         console.log(err);
          if (context?.previousClients) {
             queryClient.setQueryData(['clients'], context.previousClients);
          }
@@ -63,72 +72,75 @@ export const useCreateClient = () => {
    });
 };
 
-export const useEditClient = (clientId: string) => {
+
+interface EditClientMutationPayload {
+   clientId: string;
+   clientPayload: EditClientDto;
+}
+
+export const useEditClient = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<
-      Client,
-      Error,
-      { key: keyof Client; value: Client[keyof Client] }
-   >({
+   return useMutation({
       mutationKey: ['editClient'],
-      mutationFn: async (clientPayload: { key: keyof Client; value: Client[keyof Client] }) => {
+      mutationFn: async ({ clientId, clientPayload }: EditClientMutationPayload) => {
          await editClient(clientId, clientPayload);
       },
-      onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['clients']);
-
-         const previousClients = queryClient.getQueryData<Client[]>(['clients']);
+      onMutate: async ({ clientId, clientPayload }) => {
+         await queryClient.cancelQueries({ queryKey: ['clients'] });
+         const previousClients = queryClient.getQueryData(['clients']);
 
          if (previousClients) {
-            queryClient.setQueryData(['clients'], (old) =>
-               old?.map((client) =>
-                  client.id === clientId ? { ...client, [key]: value } : client
-               )
+            queryClient.setQueryData(['clients'], (old: Client[]) =>
+               old?.map((client) => (client.id === clientId ? clientPayload : client))
             );
          }
 
          return { previousClients };
       },
-      onError: (err, variables, context) => {
+      onError: (err, newClientPayload, context) => {
+         console.log('New client ', newClientPayload);
+         console.log(err);
          if (context?.previousClients) {
             queryClient.setQueryData(['clients'], context.previousClients);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['clients']);
+         queryClient.invalidateQueries({ queryKey: ['clients'] });
       },
    });
 };
 
+
 export const useDeleteClient = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<void, Error, string>({
+   return useMutation({
       mutationKey: ['deleteClient'],
       mutationFn: async (clientId: string) => {
          await deleteClient(clientId);
       },
       onMutate: async (clientId: string) => {
-         await queryClient.cancelQueries(['clients']);
-
-         const previousClients = queryClient.getQueryData<Client[]>(['clients']);
+         await queryClient.cancelQueries({ queryKey: ['clients'] });
+         const previousClients = queryClient.getQueryData(['clients']);
 
          if (previousClients) {
-            queryClient.setQueryData<Client[]>(['clients'], (old) =>
+            queryClient.setQueryData(['clients'], (old: Client[]) =>
                old?.filter((client) => client.id !== clientId)
             );
          }
 
          return { previousClients };
       },
-      onError: (err, clientId, context: any) => {
+      onError: (err, clientIds, context) => {
+         console.log('Client deleting ', clientIds);
+         console.log(err);
          if (context?.previousClients) {
             queryClient.setQueryData(['clients'], context.previousClients);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['clients']);
+         queryClient.invalidateQueries({ queryKey: ['clients'] });
       },
    });
 };

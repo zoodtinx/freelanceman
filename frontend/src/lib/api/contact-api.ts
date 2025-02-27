@@ -1,131 +1,146 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-   editContact,
-   getContact,
-   getAllContacts,
-   createContact,
-   deleteContact,
+   editClientContact,
+   getClientContact,
+   getAllClientContacts,
+   createClientContact,
+   deleteClientContact,
 } from './mock/mock-contact-service';
-import type { Contact, ContactSearchOption, NewContactPayload } from '@types';
+import type { CreateClientContactDto, EditClientContactDto, ClientContact, ClientContactSearchOption } from '@types';
 
-export const useAllContactsQuery = (searchTerm : ContactSearchOption) => {
+
+export const useClientContactApi = () => {
+   return {
+      createClientContact: useCreateClientContact(),
+      deleteClientContact: useDeleteClientContact(),
+      editClientContact: useEditClientContact()
+   }
+}
+
+
+export const useAllClientContactsQuery = (searchOptions: ClientContactSearchOption = {}) => {
    return useQuery({
-      queryKey: ['contacts', searchTerm],
-      queryFn: () => getAllContacts(searchTerm),
+      queryKey: ['clientContacts', searchOptions],
+      queryFn: () => getAllClientContacts(searchOptions),
    });
 };
 
-export const useContactQuery = (contactId: string) => {
-   const queryClient = useQueryClient();
 
+export const useClientContactsQuery = (searchOptions: ClientContactSearchOption = {}) => {
    return useQuery({
-      queryKey: ['contacts', contactId],
-      queryFn: () => {
-         const cachedContacts = queryClient.getQueryData<Contact[]>(['contacts']);
-         const cachedContact = cachedContacts?.find(
-            (contact) => contact.id === contactId
-         );
-         return cachedContact ?? getContact(contactId);
-      },
+      queryKey: ['clientContacts', JSON.stringify(searchOptions)],
+      queryFn: () => getAllClientContacts(searchOptions),
    });
 };
 
-export const useCreateContact = () => {
+
+export const useClientContactQuery = (clientContactId: string) => {
+   return useQuery<ClientContact, Error, ClientContact>({
+      queryKey: ['clientContacts', clientContactId],
+      queryFn: () => getClientContact(clientContactId),
+   });
+};
+
+
+export const useCreateClientContact = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<Contact, Error, NewContactPayload>({
-      mutationKey: ['createContact'],
-      mutationFn: async (newContact: NewContactPayload) =>
-         await createContact(newContact),
-      onMutate: async (newContact: NewContactPayload) => {
-         await queryClient.cancelQueries(['contacts']);
+   return useMutation({
+      mutationKey: ['createClientContact'],
+      mutationFn: async (newClientContact: CreateClientContactDto) => await createClientContact(newClientContact),
+      onMutate: async (newClientContact: CreateClientContactDto) => {
+         await queryClient.cancelQueries({ queryKey: ['clientContacts'] });
+         const previousClientContacts = queryClient.getQueryData(['clientContacts']);
 
-         const previousContacts = queryClient.getQueryData<Contact[]>(['contacts']);
-
-         queryClient.setQueryData<Contact[]>(['contacts'], (old) => [
+         queryClient.setQueryData(['clientContacts'], (old: ClientContact[]) => [
             ...(old || []),
-            { ...newContact, id: 'temp-id' },
+            { ...newClientContact, id: 'temp-id' },
          ]);
 
-         return { previousContacts };
+         return { previousClientContacts };
       },
-      onError: (err, newContact, context: any) => {
-         if (context?.previousContacts) {
-            queryClient.setQueryData(['contacts'], context.previousContacts);
+      onError: (err, newClientContact, context) => {
+         console.log('New client contact ', newClientContact);
+         console.log(err);
+         if (context?.previousClientContacts) {
+            queryClient.setQueryData(['clientContacts'], context.previousClientContacts);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['contacts'] });
+         queryClient.invalidateQueries({ queryKey: ['clientContacts'] });
       },
    });
 };
 
-export const useEditContact = (contactId: string) => {
+
+interface EditClientContactMutationPayload {
+   clientContactId: string;
+   clientContactPayload: EditClientContactDto;
+}
+
+export const useEditClientContact = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<
-      Contact,
-      Error,
-      { key: keyof Contact; value: Contact[keyof Contact] }
-   >({
-      mutationKey: ['editContact'],
-      mutationFn: async (contactPayload: { key: keyof Contact; value: Contact[keyof Contact] }) => {
-         await editContact(contactId, contactPayload);
+   return useMutation({
+      mutationKey: ['editClientContact'],
+      mutationFn: async ({ clientContactId, clientContactPayload }: EditClientContactMutationPayload) => {
+         await editClientContact(clientContactId, clientContactPayload);
       },
-      onMutate: async ({ key, value }) => {
-         await queryClient.cancelQueries(['contacts']);
+      onMutate: async ({ clientContactId, clientContactPayload }) => {
+         await queryClient.cancelQueries({ queryKey: ['clientContacts'] });
+         const previousClientContacts = queryClient.getQueryData(['clientContacts']);
 
-         const previousContacts = queryClient.getQueryData<Contact[]>(['contacts']);
-
-         if (previousContacts) {
-            queryClient.setQueryData(['contacts'], (old) =>
-               old?.map((contact) =>
-                  contact.id === contactId ? { ...contact, [key]: value } : contact
-               )
+         if (previousClientContacts) {
+            queryClient.setQueryData(['clientContacts'], (old: ClientContact[]) =>
+               old?.map((clientContact) => (clientContact.id === clientContactId ? clientContactPayload : clientContact))
             );
          }
 
-         return { previousContacts };
+         return { previousClientContacts };
       },
-      onError: (err, variables, context) => {
-         if (context?.previousContacts) {
-            queryClient.setQueryData(['contacts'], context.previousContacts);
+      onError: (err, newClientContactPayload, context) => {
+         console.log('New client contact ', newClientContactPayload);
+         console.log(err);
+         if (context?.previousClientContacts) {
+            queryClient.setQueryData(['clientContacts'], context.previousClientContacts);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['contacts']);
+         queryClient.invalidateQueries({ queryKey: ['clientContacts'] });
       },
    });
 };
 
-export const useDeleteContact = () => {
+
+export const useDeleteClientContact = () => {
    const queryClient = useQueryClient();
 
-   return useMutation<void, Error, string>({
-      mutationKey: ['deleteContact'],
-      mutationFn: async (contactId: string) => {
-         await deleteContact(contactId);
+   return useMutation({
+      mutationKey: ['deleteClientContact'],
+      mutationFn: async (clientContactId: string) => {
+         await deleteClientContact(clientContactId);
       },
-      onMutate: async (contactId: string) => {
-         await queryClient.cancelQueries(['contacts']);
+      onMutate: async (clientContactId: string) => {
+         await queryClient.cancelQueries({ queryKey: ['clientContacts'] });
+         const previousClientContacts = queryClient.getQueryData(['clientContacts']);
 
-         const previousContacts = queryClient.getQueryData<Contact[]>(['contacts']);
-
-         if (previousContacts) {
-            queryClient.setQueryData<Contact[]>(['contacts'], (old) =>
-               old?.filter((contact) => contact.id !== contactId)
+         if (previousClientContacts) {
+            queryClient.setQueryData(['clientContacts'], (old: ClientContact[]) =>
+               old?.filter((clientContact) => clientContact.id !== clientContactId)
             );
          }
 
-         return { previousContacts };
+         return { previousClientContacts };
       },
-      onError: (err, contactId, context: any) => {
-         if (context?.previousContacts) {
-            queryClient.setQueryData(['contacts'], context.previousContacts);
+      onError: (err, clientContactIds, context) => {
+         console.log('Client contact deleting ', clientContactIds);
+         console.log(err);
+         if (context?.previousClientContacts) {
+            queryClient.setQueryData(['clientContacts'], context.previousClientContacts);
          }
       },
       onSettled: () => {
-         queryClient.invalidateQueries(['contacts']);
+         queryClient.invalidateQueries({ queryKey: ['clientContacts'] });
       },
    });
 };

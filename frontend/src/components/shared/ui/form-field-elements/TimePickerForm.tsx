@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../primitives/Popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { setHours, setMinutes, format } from 'date-fns';
@@ -37,14 +37,14 @@ interface TimePickerProps {
 
 const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
 
-   const dateObject = new Date(value as string)
+   const dateObject = useMemo(() => new Date(value as string), [value]);
 
    const hours = Array.from({ length: 12 }, (_, i) =>
       String(i + 1).padStart(2, '0')
    );
-   const minutes = Array.from({ length: 60 }, (_, i) =>
-      String(i).padStart(2, '0')
-   );
+   const minutes = Array.from({ length: 12 }, (_, i) =>
+      String(i * 5).padStart(2, '0')
+    );
 
    const [selectedHour, setSelectedHour] = useState('00');
    const [selectedMinute, setSelectedMinute] = useState('00');
