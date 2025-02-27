@@ -1,4 +1,4 @@
-import { SalesDocument } from "../types/sales-document";
+import { SalesDocument } from "../types/sales-document.type";
 
 export const mockSalesDocument: SalesDocument[] = [
    {

@@ -6,7 +6,7 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
 import { useAllFilesQuery } from '@/lib/api/file-api';
 import { FileSearchOption, SalesDocumentSearchOption } from '@types';
-import { useDocumentDraftQuery } from '@/lib/api/document-draft-api';
+import { useDocumentDraftQuery } from 'src/lib/api/sales-document-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import useDialogStore from '@/lib/zustand/dialog-store';

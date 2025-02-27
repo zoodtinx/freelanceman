@@ -41,6 +41,29 @@ export const useSalesDocumentQuery = (salesDocumentId: string) => {
    });
 };
 
+export const useSalesDocumentSelectionQuery = (searchOptions: SalesDocumentSearchOption = {}) => {
+   const queryClient = useQueryClient();
+
+   return useQuery({
+      queryKey: ['salesDocumentSelection', JSON.stringify(searchOptions)], 
+      queryFn: async () => {
+         const cachedSalesDocuments = queryClient.getQueryData<SalesDocument[]>(['salesDocuments', JSON.stringify(searchOptions)]);
+         
+         if (cachedSalesDocuments) {
+            return cachedSalesDocuments.map(doc => ({
+               value: doc.id, 
+               label: doc.title 
+            }));
+         }
+
+         const salesDocuments = await getAllSalesDocuments(searchOptions);
+         return salesDocuments.map(doc => ({
+            value: doc.id, 
+            label: doc.title 
+         }));
+      },
+   });
+};
 
 export const useCreateSalesDocument = () => {
    const queryClient = useQueryClient();

@@ -9,7 +9,7 @@ import ClientInfoField from '@/components/page-elements/documents/ClientInfoFiel
 import ItemsField from '@/components/page-elements/documents/ItemsField';
 
 import { Link, useParams } from 'react-router-dom';
-import { useDocumentDraftQuery } from '@/lib/api/document-draft-api';
+import { useDocumentDraftQuery } from 'src/lib/api/sales-document-api';
 import { FilePlus2, FileText } from 'lucide-react';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 

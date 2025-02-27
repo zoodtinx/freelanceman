@@ -3,7 +3,6 @@ import {
    editProject,
    getProject,
    getAllProjects,
-   createProject,
    deleteProject,
 } from './mock/mock-project-service';
 import type { CreateProjectDto, EditProjectDto, Project, ProjectSearchOption } from '@types';
@@ -41,6 +40,29 @@ export const useProjectQuery = (projectId: string) => {
    });
 };
 
+export const useProjectSelectionQuery = (searchOptions: ProjectSearchOption = {}) => {
+   const queryClient = useQueryClient();
+
+   return useQuery({
+      queryKey: ['projectSelection', JSON.stringify(searchOptions)], 
+      queryFn: async () => {
+         const cachedProjects = queryClient.getQueryData<Project[]>(['projects', JSON.stringify(searchOptions)]);
+         
+         if (cachedProjects) {
+            return cachedProjects.map(project => ({
+               value: project.id, 
+               label: project.title 
+            }));
+         }
+
+         const projects = await getAllProjects(searchOptions);
+         return projects.map(project => ({
+            value: project.id, 
+            label: project.title 
+         }));
+      },
+   });
+};
 
 export const useCreateProject = () => {
    const queryClient = useQueryClient();

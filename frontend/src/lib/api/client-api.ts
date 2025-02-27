@@ -33,6 +33,29 @@ export const useClientsQuery = (searchOptions: ClientSearchOption = {}) => {
    });
 };
 
+export const useClientSelectionQuery = (searchOptions: ClientSearchOption = {}) => {
+   const queryClient = useQueryClient();
+
+   return useQuery({
+      queryKey: ['clientSelection', JSON.stringify(searchOptions)], 
+      queryFn: async () => {
+         const cachedClients = queryClient.getQueryData<Client[]>(['clients', JSON.stringify(searchOptions)]);
+         
+         if (cachedClients) {
+            return cachedClients.map(client => ({
+               value: client.id, 
+               label: client.name 
+            }));
+         }
+
+         const clients = await getAllClients(searchOptions);
+         return clients.map(client => ({
+            value: client.id, 
+            label: client.name 
+         }));
+      },
+   });
+};
 
 export const useClientQuery = (clientId: string) => {
    return useQuery<Client, Error, Client>({
