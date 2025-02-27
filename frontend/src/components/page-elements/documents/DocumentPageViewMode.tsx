@@ -6,7 +6,7 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
 import { useAllFilesQuery } from '@/lib/api/file-api';
 import { FileSearchOption, SalesDocumentSearchOption } from '@types';
-import { useDocumentDraftQuery } from 'src/lib/api/sales-document-api';
+import { useSalesDocumentsQuery } from 'src/lib/api/sales-document-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import useDialogStore from '@/lib/zustand/dialog-store';
@@ -87,7 +87,7 @@ export const DraftSection = () => {
       useState<SalesDocumentSearchOption>({});
 
    const { data: documentDraftsData, isLoading } =
-      useDocumentDraftQuery(documentDraftFilter);
+      useSalesDocumentsQuery(documentDraftFilter);
 
    return (
       <div className="flex flex-col w-1/2 shadow-md border border-background rounded-xl p-2 py-1 dark:border-tertiary">

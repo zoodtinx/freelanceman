@@ -9,14 +9,14 @@ import ClientInfoField from '@/components/page-elements/documents/ClientInfoFiel
 import ItemsField from '@/components/page-elements/documents/ItemsField';
 
 import { Link, useParams } from 'react-router-dom';
-import { useDocumentDraftQuery } from 'src/lib/api/sales-document-api';
+import { useSalesDocumentsQuery } from 'src/lib/api/sales-document-api';
 import { FilePlus2, FileText } from 'lucide-react';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 
 const DocumentPageCreateMode: React.FC = () => {
    const formMethods = useForm<SalesDocument>({});
    const params = useParams();
-   const { data: draft, isLoading } = useDocumentDraftQuery({
+   const { data: draft, isLoading } = useSalesDocumentsQuery({
       id: params.draftId,
    });
 

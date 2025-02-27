@@ -10,7 +10,7 @@ import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { useAllContactsQuery } from '@/lib/api/contact-api';
+import { useClientContactsQuery } from '@/lib/api/contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
@@ -19,7 +19,7 @@ export const ContactColumn = (): JSX.Element => {
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
 
-   const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
+   const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));

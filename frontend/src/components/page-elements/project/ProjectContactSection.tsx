@@ -7,7 +7,7 @@ import { Plus } from '@/components/shared/icons';
 import { Contact, ContactSearchOption } from '@types';
 import { useEffect, useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { useAllContactsQuery } from '@/lib/api/contact-api';
+import { useClientContactsQuery } from '@/lib/api/contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
@@ -30,7 +30,7 @@ export const ProjectContactSection = ({ project }): JSX.Element => {
       companyId: project.clientId,
    });
 
-   const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
+   const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));

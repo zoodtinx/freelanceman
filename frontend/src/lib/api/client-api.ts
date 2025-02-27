@@ -28,7 +28,7 @@ export const useAllClientsQuery = (searchOptions: ClientSearchOption = {}) => {
 
 export const useClientsQuery = (searchOptions: ClientSearchOption = {}) => {
    return useQuery({
-      queryKey: ['clients', JSON.stringify(searchOptions)],
+   queryKey: ['clients', JSON.stringify(searchOptions)],
       queryFn: () => getAllClients(searchOptions),
    });
 };

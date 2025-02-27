@@ -12,16 +12,16 @@ import {
    SelectObject,
 } from 'src/lib/types/selector-dialog.types';
 import { useState } from 'react';
-import { ContactSearchOption } from '@types';
+import { ClientContactSearchOption } from '@types';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
-import { useAllContactsQuery } from '@/lib/api/contact-api';
+import { useClientContactsQuery } from '@/lib/api/contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
 
 const ContactSelector = () => {
    const [selected, setSelected] = useState<SelectObject[]>([]);
    const [mode, setMode] = useState<'select' | 'view'>('select');
-   const [contactFilter, setContactFilter] = useState<ContactSearchOption>({});
+   const [contactFilter, setContactFilter] = useState<ClientContactSearchOption>({});
 
    const handleFileFilter = (type: string, value: any) => {
       setContactFilter((prev) => ({ ...prev, [type]: value }));
@@ -169,7 +169,7 @@ const ContactSelectorList: React.FC<SelectionListProps> = ({
    setSelected,
    filter,
 }) => {
-   const { data, isLoading } = useAllContactsQuery(filter);
+   const { data, isLoading } = useClientContactsQuery(filter);
 
    console.log('data', data);
 

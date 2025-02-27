@@ -1,4 +1,4 @@
-import { useAllEventQuery } from '@/lib/api/event-api';
+import { useEventsQuery } from '@/lib/api/event-api';
 import { EventSearchOption, Project } from '@types';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ const ProjectEventSection: React.FC<{project: Project}> = ({project}) => {
          }
       }, [project?.id]);
 
-   const { data: eventsData, isLoading } = useAllEventQuery(eventFilter);
+   const { data: eventsData, isLoading } = useEventsQuery(eventFilter);
 
    return (
       <div className="flex flex-col w-1/2">

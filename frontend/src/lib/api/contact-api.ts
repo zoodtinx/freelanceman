@@ -1,12 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-   editClientContact,
-   getClientContact,
-   getAllClientContacts,
-   createClientContact,
-   deleteClientContact,
+   createContact as createClientContact,
+   deleteContact as deleteClientClientContact,
+   editContact as editClientContact,
+   getAllContacts as getAllClientContact,
+   getContact as getClientContact
 } from './mock/mock-contact-service';
-import type { CreateClientContactDto, EditClientContactDto, ClientContact, ClientContactSearchOption } from '@types';
+import {
+   ClientContact,
+   ClientContactSearchOption,
+   CreateClientContactDto,
+   EditClientContactDto,
+} from '@types';
 
 
 export const useClientContactApi = () => {
@@ -21,7 +26,7 @@ export const useClientContactApi = () => {
 export const useAllClientContactsQuery = (searchOptions: ClientContactSearchOption = {}) => {
    return useQuery({
       queryKey: ['clientContacts', searchOptions],
-      queryFn: () => getAllClientContacts(searchOptions),
+      queryFn: () => getAllClientContact(searchOptions),
    });
 };
 
@@ -29,7 +34,7 @@ export const useAllClientContactsQuery = (searchOptions: ClientContactSearchOpti
 export const useClientContactsQuery = (searchOptions: ClientContactSearchOption = {}) => {
    return useQuery({
       queryKey: ['clientContacts', JSON.stringify(searchOptions)],
-      queryFn: () => getAllClientContacts(searchOptions),
+      queryFn: () => getAllClientContact(searchOptions),
    });
 };
 

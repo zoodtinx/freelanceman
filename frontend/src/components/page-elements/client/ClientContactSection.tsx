@@ -2,8 +2,8 @@ import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
 import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
 import { ContactCard } from 'src/components/page-elements/all-clients/ClientPageContact';
-import { useAllContactsQuery } from '@/lib/api/contact-api';
-import { ContactSearchOption } from '@types';
+import { useClientContactsQuery } from '@/lib/api/contact-api';
+import { ClientContactSearchOption } from '@types';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { useParams } from 'react-router-dom';
@@ -27,11 +27,11 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
 
    const clientId = useParams().clientId || '';
 
-   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
+   const [searchOptions, setSearchOptions] = useState<ClientContactSearchOption>({
       companyId: clientId,
    });
 
-   const { data: contacts, isLoading } = useAllContactsQuery(searchOptions);
+   const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));

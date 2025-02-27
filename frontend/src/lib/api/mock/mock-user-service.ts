@@ -36,3 +36,54 @@ export const getUserData = () => {
     }, 2000);
   });
 };
+
+
+export const editUser = (updatedUser) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      Object.assign(sampleUser, updatedUser);
+      resolve(sampleUser);
+    }, 2000);
+  });
+};
+
+export const getUser = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (sampleUser.id === id) {
+        resolve(sampleUser);
+      } else {
+        reject(new Error("User not found"));
+      }
+    }, 2000);
+  });
+};
+
+export const getAllUsers = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([sampleUser]);
+    }, 2000);
+  });
+};
+
+export const createUser = (newUser) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const createdUser = { ...newUser, id: Date.now().toString() };
+      resolve(createdUser);
+    }, 2000);
+  });
+};
+
+export const deleteUser = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (sampleUser.id === id) {
+        resolve({ message: "User deleted successfully" });
+      } else {
+        reject(new Error("User not found"));
+      }
+    }, 2000);
+  });
+};
