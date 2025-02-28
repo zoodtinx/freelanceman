@@ -1,4 +1,4 @@
-import { FormDialogState } from "@/lib/types/form-dialog.types";
+import { FormDialogState, FormDialogType } from "@/lib/types/form-dialog.types";
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 

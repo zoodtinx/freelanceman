@@ -1,6 +1,7 @@
 import {
    Contact,
    CreateClientDto,
+   CreateFileDto,
    CreateProjectDto,
    EditClientDto,
    Event,
@@ -28,56 +29,63 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         type: 'task';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: Task;
      }
    | {
         isOpen: boolean;
         type: 'event';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: Event;
      }
    | {
         isOpen: boolean;
         type: 'file';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: File;
      }
    | {
         isOpen: boolean;
+        type: 'new-file';
+        mode: 'create' | 'edit';
+        openedOn: OpenedOnType;
+        data: CreateFileDto;
+     }
+   | {
+        isOpen: boolean;
         type: 'project-settings';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: Project;
      }
    | {
         isOpen: boolean;
         type: 'client-contact';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: Contact;
      }
    | {
         isOpen: boolean;
         type: 'partner-contact';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: Partner;
      }
    | {
         isOpen: boolean;
         type: 'sales-document-item';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: SalesDocumentItem;
      }
    | {
         isOpen: boolean;
         type: 'user-profile';
-        mode:  'create' | 'edit';
+        mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: User;
      }

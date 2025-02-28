@@ -25,9 +25,9 @@ export const TextInputForm = <TFieldValues extends FieldValues>({
             placeholder={placeholder}
          />
          {errors[fieldName] && (
-            <span className="text-button-red text-sm mt-1">
-               {errors[fieldName]?.message as string}
-            </span>
+            <p className="text-red-500 font-normal animate-shake text-sm pt-1">
+            {errors[fieldName]?.message as string}
+         </p>
          )}
       </div>
    );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../primitives/Button';
-import { CircleCheck, LoaderCircle, PencilLine, Trash2 } from 'lucide-react';
+import { CircleCheck, LoaderCircle, PencilLine, Plus, Trash2 } from 'lucide-react';
 import { FormButtonProps } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
 
 export const DiscardButton = ({
@@ -8,6 +8,7 @@ export const DiscardButton = ({
    isApiLoading,
    setIsApiLoading,
    action,
+   entity
 }: FormButtonProps) => {
    
    const isEditMode = formDialogState.mode === 'edit'
@@ -54,6 +55,7 @@ export const SubmitButton = ({
    formMethods,
    formDialogState,
    isApiLoading,
+   entity
 }: FormButtonProps) => {
    const {
       formState: { isDirty },
@@ -94,9 +96,16 @@ export const SubmitButton = ({
          ) : isEditMode ? (
             <CircleCheck className="w-4 h-4" />
          ) : (
-            <PencilLine className="w-4 h-4" />
+            <Plus className="w-5 h-5" />
          )}
-         {isEditMode ? "Save Changes" : "Add Task"}
+         {isEditMode ? "Save Changes" : "Add"}
       </Button>
    );
 };
+
+const buttonConfig = {
+   project: {
+      create: 'Create New Project',
+      
+   }
+}

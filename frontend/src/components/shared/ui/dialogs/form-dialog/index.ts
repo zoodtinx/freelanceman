@@ -2,6 +2,7 @@ export * from "./ClientDialog";
 export * from "./ContactDialog";
 export * from "./EventDialog";
 export * from "./FileDialog";
+export * from "./NewFileDialog";
 export * from "./FileDialogCreateMode";
 export * from "./FileDialogViewMode";
 export * from "./FormButton";

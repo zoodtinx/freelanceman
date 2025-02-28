@@ -1,7 +1,7 @@
 import {
    fileTypeSelections,
    fileCategorySelections,
-} from 'src/components/shared/ui/helpers/constants/constants';
+} from 'src/components/shared/ui/helpers/constants/selections';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Plus } from '@/components/shared/icons';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';

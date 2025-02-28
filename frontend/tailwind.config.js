@@ -83,6 +83,7 @@ export default {
             general: {
                red: 'var(--freelanceman-general-red)',
                yellow: 'var(--freelanceman-general-yellow)',
+               blue: 'var(--freelanceman-general-blue)',
             },
             theme: {
                red: 'var(--freelanceman-theme-red)',

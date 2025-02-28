@@ -109,6 +109,7 @@ const FileDialogCreateMode: React.FC<{
                      selection={fileTypeSelections}
                      dialogState={dialogState}
                      fieldName="type"
+                     type='client'
                      placeholder="Select file type"
                   />
                   {errors.type && (
@@ -144,6 +145,7 @@ const FileDialogCreateMode: React.FC<{
                         dialogState={dialogState}
                         selection={projectSelection}
                         fieldName="projectId"
+                        type='client'
                         isLoading={isProjectLoading}
                         setFilter={setProjectListFilter}
                      />
@@ -160,6 +162,7 @@ const FileDialogCreateMode: React.FC<{
                         dialogState={dialogState}
                         selection={clientSelection}
                         fieldName="clientId"
+                        type='client'
                         isLoading={isClientLoading}
                         setFilter={setClientListFilter}
                      />

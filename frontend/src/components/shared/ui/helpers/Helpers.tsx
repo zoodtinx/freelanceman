@@ -27,7 +27,7 @@ import {
    PencilRuler,
    Building2,
 } from 'lucide-react';
-import { FileCategory } from '@types';
+import { FileCategory, FileType } from '@types';
 
 export const getIcon = (
    fileType: string,
@@ -309,94 +309,115 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
       case 'client-settings':
          return <Settings className={className} />;
       default:
-         return <Plus  className={className}  />;
+         return <Plus className={className} />;
    }
 };
 
-
- export const getDialogHeaderText = (dialogType: string) => {
+export const getDialogHeaderText = (dialogType: string) => {
    switch (dialogType) {
-     case 'task':
-       return 'Task';
-     case 'event':
-       return 'Event';
-     case 'file':
-       return 'File';
-     case 'project-settings':
-       return 'Project Settings';
-     case 'client-contact':
-       return 'Client Contact';
-     case 'partner-contact':
-       return 'Partner Contact';
-     case 'sales-document-item':
-       return 'Sales Document Item';
-     case 'user-profile':
-       return 'Profile';
-     case 'new-project':
-       return 'Create New Project';
-     case 'new-client':
-       return 'Create New Client';
-     case 'client-settings':
-       return 'Edit Client';
-     default:
-       return 'Dialog';
+      case 'task':
+         return 'Task';
+      case 'event':
+         return 'Event';
+      case 'file':
+         return 'File';
+      case 'project-settings':
+         return 'Project Settings';
+      case 'client-contact':
+         return 'Client Contact';
+      case 'partner-contact':
+         return 'Partner Contact';
+      case 'sales-document-item':
+         return 'Sales Document Item';
+      case 'user-profile':
+         return 'Profile';
+      case 'new-project':
+         return 'Create New Project';
+      case 'new-client':
+         return 'Create New Client';
+      case 'client-settings':
+         return 'Edit Client';
+      default:
+         return 'Dialog';
    }
- };
- 
- export const getColorName = (color) => {
+};
+
+export const getColorName = (color) => {
    switch (color.toLowerCase()) {
-       case 'red': return 'Ardentia';
-       case 'orange': return 'Aurea';
-       case 'yellow': return 'Lucerna';
-       case 'green': return 'Viridis';
-       case 'blue': return 'Caerulea';
-       case 'purple': return 'Regalis';
-       case 'pink': return 'Rosalia';
-       case 'turquoise': return 'Claritudo';
-       case 'magenta': return 'Vividus';
-       case 'teal': return 'Tranquilla';
-       case 'olive': return 'Harmonia';
-       case 'maroon': return 'Fidelitas';
-       case 'beige': return 'Serenitas';
-       case 'coral': return 'Calor';
-       case 'lavender': return 'Levita';
-       case 'peach': return 'Beatitudo';
-       case 'mint': return 'Frigidus';
-       case 'bronze': return 'Aeternum';
-       case 'taupe': return 'Umbra';
-       case 'lilac': return 'Somnium';
-       case 'zinc': return 'Mysticum';
-       default: return 'Unknown Color';
+      case 'red':
+         return 'Ardentia';
+      case 'orange':
+         return 'Aurea';
+      case 'yellow':
+         return 'Lucerna';
+      case 'green':
+         return 'Viridis';
+      case 'blue':
+         return 'Caerulea';
+      case 'purple':
+         return 'Regalis';
+      case 'pink':
+         return 'Rosalia';
+      case 'turquoise':
+         return 'Claritudo';
+      case 'magenta':
+         return 'Vividus';
+      case 'teal':
+         return 'Tranquilla';
+      case 'olive':
+         return 'Harmonia';
+      case 'maroon':
+         return 'Fidelitas';
+      case 'beige':
+         return 'Serenitas';
+      case 'coral':
+         return 'Calor';
+      case 'lavender':
+         return 'Levita';
+      case 'peach':
+         return 'Beatitudo';
+      case 'mint':
+         return 'Frigidus';
+      case 'bronze':
+         return 'Aeternum';
+      case 'taupe':
+         return 'Umbra';
+      case 'lilac':
+         return 'Somnium';
+      case 'zinc':
+         return 'Mysticum';
+      default:
+         return 'Unknown Color';
    }
 };
 
 export const getStatusColor = (status: string = '') => {
-   const formattedStatus = status?.toLowerCase() ?? ''
+   const formattedStatus = status?.toLowerCase() ?? '';
    switch (formattedStatus) {
-     case "active":
-     case "unpaid":
-     case "pending":
-     case "scheduled":
-       return "status-active";
- 
-     case "on-hold":
-     case "processing":
-       return "status-onhold";
- 
-     case "completed":
-     case "paid":
-     case "finished":
-       return "status-completed";
- 
-     case "cancelled":
-       return "status-cancelled";
- 
-     default:
-       return "status-active"; 
-   }
- };
+      case 'active':
+      case 'unpaid':
+      case 'pending':
+      case 'scheduled':
+         return 'status-active';
 
- export const validateUrl = (inputValue: string) => {
+      case 'on-hold':
+      case 'processing':
+         return 'status-onhold';
+
+      case 'completed':
+      case 'paid':
+      case 'finished':
+         return 'status-completed';
+
+      case 'cancelled':
+         return 'status-cancelled';
+
+      default:
+         return 'status-active';
+   }
+};
+
+export const validateUrl = (inputValue: string) => {
    if (!inputValue.trim()) {
       return { error: 'URL cannot be empty.' };
    }
@@ -409,4 +430,80 @@ export const getStatusColor = (status: string = '') => {
          error: 'Please enter a valid link. (Starting with http:// or https://)',
       };
    }
+};
+
+export const getFileTypeFromMimeType = (mime: string): FileType => {
+   const mimeMap: Record<string, FileType> = {
+      // Image types
+      'image/jpeg': 'image',
+      'image/png': 'image',
+      'image/gif': 'image',
+      'image/webp': 'image',
+      'image/svg+xml': 'image',
+      'image/bmp': 'image',
+      'image/tiff': 'image',
+      'image/x-icon': 'image',
+
+      // Video types
+      'video/mp4': 'video',
+      'video/mpeg': 'video',
+      'video/quicktime': 'video',
+      'video/x-msvideo': 'video',
+      'video/x-flv': 'video',
+      'video/webm': 'video',
+
+      // Document types
+      'application/pdf': 'document',
+      'application/msword': 'document',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+         'document',
+      'application/rtf': 'document',
+
+      // Code types
+      'text/plain': 'code',
+      'text/javascript': 'code',
+      'application/json': 'code',
+      'application/xml': 'code',
+      'application/x-python-code': 'code',
+      'text/x-c': 'code',
+      'text/x-c++': 'code',
+
+      // Archive types
+      'application/zip': 'archive',
+      'application/x-tar': 'archive',
+      'application/x-7z-compressed': 'archive',
+      'application/x-rar-compressed': 'archive',
+
+      // Design types
+      'application/vnd.adobe.photoshop': 'design',
+      'application/x-coreldraw': 'design',
+      'image/vnd.dwg': 'design',
+
+      // Spreadsheet types
+      'application/vnd.ms-excel': 'spreadsheet',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+         'spreadsheet',
+
+      // Presentation types
+      'application/vnd.ms-powerpoint': 'presentation',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+         'presentation',
+
+      // Audio types
+      'audio/mpeg': 'audio',
+      'audio/wav': 'audio',
+      'audio/ogg': 'audio',
+      'audio/aac': 'audio',
+      'audio/flac': 'audio',
+
+      // Database types
+      'application/x-sql': 'database',
+      'application/vnd.ms-access': 'database',
+
+      // Project Management types
+      'application/vnd.ms-project': 'project-management',
+      'application/x-trello-json': 'project-management',
+   };
+
+   return mimeMap[mime] || 'other';
 };

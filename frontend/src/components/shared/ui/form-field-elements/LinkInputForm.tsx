@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
 import { validateUrl } from '@/components/shared/ui/helpers/Helpers';
+import { cn } from '@/lib/helper/utils';
 
 export const LinkInputForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -42,15 +43,16 @@ export const LinkInputForm = <TFieldValues extends FieldValues>({
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
-               <div className={className}>
+               <div className={cn('flex flex-col', className)}>
                   <LinkInput
                      value={value}
                      placeholder={placeholder}
                      handleValueChange={handleValueChange}
                      handleDiscardValue={handleDiscardValue}
+                     className='grow'
                   />
                   {errors[fieldName] && (
-                     <p className="mt-1 text-red-500 font-normal animate-shake pt-1 text-sm">
+                     <p className="text-red-500 font-normal animate-shake text-sm">
                         {errors[fieldName]?.message as string}
                      </p>
                   )}
@@ -66,12 +68,14 @@ interface LinkInputProps {
    handleValueChange: (value: string) => void;
    handleDiscardValue: () => void;
    placeholder?: string 
+   className?: string
 }
 
 const LinkInput:React.FC<LinkInputProps> = ({
    value,
    handleValueChange,
    handleDiscardValue,
+   className,
    placeholder = 'Add a link'
 }) => {
    const [isButtonMode, setIsButtonMode] = useState(false);
@@ -123,7 +127,7 @@ const LinkInput:React.FC<LinkInputProps> = ({
    };
 
    return (
-      <div>
+      <div className='flex flex-col'>
          {isButtonMode ? (
             <div className="flex justify-between items-center gap-2 px-2 py-1 font-medium text-blue-600 bg-blue-100 rounded-md">
                <Link
@@ -144,19 +148,16 @@ const LinkInput:React.FC<LinkInputProps> = ({
                </button>
             </div>
          ) : (
-            <div>
                <input
-                  type="url"
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e)}
-                  className="flex px-2 h-6 w-full border border-tertiary rounded-md bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="flex grow rounded-md py-1 px-2 border border-tertiary transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 bg-transparent"
                   placeholder={placeholder}
                />
-            </div>
             
          )}
          {error && (
-            <p className="mt-1 text-red-500 font-normal animate-shake text-sm">
+            <p className="text-red-500 font-normal animate-shake text-sm">
                {error}
             </p>
          )}

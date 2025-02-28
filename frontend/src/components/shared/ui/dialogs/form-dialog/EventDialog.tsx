@@ -1,16 +1,32 @@
 import React from 'react';
 import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
+import {
+   AutoClientField,
+   DateTimePickerForm,
+   DynamicHeightTextInputForm,
+   LinkInputForm,
+   SelectWithSearchForm,
+   StatusSelectForm,
+   TextAreaForm,
+} from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
+import {
+   useCreateEvent,
+   useDeleteEvent,
+   useEditEvent,
+} from '@/lib/api/event-api';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { eventStatusSelections } from '../../helpers/constants/constants';
+import { eventStatusSelections } from '../../helpers/constants/selections';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { CreateEventDto } from '@types';
 
-export const EventDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const EventDialog = ({
+   formMethods,
+}: {
+   formMethods: UseFormReturn;
+}) => {
    const { formDialogState, setFormDialogState } = useDialogStore();
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(

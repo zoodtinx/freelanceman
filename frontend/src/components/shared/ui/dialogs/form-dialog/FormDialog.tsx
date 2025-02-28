@@ -152,6 +152,7 @@ const FormDialogContent = ({
       NewClientDialog,
       ProjectDialog,
       ClientDialog,
+      NewFileDialog
    } = Dialogs;
 
    switch (dialogType) {
@@ -161,6 +162,8 @@ const FormDialogContent = ({
          return <EventDialog formMethods={formMethods} />;
       case 'file':
          return <FileDialog formMethods={formMethods} />;
+      case 'new-file':
+         return <NewFileDialog formMethods={formMethods} />;
       case 'project-settings':
          return <ProjectDialog formMethods={formMethods} />;
       case 'client-contact':
