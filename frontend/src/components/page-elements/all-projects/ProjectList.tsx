@@ -5,6 +5,7 @@ import {
    ProjectListProps,
 } from '@/components/page-elements/all-projects/props.type';
 import { EllipsisVertical } from 'lucide-react';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const ProjectList: React.FC<ProjectListProps> = ({
    projects,
@@ -26,6 +27,10 @@ const ProjectList: React.FC<ProjectListProps> = ({
 };
 
 export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
+
    const navigate = useNavigate();
 
    const handleProjectNavigation = () => {
@@ -38,7 +43,13 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
 
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
-      // the rest of setting dialog
+      setFormDialogState({
+         isOpen: true,
+         mode: 'edit',
+         openedOn: 'all-project-page',
+         type: 'project-settings',
+         data: project,
+      });
    };
 
    const formattedDate = format(

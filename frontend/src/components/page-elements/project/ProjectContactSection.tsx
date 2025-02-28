@@ -37,7 +37,6 @@ export const ProjectContactSection = ({ project }): JSX.Element => {
    };
 
    useEffect(() => {
-      console.log('project.clientId', project.clientId)
       if (project?.id) {
          setSearchOptions((prev: ContactSearchOption) => ({
             ...prev,

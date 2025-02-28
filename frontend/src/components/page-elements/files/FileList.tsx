@@ -13,6 +13,7 @@ import {
 } from 'src/components/shared/ui/helpers/Helpers';
 import { size } from 'lodash';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface FileListProps {
    filesData: File[] | undefined;
@@ -29,6 +30,7 @@ export const FileList: React.FC<FileListProps> = ({
    setSelectState,
    size,
 }) => {
+
    if (isLoading) {
       return <p>Loading...</p>;
    }
@@ -37,7 +39,6 @@ export const FileList: React.FC<FileListProps> = ({
       return <p>No File available</p>;
    }
 
-   const setDialogState = useDialogStore((state) => state.setFormDialogState);
 
 
    const fileListItems = filesData.map((filesData) => (
@@ -46,7 +47,6 @@ export const FileList: React.FC<FileListProps> = ({
          data={filesData}
          setSelectState={setSelectState}
          selectState={selectState}
-         setDialogState={setDialogState}
          size={size}
       />
    ));
@@ -75,7 +75,9 @@ export const FileListItem = ({
    size = 'base',
    deleteFunction,
 }: FileListItemProps) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useDialogStore(
+      (state) => state.setFormDialogState
+   );
    
    const isSelected = selectState.selectedValues.includes(data.id);
 
@@ -102,7 +104,7 @@ export const FileListItem = ({
             });
          }
       } else if (!selectState.enableSelect) {
-         setDialogState({
+         setFormDialogState({
             isOpen: true,
             data: data,
             id: data.id,

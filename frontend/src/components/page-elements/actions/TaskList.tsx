@@ -3,6 +3,7 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { Task } from '@types';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface TaskListProps {
    tasksData: Task[] | undefined;
@@ -40,7 +41,7 @@ interface TaskListItemProps {
 }
 
 const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 

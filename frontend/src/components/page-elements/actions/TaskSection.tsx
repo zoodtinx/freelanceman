@@ -11,9 +11,10 @@ import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/def
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { TaskSearchOption, TaskStatus } from '@types';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function TaskSection() {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 

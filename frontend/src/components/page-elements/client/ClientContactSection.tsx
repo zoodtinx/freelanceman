@@ -10,9 +10,10 @@ import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const ClientContactSection: React.FC<ClientSectionProps> = () => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
    const handleNewContact = () => {

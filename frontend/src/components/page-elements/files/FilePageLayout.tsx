@@ -16,9 +16,12 @@ import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton
 import { cn } from '@/lib/helper/utils';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const FilePageLayout = (): JSX.Element => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
       isOpen: false,

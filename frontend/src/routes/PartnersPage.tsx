@@ -20,6 +20,7 @@ import { useState } from 'react';
 import { BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const PartnerContactLayout = (): JSX.Element => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
@@ -114,7 +115,7 @@ const SearchCategory = ({
 };
 
 const PartnerTab = ({ contact }: { contact: Partner }) => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 

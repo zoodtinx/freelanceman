@@ -8,6 +8,7 @@ import {
    QuickTaskBubbleProps,
 } from '@/components/page-elements/all-projects/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({ projects, isLoading }) => {
    if (isLoading) {
@@ -33,7 +34,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({ projects, isLoading }) => {
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
@@ -48,7 +49,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       e.stopPropagation();
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: 'all-project-page',
          type: 'project-settings',
          data: project,

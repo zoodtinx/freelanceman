@@ -6,9 +6,12 @@ import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/d
 import { EventList } from '@/components/page-elements/actions/EventList';
 import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function EventSection() {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const [eventFilter, setEventFilter] = useState({
       status: 'scheduled',

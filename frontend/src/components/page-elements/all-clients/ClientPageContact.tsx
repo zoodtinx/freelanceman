@@ -13,9 +13,12 @@ import { User, BookUser } from 'lucide-react';
 import { useClientContactsQuery } from '@/lib/api/contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export const ContactColumn = (): JSX.Element => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
 
@@ -71,7 +74,9 @@ export const ContactCard = ({
 }: {
    contact: Contact;
 }) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    let avatar;
    if (!contact.avatar) {
@@ -89,7 +94,7 @@ export const ContactCard = ({
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: 'client-page',
          type: 'client-contact',
          data: contact
