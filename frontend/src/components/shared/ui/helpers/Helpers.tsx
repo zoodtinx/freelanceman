@@ -292,6 +292,8 @@ export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
          return <Calendar className={className} />;
       case 'file':
          return <Folder className={className} />;
+      case 'new-file':
+         return <Folder className={className} />;
       case 'project-settings':
          return <Settings className={className} />;
       case 'client-contact':
@@ -321,6 +323,8 @@ export const getDialogHeaderText = (dialogType: string) => {
          return 'Event';
       case 'file':
          return 'File';
+      case 'new-file':
+         return 'Add File';
       case 'project-settings':
          return 'Project Settings';
       case 'client-contact':

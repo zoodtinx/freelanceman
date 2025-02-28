@@ -17,12 +17,14 @@ import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { ApiLoadingState } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
-import { DiscardButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import {
+   DiscardButton,
+   SubmitButton,
+} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { FormDialogState } from '@/lib/types/form-dialog.types';
 
-
-export const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
-   const { createTask, editTask, deleteTask } = useTaskApi()
+export const TaskDialog = ({ formMethods }: { formMethods: UseFormReturn }) => {
+   const { createTask, editTask, deleteTask } = useTaskApi();
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
@@ -56,7 +58,7 @@ export const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
 
    const onSubmit: SubmitHandler<CreateTaskDto> = (data) => {
       if (!isDirty) {
-         return
+         return;
       }
 
       setIsApiLoading({
@@ -73,24 +75,24 @@ export const TaskDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
             link: data.link,
             status: data.status,
             clientId: data.clientId,
-            tags: data.tags
+            tags: data.tags,
          };
-         createTask.mutate(payload)
+         createTask.mutate(payload);
       } else if (formDialogState.mode === 'edit') {
          const payload: EditTaskDto = {
             name: data.name,
             details: data.details,
             dueAt: data.dueAt,
             link: data.link,
-            status: data.status as TaskStatus
+            status: data.status as TaskStatus,
          };
          editTask.mutate({
-            taskId: formDialogState.data.id, 
-            taskPayload: payload
-         })
+            taskId: formDialogState.data.id,
+            taskPayload: payload,
+         });
       }
 
-      setIsApiLoading({isLoading: false, type:'submit'})
+      setIsApiLoading({ isLoading: false, type: 'submit' });
       handleDialogClose();
    };
 
@@ -178,36 +180,24 @@ const ProjectField = ({
 
    if (isCreateMode && !isOnProjectPage) {
       return (
-         <div className="flex leading-tight">
-            <div className="w-1/2">
-               <Label>Project</Label>
-               <SelectWithSearchForm
-                  formMethods={formMethods}
-                  fieldName="projectId"
-                  type="project"
-                  size="base"
-                  placeholder="Select a Project"
-                  required={true}
-                  errorMessage="Please select a project"
-               />
-            </div>
-            <div className="w-1/2">
-               <Label>Client</Label>
-               <AutoClientField formMethods={formMethods} fieldName="client" />
-            </div>
+         <div className="grow leading-snug">
+            <Label>Project</Label>
+            <SelectWithSearchForm
+               formMethods={formMethods}
+               fieldName="projectId"
+               type="project"
+               size="base"
+               placeholder="Select a Project"
+               required={true}
+               errorMessage="Please select a project"
+            />
          </div>
       );
    } else {
       return (
-         <div className="flex leading-tight">
-            <div className="w-1/2">
-               <Label className="pb-0">Project</Label>
-               <p>{formMethods.getValues('project')}</p>
-            </div>
-            <div className="w-1/2">
-               <Label className="pb-0">Client</Label>
-               <p>{formMethods.getValues('client')}</p>
-            </div>
+         <div className="grow leading-snug">
+            <Label className="pb-0">Project</Label>
+            <p>{formMethods.getValues('project')}</p>
          </div>
       );
    }
