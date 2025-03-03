@@ -5,14 +5,11 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import type { File } from '@types';
 import {
    getIcon,
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
-import { size } from 'lodash';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface FileListProps {
@@ -39,8 +36,6 @@ export const FileList: React.FC<FileListProps> = ({
       return <p>No File available</p>;
    }
 
-
-
    const fileListItems = filesData.map((filesData) => (
       <FileListItem
          key={filesData.id}
@@ -62,8 +57,6 @@ interface FileListItemProps {
    data: File;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   deleteFunction: () => void;
    size: 'base' | 'sm' | 'md';
 }
 
@@ -71,11 +64,9 @@ export const FileListItem = ({
    data,
    selectState,
    setSelectState,
-   setDialogState,
    size = 'base',
-   deleteFunction,
 }: FileListItemProps) => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
    
@@ -108,7 +99,7 @@ export const FileListItem = ({
             isOpen: true,
             data: data,
             id: data.id,
-            mode: 'view',
+            mode: 'edit',
             type: 'file',
             page: 'file-page',
          });
@@ -118,7 +109,7 @@ export const FileListItem = ({
    const handleClickFile = () => {
       setFormDialogState({
          isOpen: true,
-         mode:'view',
+         mode: 'edit',
          openedOn:'file-page',
          type:'file',
          data: data

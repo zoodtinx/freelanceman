@@ -105,7 +105,6 @@ const ConfirmationDialogTitle = ({
 }: {
    dialogState: ConfirmationDialogState;
 }) => {
-   console.log('dialogState', dialogState);
    const { type, dialogRequested } = dialogState;
    const title = getDialogTitle(
       type,

@@ -75,152 +75,39 @@ export const getIcon = (
 };
 
 type FileIconByExtensionProps = {
-   fileExtension: string;
+   fileType: string;
    className?: string;
 };
 
 export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({
-   fileExtension = 'default',
+   fileType = 'other',
    className = '',
 }): JSX.Element => {
-   switch (fileExtension.toLowerCase()) {
-      case 'png':
-      case 'jpg':
-      case 'jpeg':
-      case 'gif':
-      case 'bmp':
-      case 'svg':
-      case 'webp':
-      case 'ico':
-      case 'tiff':
-      case 'heic':
-      case 'raw':
+   switch (fileType) {
+      case 'image':
          return <Image className={className} />;
-
-      case 'mp4':
-      case 'mov':
-      case 'avi':
-      case 'mkv':
-      case 'webm':
-      case 'flv':
-      case 'wmv':
-      case 'm4v':
-      case 'mpg':
-      case 'mpeg':
-      case '3gp':
+      case 'video':
          return <Video className={className} />;
-
-      case 'pdf':
-      case 'doc':
-      case 'docx':
-      case 'txt':
-      case 'rtf':
-      case 'odt':
-      case 'md':
-      case 'tex':
-      case 'epub':
-      case 'mobi':
+      case 'document':
          return <FileText className={className} />;
-
-      case 'js':
-      case 'ts':
-      case 'jsx':
-      case 'tsx':
-      case 'html':
-      case 'htm':
-      case 'css':
-      case 'scss':
-      case 'json':
-      case 'yaml':
-      case 'yml':
-      case 'xml':
-      case 'py':
-      case 'java':
-      case 'c':
-      case 'cpp':
-      case 'h':
-      case 'cs':
-      case 'php':
-      case 'rb':
-      case 'go':
-      case 'rs':
-      case 'sh':
-      case 'bat':
-      case 'dockerfile':
+      case 'code':
          return <Code className={className} />;
-
-      case 'psd':
-      case 'ai':
-      case 'xd':
-      case 'sketch':
-      case 'fig':
-      case 'indd':
-      case 'afdesign':
-      case 'afphoto':
-      case 'blend':
+      case 'design':
          return <Layout className={className} />;
-
-      case 'xls':
-      case 'xlsx':
-      case 'ods':
-      case 'tsv':
-      case 'numbers':
+      case 'spreadsheet':
          return <Table className={className} />;
-
-      case 'ppt':
-      case 'pptx':
-      case 'key':
-      case 'odp':
-      case 'pps':
-      case 'ppsx':
+      case 'presentation':
          return <Monitor className={className} />;
-
-      case 'mp3':
-      case 'wav':
-      case 'aac':
-      case 'flac':
-      case 'ogg':
-      case 'm4a':
-      case 'wma':
-      case 'opus':
-      case 'aiff':
-      case 'amr':
+      case 'audio':
          return <Music className={className} />;
-
-      case 'zip':
-      case 'rar':
-      case '7z':
-      case 'tar':
-      case 'gz':
-      case 'bz2':
-      case 'xz':
-      case 'iso':
-      case 'dmg':
+      case 'archive':
          return <Archive className={className} />;
-
-      case 'prproj':
-      case 'veg':
-      case 'davinci':
-      case 'aep':
-      case 'drp':
-      case 'fcpxml':
+      case 'video-editing':
          return <Film className={className} />;
-
-      case 'mpp':
-      case 'trello':
-      case 'asana':
-      case 'kanban':
+      case 'project-management':
          return <Briefcase className={className} />;
-
-      case 'sql':
-      case 'db':
-      case 'sqlite':
-      case 'mdb':
-      case 'accdb':
-      case 'csv':
+      case 'database':
          return <Database className={className} />;
-
-      case 'default':
       default:
          return <FileStack className={className} />;
    }

@@ -56,6 +56,7 @@ export const NewFileDialog = ({
          size: data.size,
       };
       createFile.mutate(payload);
+      console.log('payload', payload)
    };
 
    const categoryValue = formMethods.watch('category');

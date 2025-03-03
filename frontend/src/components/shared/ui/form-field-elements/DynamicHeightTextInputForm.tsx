@@ -38,7 +38,7 @@ export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
-               <div>
+               <div className='w-full'>
                   <DynamicHeightTextInput
                      value={value}
                      handleChanges={handleValueChange}
@@ -78,6 +78,16 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
    useEffect(() => {
       if (inputRef.current) {
          inputRef.current.textContent = value;
+   
+         const range = document.createRange();
+         const selection = window.getSelection();
+   
+         range.selectNodeContents(inputRef.current);
+         range.collapse(false);
+   
+         selection?.removeAllRanges();
+         selection?.addRange(range);
+   
          inputRef.current.focus();
       }
    }, [value]);
@@ -87,8 +97,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
    };
 
    return (
-      <div>
-         <div className="w-full relative flex ">
+         <div className="w-full relative flex items-center">
             <div
                suppressContentEditableWarning
                className={cn(
@@ -101,8 +110,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
                onInput={handleInput}
                ref={inputRef}
             />
-            {isWithIcon && <Pencil className="w-6 h-6 text-secondary" />}
+            {isWithIcon && <Pencil className="w-5 h-5 text-secondary" />}
          </div>
-      </div>
    );
 };

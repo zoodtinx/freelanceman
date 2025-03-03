@@ -86,6 +86,7 @@ const FileUploadField = ({
    // auto populate file type
    // auto add file size
    // discarding file also reset form
+   // integrate presigned url flow, set form as presigned url
 
    const handleUploadClick = () => {
       inputRef.current?.click();
@@ -109,7 +110,7 @@ const FileUploadField = ({
                      fileExtension={fileExtension}
                      className="w-5 h-5 mb-1"
                   />
-                  <p>{fileLabel}</p>
+                  <p className='font-semibold'>{fileLabel}</p>
                   <p className='text-sm'>{fileSize}</p>
                </div>
                <X
@@ -119,10 +120,10 @@ const FileUploadField = ({
             </div>
          ) : (
             <div     
-               className="flex flex-col border border-secondary border-dashed rounded-md py-2 items-center justify-center text-secondary cursor-pointer bg-transparent"
+               className="flex flex-col gap-1 border border-secondary border-dashed rounded-md py-2 items-center justify-center text-secondary cursor-pointer bg-transparent"
                onClick={handleUploadClick}
             >
-               <Upload />
+               <Upload className='w-5 h-5' />
                <p>Upload a file</p>
             </div>
          )}
