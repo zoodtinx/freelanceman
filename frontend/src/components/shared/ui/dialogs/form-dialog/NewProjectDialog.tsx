@@ -1,57 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
+import React, { useState } from 'react';
 import { TextAreaForm } from 'src/components/shared/ui/form-field-elements';
-import { DialogFooter } from '../../primitives/Dialog';
-import { Button } from '../../primitives/Button';
-import { CircleCheck, ClipboardX, Package, Pencil, PencilRuler, Plus, Trash2, UserRound } from 'lucide-react';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { CircleCheck, Package, Plus, UserRound } from 'lucide-react';
+import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { ClientSearchOption, CreateProjectDto } from '@types';
-import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
-import { useClientSelectionQuery } from '@/lib/api/client-api';
-import { debounce } from 'lodash';
+import { CreateProjectDto } from '@types';
+import {
+   paymentStatusSelections,
+   projectStatusSelections,
+} from '@/components/shared/ui/helpers/constants/selections';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
-
-import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from 'src/components/shared/ui/form-field-elements';
+import {
+   SelectWithSearchForm,
+   DynamicHeightTextInputForm,
+   StatusSelectForm,
+} from 'src/components/shared/ui/form-field-elements';
 import { useProjectApi } from '@/lib/api/project-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { DiscardButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { ApiLoadingState } from '@/lib/types/form-element.type';
+import { Label } from '@/components/shared/ui/form-field-elements/Label';
 
-export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
-   const { createProject } = useProjectApi()
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
+export const NewProjectDialog = ({
+   formMethods,
+   handleEscapeWithChange,
+}: FormDialogProps) => {
+   const { createProject } = useProjectApi();
+   const { formDialogState } = useFormDialogStore();
 
-   const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
-   const {data: clientsData, isLoading} = useClientSelectionQuery(searchTerm)
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
-   
-   const [haveNote, setHaveNote] = useState(false)
+   const [haveNote, setHaveNote] = useState(false);
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-         isLoading: false,
-         type: 'discard',
-      });
+      isLoading: false,
+      type: 'discard',
+   });
 
-   const [addedAsset, setAddedAsset] = useState<string[]>([])
-   const [addedContact, setAddedContact] = useState<string[]>([])
-
-   const { handleSubmit, reset } = formMethods;
-
-   const searchClient = debounce((value: string) => {
-      console.log('triggered')
-      setSearchTerm({ name: value });
-   }, 300);
+   const { handleSubmit } = formMethods;
 
    const handleDiscard = async () => {
-      console.log('discard')
-   }
+      handleEscapeWithChange();
+   };
 
-   const onSubmit = () => {
-      console.log('submitting')
-   }
+   const onSubmit = (data: any) => {
+      const createProjectPayload: CreateProjectDto = {
+         title: data.title,
+         clientId: data.clientId,
+         projectStatus: data.projectStatus,
+         paymentStatus: data.paymentStatus,
+         contacts: data.contacts ?? [],
+         workingFiles: data.workingFiles ?? [],
+         assetFiles: data.assetFiles ?? [],
+      };
+      createProject.mutate(createProjectPayload);
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -65,7 +64,7 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
                placeholder="Enter project name"
             />
             <div className="w-full">
-               <p className="text-secondary">Client</p>
+               <Label>Client</Label>
                <SelectWithSearchForm
                   formMethods={formMethods}
                   fieldName="clientId"
@@ -80,7 +79,7 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
             </div>
             <div className="flex leading-tight">
                <div className="w-1/2">
-                  <p className="text-secondary mb-1">Project Status</p>
+                  <Label>Project Status</Label>
                   <StatusSelectForm
                      formMethods={formMethods}
                      fieldName="projectStatus"
@@ -88,7 +87,7 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
                   />
                </div>
                <div className="w-1/2">
-                  <p className="text-secondary mb-1">Payment Status</p>
+                  <Label>Payment Status</Label>
                   <StatusSelectForm
                      formMethods={formMethods}
                      fieldName="paymentStatus"
@@ -130,8 +129,9 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
 };
 
 const AddButtonGroup = () => {
-   const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
-   const [addedAsset, setAddedAsset] = useState<SelectObject[]>([])
+   const { formDialogState, setFormDialogState, setSelectorDialogState } =
+      useDialogStore();
+   const [addedAsset, setAddedAsset] = useState<SelectObject[]>([]);
    const handleAddAsset = () => {
       setSelectorDialogState({
          isOpen: true,
@@ -145,19 +145,23 @@ const AddButtonGroup = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
-            isOpen:false
-         }
-      })
+            isOpen: false,
+         };
+      });
    };
    const handleAddContact = () => {};
 
    const buttonConfig = [
       { icon: Package, label: 'Add Asset', handleClick: handleAddAsset },
-      { icon: UserRound, label: 'Add Contact', handleClick: handleAddContact }
+      { icon: UserRound, label: 'Add Contact', handleClick: handleAddContact },
    ];
 
    const buttons = buttonConfig.map((data, index) => (
-      <div key={index} className="cursor-default select-none border border-transparent hover:border-primary transition-colors duration-75 flex flex-1 h-[60px] rounded-xl bg-foreground p-2 gap-1" onClick={data.handleClick}>
+      <div
+         key={index}
+         className="cursor-default select-none border border-transparent hover:border-primary transition-colors duration-75 flex flex-1 h-[60px] rounded-xl bg-foreground p-2 gap-1"
+         onClick={data.handleClick}
+      >
          <data.icon className="w-5 h-5" />
          <p>{data.label}</p>
       </div>
@@ -165,4 +169,3 @@ const AddButtonGroup = () => {
 
    return <div className="w-full flex gap-[5px]">{buttons}</div>;
 };
-

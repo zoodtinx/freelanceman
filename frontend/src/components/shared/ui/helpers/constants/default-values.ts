@@ -1,5 +1,5 @@
 import { FormDialogType } from "@/lib/types/form-dialog.types";
-import { CreateProjectDto, Event, EventStatus, File, Partner, Project, Task } from "@types";
+import { Client, CreateProjectDto, Event, EventStatus, File, Partner, Project, Task } from "@types";
 
 
 export const defaultEventValues: Event = {
@@ -129,6 +129,21 @@ export const defaultUserValue: User = {
    assetFiles: [],
  };
 
+ export const defaultClientValue: Client = {
+   name: '',
+   id: '',
+   contactCount: 0,
+   projectCount: 0,
+   activeProjectCount: 0,
+   taxId: '',
+   email: '',
+   phoneNumber: '',
+   address: '',
+   detail: '',
+   themeColor: '',
+};
+
+
  export const defaultValues: Record<FormDialogType, any> = {
    "task": defaultTaskValue,
    "event": defaultEventValues,
@@ -140,6 +155,6 @@ export const defaultUserValue: User = {
    "sales-document-item": {},
    "user-profile": defaultUserValue,
    "new-project": defaultNewProjectValue,
-   "new-client": {},
-   "client-settings": {},
+   "new-client": defaultClientValue,
+   "client-settings": defaultClientValue,
 };

@@ -6,7 +6,7 @@ import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
 import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { FormDialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
@@ -14,7 +14,7 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 
 import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
 
-export const ProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
+export const ProjectDialog = ({formMethods, handleEscapeWithChange}:FormDialogProps) => {
    const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
 
    const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
@@ -38,14 +38,6 @@ export const ProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
       else editEvent(payload);
 
       handleDialogClose();
-   };
-
-   const handleEditMode = () => {
-      console.log('edit');
-   };
-
-   const handleCancelEdit = () => {
-      console.log('cancel');
    };
 
    console.log('watched title', formMethods.watch('title'))

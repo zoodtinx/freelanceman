@@ -167,7 +167,7 @@ const FormDialogContent = ({
       NewFileDialog
    } = Dialogs;
 
-   const props = {formMethods: formMethods}
+   const props = {formMethods: formMethods, handleEscapeWithChange: handleEscapeWithChange}
 
    switch (dialogType) {
       case 'task':

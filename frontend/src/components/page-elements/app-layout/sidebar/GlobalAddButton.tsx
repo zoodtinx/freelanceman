@@ -14,6 +14,7 @@ import {
    UserRound,
 } from 'lucide-react';
 import {
+   defaultClientValue,
    defaultContactValues,
    defaultEventValues,
    defaultFileValues,
@@ -74,7 +75,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-client',
          mode: 'create',
-         data: [defaultValues['new-client']],
+         data: defaultValues['new-client'],
          openedOn: 'global-add-button',
       });
    };

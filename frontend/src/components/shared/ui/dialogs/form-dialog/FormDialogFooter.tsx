@@ -10,7 +10,7 @@ interface FormDialogFooterProps {
       formDialogState: FormDialogState;
       isApiLoading: ApiLoadingState;
       setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
-      destructiveButtonAction: () => Promise<void>;
+      destructiveButtonAction: () => void;
 }
 
 export const FormDialogFooter = ({

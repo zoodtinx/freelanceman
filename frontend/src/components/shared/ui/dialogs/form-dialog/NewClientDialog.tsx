@@ -1,64 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
-import { DynamicHeightTextInputForm } from 'src/components/shared/ui/form-field-elements';
-import { DialogFooter } from '../../primitives/Dialog';
-import { Button } from '../../primitives/Button';
-import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import useDialogStore from '@/lib/zustand/dialog-store';
-import { ClientSearchOption, CreateProjectDto } from '@types';
-import { debounce } from 'lodash';
+import React, { useState } from 'react';
+import {
+   TextAreaForm,
+   TextInputForm,
+   DynamicHeightTextInputForm,
+} from 'src/components/shared/ui/form-field-elements';
+import {
+   FormDialogProps,
+} from 'src/lib/types/form-dialog.types';
 import {
    Popover,
    PopoverContent,
    PopoverTrigger,
 } from '@/components/shared/ui/primitives/Popover';
 import { getColorName } from '@/components/shared/ui/helpers/Helpers';
+import { useClientApi } from '@/lib/api/client-api';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { CreateClientDto } from '@types';
+import { Label } from '@/components/shared/ui/form-field-elements/Label';
+import { ApiLoadingState } from '@/lib/types/form-element.type';
 
-export const NewClientDialog = () => {
-   const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
-   const newProjectData = formDialogState.data as CreateProjectDto
-   const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
+export const NewClientDialog = ({
+   formMethods,
+   handleEscapeWithChange,
+}: FormDialogProps) => {
+   const { createClient } = useClientApi();
+   const { formDialogState } = useFormDialogStore();
 
-   const formMethods = useForm<CreateProjectDto>({
-      defaultValues: newProjectData,
+   const { handleSubmit } = formMethods;
+
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'discard',
    });
 
-   const { handleSubmit, reset } = formMethods;
-
-   const handleDialogClose = () => {
-      console.log('close');
+   const onSubmit = (data: any) => {
+      const createClientPayload: CreateClientDto = {
+         name: data.name,
+         taxId: data.taxId,
+         email: data.email,
+         phoneNumber: data.phoneNumber,
+         address: data.address,
+         detail: data.detail,
+      };
+      console.log('createClientPayload', createClientPayload);
+      createClient.mutate(createClientPayload)
    };
-
-   const onSubmit: SubmitHandler<CreateProjectDto> = (data) => {
-      console.log('submitted')
-   };
-
-   const handleEditMode = () => {
-      console.log('edit');
-   };
-
-   const handleCancelEdit = () => {
-      console.log('cancel');
-   };
-
-   const searchClient = debounce((value: string) => {
-      console.log('value', value);
-      setSearchTerm({ name: value });
-   }, 300);
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-2">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
-               dialogState={formDialogState}
+               fieldName='name'
                className="pt-1"
+               placeholder="Enter client's name"
+               required={true}
+               errorMessage="Please enter client name"
             />
             <div className="flex leading-tight gap-2">
                <div className="flex flex-col grow">
-                  <p className="text-secondary pb-1 text-sm">Email</p>
+                  <Label>Email</Label>
                   <TextInputForm
                      fieldName="email"
                      className="bg-transparent"
@@ -66,7 +68,7 @@ export const NewClientDialog = () => {
                   />
                </div>
                <div className="flex flex-col w-2/5">
-                  <p className="text-secondary pb-1 text-sm">Phone Number</p>
+                  <Label>Phone Number</Label>
                   <TextInputForm
                      fieldName="phoneNumber"
                      className="bg-transparent"
@@ -75,85 +77,91 @@ export const NewClientDialog = () => {
                </div>
             </div>
             <div className="flex flex-col grow">
-               <p className="text-secondary pb-1 text-sm">Tax ID</p>
+               <Label>Tax ID</Label>
                <TextInputForm
-                  fieldName="email"
+                  fieldName="taxId"
                   className="bg-transparent"
                   formMethods={formMethods}
                />
             </div>
             <div className="flex flex-col grow">
-               <p className="text-secondary pb-1 text-sm">Address</p>
+               <Label>Address</Label>
                <TextAreaForm
-                  fieldName="email"
+                  fieldName="address"
                   className="bg-transparent "
                   formMethods={formMethods}
-                  dialogState={formDialogState}
                   placeholder="Don't worry, you can add it later."
                />
             </div>
             <div className="flex flex-col grow relative">
-               <p className="text-secondary pb-1 text-sm">Theme Color</p>
-               <div className='relative'>
+               <Label>Theme Color</Label>
+               <div className="relative">
                   <SelectColorPopover />
                </div>
             </div>
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4">
-               <Button>Left</Button>
-               <Button>Right</Button>
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formDialogState={formDialogState}
+            formMethods={formMethods}
+            isApiLoading={isApiLoading}
+            destructiveButtonAction={handleEscapeWithChange}
+            setIsApiLoading={setIsApiLoading}
+         />
       </form>
    );
 };
 
 const SelectColorPopover = () => {
-   const [themeColor, setThemeColor] = useState('')
-   const [isOpen, setIsOpen] =  useState(false)
-
-   console.log('themeColor', themeColor)
-   
+   const [themeColor, setThemeColor] = useState('');
+   const [isOpen, setIsOpen] = useState(false);
 
    const handleSelectColor = (selectedColor) => {
-      setThemeColor(selectedColor)
-      setIsOpen(false)
-   }
+      setThemeColor(selectedColor);
+      setIsOpen(false);
+   };
 
    const ThemeColorLabel = () => {
-      const colorName = getColorName(themeColor)
+      const colorName = getColorName(themeColor);
       return (
-         <p className={`p-1 px-2 w-full rounded-full border border-transparent text-center select-none cursor-default bg-theme-${themeColor}`}>
+         <p
+            className={`p-1 px-2 w-full rounded-full border border-transparent text-center select-none cursor-default bg-theme-${themeColor}`}
+         >
             {colorName}
          </p>
-      )
-   }
+      );
+   };
 
    const ThemeColorInput = () => {
-      const colorName = getColorName(themeColor)
+      const colorName = getColorName(themeColor);
       return (
-         <p className={`p-1 px-2 w-full text-secondary border rounded-full text-center select-none cursor-default}`}>
+         <p
+            className={`p-1 px-2 w-full text-secondary border rounded-full text-center select-none cursor-default}`}
+         >
             Select a color
          </p>
-      )
-   }
+      );
+   };
 
    return (
-      <Popover open={isOpen} >
+      <Popover open={isOpen}>
          <PopoverTrigger asChild>
-         <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none w-full">
+            <button
+               onClick={() => setIsOpen(!isOpen)}
+               className="focus:outline-none w-full"
+            >
                {themeColor ? <ThemeColorLabel /> : <ThemeColorInput />}
             </button>
          </PopoverTrigger>
          <PopoverContent className="bg-foreground border-tertiary grid grid-cols-7 gap-2 rounded-xl p-2 cursor-default select-none">
-            <ThemeColorGroup setColor={((selectedColor) => handleSelectColor(selectedColor))} />
+            <ThemeColorGroup
+               setColor={(selectedColor) => handleSelectColor(selectedColor)}
+            />
          </PopoverContent>
       </Popover>
    );
-}
+};
 
-const ThemeColorGroup = ({setColor}) => {
+const ThemeColorGroup = ({ setColor }) => {
    const colors = [
       'red',
       'orange',
@@ -176,8 +184,8 @@ const ThemeColorGroup = ({setColor}) => {
       'pink',
       'taupe',
       'zinc',
-    ];
-   
+   ];
+
    const colorSelections = colors.map((color) => {
       return (
          <div
@@ -189,85 +197,5 @@ const ThemeColorGroup = ({setColor}) => {
       );
    });
 
-   return (
-      <>
-      {colorSelections}
-      </>   
-   )
-}
-
-const LeftButton: React.FC<{
-   dialogState: FormDialogState;
-   handleCancelEdit: () => void;
-   handleDialogClose: () => void;
-}> = ({ dialogState, handleCancelEdit, handleDialogClose }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button variant={'destructive'} className="flex gap-1">
-               Delete
-               <Trash2 className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={handleCancelEdit}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={handleDialogClose}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
-   }
-};
-
-const RightButton: React.FC<{
-   dialogState: FormDialogState;
-   handleEditMode: () => void;
-}> = ({ dialogState, handleEditMode }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button
-               type="submit"
-               variant={'default'}
-               onClick={() => handleEditMode()}
-               className="flex gap-1"
-            >
-               Edit
-               <Pencil className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Save
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Create new contact
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
-   }
+   return <>{colorSelections}</>;
 };

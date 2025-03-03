@@ -29,7 +29,6 @@ export interface CreateClientDto {
    phoneNumber: string;
    address: string;
    detail: string;
-   contact?: string[];
 }
 
 export type EditClientDto = Partial<

@@ -1,4 +1,5 @@
 import {
+   Client,
    Contact,
    CreateClientDto,
    CreateFileDto,
@@ -108,7 +109,7 @@ export type FormDialogState =
         type: 'new-client';
         mode: 'create';
         openedOn: OpenedOnType;
-        data: CreateClientDto;
+        data: Client;
      }
    | {
         isOpen: boolean;
