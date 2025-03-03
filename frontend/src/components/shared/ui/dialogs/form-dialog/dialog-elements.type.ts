@@ -7,10 +7,13 @@ export interface ApiLoadingState {
    type: 'submit' | 'discard'
 }
 
-export interface FormButtonProps {
+export interface SubmitButtonProps {
    formMethods: UseFormReturn;
    formDialogState: FormDialogState;
    isApiLoading: ApiLoadingState;
    setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
-   action?: () => void;
+}
+
+export interface DestructiveButtonProps extends SubmitButtonProps {
+   action: () => Promise<void>;
 }

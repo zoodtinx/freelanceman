@@ -18,6 +18,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect } from 'react';
 import { FormDialogType } from '@/lib/types/form-dialog.types';
+import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 
 
 const FormDialog = () => {
@@ -32,6 +33,7 @@ const FormDialog = () => {
 
    const {
       formState: { isDirty },
+      reset
    } = formMethods;
 
    const handleDialogClose = useCallback(() => {
@@ -47,7 +49,13 @@ const FormDialog = () => {
             isOpen: false,
          };
       });
-   }, [setFormDialogState, setConfirmationDialogState]);
+      reset(defaultValues[formDialogState.type]);
+   }, [
+      setFormDialogState,
+      setConfirmationDialogState,
+      reset,
+      formDialogState.type,
+   ]);
 
    const handleEscapeWithChange = useCallback(() => {
       if (isDirty) {
@@ -118,6 +126,7 @@ const FormDialog = () => {
                <FormDialogContent
                   dialogType={formDialogState.type}
                   formMethods={formMethods}
+                  handleEscapeWithChange={handleEscapeWithChange}
                />
             </div>
          </DialogContent>
@@ -137,9 +146,11 @@ const FormDialogTitle = ({ dialogType }: { dialogType: string }) => {
 const FormDialogContent = ({
    dialogType,
    formMethods,
+   handleEscapeWithChange
 }: {
    dialogType: string;
    formMethods: UseFormReturn
+   handleEscapeWithChange: () => void
 }) => {
 
    const {
@@ -155,31 +166,35 @@ const FormDialogContent = ({
       NewFileDialog
    } = Dialogs;
 
+   const props = {formMethods: formMethods, handleEscapeWithChange: handleEscapeWithChange}
+
    switch (dialogType) {
       case 'task':
-         return <TaskDialog formMethods={formMethods} />;
+         return <TaskDialog {...props} />;
       case 'event':
-         return <EventDialog formMethods={formMethods} />;
+         return <EventDialog {...props} />;
       case 'file':
-         return <FileDialog formMethods={formMethods} />;
+         return <FileDialog {...props} />;
       case 'new-file':
-         return <NewFileDialog formMethods={formMethods} />;
+         return <NewFileDialog {...props} />;
       case 'project-settings':
-         return <ProjectDialog formMethods={formMethods} />;
+         return <ProjectDialog {...props} />;
       case 'client-contact':
-         return <ContactDialog formMethods={formMethods} />;
+         return <ContactDialog {...props} />;
       case 'partner-contact':
-         return <ContactDialog formMethods={formMethods} />;
+         return <ContactDialog {...props} />;
       case 'user-profile':
-         return <UserProfileDialog formMethods={formMethods} />;
+         return <UserProfileDialog {...props} />;
       case 'new-project':
-         return <NewProjectDialog formMethods={formMethods} />;
+         return <NewProjectDialog {...props} />;
       case 'new-client':
-         return <NewClientDialog formMethods={formMethods} />;
+         return <NewClientDialog {...props} />;
       case 'client-settings':
-         return <ClientDialog formMethods={formMethods} />;
+         return <ClientDialog {...props} />;
+      case 'base':
+         return <></>;
       default:
-         return <Plus />;
+         return <></>;      
    }
 };
 

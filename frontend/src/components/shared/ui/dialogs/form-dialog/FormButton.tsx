@@ -1,15 +1,14 @@
 import React from 'react';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, LoaderCircle, PencilLine, Plus, Trash2 } from 'lucide-react';
-import { FormButtonProps } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
+import { DestructiveButtonProps, FormButtonProps, SubmitButtonProps } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
 
 export const DiscardButton = ({
    formDialogState,
    isApiLoading,
    setIsApiLoading,
    action,
-   entity
-}: FormButtonProps) => {
+}: DestructiveButtonProps) => {
    
    const isEditMode = formDialogState.mode === 'edit'
    const isLoading = isApiLoading.isLoading;
@@ -28,15 +27,17 @@ export const DiscardButton = ({
 
    const variant = getVariant();
 
-   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       setIsApiLoading({
          isLoading: true,
          type: 'discard',
       });
-      if (action) { // oh my god I hate TypeScript
-         action()
-      }
+      await action();
+      setIsApiLoading({
+         isLoading: false,
+         type: 'discard',
+      });
    };
 
    return (
@@ -55,8 +56,7 @@ export const SubmitButton = ({
    formMethods,
    formDialogState,
    isApiLoading,
-   entity
-}: FormButtonProps) => {
+}: SubmitButtonProps) => {
    const {
       formState: { isDirty },
    } = formMethods;

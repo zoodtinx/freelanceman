@@ -12,11 +12,11 @@ import {
    User,
 } from '@types';
 import { Dispatch, SetStateAction } from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormDialogProps {
-   formDialogState: FormDialogState;
-   setFormDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   setPromptDialogState?: Dispatch<SetStateAction<PromptDialogState>>;
+   formMethods: UseFormReturn
+   handleEscapeWithChange: () => void
 }
 
 export interface PromptDialogProps {
@@ -70,6 +70,13 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        type: 'client-settings';
+        mode: 'create' | 'edit';
+        openedOn: OpenedOnType;
+        data: Contact;
+     }
+   | {
+        isOpen: boolean;
         type: 'partner-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -109,7 +116,7 @@ export type FormDialogState =
         mode: 'edit';
         openedOn: OpenedOnType;
         data: EditClientDto;
-     };
+     }
 
 export type FormDialogType =
    | 'task'
@@ -117,11 +124,13 @@ export type FormDialogType =
    | 'file'
    | 'project-settings'
    | 'client-contact'
+   | 'client-settings'
    | 'partner-contact'
    | 'sales-document-item'
    | 'user-profile'
    | 'new-project'
-   | 'new-client';
+   | 'new-client'
+   | 'new-file';
 
 export type OpenedOnType =
    | 'project-page'

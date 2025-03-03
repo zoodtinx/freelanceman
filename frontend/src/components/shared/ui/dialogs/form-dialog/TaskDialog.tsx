@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
 import {
-   AutoClientField,
    DateTimePickerForm,
    DynamicHeightTextInputForm,
    LinkInputForm,
@@ -21,9 +20,15 @@ import {
    DiscardButton,
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { FormDialogState } from '@/lib/types/form-dialog.types';
+import {
+   FormDialogProps,
+   FormDialogState,
+} from '@/lib/types/form-dialog.types';
 
-export const TaskDialog = ({ formMethods }: { formMethods: UseFormReturn }) => {
+export const TaskDialog = ({
+   formMethods,
+   handleEscapeWithChange,
+}: FormDialogProps) => {
    const { createTask, editTask, deleteTask } = useTaskApi();
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
@@ -96,9 +101,12 @@ export const TaskDialog = ({ formMethods }: { formMethods: UseFormReturn }) => {
       handleDialogClose();
    };
 
-   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      deleteTask.mutate(taskData.id);
+   const handleLeftButtonClick = () => {
+      if (formDialogState.mode === 'create') {
+         handleEscapeWithChange();
+      } else if (formDialogState.mode === 'edit') {
+         deleteTask.mutate(taskData.id);
+      }
    };
 
    return (
@@ -152,8 +160,9 @@ export const TaskDialog = ({ formMethods }: { formMethods: UseFormReturn }) => {
             <div className="flex justify-between p-4">
                <DiscardButton
                   isApiLoading={isApiLoading}
+                  formMethods={formMethods}
                   formDialogState={formDialogState}
-                  action={handleDelete}
+                  action={handleLeftButtonClick}
                   setIsApiLoading={setIsApiLoading}
                />
                <SubmitButton

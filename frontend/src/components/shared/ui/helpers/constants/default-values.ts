@@ -1,32 +1,8 @@
-import { CreateProjectDto, Event, EventStatus, File, Partner, Task } from "@types";
+import { FormDialogType } from "@/lib/types/form-dialog.types";
+import { CreateProjectDto, Event, EventStatus, File, Partner, Project, Task } from "@types";
 
-export const formDefaultValue = (actionType: 'event' | 'task') => {
-   let defaultStatus: TaskStatus | EventStatus
 
-   if (actionType === 'event') {
-      defaultStatus = 'scheduled'; 
-   } else if (actionType === 'task') {
-      defaultStatus = 'planned'; 
-   } else {
-      throw new Error("Invalid actionType");
-   }
-
-   return {
-      id: '',
-      name: '',
-      details: '',
-      status: defaultStatus,
-      dueDate: '',
-      project: '',
-      projectId: '',
-      withTime: false,
-      client: '',
-      clientId: '',
-      link: '',
-   };
-};
-
-export const eventDefaultValues: Event = {
+export const defaultEventValues: Event = {
 
    name: '',
    details: '',
@@ -40,22 +16,6 @@ export const eventDefaultValues: Event = {
    themeColor:'',             
    id: '',
    tags: []
-};
-
-export const defaultEventValues: Event = eventDefaultValues
-
-export const taskDefaultValues: Task = {
-      id: "",
-      name: "",
-      status: "pending",
-      details: "",
-      link: "",
-      dueAt: "",
-      project: "",
-      projectId: "",
-      client: "",
-      clientId: "",
-      themeColor: "",
 };
 
 export const defaultTaskValue: Task = {
@@ -168,3 +128,18 @@ export const defaultUserValue: User = {
    workingFiles: [],
    assetFiles: [],
  };
+
+ export const defaultValues: Record<FormDialogType, any> = {
+   "task": defaultTaskValue,
+   "event": defaultEventValues,
+   "file": defaultFileValues,
+   "new-file": defaultFileValues,
+   "project-settings": {},
+   "client-contact": defaultContact,
+   "partner-contact": defaultPartnerValues,
+   "sales-document-item": {},
+   "user-profile": defaultUserValue,
+   "new-project": defaultNewProjectValue,
+   "new-client": {},
+   "client-settings": {},
+};
