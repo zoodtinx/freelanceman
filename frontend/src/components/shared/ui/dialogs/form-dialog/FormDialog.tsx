@@ -158,7 +158,7 @@ const FormDialogContent = ({
       TaskDialog,
       EventDialog,
       FileDialog,
-      ContactDialog,
+      ClientContactDialog,
       UserProfileDialog,
       NewProjectDialog,
       NewClientDialog,
@@ -181,9 +181,9 @@ const FormDialogContent = ({
       case 'project-settings':
          return <ProjectDialog {...props} />;
       case 'client-contact':
-         return <ContactDialog {...props} />;
+         return <ClientContactDialog {...props} />;
       case 'partner-contact':
-         return <ContactDialog {...props} />;
+         return <ClientContactDialog {...props} />;
       case 'user-profile':
          return <UserProfileDialog {...props} />;
       case 'new-project':

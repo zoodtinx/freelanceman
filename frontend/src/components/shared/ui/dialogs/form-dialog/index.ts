@@ -1,5 +1,5 @@
 export * from "./ClientDialog";
-export * from "./ContactDialog";
+export * from "./ClientContactDialog";
 export * from "./EventDialog";
 export * from "./FileDialog";
 export * from "./NewFileDialog";

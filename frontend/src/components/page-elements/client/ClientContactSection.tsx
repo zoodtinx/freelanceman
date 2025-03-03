@@ -1,6 +1,6 @@
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
-import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ContactDialog';
+import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ClientContactDialog';
 import { ContactCard } from 'src/components/page-elements/all-clients/ClientPageContact';
 import { useClientContactsQuery } from '@/lib/api/contact-api';
 import { ClientContactSearchOption } from '@types';
