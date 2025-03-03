@@ -1,4 +1,6 @@
 import { SelectItemContent } from '@/components/shared/ui/select/select.type';
+import { FormDialogState } from '@/lib/types/form-dialog.types';
+import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormElementProps<
@@ -31,4 +33,20 @@ export interface DynamicHeightTextInputFormElementProps<
    TFieldValues extends FieldValues = FieldValues
 > extends FormElementProps<TFieldValues> {
    isWithIcon?: boolean;
+}
+
+export interface ApiLoadingState {
+   isLoading: boolean,
+   type: 'submit' | 'discard'
+}
+
+export interface SubmitButtonProps {
+   formMethods: UseFormReturn;
+   formDialogState: FormDialogState;
+   isApiLoading: ApiLoadingState;
+   setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
+}
+
+export interface DestructiveButtonProps extends SubmitButtonProps {
+   action: () => Promise<void>;
 }

@@ -6,7 +6,6 @@ import {
    DialogTrigger,
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
-import { Plus } from 'lucide-react';
 import {
    DialogTitleIcon,
    getDialogHeaderText,
@@ -95,10 +94,12 @@ const FormDialog = () => {
       };
    }, [
       setConfirmationDialogState,
-      isDirty,
-      formDialogState,
       handleEscapeWithChange,
    ]);
+
+   useEffect(() => {
+      reset(formDialogState.data)
+   }, [formDialogState.data, reset])
 
    return (
       <Dialog
@@ -166,7 +167,7 @@ const FormDialogContent = ({
       NewFileDialog
    } = Dialogs;
 
-   const props = {formMethods: formMethods, handleEscapeWithChange: handleEscapeWithChange}
+   const props = {formMethods: formMethods}
 
    switch (dialogType) {
       case 'task':

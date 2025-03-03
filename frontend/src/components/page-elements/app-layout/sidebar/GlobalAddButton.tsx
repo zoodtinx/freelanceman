@@ -19,6 +19,7 @@ import {
    defaultFileValues,
    defaultNewProjectValue,
    defaultTaskValue,
+   defaultValues,
 } from '@/components/shared/ui/helpers/constants/default-values';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -43,7 +44,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'task',
          mode: 'create',
-         data: defaultTaskValue,
+         data: defaultValues['task'],
          openedOn: 'global-add-button',
       });
    };
@@ -63,7 +64,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'client-contact',
          mode: 'create',
-         data: defaultContactValues,
+         data: defaultValues['client-contact'],
          openedOn: 'global-add-button',
       });
    };
@@ -73,7 +74,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-client',
          mode: 'create',
-         data: defaultContactValues,
+         data: [defaultValues['new-client']],
          openedOn: 'global-add-button',
       });
    };
@@ -83,7 +84,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-project',
          mode: 'create',
-         data: defaultNewProjectValue,
+         data: defaultValues['new-project'],
          openedOn: 'global-add-button',
       });
    };
@@ -93,7 +94,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-file',
          mode: 'create',
-         data: defaultFileValues,
+         data: defaultValues['file'],
          openedOn: 'global-add-button',
       });
    };

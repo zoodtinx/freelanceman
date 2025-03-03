@@ -56,7 +56,7 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
-               <div className={className}>
+               <div>
                   <SelectWithSearch
                      value={value}
                      handleSelect={handleSelect}
@@ -171,12 +171,12 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
       <Select value={value} open={isOpen}>
          <SelectTrigger
             className={cn(
-               className,
-               'flex justify-between items-center cursor-pointer font-medium'
+               'flex justify-between items-center cursor-pointer font-medium text-base',
+               className
             )}
             onClick={handleOpen}
          >
-            <p className="truncate text-base font-normal">
+            <p className="truncate font-normal">
                {selectedValue.label ? selectedValue.label : placeholder}
             </p>
             {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />}

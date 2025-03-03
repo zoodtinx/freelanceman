@@ -13,59 +13,66 @@ import { debounce } from 'lodash';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
 
 import {SelectWithSearchForm, DynamicHeightTextInputForm, StatusSelectForm } from 'src/components/shared/ui/form-field-elements';
+import { useProjectApi } from '@/lib/api/project-api';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { DiscardButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => {
-   const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
+   const { createProject } = useProjectApi()
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+
    const [searchTerm, setSearchTerm] = useState<ClientSearchOption>({})
    const {data: clientsData, isLoading} = useClientSelectionQuery(searchTerm)
-   const [isHaveNote, setIsHaveNote] = useState(false)
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+   
+   const [haveNote, setHaveNote] = useState(false)
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+         isLoading: false,
+         type: 'discard',
+      });
 
    const [addedAsset, setAddedAsset] = useState<string[]>([])
    const [addedContact, setAddedContact] = useState<string[]>([])
 
    const { handleSubmit, reset } = formMethods;
 
-   const handleDialogClose = () => {
-      console.log('close');
-   };
-
-   const onSubmit: SubmitHandler<CreateProjectDto> = (data) => {
-      console.log('submitted')
-   };
-
-   const handleEditMode = () => {
-      console.log('edit');
-   };
-
-   const handleCancelEdit = () => {
-      console.log('cancel');
-   };
-
    const searchClient = debounce((value: string) => {
       console.log('triggered')
       setSearchTerm({ name: value });
    }, 300);
+
+   const handleDiscard = async () => {
+      console.log('discard')
+   }
+
+   const onSubmit = () => {
+      console.log('submitting')
+   }
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-2">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
-               dialogState={formDialogState}
+               required={true}
+               errorMessage="Please enter project name"
                className="pt-1"
-               fieldName='title'
+               fieldName="title"
                placeholder="Enter project name"
             />
             <div className="w-full">
                <p className="text-secondary">Client</p>
-               <SelectWithSearchForm<CreateProjectDto>
+               <SelectWithSearchForm
                   formMethods={formMethods}
-                  isLoading={isLoading}
                   fieldName="clientId"
                   placeholder="Select a client"
-                  type='client' 
-                  size='base'
-                  errorMessage='Please select a client'
+                  type="client"
+                  size="base"
+                  errorMessage="Please select a client"
                   className="border-0 p-0 text-md"
                   isWithIcon
                   required
@@ -78,7 +85,6 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
                      formMethods={formMethods}
                      fieldName="projectStatus"
                      selection={projectStatusSelections}
-                     dialogState={formDialogState}
                   />
                </div>
                <div className="w-1/2">
@@ -87,13 +93,12 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
                      formMethods={formMethods}
                      fieldName="paymentStatus"
                      selection={paymentStatusSelections}
-                     dialogState={formDialogState}
                   />
                </div>
             </div>
-            {!isHaveNote ? (
+            {!haveNote ? (
                <div
-                  onClick={() => setIsHaveNote(true)}
+                  onClick={() => setHaveNote(true)}
                   className={`border my-1 pl-1 pr-2 w-fit rounded-md flex items-center gap-1 text-secondary border-secondary
                      hover:border-primary hover:text-primary transition-colors duration-75
                      `}
@@ -106,7 +111,6 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
                   <p className="text-secondary">Notes</p>
                   <TextAreaForm
                      formMethods={formMethods}
-                     dialogState={formDialogState}
                      fieldName="details"
                      className="h-[100px] bg-transparent pt-1 border-secondary mt-1"
                   />
@@ -114,19 +118,18 @@ export const NewProjectDialog = ({formMethods}:{formMethods: UseFormReturn}) => 
             )}
             <AddButtonGroup />
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4">
-               <Button>Left</Button>
-               <Button>Right</Button>
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formDialogState={formDialogState}
+            formMethods={formMethods}
+            isApiLoading={isApiLoading}
+            destructiveButtonAction={handleDiscard}
+            setIsApiLoading={setIsApiLoading}
+         />
       </form>
    );
 };
 
-const AddButtonGroup = ({
-
-}) => {
+const AddButtonGroup = () => {
    const { formDialogState, setFormDialogState, setSelectorDialogState } = useDialogStore();
    const [addedAsset, setAddedAsset] = useState<SelectObject[]>([])
    const handleAddAsset = () => {
@@ -163,78 +166,3 @@ const AddButtonGroup = ({
    return <div className="w-full flex gap-[5px]">{buttons}</div>;
 };
 
-const LeftButton: React.FC<{
-   dialogState: FormDialogState;
-   handleCancelEdit: () => void;
-   handleDialogClose: () => void;
-}> = ({ dialogState, handleCancelEdit, handleDialogClose }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button variant={'destructive'} className="flex gap-1">
-               Delete
-               <Trash2 className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={handleCancelEdit}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={handleDialogClose}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
-   }
-};
-
-const RightButton: React.FC<{
-   dialogState: FormDialogState;
-   handleEditMode: () => void;
-}> = ({ dialogState, handleEditMode }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button
-               type="submit"
-               variant={'default'}
-               onClick={() => handleEditMode()}
-               className="flex gap-1"
-            >
-               Edit
-               <Pencil className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Save
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Create new contact
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
-   }
-};
