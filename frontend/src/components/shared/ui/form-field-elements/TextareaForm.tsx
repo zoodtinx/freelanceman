@@ -22,7 +22,7 @@ export const TextAreaForm = <TFieldValues extends FieldValues>({
             {...register(fieldName as Path<TFieldValues>, {
                required: required ? errorMessage || 'This field is required' : false
             })}
-            className={cn('bg-transparent border-tertiary py-1 px-2 resize-y h-20' ,className)}
+            className={cn('bg-transparent border-tertiary py-1 px-2 resize-y h-20 placeholder:text-secondary' ,className)}
             placeholder={placeholder}
          />
          {errors[fieldName] && (

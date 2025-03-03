@@ -86,7 +86,7 @@ type SelectWithSearchProps = Pick<
 > & {
    handleSelect: (value: string, onChange?: (value: string) => void) => void;
    value?: string;
-   selections: SelectItemContent[];
+   selections: SelectItemContent[] | undefined;
    isLoading: boolean;
    handleSearch: (value: string) => void;
 };

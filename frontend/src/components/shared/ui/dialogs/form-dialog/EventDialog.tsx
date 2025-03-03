@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import {
    AutoClientField,
@@ -16,134 +16,139 @@ import {
    useCreateEvent,
    useDeleteEvent,
    useEditEvent,
+   useEventApi,
 } from '@/lib/api/event-api';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { eventStatusSelections } from '../../helpers/constants/selections';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { CreateEventDto } from '@types';
+import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { useTaskApi } from '@/lib/api/task-api';
+import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
+import type { Task, CreateTaskDto, EditTaskDto, TaskStatus, Event } from '@types';
+import { Label } from '@/components/shared/ui/form-field-elements/Label';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { ApiLoadingState } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
+import {
+   DiscardButton,
+   SubmitButton,
+} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import { ProjectField } from '@/components/shared/ui/dialogs/form-dialog/TaskDialog';
+
 
 export const EventDialog = ({
    formMethods,
 }: {
    formMethods: UseFormReturn;
 }) => {
-   const { formDialogState, setFormDialogState } = useDialogStore();
-
-   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
-      formDialogState.data
+   const { createEvent, deleteEvent, editEvent } = useEventApi();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
    );
-   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
-   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
 
-   const { handleSubmit, reset } = formMethods;
+   const eventData = formDialogState.data as Event;
 
-   const handleDialogClose = () => {
-      console.log('close');
-   };
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+         isLoading: false,
+         type: 'discard',
+      });
 
-   const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
-      const payload: CreateEventDto = {
-         name: data.name,
-         projectId: data.projectId,
-         details: data.details,
-         dueAt: data.dueDate,
-         link: data.link,
-         status: data.status,
+      const {
+         handleSubmit,
+         formState: { isDirty },
+      } = formMethods;
+
+      const handleDialogClose = () => {
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+         setConfirmationDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
       };
 
-      if (formDialogState.mode === 'create') createEvent(payload);
-      else editEvent(payload);
-
-      handleDialogClose();
+   const onSubmit: SubmitHandler<NewEventPayload> = (data) => {
+      console.log('data', data)
    };
 
-   const handleEditMode = () => {
-      console.log('edit');
-   };
-
-   const handleCancelEdit = () => {
-      console.log('cancel');
+   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      deleteEvent.mutate(eventData.id);
    };
 
    return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-         <div className="px-5 py-3 flex flex-col gap-3">
-            <DynamicHeightTextInputForm
-               formMethods={formMethods}
-               fieldName="name"
-               required={true}
-               errorMessage="Please name your event"
-               placeholder="What's the event?"
-            />
-            <div className="flex leading-tight">
-               <div className="w-1/2">
-                  <p className="text-secondary">Status</p>
-                  <StatusSelectForm
-                     formMethods={formMethods}
-                     selection={eventStatusSelections}
-                     fieldName="status"
-                  />
-               </div>
-               <div className="w-1/2">
-                  <p className="text-secondary">Due Date</p>
-                  <DateTimePickerForm
-                     formMethods={formMethods}
-                     fieldName="dueAt"
-                  />
-               </div>
-            </div>
-            {formDialogState.openedOn !== 'project-page' && (
-               <div className="flex leading-tight">
-                  <div className="w-1/2">
-                     <p className="text-secondary">Project</p>
-                     <SelectWithSearchForm
-                        formMethods={formMethods}
-                        fieldName="projectId"
-                        type="project"
-                        size="base"
-                     />
-                  </div>
-                  <div className="w-1/2">
-                     <p className="text-secondary">Client</p>
-                     <AutoClientField
-                        formMethods={formMethods}
-                        fieldName="client"
-                     />
-                  </div>
-               </div>
-            )}
-            <div className="w-full">
-               <p className="text-secondary">Tags</p>
-               <TagField />
-            </div>
-            <div className="w-full">
-               <p className="text-secondary">Details</p>
-               <TextAreaForm
-                  formMethods={formMethods}
-                  fieldName="details"
-                  placeholder="Describe the event"
-               />
-            </div>
-            <div className="w-full">
-               <p className="text-secondary">Link</p>
-               <LinkInputForm formMethods={formMethods} fieldName="link" />
-            </div>
-         </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4">
-               <LeftButton
-                  dialogState={formDialogState}
-                  handleCancelEdit={handleCancelEdit}
-                  handleDialogClose={handleDialogClose}
-                  handleDelete={() => deleteEvent(formDialogState.id)}
-               />
-               <RightButton
-                  dialogState={formDialogState}
-                  handleEditMode={handleEditMode}
-               />
-            </div>
-         </DialogFooter>
-      </form>
+        <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
+              <div className="px-5 py-3 flex flex-col gap-3">
+                 <DynamicHeightTextInputForm
+                    formMethods={formMethods}
+                    fieldName="name"
+                    required={true}
+                    errorMessage="Please name your task"
+                    placeholder="What do you need to do?"
+                 />
+                 <TagField />
+                 <div className="flex leading-tight">
+                    <div className="w-1/2">
+                       <Label>Status</Label>
+                       <StatusSelectForm
+                          formMethods={formMethods}
+                          selection={eventStatusSelections}
+                          fieldName="status"
+                       />
+                    </div>
+                    <div className="w-1/2">
+                       <Label className="pb-0">Due Date</Label>
+                       <DateTimePickerForm
+                          formMethods={formMethods}
+                          fieldName="dueAt"
+                          required={true}
+                          errorMessage="Please select deadline"
+                       />
+                    </div>
+                 </div>
+                 <ProjectField
+                    formMethods={formMethods}
+                    formDialogState={formDialogState}
+                 />
+                 <div className="w-full">
+                    <Label>Details</Label>
+                    <TextAreaForm
+                       formMethods={formMethods}
+                       fieldName="details"
+                       placeholder="Describe the task"
+                       className="min-h-14 h-14 max-h-52"
+                    />
+                 </div>
+                 <div className="w-full">
+                    <Label>Link</Label>
+                    <LinkInputForm formMethods={formMethods} fieldName="link" />
+                 </div>
+              </div>
+              <DialogFooter>
+                 <div className="flex justify-between p-4">
+                    <DiscardButton
+                       isApiLoading={isApiLoading}
+                       formDialogState={formDialogState}
+                       action={handleDelete}
+                       setIsApiLoading={setIsApiLoading}
+                    />
+                    <SubmitButton
+                       formDialogState={formDialogState}
+                       formMethods={formMethods}
+                       isApiLoading={isApiLoading}
+                       setIsApiLoading={setIsApiLoading}
+                    />
+                 </div>
+              </DialogFooter>
+           </form>
    );
 };
 

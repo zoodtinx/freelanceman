@@ -9,12 +9,8 @@ import {
    Calendar,
    CircleCheck,
    FilePlus2,
-   Folder,
-   FolderPlus,
-   FolderUpIcon,
    PencilRuler,
    Plus,
-   Upload,
    UserRound,
 } from 'lucide-react';
 import {
@@ -25,7 +21,7 @@ import {
    defaultTaskValue,
 } from '@/components/shared/ui/helpers/constants/default-values';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const GlobalAddButton = () => {
@@ -124,8 +120,8 @@ const GlobalAddButton = () => {
    return (
       <Popover open={open} onOpenChange={setOpen}>
          <PopoverTrigger asChild>
-            <div className="rounded-full w-[60px] aspect-square flex items-center justify-center text-white md:w-full bg-foreground">
-               <Plus className="h-9 w-9 stroke-[2.5px] text-primary" />
+            <div className="rounded-full w-[60px] md:w-[45px] aspect-square flex items-center justify-center text-white bg-foreground">
+               <Plus className="h-full w-full stroke-[2.5px] text-primary p-2" />
             </div>
          </PopoverTrigger>
          <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none bg-foreground border-tertiary">

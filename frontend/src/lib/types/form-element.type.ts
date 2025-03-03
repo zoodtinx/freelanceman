@@ -22,7 +22,7 @@ export interface SelectFormElementProps<
 export interface SelectWithSearchFormElementProps<
    TFieldValues extends FieldValues = FieldValues
 > extends FormElementProps<TFieldValues> {
-   size: 'sm' | 'base' | 'lg';
+   size?: 'sm' | 'base' | 'lg';
    type: 'client' | 'project'
    isWithIcon?: boolean;
 }

@@ -168,11 +168,11 @@ export const TaskDialog = ({ formMethods }: { formMethods: UseFormReturn }) => {
    );
 };
 
-const ProjectField = ({
+export const ProjectField = ({
    formMethods,
    formDialogState,
 }: {
-   formMethods: UseFormReturn<Task>;
+   formMethods: UseFormReturn;
    formDialogState: FormDialogState;
 }) => {
    const isOnProjectPage = formDialogState.openedOn === 'project-page';
