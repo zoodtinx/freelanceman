@@ -17,7 +17,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 
-export const ClientContactDialog = ({
+export const PartnerContactDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {

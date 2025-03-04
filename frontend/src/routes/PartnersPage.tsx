@@ -14,23 +14,15 @@ import {
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Partner, PartnerSearchOption } from '@types';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { BookUser } from 'lucide-react';
 import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import AddButton from '@/components/shared/ui/AddButton';
 
 const PartnerContactLayout = (): JSX.Element => {
-   const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      type: 'partner-contact',
-      page: 'client-page',
-      mode: 'view',
-      data: defaultContact,
-   });
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
 
    const [searchOptions, setSearchOptions] = useState<PartnerSearchOption>({});
    const [searchMode, setSearchMode] = useState('name');
@@ -56,16 +48,26 @@ const PartnerContactLayout = (): JSX.Element => {
       setSearchMode(mode);
    };
 
+   const handleNewPartner = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'partner-contact',
+         mode: 'create',
+         openedOn: 'partner-page',
+         data: formDialogState.data
+      })
+   }
+
    return (
       <div className="flex flex-col grow rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 shadow-md">
-         <div className="flex justify-between">
+         <div className="flex justify-between py-2">
             <div className="flex items-center gap-1">
                <BookUser className="h-auto w-[28px]" />
                <p className="text-xl pt-1 leading-none mr-2">
                   Partner Contacts
                </p>
             </div>
-            <NewContactButton setDialogState={setDialogState} />
+            <AddButton onClick={handleNewPartner}/>
          </div>
          <div className="flex gap-1">
             <SearchCategory onChange={handleSearchOptionChange} />
@@ -84,7 +86,6 @@ const PartnerContactLayout = (): JSX.Element => {
                   <PartnerTab
                      key={contact.id}
                      contact={contact}
-                     setDialogState={setDialogState}
                   />
                ))}
             </div>
@@ -122,9 +123,9 @@ const PartnerTab = ({ contact }: { contact: Partner }) => {
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: 'all-client-page',
-         type: 'client-contact',
+         type: 'partner-contact',
          data: contact,
       });
    };

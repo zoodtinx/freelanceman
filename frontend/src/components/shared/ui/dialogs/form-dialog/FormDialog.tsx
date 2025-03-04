@@ -161,7 +161,8 @@ const FormDialogContent = ({
       NewClientDialog,
       ProjectDialog,
       ClientDialog,
-      NewFileDialog
+      NewFileDialog,
+      PartnerContactDialog,
    } = Dialogs;
 
    const props = {formMethods: formMethods, handleEscapeWithChange: handleEscapeWithChange}
@@ -180,7 +181,7 @@ const FormDialogContent = ({
       case 'client-contact':
          return <ClientContactDialog {...props} />;
       case 'partner-contact':
-         return <ClientContactDialog {...props} />;
+         return <PartnerContactDialog {...props} />;
       case 'user-profile':
          return <UserProfileDialog {...props} />;
       case 'new-project':

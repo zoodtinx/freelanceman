@@ -16,8 +16,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormDialogProps {
-   formMethods: UseFormReturn
-   handleEscapeWithChange: () => void
+   formMethods: UseFormReturn;
+   handleEscapeWithChange: () => void;
 }
 
 export interface PromptDialogProps {
@@ -71,6 +71,13 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        type: 'partner-contact';
+        mode: 'create' | 'edit';
+        openedOn: OpenedOnType;
+        data: Partner;
+     }
+   | {
+        isOpen: boolean;
         type: 'client-settings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -117,7 +124,7 @@ export type FormDialogState =
         mode: 'edit';
         openedOn: OpenedOnType;
         data: EditClientDto;
-     }
+     };
 
 export type FormDialogType =
    | 'task'
@@ -137,11 +144,11 @@ export type OpenedOnType =
    | 'project-page'
    | 'all-project-page'
    | 'client-page'
+   | 'partner-page'
    | 'all-client-page'
    | 'action-page'
    | 'file-page'
    | 'document-page'
-   | 'client-page'
    | 'global-add-button';
 
 export interface PromptDialogState {

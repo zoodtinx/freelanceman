@@ -20,6 +20,7 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { useTheme } from 'next-themes';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { mockUser } from '@mocks';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function TopBar() {
    return (
@@ -51,14 +52,14 @@ export default function TopBar() {
 
 const SettingsPopover = () => {
    const theme = useTheme();
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
    const handleEditProfile = () => {
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: 'global-add-button',
          type: 'user-profile',
          data: mockUser,

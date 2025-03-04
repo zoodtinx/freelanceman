@@ -12,3 +12,4 @@ export * from "./NewProjectDialog";
 export * from "./ProjectDialog";
 export * from "./TaskDialog";
 export * from "./UserProfileDialog";
+export * from "./PartnerContactDialog";

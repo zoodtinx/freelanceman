@@ -90,7 +90,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
    
          inputRef.current.focus();
       }
-   }, [value]);
+   }, []);
 
    const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
       handleChanges(e.currentTarget.textContent as string);
