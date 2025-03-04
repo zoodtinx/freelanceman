@@ -14,6 +14,7 @@ import { useClientContactsQuery } from '@/lib/api/contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import AddButton from '@/components/shared/ui/AddButton';
 
 export const ContactColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -40,12 +41,12 @@ export const ContactColumn = (): JSX.Element => {
 
    return (
       <div className="flex flex-col w-[335px] rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-auto gap-[6px] shrink-0 shadow-md">
-         <div className="flex justify-between">
+         <div className="flex justify-between py-1">
             <div className="flex items-center gap-1">
                <BookUser className="h-auto w-[28px]" />
                <p className="text-xl pt-1 leading-none mr-2">Client Contacts</p>
             </div>
-            <NewContactButton setDialogState={handleNewContact} />
+            <AddButton onClick={handleNewContact} />
          </div>
          <SearchBox
             placeholder="Search contact"

@@ -1,4 +1,4 @@
-export * from "./ClientDialog";
+export * from "./ClientSettingsDialog";
 export * from "./ClientContactDialog";
 export * from "./EventDialog";
 export * from "./FileDialog";

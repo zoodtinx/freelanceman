@@ -28,7 +28,9 @@ import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store'
 
 export const FileDialog = ({ formMethods }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const { setConfirmationDialogState } = useConfirmationDialogStore()
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
    const [copied, setCopied] = useState(false);
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
@@ -54,7 +56,6 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
 
    const handleDeleteButtonClick = () => {
       setFormDialogState((prev) => ({ ...prev, isOpen: false }));
-      console.log('fileName', fileName)
       setConfirmationDialogState({
          isOpen: true,
          actions: {
@@ -75,7 +76,10 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
          type: data.type
       }
       const fileId = formDialogState.data.id
-      editFile.mutate(fileId, editFilePayload )
+      editFile.mutate({
+         fileId: fileId, 
+         filePayload: editFilePayload
+      } )
    };
 
    const handleDelete = () => {
@@ -162,18 +166,14 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
          <DialogFooter>
             <div className="flex justify-between p-4">
                <DiscardButton
-                  isApiLoading={isApiLoading}
                   formDialogState={formDialogState}
                   action={handleDeleteButtonClick}
-                  setIsApiLoading={setIsApiLoading}
                   formMethods={formMethods}
                />
                <div className="flex gap-1">
                   <SubmitButton
                      formDialogState={formDialogState}
                      formMethods={formMethods}
-                     isApiLoading={isApiLoading}
-                     setIsApiLoading={setIsApiLoading}
                   />
                   <DownloadButton url={fileUrl} />
                </div>

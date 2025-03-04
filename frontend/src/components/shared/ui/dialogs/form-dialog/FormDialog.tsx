@@ -17,8 +17,6 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect } from 'react';
 import { FormDialogType } from '@/lib/types/form-dialog.types';
-import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
-
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -48,12 +46,9 @@ const FormDialog = () => {
             isOpen: false,
          };
       });
-      reset(defaultValues[formDialogState.type]);
    }, [
       setFormDialogState,
       setConfirmationDialogState,
-      reset,
-      formDialogState.type,
    ]);
 
    const handleEscapeWithChange = useCallback(() => {
@@ -99,7 +94,7 @@ const FormDialog = () => {
 
    useEffect(() => {
       reset(formDialogState.data)
-   }, [formDialogState.data, reset])
+   }, [formDialogState, reset])
 
    return (
       <Dialog

@@ -15,7 +15,6 @@ import type { Task, CreateTaskDto, EditTaskDto, TaskStatus } from '@types';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { ApiLoadingState } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
 import {
    DiscardButton,
    SubmitButton,
@@ -35,11 +34,6 @@ export const TaskDialog = ({
       (state) => state.setConfirmationDialogState
    );
    const taskData = formDialogState.data as Task;
-
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
 
    const {
       handleSubmit,
@@ -65,11 +59,6 @@ export const TaskDialog = ({
       if (!isDirty) {
          return;
       }
-
-      setIsApiLoading({
-         isLoading: true,
-         type: 'submit',
-      });
 
       if (formDialogState.mode === 'create') {
          const payload: CreateTaskDto = {
@@ -97,7 +86,6 @@ export const TaskDialog = ({
          });
       }
 
-      setIsApiLoading({ isLoading: false, type: 'submit' });
       handleDialogClose();
    };
 
@@ -159,17 +147,13 @@ export const TaskDialog = ({
          <DialogFooter>
             <div className="flex justify-between p-4">
                <DiscardButton
-                  isApiLoading={isApiLoading}
                   formMethods={formMethods}
                   formDialogState={formDialogState}
                   action={handleLeftButtonClick}
-                  setIsApiLoading={setIsApiLoading}
                />
                <SubmitButton
                   formDialogState={formDialogState}
                   formMethods={formMethods}
-                  isApiLoading={isApiLoading}
-                  setIsApiLoading={setIsApiLoading}
                />
             </div>
          </DialogFooter>

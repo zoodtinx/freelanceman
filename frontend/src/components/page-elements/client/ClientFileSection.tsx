@@ -1,20 +1,8 @@
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
-import FileListItem from '@/components/page-elements/client/FileListItem';
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import React, {
-   Dispatch,
-   LegacyRef,
-   SetStateAction,
-   useRef,
-   useState,
-} from 'react';
-import {
-   FormDialogState,
-   PromptDialogProps,
-   PromptDialogState,
-} from 'src/lib/types/form-dialog.types';
-import FileDialog from 'src/components/shared/ui/dialogs/form-dialog/FileDialog';
+import React, { useRef, useState } from 'react';
+import { FormDialogState, PromptDialogState } from 'src/lib/types/form-dialog.types';
 import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
@@ -25,19 +13,12 @@ import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import { FileList } from '@/components/page-elements/files/FileList';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const ClientFileSection: React.FC<ClientSectionProps> = () => {
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
    const clientId = useParams().clientId || '';
    const fileSectionRef = useRef<HTMLDivElement | undefined>();
-
-   const [dialogState, setDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'file',
-      data: {},
-      page: 'client-page'
-   });
 
    const [selectState, setSelectState] = useState({
       enableSelect: false,
@@ -65,16 +46,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
       return <p>Loading...</p>;
    }
 
-   const handleAddFile = () => {
-      setDialogState({
-         isOpen: true,
-         data: defaultFileValues,
-         id : defaultFileValues.id,
-         mode: 'create',
-         type: 'file',
-         page: 'client-page'
-      })
-   };
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
@@ -157,14 +128,8 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
             filesData={filesData}
             isLoading={isLoading}
             selectState={selectState}
-            setDialogState={setDialogState}
             setSelectState={setSelectState}
             size='md'
-         />
-         <DeletePromptDialog
-            promptDialogState={promptDialogState}
-            setPromptDialogState={setPromptDialogState}
-            setDialogState={setDialogState}
          />
       </div>
    );

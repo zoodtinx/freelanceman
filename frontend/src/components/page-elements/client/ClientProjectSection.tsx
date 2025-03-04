@@ -1,4 +1,9 @@
-import { Building2, EllipsisVertical, FolderClock, Settings } from 'lucide-react';
+import {
+   Building2,
+   EllipsisVertical,
+   FolderClock,
+   Settings,
+} from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
 import { Switch } from '@/components/shared/ui/primitives/Switch';
@@ -9,16 +14,20 @@ import { Project, ProjectSearchOption } from '@types';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const ClientProjectSection: React.FC<ClientSectionProps> = ({
    clientData,
-   isLoading: clientIsLoading
+   isLoading: clientIsLoading,
 }) => {
    const [projectFilter, setProjectFilter] = useState<ProjectSearchOption>({
-      clientId: clientData?.id
-   })
-   const { data: projectsData, isLoading: projectIsLoading } = useAllProjectsQuery(projectFilter)
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+      clientId: clientData?.id,
+   });
+   const { data: projectsData, isLoading: projectIsLoading } =
+      useAllProjectsQuery(projectFilter);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    if (clientIsLoading && projectIsLoading) {
       return 'Loading';
@@ -28,32 +37,33 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
       const searchValue = e.target.value;
       setProjectFilter((prevFilter) => ({
          ...prevFilter,
-         title: searchValue
+         title: searchValue,
       }));
    };
 
    const handleToggleActive = (value: boolean) => {
-      let status
+      let status;
       if (value === true) {
-         status = 'active'
+         status = 'active';
       } else {
-         status = ''
+         status = '';
       }
       setProjectFilter((prevFilter) => ({
          ...prevFilter,
-         projectStatus: status
+         projectStatus: status,
       }));
-   }
+   };
 
    const handleClientSettings = () => {
+      console.log('clicked')
       setFormDialogState({
-         isOpen:true,
+         isOpen: true,
          mode: 'edit',
          openedOn: 'client-page',
          data: clientData,
-         type: 'client-settings'
-      })
-   }
+         type: 'client-settings',
+      });
+   };
 
    return (
       <div
@@ -68,7 +78,10 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
                      {clientData.name}
                   </p>
                </div>
-               <Settings onClick={handleClientSettings} className='w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors' />
+               <Settings
+                  onClick={handleClientSettings}
+                  className="w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors"
+               />
             </div>
          </div>
          <div className="flex justify-between items-center">
@@ -93,28 +106,30 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
 };
 
 interface ProjectListProps {
-   projectsData: Project[],
-   loadingState: boolean,
-   className: string
+   projectsData: Project[];
+   loadingState: boolean;
+   className: string;
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({projectsData, loadingState, className}) => {
+const ProjectList: React.FC<ProjectListProps> = ({
+   projectsData,
+   loadingState,
+   className,
+}) => {
    if (loadingState) {
-      return 'Loading...'
+      return 'Loading...';
    }
-   
+
    const projectListItems = projectsData.map((project) => {
-      return (
-         <ProjectTab project={project} key={project.id} />
-      )
-   })
+      return <ProjectTab project={project} key={project.id} />;
+   });
 
    return (
       <div className={cn('flex flex-col gap-1', className)}>
          {projectListItems}
       </div>
-   )
-}
+   );
+};
 
 const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
    const formattedDateModified = formatDate(project.modifiedAt, 'LONG');

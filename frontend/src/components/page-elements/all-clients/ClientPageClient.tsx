@@ -7,20 +7,17 @@ import { useState } from 'react';
 import { useAllClientsQuery } from '@/lib/api/client-api';
 import { Switch } from 'src/components/shared/ui/primitives/Switch';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { defaultClientValue, defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 
 const ClientColumn = (): JSX.Element => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState);
 
    const [searchOptions, setSearchOptions] = useState<ClientSearchOption>({});
 
    const isWithActiveProject = searchOptions.hasActiveProject
 
    const { data: clients, isLoading } = useAllClientsQuery(searchOptions);
-
-   const handleNewClient = () => {
-      console.log('New client clicked');
-   };
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
@@ -45,6 +42,15 @@ const ClientColumn = (): JSX.Element => {
       );
    };
    
+   const handleNewClient = () => {
+      setFormDialogState({
+         isOpen:true,
+         mode: 'create',
+         openedOn: 'all-client-page',
+         type: 'new-client',
+         data: defaultClientValue
+      })
+   }
 
    return (
       <div className="flex flex-col rounded-[20px] bg-foreground p-4 pt-2 h-full gap-[6px] flex-1 shadow-md">

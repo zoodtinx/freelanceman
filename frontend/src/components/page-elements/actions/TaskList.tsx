@@ -2,7 +2,6 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { Task } from '@types';
 import { CheckedState } from '@radix-ui/react-checkbox';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface TaskListProps {
@@ -51,7 +50,7 @@ const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
    const handleOpenDialog = () => {
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: openedOn,
          type: 'task',
          data: data,

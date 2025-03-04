@@ -57,10 +57,10 @@ export const useClientSelectionQuery = (searchOptions: ClientSearchOption = {}) 
    });
 };
 
-export const useClientQuery = (clientId: string) => {
+export const useClientQuery = (idType: string, idValue: string) => {
    return useQuery<Client, Error, Client>({
-      queryKey: ['clients', clientId],
-      queryFn: () => getClient(clientId),
+      queryKey: ['clients', idType, idValue],
+      queryFn: () => getClient(idType, idValue),
    });
 };
 
