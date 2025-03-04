@@ -43,10 +43,10 @@ export interface ApiLoadingState {
 export interface SubmitButtonProps {
    formMethods: UseFormReturn;
    formDialogState: FormDialogState;
-   isApiLoading: ApiLoadingState;
-   setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
+   deleteText?: string;
+   discardText?: string;
 }
 
 export interface DestructiveButtonProps extends SubmitButtonProps {
-   action: () => Promise<void>;
+   action: () => void;
 }

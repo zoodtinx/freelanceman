@@ -37,7 +37,7 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
 
    const { editFile } = useFileApi()
 
-   const { getValues, watch } = formMethods;
+   const { getValues, watch, handleSubmit } = formMethods;
    const fileName = getValues('displayName')
    const fileSize = formatBytes(watch('size'));
    const link = watch('link');
@@ -85,7 +85,7 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
    const fileUrl = formMethods.getValues('link');
 
    return (
-      <div className="bg-background rounded-2xl text-primary flex flex-col">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-background rounded-2xl text-primary flex flex-col">
          <div className="flex gap-1 items-center px-5 pt-4 w-full">
             <FileIconByExtension
                fileType={watch('type')}
@@ -179,7 +179,7 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
                </div>
             </div>
          </DialogFooter>
-      </div>
+      </form>
    );
 };
 

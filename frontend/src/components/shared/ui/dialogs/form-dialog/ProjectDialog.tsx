@@ -1,86 +1,79 @@
-import React from 'react';
-import { useForm, SubmitHandler, UseFormReturn } from 'react-hook-form';
-import type { EditProjectDto, Project } from '@types';
-import TaskNameInput from 'src/components/shared/ui/form-field-elements/TaskNameInput';
+import React, { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
-import { Button } from '../../primitives/Button';
-import { CircleCheck, ClipboardX, Pencil, Trash2 } from 'lucide-react';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
-import { FormDialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
-import useDialogStore from '@/lib/zustand/dialog-store';
-import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
+import { FormDialogProps } from 'src/lib/types/form-dialog.types';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import {
+   paymentStatusSelections,
+   projectStatusSelections,
+} from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
+import {
+   DynamicHeightTextInputForm,
+   Label,
+   StatusSelectForm,
+} from 'src/components/shared/ui/form-field-elements';
+import { useProjectApi } from '@/lib/api/project-api';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { EditProjectDto } from '@types';
+import {
+   DiscardButton,
+   SubmitButton,
+} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 
-import { AutoClientField, DateTimePickerForm, DynamicHeightTextInputForm, LinkInputForm, SelectWithSearchForm, StatusSelectForm, TextAreaForm, } from 'src/components/shared/ui/form-field-elements';
+export const ProjectDialog = ({
+   formMethods,
+}: FormDialogProps) => {
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const { setConfirmationDialogState } = useConfirmationDialogStore();
+   const { editProject } = useProjectApi();
 
-export const ProjectDialog = ({formMethods, handleEscapeWithChange}:FormDialogProps) => {
-   const { formDialogState, setFormDialogState, setConfirmationDialogState } = useDialogStore();
-
-   const { mutate: editEvent, isPending: editingEvent } = useEditEvent(
-      formDialogState.data
-   );
-   const { mutate: createEvent, isPending: creatingEvent } = useCreateEvent();
-   const { mutate: deleteEvent, isPending: deletingEvent } = useDeleteEvent();
-
-   const { handleSubmit, reset } = formMethods;
-
-   const handleDialogClose = () => {
-      console.log('close');
-   };
+   const { handleSubmit } = formMethods;
 
    const onSubmit: SubmitHandler<EditProjectDto> = (data) => {
-      const payload: EditProjectDto = {
-         title: 'check'
+      const editProjectPayload: EditProjectDto = {
+         title: data.title,
+         projectStatus: data.projectStatus,
+         paymentStatus: data.paymentStatus,
       };
-
-      if (formDialogState.mode === 'create') createEvent(payload);
-      else editEvent(payload);
-
-      handleDialogClose();
+      editProject.mutate({
+         projectId: formDialogState.data.id,
+         projectPayload: editProjectPayload,
+      });
    };
 
-   console.log('watched title', formMethods.watch('title'))
+   const projectTitle = formMethods.getValues('title');
 
-   const handleDeleteProject = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false
-         }
-      })
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: true,
-            message: () => {
-               return (
-                  <>
-                     <p>Are you sure you want to delete</p>
-                     <p className="font-semibold">{projectData.title} ?</p>
-                  </>
-               );
-            },
-            openedFrom: 'project-settings',
-            type: 'delete',
-         };
-      })
-   }
+   const handleDeleteButtonClick = () => {
+      setFormDialogState((prev) => ({ ...prev, isOpen: false }));
+      setConfirmationDialogState({
+         isOpen: true,
+         actions: {
+            primary: () => {},
+         },
+         message: projectTitle,
+         type: 'delete',
+         dialogRequested: {
+            mode: 'edit',
+            type: 'project-settings',
+         },
+      });
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 py-3 flex flex-col gap-3">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
-               fieldName='title'
+               fieldName="title"
                required={true}
-               errorMessage='Please name your project'
-               placeholder='Project Title'
+               errorMessage="Please name your project"
+               placeholder="Project Title"
             />
             <div className="flex leading-tight">
                <div className="w-1/2">
-                  <p className="text-secondary pb-1">Project Status</p>
+                  <Label>Project Status</Label>
                   <StatusSelectForm
                      formMethods={formMethods}
                      selection={projectStatusSelections}
@@ -88,7 +81,7 @@ export const ProjectDialog = ({formMethods, handleEscapeWithChange}:FormDialogPr
                   />
                </div>
                <div className="w-1/2">
-                  <p className="text-secondary  pb-1">Payment Status</p>
+                  <Label>Payment Status</Label>
                   <StatusSelectForm
                      formMethods={formMethods}
                      selection={paymentStatusSelections}
@@ -101,14 +94,14 @@ export const ProjectDialog = ({formMethods, handleEscapeWithChange}:FormDialogPr
             </div>
             <div className="flex flex-col gap-2">
                <div className="w-full">
-                  <p className="text-secondary">Client</p>
+                  <Label className="pb-0">Client</Label>
                   <p className="text-md leading-tight">
                      {formMethods.getValues('client')}
                   </p>
                </div>
                <div className="flex leading-tight">
                   <div className="w-1/2">
-                     <p className="text-secondary">Date Created</p>
+                     <Label className="pb-0">Date Created</Label>
                      <p>
                         {formatDate(formMethods.getValues('createdAt'), 'LONG')}
                      </p>
@@ -117,7 +110,7 @@ export const ProjectDialog = ({formMethods, handleEscapeWithChange}:FormDialogPr
                      </p>
                   </div>
                   <div className="w-1/2">
-                     <p className="text-secondary">Last Update</p>
+                     <Label className="pb-0">Last Update</Label>
                      <p>
                         {formatDate(
                            formMethods.getValues('modifiedAt'),
@@ -133,110 +126,18 @@ export const ProjectDialog = ({formMethods, handleEscapeWithChange}:FormDialogPr
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
-               <Button
-                  variant={'destructiveOutline'}
-                  size={'sm'}
-                  onClick={handleDeleteProject}
-               >
-                  Delete Project
-               </Button>
+               <DiscardButton
+                  formDialogState={formDialogState}
+                  action={handleDeleteButtonClick}
+                  formMethods={formMethods}
+                  deleteText="Delete Project"
+               />
+               <SubmitButton
+                  formDialogState={formDialogState}
+                  formMethods={formMethods}
+               />
             </div>
          </DialogFooter>
       </form>
    );
-};
-
-const TagField = ({formMethods}) => {
-   const tags = ['Meeting', 'Day', 'Impact Arena',]
-   const color = '#FCEEE2'
-   
-   const tagsDisplay = tags.map((tag) => {
-      return (
-         <div key={tag} className='text-sm font-medium px-2 py-1 rounded-full' style={{ backgroundColor: color}}>
-            {tag}
-         </div>
-      )
-   })
-
-   return (
-      <div className='flex gap-1 flex-wrap'>
-         {tagsDisplay}
-      </div>
-   )
-}
-
-const LeftButton: React.FC<{
-   dialogState: FormDialogState;
-   handleCancelEdit: () => void;
-   handleDialogClose: () => void;
-}> = ({ dialogState, handleCancelEdit, handleDialogClose }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button variant={'destructive'} className="flex gap-1">
-               Delete
-               <Trash2 className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={handleCancelEdit}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button
-               variant={'destructiveOutline'}
-               onClick={handleDialogClose}
-               className="flex gap-1"
-            >
-               Discard
-               <ClipboardX className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
-   }
-};
-
-const RightButton: React.FC<{
-   dialogState: FormDialogState;
-   handleEditMode: () => void;
-}> = ({ dialogState, handleEditMode }) => {
-   switch (dialogState.mode) {
-      case 'view':
-         return (
-            <Button
-               type="submit"
-               variant={'default'}
-               onClick={() => handleEditMode()}
-               className="flex gap-1"
-            >
-               Edit
-               <Pencil className="w-4 h-4" />
-            </Button>
-         );
-      case 'edit':
-         return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Save
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      case 'create':
-         return (
-            <Button type="submit" variant={'submit'} className="flex gap-1">
-               Create new contact
-               <CircleCheck className="w-4 h-4" />
-            </Button>
-         );
-      default:
-         return null;
-   }
 };
