@@ -30,6 +30,7 @@ const FormDialog = () => {
 
    const {
       formState: { isDirty },
+      clearErrors,
       reset
    } = formMethods;
 
@@ -93,8 +94,9 @@ const FormDialog = () => {
    ]);
 
    useEffect(() => {
+      clearErrors()
       reset(formDialogState.data)
-   }, [formDialogState, reset])
+   }, [formDialogState, reset, clearErrors])
 
    return (
       <Dialog

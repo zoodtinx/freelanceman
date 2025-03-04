@@ -1,14 +1,11 @@
-import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
-import { FormDialogState, PromptDialogState } from 'src/lib/types/form-dialog.types';
 import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
-import { clientPageFileCategorySelections } from 'src/components/shared/ui/helpers/constants/selections';
+import { clientPageFileCategorySelections, fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
-import DeletePromptDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
@@ -28,15 +25,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
    const [fileFilter, setFileFilter] = useState<FileSearchOption>({
       clientId: clientId,
    });
-
-   const [promptDialogState, setPromptDialogState] =
-      useState<PromptDialogState>({
-         isOpen: false,
-         data: {
-            label: 'Santorini Poster Draft 1',
-            action: () => console.log('hey'),
-         },
-      });
 
    const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
 
@@ -66,15 +54,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
       });
    };
 
-   const handleCategoryFilter = (value: any) => {
-      setFileFilter((prev) => {
-         return {
-            ...prev,
-            category: value,
-         };
-      });
-   };
-
    const selectAll = () => {
       if (!filesData) {
          return
@@ -87,6 +66,34 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
             ...prev,
             selectedValues: selected
          }
+      })
+   }
+
+   const handleFileFilter = (type, value: any) => {
+      if (type === 'type') {
+         setFileFilter((prev) => {
+            return {
+               ...prev,
+               type: value,
+            };
+         });
+      } else if (type === 'category') {
+         setFileFilter((prev) => {
+            return {
+               ...prev,
+               category: value,
+            };
+         });
+      }
+   };
+
+   const handleAddFile = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'new-file',
+         mode: 'create',
+         openedOn: 'client-page',
+         data: formDialogState.data
       })
    }
 
@@ -111,10 +118,10 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
                />
             </div>
             <FilterSelect
-               onValueChange={handleCategoryFilter}
-               selectContents={clientPageFileCategorySelections}
-               value={fileFilter.category}
-               placeholder="Category"
+               onValueChange={(value) => handleFileFilter('type', value)}
+               selectContents={fileTypeSelections}
+               value={fileFilter.type}
+               placeholder="Type"
                className={cn({ hidden: selectState.enableSelect })}
             />
             <SearchBox
@@ -129,7 +136,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
             isLoading={isLoading}
             selectState={selectState}
             setSelectState={setSelectState}
-            size='md'
+            size="md"
          />
       </div>
    );
