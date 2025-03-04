@@ -29,7 +29,6 @@ export const ClientContactDialog = ({
    );
    const contactData = formDialogState.data as Contact;
 
-   const [color, setColor] = useState('');
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'discard',
@@ -37,9 +36,6 @@ export const ClientContactDialog = ({
 
    const {
       handleSubmit,
-      reset,
-      register,
-      getValues,
       formState: { isDirty },
    } = formMethods;
 
@@ -146,6 +142,9 @@ export const ClientContactDialog = ({
                            <p className="text-md">
                               {formMethods.getValues('company')}
                            </p>
+                           //    <Link to={`/home/clients/${formDialogState.data.companyId}`} className="text-md">
+                           //    {formDialogState.data.company}
+                           // </Link>
                         )}
                         {formDialogState.mode !== 'edit' && (
                            <SelectWithSearchForm
@@ -153,7 +152,7 @@ export const ClientContactDialog = ({
                               fieldName="company"
                               type="client"
                               placeholder="Select Company"
-                              className='text-md'
+                              className="text-md"
                            />
                         )}
                      </div>

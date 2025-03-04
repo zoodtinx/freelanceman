@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Files, ClipboardX, ArrowDownToLine } from 'lucide-react';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
@@ -32,10 +31,6 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
       (state) => state.setConfirmationDialogState
    );
    const [copied, setCopied] = useState(false);
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
 
    const { editFile } = useFileApi()
 
