@@ -27,10 +27,6 @@ const ConfirmationDialog = () => {
       (state) => state.setFormDialogState
    );
 
-   const handleAction = () => {
-      console.log('submit');
-   };
-
    const handleCancel = () => {
       setFormDialogState((prev) => {
          return {
@@ -47,8 +43,6 @@ const ConfirmationDialog = () => {
       console.log('cancelled');
    };
 
-   const message = confirmationDialogState.message();
-
    return (
       <Dialog open={confirmationDialogState.isOpen} onOpenChange={handleCancel}>
          <DialogTrigger asChild>
@@ -61,7 +55,7 @@ const ConfirmationDialog = () => {
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(
                'sm:max-w-[425px] w-[400px] flex flex-col focus:outline-none rounded-2xl text-white',
-               confirmationDialogState.type === 'delete' && 'bg-black',
+               confirmationDialogState.type === 'delete' && 'bg-button-red',
                confirmationDialogState.type === 'unsaved-changes' &&
                   'bg-constant-primary'
             )}
@@ -70,9 +64,7 @@ const ConfirmationDialog = () => {
                <ConfirmationDialogTitle dialogState={confirmationDialogState} />
             </DialogHeader>
             <div className="bg-background rounded-2xl text-primary">
-               <div className="text-wrap p-4 text-base leading-snug">
-                  {message}
-               </div>
+               <DeleteMessage dialogState={confirmationDialogState} />
                <DialogFooter>
                   <div className="flex justify-between p-4">
                      <Button
@@ -88,7 +80,7 @@ const ConfirmationDialog = () => {
                         className="flex gap-1 bg-primary text-foreground"
                         onClick={confirmationDialogState.actions.primary}
                      >
-                        Leave
+                        Proceed
                      </Button>
                   </div>
                </DialogFooter>
@@ -98,7 +90,23 @@ const ConfirmationDialog = () => {
    );
 };
 
-const ConfirmationDialogFooter = () => {};
+const DeleteMessage = ({
+   dialogState,
+}: {
+   dialogState: ConfirmationDialogState;
+}) => {
+   const message = dialogState.message;
+
+   if (dialogState.type === 'unsaved-changes') {
+      return <p className="text-wrap p-4 text-base leading-snug">{message}</p>;
+   } else if (dialogState.type === 'delete') {
+      return (
+         <p className="text-wrap p-4 text-base leading-snug">
+            Are you sure you want to delete <strong>{message}</strong>
+         </p>
+      );
+   }
+};
 
 const ConfirmationDialogTitle = ({
    dialogState,

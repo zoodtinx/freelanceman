@@ -63,7 +63,7 @@ const FormDialog = () => {
             actions: {
                primary: handleDialogClose,
             },
-            message: () => 'Unsaved changes will be lost if you leave.',
+            message: 'Unsaved changes will be lost if you leave.',
             type: 'unsaved-changes',
             dialogRequested: {
                mode: formDialogState.mode,

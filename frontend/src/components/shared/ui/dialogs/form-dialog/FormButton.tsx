@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../../primitives/Button';
 import { CircleCheck, LoaderCircle, PencilLine, Plus, Trash2 } from 'lucide-react';
 import { DestructiveButtonProps, FormButtonProps, SubmitButtonProps } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
+import { cn } from '@/lib/helper/utils';
 
 export const DiscardButton = ({
    formDialogState,
@@ -61,6 +62,8 @@ export const SubmitButton = ({
       formState: { isDirty },
    } = formMethods;
 
+   const isNoInput = !isDirty
+
    const isEditMode = formDialogState.mode === "edit";
    const isLoading = isApiLoading.isLoading;
    const isSubmitting =
@@ -88,7 +91,7 @@ export const SubmitButton = ({
       <Button
          variant={variant}
          type="submit"
-         className="gap-1 items-center"
+         className={cn("gap-1 items-center", isNoInput && 'cursor-not-allowed')}
          onClick={handleClick}
       >
          {isSubmitting ? (
@@ -102,10 +105,3 @@ export const SubmitButton = ({
       </Button>
    );
 };
-
-const buttonConfig = {
-   project: {
-      create: 'Create New Project',
-      
-   }
-}

@@ -9,22 +9,36 @@ import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import { DynamicHeightTextInputForm, Label, TextSelectForm } from 'src/components/shared/ui/form-field-elements';
+import {
+   DynamicHeightTextInputForm,
+   Label,
+   TextSelectForm,
+} from 'src/components/shared/ui/form-field-elements';
 import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { DiscardButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import {
+   DiscardButton,
+   SubmitButton,
+} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { EditFileDto } from '@types';
+import { useFileApi } from '@/lib/api/file-api';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 export const FileDialog = ({ formMethods }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const { setConfirmationDialogState } = useConfirmationDialogStore()
    const [copied, setCopied] = useState(false);
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'discard',
    });
 
+   const { editFile } = useFileApi()
+
    const { getValues, watch } = formMethods;
+   const fileName = getValues('displayName')
    const fileSize = formatBytes(watch('size'));
    const link = watch('link');
    const category = getValues('category');
@@ -38,23 +52,37 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
       }
    };
 
-   const handleDeleteButton = () => {
+   const handleDeleteButtonClick = () => {
       setFormDialogState((prev) => ({ ...prev, isOpen: false }));
+      console.log('fileName', fileName)
       setConfirmationDialogState({
          isOpen: true,
-         actions: { primary: () => {} },
-         message: 'Are you sure you want to delete this file?',
+         actions: {
+            primary: () => {}
+         },
+         message: fileName,
          type: 'delete',
-      });
+         dialogRequested: {
+            mode: 'edit',
+            type: 'file'
+         }
+      })
    };
 
    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-      console.log('File saved:', data);
+      const editFilePayload: EditFileDto = {
+         displayName: data.displayName,
+         type: data.type
+      }
+      const fileId = formDialogState.data.id
+      editFile.mutate(fileId, editFilePayload )
    };
 
    const handleDelete = () => {
       console.log('deleting');
    };
+
+   const fileUrl = formMethods.getValues('link');
 
    return (
       <div className="bg-background rounded-2xl text-primary flex flex-col">
@@ -136,7 +164,7 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
                <DiscardButton
                   isApiLoading={isApiLoading}
                   formDialogState={formDialogState}
-                  action={handleDelete}
+                  action={handleDeleteButtonClick}
                   setIsApiLoading={setIsApiLoading}
                   formMethods={formMethods}
                />
@@ -147,18 +175,22 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
                      isApiLoading={isApiLoading}
                      setIsApiLoading={setIsApiLoading}
                   />
-                  <Button
-                     type="submit"
-                     variant={'submit'}
-                     className="flex gap-1"
-                  >
-                     Download
-                     <ArrowDownToLine className="w-4 h-4" />
-                  </Button>
+                  <DownloadButton url={fileUrl} />
                </div>
             </div>
          </DialogFooter>
       </div>
+   );
+};
+
+const DownloadButton = ({ url }: { url: string }) => {
+   return (
+      <Link to={url}>
+         <Button type="submit" variant={'default'} className="flex gap-1 pl-2 pr-3">
+            <ArrowDownToLine className="w-4 h-4" />
+            Download
+         </Button>
+      </Link>
    );
 };
 

@@ -7,7 +7,7 @@ export interface ConfirmationDialogState {
       type: FormDialogType;
       mode: 'create' | 'edit'
    };
-   message: () => string;
+   message: string;
    actions: {
       primary: () => void;
       secondary?: () => void;

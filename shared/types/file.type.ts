@@ -46,6 +46,11 @@ export interface CreateFileDto {
    size?: number;
 }
 
+export interface EditFileDto {
+   displayName: string;
+   type: FileType;
+}
+
 export type FileSearchOption = Partial<
    Pick<
       File,
