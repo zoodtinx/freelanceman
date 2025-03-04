@@ -12,7 +12,7 @@ export default function SideBar() {
                <SideBarTab tab="clients" />
                <SideBarTab tab="partners" />
                <SideBarTab tab="files" />
-               <SideBarTab tab="documents" />
+               <SideBarTab tab="income" />
             </ul>
             <PinnedProjects />
          </div>

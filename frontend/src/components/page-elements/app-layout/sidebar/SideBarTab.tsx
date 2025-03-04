@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { Notes } from '@/components/shared/icons';
-import { Layers, UsersRound, FileText, BookUser, CircleCheck, Folder } from 'lucide-react';
+import { Layers, UsersRound, FileText, BookUser, CircleCheck, Folder, Coins, Wallet, CircleDollarSign, Banknote, WalletCards, Wallet2, WalletMinimal, LucideWallet } from 'lucide-react';
 
 type SideBarTabProps = {
    tab: keyof typeof tabConfig;
@@ -14,7 +14,7 @@ const tabConfig = {
    actions: { label: 'Actions', icon: CircleCheck },
    clients: { label: 'Clients', icon: UsersRound },
    partners: { label: 'Partners', icon: BookUser },
-   documents: { label: 'Documents', icon: FileText },
+   income: { label: 'Income', icon: Wallet },
    notes: { label: 'Notes', icon: Notes },
 };
 

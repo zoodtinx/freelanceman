@@ -7,13 +7,15 @@ import ProjectTasksPage from "@/routes/ProjectTaskPage";
 import { Navigate } from "react-router-dom";
 import PartnersPage from "@/routes/PartnersPage";
 import FilePage from "@/routes/FilePage";
-import DocumentPage from "@/routes/DocumentPage";
+import DocumentPage from "src/routes/IncomePage";
 import QuickNotesPage from "@/routes/QuickNotesPage";
 import AllClientsPage from "src/routes/AllClientPage";
 import ClientPage from "@/routes/ClientPage";
 import DocumentPageCreateMode from "src/components/page-elements/documents/DocumentPageCreateMode";
 import DocumentPageViewMode from "src/components/page-elements/documents/DocumentPageViewMode";
 import DocumentPageLayout from "@/components/page-elements/documents/DocumentPageLayout";
+import BillingPage from "src/routes/IncomePage";
+import IncomePage from "src/routes/IncomePage";
 
 export const router = createBrowserRouter([
    {
@@ -67,8 +69,8 @@ export const router = createBrowserRouter([
             element: <FilePage />,
          },
          {
-            path: 'documents',
-            element: <DocumentPage />,
+            path: 'income',
+            element: <IncomePage />,
             children: [
                {
                   path: '',
