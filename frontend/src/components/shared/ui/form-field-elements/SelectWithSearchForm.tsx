@@ -91,7 +91,7 @@ type SelectWithSearchProps = Pick<
    handleSearch: (value: string) => void;
 };
 
-const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
+export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    selections,
    isLoading,
    handleSelect,
@@ -112,11 +112,20 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
 
    useEffect(() => {
       if (value) {
-         const selectedValueContent = selections?.find((selection) =>  selection.value === value)
-         setSelectedValue(selectedValueContent as SelectItemContent || {
+         const selectedValueContent = selections?.find(
+            (selection) => selection.value === value
+         );
+         setSelectedValue(
+            (selectedValueContent as SelectItemContent) || {
+               value: '',
+               label: '',
+            }
+         );
+      } else {
+         setSelectedValue({
             value: '',
             label: '',
-         })
+         });
       }
    },[selections, value])
 

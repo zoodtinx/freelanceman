@@ -1,16 +1,16 @@
-import { SelectWithSearch } from 'src/components/shared/ui/select/SelectWithSearch';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useEffect, useState } from 'react';
 import { LayoutGrid, List, X } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { useAllClientsQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
-import { ProjectSearchOption } from '@types';
+import { ClientSearchOption, ProjectSearchOption } from '@types';
 import {
    ProjectFilterProps,
    ProjectFilterBubble,
    ViewModeToggleBubble,
 } from '@/components/page-elements/all-projects/props.type';
+import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 
 export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    projectFilter,
@@ -43,11 +43,10 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    );
 };
 
-const ProjectSearchBox: React.FC<ProjectFilterBubble>  = ({
+const ProjectSearchBox: React.FC<ProjectFilterBubble> = ({
    projectFilter,
-   setProjectFilter
+   setProjectFilter,
 }) => {
-
    const setSearchTerm = (value: string) => {
       setProjectFilter((prev: ProjectSearchOption) => ({
          ...prev,
@@ -68,7 +67,7 @@ const ProjectSearchBox: React.FC<ProjectFilterBubble>  = ({
 
 const ViewModeToggle: React.FC<ViewModeToggleBubble> = ({
    viewMode,
-   setViewMode
+   setViewMode,
 }) => {
    const activeStyle = 'bg-primary text-foreground';
 
@@ -96,9 +95,8 @@ const ViewModeToggle: React.FC<ViewModeToggleBubble> = ({
 
 const ProjectStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    projectFilter,
-   setProjectFilter
+   setProjectFilter,
 }) => {
-
    const projectStatus = [
       { value: 'active', label: 'Active' },
       { value: 'on-hold', label: 'On Hold' },
@@ -125,9 +123,8 @@ const ProjectStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
 
 const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    projectFilter,
-   setProjectFilter
+   setProjectFilter,
 }) => {
-
    const paymentStatus = [
       { value: 'not-processed', label: 'Not Processed' },
       { value: 'processing', label: 'Processing' },
@@ -152,13 +149,14 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    );
 };
 
-const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
+export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
    projectFilter,
-   setProjectFilter
+   setProjectFilter,
 }) => {
    const [mode, setMode] = useState('base');
 
-   const { data: clientList, isLoading } = useAllClientsQuery();
+   const [clientFilter, setClientFilter] = useState<ClientSearchOption>({});
+   const { data: clientList, isLoading } = useAllClientsQuery(clientFilter);
 
    useEffect(() => {
       if (projectFilter.clientId) {
@@ -168,10 +166,6 @@ const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
       }
    }, [projectFilter.clientId]);
 
-   if (isLoading) {
-      return null;
-   }
-
    const clientSelection = clientList?.map((client) => {
       return {
          value: client.id,
@@ -179,22 +173,40 @@ const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
       };
    });
 
-   const setClientFilter = (value: string) => {
+   const handleSelect = (value: string) => {
       setProjectFilter((prev) => ({
          ...prev,
          clientId: value,
       }));
    };
 
+   const handleSearch = (value: string) => {
+      setClientFilter({
+         name: value,
+      });
+   };
+
+   const handleDiscardFilter = () => {
+      setMode('base');
+      setProjectFilter((prev) => {
+         return {
+            ...prev,
+            clientId: '',
+         };
+      });
+   };
+
    return (
       <div className="flex gap-[1px]">
          <SelectWithSearch
-            onValueChange={setClientFilter}
+            handleSearch={handleSearch}
+            handleSelect={handleSelect}
+            isLoading={isLoading}
             value={projectFilter.clientId || ''}
-            selectContents={clientSelection || []}
+            selections={clientSelection || []}
             className={cn(
-               'flex h-5 gap-1 items-center justify-center focus:outline-none whitespace-nowrap border',
-               'border-primary p-3 rounded-tl-full rounded-bl-full placeholder:text-muted-foreground',
+               'flex px-2 gap-1 items-center justify-center focus:outline-none whitespace-nowrap border',
+               'border-primary rounded-tl-full rounded-bl-full placeholder:text-muted-foreground',
                '[&>span]:line-clamp-1 bg-primary text-foreground',
                mode === 'base' &&
                   'rounded-tr-full rounded-br-full bg-transparent text-secondary border-secondary'
@@ -203,14 +215,8 @@ const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
          />
          {mode === 'selected' && (
             <div
-               className="flex h-5 gap-1 text-foreground items-center justify-center bg-primary border border-primary p-3 px-1 rounded-tr-full rounded-br-full"
-               onClick={() => {
-                  setProjectFilter((prev) => ({
-                     ...prev,
-                     clientId: '',
-                  }));
-                  setMode('base');
-               }}
+               className="flex gap-1 text-foreground items-center justify-center bg-primary border border-primary px-1 rounded-tr-full rounded-br-full"
+               onClick={handleDiscardFilter}
             >
                <X className="w-4 h-4" />
             </div>
