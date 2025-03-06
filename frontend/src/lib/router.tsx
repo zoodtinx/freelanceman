@@ -1,25 +1,29 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "../routes/HomePage";
 import ProjectPage from "@/routes/ProjectPage";
 import ActionPage from "@/routes/ActionPage";
 import AllProjectPage from "@/routes/AllProjectPage";
 import ProjectTasksPage from "@/routes/ProjectTaskPage";
-import { Navigate } from "react-router-dom";
 import PartnersPage from "@/routes/PartnersPage";
 import FilePage from "@/routes/FilePage";
-import DocumentPage from "src/routes/IncomePage";
 import QuickNotesPage from "@/routes/QuickNotesPage";
 import AllClientsPage from "src/routes/AllClientPage";
 import ClientPage from "@/routes/ClientPage";
-import DocumentPageCreateMode from "src/components/page-elements/documents/DocumentPageCreateMode";
-import DocumentPageViewMode from "src/components/page-elements/documents/DocumentPageViewMode";
-import DocumentPageLayout from "@/components/page-elements/documents/DocumentPageLayout";
-import BillingPage from "src/routes/IncomePage";
 import IncomePage from "src/routes/IncomePage";
+import SalesDocumentBuilderPage from "src/components/page-elements/documents/DocumentPageCreateMode";
+import LoginPage from "@/routes/LoginPage";
 
 export const router = createBrowserRouter([
    {
       path: '/',
+      element: <Navigate to={'home/projects'} />,
+   },
+   {
+      path: '/login',
+      element: <LoginPage />,
+   },
+   {
+      path: '/register',
       element: <Navigate to={'home/projects'} />,
    },
    {
@@ -70,23 +74,34 @@ export const router = createBrowserRouter([
          },
          {
             path: 'income',
-            element: <IncomePage />,
             children: [
                {
                   path: '',
-                  element: <DocumentPageLayout />,
+                  element: <IncomePage />,
                },
                {
-                  path: 'create',
+                  path: 'document',
                   children: [
                      {
                         path: '',
-                        element: <DocumentPageCreateMode />,
+                        element: <SalesDocumentBuilderPage />,
                      },
                      {
-                        path: ':draftId',
-                        element: <DocumentPageCreateMode />,
+                        path: ':id',
+                        element: <SalesDocumentBuilderPage />,
                      },
+                     {
+                        path: 'quotation',
+                        element: <SalesDocumentBuilderPage />,
+                     },
+                     {
+                        path: 'invoice',
+                        element: <SalesDocumentBuilderPage />,
+                     },
+                     {
+                        path: 'receipt',
+                        element: <SalesDocumentBuilderPage />,
+                     }
                   ],
                },
             ],

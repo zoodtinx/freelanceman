@@ -3,42 +3,100 @@ import {
    PopoverTrigger,
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
-import React from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
 import { FileText, Plus } from 'lucide-react';
-import { Project, ProjectPaymentData } from '@types';
-import { useProjectPaymentDataQuery } from '@/lib/api/project-payment-api';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { Project, ProjectPaymentData, ProjectPaymentDataFilter } from '@types';
+import { useProjectPaymentDataQuery, useAmountDueQuery } from '@/lib/api/project-payment-api';
+import { SearchBox } from '@/components/shared/ui/SearchBox';
+import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
 
 const IncomePage: React.FC = () => {
-   const handlePaymentStatusChange = (value) => {
-      console.log('changed');
-   };
+   const [projectFilter, setProjectFilter] = useState<ProjectPaymentDataFilter>({})
+   const {data: projectData, isLoading} = useProjectPaymentDataQuery(projectFilter)
 
    return (
       <section className="flex flex-col gap-2 w-full h-full sm:flex-col">
-         <p>Amount unpaid: 30,000</p>
-         <ProjectPaymentTabList />
+            <div className='flex justify-between'>
+               <StatsBar />
+               <FilterBar
+                  projectFilter={projectFilter}
+                  setProjectFilter={setProjectFilter}
+               />
+            </div>
+         <ProjectPaymentTabList projectData={projectData} isLoading={isLoading} />
       </section>
    );
 };
 
-const ProjectPaymentTabList = () => {
-   
-   const {data: projectData, isLoading} = useProjectPaymentDataQuery()
+const FilterBar = ({
+   projectFilter,
+   setProjectFilter,
+}: {
+   projectFilter: ProjectPaymentDataFilter;
+   setProjectFilter: Dispatch<SetStateAction<ProjectPaymentDataFilter>>;
+}) => {
+   return (
+      <div className="flex gap-1">
+         <ClientFilterBubble
+            projectFilter={projectFilter}
+            setProjectFilter={setProjectFilter}
+         />
+         <SearchBox className="w-fit" />
+      </div>
+   );
+};
 
-   
+const StatsBar = () => {
+   const {data: statsData, isLoading} = useAmountDueQuery()
+
    if (isLoading) {
       return <p>Loading...</p>
    }
 
-   if (!projectData) {
-      return <p>No payment data available</p>
+   return (
+      <div className="flex gap-4">
+         <p className="text-secondary">
+            Unprocessed:{' '}
+            <span className="text-md font-medium text-primary">
+               {statsData?.unpaid.toLocaleString()}
+            </span>
+         </p>
+         <p className="text-secondary">
+            Processing:{' '}
+            <span className="text-md font-medium text-primary">
+               {statsData?.processing.toLocaleString()}
+            </span>
+         </p>
+         <p className="text-secondary">
+            All Amount Due:{' '}
+            <span className="text-md font-medium text-primary">
+               {statsData?.allAmountDue.toLocaleString()}
+            </span>
+         </p>
+      </div>
+   );
+}
+
+
+const ProjectPaymentTabList = ({
+   projectData,
+   isLoading,
+}: {
+   projectData?: ProjectPaymentData[];
+   isLoading: boolean;
+}) => {
+if (isLoading) {
+      return <p>Loading...</p>;
    }
-   
+
+   if (!projectData) {
+      return <p>No payment data available</p>;
+   }
+
    const projectList = projectData.map((project) => {
       return <ProjectPaymentTab key={project.id} project={project} />;
    });
@@ -46,7 +104,7 @@ const ProjectPaymentTabList = () => {
    return <div className="flex flex-col gap-2 w-full">{projectList}</div>;
 };
 
-const ProjectPaymentTab = ({ project }: { project: Project }) => {
+const ProjectPaymentTab = ({ project }: { project: ProjectPaymentData }) => {
    const handlePaymentStatusChange = (value) => {
       console.log('changed');
    };
@@ -54,7 +112,7 @@ const ProjectPaymentTab = ({ project }: { project: Project }) => {
    return (
       <div
          className={cn(
-            'flex w-full bg-foreground h-fit rounded-2xl p-2 px-3',
+            'flex w-full bg-foreground h-fit rounded-2xl p-2 px-3 shadow-md',
             project.paymentStatus === 'paid' && 'bg-tertiary'
          )}
       >
@@ -69,10 +127,10 @@ const ProjectPaymentTab = ({ project }: { project: Project }) => {
                <DocumentButton type="receipt" project={project} />
             </div>
          </div>
-         <div className="flex flex-col gap-1 items-end justify-center leading-tight">
+         <div className="flex flex-col gap-1 items-end justify-center leading-tight pr-3">
             <p className="text-[22px] pr-1">
                {project.budget.toLocaleString()}{' '}
-               <span className="text-base">{project.currency}</span>
+               <span className="text-sm">{project.currency}</span>
             </p>
             <StatusSelect
                selections={paymentStatusSelections}
@@ -109,9 +167,10 @@ const AddDocumentButton = ({
    type: string;
    project: Project;
 }) => {
-   const label = type.charAt(0).toUpperCase() + type.slice(1);
-
    const navigate = useNavigate();
+   const label = type.charAt(0).toUpperCase() + type.slice(1);
+   const isPaid = project.paymentStatus === 'paid';
+
    const handleClick = (type: string) => {
       switch (type) {
          case 'quotation':
@@ -129,7 +188,10 @@ const AddDocumentButton = ({
    return (
       <div
          onClick={() => handleClick(type)}
-         className="flex gap-1 text-primary border-secondary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer"
+         className={cn(
+            'flex gap-1 text-primary border-secondary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
+            isPaid && 'text-secondary'
+         )}
       >
          <Plus className="w-4 h-4" />
          {label}

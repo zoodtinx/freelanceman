@@ -12,6 +12,10 @@ export interface ProjectPaymentData {
    receipt?: SalesDocument;
 }
 
+export type ProjectPaymentDataFilter = Partial<
+   Pick<ProjectPaymentData, "title" | "clientId" | "paymentStatus">
+>;
+
 interface SalesDocument {
    id: string;
    fileLink?: string;

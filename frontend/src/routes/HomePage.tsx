@@ -3,10 +3,12 @@ import SideBar from '@/components/page-elements/app-layout/sidebar/SideBar';
 import { Outlet } from 'react-router-dom';
 import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
-import DeletePromptDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
 import ConfirmationDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
 
 export default function HomePage() {
+   
+   //check login status
+   
    return (
       <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative pt-1 pl-1">
          <TopBar />

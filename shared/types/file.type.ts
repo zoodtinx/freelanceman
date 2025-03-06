@@ -14,10 +14,10 @@ export type FileType =
    | "other";
 
 export type FileCategory =
-   | "personal-file"
+   | "personal"
    | "document"
-   | "project-file"
-   | "project-asset";
+   | "work"
+   | "asset";
 
 export interface File {
    id: string;

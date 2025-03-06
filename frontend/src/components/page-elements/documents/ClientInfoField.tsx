@@ -3,7 +3,7 @@ import { Client, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useAllClientsQuery } from '@/lib/api/client-api';
-import { SelectWithApiSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
+import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 
 const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocument>} ) => {
    // const userData = some logic to fetch user data
@@ -109,13 +109,13 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Client Info</h2>
-               <SelectWithApiSearch
-                  selectContents={clientSelection}
+               <SelectWithSearch
+                  selections={clientSelection}
                   placeholder='Select a client'
                   className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary"
                   isLoading={isLoading}
-                  onValueChange={populateClientField}
-                  onInputChange={searchName}
+                  handleSelect={populateClientField}
+                  handleSearch={searchName}
                />
             </div>
          </div>

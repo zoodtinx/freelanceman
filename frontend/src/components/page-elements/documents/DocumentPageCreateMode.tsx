@@ -13,7 +13,7 @@ import { useSalesDocumentsQuery } from 'src/lib/api/sales-document-api';
 import { FilePlus2, FileText } from 'lucide-react';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 
-const DocumentPageCreateMode: React.FC = () => {
+const SalesDocumentBuilderPage: React.FC = () => {
    const formMethods = useForm<SalesDocument>({});
    const params = useParams();
    const { data: draft, isLoading } = useSalesDocumentsQuery({
@@ -97,4 +97,4 @@ const DocumentPageCreateMode: React.FC = () => {
    );
 };
 
-export default DocumentPageCreateMode;
+export default SalesDocumentBuilderPage;

@@ -10,6 +10,10 @@ export interface User {
    pinnedProjects: string[];
    createdAt: Date;
    updatedAt: Date;
+   settings: {
+      currency: string,
+      quitting?: boolean
+   }
 }
 
 export type UserSearchOption = Partial<
@@ -25,6 +29,10 @@ export interface CreateUserDto {
    address: string;
    avatarUrl?: string;
    pinnedProjects?: string[];
+   settings: {
+      currency: string,
+      quitting: boolean
+   }
 }
 
 export type EditUserDto = Partial<

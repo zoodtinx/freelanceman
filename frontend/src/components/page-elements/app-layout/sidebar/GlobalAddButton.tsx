@@ -9,8 +9,10 @@ import {
    Calendar,
    CircleCheck,
    FilePlus2,
+   FileText,
    PencilRuler,
    Plus,
+   Upload,
    UserRound,
 } from 'lucide-react';
 import {
@@ -114,15 +116,15 @@ const GlobalAddButton = () => {
       { Icon: Building2, label: 'Client', action: handleNewClient },
       { Icon: UserRound, label: 'Contact', action: handleNewContact },
       'separator',
-      { Icon: Plus, label: 'Add File', action: handleNewFile },
+      { Icon: Upload, label: 'File', action: handleNewFile },
       'separator',
-      { Icon: FilePlus2, label: 'Sales Document', action: handleNewDocument },
+      { Icon: FileText, label: 'Sales Document', action: handleNewDocument },
    ];
 
    return (
       <Popover open={open} onOpenChange={setOpen}>
          <PopoverTrigger asChild>
-            <div className="rounded-full w-[60px] md:w-[45px] aspect-square flex items-center justify-center text-white bg-foreground">
+            <div className="rounded-full w-[60px] md:w-[45px] aspect-square flex items-center justify-center text-white bg-foreground hover:bg-tertiary transition-colors duration-100">
                <Plus className="h-full w-full stroke-[2.5px] text-primary p-2" />
             </div>
          </PopoverTrigger>

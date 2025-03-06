@@ -115,7 +115,6 @@ export const NewProjectDialog = ({
                   />
                </div>
             )}
-            <AddButtonGroup />
          </div>
          <FormDialogFooter
             formDialogState={formDialogState}

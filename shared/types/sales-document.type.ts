@@ -1,54 +1,54 @@
 import { Currency } from "./misc.type";
 
 export interface SalesDocument {
-  id: string; 
-  title: string;
-  category: 'quotation' | 'invoice' | 'receipt'; 
-  
-  number: string; 
-  issuedAt: string;  
-  currency: Currency; 
-  
-  projectId: string; 
-  projectTitle: string;
-  referenceNumber: string; 
-  projectDescription: string; 
-  selectedProjectClientId: string; 
+   id: string;
+   title: string;
+   category: "quotation" | "invoice" | "receipt";
 
-  freelancerName: string; 
-  freelancerEmail: string; 
-  freelancerPhone: string; 
-  freelancerTaxId: string; 
-  freelancerDetail?: string; 
+   number: string;
+   issuedAt: string;
+   currency: Currency;
 
-  clientId: string; 
-  clientName: string; 
-  clientTaxId: string; 
-  clientAddress?: string; 
-  clientPhone?: string; 
-  clientOffice?: string; 
-  clientDetail?: string; 
+   projectId: string;
+   projectTitle: string;
+   referenceNumber: string;
+   projectDescription: string;
+   selectedProjectClientId: string;
 
-  items: SalesDocumentItem[]
+   freelancerName: string;
+   freelancerEmail: string;
+   freelancerPhone: string;
+   freelancerTaxId: string;
+   freelancerDetail?: string;
 
-  subtotal: number; 
-  discount?: number; 
-  tax: number; 
-  total: number; 
-  customAdjustment?: number; 
-  note?: string; 
+   clientId: string;
+   clientName: string;
+   clientTaxId: string;
+   clientAddress?: string;
+   clientPhone?: string;
+   clientOffice?: string;
+   clientDetail?: string;
 
-  createdAt: string;
-  updatedAt: string;
+   items: SalesDocumentItem[];
+
+   subtotal: number;
+   discount?: number;
+   tax: number;
+   total: number;
+   customAdjustment?: number;
+   note?: string;
+
+   createdAt: string;
+   updatedAt: string;
 }
 
 export type CreateSalesDocumentDto = Omit<
-  SalesDocument,
-  "id" | "createdAt" | "updatedAt"
+   SalesDocument,
+   "id" | "createdAt" | "updatedAt"
 >;
 
 export type EditSalesDocumentDto = Partial<
-  Omit<SalesDocument, "id" | "createdAt" | "updatedAt">
+   Omit<SalesDocument, "id" | "createdAt" | "updatedAt">
 >;
 
 export interface SalesDocumentItem {
@@ -59,8 +59,8 @@ export interface SalesDocumentItem {
 }
 
 export interface SalesDocumentSearchOption {
-  id?: string, 
-  title?: string;
+   id?: string;
+   title?: string;
    clientId?: string;
    projectId?: string;
    category?: "quotation" | "invoice" | "receipt";

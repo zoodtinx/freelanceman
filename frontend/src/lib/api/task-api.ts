@@ -33,6 +33,16 @@ export const useTasksQuery = (searchOptions: TaskSearchOption = {}) => {
    });
 };
 
+export const useActiveTaskCountQuery = () => {
+   return useQuery({
+      queryKey: ['task', 'counts'],
+      queryFn: () => new Promise<number>((resolve) => {
+         setTimeout(() => {
+            resolve(2);
+         }, 1000);
+      })
+   });
+}
 
 export const useTaskQuery = (taskId: string) => {
    return useQuery<Task, Error, Task>({

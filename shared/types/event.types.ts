@@ -15,7 +15,15 @@ export interface Event {
    tags: string[];
 }
 
+export type EventFields = {
+   [K in keyof Event]: boolean;
+ };
+
 export type EventSearchOption = Partial<
+   Pick<Event, "name" | "status" | "dueAt" | "projectId" | "clientId">
+>;
+
+export type EventFilter = Partial<
    Pick<Event, "name" | "status" | "dueAt" | "projectId" | "clientId">
 >;
 

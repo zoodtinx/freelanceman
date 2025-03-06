@@ -3,7 +3,7 @@ import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field
 import { Project, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { SelectWithApiSearch } from 'src/components/shared/ui/select/SelectWithApiSearch';
+import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 import { useAllProjectsQuery } from '@/lib/api/project-api';
 
 const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocument>} ) => {
@@ -65,13 +65,13 @@ const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDoc
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <p>Project Info</p>
-               <SelectWithApiSearch
-                  selectContents={projectSelection}
+               <SelectWithSearch
+                  selections={projectSelection}
                   placeholder='Select a project'
                   className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary max-w-[230px] truncate"
                   isLoading={isLoading}
-                  onValueChange={populateProjectField}
-                  onInputChange={searchName}
+                  handleSelect={populateProjectField}
+                  handleSearch={searchName}
                   size='lg'
                />
             </div>

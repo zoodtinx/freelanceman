@@ -6,6 +6,8 @@ import {
 } from '@/components/shared/ui/primitives/Popover';
 import {
    Eclipse,
+   Loader,
+   Loader2,
    Moon,
    Plus,
    Settings2,
@@ -18,14 +20,16 @@ import FreelanceManLogo from './Logo';
 import { SunIcon, Calendar, CircleCheck } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { useTheme } from 'next-themes';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { mockUser } from '@mocks';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { useNavigate } from 'react-router-dom';
+import { useActiveEventCountQuery } from '@/lib/api/event-api';
+import { useActiveTaskCountQuery } from '@/lib/api/task-api';
 
 export default function TopBar() {
    return (
       <header
-         className={`flex flex-shrink-0 h-[70px] w-full items-center justify-between px-3
+         className={`flex flex-shrink-0 h-[63px] w-full items-center justify-between px-3
                      md:h-[82px]
                      sm:h-[62px] sm:px-3 sm:sticky sm:top-0 sm:z-50 sm:backdrop-blur sm:bg-opacity-60 sm:dark:bg-header-dark sm:dark:bg-opacity-60
                   `}
@@ -33,14 +37,16 @@ export default function TopBar() {
          <FreelanceManLogo />
          <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-foreground h-[37px] sm:h-[43px] w-auto rounded-full px-4 sm:hidden">
             <p>Monday, 19 December 2025</p>
-            <div className="flex items-center gap-1">
-               <CircleCheck className="h-5 w-5" />
-               <p>5 tasks</p>
-            </div>
-            <div className="flex items-center gap-1">
-               <Calendar className="h-5 w-5" />
-               <p>2 events</p>
-            </div>
+            <CountDisplay
+               icon={CircleCheck}
+               label="Task"
+               queryHook={useActiveTaskCountQuery}
+            />
+            <CountDisplay
+               icon={Calendar}
+               label="Event"
+               queryHook={useActiveEventCountQuery}
+            />
          </div>
          <div className="h-[55px] items-center flex gap-2">
             <ProfileBar />
@@ -49,6 +55,34 @@ export default function TopBar() {
       </header>
    );
 }
+
+const CountDisplay = ({
+   queryHook,
+   icon: Icon,
+   label,
+}: {
+   queryHook: () => { data?: number; isLoading: boolean };
+   icon: React.ElementType;
+   label: string;
+}) => {
+   const navigate = useNavigate();
+   const { data: count, isLoading } = queryHook();
+
+   if (isLoading) {
+      return <Loader2 className="animate-spin h-5 w-5" />;
+   }
+
+   return (
+      <p
+         onClick={() => navigate('/home/actions')}
+         className="flex gap-1 items-center select-none cursor-pointer hover:text-primary transition-colors duration-100"
+      >
+         <Icon className="h-5 w-5" />
+         <span>{count}</span>
+         <span>{count === 1 ? label : `${label}s`}</span>
+      </p>
+   );
+};
 
 const SettingsPopover = () => {
    const theme = useTheme();

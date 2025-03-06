@@ -5,7 +5,7 @@ import {
    createEvent,
    deleteEvent,
 } from './mock/mock-event-service';
-import type { CreateEventDto, EditEventDto, Event, EventSearchOption } from '@types';
+import type { CreateEventDto, EditEventDto, Event, EventFields, EventFilter, EventSearchOption } from '@types';
 
 
 export const useEventApi = () => {
@@ -16,22 +16,26 @@ export const useEventApi = () => {
    }
 }
 
-
-export const useAllEventsQuery = (searchOptions: EventSearchOption = {}) => {
+export const useEventsQuery = (
+   searchOptions: EventFilter = {},
+   fields: EventFields
+) => {
    return useQuery({
-      queryKey: ['events', searchOptions],
-      queryFn: () => getAllEvents(searchOptions),
+      queryKey: ['events', searchOptions, fields],
+      queryFn: () => getAllEvents(searchOptions, fields),
    });
 };
 
-
-export const useEventsQuery = (searchOptions: EventSearchOption = {}) => {
+export const useActiveEventCountQuery = () => {
    return useQuery({
-      queryKey: ['events', JSON.stringify(searchOptions)],
-      queryFn: () => getAllEvents(searchOptions),
+      queryKey: ['events', 'counts'],
+      queryFn: () => new Promise<number>((resolve) => {
+         setTimeout(() => {
+            resolve(6);
+         }, 2000);
+      })
    });
-};
-
+}
 
 export const useEventQuery = (eventId: string) => {
    return useQuery<Event, Error, Event>({
