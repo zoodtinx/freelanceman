@@ -1,0 +1,243 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://zoodtinx@localhost:5432/freelanceman-test"
+}
+
+model User {
+  id               String           @id @default(uuid())
+  displayName      String
+  username         String
+  password         String
+  specialization   String[]
+  bio              String
+  email            String           @unique
+  phoneNumber      String
+  address          String
+  avatar           String?
+  pinnedProjects   String[]
+  currency         String
+  quitting         Boolean
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  refreshTokens     String[]
+  projects         Project[]
+  clients          Client[]
+  partnerCompanies PartnerCompany[]
+  clientContacts   ClientContact[]
+  partnerContacts  PartnerContact[]
+  salesDocuments   SalesDocument[]
+  files            File[]
+  tasks            Task[]
+  events           Event[]
+  authProvider     AuthProvider[]
+}
+
+model AuthProvider {
+  id         String @id @default(uuid())
+  userId     String
+  provider   String
+  providerId String
+  user       User   @relation(fields: [userId], references: [id])
+}
+
+model Client {
+  id             String          @id @default(uuid())
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  name           String
+  taxId          String          @unique
+  email          String
+  phoneNumber    String
+  address        String
+  detail         String
+  themeColor     String
+  contacts       ClientContact[]
+  projects       Project[]
+  files          File[]
+  salesDocuments SalesDocument[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime?       @updatedAt
+}
+
+model ClientContact {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  name        String
+  role        String
+  phoneNumber String
+  email       String
+  details     String
+  avatar      String
+  companyId   String?   @unique
+  company     Client?   @relation(fields: [companyId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model PartnerCompany {
+  id          String           @id @default(uuid())
+  name        String
+  taxId       String           @unique
+  email       String
+  phoneNumber String
+  address     String
+  detail      String
+  contacts    PartnerContact[]
+  projects    Project[]
+  user        User[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt
+}
+
+model PartnerContact {
+  id          String         @id @default(uuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  name        String
+  company     PartnerCompany @relation(fields: [companyId], references: [id])
+  companyId   String
+  role        String
+  phoneNumber String
+  email       String
+  details     String
+  avatar      String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Project {
+  id               String          @id @default(uuid())
+  title            String
+  clientId         String
+  client           Client          @relation(fields: [clientId], references: [id])
+  partnerCompanyId String
+  partnerCompany   PartnerCompany  @relation(fields: [partnerCompanyId], references: [id])
+  budget           Int
+  projectStatus    String
+  paymentStatus    String
+  links            String[]
+  note             String
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  pinned           Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  events           Event[]
+  tasks            Task[]
+  files            File[]
+  salesDocuments   SalesDocument[]
+}
+
+model Event {
+  id        String    @id @default(uuid())
+  name      String
+  status    String
+  details   String
+  link      String
+  dueAt     DateTime
+  projectId String
+  project   Project   @relation(fields: [projectId], references: [id])
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  tags      String[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Task {
+  id        String    @id @default(uuid())
+  name      String
+  status    String
+  details   String
+  link      String
+  dueAt     DateTime
+  projectId String
+  project   Project   @relation(fields: [projectId], references: [id])
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model File {
+  id           String    @id @default(uuid())
+  originalName String
+  displayName  String
+  type         String
+  category     String
+  link         String
+  projectId    String?
+  project      Project?  @relation(fields: [projectId], references: [id])
+  clientId     String?
+  client       Client?   @relation(fields: [clientId], references: [id])
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  size         Int?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+}
+
+enum SalesDocumentCategory {
+  QUOTATION
+  INVOICE
+  RECEIPT
+}
+
+model SalesDocument {
+  id                      String                @id @default(uuid())
+  userId                  String
+  user                    User                  @relation(fields: [userId], references: [id])
+  title                   String
+  category                SalesDocumentCategory
+  number                  String                @unique
+  issuedAt                DateTime
+  currency                String
+  projectId               String
+  project                 Project               @relation(fields: [projectId], references: [id])
+  referenceNumber         String
+  projectDescription      String
+  selectedProjectClientId String
+  freelancerName          String
+  freelancerEmail         String
+  freelancerPhone         String
+  freelancerTaxId         String
+  freelancerDetail        String?
+  clientId                String
+  client                  Client                @relation(fields: [clientId], references: [id])
+  clientName              String
+  clientTaxId             String
+  clientAddress           String?
+  clientPhone             String?
+  clientOffice            String?
+  clientDetail            String?
+  subtotal                Float
+  discount                Float?
+  tax                     Float
+  total                   Float
+  customAdjustment        Float?
+  note                    String?
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  items                   SalesDocumentItem[]
+}
+
+model SalesDocumentItem {
+  id              String        @id @default(uuid())
+  title           String
+  description     String?
+  rate            Float
+  quantity        Int
+  salesDocumentId String
+  salesDoc        SalesDocument @relation(fields: [salesDocumentId], references: [id])
+}
