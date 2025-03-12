@@ -18,14 +18,15 @@ export class LocalAuthService {
       const user = await this.prismaService.user.findUnique({
          where: { email },
       });
-      if (user && (await bcrypt.compare(pass, user.password))) {
-         const userCredentials = {
-            id: user.id,
-            email: user.email,
-         };
-         return userCredentials;
+
+      if (!user || !(await bcrypt.compare(pass, user.password))) {
+         throw new UnauthorizedException('Invalid credentials');
       }
-      return null;
+
+      return {
+         id: user.id,
+         email: user.email,
+      };
    }
 
    async register(email: string, password: string, displayName: string) {
@@ -45,8 +46,8 @@ export class LocalAuthService {
       };
 
       this.prismaService.user.create({
-         data: newUser
-      })
+         data: newUser,
+      });
 
       const payload = { email: newUser.email };
       const access_token = this.jwtService.sign(payload);
@@ -60,43 +61,57 @@ export class TokenService {
    constructor(
       private prismaService: PrismaService,
       private jwtService: JwtService,
-   ){}
+   ) {}
+
+   async validateAccessToken(payload: any) {
+      const user = await this.prismaService.user.findUnique({
+         where: { id: payload.sub },
+      });
+
+      if (!user) {
+         throw new UnauthorizedException('Invalid token');
+      }
+
+      return user;
+   }
 
    async validateRefreshToken(refreshTokenId: string) {
       const storedToken = await this.prismaService.refreshToken.findUnique({
          where: { token: refreshTokenId },
          include: { user: true },
       });
-   
+
       if (!storedToken) {
          throw new UnauthorizedException('Invalid refresh token');
       }
-   
+
       if (storedToken.expiresAt < new Date()) {
          await this.prismaService.refreshToken.delete({
             where: { token: refreshTokenId },
          });
          throw new UnauthorizedException('Refresh token expired');
       }
-   
+
       return storedToken.user;
    }
 
    async refreshAccessToken(refreshTokenId: string) {
       const user = await this.validateRefreshToken(refreshTokenId);
-   
-      await this.prismaService.refreshToken.delete({ where: { token: refreshTokenId } });
-   
+
+      await this.prismaService.refreshToken.delete({
+         where: { token: refreshTokenId },
+      });
+
       const accessToken = this.jwtService.sign(
-         { sub: user.id, role: user.role }, 
-         { expiresIn: '15m' } 
+         { sub: user.id, role: user.role },
+         { expiresIn: '15m' },
       );
-   
+
       const newRefreshToken = this.jwtService.sign(
-         { sub: user.id }, 
-         { expiresIn: '7d' }
+         { sub: user.id },
+         { expiresIn: '7d' },
       );
-   
+
       await this.prismaService.refreshToken.create({
          data: {
             token: newRefreshToken,
@@ -104,8 +119,8 @@ export class TokenService {
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
          },
       });
-   
-      return { accessToken, refreshToken: newRefreshToken };
+
+      return { accessToken, refreshToken: newRefreshToken, user };
    }
 }
 
