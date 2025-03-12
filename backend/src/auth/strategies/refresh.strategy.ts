@@ -21,17 +21,19 @@ export class RefreshTokenStrategy extends PassportStrategy(
    }
 
    async validate(req, payload: { sub: string; email: string }) {
-      const refreshToken = req.get('Authorization')?.replace('Bearer ', '');
-      const user = await this.prisma.user.findUnique({
-         where: { id: payload.sub },
-         include: { refreshTokens: true },
-      });
+      // const refreshToken = req.get('Authorization')?.replace('Bearer ', '');
+      // const user = await this.prisma.user.findUnique({
+      //    where: { id: payload.sub },
+      //    include: { refreshTokens: true },
+      // });
 
-      if (!user) throw new UnauthorizedException();
+      // if (!user) throw new UnauthorizedException();
 
-      const tokenExists = user.refreshTokens.some((rt) => rt === refreshToken);
-      if (!tokenExists) throw new UnauthorizedException();
+      // const tokenExists = user.refreshTokens.some((rt) => rt === refreshToken);
+      // if (!tokenExists) throw new UnauthorizedException();
 
-      return { userId: payload.sub, email: payload.email };
+      // return { userId: payload.sub, email: payload.email };
+
+      return {userId: 'love', email: 'zoodtinx@gmail.com'}
    }
 }

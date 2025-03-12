@@ -10,19 +10,27 @@ import { randomUUID } from 'crypto';
 @Injectable()
 export class AuthService {
    constructor(
-      private prisma: PrismaService,
+      // private prisma: PrismaService,
       private jwtService: JwtService,
    ) {}
 
-   private users = [{ id: '1', username: 'zoodtinx', password: 'doomagine' }];
+   private users = [
+      {
+         id: '1',
+         username: 'zoodtinx',
+         password:
+            '$2b$12$aJjo3VzKvqwTrN7EbGQsEOtsHeWxwU/T.2yRl1S2sB6P/4JvSzkiq',
+      },
+   ];
 
-   async validateUser(email: string, pass: string): Promise<any> {
-      const user = this.users.find((user) => user.username === email);
+   async validateUser(username: string, pass: string): Promise<any> {
+      const user = this.users.find((user) => user.username === username);
       if (user && (await bcrypt.compare(pass, user.password))) {
          const userCredentials = {
             id: user.id,
             username: user.username,
          };
+         console.log('userCredentials after validation', userCredentials);
          return userCredentials;
       }
       return null;
@@ -57,7 +65,7 @@ export class AuthService {
          password: hashedPassword,
       });
 
-      const payload = { id: newUser.id, username: newUser.username };
+      const payload = { username: newUser.username };
       const access_token = this.jwtService.sign(payload);
 
       return { access_token, user: payload };

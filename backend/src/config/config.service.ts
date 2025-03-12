@@ -2,4 +2,4 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class CustomComfigService
+export class CustomComfigService{}
