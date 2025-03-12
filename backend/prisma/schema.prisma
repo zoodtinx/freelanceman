@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,30 +9,30 @@ datasource db {
 
 model User {
   id               String           @id @default(uuid())
-  email            String           @unique
   displayName      String
   password         String
   specialization   String[]
   bio              String?
+  email            String           @unique
   phoneNumber      String?
   address          String?
   avatar           String?
   pinnedProjects   String[]
-  currency         String?        
+  currency         String?
   quitting         Boolean          @default(false)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  refreshTokens     String[]
-  projects         Project[]
-  clients          Client[]
-  partnerCompanies PartnerCompany[]
-  clientContacts   ClientContact[]
-  partnerContacts  PartnerContact[]
-  salesDocuments   SalesDocument[]
-  files            File[]
-  tasks            Task[]
-  events           Event[]
   authProvider     AuthProvider[]
+  clients          Client[]
+  clientContacts   ClientContact[]
+  events           Event[]
+  files            File[]
+  partnerContacts  PartnerContact[]
+  projects         Project[]
+  refreshTokens    RefreshToken?
+  salesDocuments   SalesDocument[]
+  tasks            Task[]
+  partnerCompanies PartnerCompany[] @relation("PartnerCompanyToUser")
 }
 
 model AuthProvider {
@@ -49,10 +43,17 @@ model AuthProvider {
   user       User   @relation(fields: [userId], references: [id])
 }
 
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Client {
   id             String          @id @default(uuid())
   userId         String
-  user           User            @relation(fields: [userId], references: [id])
   name           String
   taxId          String          @unique
   email          String
@@ -60,18 +61,18 @@ model Client {
   address        String
   detail         String
   themeColor     String
-  contacts       ClientContact[]
-  projects       Project[]
-  files          File[]
-  salesDocuments SalesDocument[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime?       @updatedAt
+  user           User            @relation(fields: [userId], references: [id])
+  contacts       ClientContact?
+  files          File[]
+  projects       Project[]
+  salesDocuments SalesDocument[]
 }
 
 model ClientContact {
   id          String    @id @default(uuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
   name        String
   role        String
   phoneNumber String
@@ -79,9 +80,10 @@ model ClientContact {
   details     String
   avatar      String
   companyId   String?   @unique
-  company     Client?   @relation(fields: [companyId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+  company     Client?   @relation(fields: [companyId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model PartnerCompany {
@@ -92,19 +94,17 @@ model PartnerCompany {
   phoneNumber String
   address     String
   detail      String
-  contacts    PartnerContact[]
-  projects    Project[]
-  user        User[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
+  contacts    PartnerContact[]
+  projects    Project[]
+  user        User[]           @relation("PartnerCompanyToUser")
 }
 
 model PartnerContact {
   id          String         @id @default(uuid())
   userId      String
-  user        User           @relation(fields: [userId], references: [id])
   name        String
-  company     PartnerCompany @relation(fields: [companyId], references: [id])
   companyId   String
   role        String
   phoneNumber String
@@ -113,29 +113,31 @@ model PartnerContact {
   avatar      String
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+  company     PartnerCompany @relation(fields: [companyId], references: [id])
+  user        User           @relation(fields: [userId], references: [id])
 }
 
 model Project {
   id               String          @id @default(uuid())
   title            String
   clientId         String
-  client           Client          @relation(fields: [clientId], references: [id])
   partnerCompanyId String
-  partnerCompany   PartnerCompany  @relation(fields: [partnerCompanyId], references: [id])
   budget           Int
   projectStatus    String
   paymentStatus    String
   links            String[]
   note             String
   userId           String
-  user             User            @relation(fields: [userId], references: [id])
   pinned           Boolean         @default(false)
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   events           Event[]
-  tasks            Task[]
   files            File[]
+  client           Client          @relation(fields: [clientId], references: [id])
+  partnerCompany   PartnerCompany  @relation(fields: [partnerCompanyId], references: [id])
+  user             User            @relation(fields: [userId], references: [id])
   salesDocuments   SalesDocument[]
+  tasks            Task[]
 }
 
 model Event {
@@ -146,12 +148,12 @@ model Event {
   link      String
   dueAt     DateTime
   projectId String
-  project   Project   @relation(fields: [projectId], references: [id])
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
   tags      String[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  project   Project   @relation(fields: [projectId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 model Task {
@@ -162,11 +164,11 @@ model Task {
   link      String
   dueAt     DateTime
   projectId String
-  project   Project   @relation(fields: [projectId], references: [id])
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  project   Project   @relation(fields: [projectId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 model File {
@@ -177,33 +179,25 @@ model File {
   category     String
   link         String
   projectId    String?
-  project      Project?  @relation(fields: [projectId], references: [id])
   clientId     String?
-  client       Client?   @relation(fields: [clientId], references: [id])
   userId       String
-  user         User      @relation(fields: [userId], references: [id])
   size         Int?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
-}
-
-enum SalesDocumentCategory {
-  QUOTATION
-  INVOICE
-  RECEIPT
+  client       Client?   @relation(fields: [clientId], references: [id])
+  project      Project?  @relation(fields: [projectId], references: [id])
+  user         User      @relation(fields: [userId], references: [id])
 }
 
 model SalesDocument {
   id                      String                @id @default(uuid())
   userId                  String
-  user                    User                  @relation(fields: [userId], references: [id])
   title                   String
   category                SalesDocumentCategory
   number                  String                @unique
   issuedAt                DateTime
   currency                String
   projectId               String
-  project                 Project               @relation(fields: [projectId], references: [id])
   referenceNumber         String
   projectDescription      String
   selectedProjectClientId String
@@ -213,7 +207,6 @@ model SalesDocument {
   freelancerTaxId         String
   freelancerDetail        String?
   clientId                String
-  client                  Client                @relation(fields: [clientId], references: [id])
   clientName              String
   clientTaxId             String
   clientAddress           String?
@@ -228,6 +221,9 @@ model SalesDocument {
   note                    String?
   createdAt               DateTime              @default(now())
   updatedAt               DateTime              @updatedAt
+  client                  Client                @relation(fields: [clientId], references: [id])
+  project                 Project               @relation(fields: [projectId], references: [id])
+  user                    User                  @relation(fields: [userId], references: [id])
   items                   SalesDocumentItem[]
 }
 
@@ -239,4 +235,10 @@ model SalesDocumentItem {
   quantity        Int
   salesDocumentId String
   salesDoc        SalesDocument @relation(fields: [salesDocumentId], references: [id])
+}
+
+enum SalesDocumentCategory {
+  QUOTATION
+  INVOICE
+  RECEIPT
 }

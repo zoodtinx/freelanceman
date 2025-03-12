@@ -1,14 +1,11 @@
 import {
    ConflictException,
-   Inject,
    Injectable,
    UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UserCredentails } from 'types/credentials.type';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class LocalAuthService {
@@ -24,7 +21,7 @@ export class LocalAuthService {
       if (user && (await bcrypt.compare(pass, user.password))) {
          const userCredentials = {
             id: user.id,
-            username: user.email,
+            email: user.email,
          };
          return userCredentials;
       }
@@ -51,7 +48,7 @@ export class LocalAuthService {
          data: newUser
       })
 
-      const payload = { username: newUser.email };
+      const payload = { email: newUser.email };
       const access_token = this.jwtService.sign(payload);
 
       return { access_token, user: payload };
@@ -65,20 +62,50 @@ export class TokenService {
       private jwtService: JwtService,
    ){}
 
-   async validateRefreshToken(refreshToken: string){
-      const user = await this.prismaService.user.findFirst({
-         where: {
-            refreshTokens: {
-               has: refreshToken
-            }
-         },
+   async validateRefreshToken(refreshTokenId: string) {
+      const storedToken = await this.prismaService.refreshToken.findUnique({
+         where: { token: refreshTokenId },
+         include: { user: true },
       });
-
-      if (!user) {
+   
+      if (!storedToken) {
          throw new UnauthorizedException('Invalid refresh token');
       }
+   
+      if (storedToken.expiresAt < new Date()) {
+         await this.prismaService.refreshToken.delete({
+            where: { token: refreshTokenId },
+         });
+         throw new UnauthorizedException('Refresh token expired');
+      }
+   
+      return storedToken.user;
+   }
 
-      return user
+   async refreshAccessToken(refreshTokenId: string) {
+      const user = await this.validateRefreshToken(refreshTokenId);
+   
+      await this.prismaService.refreshToken.delete({ where: { token: refreshTokenId } });
+   
+      const accessToken = this.jwtService.sign(
+         { sub: user.id, role: user.role }, 
+         { expiresIn: '15m' } 
+      );
+   
+      const newRefreshToken = this.jwtService.sign(
+         { sub: user.id }, 
+         { expiresIn: '7d' }
+      );
+   
+      await this.prismaService.refreshToken.create({
+         data: {
+            token: newRefreshToken,
+            userId: user.id,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+         },
+      });
+   
+      return { accessToken, refreshToken: newRefreshToken };
    }
 }
 

@@ -4,10 +4,13 @@ import { LocalAuthService as AuthService } from 'src/auth/auth.service';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { mockUser } from 'src/auth/mockData';
 
 describe('LocalStrategy', () => {
    let localStrategy: LocalStrategy;
    let authService: AuthService;
+   let jwtService: JwtService;
+   let prismaService: PrismaService;
 
    beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
@@ -23,7 +26,9 @@ describe('LocalStrategy', () => {
             {
                provide: PrismaService,
                useValue: {
-                  sign: jest.fn(),
+                  user: {
+                     findUnique: jest.fn(),
+                  },
                },
             },
          ],
@@ -31,6 +36,8 @@ describe('LocalStrategy', () => {
 
       localStrategy = module.get<LocalStrategy>(LocalStrategy);
       authService = module.get<AuthService>(AuthService);
+      jwtService = module.get<JwtService>(JwtService);
+      prismaService = module.get<PrismaService>(PrismaService);
    });
 
    it('should be defined', () => {
@@ -39,14 +46,18 @@ describe('LocalStrategy', () => {
    });
 
    it('should return a user if validation succeeds', async () => {
-      const user = { id: '1', username: 'zoodtinx' };
-
+      const user = {
+         id: mockUser.id,
+         email: mockUser.email,
+      };
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
       await expect(
-         localStrategy.validate('zoodtinx', 'doomagine'),
+         localStrategy.validate('johndoe@example.com', 'simplepass'),
       ).resolves.toEqual(user);
    });
 
    it('should throw UnauthorizedException if validation fails', async () => {
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(null);
       await expect(
          localStrategy.validate('testuser', 'wrongpassword'),
       ).rejects.toThrow(UnauthorizedException);
