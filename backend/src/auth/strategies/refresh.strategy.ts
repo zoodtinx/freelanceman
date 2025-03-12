@@ -2,7 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { Request } from 'express';
+import { TokenService } from 'src/auth/auth.service';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(
@@ -11,29 +12,21 @@ export class RefreshTokenStrategy extends PassportStrategy(
 ) {
    constructor(
       configService: ConfigService,
-      private prisma: PrismaService,
+      private tokenService: TokenService, // Inject TokenService
    ) {
       super({
          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-         secretOrKey: configService.get('JWT_REFERSH_SECRET'),
+         secretOrKey: configService.get('JWT_REFRESH_SECRET'),
          passReqToCallback: true,
       });
    }
 
-   async validate(req, payload: { sub: string; email: string }) {
-      // const refreshToken = req.get('Authorization')?.replace('Bearer ', '');
-      // const user = await this.prisma.user.findUnique({
-      //    where: { id: payload.sub },
-      //    include: { refreshTokens: true },
-      // });
+   async validate(req: Request, payload: { sub: string }) {
+      const refreshToken = req.get('Authorization')?.replace('Bearer ', '');
+      if (!refreshToken) {
+         throw new UnauthorizedException('Refresh token missing');
+      }
 
-      // if (!user) throw new UnauthorizedException();
-
-      // const tokenExists = user.refreshTokens.some((rt) => rt === refreshToken);
-      // if (!tokenExists) throw new UnauthorizedException();
-
-      // return { userId: payload.sub, email: payload.email };
-
-      return {userId: 'love', email: 'zoodtinx@gmail.com'}
+      return this.tokenService.validateRefreshToken(refreshToken);
    }
 }
