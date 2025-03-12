@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocalStrategy } from 'src/auth/strategies/local.strategy';
-import { AuthService } from 'src/auth/auth.service';
+import { LocalAuthService as AuthService } from 'src/auth/auth.service';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/shared/database/prisma.service';
 
 describe('LocalStrategy', () => {
    let localStrategy: LocalStrategy;
@@ -17,6 +18,12 @@ describe('LocalStrategy', () => {
                provide: JwtService,
                useValue: {
                   sign: jest.fn().mockReturnValue('1234'),
+               },
+            },
+            {
+               provide: PrismaService,
+               useValue: {
+                  sign: jest.fn(),
                },
             },
          ],

@@ -15,18 +15,17 @@ datasource db {
 
 model User {
   id               String           @id @default(uuid())
+  email            String           @unique
   displayName      String
-  username         String
   password         String
   specialization   String[]
-  bio              String
-  email            String           @unique
-  phoneNumber      String
-  address          String
+  bio              String?
+  phoneNumber      String?
+  address          String?
   avatar           String?
   pinnedProjects   String[]
-  currency         String
-  quitting         Boolean
+  currency         String?        
+  quitting         Boolean          @default(false)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   refreshTokens     String[]

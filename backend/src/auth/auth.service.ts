@@ -1,5 +1,8 @@
 import {
+   ConflictException,
+   Inject,
    Injectable,
+   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserCredentails } from 'types/credentials.type';
@@ -8,66 +11,76 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { randomUUID } from 'crypto';
 
 @Injectable()
-export class AuthService {
+export class LocalAuthService {
    constructor(
-      // private prisma: PrismaService,
+      private prismaService: PrismaService,
       private jwtService: JwtService,
    ) {}
 
-   private users = [
-      {
-         id: '1',
-         username: 'zoodtinx',
-         password:
-            '$2b$12$aJjo3VzKvqwTrN7EbGQsEOtsHeWxwU/T.2yRl1S2sB6P/4JvSzkiq',
-      },
-   ];
-
-   async validateUser(username: string, pass: string): Promise<any> {
-      const user = this.users.find((user) => user.username === username);
+   async validateUser(email: string, pass: string): Promise<any> {
+      const user = await this.prismaService.user.findUnique({
+         where: { email },
+      });
       if (user && (await bcrypt.compare(pass, user.password))) {
          const userCredentials = {
             id: user.id,
-            username: user.username,
+            username: user.email,
          };
-         console.log('userCredentials after validation', userCredentials);
          return userCredentials;
       }
       return null;
    }
 
-   async login(user: UserCredentails) {
-      const token = this.jwtService.sign(user);
-      return {
-         access_token: token,
-         user,
-      };
-   }
-
-   async register(username: string, password: string) {
-      // const existingUser = await this.prisma.user.findUnique({
-      //    where: { username },
-      // });
-      // if (existingUser) {
-      //    throw new ConflictException('Username already in use');
-      // }
+   async register(email: string, password: string, displayName: string) {
+      const existingUser = await this.prismaService.user.findUnique({
+         where: { email },
+      });
+      if (existingUser) {
+         throw new ConflictException('Username already in use');
+      }
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = {
-         username,
+         email,
+         displayName,
          password: hashedPassword,
       };
 
-      this.users.push({
-         id: randomUUID(),
-         username: newUser.username,
-         password: hashedPassword,
-      });
+      this.prismaService.user.create({
+         data: newUser
+      })
 
-      const payload = { username: newUser.username };
+      const payload = { username: newUser.email };
       const access_token = this.jwtService.sign(payload);
 
       return { access_token, user: payload };
    }
 }
+
+@Injectable()
+export class TokenService {
+   constructor(
+      private prismaService: PrismaService,
+      private jwtService: JwtService,
+   ){}
+
+   async validateRefreshToken(refreshToken: string){
+      const user = await this.prismaService.user.findFirst({
+         where: {
+            refreshTokens: {
+               has: refreshToken
+            }
+         },
+      });
+
+      if (!user) {
+         throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      return user
+   }
+}
+
+@Injectable()
+export class GoogleOAuthService {}
