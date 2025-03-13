@@ -6,6 +6,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 
 @Injectable()
 export class LocalAuthService {
@@ -63,7 +64,7 @@ export class TokenService {
       private jwtService: JwtService,
    ) {}
 
-   async validateAccessToken(payload: any) {
+   async validateAccessToken(payload: AccessTokenPayload) {
       const user = await this.prismaService.user.findUnique({
          where: { id: payload.sub },
       });
@@ -75,10 +76,14 @@ export class TokenService {
       return user;
    }
 
-   async validateRefreshToken(refreshTokenId: string) {
+   async validateRefreshToken(payload: RefreshTokenPayload) {
+      const tokenId = payload.sub
+      
       const storedToken = await this.prismaService.refreshToken.findUnique({
-         where: { token: refreshTokenId },
-         include: { user: true },
+         where: { id: tokenId },
+         include: {
+            user: true
+         }
       });
 
       if (!storedToken) {
@@ -87,7 +92,7 @@ export class TokenService {
 
       if (storedToken.expiresAt < new Date()) {
          await this.prismaService.refreshToken.delete({
-            where: { token: refreshTokenId },
+            where: { id: tokenId },
          });
          throw new UnauthorizedException('Refresh token expired');
       }
@@ -95,23 +100,25 @@ export class TokenService {
       return storedToken.user;
    }
 
-   async refreshAccessToken(refreshTokenId: string) {
-      const user = await this.validateRefreshToken(refreshTokenId);
-
-      await this.prismaService.refreshToken.delete({
-         where: { token: refreshTokenId },
+   async refreshAccessToken(req: any) {
+      const user = req.user; 
+   
+      if (!user) throw new UnauthorizedException('User not authenticated');
+   
+      await this.prismaService.refreshToken.deleteMany({
+         where: { userId: user.id },
       });
-
+   
       const accessToken = this.jwtService.sign(
          { sub: user.id, role: user.role },
          { expiresIn: '15m' },
       );
-
+   
       const newRefreshToken = this.jwtService.sign(
          { sub: user.id },
          { expiresIn: '7d' },
       );
-
+   
       await this.prismaService.refreshToken.create({
          data: {
             token: newRefreshToken,
@@ -119,9 +126,10 @@ export class TokenService {
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
          },
       });
-
+   
       return { accessToken, refreshToken: newRefreshToken, user };
    }
+   
 }
 
 @Injectable()

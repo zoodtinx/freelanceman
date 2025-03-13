@@ -1,3 +1,6 @@
+import { Prisma, PrismaClient } from "@prisma/client";
+import { AccessTokenPayload, RefreshTokenPayload } from "src/auth/types";
+
 export const mockUser = {
    id: '1a2b3c4d-1234-5678-9101-abcdefabcdef',
    email: 'johndoe@example.com',
@@ -25,3 +28,37 @@ export const mockUser = {
    events: [],
    authProvider: ['email'],
 };
+
+export const mockAccessTokenString =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQxODM5MTAxLCJleHAiOjE3NDE4NDAwMDF9.g31wS1C_PLkUWi3GpILjgbyh4sw6hwwbnBCsHboP85I';
+
+export const mockRefreshTokenString =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQxODM5MTAxLCJleHAiOjE3NDE4NDAwMDF9.g31wS1C_PLkUWi3GpILjgbyh4sw6hwwbnBCsHboP85I';
+
+export const mockAccessTokenPayload: AccessTokenPayload = {
+   sub: '1234567890',
+   iat: 1710332000,
+   exp: 1710335600,
+   role: 'user',
+};
+
+export const mockRefreshTokenPayload: RefreshTokenPayload = {
+   sub: '1234567890',
+   iat: 1710332000,
+   exp: 1710335600,
+ }
+
+ export const mockRefreshTokenRecord = {
+   id: '550e8400-e29b-41d4-a716-446655440000',
+   token: 'mocktoken12345',
+   userId: '123e4567-e89b-12d3-a456-426614174000',
+   expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+ }
+ 
+ export const mockRefreshTokenRecordWithUser = {
+   id: '550e8400-e29b-41d4-a716-446655440000',
+   token: 'mocktoken12345',
+   userId: '123e4567-e89b-12d3-a456-426614174000',
+   expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+   user: mockUser
+ }

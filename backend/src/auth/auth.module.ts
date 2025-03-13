@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { LocalAuthService } from './auth.service';
+import { LocalAuthService, TokenService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -21,7 +21,7 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
       }),
     }),
   ],
-  providers: [LocalAuthService, LocalStrategy, PrismaService, JwtStrategy],
+  providers: [LocalAuthService, LocalStrategy, PrismaService, JwtStrategy, TokenService],
   controllers: [AuthController],
   exports: [LocalAuthService, JwtModule], // Export JwtModule if used elsewhere
 })
