@@ -8,7 +8,8 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
 import { LocalAuthService, TokenService } from 'src/auth/auth.service';
 
 @Controller('auth')
@@ -18,12 +19,7 @@ export class AuthController {
         private tokenService: TokenService,
     ) {}
 
-    // @UseGuards(AuthGuard('local'))
-    // @Post('login')
-    // async login(@Request() req: any) {
-    //   return this.localAuthService.login(req.user)
-    // }
-
+    @UseGuards(JwtRefreshTokenAuthGuard)
     @Get('refresh')
     async refreshAccessToken(@Req() req: Request, @Res() res: Response) {
         const refreshResult = await this.tokenService.refreshAccessToken(req);
@@ -38,6 +34,7 @@ export class AuthController {
         return res.json({ accessToken, user });
     }
 
+    @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Req() req: Request, @Res() res: Response) {
         const loginResult = await this.localAuthService.login(req);

@@ -1,11 +1,11 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { AuthGuard } from '@nestjs/passport';
 
-export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    return !!request.user;
-  }
-}
+@Injectable()
+export class JwtAccessTokenAuthGuard extends AuthGuard('jwt-access') {}
+
+@Injectable()
+export class JwtRefreshTokenAuthGuard extends AuthGuard('jwt-refresh') {}
+
+@Injectable()
+export class LocalAuthGuard extends AuthGuard('local') {}

@@ -6,7 +6,7 @@ import { TokenService } from 'src/auth/auth.service';
 import { PrismaService } from 'src/shared/database/prisma.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
    constructor(
       private configService: ConfigService,
       private tokenService: TokenService
