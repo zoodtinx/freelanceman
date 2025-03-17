@@ -12,17 +12,20 @@ import {
     mockRefreshTokenRecordWithUser,
     mockUser,
 } from 'src/auth/mockData';
+import { ConfigService } from '@nestjs/config';
 
 describe('LocalAuthService', () => {
     let authService: LocalAuthService;
     let jwtService: JwtService;
     let prismaService: PrismaService;
+    let configService: ConfigService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 LocalStrategy,
                 LocalAuthService,
+                ConfigService,
                 JwtService,
                 {
                     provide: PrismaService,
@@ -38,6 +41,7 @@ describe('LocalAuthService', () => {
         authService = module.get<LocalAuthService>(LocalAuthService);
         jwtService = module.get<JwtService>(JwtService);
         prismaService = module.get<PrismaService>(PrismaService);
+        configService = module.get<ConfigService>(ConfigService);
     });
 
     it('should be defined', () => {
@@ -57,12 +61,14 @@ describe('TokenService', () => {
     let tokenService: TokenService;
     let jwtService: JwtService;
     let prismaService: PrismaService;
+    let configService: ConfigService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 TokenService,
                 JwtService,
+                ConfigService,
                 {
                     provide: PrismaService,
                     useValue: {
@@ -83,6 +89,7 @@ describe('TokenService', () => {
         tokenService = module.get<TokenService>(TokenService);
         jwtService = module.get<JwtService>(JwtService);
         prismaService = module.get<PrismaService>(PrismaService);
+        configService = module.get<ConfigService>(ConfigService);
     });
 
     it('should be defined', () => {
