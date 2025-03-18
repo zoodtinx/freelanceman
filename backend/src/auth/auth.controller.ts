@@ -1,3 +1,4 @@
+
 import {
     Body,
     Controller,
@@ -56,7 +57,7 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() payload:, @Res() res: Response) {
+    async register(@Body() req, @Res() res: Response) {
         const email = req.body.email
         const password = req.body.password
         const displayName = req.body.displayName

@@ -17,8 +17,13 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "composite": true,
     "paths": {
-      "src/*": ["./src/*"]
-    },
-  }
+      "src/*": ["./src/*"],
+      "@types": ["../shared/types/"],
+      "@mocks": ["../shared/mocks/"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "references": [{ "path": "../shared" }]
 }
