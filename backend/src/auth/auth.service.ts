@@ -146,29 +146,36 @@ export class TokenService {
         return storedToken.user;
     }
 
-    async refreshAccessToken(req: any) {
-        const user = req.user;
-        if (!user) throw new UnauthorizedException('User not authenticated');
+    async refreshAccessToken(refreshTokenDto: any) {
+        const refreshTokenId = refreshTokenDto.refreshToken;
 
-        const refreshTokenString = req.body.refreshToken;
+        const refreshTokenData =
+            await this.prismaService.refreshToken.findUnique({
+                where: { id: refreshTokenId },
+                include: { user: true },
+            });
 
-        const refreshTokenPayload = this.jwtService.verify(refreshTokenString, {
-            secret: this.configService.get('JWT_REFRESH_SECRET'),
-        });
-
-        const storedToken = await this.prismaService.refreshToken.findUnique({
-            where: { id: refreshTokenPayload.sub },
-        });
-
-        if (!storedToken || storedToken.expiresAt < new Date()) {
+        if (!refreshTokenData || refreshTokenData.expiresAt < new Date()) {
+            await this.prismaService.refreshToken.delete({
+                where: { id: refreshTokenId },
+            });
             throw new UnauthorizedException('Invalid or expired refresh token');
         }
 
         await this.prismaService.refreshToken.delete({
-            where: { id: storedToken.id },
+            where: { id: refreshTokenId },
         });
 
-        const accessToken = this.jwtService.sign(
+        const { user } = refreshTokenData;
+
+        const newRefreshToken = await this.prismaService.refreshToken.create({
+            data: {
+                userId: user.id,
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            },
+        });
+
+        const newAccessToken = this.jwtService.sign(
             { sub: user.id, role: user.role },
             {
                 expiresIn: '15m',
@@ -176,23 +183,7 @@ export class TokenService {
             },
         );
 
-        const newRefreshToken = this.jwtService.sign(
-            { sub: user.id },
-            {
-                expiresIn: '7d',
-                secret: this.configService.get('JWT_REFRESH_SECRET'),
-            },
-        );
-
-        await this.prismaService.refreshToken.create({
-            data: {
-                id: refreshTokenPayload.sub,
-                userId: user.id,
-                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            },
-        });
-
-        return { accessToken, refreshToken: newRefreshToken, user };
+        return { newAccessToken, newRefreshToken: newRefreshToken.id, user };
     }
 }
 

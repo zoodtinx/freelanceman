@@ -6,15 +6,19 @@ import {
     Req,
     Request,
     Res,
+    UnauthorizedException,
     UseGuards,
     UsePipes,
 } from '@nestjs/common';
 import { RegisterUserDto } from '@types';
-import { Response } from 'express';
+import { Request as ExpressRequest, Response } from 'express';
 import { JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
 import { LocalAuthService, TokenService } from 'src/auth/auth.service';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { registerUserSchema } from 'src/shared/zod-schemas/user.schema';
+import {
+    refreshTokenSchema,
+    registerUserSchema,
+} from 'src/shared/zod-schemas/user.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -25,22 +29,31 @@ export class AuthController {
 
     @UseGuards(JwtRefreshTokenAuthGuard)
     @Get()
-    checkAuth(@Req() req: Request ) {
-      console.log('valid token')
+    checkAuth(@Req() req: Request) {
+        console.log('valid token');
     }
 
     @Get('refresh')
-    async refreshAccessToken(@Req() req: any, @Res() res: Response) {
-        const refreshResult = await this.tokenService.refreshAccessToken(req);
-        const { accessToken, refreshToken, user } = refreshResult;
+    async refreshAccessToken(
+        @Req() req: ExpressRequest,
+        @Res() res: Response,
+    ) {
+        const refreshToken = req.cookies?.refreshToken
+        if (!refreshToken) {
+            throw new UnauthorizedException('No refresh token found');
+          }
+        
+        const refreshResult =
+            await this.tokenService.refreshAccessToken(refreshToken);
+        const { newAccessToken, newRefreshToken, user } = refreshResult;
 
-        res.cookie('refreshToken', refreshToken, {
+        res.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
         });
 
-        return res.json({ accessToken, user });
+        return res.json({ newAccessToken, user });
     }
 
     @UseGuards(LocalAuthGuard)
@@ -60,7 +73,10 @@ export class AuthController {
 
     @Post('register')
     @UsePipes(new ZodValidationPipe(registerUserSchema))
-    async register(@Body() registerUserDto: RegisterUserDto, @Res() res: Response) {
+    async register(
+        @Body() registerUserDto: RegisterUserDto,
+        @Res() res: Response,
+    ) {
         const result = await this.localAuthService.register(registerUserDto);
         return res.status(201).json(result);
     }

@@ -13,6 +13,7 @@ model User {
   password         String
   specialization   String[]
   bio              String?
+  role              String          @default("user")
   email            String           @unique
   phoneNumber      String?
   address          String?
