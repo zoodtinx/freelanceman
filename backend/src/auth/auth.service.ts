@@ -148,55 +148,51 @@ export class TokenService {
     async refreshAccessToken(req: any) {
         const user = req.user;
         if (!user) throw new UnauthorizedException('User not authenticated');
-    
+
         const refreshTokenString = req.body.refreshToken;
-    
+
         const refreshTokenPayload = this.jwtService.verify(refreshTokenString, {
             secret: this.configService.get('JWT_REFRESH_SECRET'),
         });
-    
+
         const storedToken = await this.prismaService.refreshToken.findUnique({
             where: { id: refreshTokenPayload.sub },
         });
-    
+
         if (!storedToken || storedToken.expiresAt < new Date()) {
             throw new UnauthorizedException('Invalid or expired refresh token');
         }
-    
-        // Delete the used refresh token (rotate strategy)
+
         await this.prismaService.refreshToken.delete({
             where: { id: storedToken.id },
         });
-    
-        // Generate a new access token
+
         const accessToken = this.jwtService.sign(
             { sub: user.id, role: user.role },
             {
                 expiresIn: '15m',
                 secret: this.configService.get('JWT_SECRET'),
-            }
+            },
         );
-    
-        // Generate a new refresh token
+
         const newRefreshToken = this.jwtService.sign(
             { sub: user.id },
             {
                 expiresIn: '7d',
                 secret: this.configService.get('JWT_REFRESH_SECRET'),
-            }
+            },
         );
 
         await this.prismaService.refreshToken.create({
             data: {
-                id: refreshTokenPayload.sub, // Store new token ID
+                id: refreshTokenPayload.sub,
                 userId: user.id,
                 expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             },
         });
-    
+
         return { accessToken, refreshToken: newRefreshToken, user };
     }
-    
 }
 
 @Injectable()

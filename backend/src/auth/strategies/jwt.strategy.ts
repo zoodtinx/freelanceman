@@ -11,9 +11,15 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
       private configService: ConfigService,
       private tokenService: TokenService
    ) {
+      const secret = configService.get<string>('jwt.access');
+
+      if (!secret) {
+         throw new Error('JWT_ACCESS_SECRET is not defined');
+      }
+
       super({
          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-         secretOrKey: configService.get<string>('JWT_REFRESH_SECRET'),
+         secretOrKey: secret,
          ignoreExpiration: true,
          passReqToCallback: true,
       });

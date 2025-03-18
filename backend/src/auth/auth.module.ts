@@ -10,19 +10,18 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 
 @Module({
   imports: [
-    ConfigModule, // Ensure ConfigModule is imported
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN', '1h') },
+        secret: configService.get<string>('jwt.access'),
+        signOptions: { expiresIn: configService.get<string>('jwt.accessExpiresIn', '1h') },
       }),
     }),
   ],
-  providers: [LocalAuthService, LocalStrategy, PrismaService, JwtStrategy, TokenService],
+  providers: [LocalAuthService, LocalStrategy, PrismaService, JwtStrategy, TokenService, ],
   controllers: [AuthController],
-  exports: [LocalAuthService, JwtModule], // Export JwtModule if used elsewhere
+  exports: [LocalAuthService, JwtModule],
 })
 export class AuthModule {}

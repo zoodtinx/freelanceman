@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Get,
     Post,
@@ -7,7 +8,6 @@ import {
     Res,
     UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
 import { LocalAuthService, TokenService } from 'src/auth/auth.service';
@@ -18,6 +18,12 @@ export class AuthController {
         private localAuthService: LocalAuthService,
         private tokenService: TokenService,
     ) {}
+
+    @UseGuards(JwtRefreshTokenAuthGuard)
+    @Get()
+    checkAuth(@Req() req: Request ) {
+      console.log('valid token')
+    }
 
     @UseGuards(JwtRefreshTokenAuthGuard)
     @Get('refresh')
@@ -50,7 +56,11 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Request() req: any) {
-        return this.localAuthService.register;
+    async register(@Body() payload:, @Res() res: Response) {
+        const email = req.body.email
+        const password = req.body.password
+        const displayName = req.body.displayName
+        const result = await this.localAuthService.register(email, password, displayName);
+        return res.status(201).json(result);
     }
 }

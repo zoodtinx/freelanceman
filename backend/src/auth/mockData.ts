@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, User } from "@prisma/client";
 import { AccessTokenPayload, RefreshTokenPayload } from "src/auth/types";
 
 export const mockUser = {
@@ -28,6 +28,11 @@ export const mockUser = {
    events: [],
    authProvider: ['email'],
 };
+
+export const mockMinimalUserData:Partial<User> = {
+  id: '1a2b3c4d-1234-5678-9101-abcdefabcdef',
+   email: 'johndoe@example.com',
+}
 
 export const mockAccessTokenString =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQxODM5MTAxLCJleHAiOjE3NDE4NDAwMDF9.g31wS1C_PLkUWi3GpILjgbyh4sw6hwwbnBCsHboP85I';

@@ -4,11 +4,11 @@ import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
-   constructor(private readonly configServicer: ConfigService) {
+   constructor(private readonly configService: ConfigService) {
       super({
          datasources: {
             db:{
-               url: configServicer.get<string>('DATABASE_URL'),
+               url: configService.get<string>('database.url'),
             }
          }
       })
@@ -16,13 +16,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
    async onModuleInit() {
        await this.$connect()
-       const databaseUrl = this.configServicer.get('DATABASE_URL')
+       const databaseUrl = this.configService.get<string>('database.url')
        console.log(`Connected to the database: ${databaseUrl}`)
    }
 
    async onModuleDestroy() {
        await this.$disconnect()
-       const databaseUrl = this.configServicer.get('DATABASE_URL')
+       const databaseUrl = this.configService.get<string>('database.url')
        console.log(`Disconnected from the database: ${databaseUrl}`)
    }
 }
