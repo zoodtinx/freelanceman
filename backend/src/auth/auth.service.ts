@@ -34,31 +34,26 @@ export class LocalAuthService {
     }
 
     async register(registerUserDto: RegisterUserDto) {
-        if (!registerUserDto) {
-            throw new ConflictException('Username already in use');
-        }
-        
         const existingUser = await this.prismaService.user.findUnique({
             where: { email: registerUserDto.email },
         });
-        
+
         if (existingUser) {
-            throw new ConflictException('Username already in use');
+            throw new ConflictException('User with this email already exist');
         }
 
         const hashedPassword = await bcrypt.hash(registerUserDto.password, 10);
 
         const newUser = {
-            email: registerUserDto.email,
-            displayName: registerUserDto.displayName,
+            ...registerUserDto,
             password: hashedPassword,
         };
 
-        this.prismaService.user.create({
+        const result = await this.prismaService.user.create({
             data: newUser,
         });
 
-        const payload = { email: newUser.email };
+        const payload = { email: result.email };
         const access_token = this.jwtService.sign(payload);
 
         return { access_token, user: payload };

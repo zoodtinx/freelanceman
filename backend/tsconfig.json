@@ -19,6 +19,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "composite": true,
+    "strict": true,
     "paths": {
       "src/*": ["./src/*"],
       "@types": ["../shared/types/"],
@@ -29,6 +30,7 @@
   "references": [{ "path": "../shared" }],
    "include": [
     "src",
+    "test",
     "../shared/types/**/*.ts"
   ]
 }
