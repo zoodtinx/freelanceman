@@ -14,7 +14,6 @@ export class RefreshTokenStrategy extends PassportStrategy(
         configService: ConfigService,
         private tokenService: TokenService, 
     ) {
-        console.log('JWT Secret', configService.get<string>('jwt.refresh'),)
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: configService.get<string>('jwt.refresh'),

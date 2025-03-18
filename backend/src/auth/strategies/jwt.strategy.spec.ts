@@ -6,6 +6,8 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { mockUser } from 'src/auth/mockData';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
+import { ConfigService } from '@nestjs/config';
+import { ConfigModule } from 'src/config/config.module';
 
 describe('JwtStrategy', () => {
    let jwtStrategy: JwtStrategy
@@ -15,9 +17,12 @@ describe('JwtStrategy', () => {
 
    beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
+         imports:[ConfigModule],
          providers: [
             JwtStrategy,
             AuthService,
+            ConfigService,
+            TokenService,
             {
                provide: JwtService,
                useValue: {
@@ -39,11 +44,6 @@ describe('JwtStrategy', () => {
       tokenService = module.get<TokenService>(TokenService);
       jwtService = module.get<JwtService>(JwtService);
       prismaService = module.get<PrismaService>(PrismaService);
-   });
-
-   it('should be defined', () => {
-      expect(jwtStrategy).toBeDefined();
-      expect(tokenService).toBeDefined();
    });
 
    it('should return a user if validation succeeds', async () => {

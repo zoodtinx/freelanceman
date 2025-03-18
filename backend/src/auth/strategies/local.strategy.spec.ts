@@ -5,6 +5,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { mockUser } from 'src/auth/mockData';
+import { ConfigService } from '@nestjs/config';
 
 describe('LocalStrategy', () => {
    let localStrategy: LocalStrategy;
@@ -16,6 +17,7 @@ describe('LocalStrategy', () => {
       const module: TestingModule = await Test.createTestingModule({
          providers: [
             LocalStrategy,
+            ConfigService,
             AuthService,
             {
                provide: JwtService,

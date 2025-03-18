@@ -7,6 +7,8 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { mockUser } from 'src/auth/mockData';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { RefreshTokenStrategy } from 'src/auth/strategies/refresh.strategy';
+import { ConfigService } from '@nestjs/config';
+import { ConfigModule } from 'src/config/config.module';
 
 describe('RefreshTokenStrategy', () => {
    let refreshTokenStrategy: RefreshTokenStrategy
@@ -16,9 +18,11 @@ describe('RefreshTokenStrategy', () => {
 
    beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
+         imports: [ConfigModule],
          providers: [
             RefreshTokenStrategy,
             AuthService,
+            TokenService,
             {
                provide: JwtService,
                useValue: {

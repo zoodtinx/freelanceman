@@ -29,9 +29,8 @@ export class AuthController {
       console.log('valid token')
     }
 
-    @UseGuards(JwtRefreshTokenAuthGuard)
     @Get('refresh')
-    async refreshAccessToken(@Req() req: Request, @Res() res: Response) {
+    async refreshAccessToken(@Req() req: any, @Res() res: Response) {
         const refreshResult = await this.tokenService.refreshAccessToken(req);
         const { accessToken, refreshToken, user } = refreshResult;
 
