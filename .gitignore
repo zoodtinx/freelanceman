@@ -42,3 +42,12 @@
 
 # Miscellaneous
 /backend/.DS_Store
+
+
+
+/shared/dist/
+
+*.tsbuildinfo
+*.js
+*.js.map
+*.d.ts

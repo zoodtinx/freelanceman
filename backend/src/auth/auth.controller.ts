@@ -1,4 +1,3 @@
-
 import {
     Body,
     Controller,
@@ -8,10 +7,14 @@ import {
     Request,
     Res,
     UseGuards,
+    UsePipes,
 } from '@nestjs/common';
+import { RegisterUserDto } from '@types';
 import { Response } from 'express';
 import { JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
 import { LocalAuthService, TokenService } from 'src/auth/auth.service';
+import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
+import { registerUserSchema } from 'src/shared/zod-schemas/user.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -57,11 +60,9 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() req, @Res() res: Response) {
-        const email = req.body.email
-        const password = req.body.password
-        const displayName = req.body.displayName
-        const result = await this.localAuthService.register(email, password, displayName);
+    @UsePipes(new ZodValidationPipe(registerUserSchema))
+    async register(@Body() registerUserDto: RegisterUserDto, @Res() res: Response) {
+        const result = await this.localAuthService.register(registerUserDto);
         return res.status(201).json(result);
     }
 }

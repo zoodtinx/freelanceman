@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "module": "ESNext",
+        "rootDir": ".",
+        "baseUrl": ".",
+        "paths": {
+            "@types": ["shared/types/"],
+            "@mocks": ["shared/mocks/"]
+        },
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true
+    },
+    "exclude": ["node_modules"]
+}

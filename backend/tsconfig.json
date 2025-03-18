@@ -9,6 +9,7 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "../",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -25,5 +26,9 @@
       "@/*": ["./src/*"]
     }
   },
-  "references": [{ "path": "../shared" }]
+  "references": [{ "path": "../shared" }],
+   "include": [
+    "src",
+    "../shared/types/**/*.ts"
+  ]
 }

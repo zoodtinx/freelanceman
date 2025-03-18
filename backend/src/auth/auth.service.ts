@@ -1,4 +1,4 @@
-
+import { RegisterUserDto } from '@types';
 import {
     ConflictException,
     Injectable,
@@ -33,19 +33,24 @@ export class LocalAuthService {
         };
     }
 
-    async register(email: string, password: string, displayName: string) {
+    async register(registerUserDto: RegisterUserDto) {
+        if (!registerUserDto) {
+            throw new ConflictException('Username already in use');
+        }
+        
         const existingUser = await this.prismaService.user.findUnique({
-            where: { email },
+            where: { email: registerUserDto.email },
         });
+        
         if (existingUser) {
             throw new ConflictException('Username already in use');
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(registerUserDto.password, 10);
 
         const newUser = {
-            email,
-            displayName,
+            email: registerUserDto.email,
+            displayName: registerUserDto.displayName,
             password: hashedPassword,
         };
 

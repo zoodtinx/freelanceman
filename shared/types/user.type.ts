@@ -35,6 +35,12 @@ export interface CreateUserDto {
    }
 }
 
+export interface RegisterUserDto {
+   email: string;
+   password: string;
+   displayName: string;
+}
+
 export type EditUserDto = Partial<
    Pick<User, "name" | "specialization" | "bio" | "email" | "phoneNumber" | "address" | "avatarUrl" | "pinnedProjects">
 >;
