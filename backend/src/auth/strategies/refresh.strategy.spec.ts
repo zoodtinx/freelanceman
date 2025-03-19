@@ -35,6 +35,9 @@ describe('RefreshTokenStrategy', () => {
                   user: {
                      findUnique: jest.fn(),
                   },
+                  refreshToken: {
+                     findUnique: jest.fn(),
+                  },
                },
             },
          ],
@@ -57,6 +60,12 @@ describe('RefreshTokenStrategy', () => {
          email: mockUser.email,
       };
       jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
+      jest.spyOn(prismaService.refreshToken, 'findUnique').mockResolvedValue({
+          id: '550e8400-e29b-41d4-a716-446655440000',
+          userId: '12345678-abcd-efgh-ijkl-87654321abcd',
+          expiresAt: new Date('2025-04-01T12:00:00.000Z'),
+          user: mockUser as any
+      });
       await expect(
          refreshTokenStrategy.validate(user),
       ).resolves.toEqual(mockUser);

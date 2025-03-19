@@ -8,6 +8,7 @@ import {
     mockAccessTokenString,
     mockRefreshTokenString,
     mockMinimalUserData,
+    mockUser,
 } from 'src/auth/mockData';
 import { Response } from 'express';
 import { User } from '@prisma/client';
@@ -73,22 +74,28 @@ describe('AuthController', () => {
     });
 
     it('should return a respons object with cookie and body containing access token and user data', async () => {
-        const mockReq = {} as Request;
+        const mockReq = {
+            cookies: {
+                refreshToken: '1234'
+            }
+        } as any;
         const mockRes = {
             cookie: jest.fn(),
             json: jest.fn(),
         } as unknown as Response;
 
         const mockRefreshTokenData = {
-            accessToken: 'mockAccessTokenString',
-            refreshToken: 'mockRefreshTokenString',
-            user: { id: 1, name: 'John Doe' },
+            accessToken: '1234',
+            refreshToken: '1234',
+            user: mockUser,
         };
 
         jest.spyOn(tokenService, 'validateRefreshToken').mockResolvedValue(mockMinimalUserData  as User);
-        jest.spyOn(tokenService, 'refreshAccessToken').mockResolvedValue(
-            mockRefreshTokenData,
-        );
+        jest.spyOn(tokenService, 'refreshAccessToken').mockResolvedValue({
+            newAccessToken: '1234',
+            newRefreshToken: '1234',
+            user: mockUser
+        });
 
         await controller.refreshAccessToken(mockReq, mockRes);
         
@@ -103,7 +110,7 @@ describe('AuthController', () => {
         );
 
         expect(mockRes.json).toHaveBeenCalledWith({
-            accessToken: mockRefreshTokenData.accessToken,
+            newAccessToken: mockRefreshTokenData.accessToken,
             user: mockRefreshTokenData.user,
         });
     });

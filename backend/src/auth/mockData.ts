@@ -4,6 +4,7 @@ import { AccessTokenPayload, RefreshTokenPayload } from "src/auth/types";
 export const mockUser = {
    id: '1a2b3c4d-1234-5678-9101-abcdefabcdef',
    email: 'johndoe@example.com',
+   role: 'user',
    displayName: 'John Doe',
    password: '$2b$12$2bhJSAf6Qg68Y/sVrd9sNOzkYCo4k/vXuLTkrxCO/VrtU/AttQvw6',
    specialization: ['Graphic Design', 'Illustration'],
