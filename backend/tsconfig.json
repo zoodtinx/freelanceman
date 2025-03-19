@@ -31,6 +31,7 @@
    "include": [
     "src",
     "test",
+    "jest.config.ts",
     "../shared/types/**/*.ts"
   ]
 }

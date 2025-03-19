@@ -20,12 +20,17 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
       super({
          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
          secretOrKey: secret,
-         ignoreExpiration: true,
+         ignoreExpiration: false,
          passReqToCallback: true,
       });
    }
 
-   async validate(payload: any) {
-      return this.tokenService.validateAccessToken(payload);
+   async validate(req: Request, payload: any) {
+      if (!payload?.sub) {
+         throw new UnauthorizedException('Invalid token payload');
+      }
+   
+      return { id: payload.sub, role: payload.role }; 
    }
+   
 }

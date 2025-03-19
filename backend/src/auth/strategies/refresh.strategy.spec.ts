@@ -1,13 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LocalStrategy } from 'src/auth/strategies/local.strategy';
 import { LocalAuthService as AuthService, TokenService } from 'src/auth/auth.service';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { mockUser } from 'src/auth/mockData';
-import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { RefreshTokenStrategy } from 'src/auth/strategies/refresh.strategy';
-import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from 'src/config/config.module';
 
 describe('RefreshTokenStrategy', () => {

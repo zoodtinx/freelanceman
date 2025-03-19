@@ -1,0 +1,4 @@
+export const mockAccessToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZTk1NzQ1OS1iZDY4LTQ0NGYtYWE1Yi1mNjU1NTVlNzUxYjYiLCJpYXQiOjE3NDIzNTk0OTQsImV4cCI6MTc0MjM2MzA5NCwicm9sZSI6InVzZXIifQ.yIAia8w0hOPcsLi_yYza58C9QHhMl8_bb2WEHgvpTMc';
+
+export const mockInvalidAccessToken = '1234';

@@ -24,7 +24,7 @@ export class LocalAuthService {
         });
 
         if (!user || !(await bcrypt.compare(pass, user.password))) {
-            throw new UnauthorizedException('Invalid credentials');
+            throw new UnauthorizedException('Invalid email or password');
         }
 
         return {
@@ -78,9 +78,16 @@ export class LocalAuthService {
             expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
         };
 
-        const refreshTokenRecord = await this.prismaService.refreshToken.create(
+        const refreshTokenRecord = await this.prismaService.refreshToken.upsert(
             {
-                data: refreshTokenData,
+                where: { userId: user.id },
+                update: {
+                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                },
+                create: {
+                    userId: user.id,
+                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                },
             },
         );
 

@@ -1,3 +1,4 @@
+import { mockUser } from 'src/auth/mockData';
 import {
     Body,
     Controller,
@@ -12,10 +13,11 @@ import {
 } from '@nestjs/common';
 import { RegisterUserDto } from '@types';
 import { Request as ExpressRequest, Response } from 'express';
-import { JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
+import { JwtAccessTokenAuthGuard, JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
 import { LocalAuthService, TokenService } from 'src/auth/auth.service';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
+    loginUserSchema,
     refreshTokenSchema,
     registerUserSchema,
 } from 'src/shared/zod-schemas/user.schema';
@@ -27,10 +29,10 @@ export class AuthController {
         private tokenService: TokenService,
     ) {}
 
-    @UseGuards(JwtRefreshTokenAuthGuard)
-    @Get()
+    @UseGuards(JwtAccessTokenAuthGuard)
+    @Post('check')
     checkAuth(@Req() req: Request) {
-        console.log('valid token');
+        return {user: {email: 'zoodtinx@gmail.com'}}
     }
 
     @Get('refresh')
@@ -58,6 +60,7 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post('login')
+    @UsePipes(new ZodValidationPipe(loginUserSchema))
     async login(@Req() req: Request, @Res() res: Response) {
         const loginResult = await this.localAuthService.login(req);
         const { accessTokenString, refreshTokenString, user } = loginResult;
@@ -67,6 +70,8 @@ export class AuthController {
             secure: true,
             sameSite: 'none',
         });
+
+        res.status(200)
 
         return res.json({ accessTokenString, user });
     }
