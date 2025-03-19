@@ -73,11 +73,6 @@ export class LocalAuthService {
             },
         );
 
-        const refreshTokenData = {
-            userId: user.id,
-            expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-        };
-
         const refreshTokenRecord = await this.prismaService.refreshToken.upsert(
             {
                 where: { userId: user.id },
@@ -153,24 +148,26 @@ export class TokenService {
         return storedToken.user;
     }
 
-    async refreshAccessToken(refreshTokenDto: any) {
-        const refreshTokenId = refreshTokenDto.refreshToken;
-
+    async refreshAccessToken(oldRefreshToken: any) {
         const refreshTokenData =
             await this.prismaService.refreshToken.findUnique({
-                where: { id: refreshTokenId },
+                where: { id: oldRefreshToken },
                 include: { user: true },
             });
 
-        if (!refreshTokenData || refreshTokenData.expiresAt < new Date()) {
+        if (!refreshTokenData) {
+            throw new UnauthorizedException('Invalid refresh token');
+        }
+
+        if (refreshTokenData?.expiresAt < new Date()) {
             await this.prismaService.refreshToken.delete({
-                where: { id: refreshTokenId },
+                where: { id: oldRefreshToken },
             });
-            throw new UnauthorizedException('Invalid or expired refresh token');
+            throw new UnauthorizedException('Expired refresh token');
         }
 
         await this.prismaService.refreshToken.delete({
-            where: { id: refreshTokenId },
+            where: { id: oldRefreshToken },
         });
 
         const { user } = refreshTokenData;

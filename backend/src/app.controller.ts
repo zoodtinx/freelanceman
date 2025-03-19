@@ -4,11 +4,5 @@ import { AuthController } from 'src/auth/auth.controller';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
+    constructor(private readonly appService: AppService) {}
 }
