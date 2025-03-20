@@ -1,6 +1,5 @@
-import type { Event } from "../types/project.types";
 
-export const mockEvents: Event[] = [
+export const mockEvents = [
    {
       id: "1a2b3c4d-1234-5678-9101-abcdefabcdef",
       name: "Initial Client Meeting",

@@ -29,6 +29,7 @@ export interface CreateClientDto {
    phoneNumber: string;
    address: string;
    detail: string;
+   themeColor: string; 
 }
 
 export type EditClientDto = Partial<

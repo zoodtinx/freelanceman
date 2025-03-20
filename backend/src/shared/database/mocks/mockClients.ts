@@ -51,3 +51,51 @@ export const mockClientsRecords = [
    },
  ];
  
+ export const mockQueriedClient = {
+  id: "d5f8a4d1-3c3e-4e6b-b4f1-1a2f3d4e5f6a",
+  userId: "b3a1f5e7-9d8c-4b6a-a2e1-3f7d9c6b5a4f",
+  name: "Acme Corporation",
+  taxId: "123-456-789",
+  email: "contact@acmecorp.com",
+  phoneNumber: "+1 555-1234",
+  address: "123 Business Street, Metropolis, USA",
+  detail: "Leading provider of industrial solutions.",
+  themeColor: "#FF5733",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  projects: [
+    {
+      id: "p1234567-89ab-cdef-0123-456789abcdef",
+      clientId: "d5f8a4d1-3c3e-4e6b-b4f1-1a2f3d4e5f6a",
+      name: "Website Redesign",
+      description: "Revamping the corporate website for a modern look.",
+      status: "In Progress",
+      startDate: new Date("2024-01-10"),
+      endDate: new Date("2024-06-15"),
+    },
+    {
+      id: "p89abcdef-0123-4567-89ab-cdef01234567",
+      clientId: "d5f8a4d1-3c3e-4e6b-b4f1-1a2f3d4e5f6a",
+      name: "Mobile App Development",
+      description: "Developing a cross-platform mobile application.",
+      status: "Planning",
+      startDate: new Date("2024-03-01"),
+      endDate: new Date("2024-09-30"),
+    },
+  ],
+};
+
+export const mockProcessedClient = {
+  id: "d5f8a4d1-3c3e-4e6b-b4f1-1a2f3d4e5f6a",
+  userId: "b3a1f5e7-9d8c-4b6a-a2e1-3f7d9c6b5a4f",
+  name: "Acme Corporation",
+  taxId: "123-456-789",
+  email: "contact@acmecorp.com",
+  phoneNumber: "+1 555-1234",
+  address: "123 Business Street, Metropolis, USA",
+  detail: "Leading provider of industrial solutions.",
+  themeColor: "#FF5733",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  activeProjectCount: 2,
+}
