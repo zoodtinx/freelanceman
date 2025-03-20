@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ClientsService } from './clients.service';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { ConfigService } from '@nestjs/config';
-import { mockProcessedClient, mockQueriedClient } from 'src/shared/database/mocks/mockClients';
 
 describe('ClientsService', () => {
     let clientService: ClientsService;

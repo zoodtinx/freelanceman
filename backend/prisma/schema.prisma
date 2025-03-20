@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://zoodtinx@localhost:5432/freelanceman-test"
+  url      = "postgresql://zoodtinx@localhost:5432/freelanceman_test"
 }
 
 model User {
@@ -88,6 +88,7 @@ model ClientContact {
 
 model PartnerCompany {
   id          String           @id @default(uuid())
+userId      String
   name        String
   taxId       String           @unique
   email       String
@@ -97,7 +98,6 @@ model PartnerCompany {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
   contacts    PartnerContact[]
-  projects    Project[]
   user        User[]           @relation("PartnerCompanyToUser")
 }
 
@@ -121,7 +121,6 @@ model Project {
   id               String          @id @default(uuid())
   title            String
   clientId         String
-  partnerCompanyId String
   budget           Int
   projectStatus    String
   paymentStatus    String
@@ -134,7 +133,6 @@ model Project {
   events           Event[]
   files            File[]
   client           Client          @relation(fields: [clientId], references: [id])
-  partnerCompany   PartnerCompany  @relation(fields: [partnerCompanyId], references: [id])
   user             User            @relation(fields: [userId], references: [id])
   salesDocuments   SalesDocument[]
   tasks            Task[]

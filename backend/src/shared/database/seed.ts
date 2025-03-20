@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import mockUserRecords from './mocks/mockUser';
-import { mockClientsRecords } from './mocks/mockClients';
+import { mockClients } from './mocks/mockClients';
 
 const prisma = new PrismaClient();
 
@@ -10,7 +10,7 @@ async function main() {
   // });
   
   await prisma.client.createMany({
-    data: mockClientsRecords,
+    data: mockClients,
   });
 
   console.log('Database seeded successfully');
