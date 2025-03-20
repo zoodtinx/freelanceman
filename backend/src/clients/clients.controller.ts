@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UsePipes 
 import { ClientsService } from './clients.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { createClientSchema, findManyClientSchema } from 'src/shared/zod-schemas/client.schema';
+import { createClientSchema } from 'src/shared/zod-schemas/client.schema';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('clients')
@@ -11,13 +11,11 @@ export class ClientsController {
 
   @Post()
   @UsePipes(new ZodValidationPipe(createClientSchema))
-  create(@Body() payload: any) {
-    const newClientInfo = payload.newClientInfo
-    return this.clientsService.create(newClientInfo);
+  create(@Body() createClientDto: any) {
+    return this.clientsService.create(createClientDto);
   }
 
   @Post('search')
-  @UsePipes(new ZodValidationPipe(findManyClientSchema))
   findMany(@Body() payload: any) {
     const filter = payload.filter
     return this.clientsService.findMany(filter);

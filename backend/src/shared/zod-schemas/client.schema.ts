@@ -1,23 +1,12 @@
 import { z } from 'zod';
 
 export const createClientSchema = z.object({
-    name: z.string().min(1, 'Name is required'),
-    email: z.string().email('Invalid email format').optional(),
-    phone: z.string().optional(),
-    company: z.string().optional(),
+    name: z.string().min(1),
+    taxId: z.string().min(1).optional(),
+    email: z.string().email().optional(),
+    phoneNumber: z.string().min(1).optional(),
+    address: z.string().min(1).optional(),
+    detail: z.string().optional(),
+    userId: z.string().min(1),
+    themeColor: z.string().min(1),
 });
-
-export const updateClientSchema = createClientSchema
-    .partial()
-    .extend({ id: z.string().uuid('Invalid ID format') });
-
-
-export const findManyClientSchema = z.object({
-    name: z.string().optional(),
-    hasActiveProject: z.boolean().optional(),
-});
-
-export const findOneClientSchema = z.string().min(4)
-
-export const deleteOneClientSchema = z.string().min(4)
-
