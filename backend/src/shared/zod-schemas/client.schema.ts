@@ -10,3 +10,19 @@ export const createClientSchema = z.object({
     userId: z.string().min(1),
     themeColor: z.string().min(1),
 });
+
+export const editClientSchema = z.object({
+    name: z.string().optional(),
+    taxId: z.string().optional(),
+    email: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    address: z.string().optional(),
+    detail: z.string().optional(),
+    userId: z.string().optional(),
+    themeColor: z.string().optional(),
+  });
+
+export const searchClientSchema = z.object({
+    name: z.string().optional(),
+    hasActiveProject: z.boolean().optional()
+  });

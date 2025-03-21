@@ -36,10 +36,15 @@ export class ClientsService {
         try {
             const clients = await this.prismaService.client.findMany({
                 where: {
-                    name: filter.name,
-                    projects: filter.hasActiveProject
-                        ? { some: {} }
+                    name: filter.name
+                        ? { contains: filter.name, mode: 'insensitive' }
                         : undefined,
+                    projects:
+                        filter.hasActiveProject === true
+                            ? { some: {} }
+                            : filter.hasActiveProject === false
+                              ? { none: {} }
+                              : undefined,
                 },
                 include: {
                     projects: {
@@ -62,15 +67,11 @@ export class ClientsService {
     async findOne(id: string) {
         try {
             const client = await this.prismaService.client.findUnique({
-                where: { id: id },
+                where: { id },
                 include: {
                     projects: {
-                        where: {
-                            projectStatus: 'active',
-                        },
-                        select: {
-                            id: true,
-                        },
+                        where: { projectStatus: 'active' },
+                        select: { id: true },
                     },
                 },
             });
@@ -81,11 +82,13 @@ export class ClientsService {
 
             return client;
         } catch (error) {
+            if (error instanceof NotFoundException) throw error;
             throw new InternalServerErrorException('Failed to find client');
         }
     }
 
     async update(id: string, updateClientDto: UpdateClientDto) {
+        console.log('id', id);
         try {
             const result = await this.prismaService.client.update({
                 where: { id: id },
