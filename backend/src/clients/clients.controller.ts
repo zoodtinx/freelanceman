@@ -7,8 +7,8 @@ import {
     Param,
     Delete,
     UseGuards,
-    UsePipes,
     HttpCode,
+    Req,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -27,32 +27,42 @@ export class ClientsController {
     @Post()
     create(
         @Body(new ZodValidationPipe(createClientSchema)) createClientDto: any,
+        @Req() req: any,
     ) {
-        return this.clientsService.create(createClientDto);
+        const userId = req.user.id;
+        return this.clientsService.create(userId, createClientDto);
     }
 
     @Post('search')
     @HttpCode(200)
-    findMany(@Body(new ZodValidationPipe(searchClientSchema)) payload: any) {
-        return this.clientsService.findMany(payload);
+    findMany(
+        @Body(new ZodValidationPipe(searchClientSchema)) payload: any,
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.clientsService.findMany(userId, payload);
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.clientsService.findOne(id);
+    findOne(@Param('id') taskId: string, @Req() req: any) {
+        const userId = req.user.id;
+        return this.clientsService.findOne(userId, taskId);
     }
 
     @Patch(':id')
     update(
-        @Param('id') id: string,
+        @Param('id') taskId: string,
         @Body(new ZodValidationPipe(editClientSchema))
         payload: any,
+        @Req() req: any,
     ) {
-        return this.clientsService.update(id, payload);
+        const userId = req.user.id;
+        return this.clientsService.update(userId, taskId, payload);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.clientsService.delete(id);
+    remove(@Param('id') taskId: string, @Req() req: any) {
+        const userId = req.user.id;
+        return this.clientsService.delete(userId, taskId);
     }
 }

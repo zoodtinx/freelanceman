@@ -14,10 +14,13 @@ import { ClientFilter } from 'src/clients/dto/find-client.dto';
 export class ClientsService {
     constructor(private prismaService: PrismaService) {}
 
-    async create(createClientDto: CreateClientDto) {
+    async create(userId: string, createClientDto: CreateClientDto) {
         try {
             const result = await this.prismaService.client.create({
-                data: createClientDto,
+                data: {
+                    ...createClientDto,
+                    userId,
+                },
             });
             return result;
         } catch (error) {
@@ -32,10 +35,11 @@ export class ClientsService {
         }
     }
 
-    async findMany(filter: ClientFilter) {
+    async findMany(userId: string, filter: ClientFilter) {
         try {
             const clients = await this.prismaService.client.findMany({
                 where: {
+                    userId,
                     name: filter.name
                         ? { contains: filter.name, mode: 'insensitive' }
                         : undefined,
@@ -64,10 +68,10 @@ export class ClientsService {
         }
     }
 
-    async findOne(id: string) {
+    async findOne(userId: string, clientId: string) {
         try {
             const client = await this.prismaService.client.findUnique({
-                where: { id },
+                where: { id: clientId, userId },
                 include: {
                     projects: {
                         where: { projectStatus: 'active' },
@@ -77,7 +81,7 @@ export class ClientsService {
             });
 
             if (!client) {
-                throw new NotFoundException(`Client with ID ${id} not found`);
+                throw new NotFoundException(`Client with ID ${clientId} not found`);
             }
 
             return client;
@@ -87,11 +91,14 @@ export class ClientsService {
         }
     }
 
-    async update(id: string, updateClientDto: UpdateClientDto) {
-        console.log('id', id);
+    async update(
+        userId: string,
+        clientId: string,
+        updateClientDto: UpdateClientDto,
+    ) {
         try {
             const result = await this.prismaService.client.update({
-                where: { id: id },
+                where: { id: clientId, userId },
                 data: updateClientDto,
             });
             return result;
@@ -99,7 +106,7 @@ export class ClientsService {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {
                     throw new BadRequestException(
-                        `Client with ID ${id} not found`,
+                        `Client with ID ${clientId} not found`,
                     );
                 }
             }
@@ -107,17 +114,17 @@ export class ClientsService {
         }
     }
 
-    async delete(id: string) {
+    async delete(userId: string, clientId: string) {
         try {
             const result = await this.prismaService.client.delete({
-                where: { id: id },
+                where: { id: clientId, userId },
             });
             return result;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {
                     throw new BadRequestException(
-                        `Client with ID ${id} not found`,
+                        `Client with ID ${clientId} not found`,
                     );
                 }
             }
