@@ -46,18 +46,21 @@ export class TasksService {
 
     async findAll(userId: string, filter: SearchTaskSchema) {
         try {
-            return await this.prismaService.task.findMany({
+            console.log('filter', filter)
+            const result = await this.prismaService.task.findMany({
                 where: {
                     userId: userId,
                     name: {
                         contains: filter.name,
                     },
                     status: filter.status,
-                    dueAt: filter.status,
+                    dueAt: filter.dueAt,
                     projectId: filter.projectId,
                     clientId: filter.clientId,
                 },
             });
+            console.log('result', result)
+            return result;
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');
         }

@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { accessToken } from './mocks/tokens';
+import { accessToken } from '../test-utils';
 
 const clientId = 'cd7646ec-75c5-413f-ac5c-c47d4f28b554';
 const wrongId = '00000000-0000-0000-0000-000000000000';

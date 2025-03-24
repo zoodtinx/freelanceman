@@ -8,7 +8,7 @@ import {
     mockInvalidCreateProjectPayload,
     mockSearchProjectPayload,
 } from './mocks/mockCreateProjectPayload';
-import { accessToken } from './mocks/tokens';
+import { accessToken } from '../test-utils';
 
 const prisma = new PrismaClient();
 

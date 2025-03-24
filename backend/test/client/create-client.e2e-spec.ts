@@ -8,7 +8,7 @@ import {
     mockCreateExistingClientPayload,
     mockInvalidCreateClientPayload,
 } from './mocks/mock-create-client-data';
-import { accessToken } from './mocks/tokens';
+import { accessToken } from '../test-utils';
 
 const prisma = new PrismaClient();
 

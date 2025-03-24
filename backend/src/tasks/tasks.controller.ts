@@ -40,7 +40,7 @@ export class TasksController {
     @Req() req: any,
   ) {
     const userId = req.user.id;
-    return this.tasksService.findMany(userId, payload);
+    return this.tasksService.findAll(userId, payload);
   }
 
   @Get(':id')

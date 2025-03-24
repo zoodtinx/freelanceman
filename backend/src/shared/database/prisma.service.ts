@@ -17,13 +17,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
    async onModuleInit() {
        await this.$connect()
-       const databaseUrl = this.configService.get<string>('database.url')
-       console.log(`Connected to the database: ${databaseUrl}`)
    }
 
    async onModuleDestroy() {
        await this.$disconnect()
-       const databaseUrl = this.configService.get<string>('database.url')
-       console.log(`Disconnected from the database: ${databaseUrl}`)
    }
 }
