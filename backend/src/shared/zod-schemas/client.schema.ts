@@ -7,7 +7,6 @@ export const createClientSchema = z.object({
     phoneNumber: z.string().min(1).optional(),
     address: z.string().min(1).optional(),
     detail: z.string().optional(),
-    userId: z.string().min(1),
     themeColor: z.string().min(1),
 });
 
@@ -18,7 +17,6 @@ export const editClientSchema = z.object({
     phoneNumber: z.string().optional(),
     address: z.string().optional(),
     detail: z.string().optional(),
-    userId: z.string().optional(),
     themeColor: z.string().optional(),
   });
 

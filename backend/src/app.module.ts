@@ -6,6 +6,7 @@ import { ConfigModule } from 'src/config/config.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ClientsModule } from './clients/clients.module';
 import { PrismaModule } from 'src/shared/database/prisma.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { PrismaModule } from 'src/shared/database/prisma.module';
         TasksModule,
         ClientsModule,
         PrismaModule,
+        ProjectsModule,
     ],
     providers: [AppService],
     controllers: [AppController],

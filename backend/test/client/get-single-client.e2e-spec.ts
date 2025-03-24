@@ -8,7 +8,7 @@ import { mockGetClientId, mockWrongGetClientId } from './mocks/mock-get-single-c
 
 const prisma = new PrismaClient();
 
-describe('ClientController GET :id (e2e)', () => {
+describe('ClientsController GET /clients/:id (e2e)', () => {
     let app: INestApplication;
 
     beforeEach(async () => {
@@ -22,24 +22,25 @@ describe('ClientController GET :id (e2e)', () => {
         await app.init();
     });
 
-    it('/clients/:id (GET) - should retrieve a client', async () => {
-        const response = await request(app.getHttpServer())
+    it('should retrieve a client by id', async () => {
+        const res = await request(app.getHttpServer())
             .get(`/clients/${mockGetClientId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .expect(200);
 
-        expect(response.body).toHaveProperty('id');
-        expect(response.body).toHaveProperty('userId');
-        expect(response.body).toHaveProperty('name');
+        expect(res.body).toHaveProperty('id', mockGetClientId);
+        expect(res.body).toHaveProperty('userId');
+        expect(res.body).toHaveProperty('name');
     });
 
-    it('/clients/:id (GET) - should fail to retrieve a client', async () => {
-        const response = await request(app.getHttpServer())
-        .get(`/clients/${mockWrongGetClientId}`)
-            .set('Authorization', `Bearer ${accessToken}`)    
+    it('should return 404 if client not found', async () => {
+        const res = await request(app.getHttpServer())
+            .get(`/clients/${mockWrongGetClientId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
             .expect(404);
 
-        expect(response.body).toHaveProperty('message');
+        expect(res.body).toHaveProperty('message');
+        expect(res.body.message).toContain(`Client with ID ${mockWrongGetClientId} not found`);
     });
 
     afterEach(async () => {

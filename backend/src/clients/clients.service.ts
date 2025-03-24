@@ -62,6 +62,8 @@ export class ClientsService {
                 },
             });
 
+            console.log('clients length', clients.length)
+
             return clients;
         } catch (error) {
             throw new InternalServerErrorException('Failed to find client');

@@ -6,30 +6,29 @@ import { TokenService } from 'src/auth/auth.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
-   constructor(
-      private configService: ConfigService,
-      private tokenService: TokenService
-   ) {
-      const secret = configService.get<string>('jwt.access');
+    constructor(
+        private configService: ConfigService,
+        private tokenService: TokenService,
+    ) {
+        const secret = configService.get<string>('jwt.access');
 
-      if (!secret) {
-         throw new Error('JWT_ACCESS_SECRET is not defined');
-      }
+        if (!secret) {
+            throw new Error('JWT_ACCESS_SECRET is not defined');
+        }
 
-      super({
-         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-         secretOrKey: secret,
-         ignoreExpiration: false,
-         passReqToCallback: true,
-      });
-   }
+        super({
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: secret,
+            ignoreExpiration: false,
+            passReqToCallback: true,
+        });
+    }
 
-   async validate(req: Request, payload: any) {
-      if (!payload?.sub) {
-         throw new UnauthorizedException('Invalid token payload');
-      }
-   
-      return { id: payload.sub, role: payload.role }; 
-   }
-   
+    async validate(req: Request, payload: any) {
+        if (!payload?.sub) {
+            console.error('JWT authentication failed');
+            throw new UnauthorizedException('Invalid token payload');
+        }
+        return { id: payload.sub, role: payload.role };
+    }
 }

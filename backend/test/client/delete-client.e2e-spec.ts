@@ -4,10 +4,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { accessToken } from './mocks/tokens';
-import {
-    mockGetClientId,
-    mockWrongGetClientId,
-} from './mocks/mock-get-single-client-data';
 
 const clientId = 'cd7646ec-75c5-413f-ac5c-c47d4f28b554';
 const wrongId = '00000000-0000-0000-0000-000000000000';
@@ -24,7 +20,7 @@ const clientData = {
     themeColor: '#a832a8',
 };
 
-describe('Client Delete (e2e)', () => {
+describe('ClientsController DELETE (e2e)', () => {
     let app: INestApplication;
 
     beforeAll(async () => {
@@ -36,14 +32,14 @@ describe('Client Delete (e2e)', () => {
         await app.init();
     });
 
-    it('should delete the client and reinsert it', async () => {
+    it('DELETE /clients/:id - should delete the client', async () => {
         await request(app.getHttpServer())
             .delete(`/clients/${clientId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .expect(200);
     });
 
-    it('should return 400 for deleting non-existent client', async () => {
+    it('DELETE /clients/:id - should return 400 for non-existent client', async () => {
         const res = await request(app.getHttpServer())
             .delete(`/clients/${wrongId}`)
             .set('Authorization', `Bearer ${accessToken}`)
@@ -60,6 +56,7 @@ describe('Client Delete (e2e)', () => {
             .set('Authorization', `Bearer ${accessToken}`)
             .send(clientData)
             .expect(201);
+
         await app.close();
     });
 });

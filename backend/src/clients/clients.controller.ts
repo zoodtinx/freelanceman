@@ -30,6 +30,7 @@ export class ClientsController {
         @Req() req: any,
     ) {
         const userId = req.user.id;
+        console.log('userID', userId)
         return this.clientsService.create(userId, createClientDto);
     }
 

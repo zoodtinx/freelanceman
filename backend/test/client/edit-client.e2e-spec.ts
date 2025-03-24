@@ -12,7 +12,7 @@ import {
 
 const prisma = new PrismaClient();
 
-describe('ClientController PATCH :id (e2e)', () => {
+describe('ClientsController PATCH /clients/:id (e2e)', () => {
     let app: INestApplication;
 
     beforeEach(async () => {
@@ -26,38 +26,38 @@ describe('ClientController PATCH :id (e2e)', () => {
         await app.init();
     });
 
-    it('/clients/:id (PATCH) - should edit a client', async () => {
-        const response = await request(app.getHttpServer())
+    it('should update a client successfully', async () => {
+        const res = await request(app.getHttpServer())
             .patch(`/clients/${mockEditClientId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .send(mockEditClientPayload)
             .expect(200);
 
-        expect(response.body).toHaveProperty('id');
-        expect(response.body).toHaveProperty('userId');
-        expect(response.body).toHaveProperty('name');
+        expect(res.body).toHaveProperty('id');
+        expect(res.body).toHaveProperty('userId');
+        expect(res.body.name).toBe(mockEditClientPayload.name);
     });
 
-    it('/clients/:id (PATCH) - should fail validation', async () => {
-        const response = await request(app.getHttpServer())
+    it('should fail zod validation', async () => {
+        const res = await request(app.getHttpServer())
             .patch(`/clients/${mockEditClientId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .send(mockWrongEditClientPayload)
             .expect(400);
 
-        expect(response.body).toHaveProperty('_errors');
+        expect(res.body).toHaveProperty('_errors');
     });
 
-    it('/clients/:id (PATCH) - should fail because of wrong client id', async () => {
-        const response = await request(app.getHttpServer())
-            .patch(`/clients/${mockWrongEditClientPayload}`)
+    it('should return 400 for invalid client id', async () => {
+        const res = await request(app.getHttpServer())
+            .patch(`/clients/invalid-id`)
             .set('Authorization', `Bearer ${accessToken}`)
             .send(mockEditClientPayload)
             .expect(400);
 
-        expect(response.body).toHaveProperty('message');
+        expect(res.body).toHaveProperty('message');
     });
-    
+
     afterEach(async () => {
         await prisma.$executeRaw`ROLLBACK`;
         await app.close();

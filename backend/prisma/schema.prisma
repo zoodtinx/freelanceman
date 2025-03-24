@@ -127,7 +127,7 @@ model Project {
   projectStatus   String
   paymentStatus   String
   links           String[]
-  note            String
+  note            String?
   userId          String
   pinned          Boolean                   @default(false)
   createdAt       DateTime                  @default(now())
