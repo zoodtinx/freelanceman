@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Event" ADD COLUMN     "clientId" TEXT NOT NULL DEFAULT '1c33ad06-c6fe-420b-b540-9b1b79421373';
+
+-- AlterTable
+ALTER TABLE "Task" ADD COLUMN     "clientId" TEXT NOT NULL DEFAULT '1c33ad06-c6fe-420b-b540-9b1b79421373';
+
+-- AddForeignKey
+ALTER TABLE "Event" ADD CONSTRAINT "Event_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

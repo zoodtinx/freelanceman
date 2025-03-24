@@ -66,6 +66,8 @@ model Client {
   user           User            @relation(fields: [userId], references: [id])
   contacts       ClientContact[]
   files          File[]
+  task          Task[]
+  event           Event[]
   projects       Project[]
   salesDocuments SalesDocument[]
 }
@@ -164,15 +166,17 @@ model Event {
   id        String    @id @default(uuid())
   name      String
   status    String
-  details   String
-  link      String
+  details   String?
+  link      String?
   dueAt     DateTime
   projectId String
+  clientId String      
   userId    String
   tags      String[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   project   Project   @relation(fields: [projectId], references: [id])
+  client   Client   @relation(fields: [clientId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
 }
 
@@ -180,14 +184,16 @@ model Task {
   id        String    @id @default(uuid())
   name      String
   status    String
-  details   String
-  link      String
+  details   String?
+  link      String?
   dueAt     DateTime
   projectId String
+  clientId String      
   userId    String
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   project   Project   @relation(fields: [projectId], references: [id])
+  client   Client   @relation(fields: [clientId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
 }
 

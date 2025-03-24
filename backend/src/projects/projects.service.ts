@@ -8,7 +8,6 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 import {
     SearchProjectDto,
-    CreateProjectDto,
     UpdateProjectDto,
 } from 'src/shared/zod-schemas/project.schema';
 

@@ -80,8 +80,7 @@ describe('ProjectsController (e2e)', () => {
             .delete(`/projects/${createdProjectId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .expect(200);
-
-        // Ensure it's deleted
+            
         const check = await prisma.project.findUnique({
             where: { id: createdProjectId },
         });
