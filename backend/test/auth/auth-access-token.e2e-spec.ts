@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { mockAccessToken, mockInvalidAccessToken } from '../mocks/mockAuthData';
+import { mockAccessToken, mockInvalidAccessToken } from './mocks/mockAuthData';
 
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
