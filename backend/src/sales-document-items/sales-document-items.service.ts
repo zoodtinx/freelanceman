@@ -4,11 +4,12 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateSalesDocumentItemDto } from './dto/create-sales-document-item.dto';
-import { UpdateSalesDocumentItemDto } from './dto/update-sales-document-item.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
-import { SalesDocumentItemFilter } from './dto/find-sales-document-item.dto';
+import {
+    CreateSalesDocumentItemDto,
+    UpdateSalesDocumentItemDto,
+} from 'src/shared/zod-schemas/sales-document-item.schema';
 
 @Injectable()
 export class SalesDocumentItemsService {
@@ -35,14 +36,11 @@ export class SalesDocumentItemsService {
       }
   }
 
-  async findMany(documentId: string, filter: SalesDocumentItemFilter) {
+  async findMany(userId: string, documentId: string) {
       try {
           const items = await this.prismaService.salesDocumentItem.findMany({
               where: {
                   salesDocumentId: documentId,
-                  description: filter.description
-                      ? { contains: filter.description, mode: 'insensitive' }
-                      : undefined,
               },
           });
 

@@ -30,7 +30,7 @@
   "references": [{ "path": "../shared" }],
    "include": [
     "src",
-    "test",
+    "e2e-tests",
     "jest.config.ts",
     "../shared/types/**/*.ts"
   ]

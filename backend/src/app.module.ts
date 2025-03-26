@@ -10,7 +10,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { EventsModule } from './events/events.module';
 import { ClientContactsModule } from './client-contacts/client-contacts.module';
 import { PartnerContactsModule } from './partner-contacts/partner-contacts.module';
-import { PartnerCompanyModule } from './partner-company/partner-companies.module';
+import { PartnerCompanyModule } from './partner-companies/partner-companies.module';
 import { SalesDocumentsModule } from './sales-documents/sales-documents.module';
 import { SalesDocumentItemsModule } from './sales-document-items/sales-document-items.module';
 import { FilesModule } from './files/files.module';

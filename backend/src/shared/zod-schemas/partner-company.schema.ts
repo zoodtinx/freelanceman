@@ -7,20 +7,27 @@ export const createPartnerCompanySchema = z.object({
     phoneNumber: z.string().min(1).optional(),
     address: z.string().min(1).optional(),
     detail: z.string().optional(),
-    themeColor: z.string().min(1),
 });
 
-export const editPartnerCompanySchema = z.object({
+export const updatePartnerCompanySchema = z.object({
     name: z.string().optional(),
     taxId: z.string().optional(),
     email: z.string().optional(),
     phoneNumber: z.string().optional(),
     address: z.string().optional(),
     detail: z.string().optional(),
-    themeColor: z.string().optional(),
 });
 
 export const searchPartnerCompanySchema = z.object({
     name: z.string().optional(),
-    hasActiveProject: z.boolean().optional(),
 });
+
+export type CreatePartnerCompanyDto = z.infer<
+    typeof createPartnerCompanySchema
+>;
+export type UpdatePartnerCompanyDto = z.infer<
+    typeof UpdatePartnerCompanySchema
+>;
+export type SearchPartnerCompanyDto = z.infer<
+    typeof searchPartnerCompanySchema
+>;

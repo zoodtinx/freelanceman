@@ -4,11 +4,13 @@ import {
     InternalServerErrorException,
     NotFoundException,
 } from '@nestjs/common';
-import { CreateSalesDocumentDto } from './dto/create-sales-document.dto';
-import { UpdateSalesDocumentDto } from './dto/update-sales-document.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
-import { SalesDocumentFilter } from './dto/find-sales-document.dto';
+import {
+    SearchSalesDocumentDto,
+    UpdateSalesDocumentDto,
+    CreateSalesDocumentDto,
+} from 'src/shared/zod-schemas/sales-document.schema';
 
 @Injectable()
 export class SalesDocumentsService {
@@ -18,8 +20,39 @@ export class SalesDocumentsService {
         try {
             const result = await this.prismaService.salesDocument.create({
                 data: {
-                    ...createDto,
-                    userId,
+                    title: createDto.title,
+                    category: createDto.category,
+                    number: createDto.number,
+                    issuedAt: new Date(createDto.issuedAt),
+                    currency: createDto.currency,
+                    referenceNumber: createDto.referenceNumber,
+                    note: createDto.note,
+
+                    projectId: createDto.projectId,
+                    projectDescription: createDto.projectDescription,
+                    selectedProjectClientId: createDto.selectedProjectClientId,
+
+                    freelancerName: createDto.freelancerName,
+                    freelancerEmail: createDto.freelancerEmail,
+                    freelancerPhone: createDto.freelancerPhone,
+                    freelancerTaxId: createDto.freelancerTaxId,
+                    freelancerDetail: createDto.freelancerDetail,
+
+                    clientId: createDto.clientId,
+                    clientName: createDto.clientName,
+                    clientTaxId: createDto.clientTaxId,
+                    clientAddress: createDto.clientAddress,
+                    clientPhone: createDto.clientPhone,
+                    clientOffice: createDto.clientOffice,
+                    clientDetail: createDto.clientDetail,
+
+                    subtotal: createDto.subtotal,
+                    discount: createDto.discount ?? null,
+                    tax: createDto.tax,
+                    total: createDto.total,
+                    customAdjustment: createDto.customAdjustment ?? null,
+
+                    userId: userId,
                 },
             });
             return result;
@@ -37,7 +70,7 @@ export class SalesDocumentsService {
         }
     }
 
-    async findMany(userId: string, filter: SalesDocumentFilter) {
+    async findMany(userId: string, filter: SearchSalesDocumentDto) {
         try {
             const documents = await this.prismaService.salesDocument.findMany({
                 where: {
@@ -45,12 +78,12 @@ export class SalesDocumentsService {
                     title: filter.title
                         ? { contains: filter.title, mode: 'insensitive' }
                         : undefined,
-                    partnerCompanyId: filter.partnerCompanyId || undefined,
-                },
-                include: {
-                    partnerCompany: {
-                        select: { id: true, name: true },
-                    },
+                    category: filter.category
+                        ? { contains: filter.category, mode: 'insensitive' }
+                        : undefined,
+                    projectId: filter.projectId || undefined,
+                    selectedProjectClientId:
+                        filter.selectedProjectClientId || undefined,
                 },
             });
 
@@ -66,11 +99,6 @@ export class SalesDocumentsService {
         try {
             const document = await this.prismaService.salesDocument.findUnique({
                 where: { id: documentId, userId },
-                include: {
-                    partnerCompany: {
-                        select: { id: true, name: true },
-                    },
-                },
             });
 
             if (!document) {

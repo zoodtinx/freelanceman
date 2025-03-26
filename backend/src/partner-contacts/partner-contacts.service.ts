@@ -24,7 +24,7 @@ export class PartnerContactService {
           companyId: dto.companyId,
           role: dto.role,
           phoneNumber: dto.phoneNumber,
-          email: dto.email?.join(',') ?? '',
+          email: dto.email,
           details: dto.detail ?? '',
           avatar: dto.avatar ?? '',
           userId,
@@ -42,16 +42,14 @@ export class PartnerContactService {
     }
   }
 
-  async findAll(userId: string, filter: SearchPartnerContactDto) {
+  async findMany(userId: string, filter: SearchPartnerContactDto) {
     try {
       const result = await this.prismaService.partnerContact.findMany({
         where: {
           userId,
-          id: filter.id,
           name: filter.name ? { contains: filter.name } : undefined,
           companyId: filter.companyId,
-          email: filter.email,
-          phoneNumber: filter.phoneNumber,
+          role: filter.role
         },
       });
       return result;
@@ -80,8 +78,12 @@ export class PartnerContactService {
       await this.prismaService.partnerContact.update({
         where: { id, userId },
         data: {
-          ...dto,
-          email: dto.email?.join(','),
+          name: dto.name,
+          role: dto.role,
+          phoneNumber: dto.phoneNumber,
+          email: dto.email,
+          details: dto.details,
+          avatar: dto.avatar
         },
       });
       return this.findOne(userId, id);

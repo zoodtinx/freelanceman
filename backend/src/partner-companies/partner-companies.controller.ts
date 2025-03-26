@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
   createPartnerCompanySchema,
-  editPartnerCompanySchema,
+  updatePartnerCompanySchema,
   searchPartnerCompanySchema,
 } from 'src/shared/zod-schemas/partner-company.schema'
 
@@ -52,7 +52,7 @@ export class PartnerCompaniesController {
   @Patch(':id')
   update(
       @Param('id') id: string,
-      @Body(new ZodValidationPipe(editPartnerCompanySchema)) payload: any,
+      @Body(new ZodValidationPipe(updatePartnerCompanySchema)) payload: any,
       @Req() req: any,
   ) {
       const userId = req.user.id;

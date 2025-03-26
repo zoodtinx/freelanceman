@@ -41,7 +41,7 @@ export class PartnerContactsController {
       @Req() req: any,
   ) {
       const userId = req.user.id;
-      return this.partnerContactsService.findAll(userId, payload);
+      return this.partnerContactsService.findMany(userId, payload);
   }
 
   @Get(':id')
