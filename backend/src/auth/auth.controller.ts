@@ -88,4 +88,7 @@ export class AuthController {
         const result = await this.localAuthService.register(registerUserDto);
         return res.status(201).json(result);
     }
+
+    @Post('resetpassword')
+    async resetPassword() {}
 }

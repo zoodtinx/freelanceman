@@ -31,4 +31,3 @@ export type EditClientContactDto = Partial<
       "name" | "role" | "phoneNumber" | "email" | "details" | "avatar"
    >
 >;
-

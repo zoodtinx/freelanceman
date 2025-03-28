@@ -42,6 +42,13 @@ export const searchFileSchema = z.object({
   projectId: z.string().optional(),
 });
 
+export const getPresignedUrlSchema = z.object({
+  filename: z.string().min(1),
+  category: z.string().min(1),
+  contentType: z.string().min(1),
+});
+
+export type GetPresignedUrlDto = z.infer<typeof getPresignedUrlSchema>;
 export type CreateFileDto = z.infer<typeof createFileSchema>;
 export type UpdateFileDto = z.infer<typeof updateFileSchema>;
 export type SearchFileDto = z.infer<typeof searchFileSchema>;
