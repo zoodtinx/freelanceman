@@ -43,7 +43,7 @@ export const searchFileSchema = z.object({
 });
 
 export const getPresignedUrlSchema = z.object({
-  filename: z.string().min(1),
+  fileName: z.string().min(1),
   category: z.string().min(1),
   contentType: z.string().min(1),
 });

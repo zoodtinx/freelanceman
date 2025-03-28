@@ -48,18 +48,12 @@ import { CreateFileDto, GetPresignedUrlDto, SearchFileDto, UpdateFileDto } from 
       }
 
       async getUploadUrl(getPresignedUrlDto: GetPresignedUrlDto) {
-          const { filename, category, contentType } = getPresignedUrlDto;
-
-          const command = new PutObjectCommand({
-            Bucket: this.configService.get('aws.bucket'),
-            Key: `${category}/${filename}`,
-            ContentType: contentType
-          })
-
-          const presignedUrl = await getSignedUrl()
-
-          // S3 logic
-          const presignedUrl = 'https://google.com';
+          const { fileName, category, contentType } = getPresignedUrlDto;
+          const presignedUrl = this.s3Service.getPresignedUrl(
+              fileName,
+              category,
+              contentType,
+          );
           return presignedUrl;
       }
 
@@ -122,7 +116,14 @@ import { CreateFileDto, GetPresignedUrlDto, SearchFileDto, UpdateFileDto } from 
 
       async delete(userId: string, fileId: string) {
           try {
-              return await this.prisma.file.delete({
+            const result = await this.prisma.file.findUnique({
+                where: { id: fileId, userId: userId },
+                select: {s3Key: true}
+            });
+            
+            await this.s3Service.deleteFile(result.s3Key)
+
+            return await this.prisma.file.delete({
                   where: { id: fileId, userId },
               });
           } catch (error) {

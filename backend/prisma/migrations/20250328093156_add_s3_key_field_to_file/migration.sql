@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "Event" ALTER COLUMN "clientId" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "File" ADD COLUMN     "s3Key" TEXT NOT NULL DEFAULT '';
+
+-- AlterTable
+ALTER TABLE "Task" ALTER COLUMN "clientId" DROP DEFAULT;

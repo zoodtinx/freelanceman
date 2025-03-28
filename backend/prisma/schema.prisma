@@ -204,6 +204,7 @@ model File {
   type         String
   category     String
   link         String
+    s3Key        String @default("")
   projectId    String?
   clientId     String?
   userId       String
