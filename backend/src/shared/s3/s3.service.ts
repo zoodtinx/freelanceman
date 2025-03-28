@@ -31,22 +31,31 @@ export class S3Service {
     }
 
     async getPresignedUrl(fileName: string, category: string, contentType: string) {
-        const command = new PutObjectCommand({
+        try {
+          const command = new PutObjectCommand({
             Bucket: this.bucket,
             Key: `${category}/${fileName}`,
             ContentType: contentType,
-        });
-
-        const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
-
-        return url;
-    }
-
-    async deleteFile(key: string) {
-        const command = new DeleteObjectCommand({
+          });
+      
+          const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
+          return url;
+        } catch (error) {
+          // optionally log or rethrow
+          throw new Error('Failed to generate presigned URL');
+        }
+      }
+      
+      async deleteFile(key: string) {
+        try {
+          const command = new DeleteObjectCommand({
             Bucket: this.bucket,
             Key: key,
-        });
-        await this.s3.send(command);
-    }
+          });
+          await this.s3.send(command);
+        } catch (error) {
+          throw new Error('Failed to delete file');
+        }
+      }
+      
 }
