@@ -6,6 +6,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Readable } from 'stream';
 import { PrismaService } from 'src/shared/database/prisma.service';
 
 @Injectable()
@@ -58,4 +59,36 @@ export class S3Service {
         }
       }
       
+      async uploadAndGetSignedUrl({
+        file,
+        fileName,
+        category,
+        contentType,
+      }: {
+        file: Buffer | Readable;
+        fileName: string;
+        category: string;
+        contentType: string;
+      }) {
+        try {
+          const key = `${category}/${fileName}`;
+      
+          const command = new PutObjectCommand({
+            Bucket: this.bucket,
+            Key: key,
+            Body: file,
+            ContentType: contentType,
+          });
+      
+          await this.s3.send(command);
+      
+          const signedUrl = await getSignedUrl(this.s3, command, {
+            expiresIn: 3600,
+          });
+      
+          return { key, signedUrl };
+        } catch (error) {
+          throw new Error('Failed to upload file and generate signed URL');
+        }
+      }
 }

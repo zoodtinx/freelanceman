@@ -68,4 +68,14 @@ export class SalesDocumentsController {
         const userId = req.user.id;
         return this.salesDocumentsService.delete(userId, docId);
     }
+
+    @Post('create-pdf')
+    createPdf(
+        @Body(new ZodValidationPipe(createSalesDocumentSchema))
+        createPdfDto: any,
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.salesDocumentsService.create(userId, createPdfDto)
+    }
 }

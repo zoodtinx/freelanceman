@@ -11,10 +11,19 @@ import {
     UpdateSalesDocumentDto,
     CreateSalesDocumentDto,
 } from 'src/shared/zod-schemas/sales-document.schema';
+import { S3Service } from 'src/shared/s3/s3.service';
+import { FilesService } from 'src/files/files.service';
+import { generatePDFStream } from 'src/sales-documents/helpers/pdfUtils';
+import { Readable } from 'stream';
 
 @Injectable()
 export class SalesDocumentsService {
-    constructor(private prismaService: PrismaService) {}
+    constructor(
+        private prismaService: PrismaService,
+        private s3Service: S3Service,
+        private fileService: FilesService,
+        private pdfService: any,
+    ) {}
 
     async create(userId: string, createDto: CreateSalesDocumentDto) {
         try {
@@ -158,6 +167,49 @@ export class SalesDocumentsService {
             throw new InternalServerErrorException(
                 'Failed to remove sales document',
             );
+        }
+    }
+
+    async createPdf(userId: string, createPdfDto: any) {
+        try {
+            const pdfStream = generatePDFStream(
+                createPdfDto,
+            ) as unknown as Readable;
+            const fileName = `${createPdfDto.title}.pdf`;
+
+            let s3Url: { key: string; signedUrl: string; };
+            try {
+                s3Url = await this.s3Service.uploadAndGetSignedUrl({
+                    file: pdfStream,
+                    fileName,
+                    category: 'sales-document',
+                    contentType: 'application/pdf',
+                });
+            } catch (err) {
+                console.error('S3 upload error:', err);
+                throw new InternalServerErrorException('S3 upload failed');
+            }
+
+            let fileRecord: any;
+            try {
+                fileRecord = await this.fileService.create(userId, {
+                    originalName: `${createPdfDto.number}.pdf`,
+                    displayName: fileName,
+                    type: 'application/pdf',
+                    category: 'sales-document',
+                    link: s3Url.signedUrl,
+                    projectId: createPdfDto.projectId,
+                    clientId: createPdfDto.clientId,
+                });
+            } catch (err) {
+                console.error('Prisma (file create) error:', err);
+                throw new InternalServerErrorException('Database error');
+            }
+
+            return { url: fileRecord.link };
+        } catch (error) {
+            console.error('Unhandled PDF creation error:', error);
+            throw new InternalServerErrorException('Failed to create PDF');
         }
     }
 }
