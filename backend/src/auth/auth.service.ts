@@ -10,6 +10,7 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 import { ConfigService } from '@nestjs/config';
 import { ResetPasswordDto, ResetPasswordRequestDto } from 'src/shared/zod-schemas/user.schema';
+import { EmailService } from 'src/shared/email/email.service';
 
 @Injectable()
 export class LocalAuthService {
@@ -17,6 +18,7 @@ export class LocalAuthService {
         private prismaService: PrismaService,
         private jwtService: JwtService,
         private configService: ConfigService,
+        private emailService: EmailService,
     ) {}
 
     async validateUser(email: string, pass: string): Promise<any> {
@@ -116,6 +118,10 @@ export class LocalAuthService {
                     'User with this email does not exist',
                 );
             }
+
+            //send reset password email in email service
+            //return successful message
+
         } catch (error) {
             throw new UnauthorizedException(
                 'Failed to process password reset request',
