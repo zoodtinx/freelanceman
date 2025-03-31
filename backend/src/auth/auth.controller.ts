@@ -13,13 +13,21 @@ import {
 } from '@nestjs/common';
 import { RegisterUserDto } from '@types';
 import { Request as ExpressRequest, Response } from 'express';
-import { JwtAccessTokenAuthGuard, JwtRefreshTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
+import {
+    JwtAccessTokenAuthGuard,
+    JwtRefreshTokenAuthGuard,
+    LocalAuthGuard,
+} from 'src/auth/auth.guard';
 import { LocalAuthService, TokenService } from 'src/auth/auth.service';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     loginUserSchema,
     refreshTokenSchema,
     registerUserSchema,
+    ResetPasswordDto,
+    ResetPasswordRequestDto,
+    resetPasswordRequestSchema,
+    resetPasswordSchema,
 } from 'src/shared/zod-schemas/user.schema';
 
 @Controller('auth')
@@ -32,22 +40,19 @@ export class AuthController {
     @UseGuards(JwtAccessTokenAuthGuard)
     @Post('check')
     checkAuth(@Req() req: Request) {
-        return {user: {email: 'zoodtinx@gmail.com'}}
+        return { user: { email: 'zoodtinx@gmail.com' } };
     }
 
     @Get('refresh')
-    async refreshAccessToken(
-        @Req() req: ExpressRequest,
-        @Res() res: Response,
-    ) {
-        const refreshToken = req.cookies?.refreshToken
-        console.log('headers', req.headers)
-        console.log('parsed cookie', req.cookies)
+    async refreshAccessToken(@Req() req: ExpressRequest, @Res() res: Response) {
+        const refreshToken = req.cookies?.refreshToken;
+        console.log('headers', req.headers);
+        console.log('parsed cookie', req.cookies);
 
         if (!refreshToken) {
             throw new UnauthorizedException('No refresh token found');
-          }
-        
+        }
+
         const refreshResult =
             await this.tokenService.refreshAccessToken(refreshToken);
         const { newAccessToken, newRefreshToken, user } = refreshResult;
@@ -74,7 +79,7 @@ export class AuthController {
             sameSite: 'none',
         });
 
-        res.status(200)
+        res.status(200);
 
         return res.json({ accessTokenString, user });
     }
@@ -89,6 +94,19 @@ export class AuthController {
         return res.status(201).json(result);
     }
 
-    @Post('resetpassword')
-    async resetPassword() {}
+    @Post('reset-password-request')
+    async resetPasswordRequest(
+        @Body(new ZodValidationPipe(resetPasswordRequestSchema))
+        payload: ResetPasswordRequestDto,
+    ) {
+        return this.localAuthService.resetPasswordRequest(payload);
+    }
+
+    @Post('reset-password')
+    async resetPassword(
+        @Body(new ZodValidationPipe(resetPasswordSchema))
+        payload: ResetPasswordDto,
+    ) {
+        return this.localAuthService.resetPassword(payload);
+    }
 }

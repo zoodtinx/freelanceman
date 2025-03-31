@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 import { ConfigService } from '@nestjs/config';
+import { ResetPasswordDto, ResetPasswordRequestDto } from 'src/shared/zod-schemas/user.schema';
 
 @Injectable()
 export class LocalAuthService {
@@ -101,6 +102,51 @@ export class LocalAuthService {
             refreshTokenString,
             user,
         };
+    }
+
+    async resetPasswordRequest(payload: ResetPasswordRequestDto) {
+        const { email } = payload;
+        try {
+            const user = await this.prismaService.user.findUnique({
+                where: { email },
+            });
+
+            if (!user) {
+                throw new UnauthorizedException(
+                    'User with this email does not exist',
+                );
+            }
+        } catch (error) {
+            throw new UnauthorizedException(
+                'Failed to process password reset request',
+            );
+        }
+    }
+
+    async resetPassword(payload: ResetPasswordDto) {
+        const { email, password } = payload;
+        try {
+            const user = await this.prismaService.user.findUnique({
+                where: { email },
+            });
+
+            if (!user) {
+                throw new UnauthorizedException(
+                    'User with this email does not exist',
+                );
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            await this.prismaService.user.update({
+                where: { email },
+                data: { password: hashedPassword },
+            });
+
+            return { message: 'Password reset successfully' };
+        } catch (error) {
+            throw new UnauthorizedException('Failed to reset password');
+        }
     }
 }
 
