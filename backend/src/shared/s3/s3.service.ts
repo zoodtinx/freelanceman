@@ -47,18 +47,6 @@ export class S3Service {
         }
       }
       
-      async deleteFile(key: string) {
-        try {
-          const command = new DeleteObjectCommand({
-            Bucket: this.bucket,
-            Key: key,
-          });
-          await this.s3.send(command);
-        } catch (error) {
-          throw new Error('Failed to delete file');
-        }
-      }
-      
       async uploadAndGetSignedUrl({
         file,
         fileName,
@@ -89,6 +77,18 @@ export class S3Service {
           return { key, signedUrl };
         } catch (error) {
           throw new Error('Failed to upload file and generate signed URL');
+        }
+      }
+      
+      async deleteFile(key: string) {
+        try {
+          const command = new DeleteObjectCommand({
+            Bucket: this.bucket,
+            Key: key,
+          });
+          await this.s3.send(command);
+        } catch (error) {
+          throw new Error('Failed to delete file');
         }
       }
 }

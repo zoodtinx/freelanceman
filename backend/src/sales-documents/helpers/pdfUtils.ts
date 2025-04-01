@@ -51,3 +51,4 @@ export function generatePDFStream(data: CreateSalesDocumentDto) {
     doc.end();
     return doc;
 }
+
