@@ -109,4 +109,13 @@ export class AuthController {
     ) {
         return this.localAuthService.resetPassword(payload);
     }
+    
+    
+    @Get('google')
+    async loginWithGoogle(
+        @Body(new ZodValidationPipe(resetPasswordSchema))
+        payload: ResetPasswordDto,
+    ) {
+        return this.googleService.login();
+    }
 }

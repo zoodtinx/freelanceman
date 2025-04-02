@@ -156,6 +156,13 @@ export class LocalAuthService {
     }
 }
 
+
+
+@Injectable()
+export class GoogleService {
+    
+}
+
 @Injectable()
 export class TokenService {
     constructor(

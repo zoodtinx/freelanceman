@@ -21,4 +21,9 @@ export default () => ({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+  },
 })
