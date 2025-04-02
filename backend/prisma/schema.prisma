@@ -10,19 +10,19 @@ datasource db {
 model User {
   id               String           @id @default(uuid())
   displayName      String
-  password         String
+  email            String           @unique
+  password         String?
   specialization   String[]
   bio              String?
-  role             String           @default("user")
-  email            String           @unique
+  role             String          @default("user")
   phoneNumber      String?
   address          String?
   avatar           String?
   pinnedProjects   String[]
   currency         String?
-  quitting         Boolean          @default(false)
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  quitting         Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
   authProvider     AuthProvider[]
   clients          Client[]
   clientContacts   ClientContact[]
@@ -36,11 +36,11 @@ model User {
   partnerCompanies PartnerCompany[] @relation("PartnerCompanyToUser")
 }
 
+
 model AuthProvider {
   id         String @id @default(uuid())
   userId     String
   provider   String
-  providerId String
   user       User   @relation(fields: [userId], references: [id])
 }
 

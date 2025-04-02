@@ -2,6 +2,7 @@ import { RegisterUserDto } from '@types';
 import {
     ConflictException,
     Injectable,
+    InternalServerErrorException,
     UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -11,6 +12,7 @@ import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 import { ConfigService } from '@nestjs/config';
 import { ResetPasswordDto, ResetPasswordRequestDto } from 'src/shared/zod-schemas/user.schema';
 import { EmailService } from 'src/shared/email/email.service';
+import { GoogleUserDto } from 'src/shared/zod-schemas/auth.schema';
 
 @Injectable()
 export class LocalAuthService {
@@ -156,13 +158,6 @@ export class LocalAuthService {
     }
 }
 
-
-
-@Injectable()
-export class GoogleService {
-    
-}
-
 @Injectable()
 export class TokenService {
     constructor(
@@ -242,7 +237,7 @@ export class TokenService {
             { sub: user.id, role: user.role },
             {
                 expiresIn: '15m',
-                secret: this.configService.get('JWT_SECRET'),
+                secret: this.configService.get('jwt.accessSecret'),
             },
         );
 
@@ -251,4 +246,60 @@ export class TokenService {
 }
 
 @Injectable()
-export class GoogleOAuthService {}
+export class GoogleOAuthService {
+    constructor(
+        private prisma: PrismaService,
+        private jwt: JwtService,
+        private config: ConfigService,
+    ) {}
+
+    async login(dto: GoogleUserDto) {
+        const { email, name, picture } = dto;
+
+        try {
+            let user;
+
+            user = await this.prisma.user.findUnique({
+                where: { email: email },
+            });
+
+            if (!user) {
+                user = await this.prisma.user.create({
+                    data: {
+                        email: email,
+                        displayName: name,
+                        avatar: picture,
+                    },
+                });
+            }
+
+            const refreshToken = await this.prisma.refreshToken.create({
+                data: {
+                    userId: user.id,
+                    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                },
+            });
+
+            const accessToken = this.jwt.sign(
+                { sub: user.id },
+                {
+                    secret: this.config.get('jwt.accessSecret'),
+                    expiresIn: '15m',
+                },
+            );
+
+            return {
+                accessToken,
+                refreshToken,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                },
+            };
+        } catch (err) {
+            throw new InternalServerErrorException('Failed to login with Google');
+        }
+    }
+}
+
+

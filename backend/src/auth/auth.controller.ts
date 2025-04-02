@@ -18,7 +18,11 @@ import {
     JwtRefreshTokenAuthGuard,
     LocalAuthGuard,
 } from 'src/auth/auth.guard';
-import { LocalAuthService, TokenService } from 'src/auth/auth.service';
+import {
+    GoogleOAuthService,
+    LocalAuthService,
+    TokenService,
+} from 'src/auth/auth.service';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     loginUserSchema,
@@ -29,12 +33,17 @@ import {
     resetPasswordRequestSchema,
     resetPasswordSchema,
 } from 'src/shared/zod-schemas/user.schema';
+import { AuthGuard } from '@nestjs/passport';
+import { ConfigService } from '@nestjs/config';
+import { GoogleUserDto } from 'src/shared/zod-schemas/auth.schema';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private localAuthService: LocalAuthService,
         private tokenService: TokenService,
+        private googleOAuthService: GoogleOAuthService,
+        private configService: ConfigService,
     ) {}
 
     @UseGuards(JwtAccessTokenAuthGuard)
@@ -109,13 +118,22 @@ export class AuthController {
     ) {
         return this.localAuthService.resetPassword(payload);
     }
-    
-    
-    @Get('google')
-    async loginWithGoogle(
-        @Body(new ZodValidationPipe(resetPasswordSchema))
-        payload: ResetPasswordDto,
-    ) {
-        return this.googleService.login();
+
+    @UseGuards(AuthGuard('google'))
+    @Get('google/callback')
+    async googleCallback(@Req() req: Request, @Res() res: Response) {
+        const dto = req.user;
+        const { accessToken, refreshToken, user } =
+            await this.googleOAuthService.login(dto);
+        const redirectUrl = this.configService.get<string>('url.client');
+
+        res.cookie('refreshToken', refreshToken.id, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+
+        res.redirect(`${redirectUrl}/oauth-success?token=${accessToken}`);
     }
 }

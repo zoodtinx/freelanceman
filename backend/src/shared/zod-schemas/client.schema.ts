@@ -24,3 +24,4 @@ export const searchClientSchema = z.object({
     name: z.string().optional(),
     hasActiveProject: z.boolean().optional()
   });
+
