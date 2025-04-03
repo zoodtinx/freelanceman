@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { LocalAuthService, TokenService } from './auth.service';
+import { GoogleOAuthService, LocalAuthService, TokenService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -8,9 +8,12 @@ import { LocalStrategy } from 'src/auth/strategies/local.strategy';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { RefreshTokenStrategy } from 'src/auth/strategies/refresh.strategy';
+import { EmailService } from 'src/shared/email/email.service';
+import { MailModule } from 'src/shared/email/email.module';
 
 @Module({
     imports: [
+        MailModule,
         PassportModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
@@ -29,10 +32,10 @@ import { RefreshTokenStrategy } from 'src/auth/strategies/refresh.strategy';
     providers: [
         LocalAuthService,
         LocalStrategy,
-        PrismaService,
         JwtStrategy,
         RefreshTokenStrategy,
         TokenService,
+        GoogleOAuthService,
     ],
     controllers: [AuthController],
     exports: [LocalAuthService, JwtModule],

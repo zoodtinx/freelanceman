@@ -13,7 +13,6 @@ import {
 import { Prisma } from '@prisma/client';
 
 @Injectable()
-@Injectable()
 export class TasksService {
     constructor(private prismaService: PrismaService) {}
 

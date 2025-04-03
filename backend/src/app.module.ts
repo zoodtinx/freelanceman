@@ -14,22 +14,30 @@ import { PartnerCompanyModule } from './partner-companies/partner-companies.modu
 import { SalesDocumentsModule } from './sales-documents/sales-documents.module';
 import { SalesDocumentItemsModule } from './sales-document-items/sales-document-items.module';
 import { FilesModule } from './files/files.module';
+import { CronJobsModule } from 'src/jobs/cron-job.module';
+import { S3Module } from 'src/shared/s3/s3.module';
+import { MailModule } from 'src/shared/email/email.module';
+import { DemoModule } from 'src/demo/demo.module';
 
 @Module({
     imports: [
-        AuthModule,
         AppConfigModule,
-        TasksModule,
+        AuthModule,
+        ClientContactsModule,
         ClientsModule,
+        CronJobsModule,
+        DemoModule,
+        EventsModule,
+        FilesModule,
+        MailModule,
+        PartnerCompanyModule,
+        PartnerContactsModule,
         PrismaModule,
         ProjectsModule,
-        EventsModule,
-        ClientContactsModule,
-        PartnerContactsModule,
-        PartnerCompanyModule,
-        SalesDocumentsModule,
+        S3Module,
         SalesDocumentItemsModule,
-        FilesModule,
+        SalesDocumentsModule,
+        TasksModule,
     ],
     providers: [AppService],
     controllers: [AppController],
