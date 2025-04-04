@@ -1,5 +1,5 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { generatePDFStream } from 'src/sales-documents/helpers/pdfUtils';
+import { generatePDFStream } from 'src/sales-documents/helpers/pdf-utils';
 import { Readable } from 'stream';
 
 export class PdfOrchestratorHelper {

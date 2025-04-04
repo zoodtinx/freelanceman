@@ -5,7 +5,7 @@ import {
     InternalServerErrorException,
     UnauthorizedException,
 } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
@@ -59,9 +59,10 @@ export class LocalAuthService {
         });
 
         const payload = { email: result.email };
-        const access_token = this.jwtService.sign(payload);
+        const accessToken = this.jwtService.sign(payload);
+        console.log('accessToken', accessToken)
 
-        return { access_token, user: payload };
+        return { accessToken, user: payload };
     }
 
     async login(req: any) {

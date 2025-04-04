@@ -1,117 +1,96 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import * as request from 'supertest';
+import { INestApplication } from '@nestjs/common';
 import { AuthController } from 'src/auth/auth.controller';
-import { LocalAuthService, TokenService } from 'src/auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { LocalAuthService, GoogleOAuthService, TokenService } from '../auth.service';
 import { ConfigService } from '@nestjs/config';
-import {
-    mockAccessTokenString,
-    mockRefreshTokenString,
-    mockMinimalUserData,
-    mockUser,
-} from 'src/auth/mockData';
-import { Response } from 'express';
-import { User } from '@prisma/client';
 
-describe('AuthController', () => {
-    let controller: AuthController;
-    let authService: LocalAuthService;
-    let tokenService: TokenService;
-    let jwtService: JwtService;
-    let prismaService: PrismaService;
-    let configService: ConfigService;
+describe('AuthController (e2e)', () => {
+  let app: INestApplication;
+  const mockLocalAuthService = {
+    login: jest.fn().mockResolvedValue({
+      accessTokenString: 'access-token',
+      refreshTokenString: 'refresh-token',
+      user: { email: 'test@example.com' },
+    }),
+    register: jest.fn().mockResolvedValue({ message: 'Registered' }),
+    resetPasswordRequest: jest.fn().mockResolvedValue({ message: 'Email sent' }),
+    resetPassword: jest.fn().mockResolvedValue({ message: 'Password reset' }),
+  };
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-            controllers: [AuthController],
-            providers: [
-                LocalAuthService,
-                TokenService,
-                ConfigService,
-                JwtService,
-                {
-                    provide: PrismaService,
-                    useValue: {
-                        user: {
-                            findUnique: jest.fn(),
-                            create: jest.fn(),
-                        },
-                    },
-                },
-                {
-                    provide: LocalAuthService,
-                    useValue: {
-                        login: jest.fn(),
-                        register: jest.fn(),
-                    },
-                },
-                {
-                    provide: JwtService,
-                    useValue: {
-                        sign: jest.fn(),
-                        verify: jest.fn(),
-                    },
-                },
-                {
-                    provide: ConfigService,
-                    useValue: {
-                        get: jest.fn(),
-                    },
-                },
-            ],
-        }).compile();
+  const mockTokenService = {
+    refreshAccessToken: jest.fn().mockResolvedValue({
+      newAccessToken: 'new-access-token',
+      newRefreshToken: 'new-refresh-token',
+      user: { email: 'test@example.com' },
+    }),
+  };
 
-        controller = module.get<AuthController>(AuthController);
-        authService = module.get<LocalAuthService>(LocalAuthService);
-        tokenService = module.get<TokenService>(TokenService);
-        jwtService = module.get<JwtService>(JwtService);
-        prismaService = module.get<PrismaService>(PrismaService);
-        configService = module.get<ConfigService>(ConfigService);
-    });
+  const mockGoogleOAuthService = {
+    login: jest.fn().mockResolvedValue({
+      accessToken: 'access-token',
+      refreshToken: { id: 'refresh-token' },
+      user: { email: 'test@example.com' },
+    }),
+  };
 
-    it('should be defined', () => {
-        expect(controller).toBeDefined();
-    });
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      controllers: [AuthController],
+      providers: [
+        { provide: LocalAuthService, useValue: mockLocalAuthService },
+        { provide: TokenService, useValue: mockTokenService },
+        { provide: GoogleOAuthService, useValue: mockGoogleOAuthService },
+        { provide: ConfigService, useValue: { get: () => 'http://localhost:3000' } },
+      ],
+    }).compile();
 
-    it('should return a respons object with cookie and body containing access token and user data', async () => {
-        const mockReq = {
-            cookies: {
-                refreshToken: '1234'
-            }
-        } as any;
-        const mockRes = {
-            cookie: jest.fn(),
-            json: jest.fn(),
-        } as unknown as Response;
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
 
-        const mockRefreshTokenData = {
-            accessToken: '1234',
-            refreshToken: '1234',
-            user: mockUser,
-        };
+  it('/auth/register (POST)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/register')
+      .send({ email: 'test@example.com', password: '12345678' });
+    expect(res.status).toBe(201);
+    expect(res.body).toEqual({ message: 'Registered' });
+  });
 
-        jest.spyOn(tokenService, 'validateRefreshToken').mockResolvedValue(mockMinimalUserData  as User);
-        jest.spyOn(tokenService, 'refreshAccessToken').mockResolvedValue({
-            newAccessToken: '1234',
-            newRefreshToken: '1234',
-            user: mockUser
-        });
+  it('/auth/login (POST)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'test@example.com', password: '12345678' });
+    expect(res.status).toBe(200);
+    expect(res.body.accessTokenString).toBeDefined();
+    expect(res.body.user).toBeDefined();
+  });
 
-        await controller.refreshAccessToken(mockReq, mockRes);
-        
-        expect(mockRes.cookie).toHaveBeenCalledWith(
-            'refreshToken',
-            mockRefreshTokenData.refreshToken,
-            {
-                httpOnly: true,
-                secure: true,
-                sameSite: 'none',
-            },
-        );
+  it('/auth/refresh (GET)', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/auth/refresh')
+      .set('Cookie', ['refreshToken=refresh-token']);
+    expect(res.status).toBe(200);
+    expect(res.body.newAccessToken).toBeDefined();
+  });
 
-        expect(mockRes.json).toHaveBeenCalledWith({
-            newAccessToken: mockRefreshTokenData.accessToken,
-            user: mockRefreshTokenData.user,
-        });
-    });
+  it('/auth/reset-password-request (POST)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/reset-password-request')
+      .send({ email: 'test@example.com' });
+    expect(res.status).toBe(201);
+    expect(res.body.message).toEqual('Email sent');
+  });
+
+  it('/auth/reset-password (POST)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/reset-password')
+      .send({ token: 'reset-token', newPassword: 'newpass123' });
+    expect(res.status).toBe(201);
+    expect(res.body.message).toEqual('Password reset');
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
 });

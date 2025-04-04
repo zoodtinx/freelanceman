@@ -11,7 +11,7 @@ model User {
   id               String           @id @default(uuid())
   isDemo            Boolean         @default(false)
   displayName      String
-  email            String           @unique
+  email            String           @unique @default("a@a.com")
   password         String?
   specialization   String[]
   bio              String?
@@ -57,7 +57,7 @@ model Client {
   userId         String
   name           String
   taxId          String          @unique
-  email          String
+  email            String           @unique @default("a@a.com")
   phoneNumber    String
   address        String
   detail         String
@@ -79,7 +79,7 @@ model ClientContact {
   name        String
   role        String
   phoneNumber String
-  email       String
+  email            String           @unique @default("a@a.com")
   details     String
   avatar      String
   companyId   String?
@@ -95,7 +95,7 @@ model PartnerCompany {
   userId      String
   name        String
   taxId       String           @unique
-  email       String
+  email            String           @unique @default("a@a.com")
   phoneNumber String
   address     String
   detail      String
@@ -112,7 +112,7 @@ model PartnerContact {
   companyId   String
   role        String
   phoneNumber String
-  email       String
+  email            String           @unique @default("a@a.com")
   details     String
   avatar      String
   createdAt   DateTime                  @default(now())
@@ -230,7 +230,7 @@ model SalesDocument {
   projectDescription      String
   selectedProjectClientId String
   freelancerName          String
-  freelancerEmail         String
+  freelanceremail            String           
   freelancerPhone         String
   freelancerTaxId         String
   freelancerDetail        String?

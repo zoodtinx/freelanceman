@@ -25,3 +25,6 @@ export const searchClientSchema = z.object({
     hasActiveProject: z.boolean().optional()
   });
 
+  export type CreateClientDto = z.infer<typeof createClientSchema>;
+  export type EditClientDto = z.infer<typeof editClientSchema>;
+  export type SearchClientDto = z.infer<typeof searchClientSchema>;

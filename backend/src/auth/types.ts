@@ -3,7 +3,7 @@ export interface AccessTokenPayload {
    sub: string,
    iat: number,
    exp: number,
-   role: 'admin' | 'user'
+   role: string
 }
 
 export interface RefreshTokenPayload {

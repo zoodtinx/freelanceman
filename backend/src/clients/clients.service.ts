@@ -4,7 +4,7 @@ import {
     InternalServerErrorException,
     NotFoundException,
 } from '@nestjs/common';
-import { CreateClientDto } from './dto/create-client.dto';
+import { CreateClientDto, EditClientDto, SearchClientDto } from 'src/shared/zod-schemas/client.schema';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
@@ -18,7 +18,13 @@ export class ClientsService {
         try {
             const result = await this.prismaService.client.create({
                 data: {
-                    ...createClientDto,
+                    name: createClientDto.name,
+                    taxId: createClientDto.taxId,
+                    email: createClientDto.email,
+                    phoneNumber: createClientDto.phoneNumber,
+                    address: createClientDto.address,
+                    detail: createClientDto.detail,
+                    themeColor: createClientDto.themeColor,
                     userId,
                 },
             });
@@ -35,7 +41,7 @@ export class ClientsService {
         }
     }
 
-    async findMany(userId: string, filter: ClientFilter) {
+    async findMany(userId: string, filter: SearchClientDto) {
         try {
             const clients = await this.prismaService.client.findMany({
                 where: {
@@ -96,7 +102,7 @@ export class ClientsService {
     async update(
         userId: string,
         clientId: string,
-        updateClientDto: UpdateClientDto,
+        updateClientDto: EditClientDto,
     ) {
         try {
             const result = await this.prismaService.client.update({

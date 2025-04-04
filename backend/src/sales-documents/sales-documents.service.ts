@@ -13,7 +13,7 @@ import {
 } from 'src/shared/zod-schemas/sales-document.schema';
 import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
-import { generatePDFStream } from 'src/sales-documents/helpers/pdfUtils';
+import { generatePDFStream } from 'src/sales-documents/helpers/pdf-utils';
 import { Readable } from 'stream';
 
 @Injectable()

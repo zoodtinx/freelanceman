@@ -5,7 +5,7 @@ export const createClientContactSchema = z.object({
     companyId: z.string().min(1),
     role: z.string().optional(),
     phoneNumber: z.string().optional(),
-    email: z.array(z.string().email()).optional(),
+  email: z.string().email().optional(),
     detail: z.string().optional(),
     avatar: z.string().url().optional(),
 });
@@ -21,8 +21,8 @@ export const searchClientContactSchema = z.object({
 export const updateClientContactSchema = z.object({
   name: z.string().optional(),
   role: z.string().optional(),
-  phoneNumber: z.array(z.string()).optional(),
-  email: z.array(z.string().email()).optional(),
+  phoneNumber: z.string().optional(),
+  email: z.string().email().optional(),
   details: z.string().optional(),
   avatar: z.string().url().optional(),
 });
