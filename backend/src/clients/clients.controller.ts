@@ -30,7 +30,6 @@ export class ClientsController {
         @Req() req: any,
     ) {
         const userId = req.user.id;
-        console.log('userID', userId)
         return this.clientsService.create(userId, createClientDto);
     }
 
@@ -45,25 +44,26 @@ export class ClientsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') taskId: string, @Req() req: any) {
+    findOne(@Param('id') clientId: string, @Req() req: any) {
         const userId = req.user.id;
-        return this.clientsService.findOne(userId, taskId);
+        console.log('clientId', clientId)
+        return this.clientsService.findOne(userId, clientId);
     }
 
     @Patch(':id')
     update(
-        @Param('id') taskId: string,
+        @Param('id') clientId: string,
         @Body(new ZodValidationPipe(editClientSchema))
         payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;
-        return this.clientsService.update(userId, taskId, payload);
+        return this.clientsService.update(userId, clientId, payload);
     }
 
     @Delete(':id')
-    remove(@Param('id') taskId: string, @Req() req: any) {
+    remove(@Param('id') clientId: string, @Req() req: any) {
         const userId = req.user.id;
-        return this.clientsService.delete(userId, taskId);
+        return this.clientsService.delete(userId, clientId);
     }
 }

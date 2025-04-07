@@ -115,10 +115,10 @@ export class ProjectsService {
 
     async remove(userId: string, projectId: string) {
         try {
-            const result = await this.prismaService.project.delete({
+            await this.prismaService.project.delete({
                 where: { id: projectId, userId },
             });
-            return result;
+            return {success: true};
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {

@@ -26,7 +26,7 @@ export type CreatePartnerCompanyDto = z.infer<
     typeof createPartnerCompanySchema
 >;
 export type UpdatePartnerCompanyDto = z.infer<
-    typeof UpdatePartnerCompanySchema
+    typeof updatePartnerCompanySchema
 >;
 export type SearchPartnerCompanyDto = z.infer<
     typeof searchPartnerCompanySchema

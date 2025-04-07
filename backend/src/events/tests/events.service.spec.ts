@@ -40,7 +40,7 @@ describe('EventsService', () => {
       prisma.event.create.mockResolvedValue({ id: '1' });
       const res = await service.create('uid', {
         name: 'Test',
-        dueAt: new Date(),
+        dueAt: new Date().toISOString(),
         status: 'pending',
         details: '',
         link: '',
@@ -52,12 +52,18 @@ describe('EventsService', () => {
 
     it('throws on duplicate', async () => {
       prisma.event.create.mockRejectedValue(
-        new Prisma.PrismaClientKnownRequestError('msg', 'P2002', 'event'),
+          new Prisma.PrismaClientKnownRequestError(
+              'A client with this unique field already exists',
+              {
+                  code: 'P2002',
+                  clientVersion: '4.0.0',
+              },
+          ),
       );
       await expect(
         service.create('uid', {
           name: '',
-          dueAt: new Date(),
+          dueAt: new Date().toISOString(),
           status: 'pending',
           details: '',
           link: '',
@@ -72,7 +78,7 @@ describe('EventsService', () => {
       await expect(
         service.create('uid', {
           name: '',
-          dueAt: new Date(),
+          dueAt: new Date().toISOString(),
           status: 'pending',
           details: '',
           link: '',

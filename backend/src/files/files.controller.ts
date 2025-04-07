@@ -34,14 +34,15 @@ export class FilesController {
         const userId = req.user.id;
         return this.filesService.create(userId, createDto);
     }
-    
+
     @Post('presign')
     @HttpCode(200)
     getPresignedUrl(
         @Body(new ZodValidationPipe(getPresignedUrlSchema))
         getPresignedUrlDto: any,
     ) {
-        return this.filesService.getPresignedUrl(getPresignedUrlDto);
+        const presignedUrl = this.filesService.getUploadUrl(getPresignedUrlDto);
+        return { presignedUrl: presignedUrl };
     }
 
     @Post('search')

@@ -1,15 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import mockUserRecords from './mocks/mockUser';
 import { mockClients } from './mocks/mockClients';
-import { mockClientContacts } from './mocks/mockClientContacts';
-import { mockEvents } from './mocks/mockEvents';
-import { mockFiles } from './mocks/mockFiles';
-import { mockPartnerCompany } from './mocks/mockPartnerCompany';
-import { mockPartnerContacts } from './mocks/mockPartnerContacts';
-import { mockProjects } from './mocks/mockProjects';
-import { mockSalesDocuments } from './mocks/mockSalesDocument';
-import { mockSalesDocumentItems } from './mocks/mockSalesDocumentItem';
-import { mockTasks } from './mocks/mockTasks';
+import { mockProjectByClient } from './clients/mockProjectByClient';
+import { mockUser } from './mocks/mockUser';
 
 const prisma = new PrismaClient();
 
@@ -17,65 +9,117 @@ async function resetDatabase() {
     console.log('Resetting database...');
 
     await prisma.$transaction([
-        prisma.file.deleteMany(),              
-        prisma.event.deleteMany(),             
-        prisma.salesDocumentItem.deleteMany(), 
-        prisma.salesDocument.deleteMany(),     
-        prisma.task.deleteMany(),              
-        prisma.project.deleteMany(),           
-        prisma.clientContact.deleteMany(),     
-        prisma.partnerContact.deleteMany(),    
-        prisma.partnerCompany.deleteMany(),    
-        prisma.client.deleteMany(),            
-        prisma.user.deleteMany(),              
+        prisma.file.deleteMany(),
+        prisma.event.deleteMany(),
+        prisma.salesDocumentItem.deleteMany(),
+        prisma.salesDocument.deleteMany(),
+        prisma.task.deleteMany(),
+        prisma.project.deleteMany(),
+        prisma.clientContact.deleteMany(),
+        prisma.partnerContact.deleteMany(),
+        prisma.partnerCompany.deleteMany(),
+        prisma.client.deleteMany(),
+        prisma.user.deleteMany(),
     ]);
 
     console.log('Database reset complete.');
 }
 
-async function seedDatabase() {
-    console.log('Seeding database...');
+async function createProject(project: any, userId: string, clientId: string) {
+    const processedTasks = project.tasks.map((task) => ({
+        ...task,
+        userId,
+        clientId,
+    }));
 
-    await prisma.user.createMany({
-        data: mockUserRecords,
+    const processedEvents = project.events.map((event) => ({
+        ...event,
+        userId,
+        clientId,
+    }));
+
+    const processedFiles = project.files.map((file) => ({
+        ...file,
+        userId,
+        clientId,
+    }));
+
+    const processedSalesDocuments = project.salesDocuments.map(
+        (salesDocument) => ({
+            ...salesDocument,
+            userId,
+            clientId,
+            selectedProjectClientId: clientId,
+        }),
+    );
+
+    return prisma.project.create({
+        data: {
+            ...project,
+            userId,
+            clientId,
+            tasks: {
+                createMany: {
+                    data: processedTasks,
+                },
+            },
+            events: {
+                createMany: {
+                    data: processedEvents,
+                },
+            },
+            files: {
+                createMany: {
+                    data: processedFiles,
+                },
+            },
+            salesDocuments: {
+                createMany: {
+                    data: processedSalesDocuments,
+                },
+            },
+        },
     });
-    await prisma.client.createMany({
-        data: mockClients,
-    });
-    await prisma.project.createMany({
-        data: mockProjects,
-    });
-    await prisma.clientContact.createMany({
-        data: mockClientContacts,
-    });
-    await prisma.event.createMany({
-        data: mockEvents,
-    });
-    await prisma.file.createMany({
-        data: mockFiles,
-    });
-    await prisma.partnerCompany.createMany({
-        data: mockPartnerCompany,
-    });
-    await prisma.partnerContact.createMany({
-        data: mockPartnerContacts,
-    });
-    await prisma.salesDocument.createMany({
-        data: mockSalesDocuments,
-    });
-    await prisma.salesDocumentItem.createMany({
-        data: mockSalesDocumentItems,
-    });
-    await prisma.task.createMany({
-        data: mockTasks,
+}
+
+async function seedDatabaseWaterfall() {
+    const createUserResult = await prisma.user.create({
+        data: mockUser,
     });
 
-    console.log('Database seeded successfully.');
+    const userId = createUserResult.id;
+
+    const createClientsResult = await Promise.all(
+        mockClients.map((client) =>
+            prisma.client.create({
+                data: {
+                    ...client,
+                    userId,
+                },
+                select: {
+                    id: true,
+                },
+            }),
+        ),
+    );
+
+    const clientIds = createClientsResult.map((client) => client.id);
+
+    await Promise.all(
+        clientIds.map(async (clientId, index) =>
+            mockProjectByClient[index].map(
+                async (projects) =>
+                    await createProject(projects, userId, clientId),
+            ),
+        ),
+    );
+
+    console.log('Seeded database successfully');
 }
 
 async function main() {
     await resetDatabase();
-    await seedDatabase();
+    await seedDatabaseWaterfall();
 }
 
 main()

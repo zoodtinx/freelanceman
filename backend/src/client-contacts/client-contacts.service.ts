@@ -38,6 +38,7 @@ export class ClientContactService {
             ) {
                 throw new BadRequestException('Client contact already exists');
             }
+            console.log('error', error)
             throw new InternalServerErrorException(
                 'Failed to create client contact',
             );
@@ -113,11 +114,11 @@ export class ClientContactService {
 
     async remove(userId: string, id: string) {
         try {
-            await this.prismaService.clientContact.delete({
+            const result = await this.prismaService.clientContact.delete({
                 where: { id, userId },
             });
 
-            return { success: true };
+            return result
         } catch (error) {
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&

@@ -1,21 +1,17 @@
-import { mockUser } from 'src/auth/mockData';
 import {
     Body,
     Controller,
     Get,
     Post,
     Req,
-    Request,
     Res,
     UnauthorizedException,
     UseGuards,
     UsePipes,
 } from '@nestjs/common';
-import { RegisterUserDto } from '@types';
 import { Request as ExpressRequest, Response } from 'express';
 import {
     JwtAccessTokenAuthGuard,
-    JwtRefreshTokenAuthGuard,
     LocalAuthGuard,
 } from 'src/auth/auth.guard';
 import {
@@ -26,7 +22,7 @@ import {
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     loginUserSchema,
-    refreshTokenSchema,
+    RegisterUserDto,
     registerUserSchema,
     ResetPasswordDto,
     ResetPasswordRequestDto,
@@ -35,7 +31,6 @@ import {
 } from 'src/shared/zod-schemas/user.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { GoogleUserDto } from 'src/shared/zod-schemas/auth.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -121,7 +116,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard('google'))
     @Get('google/callback')
-    async googleCallback(@Req() req: Request, @Res() res: Response) {
+    async googleCallback(@Req() req: any, @Res() res: Response) {
         const dto = req.user;
         const { accessToken, refreshToken, user } =
             await this.googleOAuthService.login(dto);

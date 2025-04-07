@@ -1,88 +1,85 @@
-import { PrismaClient } from '@prisma/client';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import {
-  mockCreateEvent,
-  mockUpdateEvent,
-  mockSearchEvent,
-} from './mockEvents';
+import { mockCreateEventPayload } from './mock-event'; // Add mock data
 import { accessToken } from '../test-utils';
 
-const prisma = new PrismaClient();
+describe('EventController (e2e)', () => {
+    let app: INestApplication;
+    let createdEventId: string | null = null;
 
-describe('EventsController (e2e)', () => {
-  let app: INestApplication;
-  let createdEventId: string | null = null;
+    beforeAll(async () => {
+        const moduleFixture: TestingModule = await Test.createTestingModule({
+            imports: [AppModule],
+        }).compile();
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  it('POST /events - should create an event', async () => {
-    const res = await request(app.getHttpServer())
-      .post('/events')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send(mockCreateEvent)
-      .expect(201);
-
-    expect(res.body).toHaveProperty('id');
-    expect(res.body.name).toBe(mockCreateEvent.name);
-    createdEventId = res.body.id;
-  });
-
-  it('POST /events/search - should return event list', async () => {
-    const res = await request(app.getHttpServer())
-      .post('/events/search')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send(mockSearchEvent)
-      .expect(200);
-
-    expect(Array.isArray(res.body)).toBe(true);
-  });
-
-  it('GET /events/:id - should return the created event', async () => {
-    const res = await request(app.getHttpServer())
-      .get(`/events/${createdEventId}`)
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(200);
-
-    expect(res.body.id).toBe(createdEventId);
-  });
-
-  it('PATCH /events/:id - should update the event', async () => {
-    const res = await request(app.getHttpServer())
-      .patch(`/events/${createdEventId}`)
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send(mockUpdateEvent)
-      .expect(200);
-
-    expect(res.body.name).toBe(mockUpdateEvent.name);
-  });
-
-  it('DELETE /events/:id - should delete the event', async () => {
-    await request(app.getHttpServer())
-      .delete(`/events/${createdEventId}`)
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(200);
-
-    const check = await prisma.event.findUnique({
-      where: { id: createdEventId },
+        app = moduleFixture.createNestApplication();
+        await app.init();
     });
-    expect(check).toBeNull();
-    createdEventId = null;
-  });
 
-  afterAll(async () => {
-    if (createdEventId) {
-      await prisma.event.delete({ where: { id: createdEventId } });
-    }
-    await prisma.$disconnect();
-  });
+    it('POST /events - should create an event', async () => {
+        const response = await request(app.getHttpServer())
+            .post('/events')
+            .set('Authorization', `Bearer ${accessToken}`)
+            .send(mockCreateEventPayload)
+            .expect(201);
+
+        expect(response.body).toHaveProperty('id');
+        expect(response.body.name).toEqual(mockCreateEventPayload.name);
+
+        createdEventId = response.body.id;
+    });
+
+    it('POST /events/search - should find many events with filter', async () => {
+        const searchPayload = { projectId: mockCreateEventPayload.projectId };
+        const response = await request(app.getHttpServer())
+            .post('/events/search')
+            .set('Authorization', `Bearer ${accessToken}`)
+            .send(searchPayload)
+            .expect(200);
+
+        expect(Array.isArray(response.body)).toBe(true);
+        expect(response.body.length).toBeGreaterThan(0);
+    });
+
+    it('PATCH /events/:id - should edit the created event', async () => {
+        const updatedPayload = {
+            name: 'Updated Event Name',
+            dueAt: '2025-04-07T10:00:00Z', 
+        };
+
+        const response = await request(app.getHttpServer())
+            .patch(`/events/${createdEventId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
+            .send(updatedPayload)
+            .expect(200);
+
+        expect(response.body.id).toEqual(createdEventId);
+        expect(response.body.name).toEqual(updatedPayload.name);
+    });
+
+    it('GET /events/:id - should return the updated event', async () => {
+        const getRes = await request(app.getHttpServer())
+            .get(`/events/${createdEventId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
+            .expect(200);
+
+        expect(getRes.body.id).toEqual(createdEventId);
+        expect(getRes.body.name).toEqual('Updated Event Name');
+    });
+
+    it('DELETE /events/:id - should delete the created event', async () => {
+        const deleteRes = await request(app.getHttpServer())
+            .delete(`/events/${createdEventId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
+            .expect(200);
+
+        expect(deleteRes.body).toHaveProperty('success');
+
+        await request(app.getHttpServer())
+            .get(`/events/${createdEventId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
+            .expect(404);
+    });
 });

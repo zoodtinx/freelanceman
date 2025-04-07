@@ -19,7 +19,6 @@ import {
 export class FilesService {
     constructor(
         private prisma: PrismaService,
-        private configService: ConfigService,
         private s3Service: S3Service,
     ) {}
 
@@ -32,6 +31,7 @@ export class FilesService {
                     type: dto.type,
                     category: dto.category,
                     link: dto.link,
+                    s3Key: dto.s3Key,
                     projectId: dto.projectId,
                     clientId: dto.clientId,
                     size: dto.size,
@@ -60,7 +60,7 @@ export class FilesService {
             );
             return presignedUrl;
         } catch (error) {
-            throw new Error('Failed to get upload URL');
+            throw new InternalServerErrorException('Failed to get upload URL');
         }
     }
 
@@ -81,7 +81,7 @@ export class FilesService {
                     projectId: filter.projectId,
                 },
             });
-        } catch {
+        } catch (error) {
             throw new InternalServerErrorException('Failed to find files');
         }
     }
@@ -123,8 +123,9 @@ export class FilesService {
         try {
             const result = await this.prisma.file.findUnique({
                 where: { id: fileId, userId: userId },
-                select: { s3Key: true },
             });
+
+            console.log('result', result)
 
             await this.s3Service.deleteFile(result.s3Key);
 

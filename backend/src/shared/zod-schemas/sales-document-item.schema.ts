@@ -16,7 +16,7 @@ export const updateSalesDocumentItemSchema = z.object({
 });
 
 export type CreateSalesDocumentItemDto = z.infer<
-    typeof salesDocumentItemSchema
+    typeof createSalesDocumentItemSchema
 >;
 
 export type UpdateSalesDocumentItemDto = z.infer<

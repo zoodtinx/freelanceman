@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from 'src/auth/auth.module';
+import { DemoController } from 'src/demo/demo.controller';
 import { DemoService } from 'src/demo/demo.service';
 
 @Module({
@@ -20,6 +22,7 @@ import { DemoService } from 'src/demo/demo.service';
             }),
         }),
     ],
+    controllers: [DemoController],
     providers: [DemoService],
     exports: [DemoService],
 })

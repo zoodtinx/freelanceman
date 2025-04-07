@@ -4,10 +4,9 @@ import {
     S3Client,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Readable } from 'stream';
-import { PrismaService } from 'src/shared/database/prisma.service';
 
 @Injectable()
 export class S3Service {
@@ -16,23 +15,24 @@ export class S3Service {
 
     constructor(
         private configService: ConfigService,
-        private prisma: PrismaService,
-        private s3Service: S3Service,
     ) {
-        this.s3 = new S3Client({
-            region: this.configService.get('AWS_REGION'),
+        this.s3 = new S3Client({  
+          region: this.configService.get('aws.region'),
             credentials: {
-                accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
+                accessKeyId: this.configService.get('aws.accessKeyId'),
                 secretAccessKey: this.configService.get(
-                    'AWS_SECRET_ACCESS_KEY_ID',
+                    'aws.secretAccessKey',
                 ),
             },
         });
-        this.bucket = this.configService.get('AWS_BUCKET_NAME');
+        this.bucket = this.configService.get('aws.bucket');
     }
 
     async getPresignedUrl(fileName: string, category: string, contentType: string) {
-        try {
+      console.log(`${category}/${fileName}`)
+      console.log('contentTyoe', contentType)  
+      
+      try {
           const command = new PutObjectCommand({
             Bucket: this.bucket,
             Key: `${category}/${fileName}`,
@@ -42,8 +42,8 @@ export class S3Service {
           const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
           return url;
         } catch (error) {
-          // optionally log or rethrow
-          throw new Error('Failed to generate presigned URL');
+          console.log('error', error)
+          throw new InternalServerErrorException('Failed to generate presigned URL');
         }
       }
       
@@ -76,7 +76,7 @@ export class S3Service {
       
           return { key, signedUrl };
         } catch (error) {
-          throw new Error('Failed to upload file and generate signed URL');
+          throw new InternalServerErrorException('Failed to upload file and generate signed URL');
         }
       }
       
@@ -88,7 +88,8 @@ export class S3Service {
           });
           await this.s3.send(command);
         } catch (error) {
-          throw new Error('Failed to delete file');
+          console.log('error', error)
+          throw new InternalServerErrorException('Failed to delete file');
         }
       }
 }

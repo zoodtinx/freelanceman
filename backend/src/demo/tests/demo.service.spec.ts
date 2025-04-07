@@ -103,8 +103,8 @@ describe('DemoService', () => {
 
     it('throws if token expired', async () => {
       prisma.refreshToken.findUnique.mockResolvedValue({
-        userId: 'user-id',
-        expiresAt: new Date(Date.now() - 10000),
+        userId: 'expired-user-id',
+        expiresAt: new Date(Date.now() - 10000).toISOString(),
       });
 
       await expect(

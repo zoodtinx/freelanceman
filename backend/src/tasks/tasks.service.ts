@@ -26,6 +26,7 @@ export class TasksService {
                     details: createTaskDto.details,
                     link: createTaskDto.link,
                     projectId: createTaskDto.projectId,
+                    clientId: createTaskDto.clientId,
                     userId: userId,
                 },
             });
@@ -39,13 +40,14 @@ export class TasksService {
                     'A task with this unique field already exists',
                 );
             }
+            console.log('error', error)
             throw new InternalServerErrorException('Failed to create task');
         }
     }
 
     async findAll(userId: string, filter: SearchTaskSchema) {
         try {
-            console.log('filter', filter)
+            console.log('filter', filter);
             const result = await this.prismaService.task.findMany({
                 where: {
                     userId: userId,
@@ -58,7 +60,7 @@ export class TasksService {
                     clientId: filter.clientId,
                 },
             });
-            console.log('result', result)
+            console.log('result', result);
             return result;
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');

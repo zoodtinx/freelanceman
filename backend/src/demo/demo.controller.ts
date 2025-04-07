@@ -1,29 +1,25 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
-import { TokenService } from 'src/auth/auth.service';
 import { DemoService } from 'src/demo/demo.service';
-import { PrismaService } from 'src/shared/database/prisma.service';
 import { Request, Response } from 'express';
 
 @Controller('demo')
 export class DemoController {
     constructor(
         private demoService: DemoService,
-        private prismaService: PrismaService,
     ) {}
 
     @Get()
-    async getDemo(
+    async resolveDemo(
         @Req() req: Request,
         @Res({ passthrough: true }) res: Response,
-    ) {
+    ) { 
+        const oldRefreshToken = req.cookies?.['refresh_token'] ?? null
+
         const { user, refreshToken, accessToken } =
-            await this.demoService.resolveDemoUser(
-                req.cookies['refresh_token'] || '',
-            );
+            await this.demoService.resolveDemoUser(oldRefreshToken);
 
         res.cookie('refresh_token', refreshToken, { httpOnly: true });
-
-        return { user, accessToken };
+        res.status(200).json({ user, accessToken });
     }
 
     @Get('new')
@@ -31,8 +27,8 @@ export class DemoController {
         const { accessToken, refreshToken, user } =
             await this.demoService.resolveNewDemoUser();
 
+        console.log('setting cookie')
         res.cookie('refresh_token', refreshToken, { httpOnly: true });
-
-        return { user, accessToken };
+        res.status(200).json({ user, accessToken });
     }
 }

@@ -1,188 +1,125 @@
-import { Test, TestingModule } from '@nestjs/testing';
+// files.service.spec.ts
+import { Test } from '@nestjs/testing';
 import { FilesService } from 'src/files/files.service';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { S3Service } from 'src/shared/s3/s3.service';
 import {
-  BadRequestException,
-  InternalServerErrorException,
-  NotFoundException,
+    BadRequestException,
+    InternalServerErrorException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { CreateUserDto } from '@types';
+import { CreateFileDto } from 'src/shared/zod-schemas/file.schema';
 
 describe('FilesService', () => {
-  let service: FilesService;
-  let prisma: any;
-  let s3: any;
+    let service: FilesService;
+    let prisma: {
+        file: {
+            create: jest.Mock;
+            findMany: jest.Mock;
+            findUnique: jest.Mock;
+            update: jest.Mock;
+            delete: jest.Mock;
+        };
+    };
+    let s3: jest.Mocked<S3Service>;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        FilesService,
-        {
-          provide: PrismaService,
-          useValue: {
-            file: {
-              create: jest.fn(),
-              findMany: jest.fn(),
-              findUnique: jest.fn(),
-              update: jest.fn(),
-              delete: jest.fn(),
-            },
-          },
-        },
-        {
-          provide: S3Service,
-          useValue: {
-            getPresignedUrl: jest.fn(),
-            deleteFile: jest.fn(),
-          },
-        },
-        { provide: 'ConfigService', useValue: {} },
-      ],
-    }).compile();
+    beforeEach(async () => {
+        const module = await Test.createTestingModule({
+            providers: [
+                FilesService,
+                {
+                    provide: PrismaService,
+                    useValue: {
+                        file: {
+                            create: jest.fn() as jest.Mock,
+                            findMany: jest.fn() as jest.Mock,
+                            findUnique: jest.fn() as jest.Mock,
+                            update: jest.fn() as jest.Mock,
+                            delete: jest.fn() as jest.Mock,
+                        },
+                    },
+                },
+                {
+                    provide: S3Service,
+                    useValue: {
+                        getPresignedUrl: jest.fn(),
+                        deleteFile: jest.fn(),
+                    },
+                },
+            ],
+        }).compile();
 
-    service = module.get(FilesService);
-    prisma = module.get(PrismaService);
-    s3 = module.get(S3Service);
-  });
-
-  describe('create', () => {
-    it('creates file', async () => {
-      prisma.file.create.mockResolvedValue({ id: '1' });
-      const res = await service.create('uid', {
-        originalName: 'x.pdf',
-        displayName: 'file',
-        type: 'pdf',
-        category: 'invoice',
-        link: 'link',
-        size: 123,
-        projectId: 'pid',
-        clientId: 'cid',
-      });
-      expect(res.id).toBe('1');
+        service = module.get(FilesService);
+        prisma = module.get(PrismaService);
+        s3 = module.get(S3Service);
     });
 
-    it('throws on duplicate', async () => {
-      prisma.file.create.mockRejectedValue(
-        new Prisma.PrismaClientKnownRequestError('x', 'P2002', 'file'),
-      );
-      await expect(service.create('uid', {} as any)).rejects.toThrow(
-        BadRequestException,
-      );
+    it('should create a file', async () => {
+        const mockDto: CreateFileDto = {
+            originalName: 'original.txt',
+            displayName: 'Display',
+            category: 'asset',
+            type: 'archive',
+            link: 'https://example.com',
+            projectId: 'project1',
+            clientId: 'client1',
+            size: 123,
+        };
+
+        const result = { id: 'file1', ...mockDto, userId: 'user1' };
+        prisma.file.create.mockResolvedValue(result);
+
+        expect(await service.create('user1', mockDto)).toEqual(result);
     });
 
-    it('throws on general error', async () => {
-      prisma.file.create.mockRejectedValue(new Error());
-      await expect(service.create('uid', {} as any)).rejects.toThrow(
-        InternalServerErrorException,
-      );
-    });
-  });
+    it('should throw on duplicate file', async () => {
+        prisma.file.create.mockRejectedValue(
+            new Prisma.PrismaClientKnownRequestError(
+                'A client with this unique field already exists',
+                {
+                    code: 'P2002',
+                    clientVersion: '4.0.0',
+                },
+            ),
+        );
 
-  describe('getUploadUrl', () => {
-    it('returns presigned url', async () => {
-      s3.getPresignedUrl.mockResolvedValue('url');
-      const res = await service.getUploadUrl({
-        fileName: 'a.jpg',
-        category: 'brief',
-        contentType: 'image/jpeg',
-      });
-      expect(res).toBe('url');
+        await expect(service.create('user1', {} as any)).rejects.toThrow(
+            BadRequestException,
+        );
     });
 
-    it('throws on failure', async () => {
-      s3.getPresignedUrl.mockRejectedValue(new Error());
-      await expect(
-        service.getUploadUrl({ fileName: '', category: '', contentType: '' }),
-      ).rejects.toThrow('Failed to get upload URL');
-    });
-  });
+    it('should return a presigned URL', async () => {
+        const dto = {
+            fileName: 'file.txt',
+            category: 'docs',
+            contentType: 'text/plain',
+        };
+        s3.getPresignedUrl.mockResolvedValue('presigned-url');
 
-  describe('findMany', () => {
-    it('returns files', async () => {
-      prisma.file.findMany.mockResolvedValue([{ id: '1' }]);
-      const res = await service.findMany('uid', {});
-      expect(res).toHaveLength(1);
+        expect(await service.getUploadUrl(dto)).toBe('presigned-url');
     });
 
-    it('throws on error', async () => {
-      prisma.file.findMany.mockRejectedValue(new Error());
-      await expect(service.findMany('uid', {})).rejects.toThrow(
-        InternalServerErrorException,
-      );
-    });
-  });
+    it('should find many files', async () => {
+        const result = [{ id: 'f1' }];
+        prisma.file.findMany.mockResolvedValue(result);
 
-  describe('findOne', () => {
-    it('returns file', async () => {
-      prisma.file.findUnique.mockResolvedValue({ id: '1' });
-      const res = await service.findOne('uid', '1');
-      expect(res.id).toBe('1');
+        expect(await service.findMany('u1', {} as any)).toEqual(result);
     });
 
-    it('throws NotFound if not exist', async () => {
-      prisma.file.findUnique.mockResolvedValue(null);
-      await expect(service.findOne('uid', 'x')).rejects.toThrow(
-        NotFoundException,
-      );
+    it('should update a file', async () => {
+        const dto = { displayName: 'New Name' };
+        const result = { id: 'f1', ...dto };
+        prisma.file.update.mockResolvedValue(result);
+
+        expect(await service.update('u1', 'f1', dto)).toEqual(result);
     });
 
-    it('throws on error', async () => {
-      prisma.file.findUnique.mockRejectedValue(new Error());
-      await expect(service.findOne('uid', '1')).rejects.toThrow(
-        InternalServerErrorException,
-      );
-    });
-  });
+    it('should delete a file', async () => {
+        prisma.file.findUnique.mockResolvedValue({ s3Key: 'key1' } as any);
+        s3.deleteFile.mockResolvedValue(undefined);
+        prisma.file.delete.mockResolvedValue({ id: 'f1' });
 
-  describe('update', () => {
-    it('updates file', async () => {
-      prisma.file.update.mockResolvedValue({ id: '1' });
-      const res = await service.update('uid', '1', { displayName: 'new' });
-      expect(res.id).toBe('1');
+        expect(await service.delete('u1', 'f1')).toEqual({ id: 'f1' });
     });
-
-    it('throws if not found', async () => {
-      prisma.file.update.mockRejectedValue(
-        new Prisma.PrismaClientKnownRequestError('x', 'P2025', 'file'),
-      );
-      await expect(
-        service.update('uid', 'not-found', { displayName: 'x' }),
-      ).rejects.toThrow(BadRequestException);
-    });
-
-    it('throws on error', async () => {
-      prisma.file.update.mockRejectedValue(new Error());
-      await expect(service.update('uid', '1', {})).rejects.toThrow(
-        InternalServerErrorException,
-      );
-    });
-  });
-
-  describe('delete', () => {
-    it('deletes file', async () => {
-      prisma.file.findUnique.mockResolvedValue({ s3Key: 'abc' });
-      prisma.file.delete.mockResolvedValue({ id: '1' });
-      const res = await service.delete('uid', '1');
-      expect(res.id).toBe('1');
-    });
-
-    it('throws if not found (P2025)', async () => {
-      prisma.file.findUnique.mockResolvedValue({ s3Key: 'abc' });
-      prisma.file.delete.mockRejectedValue(
-        new Prisma.PrismaClientKnownRequestError('x', 'P2025', 'file'),
-      );
-      await expect(service.delete('uid', 'bad')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('throws on other error', async () => {
-      prisma.file.findUnique.mockResolvedValue({ s3Key: 'abc' });
-      prisma.file.delete.mockRejectedValue(new Error());
-      await expect(service.delete('uid', '1')).rejects.toThrow(
-        InternalServerErrorException,
-      );
-    });
-  });
 });

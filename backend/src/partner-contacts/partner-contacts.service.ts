@@ -38,6 +38,7 @@ export class PartnerContactService {
       ) {
         throw new BadRequestException('Partner contact already exists');
       }
+      console.log('error', error)
       throw new InternalServerErrorException('Failed to create partner contact');
     }
   }

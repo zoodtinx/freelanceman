@@ -1,10 +1,10 @@
 export default () => ({
     port: parseInt(process.env.PORT, 10) || 3000,
     jwt: {
-        accessSecret: process.env.JWT_ACCESS_SECRET,
-        refreshSecret: process.env.JWT_REFRESH_SECRET,
-        accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN,
-        refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+        accessTokenSecret: process.env.JWT_ACCESS_SECRET,
+        refreshTokenSecret: process.env.JWT_REFRESH_SECRET,
+        accessTokenExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN,
+        refreshTokenExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
     },
     database: {
         url: process.env.DATABASE_URL,
@@ -20,6 +20,10 @@ export default () => ({
         port: parseInt(process.env.SMTP_PORT, 10),
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
+    },
+    resend: {
+        apiKey: process.env.RESEND_API_KEY,
+        emailAddress: process.env.RESEND_EMAIL_ADDRESS,
     },
     google: {
         clientId: process.env.GOOGLE_CLIENT_ID,

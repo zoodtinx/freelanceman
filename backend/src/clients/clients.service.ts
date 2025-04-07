@@ -4,11 +4,13 @@ import {
     InternalServerErrorException,
     NotFoundException,
 } from '@nestjs/common';
-import { CreateClientDto, EditClientDto, SearchClientDto } from 'src/shared/zod-schemas/client.schema';
-import { UpdateClientDto } from './dto/update-client.dto';
+import {
+    CreateClientDto,
+    EditClientDto,
+    SearchClientDto,
+} from 'src/shared/zod-schemas/client.schema';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
-import { ClientFilter } from 'src/clients/dto/find-client.dto';
 
 @Injectable()
 export class ClientsService {
@@ -68,7 +70,7 @@ export class ClientsService {
                 },
             });
 
-            console.log('clients length', clients.length)
+            console.log('clients length', clients.length);
 
             return clients;
         } catch (error) {
@@ -89,7 +91,9 @@ export class ClientsService {
             });
 
             if (!client) {
-                throw new NotFoundException(`Client with ID ${clientId} not found`);
+                throw new NotFoundException(
+                    `Client with ID ${clientId} not found`,
+                );
             }
 
             return client;
@@ -127,6 +131,9 @@ export class ClientsService {
             const result = await this.prismaService.client.delete({
                 where: { id: clientId, userId },
             });
+            
+            console.log('result', result)
+
             return result;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {

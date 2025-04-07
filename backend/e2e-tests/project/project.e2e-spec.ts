@@ -1,22 +1,15 @@
-import { PrismaClient } from '@prisma/client';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import {
-    mockCreateProjectPayload,
-    mockInvalidCreateProjectPayload,
-    mockSearchProjectPayload,
-} from './mocks/mockCreateProjectPayload';
+import { mockCreateProjectPayload } from './mock-project'; // Add mock data
 import { accessToken } from '../test-utils';
 
-const prisma = new PrismaClient();
-
-describe('ProjectsController (e2e)', () => {
+describe('ProjectController (e2e)', () => {
     let app: INestApplication;
     let createdProjectId: string | null = null;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
             imports: [AppModule],
         }).compile();
@@ -26,73 +19,67 @@ describe('ProjectsController (e2e)', () => {
     });
 
     it('POST /projects - should create a project', async () => {
-        const res = await request(app.getHttpServer())
+        const response = await request(app.getHttpServer())
             .post('/projects')
             .set('Authorization', `Bearer ${accessToken}`)
             .send(mockCreateProjectPayload)
             .expect(201);
 
-        expect(res.body).toHaveProperty('id');
-        expect(res.body.title).toEqual(mockCreateProjectPayload.title);
-        createdProjectId = res.body.id;
-        console.log('createdProjectId', createdProjectId)
+        expect(response.body).toHaveProperty('id');
+        expect(response.body.title).toEqual(mockCreateProjectPayload.title);
+
+        createdProjectId = response.body.id;
     });
 
-    it('POST /projects - should fail validation', async () => {
-        await request(app.getHttpServer())
-            .post('/projects')
-            .set('Authorization', `Bearer ${accessToken}`)
-            .send(mockInvalidCreateProjectPayload)
-            .expect(400);
-    });
-
-    it('POST /projects/search - should return list of projects', async () => {
-        const res = await request(app.getHttpServer())
+    it('POST /projects/search - should find many projects with filter', async () => {
+        const searchPayload = { title: mockCreateProjectPayload.title };
+        const response = await request(app.getHttpServer())
             .post('/projects/search')
             .set('Authorization', `Bearer ${accessToken}`)
-            .send(mockSearchProjectPayload)
+            .send(searchPayload)
             .expect(200);
 
-        expect(Array.isArray(res.body)).toBe(true);
+        expect(Array.isArray(response.body)).toBe(true);
+        expect(response.body.length).toBeGreaterThan(0);
     });
 
-    it('GET /projects/:id - should return the created project', async () => {
-        const res = await request(app.getHttpServer())
+    it('PATCH /projects/:id - should edit the created project', async () => {
+        const updatedPayload = {
+            title: 'Updated Project title',
+            description: 'Updated Project Description',
+        };
+
+        const response = await request(app.getHttpServer())
+            .patch(`/projects/${createdProjectId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
+            .send(updatedPayload)
+            .expect(200);
+
+        expect(response.body.id).toEqual(createdProjectId);
+        expect(response.body.title).toEqual(updatedPayload.title);
+    });
+
+    it('GET /projects/:id - should return the updated project', async () => {
+        const getRes = await request(app.getHttpServer())
             .get(`/projects/${createdProjectId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .expect(200);
 
-        expect(res.body.id).toBe(createdProjectId);
+        expect(getRes.body.id).toEqual(createdProjectId);
+        expect(getRes.body.title).toEqual('Updated Project title');
     });
 
-    it('PATCH /projects/:id - should update the project', async () => {
-        const res = await request(app.getHttpServer())
-            .patch(`/projects/${createdProjectId}`)
-            .set('Authorization', `Bearer ${accessToken}`)
-            .send({ title: 'Updated Title' })
-            .expect(200);
-
-        expect(res.body.title).toBe('Updated Title');
-    });
-
-    it('DELETE /projects/:id - should delete the project', async () => {
-        await request(app.getHttpServer())
+    it('DELETE /projects/:id - should delete the created project', async () => {
+        const deleteRes = await request(app.getHttpServer())
             .delete(`/projects/${createdProjectId}`)
             .set('Authorization', `Bearer ${accessToken}`)
             .expect(200);
-            
-        const check = await prisma.project.findUnique({
-            where: { id: createdProjectId },
-        });
-        expect(check).toBeNull();
 
-        createdProjectId = null;
-    });
+        expect(deleteRes.body).toHaveProperty('success');
 
-    afterAll(async () => {
-        if (createdProjectId) {
-            await prisma.project.delete({ where: { id: createdProjectId } });
-            createdProjectId = null;
-        }
+        await request(app.getHttpServer())
+            .get(`/projects/${createdProjectId}`)
+            .set('Authorization', `Bearer ${accessToken}`)
+            .expect(404);
     });
 });

@@ -7,4 +7,6 @@ export async function resetDatabase() {
 }
 
 export const accessToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzY5ZDk4Zi0xZTI1LTQ5YWQtOWU0MS1jMDVkM2QyNjFlZjQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0Mjg3Mzg2NiwiZXhwIjoxNzQ1NDY1ODY2fQ.YCZR9LQ1gzAc2-sHLEvYoBgXxRoscIGw0Kx-EHUCA8g';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhNjRjMmU0Zi02YWZkLTRhMjgtOTYzZi1jZTliNWRjZGQ4ZTkiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NDAwMjMwMiwiZXhwIjoxNzQ5MTg2MzAyfQ.xy_PnQjq5t2LY4PaC62i2I4H-13oM3YEDovuk69_Aw8';
+
+export const refreshToken = '2769d98f-1e25-49ad-9e41-c05d3d261ef8';

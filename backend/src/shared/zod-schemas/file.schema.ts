@@ -19,25 +19,27 @@ const fileType = z.enum([
 const fileCategory = z.enum(["personal", "document", "work", "asset"]);
 
 export const createFileSchema = z.object({
-  originalName: z.string().min(1),
-  displayName: z.string().min(1),
-  type: fileType,
-  category: fileCategory,
-  link: z.string().url(),
+  originalName: z.string(),
+  displayName: z.string(),
+  type: z.string(),
+  category: z.string(),
+  link: z.string(),
+  s3Key: z.string(),
   projectId: z.string().optional(),
   clientId: z.string().optional(),
+  userId: z.string(),
   size: z.number().optional(),
 });
 
 export const updateFileSchema = z.object({
-  displayName: z.string().min(1),
-  type: fileType,
+  displayName: z.string().min(1).optional(),
+  type: fileType.optional(),
 });
 
 export const searchFileSchema = z.object({
   displayName: z.string().optional(),
-  category: fileCategory.optional(),
-  type: fileType.optional(),
+  category: z.string().optional(),
+  type: z.string().optional(),
   clientId: z.string().optional(),
   projectId: z.string().optional(),
 });

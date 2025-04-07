@@ -36,6 +36,6 @@ import { MailModule } from 'src/shared/email/email.module';
         GoogleOAuthService,
     ],
     controllers: [AuthController],
-    exports: [LocalAuthService, JwtModule],
+    exports: [LocalAuthService, JwtModule, TokenService],
 })
 export class AuthModule {}

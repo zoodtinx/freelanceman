@@ -1,4 +1,4 @@
-import { RegisterUserDto } from '@types';
+
 import {
     ConflictException,
     Injectable,
@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 import { ConfigService } from '@nestjs/config';
-import { ResetPasswordDto, ResetPasswordRequestDto } from 'src/shared/zod-schemas/user.schema';
+import { RegisterUserDto, ResetPasswordDto, ResetPasswordRequestDto } from 'src/shared/zod-schemas/user.schema';
 import { EmailService } from 'src/shared/email/email.service';
 import { GoogleUserDto } from 'src/shared/zod-schemas/auth.schema';
 
@@ -24,7 +24,7 @@ export class LocalAuthService {
     ) {}
 
     async validateUser(email: string, pass: string): Promise<any> {
-        const user = await this.prismaService.user.findUnique({
+        const user = await this.prismaService.user.findFirst({
             where: { email },
         });
 
@@ -39,7 +39,7 @@ export class LocalAuthService {
     }
 
     async register(registerUserDto: RegisterUserDto) {
-        const existingUser = await this.prismaService.user.findUnique({
+        const existingUser = await this.prismaService.user.findFirst({
             where: { email: registerUserDto.email },
         });
 
@@ -49,7 +49,7 @@ export class LocalAuthService {
 
         const hashedPassword = await bcrypt.hash(registerUserDto.password, 10);
 
-        const newUser = {
+        const newUser: any = {
             ...registerUserDto,
             password: hashedPassword,
         };
@@ -74,8 +74,8 @@ export class LocalAuthService {
                 role: user.role,
             },
             {
-                expiresIn: '15m',
-                secret: this.configService.get('JWT_SECRET'),
+                expiresIn: this.configService.get('jwt.accessTokenExpiresIn'),
+                secret: this.configService.get('jwt.accessTokenSecret'),
             },
         );
 
@@ -97,8 +97,8 @@ export class LocalAuthService {
                 sub: refreshTokenRecord.id,
             },
             {
-                expiresIn: '14d',
-                secret: this.configService.get('JWT_REFRESH_SECRET'),
+                expiresIn: this.configService.get('jwt.accessTokenExpiresIn'),
+                secret: this.configService.get('jwt.refreshTokenSecret'),
             },
         );
 
@@ -112,7 +112,7 @@ export class LocalAuthService {
     async resetPasswordRequest(payload: ResetPasswordRequestDto) {
         const { email } = payload;
         try {
-            const user = await this.prismaService.user.findUnique({
+            const user = await this.prismaService.user.findFirst({
                 where: { email },
             });
 
@@ -135,7 +135,7 @@ export class LocalAuthService {
     async resetPassword(payload: ResetPasswordDto) {
         const { email, password } = payload;
         try {
-            const user = await this.prismaService.user.findUnique({
+            const user = await this.prismaService.user.findFirst({
                 where: { email },
             });
 
@@ -238,7 +238,7 @@ export class TokenService {
             { sub: user.id, role: user.role },
             {
                 expiresIn: '15m',
-                secret: this.configService.get('jwt.accessSecret'),
+                secret: this.configService.get('jwt.accessTokenSecret'),
             },
         );
 
@@ -260,7 +260,7 @@ export class GoogleOAuthService {
         try {
             let user;
 
-            user = await this.prisma.user.findUnique({
+            user = await this.prisma.user.findFirst({
                 where: { email: email },
             });
 

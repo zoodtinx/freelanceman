@@ -18,7 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prisma:seed": "ts-node --transpile-only src/shared/database/seed.ts"
+    "prisma:seed": "ts-node --transpile-only src/shared/database/seed.ts",
+    "test-s3": "ts-node --transpile-only ./scripts/test-s3",
+    "test-resend": "ts-node --transpile-only ./scripts/test-resend",
+    "get-access-token": "ts-node --transpile-only ./scripts/get-access-token"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.775.0",
@@ -50,6 +53,7 @@
     "pdfkit": "^0.16.0",
     "prisma": "^6.4.1",
     "reflect-metadata": "^0.2.0",
+    "resend": "^4.2.0",
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.1",
     "sharp": "^0.33.5",

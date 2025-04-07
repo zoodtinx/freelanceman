@@ -22,7 +22,6 @@ export class SalesDocumentsService {
         private prismaService: PrismaService,
         private s3Service: S3Service,
         private fileService: FilesService,
-        private pdfService: any,
     ) {}
 
     async create(userId: string, createDto: CreateSalesDocumentDto) {
@@ -42,7 +41,7 @@ export class SalesDocumentsService {
                     selectedProjectClientId: createDto.selectedProjectClientId,
 
                     freelancerName: createDto.freelancerName,
-                    freelancerEmail: createDto.freelancerEmail,
+                    freelanceremail: createDto.freelancerEmail,
                     freelancerPhone: createDto.freelancerPhone,
                     freelancerTaxId: createDto.freelancerTaxId,
                     freelancerDetail: createDto.freelancerDetail,
@@ -186,7 +185,6 @@ export class SalesDocumentsService {
                     contentType: 'application/pdf',
                 });
             } catch (err) {
-                console.error('S3 upload error:', err);
                 throw new InternalServerErrorException('S3 upload failed');
             }
 
@@ -195,20 +193,18 @@ export class SalesDocumentsService {
                 fileRecord = await this.fileService.create(userId, {
                     originalName: `${createPdfDto.number}.pdf`,
                     displayName: fileName,
-                    type: 'application/pdf',
-                    category: 'sales-document',
+                    type: 'document',
+                    category: 'document',
                     link: s3Url.signedUrl,
                     projectId: createPdfDto.projectId,
                     clientId: createPdfDto.clientId,
                 });
             } catch (err) {
-                console.error('Prisma (file create) error:', err);
                 throw new InternalServerErrorException('Database error');
             }
 
             return { url: fileRecord.link };
         } catch (error) {
-            console.error('Unhandled PDF creation error:', error);
             throw new InternalServerErrorException('Failed to create PDF');
         }
     }

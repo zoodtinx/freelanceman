@@ -6,18 +6,15 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { TokenService } from 'src/auth/auth.service';
 import mockUserRecords from 'src/shared/database/mocks/mockUser';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { userExcludedFields } from 'src/shared/database/utils/omit-list';
-import { ApiCreateDemoUserResponse } from 'src/shared/types/api-response.type';
 
 @Injectable()
 export class DemoService {
     constructor(
         private jwtService: JwtService,
         private prismaService: PrismaService,
-        private tokenService: TokenService,
         private configService: ConfigService,
     ) {}
 
@@ -26,10 +23,11 @@ export class DemoService {
         try {
             demoUser = await this.prismaService.user.create({
                 data: mockUserRecords[0],
-                omit: userExcludedFields,
             });
+            console.log('created demo user')
             return demoUser;
         } catch (error) {
+            console.log('error', error)
             throw new InternalServerErrorException(
                 `Failed to create demo user`,
             );
@@ -37,31 +35,54 @@ export class DemoService {
     }
 
     async createRefreshToken(user: any) {
-        const refreshToken = await this.prismaService.refreshToken.create({
-            data: {
-                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-                userId: user.id,
-            },
-            select: { id: true },
-        });
+        let refreshToken;
+
+        try {
+            refreshToken = await this.prismaService.refreshToken.create({
+                data: {
+                    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                    userId: user.id,
+                },
+                select: { id: true },
+            });
+            console.log('created refresh token')
+        } catch (error) {
+            throw new InternalServerErrorException(
+                'Failed to create refresh token',
+            );
+        }
         return refreshToken.id;
     }
 
     async resolveNewDemoUser() {
-        const demoUser = await this.createDemoUser();
-        const newRefreshToken = await this.createRefreshToken(demoUser);
-        const accessToken = this.jwtService.sign(
-            { sub: demoUser.id, role: demoUser.role },
-            {
-                expiresIn: '15m',
-                secret: this.configService.get('jwt.accessSecret'),
-            },
-        );
+        let demoUser: Partial<User>;
+        let newRefreshToken: string;
+        let accessToken: string;
+
+        try {
+            demoUser = await this.createDemoUser();
+            newRefreshToken = await this.createRefreshToken(demoUser);
+            console.log('signing access token')
+            accessToken = this.jwtService.sign(
+                { sub: demoUser.id, role: demoUser.role },
+                {
+                    expiresIn: '15m',
+                    secret: this.configService.get('jwt.accessTokenSecret'),
+                },
+            );
+            console.log('access token signed')
+        } catch (error) {
+            console.log('error', error)
+            throw new InternalServerErrorException(
+                'Failed to resolve new demo user',
+            );
+        }
 
         return { user: demoUser, refreshToken: newRefreshToken, accessToken };
     }
 
     async resolveDemoUser(refreshToken?: string) {
+        
         if (!refreshToken) {
             return await this.resolveNewDemoUser();
         }
@@ -72,9 +93,7 @@ export class DemoService {
             });
 
             if (result.expiresAt && new Date(result.expiresAt) < new Date()) {
-               throw new UnauthorizedException(
-                  `Refresh token expired`,
-              );
+                throw new UnauthorizedException('Refresh token expired');
             }
 
             const user = await this.prismaService.user.findUnique({
@@ -86,7 +105,7 @@ export class DemoService {
                 { sub: user.id, role: user.role },
                 {
                     expiresIn: '15m',
-                    secret: this.configService.get('jwt.accessSecret'),
+                    secret: this.configService.get('jwt.accessTokenSecret'),
                 },
             );
 
@@ -96,8 +115,13 @@ export class DemoService {
                 accessToken,
             };
         } catch (error) {
+            if (error instanceof UnauthorizedException) {
+                throw error;
+            }
+
+            console.log('error', error)
             throw new InternalServerErrorException(
-                `Failed to resolve demo user`,
+                'Failed to resolve demo user',
             );
         }
     }

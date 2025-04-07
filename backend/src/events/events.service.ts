@@ -96,7 +96,7 @@ export class EventsService {
       await this.prismaService.event.delete({
         where: { id: eventId, userId },
       });
-      return { success: true };
+      return { success: true }
     } catch (error) {
       throw new InternalServerErrorException('Failed to remove event');
     }
