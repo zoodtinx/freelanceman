@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import mockUserRecords from 'src/shared/database/mocks/mockUser';
+import * as cookieParser from 'cookie-parser';
 
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
@@ -13,6 +13,7 @@ describe('AuthController (e2e)', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        app.use(cookieParser());
         await app.init();
     });
 

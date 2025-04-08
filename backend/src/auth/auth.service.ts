@@ -60,7 +60,7 @@ export class LocalAuthService {
 
         const payload = { email: result.email };
         const accessToken = this.jwtService.sign(payload);
-        console.log('accessToken', accessToken)
+        console.log('accessToken', accessToken);
 
         return { accessToken, user: payload };
     }
@@ -122,9 +122,9 @@ export class LocalAuthService {
                 );
             }
 
-            //send reset password email in email service
-            //return successful message
-
+            await this.emailService.sendResetPasswordEmail('peerapon.klajing@gmail.com', '1234');
+            
+            return;
         } catch (error) {
             throw new UnauthorizedException(
                 'Failed to process password reset request',
@@ -146,6 +146,8 @@ export class LocalAuthService {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
+
+            console.log('hashedPassword', hashedPassword)
 
             await this.prismaService.user.update({
                 where: { email },
@@ -204,6 +206,7 @@ export class TokenService {
     }
 
     async refreshAccessToken(oldRefreshToken: any) {
+        console.log('oldRefreshToken', oldRefreshToken)
         const refreshTokenData =
             await this.prismaService.refreshToken.findUnique({
                 where: { id: oldRefreshToken },

@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
     Post,
     Req,
     Res,
@@ -67,7 +68,7 @@ export class AuthController {
             sameSite: 'none',
         });
 
-        return res.json({ newAccessToken, user });
+        res.json({ newAccessToken, user });
     }
 
     @UseGuards(LocalAuthGuard)
@@ -99,19 +100,23 @@ export class AuthController {
     }
 
     @Post('reset-password-request')
+    @HttpCode(200)
     async resetPasswordRequest(
         @Body(new ZodValidationPipe(resetPasswordRequestSchema))
         payload: ResetPasswordRequestDto,
     ) {
-        return this.localAuthService.resetPasswordRequest(payload);
+        const result = await this.localAuthService.resetPasswordRequest(payload)
+        return { success: true }
     }
 
     @Post('reset-password')
+    @HttpCode(200)
     async resetPassword(
         @Body(new ZodValidationPipe(resetPasswordSchema))
         payload: ResetPasswordDto,
     ) {
-        return this.localAuthService.resetPassword(payload);
+        const result = await this.localAuthService.resetPassword(payload);
+        return { success: true }
     }
 
     @UseGuards(AuthGuard('google'))

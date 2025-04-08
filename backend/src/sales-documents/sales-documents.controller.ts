@@ -27,55 +27,83 @@ export class SalesDocumentsController {
     ) {}
 
     @Post()
-    create(
+    async create(
         @Body(new ZodValidationPipe(createSalesDocumentSchema))
         createDto: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;
-        return this.salesDocumentsService.create(userId, createDto);
+        const result = await this.salesDocumentsService.create(
+            userId,
+            createDto,
+        );
+        return { success: true, data: result };
     }
 
     @Post('search')
     @HttpCode(200)
-    findMany(
+    async findMany(
         @Body(new ZodValidationPipe(searchSalesDocumentSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;
-        return this.salesDocumentsService.findMany(userId, payload);
+        const result = await this.salesDocumentsService.findMany(
+            userId,
+            payload,
+        );
+        return { success: true, data: result };
     }
 
     @Get(':id')
-    findOne(@Param('id') docId: string, @Req() req: any) {
+    async findOne(@Param('id') docId: string, @Req() req: any) {
         const userId = req.user.id;
-        return this.salesDocumentsService.findOne(userId, docId);
+        const result = await this.salesDocumentsService.findOne(userId, docId);
+        if (!result) {
+            return { success: false, message: 'Document not found' };
+        }
+        return { success: true, data: result };
     }
 
     @Patch(':id')
-    update(
+    async update(
         @Param('id') docId: string,
         @Body(new ZodValidationPipe(updateSalesDocumentSchema))
         updateDto: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;
-        return this.salesDocumentsService.update(userId, docId, updateDto);
+        const result = await this.salesDocumentsService.update(
+            userId,
+            docId,
+            updateDto,
+        );
+        if (!result) {
+            return { success: false, message: 'Failed to update document' };
+        }
+        return { success: true, data: result };
     }
 
     @Delete(':id')
-    remove(@Param('id') docId: string, @Req() req: any) {
+    async remove(@Param('id') docId: string, @Req() req: any) {
         const userId = req.user.id;
-        return this.salesDocumentsService.delete(userId, docId);
+        const result = await this.salesDocumentsService.delete(userId, docId);
+        if (!result) {
+            return { success: false, message: 'Failed to delete document' };
+        }
+        return { success: true, message: 'Document deleted successfully' };
     }
 
     @Post('create-pdf')
-    createPdf(
+    async createPdf(
         @Body(new ZodValidationPipe(createSalesDocumentSchema))
         createPdfDto: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;
-        return this.salesDocumentsService.create(userId, createPdfDto)
+        const result = await this.salesDocumentsService.createPdf(
+            userId,
+            createPdfDto,
+        );
+        return { success: true, data: result };
     }
 }

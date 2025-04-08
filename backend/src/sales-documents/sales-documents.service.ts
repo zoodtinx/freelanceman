@@ -13,7 +13,7 @@ import {
 } from 'src/shared/zod-schemas/sales-document.schema';
 import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
-import { generatePDFStream } from 'src/sales-documents/helpers/pdf-utils';
+import { generatePDFBuffer } from 'src/sales-documents/helpers/pdf-utils';
 import { Readable } from 'stream';
 
 @Injectable()
@@ -171,15 +171,17 @@ export class SalesDocumentsService {
 
     async createPdf(userId: string, createPdfDto: any) {
         try {
-            const pdfStream = generatePDFStream(
+            const pdfBuffer = (await generatePDFBuffer(
                 createPdfDto,
-            ) as unknown as Readable;
+            )) as unknown as Readable;
+
             const fileName = `${createPdfDto.title}.pdf`;
 
-            let s3Url: { key: string; signedUrl: string; };
+            let s3Response: any;
+
             try {
-                s3Url = await this.s3Service.uploadAndGetSignedUrl({
-                    file: pdfStream,
+                s3Response = await this.s3Service.uploadAndGetSignedUrl({
+                    file: pdfBuffer,
                     fileName,
                     category: 'sales-document',
                     contentType: 'application/pdf',
@@ -189,13 +191,15 @@ export class SalesDocumentsService {
             }
 
             let fileRecord: any;
+
             try {
                 fileRecord = await this.fileService.create(userId, {
                     originalName: `${createPdfDto.number}.pdf`,
                     displayName: fileName,
                     type: 'document',
                     category: 'document',
-                    link: s3Url.signedUrl,
+                    s3Key: s3Response.key,
+                    link: s3Response.signedUrl,
                     projectId: createPdfDto.projectId,
                     clientId: createPdfDto.clientId,
                 });
@@ -203,7 +207,7 @@ export class SalesDocumentsService {
                 throw new InternalServerErrorException('Database error');
             }
 
-            return { url: fileRecord.link };
+            return { pdfUrl: fileRecord.link };
         } catch (error) {
             throw new InternalServerErrorException('Failed to create PDF');
         }

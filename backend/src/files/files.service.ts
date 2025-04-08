@@ -39,6 +39,7 @@ export class FilesService {
                 },
             });
         } catch (error) {
+            console.log('error', error)
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&
                 error.code === 'P2002'

@@ -53,7 +53,7 @@ export class S3Service {
         category,
         contentType,
       }: {
-        file: Buffer | Readable;
+        file: Readable;
         fileName: string;
         category: string;
         contentType: string;
@@ -76,6 +76,7 @@ export class S3Service {
       
           return { key, signedUrl };
         } catch (error) {
+          console.log('error', error)
           throw new InternalServerErrorException('Failed to upload file and generate signed URL');
         }
       }
