@@ -12,6 +12,7 @@ import ClientPage from "@/routes/ClientPage";
 import IncomePage from "src/routes/IncomePage";
 import SalesDocumentBuilderPage from "src/components/page-elements/documents/DocumentPageCreateMode";
 import LoginPage from "@/routes/LoginPage";
+import RegisterPage from "@/routes/RegisterPage";
 
 export const router = createBrowserRouter([
    {
@@ -24,7 +25,7 @@ export const router = createBrowserRouter([
    },
    {
       path: '/register',
-      element: <Navigate to={'home/projects'} />,
+      element: <RegisterPage />,
    },
    {
       path: '/home',

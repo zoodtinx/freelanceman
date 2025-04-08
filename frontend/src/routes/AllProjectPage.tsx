@@ -29,14 +29,14 @@ export default function AllProjectPage() {
    return (
       <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative">
          <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto min-h-0 relative">
-         <div className="sticky top-0 z-20">
-            <ProjectFilterBar
-               projectFilter={projectFilter}
-               setProjectFilter={setProjectFilter}
-               viewMode={viewMode}
-               setViewMode={setViewMode}
-            />
-         </div>
+            <div className="sticky top-0 z-20">
+               <ProjectFilterBar
+                  projectFilter={projectFilter}
+                  setProjectFilter={setProjectFilter}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
+               />
+            </div>
             <div className="sm:hidden">
                {viewMode === 'grid' && (
                   <ProjectGrid projects={projects} isLoading={isLoading} />

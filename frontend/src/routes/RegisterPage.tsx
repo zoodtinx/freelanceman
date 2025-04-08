@@ -5,9 +5,14 @@ import {
    Label,
    TextInputForm,
 } from '@/components/shared/ui/form-field-elements';
-import { registerUser } from '@/lib/api/auth-api';
+import { register } from '@/lib/api/auth-api';
+import useAuthStore from '@/lib/zustand/auth-store';
 
 const RegisterPage: React.FC = () => {
+   const setAccessToken = useAuthStore(
+      (state) => state.setAccessToken
+   );
+   
    const formMethods = useForm();
    const {
       handleSubmit,
@@ -25,8 +30,8 @@ const RegisterPage: React.FC = () => {
          password: data.password,
       }
 
-      const result = await registerUser(payload)
-      console.log('result', result)
+      const { accessToken } = await register(payload);
+      setAccessToken(accessToken)
    };
 
    return (

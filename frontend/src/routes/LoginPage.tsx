@@ -1,106 +1,96 @@
-import type React from 'react';
+import React from 'react';
+import { HamIcon } from 'lucide-react';
+import { useForm, Controller } from 'react-hook-form';
+import {
+   Label,
+   TextInputForm,
+} from '@/components/shared/ui/form-field-elements';
+import { login } from '@/lib/api/auth-api';
+import useAuthStore from '@/lib/zustand/auth-store';
+import { useNavigate } from 'react-router-dom';
 
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+const RegisterPage: React.FC = () => {
+   const navigate = useNavigate()
+   const setAccessToken = useAuthStore((state) => state.setAccessToken);
 
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/shared/ui/primitives/Button';
-import { Input } from '@/components/shared/ui/primitives/Input';
-import { Label } from '@/components/shared/ui/form-field-elements';
-import FreelanceManLogo from '@/components/page-elements/app-layout/topbar/Logo';
+   const formMethods = useForm();
+   const {
+      handleSubmit,
+      formState: { errors },
+   } = formMethods;
 
-export default function LoginPage() {
-   const [showPassword, setShowPassword] = useState(false);
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
-   const [rememberMe, setRememberMe] = useState(false);
+   const handleGoogleSignup = () => {
+      console.log('Google Sign-up triggered');
+   };
 
-   const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      // Handle login logic here
-      console.log({ email, password, rememberMe });
+   const onSubmit = async (data: any) => {
+      const payload = {
+         email: data.email,
+         password: data.password,
+      };
+
+      console.log('payload', payload)
+
+      const result = await login(payload);
+
+      if (result.success) {
+         setAccessToken(result.data.accessToken);
+         navigate('/home');
+      }
    };
 
    return (
-      <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative justify-center items-center">
-         <div className="w-full max-w-md rounded-2xl border bg-card text-card-foreground shadow-sm">
-            <div className="flex flex-col space-y-1.5 p-6">
-               <h2 className="text-2xl font-bold">Login</h2>
-               <p className="text-sm text-muted-foreground">
-                  Enter your email and password to access your account
-               </p>
-            </div>
-            <form onSubmit={handleSubmit}>
-               <div className="p-6 pt-0 space-y-4">
-                  <div className="space-y-2">
-                     <Label htmlFor="email">Email</Label>
-                     <Input
-                        id="email"
-                        type="email"
-                        placeholder="name@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                     />
-                  </div>
-                  <div className="space-y-2">
-                     <div className="flex items-center justify-between">
-                        <Label htmlFor="password">Password</Label>
-                        <Link
-                           href="/forgot-password"
-                           className="text-sm text-primary hover:underline"
-                        >
-                           Forgot password?
-                        </Link>
-                     </div>
-                     <div className="relative">
-                        <Input
-                           id="password"
-                           type={showPassword ? 'text' : 'password'}
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}
-                           required
-                        />
-                        <Button
-                           type="button"
-                           variant="ghost"
-                           size="icon"
-                           className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                           onClick={() => setShowPassword(!showPassword)}
-                           aria-label={
-                              showPassword ? 'Hide password' : 'Show password'
-                           }
-                        >
-                           {showPassword ? (
-                              <EyeOff className="h-4 w-4 text-muted-foreground" />
-                           ) : (
-                              <Eye className="h-4 w-4 text-muted-foreground" />
-                           )}
-                        </Button>
-                     </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                     <Label htmlFor="remember" className="text-sm font-normal">
-                        Remember me
-                     </Label>
-                  </div>
+      <div className="bg-background w-full h-screen flex items-center justify-center">
+         <div className="bg-white p-8 rounded-2xl w-full max-w-md">
+            <h2 className="text-xl font-medium text-center mb-6">Login</h2>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+               <div>
+                  <Label>Email</Label>
+                  <TextInputForm
+                     fieldName="email"
+                     formMethods={formMethods}
+                     required={true}
+                  />
                </div>
-               <div className="flex flex-col space-y-4 p-6 pt-0">
-                  <Button type="submit" className="w-full">
-                     Sign in
-                  </Button>
-                  <p className="text-center text-sm text-muted-foreground">
-                     Don&apos;t have an account?{' '}
-                     <Link
-                        href="/signup"
-                        className="text-primary hover:underline"
-                     >
-                        Sign up
-                     </Link>
-                  </p>
+               <div>
+                  <Label>Password</Label>
+                  <TextInputForm
+                     fieldName="password"
+                     formMethods={formMethods}
+                     required={true}
+                  />
                </div>
+
+               <button
+                  type="submit"
+                  className="w-full py-2 bg-indigo-600 text-white rounded-md mt-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               >
+                  Log In
+               </button>
             </form>
+
+            <button
+               onClick={handleGoogleSignup}
+               className="w-full mt-2 flex items-center justify-center py-2 border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+               <HamIcon className="w-5 h-5 mr-2" />
+               Sign up with Google
+            </button>
+
+            <div className="mt-4 text-center text-sm text-gray-600">
+               <span>Already have an account?</span>
+               <a
+                  href="/login"
+                  className="text-indigo-600 hover:text-indigo-800"
+               >
+                  {' '}
+                  Log in
+               </a>
+            </div>
          </div>
       </div>
    );
-}
+};
+
+export default RegisterPage;
