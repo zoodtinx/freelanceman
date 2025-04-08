@@ -6,9 +6,8 @@ import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
 import { ProjectSearchOption } from '@types';
 
-
 export default function AllProjectPage() {
-   const { theme } = useTheme(); 
+   const { theme } = useTheme();
 
    useEffect(() => {
       const htmlClass = document.documentElement.className;
@@ -17,8 +16,8 @@ export default function AllProjectPage() {
          '(prefers-color-scheme: dark)'
       ).matches;
       console.log('Prefers dark mode:', prefersDarkMode ? 'dark' : 'light');
-   }, [theme]); 
-   
+   }, [theme]);
+
    const [projectFilter, setProjectFilter] = useState<ProjectSearchOption>({
       projectStatus: 'active',
    });
@@ -28,33 +27,26 @@ export default function AllProjectPage() {
    const { data: projects, isLoading } = useAllProjectsQuery(projectFilter);
 
    return (
-      <div className="overflow-hidden flex flex-col flex-grow min-h-0">
-         <ProjectFilterBar
-            projectFilter={projectFilter}
-            setProjectFilter={setProjectFilter}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-         />
-         <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto min-h-0">
+      <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative">
+         <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto min-h-0 relative">
+         <div className="sticky top-0 z-20">
+            <ProjectFilterBar
+               projectFilter={projectFilter}
+               setProjectFilter={setProjectFilter}
+               viewMode={viewMode}
+               setViewMode={setViewMode}
+            />
+         </div>
             <div className="sm:hidden">
                {viewMode === 'grid' && (
-                  <ProjectGrid
-                     projects={projects}
-                     isLoading={isLoading}
-                  />
+                  <ProjectGrid projects={projects} isLoading={isLoading} />
                )}
                {viewMode === 'list' && (
-                  <ProjectList
-                     projects={projects}
-                     isLoading={isLoading}
-                  />
+                  <ProjectList projects={projects} isLoading={isLoading} />
                )}
             </div>
             <div className="hidden sm:block">
-               <ProjectList
-                  projects={projects}
-                  isLoading={isLoading}
-               />
+               <ProjectList projects={projects} isLoading={isLoading} />
             </div>
          </div>
       </div>
