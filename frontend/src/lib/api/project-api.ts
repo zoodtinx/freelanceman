@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getProjects } from '@/lib/api/services/project-service';
 import {
    editProject,
    getProject,
@@ -6,6 +7,7 @@ import {
    deleteProject,
 } from './mock/mock-project-service';
 import type { CreateProjectDto, EditProjectDto, Project, ProjectSearchOption } from '@types';
+import useAuthStore from '@/lib/zustand/auth-store';
 
 
 export const useProjectApi = () => {
@@ -18,9 +20,12 @@ export const useProjectApi = () => {
 
 
 export const useAllProjectsQuery = (searchOptions: ProjectSearchOption = {}) => {
+   const { accessToken } = useAuthStore();
+
    return useQuery({
       queryKey: ['projects', searchOptions],
-      queryFn: () => getAllProjects(searchOptions),
+      queryFn: () => getProjects(accessToken, searchOptions),
+      retry: false,
    });
 };
 

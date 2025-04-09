@@ -7,12 +7,22 @@ import {
 import { EllipsisVertical } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectList: React.FC<ProjectListProps> = ({
-   projects,
-   isLoading,
-}): JSX.Element => {
+const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
+   const { data: projects, isLoading, isError, error } = queryResult;
+
    if (isLoading) {
       return <p>Loading</p>;
+   }
+
+   if (isError) {
+      if ((error as any).message === 'Internal Server Error') {
+         <p>Something went wrong on our end. Please try again later.</p>;
+      }
+      if ((error as any).message === 'Network Error') {
+         return (
+            <p>Unable to connect. Please check your internet connection.</p>
+         );
+      }
    }
 
    if (!projects || projects.length === 0) {
@@ -53,7 +63,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
    };
 
    const formattedDate = format(
-      new Date(project.modifiedAt),
+      new Date(project.updatedAt),
       'dd MMM'
    ).toUpperCase();
 

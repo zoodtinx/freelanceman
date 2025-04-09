@@ -5,9 +5,11 @@ import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
 import { ProjectSearchOption } from '@types';
+import { useNavigate } from 'react-router-dom';
 
 export default function AllProjectPage() {
    const { theme } = useTheme();
+   const navigate = useNavigate();
 
    useEffect(() => {
       const htmlClass = document.documentElement.className;
@@ -24,7 +26,14 @@ export default function AllProjectPage() {
 
    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-   const { data: projects, isLoading } = useAllProjectsQuery(projectFilter);
+   const projectsQueryResult = useAllProjectsQuery(projectFilter);
+
+   const { isError, error } = projectsQueryResult;
+
+   if (isError && error.message === 'Unauthorized') {
+      navigate('/login');
+      return;
+   }
 
    return (
       <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative">
@@ -39,14 +48,20 @@ export default function AllProjectPage() {
             </div>
             <div className="sm:hidden">
                {viewMode === 'grid' && (
-                  <ProjectGrid projects={projects} isLoading={isLoading} />
+                  <ProjectGrid
+                     queryResult={projectsQueryResult}
+                  />
                )}
                {viewMode === 'list' && (
-                  <ProjectList projects={projects} isLoading={isLoading} />
+                  <ProjectList
+                  queryResult={projectsQueryResult}
+                  />
                )}
             </div>
             <div className="hidden sm:block">
-               <ProjectList projects={projects} isLoading={isLoading} />
+               <ProjectList
+                  queryResult={projectsQueryResult}
+               />
             </div>
          </div>
       </div>

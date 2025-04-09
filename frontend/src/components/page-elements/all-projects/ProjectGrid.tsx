@@ -7,12 +7,24 @@ import {
    ProjectCardProps,
    QuickTaskBubbleProps,
 } from '@/components/page-elements/all-projects/props.type';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectGrid: React.FC<ProjectListProps> = ({ projects, isLoading }) => {
+const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult }) => {
+   const { data: projects, isLoading, isError, error } = queryResult;
+
    if (isLoading) {
       return <p>Loading</p>;
+   }
+
+   if (isError) {
+      if ((error as any).message === 'Internal Server Error') {
+         <p>Something went wrong on our end. Please try again later.</p>;
+      }
+      if ((error as any).message === 'Network Error') {
+         return (
+            <p>Unable to connect. Please check your internet connection.</p>
+         );
+      }
    }
 
    if (!projects || projects.length === 0) {
@@ -104,7 +116,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                }}
             >
                <UsersRound className="w-[17px]" />
-               <p className=''>{project.client}</p>
+               <p className="">{project.client}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
                {project.title}

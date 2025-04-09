@@ -1,9 +1,9 @@
+import { UseQueryResult } from '@tanstack/react-query';
 import { Project, ProjectSearchOption, Task } from '@types';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {
-   projects: Project[] | undefined;
-   isLoading: boolean;
+   queryResult: UseQueryResult<Project[], Error>
 }
 
 export interface ProjectCardProps {
