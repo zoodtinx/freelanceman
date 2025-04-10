@@ -1,4 +1,4 @@
-const seedTaskData = (projectData) => [
+export const getTasks = (projectData) => [
     {
         ...projectData['Brand Identity for Thai Coffee Co.'],
         name: 'Initial Design Concept Meeting',

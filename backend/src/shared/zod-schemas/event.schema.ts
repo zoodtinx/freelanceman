@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const eventStatusEnum = z.enum(['scheduled', 'done', 'cancelled']);
+export const eventStatusEnum = z.enum(['scheduled', 'completed', 'cancelled']);
 
 export const createEventSchema = z.object({
   name: z.string().min(1),

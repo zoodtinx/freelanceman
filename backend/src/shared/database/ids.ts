@@ -1,0 +1,5 @@
+
+    export const userId = "82f89c77-4b3f-4d31-8305-a316f6ec2f9e";
+    export const clientId = {"Panya Design Works":"98253db0-a2bc-4f6d-84f0-4d5edb1de45d","Lotus River Hotel":"a5c75b5b-6bfe-4446-a950-f67acbfd34c4","Lanna Associates":"eeba7f2c-391a-4a0f-baf2-36c2936cb5d3","Sullivan & Phanich":"f038a6cb-bcfd-414c-b261-a1e40fd89cdd","Chao Phraya Bank":"01b6701a-74ec-486c-b5e3-4aba5e665d35","Bamboo Bay Beauty":"41250dc6-fe80-4425-95ab-f3f20cc71dd9"};
+    export const partnerCompanyId = {"Momentum Studios":"51b8925a-ece2-476b-ad00-ac7ff77cbf47","Visionary Talent Agency":"ccdce367-6619-4060-81bf-86173334bc32","Echo Media Group":"5698ed45-7e4e-4005-94ec-99b9aac32cc0","Flicker Films":"daab9e7e-f611-47e1-be85-0f32ddf9a500","Pulse Creative":"1698aad3-d83d-42e9-999b-13c92b5f2c85","Zenith Talent":"2ab15004-6aba-4133-a29f-824d20a5cb88","Freelancers":"cf9568c3-989e-49b4-9e11-48bba17e00a9"};
+  
