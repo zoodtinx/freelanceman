@@ -6,6 +6,8 @@ import {
    deleteEvent,
 } from './mock/mock-event-service';
 import type { CreateEventDto, EditEventDto, Event, EventFields, EventFilter, EventSearchOption } from '@types';
+import useAuthStore from '@/lib/zustand/auth-store';
+import { getEvents } from '@/lib/api/services/event-service';
 
 
 export const useEventApi = () => {
@@ -18,11 +20,12 @@ export const useEventApi = () => {
 
 export const useEventsQuery = (
    searchOptions: EventFilter = {},
-   fields: EventFields
 ) => {
+   const { accessToken } = useAuthStore();
+   
    return useQuery({
-      queryKey: ['events', searchOptions, fields],
-      queryFn: () => getAllEvents(searchOptions, fields),
+      queryKey: ['events', searchOptions],
+      queryFn: () => getEvents(accessToken, searchOptions),
    });
 };
 

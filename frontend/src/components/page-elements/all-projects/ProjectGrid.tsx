@@ -50,12 +50,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       (state) => state.setFormDialogState
    );
 
-   const { data: quickTask, isLoading } = useTaskQuery(project.quickTaskId);
    const navigate = useNavigate();
-
-   if (isLoading) {
-      return null;
-   }
 
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -96,7 +91,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          duration-75 shadow-md max-w-[400px]
          `}
          style={{
-            borderColor: `var(--freelanceman-theme-${project.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
          }}
          onClick={handleProjectNavigation}
       >
@@ -116,7 +111,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                }}
             >
                <UsersRound className="w-[17px]" />
-               <p className="">{project.client}</p>
+               <p className="">{project.client.name}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
                {project.title}
@@ -124,10 +119,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          </div>
          <QuickTaskBubble
             projectStatus={project.projectStatus}
-            task={quickTask}
+            task={project.tasks[0]}
          />
          <div
-            className={`absolute inset-0 transition-opacity bg-theme-${project.themeColor}`}
+            className={`absolute inset-0 transition-opacity bg-theme-${project.client.themeColor}`}
          />
          <div
             className={`absolute inset-0 opacity-35 group-hover:opacity-75
@@ -141,49 +136,50 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
    task,
    projectStatus,
 }) => {
-   const isActive = task.dueAt && new Date(task.dueAt) > new Date();
    const handleClick = () => {
-      //open task dialog
+      // open task dialog
    };
 
-   if (isActive) {
+   if (projectStatus === 'completed') {
       return (
          <div
             className={`
-               flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background 
+               flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
+               rounded-full h-[30px] z-10 cursor-pointer
+            `}
+         >
+            <CircleCheck className="h-[20px] w-auto" />
+            <p className="truncate">Project is completed</p>
+         </div>
+      );
+   }
+
+   if (task) {
+      return (
+         <div
+            className={`
+               flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background
                rounded-full h-[30px] z-10 cursor-pointer
             `}
             onClick={handleClick}
          >
-            <CircleCheck className=" h-[20px] w-auto" />
-            <p className=" truncate">{task.name}</p>
-         </div>
-      );
-   } else if (!isActive && projectStatus === 'completed') {
-      return (
-         <div
-            className={`
-            flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
-            rounded-full h-[30px] z-10 cursor-pointer
-         `}
-         >
-            <CircleCheck className=" h-[20px] w-auto" />
-            <p className=" truncate">Project is completed</p>
-         </div>
-      );
-   } else {
-      return (
-         <div
-            className={`
-            flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
-            rounded-full h-[30px] z-10 cursor-pointer
-         `}
-         >
-            <CircleCheck className=" h-[20px] w-auto" />
-            <p className=" truncate">No active task</p>
+            <CircleCheck className="h-[20px] w-auto" />
+            <p className="truncate">{task.name}</p>
          </div>
       );
    }
+
+   return (
+      <div
+         className={`
+            flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background text-secondary
+            rounded-full h-[30px] z-10 cursor-pointer
+         `}
+      >
+         <CircleCheck className="h-[20px] w-auto" />
+         <p className="truncate">No active task</p>
+      </div>
+   );
 };
 
 export default ProjectGrid;

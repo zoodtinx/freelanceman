@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getTasks } from '@/lib/api/services/task-service';
 import {
    editTask,
    getTask,
@@ -7,6 +8,7 @@ import {
    deleteTask,
 } from './mock/mock-task-service';
 import type { CreateTaskDto, EditTaskDto, Task, TaskSearchOption } from '@types';
+import useAuthStore from '@/lib/zustand/auth-store';
 
 
 export const useTaskApi = () => {
@@ -19,9 +21,11 @@ export const useTaskApi = () => {
 
 
 export const useAllTasksQuery = (searchOptions: TaskSearchOption = {}) => {
+   const { accessToken } = useAuthStore();
+   
    return useQuery({
       queryKey: ['tasks', searchOptions],
-      queryFn: () => getAllTasks(searchOptions),
+      queryFn: () => getTasks(accessToken, searchOptions),
    });
 };
 

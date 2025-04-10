@@ -62,6 +62,8 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
       });
    };
 
+   console.log(project.updatedAt)
+
    const formattedDate = format(
       new Date(project.updatedAt),
       'dd MMM'
@@ -71,8 +73,8 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
       <div
          className="flex rounded-[15px] h-[40px] relative border overflow-hidden transition-colors group"
          style={{
-            backgroundColor: `var(--freelanceman-theme-${project.themeColor})`,
-            borderColor: `var(--freelanceman-theme-${project.themeColor})`,
+            backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
          }}
          onClick={handleProjectNavigation}
       >
@@ -86,7 +88,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
                   className="w-fit text-right mr-8 cursor-pointer hover:opacity-60 transition-opacity"
                   onClick={handleClientNavigation}
                >
-                  {project.client}
+                  {project.client.name}
                </p>
                <p className="w-[140px]">
                   Updated :{' '}

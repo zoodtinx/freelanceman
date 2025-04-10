@@ -7,7 +7,7 @@ type State = {
 
 const useAuthStore = create<State>((set) => ({
    accessToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhNjRjMmU0Zi02YWZkLTRhMjgtOTYzZi1jZTliNWRjZGQ4ZTkiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NDAwMjMwMiwiZXhwIjoxNzQ5MTg2MzAyfQ.xy_PnQjq5t2LY4PaC62i2I4H-13oM3YEDovuk69_Aw8',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYzlmZjExYS02ZGNhLTQ4M2UtYmIwNi0xMTI5MDIwYzM5MzYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NDI4ODQ0NywiZXhwIjoxNzQ5NDcyNDQ3fQ.shQAOme77Y2TVlpM5L_ALNWyN7uUXyheEUA73i7VGi8',
    // accessToken:
    //    'eyA8',
 

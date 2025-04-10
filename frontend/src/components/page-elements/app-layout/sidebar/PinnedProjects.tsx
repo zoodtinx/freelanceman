@@ -1,8 +1,6 @@
 import { cn } from '@/lib/helper/utils';
 import { useTranslation } from 'react-i18next';
 import { Pin } from '@/components/shared/icons';
-import { useState } from 'react';
-import { PencilRuler } from 'lucide-react';
 import { useAllProjectsQuery } from '@/lib/api/project-api';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Project } from '@types';
@@ -27,9 +25,14 @@ export default function PinnedProjects() {
 
 
 const PinnedProjectTabs: React.FC = () => {
-   const { data: projects, isLoading } = useAllProjectsQuery({ pinned: true });
+   const { data: projects, isLoading, isError } = useAllProjectsQuery({ pinned: true });
+   
    if (isLoading) {
       return <p>Loading...</p>
+   }
+
+   if (isError) {
+      return null
    }
 
    const pinnedProjects = projects.map((project) => {
@@ -63,7 +66,7 @@ const PinnedProjectCard = ({ project }: { project: Project }) => {
                isActive && 'bg-foreground text-primary'
             )}
          >
-            <p className="p-[6px] px-2 line-clamp-2 font-medium">
+            <p className="p-[6px] px-2 line-clamp-2 text-ellipsis font-normal">
                {project.title}
             </p>
          </div>
@@ -71,7 +74,7 @@ const PinnedProjectCard = ({ project }: { project: Project }) => {
             <div
                className="w-full h-1/2 z-10 absolute"
                style={{
-                  backgroundColor: `var(--freelanceman-theme-${project.themeColor})`,
+                  backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
                }}
             />
          ) : (
