@@ -7,6 +7,8 @@ import {
    deleteClient,
 } from './mock/mock-client-service';
 import type { CreateClientDto, EditClientDto, Client, ClientSearchOption } from '@types';
+import useAuthStore from '@/lib/zustand/auth-store';
+import { getClients } from '@/lib/api/services/client-service';
 
 
 export const useClientApi = () => {
@@ -27,9 +29,11 @@ export const useAllClientsQuery = (searchOptions: ClientSearchOption = {}) => {
 
 
 export const useClientsQuery = (searchOptions: ClientSearchOption = {}) => {
+   const { accessToken } = useAuthStore();
+
    return useQuery({
-   queryKey: ['clients', JSON.stringify(searchOptions)],
-      queryFn: () => getAllClients(searchOptions),
+   queryKey: ['clients', searchOptions],
+      queryFn: () => getClients(accessToken, searchOptions),
    });
 };
 

@@ -6,13 +6,11 @@ import {
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { Contact, ContactSearchOption } from '@types';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { useClientContactsQuery } from '@/lib/api/contact-api';
+import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 

@@ -7,7 +7,7 @@ import { Plus } from '@/components/shared/icons';
 import { Contact, ContactSearchOption } from '@types';
 import { useEffect, useState } from 'react';
 import { User, BookUser } from 'lucide-react';
-import { useClientContactsQuery } from '@/lib/api/contact-api';
+import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';

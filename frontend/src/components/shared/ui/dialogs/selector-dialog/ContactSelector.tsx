@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { ClientContactSearchOption } from '@types';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
-import { useClientContactsQuery } from '@/lib/api/contact-api';
+import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
 
 const ContactSelector = () => {

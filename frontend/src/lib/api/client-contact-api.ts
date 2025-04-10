@@ -4,7 +4,6 @@ import {
    deleteContact as deleteClientClientContact,
    editContact as editClientContact,
    getAllContacts as getAllClientContact,
-   getContact as getClientContact
 } from './mock/mock-contact-service';
 import {
    ClientContact,
@@ -12,6 +11,8 @@ import {
    CreateClientContactDto,
    EditClientContactDto,
 } from '@types';
+import useAuthStore from '@/lib/zustand/auth-store';
+import { getClientContacts, getClientContact } from '@/lib/api/services/client-contact-service';
 
 
 export const useClientContactApi = () => {
@@ -32,17 +33,20 @@ export const useAllClientContactsQuery = (searchOptions: ClientContactSearchOpti
 
 
 export const useClientContactsQuery = (searchOptions: ClientContactSearchOption = {}) => {
+   const { accessToken } = useAuthStore();
+
    return useQuery({
-      queryKey: ['clientContacts', JSON.stringify(searchOptions)],
-      queryFn: () => getAllClientContact(searchOptions),
+      queryKey: ['clientContacts', searchOptions],
+      queryFn: () => getClientContacts(accessToken, searchOptions),
    });
 };
 
-
 export const useClientContactQuery = (clientContactId: string) => {
-   return useQuery<ClientContact, Error, ClientContact>({
+   const { accessToken } = useAuthStore();
+
+   return useQuery({
       queryKey: ['clientContacts', clientContactId],
-      queryFn: () => getClientContact(clientContactId),
+      queryFn: () => getClientContact(accessToken, clientContactId),
    });
 };
 

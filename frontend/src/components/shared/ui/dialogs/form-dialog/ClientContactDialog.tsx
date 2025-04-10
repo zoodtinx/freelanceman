@@ -11,7 +11,7 @@ import {
    Label,
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { useClientContactApi } from '@/lib/api/contact-api';
+import { useClientContactApi } from 'src/lib/api/client-contact-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';

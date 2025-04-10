@@ -4,9 +4,8 @@ import ClientCard from './ClientCard';
 import { Building2 } from 'lucide-react';
 import { ClientSearchOption } from '@types';
 import { useState } from 'react';
-import { useAllClientsQuery } from '@/lib/api/client-api';
+import { useAllClientsQuery, useClientsQuery } from '@/lib/api/client-api';
 import { Switch } from 'src/components/shared/ui/primitives/Switch';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultClientValue, defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 
@@ -17,7 +16,7 @@ const ClientColumn = (): JSX.Element => {
 
    const isWithActiveProject = searchOptions.hasActiveProject
 
-   const { data: clients, isLoading } = useAllClientsQuery(searchOptions);
+   const { data: clients, isLoading } = useClientsQuery(searchOptions);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
