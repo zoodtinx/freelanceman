@@ -46,7 +46,7 @@ export default function EventSection() {
                   }
                >
                   <ToggleGroupItem value="scheduled">Scheduled</ToggleGroupItem>
-                  <ToggleGroupItem value="finished">Finished</ToggleGroupItem>
+                  <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
