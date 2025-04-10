@@ -1,7 +1,7 @@
 import { cn } from '@/lib/helper/utils';
 import { useTranslation } from 'react-i18next';
 import { Pin } from '@/components/shared/icons';
-import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Project } from '@types';
 
@@ -25,7 +25,7 @@ export default function PinnedProjects() {
 
 
 const PinnedProjectTabs: React.FC = () => {
-   const { data: projects, isLoading, isError } = useAllProjectsQuery({ pinned: true });
+   const { data: projects, isLoading, isError } = useProjectsQuery({ pinned: true });
    
    if (isLoading) {
       return <p>Loading...</p>

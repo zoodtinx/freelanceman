@@ -4,8 +4,10 @@ import { NewActionButton } from '@/components/page-elements/actions/NewActionBut
 import { useEventsQuery } from '@/lib/api/event-api';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { EventList } from '@/components/page-elements/actions/EventList';
-import { ToggleGroup, ToggleGroupItem } from '@/components/shared/ui/primitives/ToggleGroup';
-import useDialogStore from '@/lib/zustand/dialog-store';
+import {
+   ToggleGroup,
+   ToggleGroupItem,
+} from '@/components/shared/ui/primitives/ToggleGroup';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function EventSection() {
@@ -25,10 +27,9 @@ export default function EventSection() {
          mode: 'create',
          openedOn: 'action-page',
          type: 'event',
-         data: defaultEventValues
-      })
-   }
-
+         data: defaultEventValues,
+      });
+   };
 
    return (
       <div className="flex flex-col grow">
@@ -50,10 +51,7 @@ export default function EventSection() {
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
-            <NewActionButton
-               type="event"
-               setDialogState={handleNewEvent}
-            />
+            <NewActionButton type="event" setDialogState={handleNewEvent} />
          </div>
          <EventList
             eventsData={eventsData}

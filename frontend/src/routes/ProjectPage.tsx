@@ -13,7 +13,6 @@ import {
 import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
 import { Project } from '@types';
-import { UseQueryResult } from '@tanstack/react-query';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
 export interface ProjectPageSectionProps {
@@ -118,7 +117,7 @@ const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
                   to={`../../clients/${project.clientId}`}
                   className="text-md font-medium select-none"
                >
-                  {project.client}
+                  {project.client.name}
                </Link>
             </div>
             <div className="flex gap-1">

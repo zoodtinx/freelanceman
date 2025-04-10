@@ -4,13 +4,13 @@ import { Project, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
-import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 
 const ProjectInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocument>} ) => {
    const [searchTerm, setSearchTerm] = useState({})
    const [selectedProject, setSelectedProject] = useState({})
    const [projectData, setProjectData] = useState<Project | undefined>()
-   const {data: projectList, isLoading} = useAllProjectsQuery(searchTerm)
+   const {data: projectList, isLoading} = useProjectsQuery(searchTerm)
 
    const { setValue } = formMethods;
 

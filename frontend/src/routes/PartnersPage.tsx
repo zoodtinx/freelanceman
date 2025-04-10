@@ -17,7 +17,7 @@ import { Partner, PartnerSearchOption } from '@types';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { BookUser } from 'lucide-react';
-import { useAllPartnerContactsQuery } from '@/lib/api/partner-api';
+import { usePartnerContactsQuery } from 'src/lib/api/partner-contact-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 
@@ -28,7 +28,7 @@ const PartnerContactLayout = (): JSX.Element => {
    const [searchMode, setSearchMode] = useState('name');
 
    const { data: contacts, isLoading } =
-      useAllPartnerContactsQuery(searchOptions);
+      usePartnerContactsQuery(searchOptions);
 
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
       switch (searchMode) {
@@ -130,6 +130,8 @@ const PartnerTab = ({ contact }: { contact: Partner }) => {
       });
    };
 
+   console.log('contact.company', contact)
+
    return (
       <div
          className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary"
@@ -146,7 +148,7 @@ const PartnerTab = ({ contact }: { contact: Partner }) => {
                </p>
             </div>
             <p className="w-fit text-right cursor-pointer hover:opacity-60 transition-opacity">
-               {contact.company}
+               {contact.company.name}
             </p>
          </div>
       </div>

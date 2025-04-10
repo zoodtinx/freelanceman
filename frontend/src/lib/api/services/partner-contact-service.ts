@@ -1,30 +1,27 @@
-import { ProjectSearchOption } from '@types';
-
-
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
 import { ClientSearchOption } from '@types';
 
-export async function getProjects(
+export async function getPartnerContacts(
    accessToken: string,
-   filter: ProjectSearchOption
+   filter: ClientSearchOption
 ) {
    return await fetchProMax({
       accessToken,
-      apiEndpoint: 'projects/search',
+      apiEndpoint: 'partner-contacts/search',
       method: 'POST',
-      model: 'project',
+      model: 'partner contact',
       requestPayload: filter,
    });
 }
 
-export async function getProject(
+export async function getPartnerContact(
    accessToken: string,
-   projectId: string
+   partnerContactId: ClientSearchOption
 ) {
    return await fetchProMax({
       accessToken,
-      apiEndpoint: `projects/${projectId}`,
+      apiEndpoint: `partner-contacts/${partnerContactId}`,
       method: 'GET',
-      model: 'project',
+      model: 'client',
    });
 }

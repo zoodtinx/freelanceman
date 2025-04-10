@@ -1,6 +1,6 @@
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
@@ -26,7 +26,7 @@ export default function AllProjectPage() {
 
    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-   const projectsQueryResult = useAllProjectsQuery(projectFilter);
+   const projectsQueryResult = useProjectsQuery(projectFilter);
 
    const { isError, error } = projectsQueryResult;
 

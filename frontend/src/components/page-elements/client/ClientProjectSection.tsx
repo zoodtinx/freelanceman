@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { Switch } from '@/components/shared/ui/primitives/Switch';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { Link } from 'react-router-dom';
-import { useAllProjectsQuery } from '@/lib/api/project-api';
+import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 import { Project, ProjectSearchOption } from '@types';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
@@ -24,7 +24,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
       clientId: clientData?.id,
    });
    const { data: projectsData, isLoading: projectIsLoading } =
-      useAllProjectsQuery(projectFilter);
+      useProjectsQuery(projectFilter);
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );

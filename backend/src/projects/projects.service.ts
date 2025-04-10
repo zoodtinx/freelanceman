@@ -63,6 +63,28 @@ export class ProjectsService {
                         ? { some: { partnerContactId: filter.partnerId } }
                         : undefined,
                 },
+                include: {
+                    client: {
+                        select: {
+                            themeColor: true,
+                            name: true,
+                        }
+                    },
+                    tasks: {
+                        orderBy: {
+                            dueAt: 'asc'
+                        },
+                        where: {
+                            dueAt: {
+                                gte: new Date() 
+                            }
+                        },
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
+                }
             });
 
             return projects;
@@ -75,6 +97,14 @@ export class ProjectsService {
         try {
             const project = await this.prismaService.project.findUnique({
                 where: { id: projectId, userId },
+                include: {
+                    client: {
+                        select: {
+                            themeColor: true,
+                            name: true,
+                        }
+                    },
+                }
             });
 
             if (!project) {

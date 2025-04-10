@@ -1,69 +1,68 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProjects } from '@/lib/api/services/project-service';
+import { getProjects, getProject } from '@/lib/api/services/project-service';
 import {
    editProject,
-   getProject,
    getAllProjects,
    deleteProject,
 } from './mock/mock-project-service';
-import type { CreateProjectDto, EditProjectDto, Project, ProjectSearchOption } from '@types';
+import type {
+   CreateProjectDto,
+   EditProjectDto,
+   Project,
+   ProjectSearchOption,
+} from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
-
 
 export const useProjectApi = () => {
    return {
       createProject: useCreateProject(),
       deleteProject: useDeleteProject(),
-      editProject: useEditProject()
-   }
-}
+      editProject: useEditProject(),
+   };
+};
 
-
-export const useAllProjectsQuery = (searchOptions: ProjectSearchOption = {}) => {
+export const useProjectsQuery = (searchOptions: ProjectSearchOption = {}) => {
    const { accessToken } = useAuthStore();
 
    return useQuery({
       queryKey: ['projects', searchOptions],
       queryFn: () => getProjects(accessToken, searchOptions),
-      retry: false,
    });
 };
-
-
-export const useProjectsQuery = (searchOptions: ProjectSearchOption = {}) => {
-   return useQuery({
-      queryKey: ['projects', JSON.stringify(searchOptions)],
-      queryFn: () => getAllProjects(searchOptions),
-   });
-};
-
 
 export const useProjectQuery = (projectId: string) => {
+   const { accessToken } = useAuthStore();
+
    return useQuery<Project, Error, Project>({
       queryKey: ['projects', projectId],
-      queryFn: () => getProject(projectId),
+      queryFn: () => getProject(accessToken, projectId),
    });
 };
 
-export const useProjectSelectionQuery = (searchOptions: ProjectSearchOption = {}) => {
+export const useProjectSelectionQuery = (
+   searchOptions: ProjectSearchOption = {}
+) => {
    const queryClient = useQueryClient();
 
    return useQuery({
-      queryKey: ['projectSelection', JSON.stringify(searchOptions)], 
+      queryKey: ['projectSelection', JSON.stringify(searchOptions)],
       queryFn: async () => {
-         const cachedProjects = queryClient.getQueryData<Project[]>(['projects', JSON.stringify(searchOptions)]);
-         
+         const cachedProjects = queryClient.getQueryData<Project[]>([
+            'projects',
+            JSON.stringify(searchOptions),
+         ]);
+
          if (cachedProjects) {
-            return cachedProjects.map(project => ({
-               value: project.id, 
-               label: project.title 
+            return cachedProjects.map((project) => ({
+               value: project.id,
+               label: project.title,
             }));
          }
 
          const projects = await getAllProjects(searchOptions);
-         return projects.map(project => ({
-            value: project.id, 
-            label: project.title 
+         return projects.map((project) => ({
+            value: project.id,
+            label: project.title,
          }));
       },
    });
@@ -74,7 +73,8 @@ export const useCreateProject = () => {
 
    return useMutation({
       mutationKey: ['createProject'],
-      mutationFn: async (newProject: CreateProjectDto) => await createProject(newProject),
+      mutationFn: async (newProject: CreateProjectDto) =>
+         await createProject(newProject),
       onMutate: async (newProject: CreateProjectDto) => {
          await queryClient.cancelQueries({ queryKey: ['projects'] });
          const previousProjects = queryClient.getQueryData(['projects']);
@@ -99,7 +99,6 @@ export const useCreateProject = () => {
    });
 };
 
-
 interface EditProjectMutationPayload {
    projectId: string;
    projectPayload: EditProjectDto;
@@ -110,7 +109,10 @@ export const useEditProject = () => {
 
    return useMutation({
       mutationKey: ['editProject'],
-      mutationFn: async ({ projectId, projectPayload }: EditProjectMutationPayload) => {
+      mutationFn: async ({
+         projectId,
+         projectPayload,
+      }: EditProjectMutationPayload) => {
          await editProject(projectId, projectPayload);
       },
       onMutate: async ({ projectId, projectPayload }) => {
@@ -119,7 +121,9 @@ export const useEditProject = () => {
 
          if (previousProjects) {
             queryClient.setQueryData(['projects'], (old: Project[]) =>
-               old?.map((project) => (project.id === projectId ? projectPayload : project))
+               old?.map((project) =>
+                  project.id === projectId ? projectPayload : project
+               )
             );
          }
 
@@ -137,7 +141,6 @@ export const useEditProject = () => {
       },
    });
 };
-
 
 export const useDeleteProject = () => {
    const queryClient = useQueryClient();

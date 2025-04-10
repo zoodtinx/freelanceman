@@ -46,7 +46,6 @@ export class ClientContactService {
     }
 
     async findAll(userId: string, filter: SearchClientContactDto) {
-        console.log('filter', filter)
         try {
             const result = await this.prismaService.clientContact.findMany({
                 where: {

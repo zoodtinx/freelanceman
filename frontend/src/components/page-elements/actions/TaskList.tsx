@@ -66,7 +66,7 @@ const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
    };
 
    return (
-      <div className="grid grid-cols-[24px_auto] cursor-default hover:bg-background transition-colors duration-75 py-1 pl-2">
+      <div className="grid grid-cols-[24px_auto] cursor-default hover:bg-background transition-colors duration-75 py-1 pl-2 rounded-lg">
          <div className="w-[24px] flex items-start pt-1">
             <Checkbox
                onCheckedChange={(checked) => handleCheck(checked)}

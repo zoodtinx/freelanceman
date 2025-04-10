@@ -59,6 +59,9 @@ export class TasksService {
                     projectId: filter.projectId,
                     clientId: filter.clientId,
                 },
+                orderBy: {
+                    dueAt: 'asc'
+                }
             });
             console.log('result', result);
             return result;
