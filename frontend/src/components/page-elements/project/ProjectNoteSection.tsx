@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
 import debounce from 'lodash/debounce';
 import { StickyNote } from 'lucide-react'; // Assuming you're using Lucide icons
+import { Project } from '@types';
 
-const ProjectNoteSection: React.FC = () => {
-   const [note, setNote] = useState('');
+const ProjectNoteSection: React.FC<{project: Project}> = ({project}) => {
+   const [note, setNote] = useState(project.note);
 
    // Memoize the debounced function
    const debouncedSetNote = useMemo(

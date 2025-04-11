@@ -54,13 +54,13 @@ export default function ProjectPage() {
                ) : (
                   <>
                      <div className="flex flex-col w-3/5 shrink-0">
-                        <ProjectNoteSection />
+                        <ProjectNoteSection project={project} />
                      </div>
                      <div className="flex h-full">
                         <div className="border-[0.5px] border-tertiary" />
                      </div>
                      <div className="flex flex-col w-2/5">
-                        <ProjectLinkSection />
+                        <ProjectLinkSection project={project}/>
                      </div>
                   </>
                )}
