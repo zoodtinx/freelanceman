@@ -48,7 +48,7 @@ export const EventList: React.FC<EventListProps> = ({
                eventGroupData={group}
                setDialogState={setDialogState}
             />
-            <div className="border-[0.5px] border-secondary" />
+            <div className="border-[0.5px] border-tertiary" />
          </React.Fragment>
       );
    });
@@ -83,7 +83,7 @@ const EventGroup = ({ eventGroupData, setDialogState }) => {
 
    return (
       <div className="flex w-full cursor-default">
-         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-background">
+         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-foreground border-r border-r-tertiary">
             <p className="text-md font-normal">{date}</p>
             <p className="">{month}</p>
          </div>

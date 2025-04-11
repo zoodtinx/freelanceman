@@ -20,20 +20,22 @@ const ProjectLinkSection: React.FC<{ project: Project }> = ({ project }) => {
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center pl-3 pr-2">
-        <p className="flex items-center h-9 text-md gap-1">
-          <LinkIcon className="w-4 h-4" />
-          Links
-        </p>
-        <AddButton onClick={() => setMode('add')} />
-      </div>
-      <div className="w-full border-[0.5px] border-quaternary" />
-      <div className="flex flex-col gap-1 w-full pt-2">
-        {mode === 'add' && <NewLinkField setMode={setMode} onSubmit={handleAddLink} />}
-        <LinkItems links={links} onDelete={handleDeleteLink} />
-      </div>
-    </>
+     <div className="flex flex-col w-full">
+        <div className="flex justify-between items-center pl-3 pr-2">
+           <p className="flex items-center h-9 text-md gap-1">
+              <LinkIcon className="w-4 h-4" />
+              Links
+           </p>
+           <AddButton onClick={() => setMode('add')} />
+        </div>
+        <div className="w-full border-[0.5px] border-quaternary" />
+        <div className="flex flex-col gap-1 w-full pt-2">
+           {mode === 'add' && (
+              <NewLinkField setMode={setMode} onSubmit={handleAddLink} />
+           )}
+           <LinkItems links={links} onDelete={handleDeleteLink} />
+        </div>
+     </div>
   );
 };
 

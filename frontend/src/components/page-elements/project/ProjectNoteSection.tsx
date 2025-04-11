@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce';
 import { StickyNote } from 'lucide-react'; // Assuming you're using Lucide icons
 import { Project } from '@types';
 
-const ProjectNoteSection: React.FC<{project: Project}> = ({project}) => {
+const ProjectNoteSection: React.FC<{ project: Project }> = ({ project }) => {
    const [note, setNote] = useState(project.note);
 
    // Memoize the debounced function
@@ -21,7 +21,7 @@ const ProjectNoteSection: React.FC<{project: Project}> = ({project}) => {
    };
 
    return (
-      <>
+      <div className='flex flex-col w-full'>
          <p className="flex items-center h-9 text-md gap-1 px-4">
             <StickyNote className="w-4 h-4" />
             Notes
@@ -32,7 +32,7 @@ const ProjectNoteSection: React.FC<{project: Project}> = ({project}) => {
             defaultValue={note}
             onChange={handleChange}
          />
-      </>
+      </div>
    );
 };
 
