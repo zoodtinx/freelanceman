@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { getSeedFilesDta } from './seed-factory/seed-files';
 import {
     getSeedSalesDocumentData,
+    getSeedSalesDocumentFileData,
 } from './seed-factory/seed-sales-document';
 import { getSalesDocumentItemsData } from './seed-factory/seed-sales-document-item';
 
@@ -13,9 +14,9 @@ async function main() {
 }
 
 async function cleanDatabase() {
-    await prisma.file.deleteMany();
-    await prisma.salesDocument.deleteMany();
     await prisma.salesDocumentItem.deleteMany();
+    await prisma.salesDocument.deleteMany();
+    await prisma.file.deleteMany();
     console.log('Database cleaned');
 }
 
@@ -52,19 +53,48 @@ async function seedUserAndClient() {
         projectId,
         clientId,
     );
+    const seedSalesDocumentFileData = getSeedSalesDocumentFileData(
+        userId,
+        projectId,
+        clientId,
+    );
 
-    const salesDocument = await prisma.salesDocument.createMany({
-        data: seedSalesDocumentData,
+    const salesDocument = await Promise.all(
+        seedSalesDocumentData.map(
+            async (doc) =>
+                await prisma.salesDocument.create({
+                    data: {
+                        ...doc,
+                        user: { connect: { id: userId } },
+                        project: { connect: { id: projectId } },
+                        client: { connect: { id: clientId } },
+                        file: {
+                            create: {
+                                ...seedSalesDocumentFileData,
+                                user: { connect: { id: userId } },
+                                project: { connect: { id: projectId } },
+                                client: { connect: { id: clientId } },
+                            },
+                        },
+                    },
+                }),
+        ),
+    );
+
+    // const salesDocument = await prisma.salesDocument.createMany({
+    //     data: seedSalesDocumentData,
+    // });
+    console.log('Seeded documents:', salesDocument);
+
+    const salesDocuments = await prisma.salesDocument.findMany({
+        select: { id: true },
     });
-    console.log('Seeded documents:', salesDocument.count);
 
-    const salesDocuments = await prisma.salesDocument.findMany({select: {id: true}})
-    
     const seedSalesDocumentDataResult = salesDocuments.forEach(async (item) => {
-         await prisma.salesDocumentItem.createMany({
-            data: getSalesDocumentItemsData(userId, item.id)
-         })
-    })
+        await prisma.salesDocumentItem.createMany({
+            data: getSalesDocumentItemsData(userId, item.id),
+        });
+    });
 
     console.log('Seeded Sales Document Items', seedSalesDocumentDataResult);
 }

@@ -20,11 +20,24 @@ export class PaymentService {
                 where: {
                     userId,
                     clientId,
+                    paymentStatus: {
+                        not: 'paid'
+                    }
                 },
                 include: {
-                    salesDocuments: true,
+                    salesDocuments: {
+                        include: {
+                            file: true,
+                        }
+                    },
                 },
+                orderBy: {
+                    paymentStatus: 'desc'
+                } 
             });
+
+            
+
             return result;
         } catch (error) {
             throw new InternalServerErrorException(

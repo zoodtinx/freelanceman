@@ -16,7 +16,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import { searchPaymentSchema } from 'src/shared/zod-schemas/payment.schema';
 
 @UseGuards(AuthGuard('jwt-access'))
-@Controller('payments')
+@Controller('payment')
 export class PaymentsController {
     constructor(private readonly paymentService: PaymentService) {}
 
