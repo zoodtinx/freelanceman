@@ -1,9 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
-
-import { seedUser } from './seed-data/seedUser';
-import { seedClients } from './seed-data/seedClients';
-import { seedPartnerCompaniesData } from './seed-data/seedPartnerCompanies';
+import { getSeedFilesDta } from './seed-factory/seed-files';
+import {
+    getSeedSalesDocument,
+    getSeedSalesDocumentData,
+} from './seed-factory/seed-sales-document';
+import { getSalesDocumentItemsData } from './seed-factory/seed-sales-document-item';
 
 const prisma = new PrismaClient();
 
@@ -13,65 +14,69 @@ async function main() {
 }
 
 async function cleanDatabase() {
-    await prisma.project.deleteMany();
-    await prisma.client.deleteMany();
-    await prisma.partnerCompany.deleteMany();
-    await prisma.user.deleteMany();
+    await prisma.file.deleteMany();
+    await prisma.salesDocument.deleteMany();
+    await prisma.salesDocumentItem.deleteMany();
     console.log('Database cleaned');
 }
 
 async function seedUserAndClient() {
-    const user = await prisma.user.create({
-        data: {
-            ...seedUser,
-            clients: {
-                createMany: {
-                    data: seedClients,
-                },
-            },
-            partnerCompanies: {
-                createMany: {
-                    data: seedPartnerCompaniesData,
-                },
-            },
-        },
+    const user = await prisma.user.findMany({
         select: {
             id: true,
-            clients: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
-            partnerCompanies: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
+        },
+    });
+    const userId = user[0].id;
+
+    const project = await prisma.project.findFirst({
+        where: {
+            title: 'Brand Identity Redesign for Law Firm',
         },
     });
 
-    console.log('id in user', user.id);
+    const projectId = project?.id;
+    const client = await prisma.client.findFirst({
+        where: {
+            name: 'Sullivan & Phanich',
+        },
+    });
+    const clientId = client?.id;
 
-    const clientObj = user.clients.reduce((acc, client) => {
-        acc[client.name] = client.id;
-        return acc;
-    }, {});
+    const seedFileData = getSeedFilesDta(userId, projectId, clientId);
+    const files = await prisma.file.createMany({
+        data: seedFileData,
+    });
+    console.log('Seeded files:', files.count);
 
-    const partnerCompanyObj = user.partnerCompanies.reduce((acc, company) => {
-        acc[company.name] = company.id;
-        return acc;
-    }, {});
+    const seedSalesDocumentData = getSeedSalesDocumentData(
+        userId,
+        projectId,
+        clientId,
+    );
 
-    const jsFileContent = `
-    export const userId = "${user.id}";
-    export const clientId = ${JSON.stringify(clientObj)};
-    export const partnerCompanyId = ${JSON.stringify(partnerCompanyObj)};
-  `;
+    const salesDocument = await prisma.salesDocument.createMany({
+        data: seedSalesDocumentData,
+    });
+    console.log('Seeded documents:', salesDocument.count);
 
-    fs.writeFileSync('./src/shared/database/ids.ts', jsFileContent);
-    console.log('Database seeded and file created!');
+    const salesDocuments = await prisma.salesDocument.findMany({select: {id: true}})
+
+    const salesDocumentItemsData = getSalesDocumentItemsData(userId)
+    const salesDocumentItems = await Promise.all(
+        salesDocumentItemsData.map((item) =>
+            prisma.salesDocumentItem.create({
+                data: {
+                    ...item,
+                    salesDoc: {
+                        connect: salesDocuments
+                    }
+                },
+
+
+            }),
+        ),
+    )
+    console.log('Seeded items:', salesDocumentItems.length);
 }
 
 main()

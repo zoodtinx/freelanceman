@@ -231,7 +231,7 @@ model SalesDocument {
   projectDescription      String
   selectedProjectClientId String
   freelancerName          String
-  freelanceremail            String           
+  freelancerEmail            String           
   freelancerPhone         String
   freelancerTaxId         String
   freelancerDetail        String?
@@ -263,8 +263,7 @@ model SalesDocumentItem {
   description     String?
   rate            Float
   quantity        Int
-  salesDocumentId String
-  salesDoc        SalesDocument @relation(fields: [salesDocumentId], references: [id])
+  salesDoc        SalesDocument[]
   user                    User                @relation(fields: [userId], references: [id])
 }
 
