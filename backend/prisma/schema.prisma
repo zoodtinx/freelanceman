@@ -34,7 +34,7 @@ model User {
   refreshTokens    RefreshToken?
   salesDocuments   SalesDocument[]
   tasks            Task[]
-  partnerCompanies PartnerCompany[] @relation("PartnerCompanyToUser")
+  partnerCompanies PartnerCompany[] 
   salesDocumentItem SalesDocumentItem[]
 }
 
@@ -103,7 +103,7 @@ model PartnerCompany {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
   contacts    PartnerContact[]
-  user        User[]           @relation("PartnerCompanyToUser")
+  user           User            @relation(fields: [userId], references: [id])
 }
 
 model PartnerContact {
@@ -263,7 +263,8 @@ model SalesDocumentItem {
   description     String?
   rate            Float
   quantity        Int
-  salesDoc        SalesDocument[]
+  parentDocumentId  String
+  parentDocument        SalesDocument @relation(fields: [parentDocumentId], references: [id])
   user                    User                @relation(fields: [userId], references: [id])
 }
 
