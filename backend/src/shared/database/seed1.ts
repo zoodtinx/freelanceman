@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { getSeedFilesDta } from './seed-factory/seed-files';
 import {
-    getSeedSalesDocument,
     getSeedSalesDocumentData,
 } from './seed-factory/seed-sales-document';
 import { getSalesDocumentItemsData } from './seed-factory/seed-sales-document-item';
@@ -60,23 +59,14 @@ async function seedUserAndClient() {
     console.log('Seeded documents:', salesDocument.count);
 
     const salesDocuments = await prisma.salesDocument.findMany({select: {id: true}})
+    
+    const seedSalesDocumentDataResult = salesDocuments.forEach(async (item) => {
+         await prisma.salesDocumentItem.createMany({
+            data: getSalesDocumentItemsData(userId, item.id)
+         })
+    })
 
-    const salesDocumentItemsData = getSalesDocumentItemsData(userId)
-    const salesDocumentItems = await Promise.all(
-        salesDocumentItemsData.map((item) =>
-            prisma.salesDocumentItem.create({
-                data: {
-                    ...item,
-                    salesDoc: {
-                        connect: salesDocuments
-                    }
-                },
-
-
-            }),
-        ),
-    )
-    console.log('Seeded items:', salesDocumentItems.length);
+    console.log('Seeded Sales Document Items', seedSalesDocumentDataResult);
 }
 
 main()
