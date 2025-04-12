@@ -1,0 +1,38 @@
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseGuards,
+    HttpCode,
+    Req,
+} from '@nestjs/common';
+import { PaymentService } from 'src/payment/payment.service';
+import { AuthGuard } from '@nestjs/passport';
+import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
+import { searchPaymentSchema } from 'src/shared/zod-schemas/payment.schema';
+
+@UseGuards(AuthGuard('jwt-access'))
+@Controller('payments')
+export class PaymentsController {
+    constructor(private readonly paymentService: PaymentService) {}
+
+    @Post('search')
+    @HttpCode(200)
+    findMany(
+        @Body(new ZodValidationPipe(searchPaymentSchema)) payload: any,
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.paymentService.getPaymentData(userId, payload);
+    }
+
+    @Get('stats')
+    findOne(@Param('id') paymentId: string, @Req() req: any) {
+        const userId = req.user.id;
+        return this.paymentService.getPaymentStats(userId);
+    }
+}
