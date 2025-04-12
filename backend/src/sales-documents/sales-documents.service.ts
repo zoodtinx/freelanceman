@@ -41,7 +41,7 @@ export class SalesDocumentsService {
                     selectedProjectClientId: createDto.selectedProjectClientId,
 
                     freelancerName: createDto.freelancerName,
-                    freelanceremail: createDto.freelancerEmail,
+                    freelancerEmail: createDto.freelancerEmail,
                     freelancerPhone: createDto.freelancerPhone,
                     freelancerTaxId: createDto.freelancerTaxId,
                     freelancerDetail: createDto.freelancerDetail,

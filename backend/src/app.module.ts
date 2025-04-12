@@ -18,6 +18,7 @@ import { CronJobsModule } from 'src/jobs/cron-job.module';
 import { S3Module } from 'src/shared/s3/s3.module';
 import { MailModule } from 'src/shared/email/email.module';
 import { DemoModule } from 'src/demo/demo.module';
+import { PaymentModule } from 'src/payment/payment.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { DemoModule } from 'src/demo/demo.module';
         MailModule,
         PartnerCompanyModule,
         PartnerContactsModule,
+        PaymentModule,
         PrismaModule,
         ProjectsModule,
         S3Module,
