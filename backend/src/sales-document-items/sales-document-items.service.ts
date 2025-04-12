@@ -23,8 +23,8 @@ export class SalesDocumentItemsService {
                     description: createDto.description,
                     rate: createDto.rate,
                     quantity: createDto.quantity,
-                    salesDocumentId: createDto.salesDocumentId,
                     userId: userId,
+                    parentDocumentId: createDto.parentDocumentId
                 },
             });
             return result;
@@ -46,7 +46,7 @@ export class SalesDocumentItemsService {
         try {
             const items = await this.prismaService.salesDocumentItem.findMany({
                 where: {
-                    salesDocumentId: documentId,
+                    parentDocumentId: documentId
                 },
             });
 
@@ -61,7 +61,10 @@ export class SalesDocumentItemsService {
     async findOne(documentId: string, itemId: string) {
         try {
             const item = await this.prismaService.salesDocumentItem.findUnique({
-                where: { id: itemId, salesDocumentId: documentId },
+                where: {
+                    id: itemId,
+                    parentDocumentId: itemId
+                },
             });
 
             if (!item) {
@@ -86,7 +89,7 @@ export class SalesDocumentItemsService {
     ) {
         try {
             const result = await this.prismaService.salesDocumentItem.update({
-                where: { id: itemId, salesDocumentId: documentId },
+                where: { id: itemId, parentDocumentId: documentId },
                 data: updateDto,
             });
             return result;
@@ -107,7 +110,7 @@ export class SalesDocumentItemsService {
     async delete(documentId: string, itemId: string) {
         try {
             const result = await this.prismaService.salesDocumentItem.delete({
-                where: { id: itemId, salesDocumentId: documentId },
+                where: { id: itemId, parentDocumentId: documentId },
             });
             return result;
         } catch (error) {

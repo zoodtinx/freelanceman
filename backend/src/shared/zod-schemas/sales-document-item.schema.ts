@@ -5,7 +5,7 @@ export const createSalesDocumentItemSchema = z.object({
     description: z.string().optional(),
     rate: z.number(),
     quantity: z.number().int(),
-    salesDocumentId: z.string(),
+    parentDocumentId: z.string(),
 });
 
 export const updateSalesDocumentItemSchema = z.object({
