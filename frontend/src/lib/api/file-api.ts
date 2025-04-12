@@ -1,12 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getFiles, getFile } from '@/lib/api/services/file-service';
 import {
    editFile,
-   getFile,
    getAllFiles,
    createFile,
    deleteFile,
 } from './mock/mock-file-service';
 import type { CreateFileDto, EditFileDto, File, FileSearchOption } from '@types';
+import useAuthStore from '@/lib/zustand/auth-store';
 
 
 export const useFileApi = () => {
@@ -27,9 +28,11 @@ export const useAllFilesQuery = (searchOptions: FileSearchOption = {}) => {
 
 
 export const useFilesQuery = (searchOptions: FileSearchOption = {}) => {
+   const { accessToken } = useAuthStore();
+   
    return useQuery({
-      queryKey: ['files', JSON.stringify(searchOptions)],
-      queryFn: () => getAllFiles(searchOptions),
+      queryKey: ['files', searchOptions],
+      queryFn: () => getFiles(accessToken, searchOptions),
    });
 };
 

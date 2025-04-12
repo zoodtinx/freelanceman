@@ -96,7 +96,7 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-   
+
    const formattedTime = formatTime(data.dueAt);
 
    const handleOpenDialog = () => {
@@ -105,8 +105,8 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
          mode: 'view',
          openedOn: 'project-page',
          type: 'event',
-         data: data
-      })
+         data: data,
+      });
    };
 
    return (

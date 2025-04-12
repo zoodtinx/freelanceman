@@ -206,7 +206,7 @@ model File {
   type         String
   category     String
   link         String
-    s3Key        String 
+  s3Key        String 
   projectId    String?
   clientId     String?
   userId       String
@@ -216,6 +216,7 @@ model File {
   client       Client?   @relation(fields: [clientId], references: [id])
   project      Project?  @relation(fields: [projectId], references: [id])
   user         User      @relation(fields: [userId], references: [id])
+  salesDocument SalesDocument? @relation("FileToSalesDocument")
 }
 
 model SalesDocument {
@@ -248,12 +249,14 @@ model SalesDocument {
   total                   Float
   customAdjustment        Float?
   note                    String?
+  generatedFileId         String?   @unique
   createdAt               DateTime            @default(now())
   updatedAt               DateTime            @updatedAt
   client                  Client              @relation(fields: [clientId], references: [id])
   project                 Project             @relation(fields: [projectId], references: [id])
   user                    User                @relation(fields: [userId], references: [id])
   items                   SalesDocumentItem[]
+  file                    File?               @relation("FileToSalesDocument", fields: [generatedFileId], references: [id])
 }
 
 model SalesDocumentItem {

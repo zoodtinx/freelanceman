@@ -10,6 +10,7 @@ export interface ProjectPaymentData {
    quotation?: SalesDocument;
    invoice?: SalesDocument;
    receipt?: SalesDocument;
+   salesDocuments: []
 }
 
 export type ProjectPaymentDataFilter = Partial<

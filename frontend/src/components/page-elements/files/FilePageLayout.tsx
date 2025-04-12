@@ -11,10 +11,9 @@ import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
 import { FileSearchOption } from '@types';
-import { useAllFilesQuery } from '@/lib/api/file-api';
+import { useAllFilesQuery, useFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
@@ -40,7 +39,7 @@ const FilePageLayout = (): JSX.Element => {
       selectedValues: [] as string[],
    });
 
-   const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
+   const { data: filesData, isLoading } = useFilesQuery(fileFilter);
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {

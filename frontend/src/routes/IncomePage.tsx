@@ -4,30 +4,38 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
 import { FileText, Plus } from 'lucide-react';
 import { Project, ProjectPaymentData, ProjectPaymentDataFilter } from '@types';
-import { useProjectPaymentDataQuery, useAmountDueQuery } from '@/lib/api/project-payment-api';
+import {
+   usePaymentDataQuery,
+   usePaymentStatsQuery,
+} from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
 
 const IncomePage: React.FC = () => {
-   const [projectFilter, setProjectFilter] = useState<ProjectPaymentDataFilter>({})
-   const {data: projectData, isLoading} = useProjectPaymentDataQuery(projectFilter)
+   const [projectFilter, setProjectFilter] = useState<ProjectPaymentDataFilter>(
+      {}
+   );
+   const { data: projectData, isLoading } = usePaymentDataQuery(projectFilter);
 
    return (
       <section className="flex flex-col gap-2 w-full h-full sm:flex-col">
-            <div className='flex justify-between'>
-               <StatsBar />
-               <FilterBar
-                  projectFilter={projectFilter}
-                  setProjectFilter={setProjectFilter}
-               />
-            </div>
-         <ProjectPaymentTabList projectData={projectData} isLoading={isLoading} />
+         <div className="flex justify-between">
+            <StatsBar />
+            <FilterBar
+               projectFilter={projectFilter}
+               setProjectFilter={setProjectFilter}
+            />
+         </div>
+         <ProjectPaymentTabList
+            projectData={projectData}
+            isLoading={isLoading}
+         />
       </section>
    );
 };
@@ -51,10 +59,10 @@ const FilterBar = ({
 };
 
 const StatsBar = () => {
-   const {data: statsData, isLoading} = useAmountDueQuery()
+   const { data: statsData, isLoading } = usePaymentStatsQuery();
 
    if (isLoading) {
-      return <p>Loading...</p>
+      return <p>Loading...</p>;
    }
 
    return (
@@ -62,7 +70,7 @@ const StatsBar = () => {
          <p className="text-secondary">
             Unprocessed:{' '}
             <span className="text-md font-medium text-primary">
-               {statsData?.unpaid.toLocaleString()}
+               {statsData?.unprocessed.toLocaleString()}
             </span>
          </p>
          <p className="text-secondary">
@@ -79,8 +87,7 @@ const StatsBar = () => {
          </p>
       </div>
    );
-}
-
+};
 
 const ProjectPaymentTabList = ({
    projectData,
@@ -89,7 +96,7 @@ const ProjectPaymentTabList = ({
    projectData?: ProjectPaymentData[];
    isLoading: boolean;
 }) => {
-if (isLoading) {
+   if (isLoading) {
       return <p>Loading...</p>;
    }
 
@@ -101,7 +108,11 @@ if (isLoading) {
       return <ProjectPaymentTab key={project.id} project={project} />;
    });
 
-   return <div className="flex flex-col gap-2 w-full">{projectList}</div>;
+   return (
+      <div className="flex flex-col gap-2 w-full h-0 grow overflow-y-auto pb-2 px-1">
+         {projectList}
+      </div>
+   );
 };
 
 const ProjectPaymentTab = ({ project }: { project: ProjectPaymentData }) => {
@@ -151,10 +162,16 @@ const DocumentButton = ({
    project: ProjectPaymentData;
 }) => {
    const isPaid = project.paymentStatus === 'paid';
-   const haveDocument = !!project[type]?.id
+   const haveDocument = project.salesDocuments.some(
+      (doc) => doc.category === type
+   );
+
+   const salesDocumentData = project.salesDocuments.find(
+      (doc) => doc.category === type
+   );
 
    if (haveDocument) {
-      return <EditDocumentButton type={type} project={project} />;
+      return <EditDocumentButton salesDocumentData={salesDocumentData} />;
    } else {
       return <AddDocumentButton type={type} project={project} />;
    }
@@ -189,7 +206,7 @@ const AddDocumentButton = ({
       <div
          onClick={() => handleClick(type)}
          className={cn(
-            'flex gap-1 text-primary border-secondary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
+            'flex gap-1 text-secondary border-tertiary dark:text-quaternary dark:border-quaternary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
             isPaid && 'text-secondary'
          )}
       >
@@ -200,27 +217,28 @@ const AddDocumentButton = ({
 };
 
 const EditDocumentButton = ({
-   type,
-   project,
+   salesDocumentData,
 }: {
-   type: string;
-   project: Project;
+   salesDocumentData: any;
 }) => {
    const navigate = useNavigate();
-   const isPaid = project.paymentStatus === 'paid';
-   const label = type.charAt(0).toUpperCase() + type.slice(1);
+   const label =
+      salesDocumentData.category.charAt(0).toUpperCase() +
+      salesDocumentData.category.slice(1);
 
    const handleDownload = () => {
       console.log('download');
    };
 
    const handleEdit = () => {
-      console.log('edit');
+      console.log(salesDocumentData);
    };
 
    const handleDelete = () => {
       console.log('delete');
    };
+
+   const fileUrl = salesDocumentData.file?.link;
 
    return (
       <Popover>
@@ -232,8 +250,7 @@ const EditDocumentButton = ({
          >
             <div
                className={cn(
-                  'flex gap-1 text-primary bg-tertiary border-transparent border rounded-lg items-center pl-[8px] pr-[10px] py-[2px]',
-                  isPaid && 'text-secondary bg-tertiary border-secondary'
+                  'flex gap-1 text-constant-primary border-transparent bg-theme-blue border rounded-lg items-center pl-[8px] pr-[10px] py-[2px]'
                )}
             >
                <FileText className="w-4 h-4" />
@@ -241,12 +258,18 @@ const EditDocumentButton = ({
             </div>
          </PopoverTrigger>
          <PopoverContent className="w-[110px] cursor-default select-none bg-foreground">
-            <button className='text-left' onClick={handleDownload}>Download</button>
-            <button className='text-left' onClick={handleEdit}>Edit</button>
-            <button className='text-left' onClick={handleDelete}>Delete</button>
+            <Link to={fileUrl} className="text-left">
+               Download
+            </Link>
+            <button className="text-left" onClick={handleEdit}>
+               Edit
+            </button>
+            <button className="text-left" onClick={handleDelete}>
+               Delete
+            </button>
          </PopoverContent>
       </Popover>
    );
 };
 
-export default IncomePage
+export default IncomePage;
