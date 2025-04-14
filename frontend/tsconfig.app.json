@@ -1,25 +1,27 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@types": ["../shared/types"],
-      "@mocks": ["../shared/mocks"],
-      "@/*": ["./src/*"]
-    },
-    "moduleResolution": "bundler",
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "composite": true
-  },
-  "include": ["src", "../shared/types/**/*", "../shared/mocks/**/*", "src/components/shared/ui/primitives/Command.tsx", "src/components/shared/ui/form-field-elements/.tsx"]
+   "compilerOptions": {
+      "target": "ES2020",
+      "useDefineForClassFields": true,
+      "lib": ["ES2020", "DOM", "DOM.Iterable"],
+      "module": "ESNext",
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+         "@types": ["../shared/types"],
+         "@mocks": ["../shared/mocks"],
+         "@schemas": ["../shared/schemas"],
+         "@/*": ["./src/*"]
+      },
+      "moduleResolution": "bundler",
+      "isolatedModules": true,
+      "moduleDetection": "force",
+      "jsx": "react-jsx",
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "composite": true,
+      "declaration": false,
+      "declarationDir": "./dist/types",
+   }
 }

@@ -4,8 +4,8 @@ import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
-import { ProjectSearchOption } from '@types';
 import { useNavigate } from 'react-router-dom';
+import { ProjectFilterDto } from '@schemas';
 
 export default function AllProjectPage() {
    const { theme } = useTheme();
@@ -20,7 +20,7 @@ export default function AllProjectPage() {
       console.log('Prefers dark mode:', prefersDarkMode ? 'dark' : 'light');
    }, [theme]);
 
-   const [projectFilter, setProjectFilter] = useState<ProjectSearchOption>({
+   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
       projectStatus: 'active',
    });
 
@@ -48,20 +48,14 @@ export default function AllProjectPage() {
             </div>
             <div className="sm:hidden">
                {viewMode === 'grid' && (
-                  <ProjectGrid
-                     queryResult={projectsQueryResult}
-                  />
+                  <ProjectGrid queryResult={projectsQueryResult} />
                )}
                {viewMode === 'list' && (
-                  <ProjectList
-                  queryResult={projectsQueryResult}
-                  />
+                  <ProjectList queryResult={projectsQueryResult} />
                )}
             </div>
             <div className="hidden sm:block">
-               <ProjectList
-                  queryResult={projectsQueryResult}
-               />
+               <ProjectList queryResult={projectsQueryResult} />
             </div>
          </div>
       </div>

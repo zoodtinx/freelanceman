@@ -1,17 +1,16 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+   "files": [],
+   "references": [
+      { "path": "./tsconfig.app.json" },
+      { "path": "./tsconfig.node.json" }
+   ],
+   "compilerOptions": {
+      "baseUrl": ".",
+      "noEmit": true
+   },
+   "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "noEmit": true,
-  },
-  "include": [
-    "src",
-    "../shared/types/**/*",
-    "../shared/mocks/**/*"
-, "src/components/shared/ui/primitives/Command.tsx", "src/components/shared/ui/form-field-elements/.tsx"  ],
-  "exclude": ["src/**/*.d.ts"]
+   "exclude": ["src/**/*.d.ts"],
 }

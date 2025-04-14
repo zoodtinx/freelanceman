@@ -1,3 +1,4 @@
+
 import {
    Popover,
    PopoverTrigger,
@@ -9,16 +10,16 @@ import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
 import { FileText, Plus } from 'lucide-react';
-import { Project, ProjectPaymentData, ProjectPaymentDataFilter } from '@types';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
+import { PaymentDataFilter, PaymentDataPayload } from '@schemas';
 
 const IncomePage: React.FC = () => {
-   const [projectFilter, setProjectFilter] = useState<ProjectPaymentDataFilter>(
+   const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>(
       {}
    );
    const { data: projectData, isLoading } = usePaymentDataQuery(projectFilter);
@@ -44,8 +45,8 @@ const FilterBar = ({
    projectFilter,
    setProjectFilter,
 }: {
-   projectFilter: ProjectPaymentDataFilter;
-   setProjectFilter: Dispatch<SetStateAction<ProjectPaymentDataFilter>>;
+   projectFilter: PaymentDataFilter;
+   setProjectFilter: Dispatch<SetStateAction<PaymentDataFilter>>;
 }) => {
    return (
       <div className="flex gap-1">
@@ -93,7 +94,7 @@ const ProjectPaymentTabList = ({
    projectData,
    isLoading,
 }: {
-   projectData?: ProjectPaymentData[];
+   projectData?: PaymentDataPayload[];
    isLoading: boolean;
 }) => {
    if (isLoading) {
@@ -115,7 +116,7 @@ const ProjectPaymentTabList = ({
    );
 };
 
-const ProjectPaymentTab = ({ project }: { project: ProjectPaymentData }) => {
+const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
    const handlePaymentStatusChange = (value) => {
       console.log('changed');
    };
@@ -129,7 +130,7 @@ const ProjectPaymentTab = ({ project }: { project: ProjectPaymentData }) => {
       >
          <div className="flex flex-col gap-2 w-0 grow leading-snug">
             <div>
-               <p className="text-sm text-secondary">{project.client}</p>
+               <p className="text-sm text-secondary">{project.client.name}</p>
                <p className="text-lg">{project.title}</p>
             </div>
             <div className="flex pb-1 gap-1">
@@ -159,7 +160,7 @@ const DocumentButton = ({
    project,
 }: {
    type: 'quotation' | 'invoice' | 'receipt';
-   project: ProjectPaymentData;
+   project: PaymentDataPayload;
 }) => {
    const isPaid = project.paymentStatus === 'paid';
    const haveDocument = project.salesDocuments.some(
@@ -182,7 +183,7 @@ const AddDocumentButton = ({
    project,
 }: {
    type: string;
-   project: Project;
+   project: PaymentDataPayload;
 }) => {
    const navigate = useNavigate();
    const label = type.charAt(0).toUpperCase() + type.slice(1);
