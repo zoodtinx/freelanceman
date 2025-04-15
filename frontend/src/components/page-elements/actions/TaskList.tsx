@@ -1,11 +1,11 @@
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { Task } from '@types';
+import type { TaskPayload } from '@schemas';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface TaskListProps {
-   tasksData: Task[] | undefined;
+   tasksData: TaskPayload[] | undefined;
    isLoading: boolean;
    page: 'action-page' | 'project-page';
 }
@@ -35,7 +35,7 @@ export const TaskList: React.FC<TaskListProps> = ({
 };
 
 interface TaskListItemProps {
-   data: Task;
+   data: TaskPayload;
    openedOn: 'action-page' | 'project-page';
 }
 

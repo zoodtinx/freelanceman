@@ -16,8 +16,8 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createEventSchema,
     updateEventSchema,
-    searchEventSchema,
-} from 'src/shared/zod-schemas/event.schema';
+    eventFilterSchema,
+} from '@schemas';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('events')
@@ -36,7 +36,7 @@ export class EventsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(searchEventSchema)) payload: any,
+        @Body(new ZodValidationPipe(eventFilterSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;

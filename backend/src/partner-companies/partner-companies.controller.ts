@@ -16,8 +16,8 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
   createPartnerCompanySchema,
   updatePartnerCompanySchema,
-  searchPartnerCompanySchema,
-} from 'src/shared/zod-schemas/partner-company.schema'
+  partnerCompanyFilterSchema,
+} from '@schemas';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('partner-companies')
@@ -36,7 +36,7 @@ export class PartnerCompaniesController {
   @Post('search')
   @HttpCode(200)
   findMany(
-      @Body(new ZodValidationPipe(searchPartnerCompanySchema)) payload: any,
+      @Body(new ZodValidationPipe(partnerCompanyFilterSchema)) payload: any,
       @Req() req: any,
   ) {
       const userId = req.user.id;

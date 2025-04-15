@@ -29,7 +29,7 @@ import {
     ResetPasswordRequestDto,
     resetPasswordRequestSchema,
     resetPasswordSchema,
-} from 'src/shared/zod-schemas/user.schema';
+} from '@schemas';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 

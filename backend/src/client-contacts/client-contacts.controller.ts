@@ -14,9 +14,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createClientContactSchema,
-    searchClientContactSchema,
+    clientContactFilterSchema,
     updateClientContactSchema,
-} from 'src/shared/zod-schemas/client-contact.schema';
+} from '@schemas';
 import { ClientContactService } from 'src/client-contacts/client-contacts.service';
 
 @UseGuards(AuthGuard('jwt-access'))
@@ -37,7 +37,7 @@ export class ClientContactsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(searchClientContactSchema)) payload: any,
+        @Body(new ZodValidationPipe(clientContactFilterSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;

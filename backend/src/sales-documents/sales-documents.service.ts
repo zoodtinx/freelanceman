@@ -7,10 +7,10 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 import {
-    SearchSalesDocumentDto,
+    SalesDocumentFilterDto,
     UpdateSalesDocumentDto,
     CreateSalesDocumentDto,
-} from 'src/shared/zod-schemas/sales-document.schema';
+} from '@schemas';
 import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
 import { generatePDFBuffer } from 'src/sales-documents/helpers/pdf-utils';
@@ -78,7 +78,7 @@ export class SalesDocumentsService {
         }
     }
 
-    async findMany(userId: string, filter: SearchSalesDocumentDto) {
+    async findMany(userId: string, filter: SalesDocumentFilterDto) {
         try {
             const documents = await this.prismaService.salesDocument.findMany({
                 where: {

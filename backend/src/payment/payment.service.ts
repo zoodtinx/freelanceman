@@ -1,9 +1,4 @@
-import {
-    Injectable,
-    BadRequestException,
-    InternalServerErrorException,
-    NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { ProjectsService } from 'src/projects/projects.service';
 
@@ -21,23 +16,21 @@ export class PaymentService {
                     userId,
                     clientId,
                     paymentStatus: {
-                        not: 'paid'
-                    }
+                        not: 'paid',
+                    },
                 },
                 include: {
                     salesDocuments: {
                         include: {
                             file: true,
-                        }
+                        },
                     },
+                    client: true
                 },
                 orderBy: {
-                    paymentStatus: 'desc'
-                } 
+                    paymentStatus: 'desc',
+                },
             });
-
-            
-
             return result;
         } catch (error) {
             throw new InternalServerErrorException(

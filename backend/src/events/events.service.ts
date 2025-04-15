@@ -8,8 +8,8 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreateEventDto,
     UpdateEventDto,
-    SearchEventDto,
-} from 'src/shared/zod-schemas/event.schema';
+    EventFilterDto,
+} from '@schemas';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class EventsService {
         }
     }
 
-    async findAll(userId: string, filter: SearchEventDto) {
+    async findAll(userId: string, filter: EventFilterDto) {
         try {
             const result = await this.prismaService.event.findMany({
                 where: {

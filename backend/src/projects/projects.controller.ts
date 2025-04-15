@@ -13,11 +13,12 @@ import {
 import { ProjectsService } from './projects.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import {
-    createProjectSchema,
-    updateProjectSchema,
-    searchProjectSchema,
-} from 'src/shared/zod-schemas/project.schema';
+// import {
+//     createProjectSchema,
+//     updateProjectSchema,
+//     projectFilterSchema,
+// } from 'src/shared/zod-schemas/project.schema';
+import { createProjectSchema, updateProjectSchema, projectFilterSchema } from '@schemas';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('projects')
@@ -36,7 +37,7 @@ export class ProjectsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(searchProjectSchema)) payload: any,
+        @Body(new ZodValidationPipe(projectFilterSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;

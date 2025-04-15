@@ -1,16 +1,10 @@
 {
    "files": [],
    "references": [
-      { "path": "./tsconfig.app.json" },
-      { "path": "./tsconfig.node.json" }
+     { "path": "./tsconfig.app.json" },
+     { "path": "./tsconfig.node.json" },
+     { "path": "../shared/tsconfig.json" }
    ],
-   "compilerOptions": {
-      "baseUrl": ".",
-      "noEmit": true
-   },
-   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-   "exclude": ["src/**/*.d.ts"],
-}
+   "exclude": ["node_modules"]
+ }
+ 

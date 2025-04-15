@@ -15,7 +15,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createSalesDocumentItemSchema,
     updateSalesDocumentItemSchema,
-} from 'src/shared/zod-schemas/sales-document-item.schema';
+} from '../../../shared/schemas/sales-document-item.schema';
 import { SalesDocumentItemsService } from 'src/sales-document-items/sales-document-items.service';
 
 @UseGuards(AuthGuard('jwt-access'))

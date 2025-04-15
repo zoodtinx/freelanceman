@@ -10,9 +10,13 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 import { ConfigService } from '@nestjs/config';
-import { RegisterUserDto, ResetPasswordDto, ResetPasswordRequestDto } from 'src/shared/zod-schemas/user.schema';
+import {
+    RegisterUserDto,
+    ResetPasswordDto,
+    ResetPasswordRequestDto,
+} from '@schemas';
 import { EmailService } from 'src/shared/email/email.service';
-import { GoogleUserDto } from 'src/shared/zod-schemas/auth.schema';
+import { GoogleUserDto } from '../../../shared/schemas/auth.schema';
 
 @Injectable()
 export class LocalAuthService {

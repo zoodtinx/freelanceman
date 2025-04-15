@@ -2,9 +2,12 @@
   "name": "shared",
   "version": "1.0.0",
   "main": "",
-  "types": "./types/index.d.ts",
+  "type": "module",
   "scripts": {
     "clean": "rm -rf **/*.js **/*.d.ts **/*.js.map",
     "build": "npm run clean && tsc --build"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
   }
 }

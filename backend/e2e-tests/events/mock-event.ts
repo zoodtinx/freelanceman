@@ -1,8 +1,8 @@
 import {
   CreateEventDto,
-  SearchEventDto,
+  EventFilterDto,
   UpdateEventDto,
-} from 'src/shared/zod-schemas/event.schema';
+} from '@schemas';
 
 export const mockCreateEventPayload: CreateEventDto = {
   name: "Design Proposal Review",
@@ -14,7 +14,7 @@ export const mockCreateEventPayload: CreateEventDto = {
   link: "https://example.com/meeting-link"
 };
 
-export const mockSearchEvent: SearchEventDto = {
+export const mockSearchEvent: EventFilterDto = {
   name: 'Kickoff',
   status: 'scheduled',
   dueAt: new Date().toISOString(),

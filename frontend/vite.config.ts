@@ -12,8 +12,6 @@ export default defineConfig({
       alias: {
          '@': path.resolve(__dirname, './src'),
          'src': path.resolve(__dirname, './src'), // Optional: Enable absolute imports like src/...
-         '@types': path.resolve(__dirname, '../shared/types/index.ts'),
-         '@mocks': path.resolve(__dirname, '../shared/mocks/index.ts'),
       },
    }
 });

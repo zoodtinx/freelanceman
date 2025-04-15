@@ -9,7 +9,7 @@ import {
     CreateTaskDto,
     UpdateTaskDto,
     SearchTaskSchema,
-} from 'src/shared/zod-schemas/task.schema';
+} from '../../../shared/schemas/task.schema';
 import { Prisma } from '@prisma/client';
 
 @Injectable()

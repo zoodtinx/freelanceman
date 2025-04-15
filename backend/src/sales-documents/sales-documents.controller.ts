@@ -14,9 +14,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createSalesDocumentSchema,
-    searchSalesDocumentSchema,
+    salesDocumentFilterSchema,
     updateSalesDocumentSchema,
-} from 'src/shared/zod-schemas/sales-document.schema';
+} from '@schemas';
 import { SalesDocumentsService } from 'src/sales-documents/sales-documents.service';
 
 @UseGuards(AuthGuard('jwt-access'))
@@ -43,7 +43,7 @@ export class SalesDocumentsController {
     @Post('search')
     @HttpCode(200)
     async findMany(
-        @Body(new ZodValidationPipe(searchSalesDocumentSchema)) payload: any,
+        @Body(new ZodValidationPipe(salesDocumentFilterSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;

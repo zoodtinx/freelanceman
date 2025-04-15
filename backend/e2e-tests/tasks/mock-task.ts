@@ -1,4 +1,4 @@
-import { CreateTaskDto, SearchTaskSchema, UpdateTaskDto } from "src/shared/zod-schemas/task.schema";
+import { CreateTaskDto, SearchTaskSchema, UpdateTaskDto } from "../../../shared/schemas/task.schema";
 
 export const mockCreateTaskPayload: CreateTaskDto = {
    name: "Design homepage",

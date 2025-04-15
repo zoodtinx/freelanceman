@@ -1,4 +1,4 @@
-import { CreateClientContactDto } from "src/shared/zod-schemas/client-contact.schema";
+import { CreateClientContactDto } from "../../../shared/schemas/client-contact.schema";
 
 export const mockCreateClientContactPayload: CreateClientContactDto = {
    name: 'John Doe',

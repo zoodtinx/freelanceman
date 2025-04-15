@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { CreateUserDto } from '@types';
-import { CreateFileDto } from 'src/shared/zod-schemas/file.schema';
+import { CreateFileDto } from '../../../../shared/schemas/file.schema';
 
 describe('FilesService', () => {
     let service: FilesService;

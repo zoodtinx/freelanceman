@@ -7,9 +7,9 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreatePartnerContactDto,
-    SearchPartnerContactDto,
+    PartnerContactFilterDto,
     UpdatePartnerContactDto,
-} from 'src/shared/zod-schemas/partner-contact.schema';
+} from '@schemas';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -45,7 +45,7 @@ export class PartnerContactService {
         }
     }
 
-    async findMany(userId: string, filter: SearchPartnerContactDto) {
+    async findMany(userId: string, filter: PartnerContactFilterDto) {
         try {
             const result = await this.prismaService.partnerContact.findMany({
                 where: {

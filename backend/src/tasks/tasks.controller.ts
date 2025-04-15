@@ -17,7 +17,7 @@ import {
   createTaskSchema,
   updateTaskSchema,
   searchTaskSchema,
-} from 'src/shared/zod-schemas/task.schema';
+} from '../../../shared/schemas/task.schema';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('tasks')

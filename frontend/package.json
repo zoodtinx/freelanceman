@@ -86,10 +86,10 @@
     "storybook": "^8.4.4",
     "storybook-addon-remix-react-router": "^3.0.1",
     "tailwindcss": "^3.4.12",
-    "typescript": "^5.5.3",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1",
-    "vitest": "^2.1.1"
+    "vite": "^6.2.6",
+    "vitest": "^3.1.1"
   },
   "packageManager": "pnpm@9.3.0+sha1.d4f1da7af76dbdb4ab1a08f6b5add602ffad6fd4",
   "eslintConfig": {

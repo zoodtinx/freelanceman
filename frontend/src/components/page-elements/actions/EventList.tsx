@@ -1,13 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import type { Event } from '@types';
+import type { EventPayload } from '@schemas';
 import { SelectState } from '@/lib/types/list.type';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface EventListProps {
-   eventsData: Event[] | undefined;
+   eventsData: EventPayload[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
@@ -34,7 +33,7 @@ export const EventList: React.FC<EventListProps> = ({
       }
       acc[date].push(event);
       return acc;
-   }, {} as Record<string, Event[]>);
+   }, {} as Record<string, EventPayload[]>);
 
    const processedEvents = Object.keys(groupedEvents).map((date) => ({
       date,

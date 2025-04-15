@@ -7,9 +7,9 @@
       "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
-         "@types": ["../shared/types"],
-         "@mocks": ["../shared/mocks"],
-         "@schemas": ["../shared/schemas"],
+         "@types": ["../shared/dist/types/*"],
+         "@mocks": ["../shared/dist/mocks/*"],
+         "@schemas": ["../shared/dist/schemas"],
          "@/*": ["./src/*"]
       },
       "moduleResolution": "bundler",
@@ -21,7 +21,8 @@
       "noUnusedParameters": true,
       "noFallthroughCasesInSwitch": true,
       "composite": true,
-      "declaration": false,
-      "declarationDir": "./dist/types",
-   }
+      "declaration": true,
+      "declarationDir": "./dist/types"
+   },
+   "include": ["src"]
 }

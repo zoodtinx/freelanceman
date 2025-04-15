@@ -11,9 +11,9 @@ import { S3Service } from 'src/shared/s3/s3.service';
 import {
     CreateFileDto,
     GetPresignedUrlDto,
-    SearchFileDto,
+    FileFilterDto,
     UpdateFileDto,
-} from 'src/shared/zod-schemas/file.schema';
+} from '@schemas';
 
 @Injectable()
 export class FilesService {
@@ -65,7 +65,7 @@ export class FilesService {
         }
     }
 
-    async findMany(userId: string, filter: SearchFileDto) {
+    async findMany(userId: string, filter: FileFilterDto) {
         try {
             return await this.prisma.file.findMany({
                 where: {

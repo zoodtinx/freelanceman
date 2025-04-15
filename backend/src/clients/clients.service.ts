@@ -7,8 +7,8 @@ import {
 import {
     CreateClientDto,
     EditClientDto,
-    SearchClientDto,
-} from 'src/shared/zod-schemas/client.schema';
+    ClientFilterDto,
+} from '@schemas';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 
@@ -43,7 +43,7 @@ export class ClientsService {
         }
     }
 
-    async findMany(userId: string, filter: SearchClientDto) {
+    async findMany(userId: string, filter: ClientFilterDto) {
         try {
             const clients = await this.prismaService.client.findMany({
                 where: {

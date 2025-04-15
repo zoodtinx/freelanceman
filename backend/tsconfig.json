@@ -1,37 +1,39 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "composite": true,
     "declaration": true,
-    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "../",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
+    "incremental": true,
+    "module": "commonjs",
     "noFallthroughCasesInSwitch": false,
-    "composite": true,
-    "strict": true,
+    "noImplicitAny": false,
+    "outDir": "./dist",
     "paths": {
-      "src/*": ["./src/*"],
-      "@types": ["../shared/types/"],
+      "@/*": ["./src/*"],
       "@mocks": ["../shared/mocks/"],
-      "@/*": ["./src/*"]
-    }
+      "@types": ["../shared/types/"],
+      "@schemas": ["../shared/schemas/"],
+      "src/*": ["./src/*"]
+    },
+    "removeComments": true,
+    "rootDir": "../",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictBindCallApply": false,
+    "strictNullChecks": false,
+    "target": "ES2021"
   },
-  "references": [{ "path": "../shared" }],
-   "include": [
+  "include": [
     "src",
     "e2e-tests",
     "jest.config.ts",
-    "../shared/types/**/*.ts"
-  ]
+    "../shared/types/**/*.ts",
+    "../shared/schemas/**/*.ts"
+  ],
+  "references": [{ "path": "../shared" }]
 }

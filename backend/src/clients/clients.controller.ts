@@ -16,8 +16,8 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createClientSchema,
     editClientSchema,
-    searchClientSchema,
-} from 'src/shared/zod-schemas/client.schema';
+    clientFilterSchema,
+} from '@schemas';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('clients')
@@ -36,7 +36,7 @@ export class ClientsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(searchClientSchema)) payload: any,
+        @Body(new ZodValidationPipe(clientFilterSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;
