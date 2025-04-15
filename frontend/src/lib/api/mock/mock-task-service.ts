@@ -1,5 +1,5 @@
 import { defaultTaskValue } from "@/components/shared/ui/helpers/constants/default-values";
-import { mockTasks } from "@mocks";
+import { mockTasks } from "src/lib/api/mock/mock-data";
 import type { ActionResponsePayload, NewActionPayload, Task, TaskSearchOptions } from "@types";
 
 export const getTask = (id: string): Promise<Task> => {

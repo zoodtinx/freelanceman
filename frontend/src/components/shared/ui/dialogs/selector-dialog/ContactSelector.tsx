@@ -12,7 +12,6 @@ import {
    SelectObject,
 } from 'src/lib/types/selector-dialog.types';
 import { useState } from 'react';
-import { ClientContactSearchOption } from '@types';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';

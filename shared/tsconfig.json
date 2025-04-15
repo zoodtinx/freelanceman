@@ -10,10 +10,10 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
-        "module": "ESNext", // Use ES module syntax
-        "target": "ESNext", // Target the latest ECMAScript version
+        "module": "ESNext",
+        "target": "ESNext",
         "moduleResolution": "node"
     },
-    "include": ["./schemas/*"],
+    "include": ["./schemas/*", "./mocks/*"],
     "exclude": ["node_modules"]
 }

@@ -3,7 +3,6 @@ import { TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { CircleCheck, Package, Plus, UserRound } from 'lucide-react';
 import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { CreateProjectDto } from '@types';
 import {
    paymentStatusSelections,
    projectStatusSelections,

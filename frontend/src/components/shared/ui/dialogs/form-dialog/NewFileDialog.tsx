@@ -13,7 +13,6 @@ import { DialogFooter } from '../../primitives/Dialog';
 import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { useState, Dispatch, SetStateAction } from 'react';
 import { Link } from 'lucide-react';
-import { CreateFileDto, CreateProjectDto, ProjectSearchOption } from '@types';
 import {
    fileTypeSelections,
    fileCategorySelections,

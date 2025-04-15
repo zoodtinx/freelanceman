@@ -12,7 +12,6 @@ import { cn } from '@/lib/helper/utils';
 import { useAllClientsQuery, useClientSelectionQuery } from '@/lib/api/client-api';
 import AsyncSelectionList from 'src/components/shared/ui/select/AsyncSelectionList';
 import { SelectComponentProps } from '@/components/shared/ui/select/select.type';
-import { ClientSearchOption } from '@types';
 
 const ClientSelect: React.FC<SelectComponentProps> = ({
    selected,

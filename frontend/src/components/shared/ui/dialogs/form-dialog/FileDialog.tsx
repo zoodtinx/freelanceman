@@ -21,7 +21,6 @@ import {
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { EditFileDto } from '@types';
 import { useFileApi } from '@/lib/api/file-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 

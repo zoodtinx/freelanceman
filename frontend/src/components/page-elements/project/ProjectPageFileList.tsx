@@ -5,16 +5,16 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import type { File } from '@types';
 import {
    getIcon,
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import { FilePayload } from '@schemas';
 
 interface FileListProps {
-   filesData: File[] | undefined;
+   filesData: FilePayload[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
@@ -54,7 +54,7 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
 };
 
 interface FileListItemProps {
-   data: File;
+   data: FilePayload;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;

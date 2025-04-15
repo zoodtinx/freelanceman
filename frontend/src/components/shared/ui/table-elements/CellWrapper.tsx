@@ -1,10 +1,10 @@
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { Row } from '@tanstack/react-table';
-import { Event } from '@types';
 import { Dispatch, SetStateAction } from 'react';
+import { EventPayload } from '@schemas';
 
 interface CellWrapperProps {
-   rowData: Row<Event>;
+   rowData: Row<EventPayload>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    tableType: string;
 }

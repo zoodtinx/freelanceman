@@ -1,6 +1,4 @@
 import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
-
-import { Project, SalesDocument } from '@types';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';

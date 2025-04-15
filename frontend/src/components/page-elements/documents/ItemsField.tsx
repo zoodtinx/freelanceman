@@ -1,4 +1,5 @@
-import { SalesDocument, SalesDocumentItem } from '@types';
+
+import { SalesDocumentPayload, CreateSalesDocumentItemDto } from '@schemas';
 import React, { useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';

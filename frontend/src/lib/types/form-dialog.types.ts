@@ -1,17 +1,16 @@
 import {
-   Client,
-   Contact,
-   CreateClientDto,
+   EventPayload,
+   FilePayload,
+   TaskPayload,
    CreateFileDto,
+   ProjectPayload,
+   ClientContactPayload,
+   PartnerContactPayload,
+   UserPayload,
    CreateProjectDto,
-   EditClientDto,
-   Event,
-   Partner,
-   Project,
-   SalesDocumentItem,
-   Task,
-   User,
-} from '@types';
+   ClientPayload,
+   UpdateClientDto,
+ } from '@schemas'; 
 import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
@@ -32,21 +31,21 @@ export type FormDialogState =
         type: 'task';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Task;
+        data: TaskPayload;
      }
    | {
         isOpen: boolean;
         type: 'event';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Event;
+        data: EventPayload;
      }
    | {
         isOpen: boolean;
         type: 'file';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: File;
+        data: FilePayload;
      }
    | {
         isOpen: boolean;
@@ -60,49 +59,49 @@ export type FormDialogState =
         type: 'project-settings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Project;
+        data: ProjectPayload;
      }
    | {
         isOpen: boolean;
         type: 'client-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Contact;
+        data: ClientContactPayload;
      }
    | {
         isOpen: boolean;
         type: 'partner-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Partner;
+        data: PartnerContactPayload;
      }
    | {
         isOpen: boolean;
         type: 'client-settings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Contact;
+        data: ClientContactPayload;
      }
    | {
         isOpen: boolean;
         type: 'partner-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: Partner;
+        data: PartnerContactPayload;
      }
    | {
         isOpen: boolean;
         type: 'sales-document-item';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: SalesDocumentItem;
+        data: any;
      }
    | {
         isOpen: boolean;
         type: 'user-profile';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: User;
+        data: UserPayload;
      }
    | {
         isOpen: boolean;
@@ -116,14 +115,14 @@ export type FormDialogState =
         type: 'new-client';
         mode: 'create';
         openedOn: OpenedOnType;
-        data: Client;
+        data: ClientPayload;
      }
    | {
         isOpen: boolean;
         type: 'client-settings';
         mode: 'edit';
         openedOn: OpenedOnType;
-        data: EditClientDto;
+        data: UpdateClientDto;
      };
 
 export type FormDialogType =

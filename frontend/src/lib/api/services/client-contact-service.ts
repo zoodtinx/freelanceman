@@ -1,5 +1,4 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { ClientContactSearchOption, ClientSearchOption } from '@types';
 
 export async function getClientContacts(
    accessToken: string,

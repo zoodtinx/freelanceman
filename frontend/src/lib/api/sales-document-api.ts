@@ -6,33 +6,32 @@ import {
    createSalesDocument,
    deleteSalesDocument,
 } from './mock/mock-document-draft-service';
-import type { CreateSalesDocumentDto, EditSalesDocumentDto, SalesDocument, SalesDocumentSearchOption } from '@types';
-
 
 export const useSalesDocumentApi = () => {
    return {
       createSalesDocument: useCreateSalesDocument(),
       deleteSalesDocument: useDeleteSalesDocument(),
-      editSalesDocument: useEditSalesDocument()
-   }
-}
+      editSalesDocument: useEditSalesDocument(),
+   };
+};
 
-
-export const useAllSalesDocumentsQuery = (searchOptions: SalesDocumentSearchOption = {}) => {
+export const useAllSalesDocumentsQuery = (
+   searchOptions: SalesDocumentSearchOption = {}
+) => {
    return useQuery({
       queryKey: ['salesDocuments', searchOptions],
       queryFn: () => getAllSalesDocuments(searchOptions),
    });
 };
 
-
-export const useSalesDocumentsQuery = (searchOptions: SalesDocumentSearchOption = {}) => {
+export const useSalesDocumentsQuery = (
+   searchOptions: SalesDocumentSearchOption = {}
+) => {
    return useQuery({
       queryKey: ['salesDocuments', JSON.stringify(searchOptions)],
       queryFn: () => getAllSalesDocuments(searchOptions),
    });
 };
-
 
 export const useSalesDocumentQuery = (salesDocumentId: string) => {
    return useQuery<SalesDocument, Error, SalesDocument>({
@@ -41,25 +40,29 @@ export const useSalesDocumentQuery = (salesDocumentId: string) => {
    });
 };
 
-export const useSalesDocumentSelectionQuery = (searchOptions: SalesDocumentSearchOption = {}) => {
+export const useSalesDocumentSelectionQuery = (
+   searchOptions: SalesDocumentSearchOption = {}
+) => {
    const queryClient = useQueryClient();
 
    return useQuery({
-      queryKey: ['salesDocumentSelection', JSON.stringify(searchOptions)], 
+      queryKey: ['salesDocumentSelection', JSON.stringify(searchOptions)],
       queryFn: async () => {
-         const cachedSalesDocuments = queryClient.getQueryData<SalesDocument[]>(['salesDocuments', JSON.stringify(searchOptions)]);
-         
+         const cachedSalesDocuments = queryClient.getQueryData<SalesDocument[]>(
+            ['salesDocuments', JSON.stringify(searchOptions)]
+         );
+
          if (cachedSalesDocuments) {
-            return cachedSalesDocuments.map(doc => ({
-               value: doc.id, 
-               label: doc.title 
+            return cachedSalesDocuments.map((doc) => ({
+               value: doc.id,
+               label: doc.title,
             }));
          }
 
          const salesDocuments = await getAllSalesDocuments(searchOptions);
-         return salesDocuments.map(doc => ({
-            value: doc.id, 
-            label: doc.title 
+         return salesDocuments.map((doc) => ({
+            value: doc.id,
+            label: doc.title,
          }));
       },
    });
@@ -70,15 +73,21 @@ export const useCreateSalesDocument = () => {
 
    return useMutation({
       mutationKey: ['createSalesDocument'],
-      mutationFn: async (newSalesDocument: CreateSalesDocumentDto) => await createSalesDocument(newSalesDocument),
+      mutationFn: async (newSalesDocument: CreateSalesDocumentDto) =>
+         await createSalesDocument(newSalesDocument),
       onMutate: async (newSalesDocument: CreateSalesDocumentDto) => {
          await queryClient.cancelQueries({ queryKey: ['salesDocuments'] });
-         const previousSalesDocuments = queryClient.getQueryData(['salesDocuments']);
-
-         queryClient.setQueryData(['salesDocuments'], (old: SalesDocument[]) => [
-            ...(old || []),
-            { ...newSalesDocument, id: 'temp-id' },
+         const previousSalesDocuments = queryClient.getQueryData([
+            'salesDocuments',
          ]);
+
+         queryClient.setQueryData(
+            ['salesDocuments'],
+            (old: SalesDocument[]) => [
+               ...(old || []),
+               { ...newSalesDocument, id: 'temp-id' },
+            ]
+         );
 
          return { previousSalesDocuments };
       },
@@ -86,7 +95,10 @@ export const useCreateSalesDocument = () => {
          console.log('New sales document ', newSalesDocument);
          console.log(err);
          if (context?.previousSalesDocuments) {
-            queryClient.setQueryData(['salesDocuments'], context.previousSalesDocuments);
+            queryClient.setQueryData(
+               ['salesDocuments'],
+               context.previousSalesDocuments
+            );
          }
       },
       onSettled: () => {
@@ -94,7 +106,6 @@ export const useCreateSalesDocument = () => {
       },
    });
 };
-
 
 interface EditSalesDocumentMutationPayload {
    salesDocumentId: string;
@@ -106,16 +117,27 @@ export const useEditSalesDocument = () => {
 
    return useMutation({
       mutationKey: ['editSalesDocument'],
-      mutationFn: async ({ salesDocumentId, salesDocumentPayload }: EditSalesDocumentMutationPayload) => {
+      mutationFn: async ({
+         salesDocumentId,
+         salesDocumentPayload,
+      }: EditSalesDocumentMutationPayload) => {
          await editSalesDocument(salesDocumentId, salesDocumentPayload);
       },
       onMutate: async ({ salesDocumentId, salesDocumentPayload }) => {
          await queryClient.cancelQueries({ queryKey: ['salesDocuments'] });
-         const previousSalesDocuments = queryClient.getQueryData(['salesDocuments']);
+         const previousSalesDocuments = queryClient.getQueryData([
+            'salesDocuments',
+         ]);
 
          if (previousSalesDocuments) {
-            queryClient.setQueryData(['salesDocuments'], (old: SalesDocument[]) =>
-               old?.map((salesDocument) => (salesDocument.id === salesDocumentId ? salesDocumentPayload : salesDocument))
+            queryClient.setQueryData(
+               ['salesDocuments'],
+               (old: SalesDocument[]) =>
+                  old?.map((salesDocument) =>
+                     salesDocument.id === salesDocumentId
+                        ? salesDocumentPayload
+                        : salesDocument
+                  )
             );
          }
 
@@ -125,7 +147,10 @@ export const useEditSalesDocument = () => {
          console.log('New sales document ', newSalesDocumentPayload);
          console.log(err);
          if (context?.previousSalesDocuments) {
-            queryClient.setQueryData(['salesDocuments'], context.previousSalesDocuments);
+            queryClient.setQueryData(
+               ['salesDocuments'],
+               context.previousSalesDocuments
+            );
          }
       },
       onSettled: () => {
@@ -133,7 +158,6 @@ export const useEditSalesDocument = () => {
       },
    });
 };
-
 
 export const useDeleteSalesDocument = () => {
    const queryClient = useQueryClient();
@@ -145,11 +169,17 @@ export const useDeleteSalesDocument = () => {
       },
       onMutate: async (salesDocumentId: string) => {
          await queryClient.cancelQueries({ queryKey: ['salesDocuments'] });
-         const previousSalesDocuments = queryClient.getQueryData(['salesDocuments']);
+         const previousSalesDocuments = queryClient.getQueryData([
+            'salesDocuments',
+         ]);
 
          if (previousSalesDocuments) {
-            queryClient.setQueryData(['salesDocuments'], (old: SalesDocument[]) =>
-               old?.filter((salesDocument) => salesDocument.id !== salesDocumentId)
+            queryClient.setQueryData(
+               ['salesDocuments'],
+               (old: SalesDocument[]) =>
+                  old?.filter(
+                     (salesDocument) => salesDocument.id !== salesDocumentId
+                  )
             );
          }
 
@@ -159,7 +189,10 @@ export const useDeleteSalesDocument = () => {
          console.log('Sales document deleting ', salesDocumentIds);
          console.log(err);
          if (context?.previousSalesDocuments) {
-            queryClient.setQueryData(['salesDocuments'], context.previousSalesDocuments);
+            queryClient.setQueryData(
+               ['salesDocuments'],
+               context.previousSalesDocuments
+            );
          }
       },
       onSettled: () => {

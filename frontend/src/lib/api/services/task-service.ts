@@ -1,5 +1,4 @@
 import { handleApiError } from '@/lib/api/services/helpers/error-handler';
-import { ProjectSearchOption } from '@types';
 
 export async function getTasks(
    accessToken: string,

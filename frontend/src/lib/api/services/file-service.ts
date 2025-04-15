@@ -1,5 +1,4 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { FileSearchOption } from '@types';
 
 export async function getFiles(
    accessToken: string,

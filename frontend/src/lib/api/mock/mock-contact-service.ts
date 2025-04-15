@@ -1,5 +1,4 @@
-import { mockContacts } from "@mocks";
-import type { Contact, ContactSearchOption, NewContactPayload } from "@types";
+import { mockContacts } from "src/lib/api/mock/mock-data";
 
 export const getContact = (id: string) => {
    const contact = mockContacts.find((contact) => contact.id === id);

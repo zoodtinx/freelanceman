@@ -37,8 +37,8 @@ const clientContactPayloadSchema = z.object({
     details: z.string().min(1),
     avatar: z.string().min(1),
     companyId: z.string().optional(),
-    createdAt: z.date(),
-    updatedAt: z.date().optional(),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
 });
 
 export type ClientContactPayload = z.infer<typeof clientContactPayloadSchema>;

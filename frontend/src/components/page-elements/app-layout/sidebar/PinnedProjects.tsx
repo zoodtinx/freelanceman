@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pin } from '@/components/shared/icons';
 import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Project } from '@types';
+import { ProjectPayload } from '@schemas';
 
 const project = {
    name: 'Sansiri Dog Freindly House Launch Campaign Sansiri Dog Freindly House Launch Campaign',
@@ -48,7 +48,7 @@ const PinnedProjectTabs: React.FC = () => {
    );
 }
 
-const PinnedProjectCard = ({ project }: { project: Project }) => {
+const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
    const { projectId } = useParams();
    const isActive = projectId === project.id
 

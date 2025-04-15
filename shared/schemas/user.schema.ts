@@ -15,8 +15,8 @@ export const userPayloadSchema = z.object({
   pinnedProjects: z.array(z.string()).min(0),
   currency: z.string().nullable(),
   quitting: z.boolean().default(false),
-  createdAt: z.date(),
-  updatedAt: z.date().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string().optional(),
 });
 
 export type UserPayload = z.infer<typeof userPayloadSchema>;

@@ -6,8 +6,8 @@ import {
    createFile,
    deleteFile,
 } from './mock/mock-file-service';
-import type { CreateFileDto, EditFileDto, File, FileSearchOption } from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
+import { FilePayload } from '@schemas';
 
 
 export const useFileApi = () => {
@@ -38,7 +38,7 @@ export const useFilesQuery = (searchOptions: FileSearchOption = {}) => {
 
 
 export const useFileQuery = (fileId: string) => {
-   return useQuery<File, Error, File>({
+   return useQuery<FilePayload, Error, FilePayload>({
       queryKey: ['files', fileId],
       queryFn: () => getFile(fileId),
    });

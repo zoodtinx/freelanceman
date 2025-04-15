@@ -2,7 +2,7 @@ import { Plus, PencilLine } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { Client } from '@types';
+import { ClientPayload } from '@schemas';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
@@ -10,7 +10,7 @@ import { ClientSectionProps } from 'src/components/page-elements/client/props.ty
 const ClientInfoSection: React.FC<ClientSectionProps> = ({
    clientData,
 }: {
-   clientData: Client;
+   clientData: ClientPayload;
 }) => {
    const [mode, setMode] = useState<'view' | 'edit'>('view');
    const formMethods = useForm({
@@ -40,7 +40,7 @@ const ClientInfoForm = ({
    mode,
    setMode,
 }: {
-   formMethods: UseFormReturn<Client>;
+   formMethods: UseFormReturn<ClientPayload>;
    mode: 'view' | 'edit';
    setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
 }) => {
@@ -125,7 +125,7 @@ const AnimatedClientInfoForm = ({
    mode,
    setMode,
 }: {
-   formMethods: UseFormReturn<Client>;
+   formMethods: UseFormReturn<ClientPayload>;
    mode: 'view' | 'edit';
    setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
 }) => {

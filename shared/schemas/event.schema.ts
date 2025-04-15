@@ -34,13 +34,13 @@ export const eventPayloadSchema = z.object({
     status: z.string().min(1),
     details: z.string().optional(),
     link: z.string().optional(),
-    dueAt: z.date(),
+    dueAt: z.string(),
     projectId: z.string(),
     clientId: z.string(),
     userId: z.string(),
     tags: z.array(z.string()).min(1),
-    createdAt: z.date(),
-    updatedAt: z.date().optional(),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
 });
 
 export type EventPayload = z.infer<typeof eventPayloadSchema>;

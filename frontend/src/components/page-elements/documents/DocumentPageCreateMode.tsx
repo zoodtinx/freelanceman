@@ -1,5 +1,5 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { SalesDocument } from '@types';
+import { SalesDocumentPayload } from '@schemas';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -14,7 +14,7 @@ import { FilePlus2, FileText } from 'lucide-react';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 
 const SalesDocumentBuilderPage: React.FC = () => {
-   const formMethods = useForm<SalesDocument>({});
+   const formMethods = useForm<SalesDocumentPayload>({});
    const params = useParams();
    const { data: draft, isLoading } = useSalesDocumentsQuery({
       id: params.draftId,
@@ -32,7 +32,7 @@ const SalesDocumentBuilderPage: React.FC = () => {
 
    const { handleSubmit } = formMethods;
 
-   const onSubmit = (data: SalesDocument) => {};
+   const onSubmit = (data: SalesDocumentPayload) => {};
 
    const breadcrumb = () => {
       return 'Hello';

@@ -10,7 +10,6 @@ import { Folder } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
-import { FileSearchOption } from '@types';
 import { useAllFilesQuery, useFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';

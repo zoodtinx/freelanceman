@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { StandardSelect, FilterSelect } from './PrebuiltSelect';
 import { useRef, useState } from 'react';
-import type { Task } from '@types';
 import { Filter } from 'lucide-react';
 
 const meta: Meta<typeof StandardSelect> = {

@@ -1,14 +1,10 @@
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
-import ContactDialog from 'src/components/shared/ui/dialogs/form-dialog/ClientContactDialog';
 import { ContactCard } from 'src/components/page-elements/all-clients/ClientPageContact';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
-import { ClientContactSearchOption } from '@types';
-import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
+import { ClientContactFilterDto } from '@schemas';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
@@ -28,7 +24,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
 
    const clientId = useParams().clientId || '';
 
-   const [searchOptions, setSearchOptions] = useState<ClientContactSearchOption>({
+   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({
       companyId: clientId,
    });
 

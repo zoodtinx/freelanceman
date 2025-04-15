@@ -9,7 +9,8 @@ import { useAllTasksQuery } from '@/lib/api/task-api';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
-import { TaskSearchOption, TaskStatus } from '@types';
+
+import { TaskStatus, TaskFilterSchema } from '@schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function TaskSection() {
@@ -17,7 +18,7 @@ export default function TaskSection() {
       (state) => state.setFormDialogState
    );
 
-   const [taskFilter, setTaskFilter] = useState<TaskSearchOption>({
+   const [taskFilter, setTaskFilter] = useState<TaskFilterSchema>({
       status: 'pending',
    });
 

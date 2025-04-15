@@ -2,14 +2,13 @@ import {
    TextAreaForm,
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-
-import { SalesDocument } from '@types';
+import { SalesDocumentPayload } from '@schemas';
 import { UseFormReturn } from 'react-hook-form';
 
 const AdjustmentsField = ({
    formMethods,
 }: {
-   formMethods: UseFormReturn<SalesDocument>;
+   formMethods: UseFormReturn<SalesDocumentPayload>;
 }) => {
    return (
       <fieldset className="h-2/7 rounded-xl border border-tertiary p-3">

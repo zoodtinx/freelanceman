@@ -5,16 +5,19 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { BookUser, EllipsisVertical, History } from 'lucide-react';
 import { ReactNode } from 'react';
-import type { Client } from '@types';
+import type { ClientPayload } from '@schemas';
 import { useNavigate } from 'react-router-dom';
 
-const ClientCard = ({ client }: { client: Client }): JSX.Element => { 
+const ClientCard = ({ client }: { client: ClientPayload }): JSX.Element => { 
+   const navigate = useNavigate();
+   
    if (!client) {
       return <></>
    }
+
+
    const projectWording = client?.projectCount < 2 ? 'project' : 'projects';
 
-   const navigate = useNavigate();
 
    const handleSelectClient = () => {
       navigate(`./${client.id}`);

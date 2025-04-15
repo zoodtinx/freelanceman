@@ -6,17 +6,14 @@ import {
    createUser,
    deleteUser,
 } from './mock/mock-user-service';
-import type { CreateUserDto, EditUserDto, User, UserSearchOption } from '@types';
-
 
 export const useUserApi = () => {
    return {
       createUser: useCreateUser(),
       deleteUser: useDeleteUser(),
-      editUser: useEditUser()
-   }
-}
-
+      editUser: useEditUser(),
+   };
+};
 
 export const useAllUsersQuery = (searchOptions: UserSearchOption = {}) => {
    return useQuery({
@@ -25,7 +22,6 @@ export const useAllUsersQuery = (searchOptions: UserSearchOption = {}) => {
    });
 };
 
-
 export const useUsersQuery = (searchOptions: UserSearchOption = {}) => {
    return useQuery({
       queryKey: ['users', JSON.stringify(searchOptions)],
@@ -33,14 +29,12 @@ export const useUsersQuery = (searchOptions: UserSearchOption = {}) => {
    });
 };
 
-
 export const useUserQuery = (userId: string) => {
    return useQuery<User, Error, User>({
       queryKey: ['users', userId],
       queryFn: () => getUser(userId),
    });
 };
-
 
 export const useCreateUser = () => {
    const queryClient = useQueryClient();
@@ -71,7 +65,6 @@ export const useCreateUser = () => {
       },
    });
 };
-
 
 interface EditUserMutationPayload {
    userId: string;
@@ -110,7 +103,6 @@ export const useEditUser = () => {
       },
    });
 };
-
 
 export const useDeleteUser = () => {
    const queryClient = useQueryClient();

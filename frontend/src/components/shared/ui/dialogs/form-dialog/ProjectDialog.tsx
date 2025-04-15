@@ -15,7 +15,6 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { useProjectApi } from '@/lib/api/project-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { EditProjectDto } from '@types';
 import {
    DiscardButton,
    SubmitButton,

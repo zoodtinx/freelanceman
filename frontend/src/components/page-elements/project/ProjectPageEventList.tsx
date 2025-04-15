@@ -7,10 +7,10 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import type { Event } from '@types';
+import { EventPayload } from '@schemas';
 
 interface EventListProps {
-   eventsData: Event[] | undefined;
+   eventsData: EventPayload[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
@@ -50,7 +50,7 @@ export const EventList: React.FC<EventListProps> = ({
 
 
 interface EventListItemProps {
-   data: Event;
+   data: EventPayload;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;

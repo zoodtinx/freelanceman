@@ -1,4 +1,4 @@
-import { mockSalesDocument } from '@mocks';
+import { mockSalesDocument } from "src/lib/api/mock/mock-data";
 import { SalesDocumentSearchOption } from '@types';
 
 export const getDocumentDraft = (searchOption: SalesDocumentSearchOption) => {

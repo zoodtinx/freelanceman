@@ -10,7 +10,7 @@ import { Switch } from '@/components/shared/ui/primitives/Switch';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { Link } from 'react-router-dom';
 import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
-import { Project, ProjectSearchOption } from '@types';
+import { ProjectPayload, ProjectFilterDto } from '@schemas';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';
@@ -20,7 +20,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
    clientData,
    isLoading: clientIsLoading,
 }) => {
-   const [projectFilter, setProjectFilter] = useState<ProjectSearchOption>({
+   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
       clientId: clientData?.id,
    });
    const { data: projectsData, isLoading: projectIsLoading } =
@@ -106,7 +106,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
 };
 
 interface ProjectListProps {
-   projectsData: Project[];
+   projectsData: ProjectPayload[];
    loadingState: boolean;
    className: string;
 }
@@ -131,7 +131,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
    );
 };
 
-const ProjectTab: React.FC<{ project: Project }> = ({ project }) => {
+const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
    const formattedDateModified = formatDate(project.modifiedAt, 'LONG');
 
    return (

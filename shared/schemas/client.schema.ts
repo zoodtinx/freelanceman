@@ -10,7 +10,7 @@ export const createClientSchema = z.object({
     themeColor: z.string().min(1),
 });
 
-export const editClientSchema = z.object({
+export const updateClientSchema = z.object({
     name: z.string().optional(),
     taxId: z.string().optional(),
     email: z.string().optional(),
@@ -35,11 +35,11 @@ export const clientPayloadSchema = z.object({
     address: z.string().min(1),
     detail: z.string().min(1),
     themeColor: z.string().min(1),
-    createdAt: z.date(),
-    updatedAt: z.date().optional(),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
 });
 
 export type ClientPayload = z.infer<typeof clientPayloadSchema>;
 export type CreateClientDto = z.infer<typeof createClientSchema>;
-export type EditClientDto = z.infer<typeof editClientSchema>;
+export type UpdateClientDto = z.infer<typeof updateClientSchema>;
 export type ClientFilterDto = z.infer<typeof clientFilterSchema>;

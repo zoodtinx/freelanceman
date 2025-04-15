@@ -1,12 +1,7 @@
-import { FormDialogType } from "@/lib/types/form-dialog.types";
-import { Client, CreateProjectDto, Event, EventStatus, File, Partner, Project, Task } from "@types";
-
-
-export const defaultEventValues: Event = {
-
+export const defaultEventValues = {
    name: '',
    details: '',
-   status: 'scheduled' as EventStatus,
+   status: 'scheduled',
    dueAt: '',
    project: '',
    projectId: '',
@@ -18,21 +13,21 @@ export const defaultEventValues: Event = {
    tags: []
 };
 
-export const defaultTaskValue: Task = {
-      id: "",
-      name: "",
-      status: "pending",
-      details: "",
-      link: "",
-      dueAt: "",
-      project: "",
-      projectId: "",
-      client: "",
-      clientId: "",
-      themeColor: "",
+export const defaultTaskValue = {
+   id: "",
+   name: "",
+   status: "pending",
+   details: "",
+   link: "",
+   dueAt: "",
+   project: "",
+   projectId: "",
+   client: "",
+   clientId: "",
+   themeColor: "",
 };
 
-export const defaultContact: Contact = {
+export const defaultContact = {
    id: '',
    company: '',
    email: [],
@@ -43,7 +38,7 @@ export const defaultContact: Contact = {
    role: '',
 };
 
-export const defaultProject: Project = {
+export const defaultProject = {
    id: '',
    name: '',
    client: '',
@@ -57,7 +52,7 @@ export const defaultProject: Project = {
    dateModified: ''
 };
 
-export const defaultFileValues: File = {
+export const defaultFileValues = {
    id: '',
    displayName: '',
    originalName: '',
@@ -80,7 +75,7 @@ export const defaultContactValues = {
    avatar: '',
 };
 
-export const defaultPartnerValues: Partner = {
+export const defaultPartnerValues = {
    id: '',
    name: '',
    company: '',
@@ -92,7 +87,7 @@ export const defaultPartnerValues: Partner = {
    avatar: '',
 };
 
-export const defaultUserValue: User = {
+export const defaultUserValue = {
    id: '',
    name: '',
    email: '',
@@ -119,7 +114,7 @@ export const defaultUserValue: User = {
    },
  };
  
- export const defaultNewProjectValue: CreateProjectDto = {
+ export const defaultNewProjectValue = {
    title: "",
    clientId: "",
    projectStatus: "active",
@@ -129,7 +124,7 @@ export const defaultUserValue: User = {
    assetFiles: [],
  };
 
- export const defaultClientValue: Client = {
+ export const defaultClientValue = {
    name: '',
    id: '',
    contactCount: 0,
@@ -143,8 +138,7 @@ export const defaultUserValue: User = {
    themeColor: '',
 };
 
-
- export const defaultValues: Record<FormDialogType, any> = {
+export const defaultValues = {
    "task": defaultTaskValue,
    "event": defaultEventValues,
    "file": defaultFileValues,
@@ -158,3 +152,6 @@ export const defaultUserValue: User = {
    "new-client": defaultClientValue,
    "client-settings": defaultClientValue,
 };
+
+
+

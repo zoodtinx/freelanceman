@@ -7,9 +7,9 @@
       "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
-         "@types": ["../shared/dist/types/*"],
-         "@mocks": ["../shared/dist/mocks/*"],
-         "@schemas": ["../shared/dist/schemas"],
+         "@types": ["../shared/dist/types"],
+         "@mocks": ["./src/lib/api/mock/mock-data/index.ts"],
+         "@schemas": ["../shared/dist/types/schemas"],
          "@/*": ["./src/*"]
       },
       "moduleResolution": "bundler",

@@ -11,7 +11,6 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { useTaskApi } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
-import type { Task, CreateTaskDto, EditTaskDto, TaskStatus } from '@types';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';

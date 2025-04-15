@@ -5,12 +5,6 @@ import {
    editContact as editClientContact,
    getAllContacts as getAllClientContact,
 } from './mock/mock-contact-service';
-import {
-   ClientContact,
-   ClientContactSearchOption,
-   CreateClientContactDto,
-   EditClientContactDto,
-} from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { getClientContacts, getClientContact } from '@/lib/api/services/client-contact-service';
 

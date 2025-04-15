@@ -1,4 +1,4 @@
-import { mockProjectPayments } from "@mocks"
+import { mockProjectPayments } from "src/lib/api/mock/mock-data";
 import { ProjectPaymentData } from "@types"
 
 const paymentStats = {

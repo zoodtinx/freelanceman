@@ -1,6 +1,6 @@
-import { useTaskQuery } from '@/lib/api/task-api';
 import { useNavigate } from 'react-router-dom';
-import type { Project } from '@types';
+import type { ProjectPayload } from '@schemas';
+
 import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
 import {
    ProjectListProps,
@@ -33,7 +33,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult }) => {
 
    const projectCards =
       projects.length !== 0
-         ? projects.map((project: Project) => {
+         ? projects.map((project: ProjectPayload) => {
               return <ProjectCard project={project} key={project.id} />;
            })
          : 'no content';

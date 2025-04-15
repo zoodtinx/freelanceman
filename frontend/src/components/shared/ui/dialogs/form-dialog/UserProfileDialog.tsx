@@ -2,7 +2,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import { Button } from '../../primitives/Button';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
-import { Contact, EditUserDto } from '@types';
 import { UserIcon } from 'lucide-react';
 import {
    AvatarInputForm,

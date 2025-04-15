@@ -1,4 +1,4 @@
-import { mockPartners as mockPartnerContacts } from "@mocks";
+import { mockPartners as mockPartnerContacts } from "src/lib/api/mock/mock-data";
 import type {
    PartnerContact,
    PartnerContactSearchOption,

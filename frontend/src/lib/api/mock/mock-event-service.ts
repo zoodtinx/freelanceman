@@ -1,4 +1,4 @@
-import { mockEvents } from "@mocks";
+import { mockEvents } from "src/lib/api/mock/mock-data";
 import type {  ActionResponsePayload, EventSearchOptions, NewActionPayload } from "@types";
 
 export const getEvent = (id: string) => {

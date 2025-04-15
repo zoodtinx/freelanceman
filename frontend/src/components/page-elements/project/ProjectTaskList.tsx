@@ -5,7 +5,6 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import type { Task } from '@types';
 import { EllipsisVertical, PencilLine } from 'lucide-react';
 import { EditPopover } from '@/components/shared/ui/EditPopover';
 

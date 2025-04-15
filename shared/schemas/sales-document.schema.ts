@@ -73,7 +73,7 @@ export const salesDocumentPayloadSchema = z.object({
     title: z.string().min(1),
     category: z.string().min(1),
     number: z.string().min(1),
-    issuedAt: z.date(),
+    issuedAt: z.string(),
     currency: z.string().min(1),
     projectId: z.string(),
     referenceNumber: z.string().min(1),
@@ -98,8 +98,8 @@ export const salesDocumentPayloadSchema = z.object({
     customAdjustment: z.number().optional(),
     note: z.string().optional(),
     generatedFileId: z.string().optional(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
 });
 
 export type SalesDocumentPayload = z.infer<typeof salesDocumentPayloadSchema>;

@@ -1,20 +1,17 @@
-import { Contact, File, FileSearchOption } from '@types';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface SelectObject {
    id: string;
    value: string;
-   detail?: string
+   detail?: string;
 }
 
 export interface SelectorDialogState {
    isOpen: boolean;
-   type:
-      | 'file'
-      | 'contact'
+   type: 'file' | 'contact';
    selected: SelectObject[];
    setSelected: Dispatch<SetStateAction<SelectObject[]>>;
-   option?: any
+   option?: any;
 }
 
 export interface SelectionListProps {
@@ -25,7 +22,7 @@ export interface SelectionListProps {
 }
 
 export interface FileSelectionItemProps {
-   file: File
+   file: File;
    selected: SelectObject[];
    setSelected: Dispatch<SetStateAction<SelectObject[]>>;
 }
@@ -33,11 +30,11 @@ export interface FileSelectionItemProps {
 export interface SelectedListProps {
    selected: SelectObject[];
    setSelected: Dispatch<SetStateAction<SelectObject[]>>;
-   setMode: Dispatch<SetStateAction<"select" | "view">>
+   setMode: Dispatch<SetStateAction<'select' | 'view'>>;
 }
 
 export interface SelectedItemProps {
-   data: SelectObject
+   data: SelectObject;
    isSelected: boolean;
    onCheckedChange: () => void;
 }

@@ -1,5 +1,4 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import type { Client, EditClientDto } from '@types';
 import { DialogFooter } from '../../primitives/Dialog';
 import {
    TextAreaForm,

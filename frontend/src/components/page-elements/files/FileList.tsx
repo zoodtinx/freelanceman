@@ -5,12 +5,12 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import type { File } from '@types';
 import {
    getIcon,
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { FilePayload } from '@schemas';
 
 interface FileListProps {
    filesData: File[] | undefined;
@@ -54,7 +54,7 @@ export const FileList: React.FC<FileListProps> = ({
 };
 
 interface FileListItemProps {
-   data: File;
+   data: FilePayload;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    size: 'base' | 'sm' | 'md';

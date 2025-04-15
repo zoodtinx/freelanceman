@@ -1,4 +1,4 @@
-import { mockFiles } from '@mocks';
+import { mockFiles } from '../../api/mock/mock-data';
 import type { File, FileFormData, FileSearchOption } from '@types';
 
 export const getFile = (id: string) => {

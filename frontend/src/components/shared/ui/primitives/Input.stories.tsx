@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { CleanTextInput } from './CleanTextInput';
 import { useRef } from 'react';
-import type { Task } from '@types';
 
 const meta = {
    component: CleanTextInput,

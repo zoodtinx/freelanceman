@@ -3,7 +3,6 @@ import {
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
 import { useAllTasksQuery } from '@/lib/api/task-api';
-import { Project, TaskSearchOptions } from '@types';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';

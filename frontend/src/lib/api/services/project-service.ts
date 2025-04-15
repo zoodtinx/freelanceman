@@ -1,8 +1,4 @@
-import { ProjectSearchOption } from '@types';
-
-
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { ClientSearchOption } from '@types';
 
 export async function getProjects(
    accessToken: string,
@@ -17,10 +13,7 @@ export async function getProjects(
    });
 }
 
-export async function getProject(
-   accessToken: string,
-   projectId: string
-) {
+export async function getProject(accessToken: string, projectId: string) {
    return await fetchProMax({
       accessToken,
       apiEndpoint: `projects/${projectId}`,

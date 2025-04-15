@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { getIcon, convertCategory } from 'src/components/shared/ui/helpers/Helpers';
 import { ColumnDef, Row } from '@tanstack/react-table';
-import type { File } from '@types';
+import { FilePayload } from '@schemas';
 import { EllipsisVertical } from 'lucide-react';
 import {
    Popover,
@@ -35,7 +35,7 @@ interface FileColumnProps {
    setDialogState: Dispatch<SetStateAction<any>>;
 }
 
-export const createDocumentPageFileColumn = (setDialogState: () => void): ColumnDef<File>[] => [
+export const createDocumentPageFileColumn = (setDialogState: () => void): ColumnDef<FilePayload>[] => [
    {
       id: 'type',
       accessorKey: 'type',
@@ -114,7 +114,7 @@ export const EditPopover = ({ rowData, setDialogState }: CellWrapperProps): JSX.
 };
 
 interface CellWrapperProps {
-   rowData: Row<File>;
+   rowData: Row<FilePayload>;
    setDialogState: Dispatch<SetStateAction<any>>;
 }
 

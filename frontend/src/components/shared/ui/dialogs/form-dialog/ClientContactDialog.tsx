@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
-import { Contact, CreateClientContactDto, EditClientContactDto } from '@types';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import {
    DynamicHeightTextInputForm,

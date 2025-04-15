@@ -1,5 +1,4 @@
 import { TaskEventDialogState, ProjectSettingDialogState } from './form-dialog.types';
-import type { Project, ProjectSearchOptions } from '@types';
 
 interface Filter {
    projectStatus: Project['projectStatus'] | 'all';

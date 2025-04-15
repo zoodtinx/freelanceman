@@ -12,7 +12,6 @@ import {
 } from 'src/components/shared/ui/helpers/Helpers';
 import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
-import { Project } from '@types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 
 export interface ProjectPageSectionProps {

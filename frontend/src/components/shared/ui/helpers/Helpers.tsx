@@ -27,7 +27,6 @@ import {
    PencilRuler,
    Building2,
 } from 'lucide-react';
-import { FileCategory, FileType } from '@types';
 
 export const getIcon = (
    fileType: string,

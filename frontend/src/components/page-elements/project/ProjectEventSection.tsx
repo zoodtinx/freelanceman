@@ -1,5 +1,4 @@
 import { useEventsQuery } from '@/lib/api/event-api';
-import { EventSearchOption, Project } from '@types';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';

@@ -1,11 +1,11 @@
 import { getIcon, formatCategory } from 'src/components/shared/ui/helpers/Helpers';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { File } from '@types';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';
+import { FilePayload } from '@schemas';
 
 
-export const FileListItem: React.FC<{data: File}> = ({ data, color }) => {
+export const FileListItem: React.FC<{data: FilePayload}> = ({ data, color }) => {
    const formattedDate = formatDate(data.createdAt, 'LONG')
    const formattedSize = formatBytes(data.size) || ''
    const formattedCategory = formatCategory(data.category)

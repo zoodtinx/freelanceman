@@ -5,9 +5,9 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import type { Event } from '@types';
 import { EllipsisVertical, PencilLine } from 'lucide-react';
 import { EditPopover } from '@/components/shared/ui/EditPopover';
+import { EventPayload } from '@schemas';
 
 interface EventListProps {
    eventsData: Event[] | undefined;
@@ -50,7 +50,7 @@ export const ProjectEventList: React.FC<EventListProps> = ({
 };
 
 interface EventListItemProps {
-   data: Event;
+   data: EventPayload;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;

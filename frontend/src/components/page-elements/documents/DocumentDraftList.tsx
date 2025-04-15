@@ -6,16 +6,16 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import type { File, SalesDocument } from '@types';
 import {
    getIcon,
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
 import { size } from 'lodash';
 import { useNavigate } from 'react-router-dom';
+import { FilePayload, SalesDocumentPayload } from '@schemas';
 
 interface FileListProps {
-   documentDraftData: File[] | undefined;
+   documentDraftData: FilePayload[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
@@ -56,7 +56,7 @@ export const DocumentDraftList: React.FC<FileListProps> = ({
 };
 
 interface DocumentListItemProps {
-   data: SalesDocument;
+   data: SalesDocumentPayload;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;

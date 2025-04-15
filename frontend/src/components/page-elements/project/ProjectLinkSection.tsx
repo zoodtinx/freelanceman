@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useEffect, useRef, useState } from 'react';
 import { CleanTextInput } from '@/components/shared/ui/primitives/CleanTextInput';
-import { Project } from '@types';
 
 const ProjectLinkSection: React.FC<{ project: Project }> = ({ project }) => {
   const [mode, setMode] = useState<'view' | 'add'>('view');

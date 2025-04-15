@@ -19,8 +19,8 @@ import {
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { ProjectField } from '@/components/shared/ui/dialogs/form-dialog/TaskDialog';
-import type { CreateEventDto, EditEventDto, Event, EventStatus } from '@types';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
+import { EventPayload } from '@schemas';
 
 export const EventDialog = ({
    formMethods,
@@ -32,7 +32,7 @@ export const EventDialog = ({
       (state) => state.setConfirmationDialogState
    );
 
-   const eventData = formDialogState.data as Event;
+   const eventData = formDialogState.data as EventPayload;
 
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,

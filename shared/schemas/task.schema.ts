@@ -12,7 +12,7 @@ export const createTaskSchema = z.object({
    link: z.string().url().optional(),
 });
 
-export const searchTaskSchema = z.object({
+export const taskFilterSchema = z.object({
    name: z.string().optional(),
    status: taskStatusEnum.optional(),
    dueAt: z.string().datetime().optional(),
@@ -34,15 +34,16 @@ export const taskPayloadSchema = z.object({
    status: z.string().min(1),
    details: z.string().optional(),
    link: z.string().optional(),
-   dueAt: z.date(),
+   dueAt: z.string(),
    projectId: z.string(),
    clientId: z.string(),
    userId: z.string(),
-   createdAt: z.date(),
-   updatedAt: z.date().optional(),
+   createdAt: z.string(),
+   updatedAt: z.string().optional(),
 });
 
 export type TaskPayload = z.infer<typeof taskPayloadSchema>;
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
-export type SearchTaskSchema = z.infer<typeof searchTaskSchema>;
+export type TaskFilterSchema = z.infer<typeof taskFilterSchema>;
 export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
+export type TaskStatus = z.infer<typeof taskStatusEnum>;

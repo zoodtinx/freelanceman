@@ -1,22 +1,16 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import type { EventPayload } from '@schemas';
-import { SelectState } from '@/lib/types/list.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface EventListProps {
    eventsData: EventPayload[] | undefined;
    isLoading: boolean;
-   selectState: SelectState;
-   setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
 export const EventList: React.FC<EventListProps> = ({
    eventsData,
    isLoading,
-   setDialogState,
 }) => {
    if (isLoading) {
       return <p>Loading...</p>;
@@ -40,13 +34,10 @@ export const EventList: React.FC<EventListProps> = ({
       events: groupedEvents[date],
    }));
 
-   const eventGroups = processedEvents.map((group, index) => {
+   const eventGroups = processedEvents.map((group) => {
       return (
          <React.Fragment key={group.date}>
-            <EventGroup
-               eventGroupData={group}
-               setDialogState={setDialogState}
-            />
+            <EventGroup eventGroupData={group} />
             <div className="border-[0.5px] border-tertiary" />
          </React.Fragment>
       );
@@ -59,26 +50,23 @@ export const EventList: React.FC<EventListProps> = ({
    );
 };
 
-interface EventListItemProps {
-   data: Event;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-}
-
-const EventGroup = ({ eventGroupData, setDialogState }) => {
+const EventGroup = ({ eventGroupData }: { eventGroupData: any }) => {
    const formattedDate = formatDate(eventGroupData.date, 'SHORT');
    const month = formattedDate.split(' ')[0];
    const date = formattedDate.split(' ')[1];
 
-   const events = eventGroupData.events.map((data, index) => {
-      return (
-         <React.Fragment key={data.id}>
-            <EventListItem data={data} setDialogState={setDialogState} />
-            {index !== eventGroupData.events.length - 1 && (
-               <div className="border-[0.5px] border-tertiary border-dotted" />
-            )}
-         </React.Fragment>
-      );
-   });
+   const events = eventGroupData.events.map(
+      (data: EventPayload, index: number) => {
+         return (
+            <React.Fragment key={data.id}>
+               <EventListItem data={data} />
+               {index !== eventGroupData.events.length - 1 && (
+                  <div className="border-[0.5px] border-tertiary border-dotted" />
+               )}
+            </React.Fragment>
+         );
+      }
+   );
 
    return (
       <div className="flex w-full cursor-default">
@@ -91,7 +79,7 @@ const EventGroup = ({ eventGroupData, setDialogState }) => {
    );
 };
 
-const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
+const EventListItem = ({ data }: { data: EventPayload }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -101,7 +89,7 @@ const EventListItem = ({ data, setDialogState }: EventListItemProps) => {
    const handleOpenDialog = () => {
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: 'project-page',
          type: 'event',
          data: data,

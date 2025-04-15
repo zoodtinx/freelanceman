@@ -35,8 +35,8 @@ export const partnerContactPayloadSchema = z.object({
     email: z.string().email(),
     details: z.string().min(1),
     avatar: z.string().min(1),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
 });
 
 export type PartnerContactPayload = z.infer<typeof partnerContactPayloadSchema>;

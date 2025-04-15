@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { File } from '@types';
+import { FilePayload } from '@schemas';
 
 interface SelectState {
    enableSelect: boolean,
@@ -14,7 +14,7 @@ interface SelectState {
 }
 
 interface FileListItemProps {
-   data: File;
+   data: FilePayload;
    type: 'file' | 'document-draft';
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;

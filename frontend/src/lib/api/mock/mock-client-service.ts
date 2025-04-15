@@ -1,10 +1,4 @@
-import { mockClients as mockClients } from "@mocks";
-import type {
-   Client,
-   ClientSearchOption,
-   NewClientPayload,
-   ClientResponse,
-} from "@types";
+import { mockClients as mockClients } from "src/lib/api/mock/mock-data";
 
 
 export const getClient = (idType: string, idValue: string): Promise<Client> => {

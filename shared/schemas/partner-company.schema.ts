@@ -27,8 +27,8 @@ export const partnerCompanyPayloadSchema = z.object({
     phoneNumber: z.string().min(1),
     address: z.string().min(1),
     detail: z.string().min(1),
-    createdAt: z.date(),
-    updatedAt: z.date().optional(),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
 });
 
 export const partnerCompanyFilterSchema = z.object({

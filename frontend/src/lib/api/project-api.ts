@@ -5,12 +5,6 @@ import {
    getAllProjects,
    deleteProject,
 } from './mock/mock-project-service';
-import type {
-   CreateProjectDto,
-   EditProjectDto,
-   Project,
-   ProjectSearchOption,
-} from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
 
 export const useProjectApi = () => {

@@ -1,8 +1,4 @@
 import {
-   TextInput,
-   TextAreaInput,
-} from 'src/components/shared/ui/form-field-elements/TextInputForm';
-import {
    Dialog,
    DialogContent,
    DialogFooter,
@@ -13,15 +9,13 @@ import {
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { CircleDollarSign } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { DialogProps, FormDialogState } from 'src/lib/types/form-dialog.types';
-import { defaultProject } from 'src/components/shared/ui/helpers/constants/constants';
+import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import {
-   FieldValues,
    UseFieldArrayReturn,
    UseFormReturn,
 } from 'react-hook-form';
 import { Input } from '@/components/shared/ui/primitives/Input';
-import { SalesDocument } from '@types';
+import { SalesDocumentPayload } from '@schemas';
 
 const DocumentItemDialog = ({
    dialogState,
@@ -31,8 +25,8 @@ const DocumentItemDialog = ({
 }: {
    dialogState: FormDialogState;
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
-   formMethods: UseFormReturn<SalesDocument>;
-   fieldArrayMethods: UseFieldArrayReturn<SalesDocument, 'items', 'id'>;
+   formMethods: UseFormReturn<SalesDocumentPayload>;
+   fieldArrayMethods: UseFieldArrayReturn<SalesDocumentPayload, 'items', 'id'>;
 }) => {
    const [name, setName] = useState('');
    const [rate, setRate] = useState('');

@@ -16,7 +16,6 @@ import { getColorName } from '@/components/shared/ui/helpers/Helpers';
 import { useClientApi } from '@/lib/api/client-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import { CreateClientDto } from '@types';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 

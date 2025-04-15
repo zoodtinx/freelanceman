@@ -1,5 +1,5 @@
 import type { Project, ProjectPreview, ProjectSearchOption } from '@types';
-import { mockProjects as sampleAllPropjects } from '@mocks';
+import { mockProjects as sampleAllPropjects } from "src/lib/api/mock/mock-data";
 
 export const getProject = (id: string): Promise<Project> => {
    const queriedProject = sampleAllPropjects.find(

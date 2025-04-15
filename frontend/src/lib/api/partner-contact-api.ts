@@ -6,7 +6,6 @@ import {
    createPartnerContact,
    deletePartnerContact,
 } from './mock/mock-partner-contact-service';
-import type { CreatePartnerContactDto, EditPartnerContactDto, PartnerContact, PartnerContactSearchOption } from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { getPartnerContacts } from '@/lib/api/services/partner-contact-service';
 

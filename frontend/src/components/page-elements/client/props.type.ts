@@ -1,6 +1,6 @@
-import { Client } from "@types";
+import { ClientPayload } from "@schemas";
 
 export interface ClientSectionProps {
-   clientData: Client;
+   clientData: ClientPayload;
    isLoading: boolean
 }

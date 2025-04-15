@@ -6,7 +6,6 @@ import {
    createClient,
    deleteClient,
 } from './mock/mock-client-service';
-import type { CreateClientDto, EditClientDto, Client, ClientSearchOption } from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { getClients } from '@/lib/api/services/client-service';
 

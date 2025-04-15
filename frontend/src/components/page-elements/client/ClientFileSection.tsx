@@ -1,7 +1,7 @@
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
-import { FileSearchOption } from '@types';
+import { FileFilterDto } from '@schemas';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { clientPageFileCategorySelections, fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
@@ -22,7 +22,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
       selectedValues: [] as string[],
    });
 
-   const [fileFilter, setFileFilter] = useState<FileSearchOption>({
+   const [fileFilter, setFileFilter] = useState<FileFilterDto>({
       clientId: clientId,
    });
 

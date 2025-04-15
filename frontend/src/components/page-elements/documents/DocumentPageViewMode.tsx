@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
 import { useAllFilesQuery } from '@/lib/api/file-api';
-import { FileSearchOption, SalesDocumentSearchOption } from '@types';
+import { FileFilterDto, SalesDocumentFilterDto } from '@schemas';
 import { useSalesDocumentsQuery } from 'src/lib/api/sales-document-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
@@ -24,7 +24,7 @@ const DocumentPageViewMode: React.FC = () => {
 export const FileSection = () => {
    const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
 
-   const [fileFilter, setFileFilter] = useState<FileSearchOption>({
+   const [fileFilter, setFileFilter] = useState<FileFilterDto>({
       category: 'document',
    });
 
@@ -84,7 +84,7 @@ export const DraftSection = () => {
    });
 
    const [documentDraftFilter, setDocumentDraftFilter] =
-      useState<SalesDocumentSearchOption>({});
+      useState<SalesDocumentFilterDto>({});
 
    const { data: documentDraftsData, isLoading } =
       useSalesDocumentsQuery(documentDraftFilter);

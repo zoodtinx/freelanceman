@@ -4,7 +4,6 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
-import { Contact, ContactSearchOption } from '@types';
 import { useEffect, useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';

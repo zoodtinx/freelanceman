@@ -5,7 +5,7 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { Contact, ContactSearchOption } from '@types';
+import type { ClientContactPayload, ClientContactFilterDto } from '@schemas';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
@@ -19,7 +19,7 @@ export const ContactColumn = (): JSX.Element => {
       (state) => state.setFormDialogState
    );
 
-   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({});
+   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({});
 
    const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
 
@@ -71,7 +71,7 @@ export const ContactColumn = (): JSX.Element => {
 export const ContactCard = ({
    contact
 }: {
-   contact: Contact;
+   contact: ClientContactPayload;
 }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState

@@ -1,14 +1,14 @@
 import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
-import { Client, SalesDocument } from '@types';
+import { ClientPayload, SalesDocumentPayload } from '@schemas';
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useAllClientsQuery } from '@/lib/api/client-api';
 import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 
-const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocument>} ) => {
+const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocumentPayload>} ) => {
    // const userData = some logic to fetch user data
    const [searchTerm, setSearchTerm] = useState({})
-   const [clientData, setClientData] = useState<Client | undefined>()
+   const [clientData, setClientData] = useState<ClientPayload | undefined>()
    const {data: clientList, isLoading} = useAllClientsQuery(searchTerm)
 
    const {setValue, watch} = formMethods

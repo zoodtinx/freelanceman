@@ -4,7 +4,6 @@ import AddButton from '@/components/shared/ui/AddButton';
 import { useState } from 'react';
 import { cn } from '@/lib/helper/utils';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { EventSearchOptions } from '@types';
 import { useAllEventQuery } from '@/lib/api/event-api';
 import EventDialog from 'src/components/shared/ui/dialogs/form-dialog/EventDialog';
 

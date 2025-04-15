@@ -5,9 +5,9 @@ import {
    createEvent,
    deleteEvent,
 } from './mock/mock-event-service';
-import type { CreateEventDto, EditEventDto, Event, EventFields, EventFilter, EventSearchOption } from '@types';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { getEvents } from '@/lib/api/services/event-service';
+import { EventPayload } from '@schemas';
 
 
 export const useEventApi = () => {
@@ -41,7 +41,7 @@ export const useActiveEventCountQuery = () => {
 }
 
 export const useEventQuery = (eventId: string) => {
-   return useQuery<Event, Error, Event>({
+   return useQuery<EventPayload, Error, EventPayload>({
       queryKey: ['events', eventId],
       queryFn: () => getEvent(eventId),
    });

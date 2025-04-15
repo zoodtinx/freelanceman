@@ -4,7 +4,7 @@ import { LayoutGrid, List, X } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { useAllClientsQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
-import { ClientSearchOption, ProjectSearchOption } from '@types';
+import type { ClientFilterDto, ProjectFilterDto } from '@schemas';
 import {
    ProjectFilterProps,
    ProjectFilterBubble,
@@ -48,7 +48,7 @@ const ProjectSearchBox: React.FC<ProjectFilterBubble> = ({
    setProjectFilter,
 }) => {
    const setSearchTerm = (value: string) => {
-      setProjectFilter((prev: ProjectSearchOption) => ({
+      setProjectFilter((prev: ProjectFilterDto) => ({
          ...prev,
          title: value,
       }));
@@ -155,7 +155,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
 }) => {
    const [mode, setMode] = useState('base');
 
-   const [clientFilter, setClientFilter] = useState<ClientSearchOption>({});
+   const [clientFilter, setClientFilter] = useState<ClientFilterDto>({});
    const { data: clientList, isLoading } = useAllClientsQuery(clientFilter);
 
    useEffect(() => {

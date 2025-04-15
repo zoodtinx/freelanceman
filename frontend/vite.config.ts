@@ -12,6 +12,7 @@ export default defineConfig({
       alias: {
          '@': path.resolve(__dirname, './src'),
          'src': path.resolve(__dirname, './src'), // Optional: Enable absolute imports like src/...
+         '@mocks': path.resolve(__dirname, './src/lib/api/mock/mock-data/index.ts"'), // Optional: Enable absolute imports like src/...
       },
    }
 });
