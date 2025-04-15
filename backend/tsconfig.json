@@ -1,39 +1,37 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
-    "composite": true,
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": false,
-    "incremental": true,
-    "module": "commonjs",
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitAny": false,
-    "outDir": "./dist",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@mocks": ["../shared/mocks/"],
-      "@types": ["../shared/types/"],
-      "@schemas": ["../shared/schemas/"],
-      "src/*": ["./src/*"]
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "composite": true,
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": false,
+        "incremental": true,
+        "module": "commonjs",
+        "noFallthroughCasesInSwitch": false,
+        "noImplicitAny": false,
+        "outDir": "./dist",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@mocks": ["../shared/mocks/"],
+            "@types": ["../shared/types/"],
+            "@schemas": ["../shared/dist/types/schemas"],
+            "src/*": ["./src/*"]
+        },
+        "removeComments": true,
+        "rootDir": "./",
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strict": true,
+        "strictBindCallApply": false,
+        "strictNullChecks": false,
+        "target": "ES2021"
     },
-    "removeComments": true,
-    "rootDir": "../",
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "strictBindCallApply": false,
-    "strictNullChecks": false,
-    "target": "ES2021"
-  },
-  "include": [
-    "src",
-    "e2e-tests",
-    "jest.config.ts",
-    "../shared/types/**/*.ts",
-    "../shared/schemas/**/*.ts"
-  ],
-  "references": [{ "path": "../shared" }]
+    "include": [
+        "src",
+        "e2e-tests",
+        "jest.config.ts",
+    ],
+    "references": [{ "path": "../shared/tsconfig.json" }]
 }

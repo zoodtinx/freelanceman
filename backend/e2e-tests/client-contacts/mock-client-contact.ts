@@ -1,6 +1,6 @@
-import { CreateClientContactDto } from "../../../shared/schemas/client-contact.schema";
 
-export const mockCreateClientContactPayload: CreateClientContactDto = {
+
+export const mockCreateClientContactPayload = {
    name: 'John Doe',
    companyId: '0e6e4218-7366-4e33-903b-da1f7d0d2d55',
    role: 'Project Manager',

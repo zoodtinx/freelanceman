@@ -17,7 +17,7 @@ import {
   createTaskSchema,
   updateTaskSchema,
   searchTaskSchema,
-} from '../../../shared/schemas/task.schema';
+} from '@schemas';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('tasks')

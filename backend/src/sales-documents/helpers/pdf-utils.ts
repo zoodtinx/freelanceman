@@ -1,4 +1,4 @@
-import { CreateSalesDocumentDto } from '../../../../shared/schemas/sales-document.schema';
+import { CreateSalesDocumentDto } from '@schemas';
 import * as PDFDocument from 'pdfkit';
 import { Buffer } from 'buffer';
 import { z } from 'zod';

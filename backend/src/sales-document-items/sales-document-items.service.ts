@@ -9,7 +9,7 @@ import { Prisma } from '@prisma/client';
 import {
     CreateSalesDocumentItemDto,
     UpdateSalesDocumentItemDto,
-} from '../../../shared/schemas/sales-document-item.schema';
+} from '@schemas';
 
 @Injectable()
 export class SalesDocumentItemsService {

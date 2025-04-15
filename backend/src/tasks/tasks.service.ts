@@ -9,7 +9,7 @@ import {
     CreateTaskDto,
     UpdateTaskDto,
     SearchTaskSchema,
-} from '../../../shared/schemas/task.schema';
+} from '@schemas';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
