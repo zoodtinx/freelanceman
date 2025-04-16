@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { CreateUserDto } from '@types';
-import { CreateFileDto } from '../../../../shared/schemas/file.schema';
+import { CreateFileDto } from 'freelanceman-common/schemas/file.schema';
 
 describe('FilesService', () => {
     let service: FilesService;
