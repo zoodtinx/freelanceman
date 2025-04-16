@@ -1,5 +1,9 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import { ProjectPayload, ProjectFilterDto, TaskPayload } from '@schemas';
+import {
+   ProjectPayload,
+   ProjectFilterDto,
+   TaskPayload,
+} from 'freelanceman-common';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {
@@ -28,5 +32,5 @@ export type ViewModeToggleBubble = Pick<
 
 export interface QuickTaskBubbleProps {
    task: TaskPayload;
-   projectStatus: 'active' | 'on-hold' | 'completed';
+   projectStatus: string;
 }

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import type { ProjectPayload } from '@schemas';
-
 import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
 import {
    ProjectListProps,
@@ -60,17 +59,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          openedOn: 'all-project-page',
          type: 'project-settings',
          data: project,
-      });
-   };
-
-   const openTaskDialog = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      setFormDialogState({
-         isOpen: true,
-         mode: 'view',
-         openedOn: 'all-project-page',
-         type: 'task',
-         data: quickTask,
       });
    };
 
@@ -136,8 +124,18 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
    task,
    projectStatus,
 }) => {
-   const handleClick = () => {
-      // open task dialog
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
+   const handleClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setFormDialogState({
+         isOpen: true,
+         openedOn: 'all-project-page',
+         mode: 'edit',
+         type: 'task',
+         data: task,
+      });
    };
 
    if (projectStatus === 'completed') {

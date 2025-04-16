@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { DialogFooter } from '../../primitives/Dialog';
 import {
@@ -22,6 +21,7 @@ import {
    FormDialogProps,
    FormDialogState,
 } from '@/lib/types/form-dialog.types';
+import { CreateTaskDto, TaskPayload, TaskStatus, UpdateTaskDto } from 'freelanceman-common';
 
 export const TaskDialog = ({
    formMethods,
@@ -32,7 +32,7 @@ export const TaskDialog = ({
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const taskData = formDialogState.data as Task;
+   const taskData = formDialogState.data as TaskPayload;
 
    const {
       handleSubmit,
@@ -68,11 +68,10 @@ export const TaskDialog = ({
             link: data.link,
             status: data.status,
             clientId: data.clientId,
-            tags: data.tags,
          };
          createTask.mutate(payload);
       } else if (formDialogState.mode === 'edit') {
-         const payload: EditTaskDto = {
+         const payload: UpdateTaskDto = {
             name: data.name,
             details: data.details,
             dueAt: data.dueAt,
@@ -189,7 +188,7 @@ export const ProjectField = ({
       return (
          <div className="grow leading-snug">
             <Label className="pb-0">Project</Label>
-            <p>{formMethods.getValues('project')}</p>
+            <p>{formMethods.getValues('project').title}</p>
          </div>
       );
    }

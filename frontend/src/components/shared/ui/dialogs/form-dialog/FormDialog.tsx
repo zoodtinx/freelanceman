@@ -98,6 +98,8 @@ const FormDialog = () => {
       reset(formDialogState.data)
    }, [formDialogState, reset, clearErrors])
 
+   console.log('formDialogState.data.client.themeColor', formDialogState.data?.client?.themeColor)
+
    return (
       <Dialog
          open={formDialogState.isOpen}
@@ -113,8 +115,8 @@ const FormDialog = () => {
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(
                'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
-               formDialogState.data.themeColor &&
-                  `text-constant-primary bg-theme-${formDialogState.data.themeColor}`
+               formDialogState.data.client.themeColor &&
+                  `text-constant-primary bg-theme-${formDialogState.data.client.themeColor}`
             )}
          >
             <DialogHeader className="py-1 bg-transparent">

@@ -1,28 +1,38 @@
 import { z } from 'zod';
+import { taskPayloadSchema } from './task.schema';
 
-export const projectStatusEnum = z.enum(['active', 'on-hold', 'completed']);
-export const paymentStatusEnum = z.enum(['unpaid', 'processing', 'paid']);
+export const ProjectStatusEnum = z.enum(['active', 'on-hold', 'completed', '']);
+export const PaymentStatusEnum = z.enum(['unpaid', 'processing', 'paid', '']);
+
+export type ProjectStatus = 'active' | 'on-hold' | 'completed';
+export type PaymentStatus = 'unpaid' | 'processing' | 'paid';
 
 export const projectPayloadSchema = z.object({
     id: z.string().uuid(),
     title: z.string(),
     clientId: z.string(),
     budget: z.number().int(),
-    projectStatus: projectStatusEnum,
-    paymentStatus: paymentStatusEnum,
+    projectStatus: ProjectStatusEnum,
+    paymentStatus: PaymentStatusEnum,
     links: z.array(z.string().url()),
     note: z.string().optional(),
     userId: z.string(),
     pinned: z.boolean().default(false),
     createdAt: z.date(),
     updatedAt: z.date(),
+    client: z.object({
+        id: z.string(),
+        name: z.string(),
+        themeColor: z.string(),
+    }),
+    tasks: z.array(taskPayloadSchema),
 });
 
 export const createProjectSchema = z.object({
     title: z.string().min(1),
     clientId: z.string().min(1),
-    projectStatus: projectStatusEnum,
-    paymentStatus: paymentStatusEnum,
+    projectStatus: ProjectStatusEnum,
+    paymentStatus: PaymentStatusEnum,
     budget: z.number().nonnegative(),
 });
 
@@ -45,8 +55,8 @@ export const projectFilterSchema = z.object({
     partnerId: z.string().optional(),
     eventId: z.string().optional(),
     taskId: z.string().optional(),
-    projectStatus: projectStatusEnum.optional(),
-    paymentStatus: paymentStatusEnum.optional(),
+    projectStatus: ProjectStatusEnum.optional().or(z.literal('')),
+    paymentStatus: PaymentStatusEnum.optional().or(z.literal('')),
     pinned: z.boolean().optional(),
 });
 

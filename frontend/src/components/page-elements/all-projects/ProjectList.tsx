@@ -62,8 +62,6 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
       });
    };
 
-   console.log(project.updatedAt)
-
    const formattedDate = format(
       new Date(project.updatedAt),
       'dd MMM'
@@ -92,7 +90,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
                </p>
                <p className="w-[140px]">
                   Updated :{' '}
-                  <p className="inline font-semibold">{formattedDate}</p>
+                  <span className="inline font-semibold">{formattedDate}</span>
                </p>
                <EllipsisVertical
                   className="h-[19px] cursor-pointer pr-1"

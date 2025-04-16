@@ -5,7 +5,15 @@ import {
    getAllProjects,
    deleteProject,
 } from './mock/mock-project-service';
+import {
+   ProjectFilterDto,
+   CreateProjectDto,
+   UpdateProjectDto,
+   ProjectPayload,
+} from 'freelanceman-common';
 import useAuthStore from '@/lib/zustand/auth-store';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const useProjectApi = () => {
    return {
@@ -15,33 +23,63 @@ export const useProjectApi = () => {
    };
 };
 
-export const useProjectsQuery = (searchOptions: ProjectSearchOption = {}) => {
+export const useProjectsQuery = (searchOptions: ProjectFilterDto = {}) => {
    const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
 
-   return useQuery({
+   const queryResult = useQuery({
       queryKey: ['projects', searchOptions],
       queryFn: () => getProjects(accessToken, searchOptions),
    });
+
+   const { isError, error } = queryResult;
+
+   useEffect(() => {
+      if (
+         isError &&
+         error instanceof Error &&
+         error.message === 'Unauthorized'
+      ) {
+         navigate('/login');
+      }
+   }, [isError, error, navigate]);
+
+   return queryResult;
 };
 
 export const useProjectQuery = (projectId: string) => {
    const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
 
-   return useQuery<Project, Error, Project>({
+   const queryResult = useQuery<ProjectPayload, Error, ProjectPayload>({
       queryKey: ['projects', projectId],
       queryFn: () => getProject(accessToken, projectId),
    });
+
+   const { isError, error } = queryResult;
+
+   useEffect(() => {
+      if (
+         isError &&
+         error instanceof Error &&
+         error.message === 'Unauthorized'
+      ) {
+         navigate('/login');
+      }
+   }, [isError, error, navigate]);
+
+   return queryResult;
 };
 
 export const useProjectSelectionQuery = (
-   searchOptions: ProjectSearchOption = {}
+   searchOptions: ProjectFilterDto = {}
 ) => {
    const queryClient = useQueryClient();
 
    return useQuery({
       queryKey: ['projectSelection', JSON.stringify(searchOptions)],
       queryFn: async () => {
-         const cachedProjects = queryClient.getQueryData<Project[]>([
+         const cachedProjects = queryClient.getQueryData<ProjectPayload[]>([
             'projects',
             JSON.stringify(searchOptions),
          ]);
@@ -73,7 +111,7 @@ export const useCreateProject = () => {
          await queryClient.cancelQueries({ queryKey: ['projects'] });
          const previousProjects = queryClient.getQueryData(['projects']);
 
-         queryClient.setQueryData(['projects'], (old: Project[]) => [
+         queryClient.setQueryData(['projects'], (old: ProjectPayload[]) => [
             ...(old || []),
             { ...newProject, id: 'temp-id' },
          ]);
@@ -95,7 +133,7 @@ export const useCreateProject = () => {
 
 interface EditProjectMutationPayload {
    projectId: string;
-   projectPayload: EditProjectDto;
+   projectPayload: UpdateProjectDto;
 }
 
 export const useEditProject = () => {
@@ -114,7 +152,7 @@ export const useEditProject = () => {
          const previousProjects = queryClient.getQueryData(['projects']);
 
          if (previousProjects) {
-            queryClient.setQueryData(['projects'], (old: Project[]) =>
+            queryClient.setQueryData(['projects'], (old: ProjectPayload[]) =>
                old?.map((project) =>
                   project.id === projectId ? projectPayload : project
                )
@@ -149,7 +187,7 @@ export const useDeleteProject = () => {
          const previousProjects = queryClient.getQueryData(['projects']);
 
          if (previousProjects) {
-            queryClient.setQueryData(['projects'], (old: Project[]) =>
+            queryClient.setQueryData(['projects'], (old: ProjectPayload[]) =>
                old?.filter((project) => project.id !== projectId)
             );
          }

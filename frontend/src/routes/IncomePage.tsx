@@ -1,4 +1,3 @@
-
 import {
    Popover,
    PopoverTrigger,
@@ -16,12 +15,10 @@ import {
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
-import { PaymentDataFilter, PaymentDataPayload } from '@schemas';
+import { PaymentDataFilter, PaymentDataPayload, SalesDocumentPayload } from '@schemas';
 
 const IncomePage: React.FC = () => {
-   const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>(
-      {}
-   );
+   const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({});
    const { data: projectData, isLoading } = usePaymentDataQuery(projectFilter);
 
    return (
@@ -220,7 +217,7 @@ const AddDocumentButton = ({
 const EditDocumentButton = ({
    salesDocumentData,
 }: {
-   salesDocumentData: any;
+   salesDocumentData: SalesDocumentPayload;
 }) => {
    const navigate = useNavigate();
    const label =
@@ -232,7 +229,7 @@ const EditDocumentButton = ({
    };
 
    const handleEdit = () => {
-      console.log(salesDocumentData);
+      navigate(`document/${salesDocumentData.id}`)
    };
 
    const handleDelete = () => {

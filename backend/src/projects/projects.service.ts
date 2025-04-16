@@ -66,22 +66,35 @@ export class ProjectsService {
                 include: {
                     client: {
                         select: {
-                            themeColor: true,
+                            id: true,
                             name: true,
+                            themeColor: true,
                         }
                     },
                     tasks: {
                         orderBy: {
                             dueAt: 'asc'
                         },
+                        take: 1,
                         where: {
                             dueAt: {
                                 gte: new Date() 
                             }
                         },
-                        select: {
-                            id: true,
-                            name: true
+                        include: {
+                            project: {
+                                select: {
+                                    id: true,
+                                    title: true,
+                                }
+                            },
+                            client: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    themeColor: true
+                                }
+                            }
                         }
                     }
                 }

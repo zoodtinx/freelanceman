@@ -10,7 +10,7 @@ import {
    CreateProjectDto,
    ClientPayload,
    UpdateClientDto,
- } from '@schemas'; 
+ } from 'freelanceman-common'; 
 import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
@@ -123,6 +123,13 @@ export type FormDialogState =
         mode: 'edit';
         openedOn: OpenedOnType;
         data: UpdateClientDto;
+     }
+   | {
+        isOpen: boolean;
+        type: 'placeholder';
+        mode: 'edit';
+        openedOn: OpenedOnType;
+        data: null;
      };
 
 export type FormDialogType =

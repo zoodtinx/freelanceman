@@ -4,11 +4,21 @@ import { Outlet } from 'react-router-dom';
 import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import ConfirmationDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
+import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
 
 export default function HomePage() {
-   
-   //check login status
-   
+   const { theme } = useTheme();
+
+   useEffect(() => {
+      const htmlClass = document.documentElement.className;
+      console.log('HTML class after theme is applied:', htmlClass);
+      const prefersDarkMode = window.matchMedia(
+         '(prefers-color-scheme: dark)'
+      ).matches;
+      console.log('Prefers dark mode:', prefersDarkMode ? 'dark' : 'light');
+   }, [theme]);
+
    return (
       <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative pt-1 pl-1">
          <TopBar />

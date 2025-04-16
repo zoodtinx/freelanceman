@@ -19,18 +19,17 @@ import {
    DiscardButton,
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import { UpdateProjectDto } from 'freelanceman-common';
 
-export const ProjectDialog = ({
-   formMethods,
-}: FormDialogProps) => {
+export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const { setConfirmationDialogState } = useConfirmationDialogStore();
    const { editProject } = useProjectApi();
 
    const { handleSubmit } = formMethods;
 
-   const onSubmit: SubmitHandler<EditProjectDto> = (data) => {
-      const editProjectPayload: EditProjectDto = {
+   const onSubmit: SubmitHandler<UpdateProjectDto> = (data) => {
+      const editProjectPayload: UpdateProjectDto = {
          title: data.title,
          projectStatus: data.projectStatus,
          paymentStatus: data.paymentStatus,
@@ -94,7 +93,7 @@ export const ProjectDialog = ({
                <div className="w-full">
                   <Label className="pb-0">Client</Label>
                   <p className="text-md leading-tight">
-                     {formMethods.getValues('client')}
+                     {formMethods.getValues('client')?.name || 'A certain client'}
                   </p>
                </div>
                <div className="flex leading-tight">
@@ -111,12 +110,12 @@ export const ProjectDialog = ({
                      <Label className="pb-0">Last Update</Label>
                      <p>
                         {formatDate(
-                           formMethods.getValues('modifiedAt'),
+                           formMethods.getValues('updatedAt'),
                            'LONG'
                         )}
                      </p>
                      <p className="text-sm">
-                        {formatTime(formMethods.getValues('modifiedAt'))}
+                        {formatTime(formMethods.getValues('updatedAt'))}
                      </p>
                   </div>
                </div>

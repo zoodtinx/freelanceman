@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import {
-    paymentStatusEnum,
-    projectStatusEnum,
+    PaymentStatusEnum,
+    ProjectStatusEnum,
     salesDocumentPayloadSchema,
 } from './index';
 
@@ -10,8 +10,8 @@ export const paymentDataPayloadSchema = z.object({
     title: z.string(),
     clientId: z.string(),
     budget: z.number().int(),
-    projectStatus: projectStatusEnum,
-    paymentStatus: paymentStatusEnum,
+    projectStatus: ProjectStatusEnum,
+    paymentStatus: PaymentStatusEnum,
     links: z.array(z.string().url()),
     note: z.string().optional(),
     userId: z.string(),

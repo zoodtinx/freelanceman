@@ -1,16 +1,22 @@
-import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useEffect, useState } from 'react';
+import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { LayoutGrid, List, X } from 'lucide-react';
-import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
-import { useAllClientsQuery } from '@/lib/api/client-api';
+import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
+import { useClientsQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
-import type { ClientFilterDto, ProjectFilterDto } from '@schemas';
+import {
+   ClientFilterDto,
+   ClientPayload,
+   PaymentStatus,
+   ProjectFilterDto,
+   ProjectStatus,
+} from 'freelanceman-common';
+import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 import {
    ProjectFilterProps,
    ProjectFilterBubble,
    ViewModeToggleBubble,
 } from '@/components/page-elements/all-projects/props.type';
-import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 
 export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    projectFilter,
@@ -19,8 +25,8 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    setViewMode,
 }) => {
    return (
-      <div className="flex items-center justify-between pb-2 select-none bg-gradient-to-b from-background to-transparent">
-         <div className="flex gap-2">
+      <div className="flex items-center justify-between pb-2 select-none bg-background">
+         <div className="flex gap-[6px]">
             <ProjectStatusFilterBubble
                projectFilter={projectFilter}
                setProjectFilter={setProjectFilter}
@@ -106,7 +112,7 @@ const ProjectStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    const setProjectStatus = (value: string) => {
       setProjectFilter((prev) => ({
          ...prev,
-         projectStatus: value,
+         projectStatus: value as ProjectStatus,
       }));
    };
 
@@ -116,7 +122,7 @@ const ProjectStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
          value={projectFilter.projectStatus || ''}
          onValueChange={setProjectStatus}
          placeholder="Project Status"
-         className="h-[27px]"
+         className="h-[27px] text-base"
       />
    );
 };
@@ -134,7 +140,7 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    const setPaymentStatus = (value: string) => {
       setProjectFilter((prev) => ({
          ...prev,
-         paymentStatus: value,
+         paymentStatus: value as PaymentStatus,
       }));
    };
 
@@ -144,7 +150,7 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
          value={projectFilter.paymentStatus || ''}
          onValueChange={setPaymentStatus}
          placeholder="Payment Status"
-         className="h-[27px]"
+         className="h-[27px] text-base"
       />
    );
 };
@@ -156,7 +162,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
    const [mode, setMode] = useState('base');
 
    const [clientFilter, setClientFilter] = useState<ClientFilterDto>({});
-   const { data: clientList, isLoading } = useAllClientsQuery(clientFilter);
+   const { data: clientList, isLoading } = useClientsQuery(clientFilter);
 
    useEffect(() => {
       if (projectFilter.clientId) {
@@ -166,7 +172,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
       }
    }, [projectFilter.clientId]);
 
-   const clientSelection = clientList?.map((client) => {
+   const clientSelection = clientList?.map((client: ClientPayload) => {
       return {
          value: client.id,
          label: client.name,

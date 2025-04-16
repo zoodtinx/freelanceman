@@ -5,7 +5,7 @@
   "types": "dist/types/schemas/index.d.ts",
   "type": "commonjs",
   "scripts": {
-    "clean": "rm -rf **/*.js **/*.d.ts **/*.js.map",
+    "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc --build"
   },
   "dependencies": {

@@ -25,6 +25,9 @@ export const defaultTaskValue = {
    client: "",
    clientId: "",
    themeColor: "",
+   userId: "",
+   createdAt: "",
+   updatedAt: ""
 };
 
 export const defaultContact = {

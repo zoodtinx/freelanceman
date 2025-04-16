@@ -13,12 +13,11 @@ import {
 import { ProjectsService } from './projects.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-// import {
-//     createProjectSchema,
-//     updateProjectSchema,
-//     projectFilterSchema,
-// } from 'src/shared/zod-schemas/project.schema';
-import { createProjectSchema, updateProjectSchema, projectFilterSchema } from 'freelanceman-common';
+import {
+    createProjectSchema,
+    updateProjectSchema,
+    projectFilterSchema,
+} from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('projects')
