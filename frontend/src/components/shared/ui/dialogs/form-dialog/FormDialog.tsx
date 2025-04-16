@@ -111,6 +111,7 @@ const FormDialog = () => {
             </Button>
          </DialogTrigger>
          <DialogContent
+            overlay
             onEscapeKeyDown={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(

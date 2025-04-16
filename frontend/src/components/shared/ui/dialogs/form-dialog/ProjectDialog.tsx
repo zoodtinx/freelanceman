@@ -19,7 +19,7 @@ import {
    DiscardButton,
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { UpdateProjectDto } from 'freelanceman-common';
+import { UpdateProjectDto } from 'freelanceman-common/dist/types/src/schemas';
 
 export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();

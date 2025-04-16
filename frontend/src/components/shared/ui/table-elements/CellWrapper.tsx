@@ -1,7 +1,7 @@
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { Row } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
-import { EventPayload } from '@schemas';
+import { EventPayload } from 'freelanceman-common/src/schemas';
 
 interface CellWrapperProps {
    rowData: Row<EventPayload>;

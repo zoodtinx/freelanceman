@@ -5,7 +5,7 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { BookUser, EllipsisVertical, History } from 'lucide-react';
 import { ReactNode } from 'react';
-import type { ClientPayload } from '@schemas';
+import type { ClientPayload } from 'freelanceman-common/src/schemas';
 import { useNavigate } from 'react-router-dom';
 
 const ClientCard = ({ client }: { client: ClientPayload }): JSX.Element => { 

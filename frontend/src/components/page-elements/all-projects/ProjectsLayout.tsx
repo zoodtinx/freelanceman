@@ -3,7 +3,7 @@ import ProjectList from './ProjectList';
 import { ProjectFilterBar } from './ProjectFilterBar';
 import ProjectGrid from './ProjectGrid';
 import { useProjectsQuery } from '@/lib/api/project-api';
-import type { ProjectFilterDto } from '@schemas';
+import type { ProjectFilterDto } from 'freelanceman-common/src/schemas';
 
 const ProjectsLayout: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({

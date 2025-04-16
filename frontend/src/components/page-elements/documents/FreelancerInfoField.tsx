@@ -1,5 +1,5 @@
 import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
-import { SalesDocumentPayload, UserPayload } from '@schemas';
+import { SalesDocumentPayload, UserPayload } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
 import { useUserQuery } from '@/lib/api/user-api';
 import { useEffect, useState } from 'react';

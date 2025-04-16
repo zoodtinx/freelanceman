@@ -37,9 +37,9 @@ interface DialogContentWithOverlaySettingProps
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentWithOverlaySettingProps
->(({ className, children,overlay = true, ...props }, ref) => (
+>(({ className, children,overlay = false, ...props }, ref) => (
   <DialogPortal>
-    {/* <DialogOverlay className={overlay ? 'opacity-100' : 'opacity-0'} /> */}
+    <DialogOverlay className={overlay ? 'opacity-50' : 'opacity-0'} />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(

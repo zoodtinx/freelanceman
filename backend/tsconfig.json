@@ -25,7 +25,7 @@
         "strict": true,
         "strictBindCallApply": false,
         "strictNullChecks": false,
-        "target": "ES2021"
+        "target": "ES2021",
     },
     "include": ["e2e-tests", "jest.config.ts", "src", "test-path.js"],
     "references": [

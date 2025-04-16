@@ -21,7 +21,7 @@ import {
    FormDialogProps,
    FormDialogState,
 } from '@/lib/types/form-dialog.types';
-import { CreateTaskDto, TaskPayload, TaskStatus, UpdateTaskDto } from 'freelanceman-common';
+import { CreateTaskDto, TaskPayload, TaskStatus, UpdateTaskDto } from 'freelanceman-common/dist/types/src/schemas';
 
 export const TaskDialog = ({
    formMethods,

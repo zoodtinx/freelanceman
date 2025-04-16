@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { EventPayload } from '@schemas';
+import type { EventPayload } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface EventListProps {

@@ -10,7 +10,7 @@ import {
    formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FilePayload } from '@schemas';
+import { FilePayload } from 'freelanceman-common/src/schemas';
 
 interface FileListProps {
    filesData: File[] | undefined;

@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
 import { useAllFilesQuery } from '@/lib/api/file-api';
-import { FileFilterDto, SalesDocumentFilterDto } from '@schemas';
+import { FileFilterDto, SalesDocumentFilterDto } from 'freelanceman-common/src/schemas';
 import { useSalesDocumentsQuery } from 'src/lib/api/sales-document-api';
 import { DocumentDraftList } from '@/components/page-elements/documents/DocumentDraftList';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';

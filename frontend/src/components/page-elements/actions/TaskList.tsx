@@ -1,6 +1,6 @@
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { TaskPayload } from '@schemas';
+import type { TaskPayload } from 'freelanceman-common/src/schemas';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 

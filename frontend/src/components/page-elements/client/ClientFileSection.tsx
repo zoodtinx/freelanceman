@@ -1,7 +1,7 @@
 import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
-import { FileFilterDto } from '@schemas';
+import { FileFilterDto } from 'freelanceman-common/src/schemas';
 import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { clientPageFileCategorySelections, fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';

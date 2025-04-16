@@ -10,9 +10,9 @@ import {
    CreateProjectDto,
    ClientPayload,
    UpdateClientDto,
- } from 'freelanceman-common'; 
+} from 'freelanceman-common';
 import { Dispatch, SetStateAction } from 'react';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 
 export interface FormDialogProps {
    formMethods: UseFormReturn;

@@ -11,7 +11,7 @@ import {
 } from 'src/components/shared/ui/helpers/Helpers';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
-import { FilePayload } from '@schemas';
+import { FilePayload } from 'freelanceman-common/src/schemas';
 
 interface FileListProps {
    filesData: FilePayload[] | undefined;

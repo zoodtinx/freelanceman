@@ -20,7 +20,7 @@ import {
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { ProjectField } from '@/components/shared/ui/dialogs/form-dialog/TaskDialog';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
-import { EventPayload } from '@schemas';
+import { EventPayload } from 'freelanceman-common/src/schemas';
 
 export const EventDialog = ({
    formMethods,

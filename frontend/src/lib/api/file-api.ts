@@ -7,7 +7,7 @@ import {
    deleteFile,
 } from './mock/mock-file-service';
 import useAuthStore from '@/lib/zustand/auth-store';
-import { FilePayload } from '@schemas';
+import { FilePayload } from 'freelanceman-common/src/schemas';
 
 
 export const useFileApi = () => {

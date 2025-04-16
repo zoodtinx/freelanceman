@@ -7,7 +7,7 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { EllipsisVertical, PencilLine } from 'lucide-react';
 import { EditPopover } from '@/components/shared/ui/EditPopover';
-import { EventPayload } from '@schemas';
+import { EventPayload } from 'freelanceman-common/src/schemas';
 
 interface EventListProps {
    eventsData: Event[] | undefined;

@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { getIcon, convertCategory } from 'src/components/shared/ui/helpers/Helpers';
 import { ColumnDef, Row } from '@tanstack/react-table';
-import { FilePayload } from '@schemas';
+import { FilePayload } from 'freelanceman-common/src/schemas';
 import { EllipsisVertical } from 'lucide-react';
 import {
    Popover,

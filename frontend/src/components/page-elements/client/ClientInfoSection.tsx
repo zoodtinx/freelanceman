@@ -2,7 +2,7 @@ import { Plus, PencilLine } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { ClientPayload } from '@schemas';
+import { ClientPayload } from 'freelanceman-common/src/schemas';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';

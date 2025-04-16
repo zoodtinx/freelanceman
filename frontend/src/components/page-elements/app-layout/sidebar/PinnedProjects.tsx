@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pin } from '@/components/shared/icons';
 import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { ProjectPayload } from '@schemas';
+import { ProjectPayload } from 'freelanceman-common/src/schemas';
 
 const project = {
    name: 'Sansiri Dog Freindly House Launch Campaign Sansiri Dog Freindly House Launch Campaign',

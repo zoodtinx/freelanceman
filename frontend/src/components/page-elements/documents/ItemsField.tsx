@@ -1,5 +1,5 @@
 
-import { SalesDocumentPayload, CreateSalesDocumentItemDto } from '@schemas';
+import { SalesDocumentPayload, CreateSalesDocumentItemDto } from 'freelanceman-common/src/schemas';
 import React, { useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';

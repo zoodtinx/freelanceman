@@ -2,7 +2,7 @@ import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
 import { ContactCard } from 'src/components/page-elements/all-clients/ClientPageContact';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
-import { ClientContactFilterDto } from '@schemas';
+import { ClientContactFilterDto } from 'freelanceman-common/src/schemas';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';

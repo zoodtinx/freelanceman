@@ -1,4 +1,4 @@
-import { ClientPayload } from "@schemas";
+import { ClientPayload } from "freelanceman-common/src/schemas";
 
 export interface ClientSectionProps {
    clientData: ClientPayload;

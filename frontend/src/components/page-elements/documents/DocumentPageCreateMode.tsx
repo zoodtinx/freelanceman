@@ -1,5 +1,5 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { SalesDocumentPayload } from '@schemas';
+import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 

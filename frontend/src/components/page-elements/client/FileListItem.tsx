@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { FilePayload } from '@schemas';
+import { FilePayload } from 'freelanceman-common/src/schemas';
 
 interface SelectState {
    enableSelect: boolean,

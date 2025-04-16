@@ -12,7 +12,7 @@ import {
 } from 'src/components/shared/ui/helpers/Helpers';
 import { size } from 'lodash';
 import { useNavigate } from 'react-router-dom';
-import { FilePayload, SalesDocumentPayload } from '@schemas';
+import { FilePayload, SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 
 interface FileListProps {
    documentDraftData: FilePayload[] | undefined;

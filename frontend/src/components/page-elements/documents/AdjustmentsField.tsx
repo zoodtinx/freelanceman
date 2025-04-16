@@ -2,7 +2,7 @@ import {
    TextAreaForm,
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { SalesDocumentPayload } from '@schemas';
+import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
 
 const AdjustmentsField = ({

@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { EventPayload } from '@schemas';
+import { EventPayload } from 'freelanceman-common/src/schemas';
 
 interface EventListProps {
    eventsData: EventPayload[] | undefined;

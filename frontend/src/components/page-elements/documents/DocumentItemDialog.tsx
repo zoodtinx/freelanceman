@@ -15,7 +15,7 @@ import {
    UseFormReturn,
 } from 'react-hook-form';
 import { Input } from '@/components/shared/ui/primitives/Input';
-import { SalesDocumentPayload } from '@schemas';
+import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 
 const DocumentItemDialog = ({
    dialogState,

@@ -15,7 +15,7 @@ import {
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
-import { PaymentDataFilter, PaymentDataPayload, SalesDocumentPayload } from '@schemas';
+import { PaymentDataFilter, PaymentDataPayload, SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({});

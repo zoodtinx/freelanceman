@@ -10,7 +10,7 @@ import { Switch } from '@/components/shared/ui/primitives/Switch';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { Link } from 'react-router-dom';
 import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
-import { ProjectPayload, ProjectFilterDto } from '@schemas';
+import { ProjectPayload, ProjectFilterDto } from 'freelanceman-common/src/schemas';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useDialogStore from '@/lib/zustand/dialog-store';

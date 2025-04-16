@@ -2,7 +2,7 @@ import { getIcon, formatCategory } from 'src/components/shared/ui/helpers/Helper
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { formatBytes } from '@/lib/helper/formatFile';
-import { FilePayload } from '@schemas';
+import { FilePayload } from 'freelanceman-common/src/schemas';
 
 
 export const FileListItem: React.FC<{data: FilePayload}> = ({ data, color }) => {

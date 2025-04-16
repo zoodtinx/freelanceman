@@ -7,7 +7,7 @@ import {
 } from './mock/mock-event-service';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { getEvents } from '@/lib/api/services/event-service';
-import { EventPayload } from '@schemas';
+import { EventPayload } from 'freelanceman-common/src/schemas';
 
 
 export const useEventApi = () => {

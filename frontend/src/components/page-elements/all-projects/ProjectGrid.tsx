@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { ProjectPayload } from '@schemas';
+import type { ProjectPayload } from 'freelanceman-common/src/schemas';
 import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
 import {
    ProjectListProps,

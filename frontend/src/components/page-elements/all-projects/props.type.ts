@@ -3,7 +3,7 @@ import {
    ProjectPayload,
    ProjectFilterDto,
    TaskPayload,
-} from 'freelanceman-common';
+} from 'freelanceman-common/dist/types/src/schemas';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {

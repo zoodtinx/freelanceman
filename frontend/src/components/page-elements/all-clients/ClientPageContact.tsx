@@ -5,7 +5,7 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import type { ClientContactPayload, ClientContactFilterDto } from '@schemas';
+import type { ClientContactPayload, ClientContactFilterDto } from 'freelanceman-common/src/schemas';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';

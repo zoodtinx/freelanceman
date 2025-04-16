@@ -10,7 +10,7 @@ import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/def
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 
-import { TaskStatus, TaskFilterSchema } from '@schemas';
+import { TaskStatus, TaskFilterSchema } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function TaskSection() {

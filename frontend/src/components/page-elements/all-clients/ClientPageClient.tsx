@@ -2,7 +2,7 @@ import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import ClientCard from './ClientCard';
 import { Building2 } from 'lucide-react';
-import type { ClientFilterDto } from '@schemas';
+import type { ClientFilterDto } from 'freelanceman-common/src/schemas';
 import { useState } from 'react';
 import { useAllClientsQuery, useClientsQuery } from '@/lib/api/client-api';
 import { Switch } from 'src/components/shared/ui/primitives/Switch';

@@ -10,7 +10,7 @@ import {
    CreateProjectDto,
    UpdateProjectDto,
    ProjectPayload,
-} from 'freelanceman-common';
+} from 'freelanceman-common/dist/types/src/schemas';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
