@@ -1,8 +1,9 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "main": "",
-  "type": "module",
+  "main": "dist/schemas/index.js",
+  "types": "dist/types/schemas/index.d.ts",
+  "type": "commonjs",
   "scripts": {
     "clean": "rm -rf **/*.js **/*.d.ts **/*.js.map",
     "build": "npm run clean && tsc --build"

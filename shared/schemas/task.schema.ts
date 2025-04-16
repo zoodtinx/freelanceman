@@ -44,6 +44,6 @@ export const taskPayloadSchema = z.object({
 
 export type TaskPayload = z.infer<typeof taskPayloadSchema>;
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
-export type TaskFilterSchema = z.infer<typeof taskFilterSchema>;
+export type TaskFilterDto = z.infer<typeof taskFilterSchema>;
 export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
 export type TaskStatus = z.infer<typeof taskStatusEnum>;

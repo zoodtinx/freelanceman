@@ -16,7 +16,7 @@ import {
     createClientContactSchema,
     clientContactFilterSchema,
     updateClientContactSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 import { ClientContactService } from 'src/client-contacts/client-contacts.service';
 
 @UseGuards(AuthGuard('jwt-access'))

@@ -17,7 +17,7 @@ import {
     getPresignedUrlSchema,
     fileFilterSchema,
     updateFileSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 import { FilesService } from 'src/files/files.service';
 
 @UseGuards(AuthGuard('jwt-access'))

@@ -17,7 +17,7 @@ import {
   createPartnerCompanySchema,
   updatePartnerCompanySchema,
   partnerCompanyFilterSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('partner-companies')

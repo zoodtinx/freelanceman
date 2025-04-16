@@ -16,7 +16,7 @@ import {
     createSalesDocumentSchema,
     salesDocumentFilterSchema,
     updateSalesDocumentSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 import { SalesDocumentsService } from 'src/sales-documents/sales-documents.service';
 
 @UseGuards(AuthGuard('jwt-access'))

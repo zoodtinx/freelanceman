@@ -27,7 +27,6 @@ export const createFileSchema = z.object({
     s3Key: z.string(),
     projectId: z.string().optional(),
     clientId: z.string().optional(),
-    userId: z.string(),
     size: z.number().optional(),
 });
 

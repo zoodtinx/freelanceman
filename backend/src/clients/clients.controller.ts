@@ -17,7 +17,7 @@ import {
     createClientSchema,
     updateClientSchema,
     clientFilterSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('clients')

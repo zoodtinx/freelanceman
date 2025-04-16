@@ -17,7 +17,7 @@ import {
     createEventSchema,
     updateEventSchema,
     eventFilterSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('events')

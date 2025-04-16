@@ -13,7 +13,7 @@ import {
 import { PaymentService } from 'src/payment/payment.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { paymentDataFilterSchema } from '@schemas';
+import { paymentDataFilterSchema } from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('payment')

@@ -29,7 +29,7 @@ import {
     ResetPasswordRequestDto,
     resetPasswordRequestSchema,
     resetPasswordSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 

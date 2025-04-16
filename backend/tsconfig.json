@@ -4,22 +4,22 @@
         "baseUrl": "./",
         "composite": true,
         "declaration": true,
+        "declarationDir": "./dist/types",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": false,
         "incremental": true,
-        "module": "commonjs",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "noFallthroughCasesInSwitch": false,
         "noImplicitAny": false,
         "outDir": "./dist",
         "paths": {
             "@/*": ["./src/*"],
-            "@schemas": ["../shared/dist/schemas"],
+            "@schemas": ["/Users/zoodtinx/freelanceman/shared/dist/schemas"],
             "src/*": ["./src/*"]
         },
         "removeComments": true,
-        "rootDir": "./",
         "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,
@@ -27,6 +27,8 @@
         "strictNullChecks": false,
         "target": "ES2021"
     },
-    "include": ["src", "e2e-tests", "jest.config.ts"],
-    "references": [{ "path": "../shared" }]
+    "include": ["e2e-tests", "jest.config.ts", "src", "test-path.js"],
+    "references": [
+      { "path": "../shared/tsconfig.json" }
+   ],
 }

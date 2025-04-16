@@ -17,7 +17,7 @@ import {
   createTaskSchema,
   updateTaskSchema,
   taskFilterSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('tasks')

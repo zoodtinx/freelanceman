@@ -16,7 +16,7 @@ import {
   createPartnerContactSchema,
   partnerContactFilterSchema,
   updatePartnerContactSchema,
-} from '@schemas';
+} from 'freelanceman-common';
 import { PartnerContactService } from 'src/partner-contacts/partner-contacts.service';
 
 @UseGuards(AuthGuard('jwt-access'))

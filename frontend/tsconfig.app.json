@@ -9,7 +9,7 @@
       "paths": {
          "@types": ["../shared/dist/types"],
          "@mocks": ["./src/lib/api/mock/mock-data/index.ts"],
-         "@schemas": ["../shared/dist/types/schemas"],
+         "@schemas": ["../shared/dist/schemas"],
          "@/*": ["./src/*"]
       },
       "moduleResolution": "bundler",

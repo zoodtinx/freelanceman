@@ -18,7 +18,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 //     updateProjectSchema,
 //     projectFilterSchema,
 // } from 'src/shared/zod-schemas/project.schema';
-import { createProjectSchema, updateProjectSchema, projectFilterSchema } from '@schemas';
+import { createProjectSchema, updateProjectSchema, projectFilterSchema } from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('projects')
