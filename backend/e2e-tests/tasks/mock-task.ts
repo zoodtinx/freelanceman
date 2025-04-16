@@ -1,4 +1,4 @@
-import { CreateTaskDto, SearchTaskSchema, UpdateTaskDto } from '@schemas';
+import { CreateTaskDto, UpdateTaskDto } from '@schemas';
 
 export const mockCreateTaskPayload: CreateTaskDto = {
    name: "Design homepage",
@@ -10,7 +10,7 @@ export const mockCreateTaskPayload: CreateTaskDto = {
    link: "https://example.com/brief",
  };
  
- export const mockSearchTask: SearchTaskSchema = {
+ export const mockSearchTask = {
    name: "Design",
    status: "finished",
    dueAt: new Date().toISOString(),

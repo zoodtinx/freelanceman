@@ -8,7 +8,7 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreateTaskDto,
     UpdateTaskDto,
-    SearchTaskSchema,
+    TaskFilterDto,
 } from '@schemas';
 import { Prisma } from '@prisma/client';
 
@@ -45,7 +45,7 @@ export class TasksService {
         }
     }
 
-    async findAll(userId: string, filter: SearchTaskSchema) {
+    async findAll(userId: string, filter: TaskFilterDto) {
         try {
             console.log('filter', filter);
             const result = await this.prismaService.task.findMany({

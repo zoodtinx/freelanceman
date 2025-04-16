@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import {
     CreateClientDto,
-    EditClientDto,
+    UpdateClientDto,
     ClientFilterDto,
 } from '@schemas';
 import { PrismaService } from 'src/shared/database/prisma.service';
@@ -106,7 +106,7 @@ export class ClientsService {
     async update(
         userId: string,
         clientId: string,
-        updateClientDto: EditClientDto,
+        updateClientDto: UpdateClientDto,
     ) {
         try {
             const result = await this.prismaService.client.update({

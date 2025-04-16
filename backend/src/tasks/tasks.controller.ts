@@ -16,7 +16,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
   createTaskSchema,
   updateTaskSchema,
-  searchTaskSchema,
+  taskFilterSchema,
 } from '@schemas';
 
 @UseGuards(AuthGuard('jwt-access'))
@@ -36,7 +36,7 @@ export class TasksController {
   @Post('search')
   @HttpCode(200)
   findMany(
-    @Body(new ZodValidationPipe(searchTaskSchema)) payload: any,
+    @Body(new ZodValidationPipe(taskFilterSchema)) payload: any,
     @Req() req: any,
   ) {
     const userId = req.user.id;
