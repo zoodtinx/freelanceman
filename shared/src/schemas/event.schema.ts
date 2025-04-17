@@ -20,7 +20,8 @@ export const eventFilterSchema = z.object({
     clientId: z.string().optional(),
 });
 
-export const updateEventSchema = z.object({
+export const editEventSchema = z.object({
+    id: z.string().uuid(),
     name: z.string().optional(),
     status: eventStatusEnum.optional(),
     dueAt: z.string().datetime().optional(),
@@ -46,4 +47,4 @@ export const eventPayloadSchema = z.object({
 export type EventPayload = z.infer<typeof eventPayloadSchema>;
 export type CreateEventDto = z.infer<typeof createEventSchema>;
 export type EventFilterDto = z.infer<typeof eventFilterSchema>;
-export type UpdateEventDto = z.infer<typeof updateEventSchema>;
+export type EditEventDto = z.infer<typeof editEventSchema>;

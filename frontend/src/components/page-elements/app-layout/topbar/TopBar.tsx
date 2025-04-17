@@ -23,7 +23,6 @@ import { useTheme } from 'next-themes';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import { useActiveEventCountQuery } from '@/lib/api/event-api';
-import { useActiveTaskCountQuery } from '@/lib/api/task-api';
 
 export const mockUser = {
    id: "id_00458_59",
@@ -55,11 +54,11 @@ export default function TopBar() {
          <FreelanceManLogo />
          <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-foreground h-[37px] sm:h-[43px] w-auto rounded-full px-4 sm:hidden">
             <p>Monday, 19 December 2025</p>
-            <CountDisplay
+            {/* <CountDisplay
                icon={CircleCheck}
                label="Task"
                queryHook={useActiveTaskCountQuery}
-            />
+            /> */}
             <CountDisplay
                icon={Calendar}
                label="Event"

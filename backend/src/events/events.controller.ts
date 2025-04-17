@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createEventSchema,
-    updateEventSchema,
+    editEventSchema,
     eventFilterSchema,
 } from 'freelanceman-common';
 
@@ -52,7 +52,7 @@ export class EventsController {
     @Patch(':id')
     update(
         @Param('id') eventId: string,
-        @Body(new ZodValidationPipe(updateEventSchema)) updateEventDto: any,
+        @Body(new ZodValidationPipe(editEventSchema)) updateEventDto: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;

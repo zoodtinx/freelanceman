@@ -8,8 +8,8 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 import {
     CreateSalesDocumentItemDto,
-    UpdateSalesDocumentItemDto,
-} from '@schemas';
+    EditSalesDocumentItemDto,
+} from 'freelanceman-common';
 
 @Injectable()
 export class SalesDocumentItemsService {
@@ -85,7 +85,7 @@ export class SalesDocumentItemsService {
     async update(
         documentId: string,
         itemId: string,
-        updateDto: UpdateSalesDocumentItemDto,
+        updateDto: EditSalesDocumentItemDto,
     ) {
         try {
             const result = await this.prismaService.salesDocumentItem.update({

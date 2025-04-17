@@ -8,8 +8,8 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreatePartnerContactDto,
     PartnerContactFilterDto,
-    UpdatePartnerContactDto,
-} from '@schemas';
+    EditPartnerContactDto,
+} from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -92,7 +92,7 @@ export class PartnerContactService {
         }
     }
 
-    async update(userId: string, id: string, dto: UpdatePartnerContactDto) {
+    async update(userId: string, id: string, dto: EditPartnerContactDto) {
         try {
             await this.prismaService.partnerContact.update({
                 where: { id, userId },
@@ -101,7 +101,7 @@ export class PartnerContactService {
                     role: dto.role,
                     phoneNumber: dto.phoneNumber,
                     email: dto.email,
-                    details: dto.details,
+                    details: dto.detail,
                     avatar: dto.avatar,
                 },
             });

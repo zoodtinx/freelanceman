@@ -90,6 +90,7 @@ export const SubmitButton = ({ formMethods, formDialogState }: SubmitButtonProps
    return (
       <Button
          variant={isDirty ? "submit" : "ghost"}
+         disabled={!isDirty}
          type="submit"
          className={cn("gap-1 items-center", isNoInput && 'cursor-not-allowed')}
       >

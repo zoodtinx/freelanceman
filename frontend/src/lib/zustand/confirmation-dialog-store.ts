@@ -16,7 +16,7 @@ const useConfirmationDialogStore = create<State>((set) => ({
          primary: () => {},
          secondary: () => {},
       },
-      message: 'file',
+      entityName: 'file',
       type: 'delete',
       dialogRequested: {
          type: 'task',

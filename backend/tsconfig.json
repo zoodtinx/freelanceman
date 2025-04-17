@@ -16,7 +16,6 @@
         "outDir": "./dist",
         "paths": {
             "@/*": ["./src/*"],
-            "@schemas": ["/Users/zoodtinx/freelanceman/shared/dist/schemas"],
             "src/*": ["./src/*"]
         },
         "removeComments": true,

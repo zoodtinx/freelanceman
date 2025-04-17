@@ -37,6 +37,8 @@ export const ContactColumn = (): JSX.Element => {
       })
    }
 
+   console.log('contacts', contacts)
+
    return (
       <div className="flex flex-col w-[335px] rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-auto gap-[6px] shrink-0 shadow-md">
          <div className="flex justify-between py-1">
@@ -111,7 +113,7 @@ export const ContactCard = ({
          <div className="flex flex-col leading-tight h-fit">
             <p className="font-semibold text-md">{contact.name}</p>
             <p className="font-semibold text-base text-secondary">
-               {contact.company}
+               {contact.company.name}
             </p>
             <p className="text-base text-secondary">{contact.role}</p>
          </div>

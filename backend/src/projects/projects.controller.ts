@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createProjectSchema,
-    updateProjectSchema,
+    editProjectSchema,
     projectFilterSchema,
 } from 'freelanceman-common';
 
@@ -52,7 +52,7 @@ export class ProjectsController {
     @Patch(':id')
     update(
         @Param('id') projectId: string,
-        @Body(new ZodValidationPipe(updateProjectSchema)) payload: any,
+        @Body(new ZodValidationPipe(editProjectSchema)) payload: any,
         @Req() req: any,
     ) {
         const userId = req.user.id;

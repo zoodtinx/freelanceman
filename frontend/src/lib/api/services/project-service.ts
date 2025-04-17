@@ -1,8 +1,9 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
+import { EditProjectDto, ProjectFilterDto } from 'freelanceman-common';
 
 export async function getProjects(
    accessToken: string,
-   filter: ProjectSearchOption
+   filter: ProjectFilterDto
 ) {
    return await fetchProMax({
       accessToken,
@@ -21,3 +22,26 @@ export async function getProject(accessToken: string, projectId: string) {
       model: 'project',
    });
 }
+
+export async function editProject(
+   accessToken: string,
+   payload: EditProjectDto
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `projects/${payload.id}`,
+      requestPayload: payload,
+      method: 'PATCH',
+      model: 'project',
+   });
+}
+
+export async function deleteProject(accessToken: string, projectId: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `projects/${projectId}`,
+      method: 'DELETE',
+      model: 'project',
+   });
+}
+

@@ -32,6 +32,8 @@ export const EventDialog = ({
       (state) => state.setConfirmationDialogState
    );
 
+   console.log('formDialogState', formDialogState)
+
    const eventData = formDialogState.data as EventPayload;
 
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
@@ -115,7 +117,7 @@ export const EventDialog = ({
                errorMessage="Please name your task"
                placeholder="What do you need to do?"
             />
-            <TagField />
+            {/* <TagField /> */}
             <div className="flex leading-tight">
                <div className="w-1/2">
                   <Label>Status</Label>

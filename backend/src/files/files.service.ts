@@ -12,8 +12,8 @@ import {
     CreateFileDto,
     GetPresignedUrlDto,
     FileFilterDto,
-    UpdateFileDto,
-} from '@schemas';
+    EditFileDto,
+} from 'freelanceman-common';
 
 @Injectable()
 export class FilesService {
@@ -101,7 +101,7 @@ export class FilesService {
         }
     }
 
-    async update(userId: string, fileId: string, dto: UpdateFileDto) {
+    async update(userId: string, fileId: string, dto: EditFileDto) {
         try {
             return await this.prisma.file.update({
                 where: { id: fileId, userId },

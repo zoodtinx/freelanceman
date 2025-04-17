@@ -7,9 +7,9 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreateEventDto,
-    UpdateEventDto,
+    EditEventDto,
     EventFilterDto,
-} from '@schemas';
+} from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -57,6 +57,10 @@ export class EventsService {
                     projectId: filter.projectId,
                     clientId: filter.clientId,
                 },
+                include: {
+                    client: true,
+                    project: true
+                },
                 orderBy: {
                   dueAt: 'asc'
               }
@@ -87,12 +91,12 @@ export class EventsService {
     async update(
         userId: string,
         eventId: string,
-        updateEventDto: UpdateEventDto,
+        editEventDto: EditEventDto,
     ) {
         try {
             await this.prismaService.event.update({
                 where: { id: eventId, userId },
-                data: updateEventDto,
+                data: editEventDto,
             });
             return await this.findOne(userId, eventId);
         } catch (error) {

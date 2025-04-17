@@ -20,7 +20,8 @@ export const taskFilterSchema = z.object({
    clientId: z.string().optional(),
 });
 
-export const updateTaskSchema = z.object({
+export const editTaskSchema = z.object({
+   id: z.string().uuid(),
    name: z.string().optional(),
    status: taskStatusEnum.optional(),
    dueAt: z.string().datetime().optional(),
@@ -45,5 +46,5 @@ export const taskPayloadSchema = z.object({
 export type TaskPayload = z.infer<typeof taskPayloadSchema>;
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 export type TaskFilterDto = z.infer<typeof taskFilterSchema>;
-export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
+export type EditTaskDto = z.infer<typeof editTaskSchema>;
 export type TaskStatus = z.infer<typeof taskStatusEnum>;

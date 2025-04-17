@@ -9,7 +9,8 @@ export const createPartnerCompanySchema = z.object({
     detail: z.string().optional(),
 });
 
-export const updatePartnerCompanySchema = z.object({
+export const editPartnerCompanySchema = z.object({
+    id: z.string().uuid(),
     name: z.string().optional(),
     taxId: z.string().optional(),
     email: z.string().optional(),
@@ -37,12 +38,6 @@ export const partnerCompanyFilterSchema = z.object({
 
 export type PartnerCompanyPayload = z.infer<typeof partnerCompanyPayloadSchema>;
 
-export type CreatePartnerCompanyDto = z.infer<
-    typeof createPartnerCompanySchema
->;
-export type UpdatePartnerCompanyDto = z.infer<
-    typeof updatePartnerCompanySchema
->;
-export type PartnerCompanyFilterDto = z.infer<
-    typeof partnerCompanyFilterSchema
->;
+export type CreatePartnerCompanyDto = z.infer<typeof createPartnerCompanySchema>;
+export type EditPartnerCompanyDto = z.infer<typeof editPartnerCompanySchema>;
+export type PartnerCompanyFilterDto = z.infer<typeof partnerCompanyFilterSchema>;

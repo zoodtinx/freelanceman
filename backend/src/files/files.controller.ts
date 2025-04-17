@@ -16,7 +16,7 @@ import {
     createFileSchema,
     getPresignedUrlSchema,
     fileFilterSchema,
-    updateFileSchema,
+    editFileSchema,
 } from 'freelanceman-common';
 import { FilesService } from 'src/files/files.service';
 
@@ -64,7 +64,7 @@ export class FilesController {
     @Patch(':id')
     update(
         @Param('id') fileId: string,
-        @Body(new ZodValidationPipe(updateFileSchema))
+        @Body(new ZodValidationPipe(editFileSchema))
         updateDto: any,
         @Req() req: any,
     ) {

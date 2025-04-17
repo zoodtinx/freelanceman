@@ -90,7 +90,7 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'project-page',
+         openedOn: 'action-page',
          type: 'event',
          data: data,
       });

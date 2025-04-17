@@ -8,8 +8,8 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreateClientContactDto,
     ClientContactFilterDto,
-    UpdateClientContactDto,
-} from '@schemas';
+    EditClientContactDto,
+} from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -56,6 +56,9 @@ export class ClientContactService {
                     email: filter.email,
                     phoneNumber: filter.phoneNumber,
                 },
+                include: {
+                    company: true,
+                }
             });
             return result;
         } catch {
@@ -84,7 +87,7 @@ export class ClientContactService {
         }
     }
 
-    async update(userId: string, id: string, dto: UpdateClientContactDto) {
+    async update(userId: string, id: string, dto: EditClientContactDto) {
         try {
             await this.prismaService.clientContact.update({
                 where: { id, userId },

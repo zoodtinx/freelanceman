@@ -15,7 +15,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createSalesDocumentSchema,
     salesDocumentFilterSchema,
-    updateSalesDocumentSchema,
+    editSalesDocumentSchema,
 } from 'freelanceman-common';
 import { SalesDocumentsService } from 'src/sales-documents/sales-documents.service';
 
@@ -67,7 +67,7 @@ export class SalesDocumentsController {
     @Patch(':id')
     async update(
         @Param('id') docId: string,
-        @Body(new ZodValidationPipe(updateSalesDocumentSchema))
+        @Body(new ZodValidationPipe(editSalesDocumentSchema))
         updateDto: any,
         @Req() req: any,
     ) {

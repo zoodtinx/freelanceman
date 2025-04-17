@@ -20,7 +20,7 @@ export const eventStatusSelections = [
 
 export const projectStatusSelections = [
    { value: 'active', label: 'Active', color: 'status-active' },
-   { value: 'onHold', label: 'On Hold', color: 'bg-orange-200' },
+   { value: 'on-hold', label: 'On Hold', color: 'bg-orange-200' },
    { value: 'completed', label: 'Completed', color: 'bg-blue-200' },
 ];
 

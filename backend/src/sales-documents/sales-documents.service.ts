@@ -8,9 +8,9 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 import {
     SalesDocumentFilterDto,
-    UpdateSalesDocumentDto,
+    EditSalesDocumentDto,
     CreateSalesDocumentDto,
-} from '@schemas';
+} from 'freelanceman-common';
 import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
 import { generatePDFBuffer } from 'src/sales-documents/helpers/pdf-utils';
@@ -127,7 +127,7 @@ export class SalesDocumentsService {
     async update(
         userId: string,
         documentId: string,
-        updateDto: UpdateSalesDocumentDto,
+        updateDto: EditSalesDocumentDto,
     ) {
         try {
             const result = await this.prismaService.salesDocument.update({

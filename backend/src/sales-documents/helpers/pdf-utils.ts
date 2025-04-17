@@ -1,4 +1,4 @@
-import { CreateSalesDocumentDto } from '@schemas';
+import { CreateSalesDocumentDto } from 'freelanceman-common';
 import * as PDFDocument from 'pdfkit';
 import { Buffer } from 'buffer';
 import { z } from 'zod';

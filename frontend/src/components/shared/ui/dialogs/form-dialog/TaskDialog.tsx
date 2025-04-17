@@ -21,7 +21,14 @@ import {
    FormDialogProps,
    FormDialogState,
 } from '@/lib/types/form-dialog.types';
-import { CreateTaskDto, TaskPayload, TaskStatus, UpdateTaskDto } from 'freelanceman-common/dist/types/src/schemas';
+import {
+   CreateTaskDto,
+   TaskPayload,
+   TaskStatus,
+   EditTaskDto,
+} from 'freelanceman-common';
+import { handleDialogMutationError } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-error';
+import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 
 export const TaskDialog = ({
    formMethods,
@@ -32,12 +39,10 @@ export const TaskDialog = ({
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const taskData = formDialogState.data as TaskPayload;
 
-   const {
-      handleSubmit,
-      formState: { isDirty },
-   } = formMethods;
+   console.log('formDialogState', formDialogState)
+
+   const { handleSubmit, setValue } = formMethods;
 
    const handleDialogClose = () => {
       setFormDialogState((prev) => {
@@ -54,11 +59,7 @@ export const TaskDialog = ({
       });
    };
 
-   const onSubmit: SubmitHandler<CreateTaskDto> = (data) => {
-      if (!isDirty) {
-         return;
-      }
-
+   const onSubmit = (data: TaskPayload) => {
       if (formDialogState.mode === 'create') {
          const payload: CreateTaskDto = {
             name: data.name,
@@ -70,28 +71,41 @@ export const TaskDialog = ({
             clientId: data.clientId,
          };
          createTask.mutate(payload);
+         handleDialogMutationError(createTask, setValue);
       } else if (formDialogState.mode === 'edit') {
-         const payload: UpdateTaskDto = {
+         const payload: EditTaskDto = {
+            id: 'dfdf',
             name: data.name,
             details: data.details,
             dueAt: data.dueAt,
             link: data.link,
             status: data.status as TaskStatus,
          };
-         editTask.mutate({
-            taskId: formDialogState.data.id,
-            taskPayload: payload,
-         });
+         editTask.mutate(payload);
+         handleDialogMutationError(editTask, setValue);
       }
-
-      handleDialogClose();
    };
 
    const handleLeftButtonClick = () => {
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
       } else if (formDialogState.mode === 'edit') {
-         deleteTask.mutate(taskData.id);
+         handleDelete({
+            mutateApi: deleteTask,
+            payload: formDialogState.data.id,
+            setFormDialogState: setFormDialogState,
+            openConfirmDialog: true,
+            setValue: setValue,
+            setConfirmationDialogState: setConfirmationDialogState,
+            confirmDialogData: {
+               type: 'delete',
+               entityName: formDialogState.data.name,
+               dialogRequested: {
+                  mode: 'edit',
+                  type: 'task',
+               },
+            },
+         });
       }
    };
 
@@ -143,7 +157,7 @@ export const TaskDialog = ({
             </div>
          </div>
          <DialogFooter>
-            <div className="flex justify-between p-4">
+            <div className="flex justify-between p-4 pb-2">
                <DiscardButton
                   formMethods={formMethods}
                   formDialogState={formDialogState}

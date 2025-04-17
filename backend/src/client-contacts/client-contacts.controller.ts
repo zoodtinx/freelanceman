@@ -15,7 +15,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createClientContactSchema,
     clientContactFilterSchema,
-    updateClientContactSchema,
+    editClientContactSchema,
 } from 'freelanceman-common';
 import { ClientContactService } from 'src/client-contacts/client-contacts.service';
 
@@ -53,7 +53,7 @@ export class ClientContactsController {
     @Patch(':id')
     update(
         @Param('id') clientId: string,
-        @Body(new ZodValidationPipe(updateClientContactSchema))
+        @Body(new ZodValidationPipe(editClientContactSchema))
         updateClientDto: any,
         @Req() req: any,
     ) {

@@ -43,7 +43,7 @@ model AuthProvider {
   id         String @id @default(uuid())
   userId     String
   provider   String
-  user       User   @relation(fields: [userId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model RefreshToken {
@@ -65,7 +65,7 @@ model Client {
   themeColor     String
   createdAt      DateTime        @default(now())
   updatedAt      DateTime?       @updatedAt
-  user           User            @relation(fields: [userId], references: [id])
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   contacts       ClientContact[]
   files          File[]
   task          Task[]
@@ -86,8 +86,8 @@ model ClientContact {
   companyId   String?
   createdAt   DateTime                 @default(now())
   updatedAt   DateTime?                @updatedAt
-  company     Client?                  @relation(fields: [companyId], references: [id])
-  user        User                     @relation(fields: [userId], references: [id])
+  company     Client?                  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user        User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   projects    ClientContactOnProject[]
 }
 
@@ -103,7 +103,7 @@ model PartnerCompany {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
   contacts    PartnerContact[]
-  user           User            @relation(fields: [userId], references: [id])
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PartnerContact {
@@ -118,8 +118,8 @@ model PartnerContact {
   avatar      String
   createdAt   DateTime                  @default(now())
   updatedAt   DateTime                  @updatedAt
-  company     PartnerCompany            @relation(fields: [companyId], references: [id])
-  user        User                      @relation(fields: [userId], references: [id])
+  company     PartnerCompany            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user        User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   projects    PartnerContactOnProject[]
 }
 
@@ -138,8 +138,8 @@ model Project {
   updatedAt       DateTime                  @updatedAt
   events          Event[]
   files           File[]
-  client          Client                    @relation(fields: [clientId], references: [id])
-  user            User                      @relation(fields: [userId], references: [id])
+  client          Client                    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user            User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   salesDocuments  SalesDocument[]
   tasks           Task[]
   clientContacts  ClientContactOnProject[]
@@ -149,8 +149,8 @@ model Project {
 model ClientContactOnProject {
   projectId       String
   clientContactId String
-  project         Project       @relation(fields: [projectId], references: [id])
-  clientContact   ClientContact @relation(fields: [clientContactId], references: [id])
+  project         Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  clientContact   ClientContact @relation(fields: [clientContactId], references: [id], onDelete: Cascade)
 
   @@id([projectId, clientContactId]) // Composite primary key
 }
@@ -158,8 +158,8 @@ model ClientContactOnProject {
 model PartnerContactOnProject {
   projectId        String
   partnerContactId String
-  project          Project        @relation(fields: [projectId], references: [id])
-  partnerContact   PartnerContact @relation(fields: [partnerContactId], references: [id])
+  project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  partnerContact   PartnerContact @relation(fields: [partnerContactId], references: [id], onDelete: Cascade)
 
   @@id([projectId, partnerContactId]) // Composite primary key
 }
@@ -177,9 +177,9 @@ model Event {
   tags      String[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  project   Project   @relation(fields: [projectId], references: [id])
-  client   Client   @relation(fields: [clientId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Task {
@@ -194,9 +194,9 @@ model Task {
   userId    String
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  project   Project   @relation(fields: [projectId], references: [id])
-  client   Client   @relation(fields: [clientId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model File {
@@ -213,9 +213,9 @@ model File {
   size         Int?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
-  client       Client?   @relation(fields: [clientId], references: [id])
-  project      Project?  @relation(fields: [projectId], references: [id])
-  user         User      @relation(fields: [userId], references: [id])
+  client       Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project      Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   salesDocument SalesDocument? @relation("FileToSalesDocument")
 }
 
@@ -252,11 +252,11 @@ model SalesDocument {
   generatedFileId         String?   @unique
   createdAt               DateTime            @default(now())
   updatedAt               DateTime            @updatedAt
-  client                  Client              @relation(fields: [clientId], references: [id])
-  project                 Project             @relation(fields: [projectId], references: [id])
-  user                    User                @relation(fields: [userId], references: [id])
+  client                  Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project                 Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   items                   SalesDocumentItem[]
-  file                    File?               @relation("FileToSalesDocument", fields: [generatedFileId], references: [id])
+  file                    File?               @relation("FileToSalesDocument", fields: [generatedFileId], references: [id], onDelete: Cascade)
 }
 
 model SalesDocumentItem {
@@ -267,8 +267,8 @@ model SalesDocumentItem {
   rate            Float
   quantity        Int
   parentDocumentId  String
-  parentDocument        SalesDocument @relation(fields: [parentDocumentId], references: [id])
-  user                    User                @relation(fields: [userId], references: [id])
+  parentDocument        SalesDocument @relation(fields: [parentDocumentId], references: [id], onDelete: Cascade)
+  user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum SalesDocumentCategory {

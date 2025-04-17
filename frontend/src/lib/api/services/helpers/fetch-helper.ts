@@ -29,7 +29,8 @@ export async function fetchProMax({
       );
 
       if (!response.ok) {
-         handleApiError(response);
+         const errorData = await response.json();
+         handleApiError(response.status, errorData.message);
       }
 
       return await response.json();

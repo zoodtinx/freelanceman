@@ -7,9 +7,9 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import {
     CreateTaskDto,
-    UpdateTaskDto,
+    EditTaskDto,
     TaskFilterDto,
-} from '@schemas';
+} from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -85,11 +85,11 @@ export class TasksService {
         }
     }
 
-    async update(userId: string, taskId: string, updateTaskDto: UpdateTaskDto) {
+    async update(userId: string, taskId: string, EditTaskDto: EditTaskDto) {
         try {
             await this.prismaService.task.update({
                 where: { id: taskId, userId },
-                data: updateTaskDto,
+                data: EditTaskDto,
             });
             return await this.findOne(userId, taskId);
         } catch (error) {

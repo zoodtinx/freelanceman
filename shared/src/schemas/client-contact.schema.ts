@@ -18,7 +18,8 @@ export const clientContactFilterSchema = z.object({
     phoneNumber: z.string().optional(),
 });
 
-export const updateClientContactSchema = z.object({
+export const editClientContactSchema = z.object({
+    id: z.string().uuid(),
     name: z.string().optional(),
     role: z.string().optional(),
     phoneNumber: z.string().optional(),
@@ -44,4 +45,4 @@ const clientContactPayloadSchema = z.object({
 export type ClientContactPayload = z.infer<typeof clientContactPayloadSchema>;
 export type CreateClientContactDto = z.infer<typeof createClientContactSchema>;
 export type ClientContactFilterDto = z.infer<typeof clientContactFilterSchema>;
-export type UpdateClientContactDto = z.infer<typeof updateClientContactSchema>;
+export type EditClientContactDto = z.infer<typeof editClientContactSchema>;

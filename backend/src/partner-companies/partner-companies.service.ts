@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import {
     CreatePartnerCompanyDto,
-    UpdatePartnerCompanyDto,
+    EditPartnerCompanyDto,
     PartnerCompanyFilterDto,
-} from '@schemas';
+} from 'freelanceman-common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 
@@ -87,7 +87,7 @@ export class PartnerCompaniesService {
     async update(
         userId: string,
         companyId: string,
-        updateDto: UpdatePartnerCompanyDto,
+        updateDto: EditPartnerCompanyDto,
     ) {
         try {
             const result = await this.prismaService.partnerCompany.update({

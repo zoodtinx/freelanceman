@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
   createTaskSchema,
-  updateTaskSchema,
+  editTaskSchema,
   taskFilterSchema,
 } from 'freelanceman-common';
 
@@ -52,7 +52,7 @@ export class TasksController {
   @Patch(':id')
   update(
     @Param('id') taskId: string,
-    @Body(new ZodValidationPipe(updateTaskSchema)) payload: any,
+    @Body(new ZodValidationPipe(editTaskSchema)) payload: any,
     @Req() req: any,
   ) {
     const userId = req.user.id;

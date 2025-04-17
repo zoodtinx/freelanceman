@@ -1,10 +1,4 @@
-import {
-  CreateEventDto,
-  EventFilterDto,
-  UpdateEventDto,
-} from '@schemas';
-
-export const mockCreateEventPayload: CreateEventDto = {
+export const mockCreateEventPayload = {
   name: "Design Proposal Review",
   status: "In Progress",
   projectId: "088860df-8fdd-4379-a8e6-c3fb3d997003",
@@ -14,7 +8,7 @@ export const mockCreateEventPayload: CreateEventDto = {
   link: "https://example.com/meeting-link"
 };
 
-export const mockSearchEvent: EventFilterDto = {
+export const mockSearchEvent = {
   name: 'Kickoff',
   status: 'scheduled',
   dueAt: new Date().toISOString(),
@@ -22,10 +16,12 @@ export const mockSearchEvent: EventFilterDto = {
   clientId: '1c33ad06-c6fe-420b-b540-9b1b79421373',
 };
 
-export const mockUpdateEvent: UpdateEventDto = {
+export const mockUpdateEvent = {
   name: 'Rescheduled kickoff',
   status: 'scheduled',
   dueAt: new Date().toISOString(),
   link: 'https://example.com/new-meeting-link',
   details: 'Client changed the date',
 };
+
+

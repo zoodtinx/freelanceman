@@ -14,9 +14,9 @@ import {
     RegisterUserDto,
     ResetPasswordDto,
     ResetPasswordRequestDto,
-} from '@schemas';
+} from 'freelanceman-common';
 import { EmailService } from 'src/shared/email/email.service';
-import { GoogleUserDto } from '@schemas';
+import { GoogleUserDto } from 'freelanceman-common';
 
 @Injectable()
 export class LocalAuthService {

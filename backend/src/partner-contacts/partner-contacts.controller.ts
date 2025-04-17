@@ -15,7 +15,7 @@ import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
   createPartnerContactSchema,
   partnerContactFilterSchema,
-  updatePartnerContactSchema,
+  editPartnerContactSchema,
 } from 'freelanceman-common';
 import { PartnerContactService } from 'src/partner-contacts/partner-contacts.service';
 
@@ -53,7 +53,7 @@ export class PartnerContactsController {
   @Patch(':id')
   update(
       @Param('id') partnerId: string,
-      @Body(new ZodValidationPipe(updatePartnerContactSchema))
+      @Body(new ZodValidationPipe(editPartnerContactSchema))
       updatePartnerDto: any,
       @Req() req: any,
   ) {

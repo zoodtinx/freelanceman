@@ -1,16 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProjects, getProject } from '@/lib/api/services/project-service';
 import {
+   getProjects,
+   getProject,
    editProject,
-   getAllProjects,
    deleteProject,
-} from './mock/mock-project-service';
+} from '@/lib/api/services/project-service';
 import {
    ProjectFilterDto,
    CreateProjectDto,
-   UpdateProjectDto,
+   EditProjectDto,
    ProjectPayload,
-} from 'freelanceman-common/dist/types/src/schemas';
+} from 'freelanceman-common';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -71,35 +71,6 @@ export const useProjectQuery = (projectId: string) => {
    return queryResult;
 };
 
-export const useProjectSelectionQuery = (
-   searchOptions: ProjectFilterDto = {}
-) => {
-   const queryClient = useQueryClient();
-
-   return useQuery({
-      queryKey: ['projectSelection', JSON.stringify(searchOptions)],
-      queryFn: async () => {
-         const cachedProjects = queryClient.getQueryData<ProjectPayload[]>([
-            'projects',
-            JSON.stringify(searchOptions),
-         ]);
-
-         if (cachedProjects) {
-            return cachedProjects.map((project) => ({
-               value: project.id,
-               label: project.title,
-            }));
-         }
-
-         const projects = await getAllProjects(searchOptions);
-         return projects.map((project) => ({
-            value: project.id,
-            label: project.title,
-         }));
-      },
-   });
-};
-
 export const useCreateProject = () => {
    const queryClient = useQueryClient();
 
@@ -131,41 +102,19 @@ export const useCreateProject = () => {
    });
 };
 
-interface EditProjectMutationPayload {
-   projectId: string;
-   projectPayload: UpdateProjectDto;
-}
-
 export const useEditProject = () => {
    const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
 
    return useMutation({
       mutationKey: ['editProject'],
-      mutationFn: async ({
-         projectId,
-         projectPayload,
-      }: EditProjectMutationPayload) => {
-         await editProject(projectId, projectPayload);
+      mutationFn: async (projectPayload: EditProjectDto) => {
+         await editProject(accessToken, projectPayload);
       },
-      onMutate: async ({ projectId, projectPayload }) => {
-         await queryClient.cancelQueries({ queryKey: ['projects'] });
-         const previousProjects = queryClient.getQueryData(['projects']);
-
-         if (previousProjects) {
-            queryClient.setQueryData(['projects'], (old: ProjectPayload[]) =>
-               old?.map((project) =>
-                  project.id === projectId ? projectPayload : project
-               )
-            );
-         }
-
-         return { previousProjects };
-      },
-      onError: (err, newProjectPayload, context) => {
-         console.log('New project ', newProjectPayload);
-         console.log(err);
-         if (context?.previousProjects) {
-            queryClient.setQueryData(['projects'], context.previousProjects);
+      onError: (err) => {
+         if (err.message === 'Unauthorized') {
+            navigate('/login');
          }
       },
       onSettled: () => {
@@ -176,29 +125,17 @@ export const useEditProject = () => {
 
 export const useDeleteProject = () => {
    const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
 
    return useMutation({
       mutationKey: ['deleteProject'],
       mutationFn: async (projectId: string) => {
-         await deleteProject(projectId);
+         await deleteProject(accessToken, projectId);
       },
-      onMutate: async (projectId: string) => {
-         await queryClient.cancelQueries({ queryKey: ['projects'] });
-         const previousProjects = queryClient.getQueryData(['projects']);
-
-         if (previousProjects) {
-            queryClient.setQueryData(['projects'], (old: ProjectPayload[]) =>
-               old?.filter((project) => project.id !== projectId)
-            );
-         }
-
-         return { previousProjects };
-      },
-      onError: (err, projectIds, context) => {
-         console.log('Project deleting ', projectIds);
-         console.log(err);
-         if (context?.previousProjects) {
-            queryClient.setQueryData(['projects'], context.previousProjects);
+      onError: (err) => {
+         if (err.message === 'Unauthorized') {
+            navigate('/login');
          }
       },
       onSettled: () => {

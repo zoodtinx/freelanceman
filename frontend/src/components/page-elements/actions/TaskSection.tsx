@@ -5,12 +5,12 @@ import {
 import { useState } from 'react';
 import { CircleCheck } from 'lucide-react';
 import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
-import { useAllTasksQuery } from '@/lib/api/task-api';
+import { useTaskQuery } from '@/lib/api/task-api';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 
-import { TaskStatus, TaskFilterSchema } from 'freelanceman-common/src/schemas';
+import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function TaskSection() {
@@ -18,11 +18,11 @@ export default function TaskSection() {
       (state) => state.setFormDialogState
    );
 
-   const [taskFilter, setTaskFilter] = useState<TaskFilterSchema>({
+   const [taskFilter, setTaskFilter] = useState<TaskFilterDto>({
       status: 'pending',
    });
 
-   const { data: tasksData, isLoading } = useAllTasksQuery(taskFilter);
+   const { data: tasksData, isLoading } = useTaskQuery(taskFilter);
 
    const handleNewTask = () => {
       setFormDialogState({

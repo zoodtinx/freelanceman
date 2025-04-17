@@ -36,7 +36,8 @@ export const createProjectSchema = z.object({
     budget: z.number().nonnegative(),
 });
 
-export const updateProjectSchema = z.object({
+export const editProjectSchema = z.object({
+    id: z.string().uuid(),
     title: z.string().min(1).optional(),
     projectStatus: z.enum(['active', 'completed', 'on-hold']).optional(),
     paymentStatus: z.enum(['unpaid', 'paid', 'processing']).optional(),
@@ -62,5 +63,5 @@ export const projectFilterSchema = z.object({
 
 export type ProjectFilterDto = z.infer<typeof projectFilterSchema>;
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
-export type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
+export type EditProjectDto = z.infer<typeof editProjectSchema>;
 export type ProjectPayload = z.infer<typeof projectPayloadSchema>;

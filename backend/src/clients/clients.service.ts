@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import {
     CreateClientDto,
-    UpdateClientDto,
+    EditClientDto,
     ClientFilterDto,
-} from '@schemas';
+} from 'freelanceman-common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 
@@ -106,12 +106,12 @@ export class ClientsService {
     async update(
         userId: string,
         clientId: string,
-        updateClientDto: UpdateClientDto,
+        EditClientDto: EditClientDto,
     ) {
         try {
             const result = await this.prismaService.client.update({
                 where: { id: clientId, userId },
-                data: updateClientDto,
+                data: EditClientDto,
             });
             return result;
         } catch (error) {

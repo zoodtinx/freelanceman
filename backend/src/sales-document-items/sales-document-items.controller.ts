@@ -14,7 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createSalesDocumentItemSchema,
-    updateSalesDocumentItemSchema,
+    editSalesDocumentItemSchema,
 } from 'freelanceman-common';
 import { SalesDocumentItemsService } from 'src/sales-document-items/sales-document-items.service';
 
@@ -51,7 +51,7 @@ export class SalesDocumentItemsController {
     @Patch(':id')
     update(
         @Param('id') itemId: string,
-        @Body(new ZodValidationPipe(updateSalesDocumentItemSchema))
+        @Body(new ZodValidationPipe(editSalesDocumentItemSchema))
         updateDto: any,
         @Req() req: any,
     ) {

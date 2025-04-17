@@ -16,12 +16,13 @@ export const partnerContactFilterSchema = z.object({
     role: z.string().optional(),
 });
 
-export const updatePartnerContactSchema = z.object({
+export const editPartnerContactSchema = z.object({
+    id: z.string().uuid(),
     name: z.string().optional(),
     role: z.string().optional(),
     phoneNumber: z.string().optional(),
     email: z.string().optional(),
-    details: z.string().optional(),
+    detail: z.string().optional(),
     avatar: z.string().url().optional(),
 });
 
@@ -33,19 +34,13 @@ export const partnerContactPayloadSchema = z.object({
     role: z.string().min(1),
     phoneNumber: z.string().min(1),
     email: z.string().email(),
-    details: z.string().min(1),
+    detail: z.string().min(1),
     avatar: z.string().min(1),
     createdAt: z.string(),
     updatedAt: z.string(),
 });
 
 export type PartnerContactPayload = z.infer<typeof partnerContactPayloadSchema>;
-export type CreatePartnerContactDto = z.infer<
-    typeof createPartnerContactSchema
->;
-export type PartnerContactFilterDto = z.infer<
-    typeof partnerContactFilterSchema
->;
-export type UpdatePartnerContactDto = z.infer<
-    typeof updatePartnerContactSchema
->;
+export type CreatePartnerContactDto = z.infer<typeof createPartnerContactSchema>;
+export type PartnerContactFilterDto = z.infer<typeof partnerContactFilterSchema>;
+export type EditPartnerContactDto = z.infer<typeof editPartnerContactSchema>;

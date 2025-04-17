@@ -1,4 +1,3 @@
-import React from 'react';
 import {
    Dialog,
    DialogContent,
@@ -40,7 +39,6 @@ const ConfirmationDialog = () => {
             isOpen: false,
          };
       });
-      console.log('cancelled');
    };
 
    return (
@@ -76,8 +74,7 @@ const ConfirmationDialog = () => {
                      </Button>
                      <Button
                         type="submit"
-                        variant="default"
-                        className="flex gap-1 bg-primary text-foreground"
+                        variant={confirmationDialogState.type === 'delete' ? 'destructive' : 'default'}
                         onClick={confirmationDialogState.actions.primary}
                      >
                         Proceed
@@ -95,15 +92,18 @@ const DeleteMessage = ({
 }: {
    dialogState: ConfirmationDialogState;
 }) => {
-   const message = dialogState.message;
+   const { entityName, additionalMessage } = dialogState;
 
    if (dialogState.type === 'unsaved-changes') {
-      return <p className="text-wrap p-4 text-base leading-snug">{message}</p>;
+      return <p className="text-wrap p-4 text-base leading-snug">Unsaved changes will be lost</p>;
    } else if (dialogState.type === 'delete') {
       return (
-         <p className="text-wrap p-4 text-base leading-snug">
-            Are you sure you want to delete <strong>{message}</strong>
-         </p>
+         <div className=" p-4">
+            <p className="text-wrap text-base leading-snug pb-2">
+               Are you sure you want to delete <strong>{entityName}</strong>?
+            </p>
+            <p className="text-general-red">{additionalMessage}</p>
+         </div>
       );
    }
 };
@@ -149,7 +149,7 @@ const getDialogTitle = (
    return '';
 };
 
-function getFormattedType(type: FormDialogType): string {
+function getFormattedType(type: string | undefined): string {
    switch (type) {
       case 'task':
          return 'Task';

@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
     createClientSchema,
-    updateClientSchema,
+    editClientSchema,
     clientFilterSchema,
 } from 'freelanceman-common';
 
@@ -53,7 +53,7 @@ export class ClientsController {
     @Patch(':id')
     update(
         @Param('id') clientId: string,
-        @Body(new ZodValidationPipe(updateClientSchema))
+        @Body(new ZodValidationPipe(editClientSchema))
         payload: any,
         @Req() req: any,
     ) {

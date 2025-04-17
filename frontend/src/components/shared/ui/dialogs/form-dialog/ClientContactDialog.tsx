@@ -139,7 +139,7 @@ export const ClientContactDialog = ({
                         </Label>
                         {formDialogState.mode === 'edit' && (
                            <p className="text-md">
-                              {formMethods.getValues('company')}
+                              {formMethods.getValues('company').name}
                            </p>
                            //    <Link to={`/home/clients/${formDialogState.data.companyId}`} className="text-md">
                            //    {formDialogState.data.company}

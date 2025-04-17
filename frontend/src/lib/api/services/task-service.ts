@@ -1,33 +1,31 @@
-import { handleApiError } from '@/lib/api/services/helpers/error-handler';
+import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
+import { EditTaskDto, TaskFilterDto } from 'freelanceman-common';
 
-export async function getTasks(
-   accessToken: string,
-   filter: ProjectSearchOption
-) {
-   try {
-      const res = await fetch(
-         `${import.meta.env.VITE_API_URL}tasks/search`,
-         {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-               Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify(filter),
-         }
-      );
+export async function getTasks(accessToken: string, filter: TaskFilterDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'tasks/search',
+      method: 'POST',
+      model: 'task',
+      requestPayload: filter,
+   });
+}
 
-      if (!res.ok) {
-         handleApiError(res);
-      }
+export async function editTask(accessToken: string, payload: EditTaskDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `tasks/${payload.id}`,
+      requestPayload: payload,
+      method: 'PATCH',
+      model: 'task',
+   });
+}
 
-      return await res.json();
-   } catch (error) {
-      if (error instanceof TypeError && error.message === 'Failed to fetch') {
-         throw new Error('Network Error');
-      }
-
-      console.error('Error fetching projects:', error);
-      throw error;
-   }
+export async function deleteTask(accessToken: string, taskId: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `tasks/${taskId}`,
+      method: 'DELETE',
+      model: 'task',
+   });
 }

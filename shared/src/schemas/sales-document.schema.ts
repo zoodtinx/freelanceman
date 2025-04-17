@@ -37,7 +37,8 @@ export const salesDocumentFilterSchema = z.object({
     selectedProjectClientId: z.string().uuid().optional(),
 });
 
-export const updateSalesDocumentSchema = z.object({
+export const editSalesDocumentSchema = z.object({
+    id: z.string().uuid(),
     title: z.string().min(1).optional(),
     category: z.string().min(1).optional(),
     number: z.string().min(1).optional(),
@@ -104,5 +105,5 @@ export const salesDocumentPayloadSchema = z.object({
 
 export type SalesDocumentPayload = z.infer<typeof salesDocumentPayloadSchema>;
 export type SalesDocumentFilterDto = z.infer<typeof salesDocumentFilterSchema>;
-export type UpdateSalesDocumentDto = z.infer<typeof updateSalesDocumentSchema>;
+export type EditSalesDocumentDto = z.infer<typeof editSalesDocumentSchema>;
 export type CreateSalesDocumentDto = z.infer<typeof createSalesDocumentSchema>;

@@ -30,7 +30,8 @@ export const createFileSchema = z.object({
     size: z.number().optional(),
 });
 
-export const updateFileSchema = z.object({
+export const editFileSchema = z.object({
+    id: z.string().uuid(),
     displayName: z.string().min(1).optional(),
     type: fileType.optional(),
 });
@@ -66,5 +67,5 @@ export const filePayloadSchema = z.object({
 export type FilePayload = z.infer<typeof filePayloadSchema>;
 export type GetPresignedUrlDto = z.infer<typeof getPresignedUrlSchema>;
 export type CreateFileDto = z.infer<typeof createFileSchema>;
-export type UpdateFileDto = z.infer<typeof updateFileSchema>;
+export type EditFileDto = z.infer<typeof editFileSchema>;
 export type FileFilterDto = z.infer<typeof fileFilterSchema>;

@@ -2,7 +2,7 @@ import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
-import { useAllTasksQuery } from '@/lib/api/task-api';
+import { useTaskQuery } from '@/lib/api/task-api';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
@@ -10,21 +10,22 @@ import { TaskList } from '@/components/page-elements/actions/TaskList';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 import { ProjectPageSectionProps } from '@/routes/ProjectPage';
+import { TaskFilterDto } from 'freelanceman-common';
 
 const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({project}) => {
    const setFormDialogState = useDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const [taskFilter, setTaskFilter] = useState<TaskSearchOptions>({
+   const [taskFilter, setTaskFilter] = useState<TaskFilterDto>({
       projectId: project?.id,
    });
 
-   const { data: tasksData, isLoading } = useAllTasksQuery(taskFilter);
+   const { data: tasksData, isLoading } = useTaskQuery(taskFilter);
 
    useEffect(() => {
       if (project?.id) {
-         setTaskFilter((prev: TaskSearchOptions) => ({
+         setTaskFilter((prev: TaskFilterDto) => ({
             ...prev,
             projectId: project.id,
          }));

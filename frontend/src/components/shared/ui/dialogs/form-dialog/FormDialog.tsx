@@ -24,6 +24,8 @@ const FormDialog = () => {
       (state) => state.setConfirmationDialogState
    );
 
+   console.log('formDialogState', formDialogState)
+
    const formMethods = useForm({
       defaultValues: formDialogState.data as any,
    });
@@ -31,7 +33,7 @@ const FormDialog = () => {
    const {
       formState: { isDirty },
       clearErrors,
-      reset
+      reset,
    } = formMethods;
 
    const handleDialogClose = useCallback(() => {
@@ -47,10 +49,7 @@ const FormDialog = () => {
             isOpen: false,
          };
       });
-   }, [
-      setFormDialogState,
-      setConfirmationDialogState,
-   ]);
+   }, [setFormDialogState, setConfirmationDialogState]);
 
    const handleEscapeWithChange = useCallback(() => {
       if (isDirty) {
@@ -59,7 +58,7 @@ const FormDialog = () => {
             actions: {
                primary: handleDialogClose,
             },
-            message: 'Unsaved changes will be lost if you leave.',
+            entityName: 'Unsaved changes will be lost if you leave.',
             type: 'unsaved-changes',
             dialogRequested: {
                mode: formDialogState.mode,
@@ -88,17 +87,14 @@ const FormDialog = () => {
       return () => {
          document.removeEventListener('keydown', handleEscKey);
       };
-   }, [
-      setConfirmationDialogState,
-      handleEscapeWithChange,
-   ]);
+   }, [setConfirmationDialogState, handleEscapeWithChange]);
 
    useEffect(() => {
-      clearErrors()
-      reset(formDialogState.data)
-   }, [formDialogState, reset, clearErrors])
+      clearErrors();
+      reset(formDialogState.data);
+   }, [formDialogState.data, reset, clearErrors]);
 
-   console.log('formDialogState.data.client.themeColor', formDialogState.data?.client?.themeColor)
+   const color = formDialogState.type === 'client-contact' || formDialogState.type === 'partner-contact' ? formDialogState.data.company?.themeColor : formDialogState.data.client?.themeColor
 
    return (
       <Dialog
@@ -116,8 +112,8 @@ const FormDialog = () => {
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(
                'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
-               formDialogState.data.client.themeColor &&
-                  `text-constant-primary bg-theme-${formDialogState.data.client.themeColor}`
+               color &&
+                  `text-constant-primary bg-theme-${color}`
             )}
          >
             <DialogHeader className="py-1 bg-transparent">
@@ -129,9 +125,37 @@ const FormDialog = () => {
                   formMethods={formMethods}
                   handleEscapeWithChange={handleEscapeWithChange}
                />
+               {/* <MutationErrorField formMethods={formMethods} /> */}
             </div>
          </DialogContent>
       </Dialog>
+   );
+};
+
+const MutationErrorField = ({formMethods}: {formMethods: UseFormReturn}) => {
+   const {watch} = formMethods
+   
+   useEffect(() => {
+
+   })
+   
+   
+
+   if (!mutationError) {
+      return <div className='pb-2'></div>
+   }
+   
+   let message
+
+   switch (mutationError) {
+      case '400' :
+         return 'Network error, please check connection'
+   } 
+
+   return (
+      <div className="w-full text-center text-sm pb-3 text-general-red animate-shake">
+         {message}
+      </div>
    );
 };
 
@@ -147,13 +171,12 @@ const FormDialogTitle = ({ dialogType }: { dialogType: string }) => {
 const FormDialogContent = ({
    dialogType,
    formMethods,
-   handleEscapeWithChange
+   handleEscapeWithChange,
 }: {
    dialogType: string;
-   formMethods: UseFormReturn
-   handleEscapeWithChange: () => void
+   formMethods: UseFormReturn;
+   handleEscapeWithChange: () => void;
 }) => {
-
    const {
       TaskDialog,
       EventDialog,
@@ -168,13 +191,18 @@ const FormDialogContent = ({
       PartnerContactDialog,
    } = Dialogs;
 
-   const props = {formMethods: formMethods, handleEscapeWithChange: handleEscapeWithChange}
+   const props = {
+      formMethods: formMethods,
+      handleEscapeWithChange: handleEscapeWithChange,
+   };
+
+   console.log('dialogType', dialogType)
 
    switch (dialogType) {
       case 'task':
-         return <TaskDialog {...props} />;
+      return <TaskDialog {...props} />;
       case 'event':
-         return <EventDialog {...props} />;
+      return <EventDialog {...props} />;
       case 'file':
          return <FileDialog {...props} />;
       case 'new-file':
@@ -196,7 +224,7 @@ const FormDialogContent = ({
       case 'base':
          return <></>;
       default:
-         return <></>;      
+         return <></>;
    }
 };
 
