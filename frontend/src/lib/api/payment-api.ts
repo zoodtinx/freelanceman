@@ -1,24 +1,15 @@
-import useAuthStore from '@/lib/zustand/auth-store';
-import { useQuery } from '@tanstack/react-query';
 import {
    getPaymentData,
    getPaymentStats,
 } from '@/lib/api/services/payment-service';
+import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 
 export const usePaymentDataQuery = (filter: any) => {
-   const { accessToken } = useAuthStore();
-
-   return useQuery({
-      queryKey: ['paymentData'],
-      queryFn: () => getPaymentData(accessToken, filter),
-   });
+   return useAppQuery(['paymentData', filter], (token) =>
+      getPaymentData(token, filter)
+   );
 };
 
 export const usePaymentStatsQuery = () => {
-   const { accessToken } = useAuthStore();
-
-   return useQuery({
-      queryKey: ['paymentStats'],
-      queryFn: () => getPaymentStats(accessToken),
-   });
+   return useAppQuery(['paymentStats'], (token) => getPaymentStats(token));
 };

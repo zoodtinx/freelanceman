@@ -1,149 +1,60 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getFiles, getFile } from '@/lib/api/services/file-service';
 import {
-   editFile,
-   getAllFiles,
+   getFiles,
+   getFile,
    createFile,
    deleteFile,
-} from './mock/mock-file-service';
-import useAuthStore from '@/lib/zustand/auth-store';
-import { FilePayload } from 'freelanceman-common/src/schemas';
-
+   editFile,
+} from '@/lib/api/services/file-service';
+import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
+import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
+import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
+import { FileFilterDto } from 'freelanceman-common';
 
 export const useFileApi = () => {
    return {
-      createFile: useCreateFile(),
+      uploadFile: useCreateFile(),
       deleteFile: useDeleteFile(),
-      editFile: useEditFile()
-   }
-}
-
-
-export const useAllFilesQuery = (searchOptions: FileSearchOption = {}) => {
-   return useQuery({
-      queryKey: ['files', searchOptions],
-      queryFn: () => getAllFiles(searchOptions),
-   });
+      editFile: useEditFile(),
+   };
 };
 
-
-export const useFilesQuery = (searchOptions: FileSearchOption = {}) => {
-   const { accessToken } = useAuthStore();
-   
-   return useQuery({
-      queryKey: ['files', searchOptions],
-      queryFn: () => getFiles(accessToken, searchOptions),
-   });
+export const useFilesQuery = (filter: FileFilterDto = {}) => {
+   return useAppQuery(['files', filter], (token) => getFiles(token, filter));
 };
-
 
 export const useFileQuery = (fileId: string) => {
-   return useQuery<FilePayload, Error, FilePayload>({
-      queryKey: ['files', fileId],
-      queryFn: () => getFile(fileId),
-   });
+   return useAppQuery(['files', fileId], (token) => getFile(token, fileId));
 };
 
-
-export const useCreateFile = () => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationKey: ['createFile'],
-      mutationFn: async (newFile: CreateFileDto) => await createFile(newFile),
-      onMutate: async (newFile: CreateFileDto) => {
-         await queryClient.cancelQueries({ queryKey: ['files'] });
-         const previousFiles = queryClient.getQueryData(['files']);
-
-         queryClient.setQueryData(['files'], (old: File[]) => [
-            ...(old || []),
-            { ...newFile, id: 'temp-id' },
-         ]);
-
-         return { previousFiles };
+export const useCreateFile = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'uploadFile',
+         invalidationKeys: ['files'],
+         mutationFn: createFile,
       },
-      onError: (err, newFile, context) => {
-         console.log('New file ', newFile);
-         console.log(err);
-         if (context?.previousFiles) {
-            queryClient.setQueryData(['files'], context.previousFiles);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['files'] });
-      },
-   });
+      callbacks
+   );
 };
 
-
-interface EditFileMutationPayload {
-   fileId: string;
-   filePayload: EditFileDto;
-}
-
-export const useEditFile = () => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationKey: ['editFile'],
-      mutationFn: async ({ fileId, filePayload }: EditFileMutationPayload) => {
-         await editFile(fileId, filePayload);
+export const useEditFile = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'editFile',
+         invalidationKeys: ['files'],
+         mutationFn: editFile,
       },
-      onMutate: async ({ fileId, filePayload }) => {
-         await queryClient.cancelQueries({ queryKey: ['files'] });
-         const previousFiles = queryClient.getQueryData(['files']);
-
-         if (previousFiles) {
-            queryClient.setQueryData(['files'], (old: File[]) =>
-               old?.map((file) => (file.id === fileId ? filePayload : file))
-            );
-         }
-
-         return { previousFiles };
-      },
-      onError: (err, newFilePayload, context) => {
-         console.log('New file ', newFilePayload);
-         console.log(err);
-         if (context?.previousFiles) {
-            queryClient.setQueryData(['files'], context.previousFiles);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['files'] });
-      },
-   });
+      callbacks
+   );
 };
 
-
-export const useDeleteFile = () => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationKey: ['deleteFile'],
-      mutationFn: async (fileId: string) => {
-         await deleteFile(fileId);
+export const useDeleteFile = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'deleteFile',
+         invalidationKeys: ['files'],
+         mutationFn: deleteFile,
       },
-      onMutate: async (fileId: string) => {
-         await queryClient.cancelQueries({ queryKey: ['files'] });
-         const previousFiles = queryClient.getQueryData(['files']);
-
-         if (previousFiles) {
-            queryClient.setQueryData(['files'], (old: File[]) =>
-               old?.filter((file) => file.id !== fileId)
-            );
-         }
-
-         return { previousFiles };
-      },
-      onError: (err, fileIds, context) => {
-         console.log('File deleting ', fileIds);
-         console.log(err);
-         if (context?.previousFiles) {
-            queryClient.setQueryData(['files'], context.previousFiles);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['files'] });
-      },
-   });
+      callbacks
+   );
 };

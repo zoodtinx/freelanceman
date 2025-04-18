@@ -1,5 +1,9 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { ClientContactFilterDto } from 'freelanceman-common';
+import {
+   ClientContactFilterDto,
+   CreateClientContactDto,
+   EditClientContactDto,
+} from 'freelanceman-common';
 
 export async function getClientContacts(
    accessToken: string,
@@ -25,3 +29,18 @@ export async function getClientContact(
       model: 'client',
    });
 }
+
+export async function createClientContact(
+   accessToken: string,
+   payload: CreateClientContactDto
+) {}
+
+export async function editClientContact(
+   accessToken: string,
+   payload: EditClientContactDto
+) {}
+
+export async function deleteClientContact(
+   accessToken: string,
+   contactId: string
+) {}

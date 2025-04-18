@@ -1,11 +1,11 @@
-import { useClientSelectionQuery } from "@/lib/api/client-api"
+import { useClientsQuery } from "@/lib/api/client-api"
 
 type Type = 'client' | 'project'
 
 export const useSelectionQuery = (type: Type) => {
    switch (type) {
       case 'client':
-         return useClientSelectionQuery;
+         return useClientsQuery;
       // case 'project':
       //    return useProjectSelectionQuery;
       default:

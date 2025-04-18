@@ -1,10 +1,11 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { ClientFilterDto } from 'freelanceman-common';
+import {
+   ClientFilterDto,
+   CreateClientDto,
+   EditClientDto,
+} from 'freelanceman-common';
 
-export async function getClients(
-   accessToken: string,
-   filter: ClientFilterDto
-) {
+export async function getClients(accessToken: string, filter: ClientFilterDto) {
    return await fetchProMax({
       accessToken,
       apiEndpoint: 'clients/search',
@@ -16,7 +17,7 @@ export async function getClients(
 
 export async function getClient(
    accessToken: string,
-   clientId: ClientFilterDto
+   clientId: string
 ) {
    return await fetchProMax({
       accessToken,
@@ -25,3 +26,12 @@ export async function getClient(
       model: 'client',
    });
 }
+
+export async function createClient(
+   accessToken: string,
+   payload: CreateClientDto
+) {}
+
+export async function editClient(accessToken: string, payload: EditClientDto) {}
+
+export async function deleteClient(accessToken: string, clientId: string) {}
