@@ -1,5 +1,5 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { EditTaskDto, TaskFilterDto } from 'freelanceman-common';
+import { CreateTaskDto, EditTaskDto, TaskFilterDto } from 'freelanceman-common';
 
 export async function getTasks(accessToken: string, filter: TaskFilterDto) {
    return await fetchProMax({
@@ -10,6 +10,10 @@ export async function getTasks(accessToken: string, filter: TaskFilterDto) {
       requestPayload: filter,
    });
 }
+
+export async function getTask(accessToken: string, filter: TaskFilterDto) {}
+
+export async function createTask(accessToken: string, payload: CreateTaskDto) {}
 
 export async function editTask(accessToken: string, payload: EditTaskDto) {
    return await fetchProMax({

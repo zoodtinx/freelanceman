@@ -14,6 +14,7 @@ import {
 import useAuthStore from '@/lib/zustand/auth-store';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import type { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 
 export const useProjectApi = () => {
    return {
@@ -102,7 +103,10 @@ export const useCreateProject = () => {
    });
 };
 
-export const useEditProject = () => {
+export const useEditProject = ({
+   errorCallback,
+   successCallback,
+}: MutationCallbacks = {}) => {
    const queryClient = useQueryClient();
    const { accessToken } = useAuthStore();
    const navigate = useNavigate();
@@ -112,9 +116,14 @@ export const useEditProject = () => {
       mutationFn: async (projectPayload: EditProjectDto) => {
          await editProject(accessToken, projectPayload);
       },
+      onSuccess: () => {
+         successCallback && successCallback();
+      },
       onError: (err) => {
          if (err.message === 'Unauthorized') {
             navigate('/login');
+         } else {
+            errorCallback && errorCallback(err);
          }
       },
       onSettled: () => {
@@ -123,7 +132,10 @@ export const useEditProject = () => {
    });
 };
 
-export const useDeleteProject = () => {
+export const useDeleteProject = ({
+   errorCallback,
+   successCallback,
+}: MutationCallbacks = {}) => {
    const queryClient = useQueryClient();
    const { accessToken } = useAuthStore();
    const navigate = useNavigate();
@@ -133,9 +145,14 @@ export const useDeleteProject = () => {
       mutationFn: async (projectId: string) => {
          await deleteProject(accessToken, projectId);
       },
+      onSuccess: () => {
+         successCallback && successCallback();
+      },
       onError: (err) => {
          if (err.message === 'Unauthorized') {
             navigate('/login');
+         } else {
+            errorCallback && errorCallback(err);
          }
       },
       onSettled: () => {

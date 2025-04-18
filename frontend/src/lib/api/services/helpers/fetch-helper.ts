@@ -1,5 +1,3 @@
-import { handleApiError } from '@/lib/api/services/helpers/error-handler';
-
 interface FetchRequestOptions {
    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
    accessToken: string;
@@ -41,5 +39,16 @@ export async function fetchProMax({
 
       console.error(`Error fetching ${model}`, error);
       throw error;
+   }
+}
+
+export function handleApiError(statusCode: number, message: string) {
+   console.log('statusCode', statusCode);
+
+   switch (statusCode) {
+      case 401:
+         throw new Error('Unauthorized');
+      default:
+         throw new Error('Unexpected error on our side. Please try again.');
    }
 }

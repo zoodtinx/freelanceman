@@ -13,7 +13,7 @@ import {
 import * as Dialogs from 'src/components/shared/ui/dialogs/form-dialog';
 import { cn } from '@/lib/helper/utils';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useWatch, useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect } from 'react';
 import { FormDialogType } from '@/lib/types/form-dialog.types';
@@ -24,8 +24,6 @@ const FormDialog = () => {
       (state) => state.setConfirmationDialogState
    );
 
-   console.log('formDialogState', formDialogState)
-
    const formMethods = useForm({
       defaultValues: formDialogState.data as any,
    });
@@ -34,6 +32,7 @@ const FormDialog = () => {
       formState: { isDirty },
       clearErrors,
       reset,
+      watch,
    } = formMethods;
 
    const handleDialogClose = useCallback(() => {
@@ -87,14 +86,18 @@ const FormDialog = () => {
       return () => {
          document.removeEventListener('keydown', handleEscKey);
       };
-   }, [setConfirmationDialogState, handleEscapeWithChange]);
+   }, [setConfirmationDialogState, handleEscapeWithChange]);event-
 
    useEffect(() => {
       clearErrors();
       reset(formDialogState.data);
    }, [formDialogState.data, reset, clearErrors]);
 
-   const color = formDialogState.type === 'client-contact' || formDialogState.type === 'partner-contact' ? formDialogState.data.company?.themeColor : formDialogState.data.client?.themeColor
+   const color =
+      formDialogState.type === 'client-contact' ||
+      formDialogState.type === 'partner-contact'
+         ? formDialogState.data.company?.themeColor
+         : formDialogState.data.client?.themeColor;
 
    return (
       <Dialog
@@ -112,8 +115,7 @@ const FormDialog = () => {
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(
                'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
-               color &&
-                  `text-constant-primary bg-theme-${color}`
+               color && `text-constant-primary bg-theme-${color}`
             )}
          >
             <DialogHeader className="py-1 bg-transparent">
@@ -125,36 +127,32 @@ const FormDialog = () => {
                   formMethods={formMethods}
                   handleEscapeWithChange={handleEscapeWithChange}
                />
-               {/* <MutationErrorField formMethods={formMethods} /> */}
+               <MutationErrorField formMethods={formMethods} />
             </div>
          </DialogContent>
       </Dialog>
    );
 };
 
-const MutationErrorField = ({formMethods}: {formMethods: UseFormReturn}) => {
-   const {watch} = formMethods
-   
-   useEffect(() => {
-
-   })
-   
-   
+const MutationErrorField = ({
+   formMethods,
+}: {
+   formMethods: UseFormReturn;
+}) => {
+   const { control } = formMethods;
+   const mutationError = useWatch({
+      control,
+      name: 'mutationError',
+      defaultValue: '',
+   });
 
    if (!mutationError) {
       return <div className='pb-2'></div>
    }
-   
-   let message
-
-   switch (mutationError) {
-      case '400' :
-         return 'Network error, please check connection'
-   } 
 
    return (
       <div className="w-full text-center text-sm pb-3 text-general-red animate-shake">
-         {message}
+         {mutationError}
       </div>
    );
 };
@@ -196,13 +194,11 @@ const FormDialogContent = ({
       handleEscapeWithChange: handleEscapeWithChange,
    };
 
-   console.log('dialogType', dialogType)
-
    switch (dialogType) {
       case 'task':
-      return <TaskDialog {...props} />;
+         return <TaskDialog {...props} />;
       case 'event':
-      return <EventDialog {...props} />;
+         return <EventDialog {...props} />;
       case 'file':
          return <FileDialog {...props} />;
       case 'new-file':

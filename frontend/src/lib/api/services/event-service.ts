@@ -1,33 +1,14 @@
-import { handleApiError } from '@/lib/api/services/helpers/error-handler';
+import {
+   CreateEventDto,
+   EditEventDto,
+   EventFilterDto,
+} from 'freelanceman-common';
 
-export async function getEvents(
+export async function getEvents(accessToken: string, filter: EventFilterDto) {}
+export async function getEvent(accessToken: string, eventId: string) {}
+export async function createEvent(
    accessToken: string,
-   filter: ProjectSearchOption
-) {
-   try {
-      const res = await fetch(
-         `${import.meta.env.VITE_API_URL}events/search`,
-         {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-               Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify(filter),
-         }
-      );
-
-      if (!res.ok) {
-         handleApiError(res);
-      }
-
-      return await res.json();
-   } catch (error) {
-      if (error instanceof TypeError && error.message === 'Failed to fetch') {
-         throw new Error('Network Error');
-      }
-
-      console.error('Error fetching events:', error);
-      throw error;
-   }
-}
+   payload: CreateEventDto
+) {}
+export async function editEvent(accessToken: string, payload: EditEventDto) {}
+export async function deleteEvent(accessToken: string, eventId: string) {}

@@ -1,8 +1,9 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
+import { PartnerContactFilterDto } from 'freelanceman-common';
 
 export async function getPartnerContacts(
    accessToken: string,
-   filter: ClientSearchOption
+   filter: PartnerContactFilterDto
 ) {
    return await fetchProMax({
       accessToken,
@@ -15,7 +16,7 @@ export async function getPartnerContacts(
 
 export async function getPartnerContact(
    accessToken: string,
-   partnerContactId: ClientSearchOption
+   partnerContactId: string
 ) {
    return await fetchProMax({
       accessToken,

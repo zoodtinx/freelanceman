@@ -1,8 +1,9 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
+import { FileFilterDto } from 'freelanceman-common';
 
 export async function getFiles(
    accessToken: string,
-   filter: FileSearchOption
+   filter: FileFilterDto
 ) {
    return await fetchProMax({
       accessToken,

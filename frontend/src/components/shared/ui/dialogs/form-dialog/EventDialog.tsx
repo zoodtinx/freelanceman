@@ -8,12 +8,11 @@ import {
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '../../primitives/Dialog';
-import { useEventApi } from '@/lib/api/event-api';
+import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
 import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import { eventStatusSelections } from '../../helpers/constants/selections';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { ApiLoadingState } from 'src/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
 import {
    DiscardButton,
    SubmitButton,
@@ -26,27 +25,18 @@ export const EventDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
-   const { createEvent, deleteEvent, editEvent } = useEventApi();
+   const {
+      handleSubmit,
+      setValue,
+      formState: { isDirty },
+   } = formMethods;
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
 
-   console.log('formDialogState', formDialogState)
-
-   const eventData = formDialogState.data as EventPayload;
-
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
-
-   const {
-      handleSubmit,
-      formState: { isDirty },
-   } = formMethods;
-
-   const handleDialogClose = () => {
+   const errorCallback = (err: Error) => setValue('mutationError', err.message)
+   const successCallback = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
@@ -60,6 +50,22 @@ export const EventDialog = ({
          };
       });
    };
+
+   const editEvent = useEditEvent({errorCallback, successCallback});
+   const deleteEvent = useDeleteEvent({errorCallback, successCallback});
+
+   const createEvent = useCreateEvent()
+
+   console.log('formDialogState', formDialogState)
+
+   const eventData = formDialogState.data as EventPayload;
+
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'discard',
+   });
+
+   
 
    const onSubmit: SubmitHandler<CreateEventDto> = (data) => {
       if (!isDirty) {
@@ -129,12 +135,12 @@ export const EventDialog = ({
                </div>
                <div className="w-1/2">
                   <Label className="pb-0">Due Date</Label>
-                  <DateTimePickerForm
+                  {/* <DateTimePickerForm
                      formMethods={formMethods}
                      fieldName="dueAt"
                      required={true}
                      errorMessage="Please select deadline"
-                  />
+                  /> */}
                </div>
             </div>
             <ProjectField

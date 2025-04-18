@@ -35,7 +35,6 @@ import { UseFormSetValue } from 'react-hook-form';
 export const handleDelete = ({
    mutateApi,
    payload,
-   setValue,
    setConfirmationDialogState,
    setFormDialogState,
    confirmDialogData,
@@ -43,7 +42,6 @@ export const handleDelete = ({
 }: {
    mutateApi: UseMutationResult<any, any, any>;
    payload: any;
-   setValue: UseFormSetValue<any>;
    setConfirmationDialogState?: (
       update: SetStateAction<ConfirmationDialogState>
    ) => void;
@@ -62,8 +60,6 @@ export const handleDelete = ({
    const handleDelete = () => {
       mutateApi.mutate(payload);
       if (mutateApi.isError) {
-         const { error } = mutateApi;
-         setValue('mutationError', error.message);
          if (setConfirmationDialogState) {
             setConfirmationDialogState((prev) => {
                return {

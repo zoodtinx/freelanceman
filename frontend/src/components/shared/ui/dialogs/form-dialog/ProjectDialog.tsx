@@ -3,7 +3,7 @@ import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import { useProjectApi } from '@/lib/api/project-api';
+import { useDeleteProject, useEditProject, useProjectApi } from '@/lib/api/project-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import {
    EditProjectDto,
@@ -30,31 +30,44 @@ export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
    const navigate = useNavigate();
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const { setConfirmationDialogState } = useConfirmationDialogStore();
-   const { editProject, deleteProject } = useProjectApi();
-
-   const { handleSubmit, setValue } = formMethods;
-
-   const onSubmit = (data: ProjectPayload) => {
-      const editProjectPayload: EditProjectDto = {
-         id: data.id,
-         title: data.title,
-         projectStatus: data.projectStatus as ProjectStatus,
-         paymentStatus: data.paymentStatus as PaymentStatus,
-      };
-
-      editProject.mutate(editProjectPayload);
-
-      if (editProject.isError) {
-         const { error } = editProject;
-         setValue('mutationError', error.message);
-      } else {
+   const editProject = useEditProject({
+      errorCallback(err) {
+         setValue('mutationError', err.message)
+      },
+      successCallback() {
          setFormDialogState((prev) => {
             return {
                ...prev,
                isOpen: false,
             };
          });
-      }
+      },
+   });
+   const deleteProject = useDeleteProject({
+      errorCallback(err) {
+         setValue('mutationError', err.message)
+      },
+      successCallback() {
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+      },
+   });
+
+   const { handleSubmit, setValue } = formMethods;
+
+   const onSubmit = (data: ProjectPayload) => {
+      const editProjectPayload: EditProjectDto = {
+         id: 'data.id',
+         title: data.title,
+         projectStatus: data.projectStatus as ProjectStatus,
+         paymentStatus: data.paymentStatus as PaymentStatus,
+      };
+
+      editProject.mutate(editProjectPayload);
    };
 
    const handleDeleteButtonClick = () => {
@@ -74,7 +87,7 @@ export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
             });
             setFormDialogState((prev) => ({ ...prev, isOpen: true }));
          }
-         
+
          setConfirmationDialogState((prev) => {
             return {
                ...prev,

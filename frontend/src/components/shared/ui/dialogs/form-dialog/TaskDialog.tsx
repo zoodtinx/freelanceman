@@ -8,7 +8,7 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useTaskApi } from '@/lib/api/task-api';
+import { useDeleteTask, useEditTask, useTaskApi } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -27,24 +27,20 @@ import {
    TaskStatus,
    EditTaskDto,
 } from 'freelanceman-common';
-import { handleDialogMutationError } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-error';
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 
 export const TaskDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
-   const { createTask, editTask, deleteTask } = useTaskApi();
+   const { handleSubmit, setValue } = formMethods;
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
 
-   console.log('formDialogState', formDialogState)
-
-   const { handleSubmit, setValue } = formMethods;
-
-   const handleDialogClose = () => {
+   const errorCallback = (err: Error) => setValue('mutationError', err.message)
+   const successCallback = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
@@ -59,6 +55,9 @@ export const TaskDialog = ({
       });
    };
 
+   const editTask = useEditTask({errorCallback, successCallback});
+   const deleteTask = useDeleteTask({errorCallback, successCallback});
+
    const onSubmit = (data: TaskPayload) => {
       if (formDialogState.mode === 'create') {
          const payload: CreateTaskDto = {
@@ -70,11 +69,10 @@ export const TaskDialog = ({
             status: data.status,
             clientId: data.clientId,
          };
-         createTask.mutate(payload);
-         handleDialogMutationError(createTask, setValue);
+         editTask.mutate(payload);
       } else if (formDialogState.mode === 'edit') {
          const payload: EditTaskDto = {
-            id: 'dfdf',
+            id: data.id,
             name: data.name,
             details: data.details,
             dueAt: data.dueAt,
@@ -82,7 +80,6 @@ export const TaskDialog = ({
             status: data.status as TaskStatus,
          };
          editTask.mutate(payload);
-         handleDialogMutationError(editTask, setValue);
       }
    };
 
@@ -95,7 +92,6 @@ export const TaskDialog = ({
             payload: formDialogState.data.id,
             setFormDialogState: setFormDialogState,
             openConfirmDialog: true,
-            setValue: setValue,
             setConfirmationDialogState: setConfirmationDialogState,
             confirmDialogData: {
                type: 'delete',
