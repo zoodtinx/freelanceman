@@ -1,0 +1,31 @@
+import useAuthStore from '@/lib/zustand/auth-store';
+import { QueryKey, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export const useAppQuery = (
+   queryKey: QueryKey,
+   queryFn: (token: string) => Promise<any>
+) => {
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   const queryResult = useQuery({
+      queryKey,
+      queryFn: () => queryFn(accessToken),
+   });
+
+   const { isError, error } = queryResult;
+
+   useEffect(() => {
+      if (
+         queryResult.isError &&
+         queryResult.error instanceof Error &&
+         queryResult.error.message === 'Unauthorized'
+      ) {
+         navigate('/login');
+      }
+   }, [isError, error, navigate]);
+
+   return queryResult;
+};

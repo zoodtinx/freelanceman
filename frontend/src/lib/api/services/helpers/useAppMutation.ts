@@ -14,7 +14,7 @@ interface MutationCallbacks {
 }
 
 export const useAppMutation = <T>(
-   { mutationKey, invalidationKey, mutationFn }: MutationHandler,
+   { mutationKey, invalidationKeys, mutationFn }: MutationHandler,
    { successCallback, errorCallback }: MutationCallbacks = {}
 ) => {
    const queryClient = useQueryClient();
@@ -35,7 +35,7 @@ export const useAppMutation = <T>(
          }
       },
       onSettled: () => {
-         invalidationKey.forEach((key) => {
+         invalidationKeys.forEach((key: string) => {
             queryClient.invalidateQueries({ queryKey: [key] });
          });
       },

@@ -1,4 +1,3 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
    editEvent,
    getEvent,
@@ -6,15 +5,10 @@ import {
    deleteEvent,
    getEvents,
 } from './services/event-service';
-import useAuthStore from '@/lib/zustand/auth-store';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
-import { useNavigate } from 'react-router-dom';
-import {
-   CreateEventDto,
-   EditEventDto,
-   EventFilterDto,
-} from 'freelanceman-common';
-import { useEffect } from 'react';
+import { EventFilterDto } from 'freelanceman-common';
+import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
+import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 
 export const useEventApi = () => {
    return {
@@ -25,138 +19,42 @@ export const useEventApi = () => {
 };
 
 export const useEventsQuery = (filter: EventFilterDto = {}) => {
-   const { accessToken } = useAuthStore();
-   const navigate = useNavigate();
-
-   const queryResult = useQuery({
-      queryKey: ['projects', filter],
-      queryFn: () => getEvents(accessToken, filter),
-   });
-
-   const { isError, error } = queryResult;
-
-   useEffect(() => {
-      if (
-         isError &&
-         error instanceof Error &&
-         error.message === 'Unauthorized'
-      ) {
-         navigate('/login');
-      }
-   }, [isError, error, navigate]);
-
-   return queryResult;
+   return useAppQuery(['events', filter], (token) => getEvents(token, filter));
 };
 
 export const useEventQuery = (eventId: string) => {
-   const { accessToken } = useAuthStore();
-   const navigate = useNavigate();
-
-   const queryResult = useQuery({
-      queryKey: ['project', eventId],
-      queryFn: () => getEvent(accessToken, eventId),
-   });
-
-   const { isError, error } = queryResult;
-
-   useEffect(() => {
-      if (
-         isError &&
-         error instanceof Error &&
-         error.message === 'Unauthorized'
-      ) {
-         navigate('/login');
-      }
-   }, [isError, error, navigate]);
-
-   return queryResult;
+   return useAppQuery(['events', eventId], (token) => getEvent(token, eventId));
 };
 
-export const useCreateEvent = ({
-   errorCallback,
-   successCallback,
-}: MutationCallbacks = {}) => {
-   const queryClient = useQueryClient();
-   const { accessToken } = useAuthStore();
-   const navigate = useNavigate();
-
-   return useMutation({
-      mutationKey: ['createEvent'],
-      mutationFn: async (newEvent: CreateEventDto) =>
-         await createEvent(accessToken, newEvent),
-      onSuccess: () => {
-         successCallback && successCallback();
+export const useCreateEvent = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'createEvent',
+         invalidationKeys: ['events'],
+         mutationFn: createEvent,
       },
-      onError: (err) => {
-         if (err.message === 'Unauthorized') {
-            navigate('/login');
-         } else {
-            errorCallback && errorCallback(err);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['projects'] });
-         queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      },
-   });
+      callbacks
+   );
 };
 
-export const useEditEvent = ({
-   errorCallback,
-   successCallback,
-}: MutationCallbacks = {}) => {
-   const queryClient = useQueryClient();
-   const { accessToken } = useAuthStore();
-   const navigate = useNavigate();
-
-   return useMutation({
-      mutationKey: ['editEvent'],
-      mutationFn: async (payload: EditEventDto) => {
-         await editEvent(accessToken, payload);
+export const useEditEvent = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'editEvent',
+         invalidationKeys: ['events', 'projects'],
+         mutationFn: editEvent,
       },
-      onSuccess: () => {
-         successCallback && successCallback();
-      },
-      onError: (err) => {
-         if (err.message === 'Unauthorized') {
-            navigate('/login');
-         } else {
-            errorCallback && errorCallback(err);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['projects'] });
-         queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      },
-   });
+      callbacks
+   );
 };
 
-export const useDeleteEvent = ({
-   errorCallback,
-   successCallback,
-}: MutationCallbacks = {}) => {
-   const queryClient = useQueryClient();
-   const { accessToken } = useAuthStore();
-   const navigate = useNavigate();
-
-   return useMutation({
-      mutationKey: ['deleteEvent'],
-      mutationFn: async (eventId: string) => {
-         await deleteEvent(accessToken, eventId);
+export const useDeleteEvent = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'deleteEvent',
+         invalidationKeys: ['events', 'projects'],
+         mutationFn: deleteEvent,
       },
-      onSuccess: () => {
-         successCallback && successCallback();
-      },
-      onError: (err) => {
-         if (err.message === 'Unauthorized') {
-            navigate('/login');
-         } else {
-            errorCallback && errorCallback(err);
-         }
-      },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ['projects'] });
-         queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      },
-   });
+      callbacks
+   );
 };

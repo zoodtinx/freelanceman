@@ -11,7 +11,7 @@ export async function getTasks(accessToken: string, filter: TaskFilterDto) {
    });
 }
 
-export async function getTask(accessToken: string, filter: TaskFilterDto) {}
+export async function getTask(accessToken: string, taskId: string) {}
 
 export async function createTask(accessToken: string, payload: CreateTaskDto) {}
 

@@ -1,5 +1,5 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { EditProjectDto, ProjectFilterDto } from 'freelanceman-common';
+import { CreateProjectDto, EditProjectDto, ProjectFilterDto } from 'freelanceman-common';
 
 export async function getProjects(
    accessToken: string,
@@ -19,6 +19,16 @@ export async function getProject(accessToken: string, projectId: string) {
       accessToken,
       apiEndpoint: `projects/${projectId}`,
       method: 'GET',
+      model: 'project',
+   });
+}
+
+export async function createProject(accessToken: string, payload: CreateProjectDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `projects`,
+      requestPayload: payload,
+      method: 'POST',
       model: 'project',
    });
 }

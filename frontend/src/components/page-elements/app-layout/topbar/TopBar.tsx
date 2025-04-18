@@ -22,7 +22,7 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { useTheme } from 'next-themes';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
-import { useActiveEventCountQuery } from '@/lib/api/event-api';
+import { useActiveEventCountQuery, useEventsQuery } from '@/lib/api/event-api';
 
 export const mockUser = {
    id: "id_00458_59",
@@ -59,11 +59,11 @@ export default function TopBar() {
                label="Task"
                queryHook={useActiveTaskCountQuery}
             /> */}
-            <CountDisplay
+            {/* <CountDisplay
                icon={Calendar}
                label="Event"
-               queryHook={useActiveEventCountQuery}
-            />
+               queryHook={useEventsQuery}
+            /> */}
          </div>
          <div className="h-[55px] items-center flex gap-2">
             <ProfileBar />
