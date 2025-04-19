@@ -10,7 +10,7 @@ import {
    PaymentStatus,
    ProjectFilterDto,
    ProjectStatus,
-} from 'freelanceman-common/dist/types/src/schemas';
+} from 'freelanceman-common';
 import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 import {
    ProjectFilterProps,

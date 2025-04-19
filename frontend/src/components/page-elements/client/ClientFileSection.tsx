@@ -2,9 +2,9 @@ import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
 import { FileFilterDto } from 'freelanceman-common/src/schemas';
-import { useAllFilesQuery, useDeleteFile } from '@/lib/api/file-api';
+import { useFilesQuery, useDeleteFile } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
-import { clientPageFileCategorySelections, fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
+import { fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
@@ -26,7 +26,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
       clientId: clientId,
    });
 
-   const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
+   const { data: filesData, isLoading } = useFilesQuery(fileFilter);
 
    const { mutate: deleteFile, isPending } = useDeleteFile();
 

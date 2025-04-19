@@ -6,6 +6,11 @@ interface MutationHandler {
    mutationKey: string;
    invalidationKeys: string[];
    mutationFn: (token: string, payload: any) => Promise<any>;
+   optimisticUpdate?: {
+      enable: boolean;
+      key: string[];
+      updater: (oldData: any, payload: any) => any;
+   };
 }
 
 interface MutationCallbacks {
@@ -14,7 +19,12 @@ interface MutationCallbacks {
 }
 
 export const useAppMutation = <T>(
-   { mutationKey, invalidationKeys, mutationFn }: MutationHandler,
+   {
+      mutationKey,
+      invalidationKeys,
+      mutationFn,
+      optimisticUpdate,
+   }: MutationHandler,
    { successCallback, errorCallback }: MutationCallbacks = {}
 ) => {
    const queryClient = useQueryClient();
@@ -24,10 +34,30 @@ export const useAppMutation = <T>(
    return useMutation({
       mutationKey: [mutationKey],
       mutationFn: (payload: T) => mutationFn(accessToken, payload),
+
       onSuccess: () => {
          successCallback && successCallback();
       },
-      onError: (err: Error) => {
+      onMutate: async (payload: T) => {
+         if (!optimisticUpdate?.enable) return;
+
+         await queryClient.cancelQueries({ queryKey: [optimisticUpdate.key] });
+
+         const previousData = queryClient.getQueryData(optimisticUpdate.key);
+
+         queryClient.setQueryData(optimisticUpdate.key, (old: any) =>
+            optimisticUpdate.updater(old, payload)
+         );
+
+         return { previousData };
+      },
+      onError: (err: Error, _payload, context: any) => {
+         if (optimisticUpdate?.enable && context?.previousData) {
+            queryClient.setQueryData(
+               optimisticUpdate.key,
+               context.previousData
+            );
+         }
          if (err.message === 'Unauthorized') {
             navigate('/login');
          } else {

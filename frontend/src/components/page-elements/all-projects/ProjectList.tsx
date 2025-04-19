@@ -81,7 +81,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
                {project.title}
             </p>
 
-            <div className="flex grow items-center justify-end text-base text-primary">
+            <div className="flex grow items-center justify-end text-base text-constant-primary">
                <p
                   className="w-fit text-right mr-8 cursor-pointer hover:opacity-60 transition-opacity"
                   onClick={handleClientNavigation}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import React from 'react';
-import { useAllFilesQuery } from '@/lib/api/file-api';
+import { useFileQuery } from '@/lib/api/file-api';
 import { ProjectPageFileList } from '@/components/page-elements/project/ProjectPageFileList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
@@ -35,7 +35,7 @@ const ProjectFileSection: React.FC = ({ project }) => {
       selectedValues: [] as string[],
    });
 
-   const { data: filesData, isLoading } = useAllFilesQuery(fileFilter);
+   const { data: filesData, isLoading } = useFileQuery(fileFilter);
 
    useEffect(() => {
       if (project?.id) {

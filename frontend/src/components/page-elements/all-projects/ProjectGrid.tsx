@@ -7,13 +7,10 @@ import {
    QuickTaskBubbleProps,
 } from '@/components/page-elements/all-projects/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult }) => {
    const { data: projects, isLoading, isError, error } = queryResult;
-
-   if (isLoading) {
-      return <p>Loading</p>;
-   }
 
    if (isError) {
       if ((error as any).message === 'Internal Server Error') {
@@ -75,7 +72,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <div
          className={`
          relative flex flex-col justify-between rounded-[20px] overflow-hidden group
-         h-[205px] leading-tight transition-all text-freelanceman-darkgrey border
+         h-[205px] leading-tight transition-all border text-constant-primary
          duration-75 shadow-md max-w-[400px]
          `}
          style={{
@@ -92,14 +89,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          <div className="z-10 p-3 px-4">
             <div
                className={`
-                  flex items-center gap-[5px] w-fit cursor-pointer
+                  flex items-center gap-[5px] w-fit cursor-pointer opacity-30
                   hover:opacity-100 transition-opacity duration-100`}
                onClick={(e) => {
                   handleClientNavigation(e);
                }}
             >
                <UsersRound className="w-[17px]" />
-               <p className="">{project.client.name}</p>
+               <p>{project.client.name}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
                {project.title}
@@ -157,7 +154,7 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
          <div
             className={`
                flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background
-               rounded-full h-[30px] z-10 cursor-pointer
+               rounded-full h-[30px] z-10 cursor-pointer text-primary
             `}
             onClick={handleClick}
          >

@@ -1,8 +1,9 @@
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { TaskPayload } from 'freelanceman-common/src/schemas';
+import { TaskPayload } from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { useEditTask } from '@/lib/api/task-api';
 
 interface TaskListProps {
    tasksData: TaskPayload[] | undefined;
@@ -40,6 +41,7 @@ interface TaskListItemProps {
 }
 
 const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
+   const editTasks = useEditTask()
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );

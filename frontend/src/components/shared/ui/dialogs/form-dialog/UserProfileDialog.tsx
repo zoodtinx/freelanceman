@@ -18,14 +18,14 @@ import {
 import { SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { useUserApi } from '@/lib/api/user-api';
+import { useEditUser, useUserApi } from '@/lib/api/user-api';
 
 export const UserProfileDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const { editUser } = useUserApi();
+   const editUser = useEditUser()
 
    const {
       handleSubmit,

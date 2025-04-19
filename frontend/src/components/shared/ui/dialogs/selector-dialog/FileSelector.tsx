@@ -15,7 +15,7 @@ import {
    fileTypeSelections,
 } from 'src/components/shared/ui/helpers/constants/selections';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { useAllFilesQuery } from '@/lib/api/file-api';
+import { useFilesQuery } from '@/lib/api/file-api';
 import { debounce } from 'lodash';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
 import { formatCategory } from '@/components/shared/ui/helpers/Helpers';
@@ -174,7 +174,7 @@ const FileSelectorList: React.FC<SelectionListProps> = ({
    setSelected,
    fileFilter,
 }) => {
-   const { data, isLoading } = useAllFilesQuery(fileFilter);
+   const { data, isLoading } = useFilesQuery(fileFilter);
 
    console.log('selected', selected);
 

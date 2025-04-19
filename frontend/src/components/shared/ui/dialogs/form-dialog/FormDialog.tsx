@@ -32,7 +32,6 @@ const FormDialog = () => {
       formState: { isDirty },
       clearErrors,
       reset,
-      watch,
    } = formMethods;
 
    const handleDialogClose = useCallback(() => {
@@ -86,7 +85,7 @@ const FormDialog = () => {
       return () => {
          document.removeEventListener('keydown', handleEscKey);
       };
-   }, [setConfirmationDialogState, handleEscapeWithChange]);event-
+   }, [setConfirmationDialogState, handleEscapeWithChange]);
 
    useEffect(() => {
       clearErrors();
@@ -96,7 +95,7 @@ const FormDialog = () => {
    const color =
       formDialogState.type === 'client-contact' ||
       formDialogState.type === 'partner-contact'
-         ? formDialogState.data.company?.themeColor
+         ? (formDialogState.data as any).company?.themeColor
          : formDialogState.data.client?.themeColor;
 
    return (
@@ -147,7 +146,7 @@ const MutationErrorField = ({
    });
 
    if (!mutationError) {
-      return <div className='pb-2'></div>
+      return <div className="pb-2"></div>;
    }
 
    return (
