@@ -14,6 +14,19 @@ export async function getProjects(
    });
 }
 
+export async function getProjectSelections(
+   accessToken: string,
+   filter: ProjectFilterDto
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'projects/selections',
+      method: 'POST',
+      model: 'project',
+      requestPayload: filter,
+   });
+}
+
 export async function getProject(accessToken: string, projectId: string) {
    return await fetchProMax({
       accessToken,

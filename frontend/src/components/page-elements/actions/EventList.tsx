@@ -2,6 +2,8 @@ import React from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { EventPayload } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { X } from 'lucide-react';
+import { useEditEvent } from '@/lib/api/event-api';
 
 interface EventListProps {
    eventsData: EventPayload[] | undefined;
@@ -39,6 +41,11 @@ export const EventList: React.FC<EventListProps> = ({
          <React.Fragment key={group.date}>
             <EventGroup eventGroupData={group} />
             <div className="border-[0.5px] border-tertiary" />
+            <div className="flex justify-center">
+               <p className="w-fit text-center py-2 cursor-pointer">
+                  Load more
+               </p>
+            </div>
          </React.Fragment>
       );
    });
@@ -84,6 +91,14 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
       (state) => state.setFormDialogState
    );
 
+   const editEvents = useEditEvent({
+      optimisticUpdate: {
+         enable: true,
+         key: ['events'],
+         type: 'edit',
+      },
+   });
+
    const formattedTime = formatTime(data.dueAt);
 
    const handleOpenDialog = () => {
@@ -96,9 +111,17 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
       });
    };
 
+   const handleCancelEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      editEvents.mutate({
+         id: data.id,
+         status: 'cancelled',
+      });
+   };
+
    return (
       <div
-         className="flex flex-col justify-center h-14 pl-3 hover:bg-background transition-colors duration-75"
+         className="flex flex-col justify-center h-14 pl-3 hover:bg-background transition-colors duration-75 group relative"
          onClick={handleOpenDialog}
       >
          <p>{data.name}</p>
@@ -107,6 +130,12 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
                {formattedTime ? formattedTime : 'All day'}
             </p>
             <EventTags tags={data.tags} />
+         </div>
+         <div
+            className="h-full absolute flex items-center pr-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={handleCancelEvent}
+         >
+            <X className="h-4 cursor-pointer text-secondary" />
          </div>
       </div>
    );

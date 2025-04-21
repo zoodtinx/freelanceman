@@ -1,31 +1,27 @@
+import {
+   MutationCallbacks,
+   MutationHandler,
+} from '@/lib/api/services/helpers/api.type';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-interface MutationHandler {
-   mutationKey: string;
-   invalidationKeys: string[];
-   mutationFn: (token: string, payload: any) => Promise<any>;
-   optimisticUpdate?: {
-      enable: boolean;
-      key: string[];
-      updater: (oldData: any, payload: any) => any;
-   };
-}
+export const optimisticUpdaters = {
+   create: (old: any = [], payload: any) => [
+      ...old,
+      { ...payload, id: 'temp-id' },
+   ],
 
-interface MutationCallbacks {
-   errorCallback?: (err: Error) => void;
-   successCallback?: () => void;
-}
+   edit: (old: any[] = [], payload: any) =>
+      old.map((item: any) => (item.id === payload.id ? payload : item)),
+
+   delete: (old: any = [], id: any) =>
+      old.filter((item: any) => item.id !== id),
+};
 
 export const useAppMutation = <T>(
-   {
-      mutationKey,
-      invalidationKeys,
-      mutationFn,
-      optimisticUpdate,
-   }: MutationHandler,
-   { successCallback, errorCallback }: MutationCallbacks = {}
+   { mutationKey, invalidationKeys, mutationFn }: MutationHandler,
+   { successCallback, errorCallback, optimisticUpdate }: MutationCallbacks = {}
 ) => {
    const queryClient = useQueryClient();
    const { accessToken } = useAuthStore();
@@ -35,28 +31,25 @@ export const useAppMutation = <T>(
       mutationKey: [mutationKey],
       mutationFn: (payload: T) => mutationFn(accessToken, payload),
 
-      onSuccess: () => {
-         successCallback && successCallback();
-      },
-      onMutate: async (payload: T) => {
+      onMutate: async (payload: any) => {
          if (!optimisticUpdate?.enable) return;
 
-         await queryClient.cancelQueries({ queryKey: [optimisticUpdate.key] });
+         await queryClient.cancelQueries({ queryKey: optimisticUpdate.key });
 
          const previousData = queryClient.getQueryData(optimisticUpdate.key);
 
-         queryClient.setQueryData(optimisticUpdate.key, (old: any) =>
-            optimisticUpdate.updater(old, payload)
+         queryClient.setQueryData([optimisticUpdate.key], (old: any) =>
+            optimisticUpdaters[optimisticUpdate.type](old, payload)
          );
 
          return { previousData };
       },
+      onSuccess: () => {
+         successCallback && successCallback();
+      },
       onError: (err: Error, _payload, context: any) => {
          if (optimisticUpdate?.enable && context?.previousData) {
-            queryClient.setQueryData(
-               optimisticUpdate.key,
-               context.previousData
-            );
+            queryClient.setQueryData([mutationKey], context.previousData);
          }
          if (err.message === 'Unauthorized') {
             navigate('/login');

@@ -11,9 +11,24 @@ export async function getTasks(accessToken: string, filter: TaskFilterDto) {
    });
 }
 
-export async function getTask(accessToken: string, taskId: string) {}
+export async function getTask(accessToken: string, taskId: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `tasks/${taskId}`,
+      method: 'POST',
+      model: 'task',
+   });
+}
 
-export async function createTask(accessToken: string, payload: CreateTaskDto) {}
+export async function createTask(accessToken: string, payload: CreateTaskDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'tasks',
+      requestPayload: payload,
+      method: 'POST',
+      model: 'task',
+   });
+}
 
 export async function editTask(accessToken: string, payload: EditTaskDto) {
    return await fetchProMax({

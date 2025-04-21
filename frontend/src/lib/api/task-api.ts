@@ -5,7 +5,7 @@ import {
    createTask,
    getTask,
 } from '@/lib/api/services/task-service';
-import { TaskFilterDto } from 'freelanceman-common';
+import { EditTaskDto, TaskFilterDto } from 'freelanceman-common';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
@@ -38,7 +38,7 @@ export const useCreateTask = (callbacks?: MutationCallbacks) => {
 };
 
 export const useEditTask = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
+   return useAppMutation<EditTaskDto>(
       {
          mutationKey: 'editTask',
          invalidationKeys: ['tasks', 'projects'],

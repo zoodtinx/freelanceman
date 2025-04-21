@@ -8,7 +8,7 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useDeleteTask, useEditTask, useTaskApi } from '@/lib/api/task-api';
+import { useDeleteTask, useEditTask, useCreateTask } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -28,18 +28,24 @@ import {
    EditTaskDto,
 } from 'freelanceman-common';
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
+import { useState } from 'react';
+import { ApiLoadingState } from '@/lib/types/form-element.type';
 
 export const TaskDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'submit',
+   });
    const { handleSubmit, setValue } = formMethods;
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
 
-   const errorCallback = (err: Error) => setValue('mutationError', err.message)
+   const errorCallback = (err: Error) => setValue('mutationError', err.message);
    const successCallback = () => {
       setFormDialogState((prev) => {
          return {
@@ -55,11 +61,13 @@ export const TaskDialog = ({
       });
    };
 
-   const editTask = useEditTask({errorCallback, successCallback});
-   const deleteTask = useDeleteTask({errorCallback, successCallback});
+   const createTask = useCreateTask({ errorCallback, successCallback });
+   const editTask = useEditTask({ errorCallback, successCallback });
+   const deleteTask = useDeleteTask({ errorCallback, successCallback });
 
    const onSubmit = (data: TaskPayload) => {
       if (formDialogState.mode === 'create') {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateTaskDto = {
             name: data.name,
             projectId: data.projectId,
@@ -67,10 +75,11 @@ export const TaskDialog = ({
             dueAt: data.dueAt,
             link: data.link,
             status: data.status,
-            clientId: data.clientId,
-         };
-         editTask.mutate(payload);
+         } as CreateTaskDto;
+         createTask.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       } else if (formDialogState.mode === 'edit') {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: EditTaskDto = {
             id: data.id,
             name: data.name,
@@ -78,8 +87,9 @@ export const TaskDialog = ({
             dueAt: data.dueAt,
             link: data.link,
             status: data.status as TaskStatus,
-         };
+         } as EditTaskDto;
          editTask.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       }
    };
 
@@ -156,12 +166,14 @@ export const TaskDialog = ({
             <div className="flex justify-between p-4 pb-2">
                <DiscardButton
                   formMethods={formMethods}
+                  isApiLoading={isApiLoading}
                   formDialogState={formDialogState}
                   action={handleLeftButtonClick}
                />
                <SubmitButton
                   formDialogState={formDialogState}
                   formMethods={formMethods}
+                  isApiLoading={isApiLoading}
                />
             </div>
          </DialogFooter>
@@ -181,13 +193,13 @@ export const ProjectField = ({
 
    if (isCreateMode && !isOnProjectPage) {
       return (
-         <div className="grow leading-snug">
+         <div className="grow leading-tight">
             <Label>Project</Label>
             <SelectWithSearchForm
                formMethods={formMethods}
                fieldName="projectId"
                type="project"
-               size="base"
+               size="lg"
                placeholder="Select a Project"
                required={true}
                errorMessage="Please select a project"
@@ -198,7 +210,7 @@ export const ProjectField = ({
       return (
          <div className="grow leading-snug">
             <Label className="pb-0">Project</Label>
-            <p>{formMethods.getValues('project').title}</p>
+            <p className="text-md">{formMethods.getValues('project').title}</p>
          </div>
       );
    }

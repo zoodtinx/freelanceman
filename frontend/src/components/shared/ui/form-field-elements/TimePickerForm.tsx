@@ -118,25 +118,25 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
    const triggerText = () => {
       if (isWithTime) {
          return (
-            <div className="flex items-center gap-1 cursor-pointer group">
-               <p className="text-primary">
+            <div className="flex items-center gap-1 cursor-pointer group font-semibold">
+               <p className="text-primary font-normal">
                   {`${selectedHour}:${selectedMinute} ${selectedPeriod}`}
                </p>
                <div
-                  className="text-secondary text-sm opacity-0 hover:text-red-500 group-hover:opacity-100 transition-all duration-150"
+                  className="text-secondary text-sm opacity-100 transition-all duration-150"
                   onClick={(e) => {
                      e.stopPropagation();
                      clearTimeSelection();
                   }}
                >
-                  <XIcon className="h-[14px] w-[14px] stroke-[3px]" />
+                  <XIcon className="h-[14px] w-[14px] stroke-[3px] opacity-0 group-hover:opacity-100 transition-opacity text-secondary" />
                </div>
             </div>
          );
       } else {
          return (
             <p
-               className="text-secondary cursor-pointer hover:text-primary"
+               className="text-secondary cursor-pointer hover:text-primary font-semibold"
                onClick={(e) => {
                   e.stopPropagation();
                   handleAddTime();

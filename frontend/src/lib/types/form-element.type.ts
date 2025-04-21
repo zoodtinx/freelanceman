@@ -25,8 +25,9 @@ export interface SelectWithSearchFormElementProps<
    TFieldValues extends FieldValues = FieldValues
 > extends FormElementProps<TFieldValues> {
    size?: 'sm' | 'base' | 'lg';
-   type: 'client' | 'project'
+   type: 'client' | 'project';
    isWithIcon?: boolean;
+   // queryHook: () => UseQueryResult<any[], unknown>;
 }
 
 export interface DynamicHeightTextInputFormElementProps<
@@ -36,8 +37,8 @@ export interface DynamicHeightTextInputFormElementProps<
 }
 
 export interface ApiLoadingState {
-   isLoading: boolean,
-   type: 'submit' | 'discard'
+   isLoading: boolean;
+   type: 'submit' | 'destructive';
 }
 
 export interface SubmitButtonProps {
@@ -45,8 +46,17 @@ export interface SubmitButtonProps {
    formDialogState: FormDialogState;
    deleteText?: string;
    discardText?: string;
+   isApiLoading: {
+      isLoading: boolean;
+      type: 'submit' | 'destructive';
+   };
 }
 
 export interface DestructiveButtonProps extends SubmitButtonProps {
    action: () => void;
+   isApiLoading: {
+      isLoading: boolean;
+      type: 'submit' | 'destructive';
+   };
+   setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
 }

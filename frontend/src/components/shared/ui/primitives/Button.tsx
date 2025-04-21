@@ -12,11 +12,11 @@ const buttonVariants = cva(
         default:
           "bg-primary text-foreground hover:bg-primary/90",
           submit:
-          "bg-button-blue text-foreground hover:bg-primary/90 text-primary",
+          "bg-button-blue text-foreground hover:bg-button-blue/80 text-primary",
         destructive:
           "bg-button-red text-white hover:bg-button-red/80",
         destructiveOutline:
-          "border-[1.5px] border-red-600 text-red-600",
+          "border-[1.5px] border-button-red text-button-red",
         destructiveOutlineGhost:
           "border-[1.5px] border-secondary text-secondary",
         outline:

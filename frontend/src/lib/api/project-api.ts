@@ -4,6 +4,7 @@ import {
    editProject,
    deleteProject,
    createProject,
+   getProjectSelections,
 } from '@/lib/api/services/project-service';
 import { ProjectFilterDto } from 'freelanceman-common';
 import type { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
@@ -21,6 +22,12 @@ export const useProjectApi = () => {
 export const useProjectsQuery = (filter: ProjectFilterDto = {}) => {
    return useAppQuery(['projects', filter], (token) =>
       getProjects(token, filter)
+   );
+};
+
+export const useProjectSelectionQuery = (filter: ProjectFilterDto = {}) => {
+   return useAppQuery(['projectSelections', filter], (token) =>
+      getProjectSelections(token, filter)
    );
 };
 

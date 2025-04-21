@@ -15,10 +15,42 @@ export async function getEvents(accessToken: string, filter: EventFilterDto) {
    });
 }
 
-export async function getEvent(accessToken: string, eventId: string) {}
+export async function getEvent(accessToken: string, eventId: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `events/${eventId}`,
+      method: 'GET',
+      model: 'event',
+   });
+}
+
 export async function createEvent(
    accessToken: string,
    payload: CreateEventDto
-) {}
-export async function editEvent(accessToken: string, payload: EditEventDto) {}
-export async function deleteEvent(accessToken: string, eventId: string) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'events',
+      method: 'POST',
+      model: 'event',
+      requestPayload: payload,
+   });
+}
+
+export async function editEvent(accessToken: string, payload: EditEventDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `events/${payload.id}`,
+      method: 'PATCH',
+      model: 'event',
+      requestPayload: payload,
+   });
+}
+export async function deleteEvent(accessToken: string, eventId: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `events/${eventId}`,
+      method: 'DELETE',
+      model: 'event',
+   });
+}

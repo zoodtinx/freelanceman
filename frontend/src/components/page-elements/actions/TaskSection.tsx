@@ -4,12 +4,12 @@ import {
 } from '@/components/shared/ui/primitives/ToggleGroup';
 import { useState } from 'react';
 import { CircleCheck } from 'lucide-react';
-import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import { useTasksQuery } from '@/lib/api/task-api';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 import { TaskList } from '@/components/page-elements/actions/TaskList';
 import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import AddButton from '@/components/shared/ui/AddButton';
 
 export default function TaskSection() {
    const setFormDialogState = useFormDialogStore(
@@ -28,7 +28,7 @@ export default function TaskSection() {
          mode: 'create',
          openedOn: 'action-page',
          type: 'task',
-         data: defaultTaskValue,
+         data: {...defaultTaskValue},
       });
    };
 
@@ -55,7 +55,7 @@ export default function TaskSection() {
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
-            <NewActionButton type="task" setDialogState={handleNewTask} />
+            <AddButton onClick={handleNewTask} />
          </div>
          <TaskList
             tasksData={tasksData}

@@ -67,6 +67,7 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
                      placeholder={placeholder}
                      handleSearch={handleSearch}
                      size={size}
+                     type={type}
                   />
                   {errors[fieldName] && (
                      <p className="text-red-500 font-normal animate-shake text-sm">
@@ -89,6 +90,7 @@ type SelectWithSearchProps = Pick<
    selections: SelectItemContent[] | undefined;
    isLoading: boolean;
    handleSearch: (value: string) => void;
+   type: 'client' | 'project'
 };
 
 export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
@@ -99,8 +101,8 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    value,
    className,
    placeholder,
-   isWithIcon = true,
    size,
+   isWithIcon = true,
 }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [selectedValue, setSelectedValue] = useState<SelectItemContent>({
@@ -181,6 +183,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
          <SelectTrigger
             className={cn(
                'flex justify-between items-center cursor-pointer font-medium text-base',
+               size === 'lg' && 'text-md',
                className
             )}
             onClick={handleOpen}

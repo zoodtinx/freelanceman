@@ -15,16 +15,16 @@ export const DateTimePickerForm = <TFieldValues extends FieldValues>({
 
    return (
       <div>
-         <DatePickerForm
-            fieldName={fieldName}
-            formMethods={formMethods}
-            required={required}
-            errorMessage={errorMessage}
-         />
-         <TimePickerForm
-            fieldName={fieldName}
-            formMethods={formMethods}
-         />
+            <DatePickerForm
+               fieldName={fieldName}
+               formMethods={formMethods}
+               required={required}
+               errorMessage={errorMessage}
+            />
+            <TimePickerForm
+               fieldName={fieldName}
+               formMethods={formMethods}
+            />
          {errors[fieldName] && (
             <p className="text-sm text-red-500 font-normal animate-shake">
                {errors[fieldName].message as string}

@@ -42,8 +42,8 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
                   <PopoverTrigger asChild>
                      <p
                         className={cn(
-                           'justify-start font-semibold cursor-pointer',
-                           !value && 'text-muted-foreground'
+                           'justify-start font-semibold cursor-pointer text-md w-fit',
+                           !value && 'text-secondary text-base border border-secondary py-1 px-3 rounded-full'
                         )}
                         onClick={() => setIsOpen(true)}
                      >
