@@ -1,36 +1,4 @@
-import { ClientContactPayload, ClientPayload, EventPayload } from 'freelanceman-common';
-
-export const defaultEventValues: EventPayload = {
-   name: '',
-   details: '',
-   status: 'scheduled',
-   dueAt: '',
-   projectId: '',
-   clientId: '',
-   link: '',
-   id: '',
-   tags: [],
-   createdAt: new Date().toISOString(),
-   updatedAt: new Date().toISOString(),
-   userId: '',
-};
-
-export const defaultTaskValue = {
-   id: '',
-   name: '',
-   status: 'pending',
-   details: '',
-   link: '',
-   dueAt: '',
-   project: '',
-   projectId: '',
-   client: '',
-   clientId: '',
-   themeColor: '',
-   userId: '',
-   createdAt: '',
-   updatedAt: '',
-};
+import { ClientContactPayload, ClientPayload, EventPayload, ProjectPayload, TaskPayload } from 'freelanceman-common';
 
 export const defaultContact = {
    id: '',
@@ -41,45 +9,6 @@ export const defaultContact = {
    name: '',
    phoneNumber: [],
    role: '',
-};
-
-export const defaultProject = {
-   id: '',
-   name: '',
-   client: '',
-   clientId: '',
-   quickTaskId: '',
-   brief: '',
-   projectStatus: 'active',
-   paymentStatus: 'notProcessed',
-   accentColor: '',
-   dateCreated: '',
-   dateModified: '',
-};
-
-export const defaultFileValues = {
-   id: '',
-   displayName: '',
-   originalName: '',
-   type: '',
-   category: '',
-   link: '',
-   size: 0,
-   createdAt: new Date().toISOString(),
-};
-
-export const defaultContactValues: ClientContactPayload = {
-   id: '',
-   name: '',
-   companyId: '',
-   role: '',
-   phoneNumber: '',
-   email: '',
-   details: '',
-   avatar: '',
-   createdAt: new Date().toISOString(),
-   updatedAt: new Date().toISOString(),
-   userId: ''
 };
 
 export const defaultPartnerValues = {
@@ -144,6 +73,74 @@ export const defaultClientValue : ClientPayload = {
    detail: '',
    themeColor: '',
 };
+
+export const defaultEventValues: EventPayload = {
+   name: '',
+   details: '',
+   status: 'scheduled',
+   dueAt: '',
+   projectId: '',
+   clientId: '',
+   link: '',
+   id: '',
+   tags: [],
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+   userId: '',
+};
+
+export const defaultProject: ProjectPayload = {
+   id: '',
+   title: '',
+   client: defaultClientValue,
+   clientId: '',
+   projectStatus: 'active',
+   paymentStatus: 'unpaid',
+   createdAt: new Date().toISOString(),
+};
+
+export const defaultFileValues = {
+   id: '',
+   displayName: '',
+   originalName: '',
+   type: '',
+   category: '',
+   link: '',
+   size: 0,
+   createdAt: new Date().toISOString(),
+};
+
+export const defaultContactValues: ClientContactPayload = {
+   id: '',
+   name: '',
+   companyId: '',
+   role: '',
+   phoneNumber: '',
+   email: '',
+   details: '',
+   avatar: '',
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+   userId: ''
+};
+
+export const defaultTaskValue: TaskPayload = {
+   id: '',
+   name: '',
+   status: 'pending',
+   details: '',
+   link: '',
+   dueAt: '',
+   project: defaultProject,
+   projectId: '',
+   client: defaultClientValue,
+   clientId: '',
+   themeColor: '',
+   userId: '',
+   createdAt: '',
+   updatedAt: '',
+};
+
 
 export const defaultValues = {
    task: defaultTaskValue,

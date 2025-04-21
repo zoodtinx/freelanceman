@@ -50,10 +50,11 @@ export class PartnerContactService {
             const result = await this.prismaService.partnerContact.findMany({
                 where: {
                     userId,
-                    name: filter.name ? { contains: filter.name } : undefined,
+                    name: filter.name ? { contains: filter.name, mode: 'insensitive' } : undefined,
                     companyId: filter.companyId,
                     role: filter.role,
                 },
+                take: 20,
                 orderBy: {
                   name: 'asc'
                 },

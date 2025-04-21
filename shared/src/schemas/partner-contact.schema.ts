@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { partnerCompanySchema } from './partner-company.schema';
 
 export const createPartnerContactSchema = z.object({
     name: z.string().min(1),
@@ -38,6 +39,7 @@ export const partnerContactPayloadSchema = z.object({
     avatar: z.string().min(1),
     createdAt: z.string(),
     updatedAt: z.string(),
+    company: partnerCompanySchema
 });
 
 export const partnerContactSchema = z.object({

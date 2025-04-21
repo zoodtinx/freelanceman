@@ -157,7 +157,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    }, []);
 
    const handleValueChange = (value: string) => {
-      const selected = selections.find(
+      const selected = selections?.find(
          (selection) => selection.value === value
       );
       if (selected) {
@@ -170,7 +170,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
       setIsOpen(false);
    };
 
-   const handleInputChange = (e) => {
+   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       handleSearch(e.target.value);
    };
 
@@ -225,14 +225,14 @@ type SelectionListProps = Pick<
 const SelectionList: React.FC<SelectionListProps> = ({
    handleSelect,
    isLoading,
-   selections,
+   selections = [],
    handleClose,
 }) => {
    return (
       <div className="max-h-[250px] pr-2 overflow-y-auto overflow-x-hidden">
          {isLoading ? (
             <div className="text-gray-500 text-sm px-2 py-2">Loading...</div>
-         ) : selections?.length > 0 ? (
+         ) : selections.length > 0 ? (
             selections.map((selection) => (
                <div
                   key={selection.value}

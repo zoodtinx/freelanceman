@@ -1,4 +1,3 @@
-
 import {
    getPartnerContacts,
    createPartnerContact,
@@ -9,7 +8,7 @@ import {
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
-import { PartnerContactPayload } from 'freelanceman-common';
+import { PartnerContactFilterDto } from 'freelanceman-common';
 
 export const usePartnerContactApi = () => {
    return {
@@ -19,7 +18,7 @@ export const usePartnerContactApi = () => {
    };
 };
 
-export const usePartnerContactsQuery = (filter: PartnerContactPayload) => {
+export const usePartnerContactsQuery = (filter: PartnerContactFilterDto) => {
    return useAppQuery(['partnerContacts', filter], (token) =>
       getPartnerContacts(token, filter)
    );
