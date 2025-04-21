@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Calendar } from 'lucide-react';
-import { NewActionButton } from '@/components/page-elements/actions/NewActionButton';
 import { useEventsQuery } from '@/lib/api/event-api';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { EventList } from '@/components/page-elements/actions/EventList';
@@ -9,13 +8,16 @@ import {
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import AddButton from '@/components/shared/ui/AddButton';
+import { EventFilterDto } from 'freelanceman-common';
+import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
 
 export default function EventSection() {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const [eventFilter, setEventFilter] = useState({
+   const [eventFilter, setEventFilter] = useState<EventFilterDto>({
       status: 'scheduled',
    });
 
@@ -27,7 +29,7 @@ export default function EventSection() {
          mode: 'create',
          openedOn: 'action-page',
          type: 'event',
-         data: defaultEventValues,
+         data: {...defaultEventValues},
       });
    };
 
@@ -42,7 +44,7 @@ export default function EventSection() {
                <ToggleGroup
                   type="single"
                   value={eventFilter.status}
-                  onValueChange={(value) =>
+                  onValueChange={(value: any) =>
                      setEventFilter((prev) => ({ ...prev, status: value }))
                   }
                >
@@ -51,13 +53,13 @@ export default function EventSection() {
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
-            <NewActionButton type="event" setDialogState={handleNewEvent} />
+            <AddButton onClick={handleNewEvent} />
          </div>
-         <EventList
-            eventsData={eventsData}
-            isLoading={isLoading}
-            setDialogState={handleNewEvent}
-         />
+         {isLoading ? (
+            <EventListLoader />
+         ) : (
+            <EventList eventsData={eventsData} isLoading={isLoading} />
+         )}
       </div>
    );
 }

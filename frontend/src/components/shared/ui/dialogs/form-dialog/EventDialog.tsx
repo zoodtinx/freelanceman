@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import {
    DateTimePickerForm,
@@ -7,35 +7,44 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { DialogFooter } from '../../primitives/Dialog';
-import { useCreateEvent, useDeleteEvent, useEditEvent } from '@/lib/api/event-api';
+import {
+   useCreateEvent,
+   useDeleteEvent,
+   useEditEvent,
+} from '@/lib/api/event-api';
 import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import { eventStatusSelections } from '../../helpers/constants/selections';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import {
-   DiscardButton,
-   SubmitButton,
-} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { ProjectField } from '@/components/shared/ui/dialogs/form-dialog/TaskDialog';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { EventPayload } from 'freelanceman-common/src/schemas';
+import { ApiLoadingState } from '@/lib/types/form-element.type';
+import { CreateEventDto, EditEventDto, EventStatus } from 'freelanceman-common';
+import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 
 export const EventDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
-   const {
-      handleSubmit,
-      setValue,
-      formState: { isDirty },
-   } = formMethods;
+   // button loading state
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'submit',
+   });
+
+   // form utilities
+   const { handleSubmit, setValue } = formMethods;
+
+   // dialogs setup
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
 
-   const errorCallback = (err: Error) => setValue('mutationError', err.message)
+   // api setup
+   const errorCallback = (err: Error) => setValue('mutationError', err.message);
    const successCallback = () => {
       setFormDialogState((prev) => {
          return {
@@ -50,66 +59,61 @@ export const EventDialog = ({
          };
       });
    };
+   const editEvent = useEditEvent({ errorCallback, successCallback });
+   const deleteEvent = useDeleteEvent({ errorCallback, successCallback });
+   const createEvent = useCreateEvent({ errorCallback, successCallback });
 
-   const editEvent = useEditEvent({errorCallback, successCallback});
-   const deleteEvent = useDeleteEvent({errorCallback, successCallback});
-
-   const createEvent = useCreateEvent()
-
-   console.log('formDialogState', formDialogState)
-
-   const eventData = formDialogState.data as EventPayload;
-
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
-
-   
-
-   const onSubmit: SubmitHandler<CreateEventDto> = (data) => {
-      if (!isDirty) {
-         return;
-      }
-
-      setIsApiLoading({ isLoading: true, type: 'submit' });
-
+   // submit handler
+   const onSubmit = (data: EventPayload) => {
       if (formDialogState.mode === 'create') {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateEventDto = {
             name: data.name,
-            status: data.status,
             projectId: data.projectId,
-            clientId: data.clientId,
-            dueAt: data.dueAt,
             details: data.details,
+            dueAt: data.dueAt,
             link: data.link,
-            tags: data.tags,
-         };
+            status: data.status,
+         } as CreateEventDto;
          createEvent.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       } else if (formDialogState.mode === 'edit') {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: EditEventDto = {
+            id: data.id,
             name: data.name,
-            status: data.status as EventStatus,
+            details: data.details,
             dueAt: data.dueAt,
             link: data.link,
-            details: data.details,
-            tags: data.tags,
-         };
-         editEvent.mutate({
-            eventId: formDialogState.data.id,
-            eventPayload: payload,
-         });
+            status: data.status as EventStatus,
+         } as EditEventDto;
+         editEvent.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       }
-
-      setIsApiLoading({ isLoading: false, type: 'submit' });
-      handleDialogClose();
    };
 
+   // discard/delete handler
    const handleLeftButtonClick = async () => {
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
       } else if (formDialogState.mode === 'edit') {
-         deleteEvent.mutate(eventData.id);
+         setIsApiLoading({ isLoading: true, type: 'destructive' });
+         handleDelete({
+            mutateApi: deleteEvent,
+            payload: formDialogState.data.id,
+            setFormDialogState: setFormDialogState,
+            openConfirmDialog: true,
+            setConfirmationDialogState: setConfirmationDialogState,
+            confirmDialogData: {
+               type: 'delete',
+               entityName: formDialogState.data.name,
+               dialogRequested: {
+                  mode: 'edit',
+                  type: 'event',
+               },
+            },
+         });
+         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 
@@ -135,12 +139,12 @@ export const EventDialog = ({
                </div>
                <div className="w-1/2">
                   <Label className="pb-0">Due Date</Label>
-                  {/* <DateTimePickerForm
+                  <DateTimePickerForm
                      formMethods={formMethods}
                      fieldName="dueAt"
                      required={true}
                      errorMessage="Please select deadline"
-                  /> */}
+                  />
                </div>
             </div>
             <ProjectField
@@ -161,42 +165,31 @@ export const EventDialog = ({
                <LinkInputForm formMethods={formMethods} fieldName="link" />
             </div>
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4">
-               <DiscardButton
-                  isApiLoading={isApiLoading}
-                  formDialogState={formDialogState}
-                  action={handleLeftButtonClick}
-                  setIsApiLoading={setIsApiLoading}
-                  formMethods={formMethods}
-               />
-               <SubmitButton
-                  formDialogState={formDialogState}
-                  formMethods={formMethods}
-                  isApiLoading={isApiLoading}
-                  setIsApiLoading={setIsApiLoading}
-               />
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formDialogState={formDialogState}
+            formMethods={formMethods}
+            isApiLoading={isApiLoading}
+            onDiscard={handleLeftButtonClick}
+         />
       </form>
    );
 };
 
-const TagField = ({ formMethods }) => {
-   const tags = ['Meeting', 'Day', 'Impact Arena'];
-   const color = '#FCEEE2';
+// const TagField = ({ formMethods }) => {
+//    const tags = ['Meeting', 'Day', 'Impact Arena'];
+//    const color = '#FCEEE2';
 
-   const tagsDisplay = tags.map((tag) => {
-      return (
-         <div
-            key={tag}
-            className="text-sm font-medium px-2 py-1 rounded-full"
-            style={{ backgroundColor: color }}
-         >
-            {tag}
-         </div>
-      );
-   });
+//    const tagsDisplay = tags.map((tag) => {
+//       return (
+//          <div
+//             key={tag}
+//             className="text-sm font-medium px-2 py-1 rounded-full"
+//             style={{ backgroundColor: color }}
+//          >
+//             {tag}
+//          </div>
+//       );
+//    });
 
-   return <div className="flex gap-1 flex-wrap">{tagsDisplay}</div>;
-};
+//    return <div className="flex gap-1 flex-wrap">{tagsDisplay}</div>;
+// };

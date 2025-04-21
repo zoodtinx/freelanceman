@@ -1,6 +1,5 @@
 import { SelectItemContent } from '@/components/shared/ui/select/select.type';
 import { FormDialogState } from '@/lib/types/form-dialog.types';
-import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormElementProps<
@@ -44,19 +43,19 @@ export interface ApiLoadingState {
 export interface SubmitButtonProps {
    formMethods: UseFormReturn;
    formDialogState: FormDialogState;
-   deleteText?: string;
-   discardText?: string;
    isApiLoading: {
       isLoading: boolean;
       type: 'submit' | 'destructive';
    };
 }
 
-export interface DestructiveButtonProps extends SubmitButtonProps {
-   action: () => void;
+export interface DestructiveButtonProps {
+   onClick: () => void;
+   formDialogState: FormDialogState;
+   deleteText?: string;
+   discardText?: string;
    isApiLoading: {
       isLoading: boolean;
       type: 'submit' | 'destructive';
    };
-   setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
 }

@@ -31,10 +31,9 @@ import { cn } from '@/lib/helper/utils';
 
 
 export const DiscardButton = ({
+   onClick,
    formDialogState,
-   action,
    isApiLoading,
-   setIsApiLoading,
    deleteText = 'Delete',
    discardText = 'Discard',
  }: DestructiveButtonProps) => {
@@ -47,15 +46,8 @@ export const DiscardButton = ({
      return 'destructiveOutlineGhost';
    };
  
-   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-     e.preventDefault();
-     setIsApiLoading?.({ isLoading: true, type: 'destructive' });
-     action();
-     setIsApiLoading?.({ isLoading: false, type: 'destructive' });
-   };
- 
    return (
-     <Button variant={getVariant()} className="gap-1" onClick={handleClick}>
+     <Button variant={getVariant()} className="gap-1" onClick={onClick}>
        {isDiscarding ? (
          <LoaderCircle className="w-4 h-4 animate-spin" />
        ) : (

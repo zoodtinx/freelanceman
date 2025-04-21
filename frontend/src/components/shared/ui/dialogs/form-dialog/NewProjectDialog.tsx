@@ -15,7 +15,7 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { useProjectApi } from '@/lib/api/project-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter2';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 
@@ -115,13 +115,13 @@ export const NewProjectDialog = ({
                </div>
             )}
          </div>
-         <FormDialogFooter
+         {/* <FormDialogFooter
             formDialogState={formDialogState}
             formMethods={formMethods}
             isApiLoading={isApiLoading}
             destructiveButtonAction={handleDiscard}
             setIsApiLoading={setIsApiLoading}
-         />
+         /> */}
       </form>
    );
 };

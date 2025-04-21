@@ -15,7 +15,7 @@ import {
 import { getColorName } from '@/components/shared/ui/helpers/Helpers';
 import { useClientApi } from '@/lib/api/client-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter2';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 
@@ -99,13 +99,13 @@ export const NewClientDialog = ({
                </div>
             </div>
          </div>
-         <FormDialogFooter
+         {/* <FormDialogFooter
             formDialogState={formDialogState}
             formMethods={formMethods}
             isApiLoading={isApiLoading}
             destructiveButtonAction={handleEscapeWithChange}
             setIsApiLoading={setIsApiLoading}
-         />
+         /> */}
       </form>
    );
 };

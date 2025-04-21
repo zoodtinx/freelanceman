@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 export const eventStatusEnum = z.enum(['scheduled', 'completed', 'cancelled']);
 
+export type EventStatus = 'scheduled' | 'completed' | 'cancelled'
+
 export const createEventSchema = z.object({
     name: z.string().min(1),
     status: z.string().min(1),
@@ -9,7 +11,7 @@ export const createEventSchema = z.object({
     clientId: z.string().min(1).optional(),
     dueAt: z.string().datetime(),
     details: z.string().optional(),
-    link: z.string().url().optional(),
+    link: z.string().optional(),
 });
 
 export const eventFilterSchema = z.object({
@@ -25,7 +27,7 @@ export const editEventSchema = z.object({
     name: z.string().optional(),
     status: eventStatusEnum.optional(),
     dueAt: z.string().datetime().optional(),
-    link: z.string().url().optional(),
+    link: z.string().optional(),
     details: z.string().optional(),
 });
 

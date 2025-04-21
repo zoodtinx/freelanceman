@@ -10,6 +10,7 @@ import { TaskList } from '@/components/page-elements/actions/TaskList';
 import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
+import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader';
 
 export default function TaskSection() {
    const setFormDialogState = useFormDialogStore(
@@ -57,11 +58,11 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-         <TaskList
+         {isLoading ? <TaskListLoader /> : <TaskList
             tasksData={tasksData}
             isLoading={isLoading}
             page="project-page"
-         />
+         />}
       </div>
    );
 }

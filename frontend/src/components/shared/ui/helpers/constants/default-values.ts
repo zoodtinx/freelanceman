@@ -1,33 +1,35 @@
-export const defaultEventValues = {
+import { EventPayload } from 'freelanceman-common';
+
+export const defaultEventValues: EventPayload = {
    name: '',
    details: '',
    status: 'scheduled',
+   dueAt: '',
+   projectId: '',
+   clientId: '',
+   link: '',
+   id: '',
+   tags: [],
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+   userId: '',
+};
+
+export const defaultTaskValue = {
+   id: '',
+   name: '',
+   status: 'pending',
+   details: '',
+   link: '',
    dueAt: '',
    project: '',
    projectId: '',
    client: '',
    clientId: '',
-   link: '',
-   themeColor:'',             
-   id: '',
-   tags: []
-};
-
-export const defaultTaskValue = {
-   id: "",
-   name: "",
-   status: "pending",
-   details: "",
-   link: "",
-   dueAt: "",
-   project: "",
-   projectId: "",
-   client: "",
-   clientId: "",
-   themeColor: "",
-   userId: "",
-   createdAt: "",
-   updatedAt: ""
+   themeColor: '',
+   userId: '',
+   createdAt: '',
+   updatedAt: '',
 };
 
 export const defaultContact = {
@@ -48,22 +50,22 @@ export const defaultProject = {
    clientId: '',
    quickTaskId: '',
    brief: '',
-   projectStatus: 'active', 
-   paymentStatus: 'notProcessed', 
+   projectStatus: 'active',
+   paymentStatus: 'notProcessed',
    accentColor: '',
    dateCreated: '',
-   dateModified: ''
+   dateModified: '',
 };
 
 export const defaultFileValues = {
    id: '',
    displayName: '',
    originalName: '',
-   type: '', 
-   category: '', 
+   type: '',
+   category: '',
    link: '',
-   size: 0, 
-   createdAt: new Date().toISOString(), 
+   size: 0,
+   createdAt: new Date().toISOString(),
 };
 
 export const defaultContactValues = {
@@ -103,31 +105,31 @@ export const defaultUserValue = {
    contacts: [],
    projects: [],
    settings: {
-     theme: 'light',
-     notifications: {
-       email: false,
-       push: false,
-     },
+      theme: 'light',
+      notifications: {
+         email: false,
+         push: false,
+      },
    },
    paymentDetails: {
-     accountHolderName: '',
-     accountNumber: '',
-     bankName: '',
-     swiftCode: '',
+      accountHolderName: '',
+      accountNumber: '',
+      bankName: '',
+      swiftCode: '',
    },
- };
- 
- export const defaultNewProjectValue = {
-   title: "",
-   clientId: "",
-   projectStatus: "active",
-   paymentStatus: "notProcessed",
+};
+
+export const defaultNewProjectValue = {
+   title: '',
+   clientId: '',
+   projectStatus: 'active',
+   paymentStatus: 'notProcessed',
    contacts: [],
    workingFiles: [],
    assetFiles: [],
- };
+};
 
- export const defaultClientValue = {
+export const defaultClientValue = {
    name: '',
    id: '',
    contactCount: 0,
@@ -142,19 +144,16 @@ export const defaultUserValue = {
 };
 
 export const defaultValues = {
-   "task": defaultTaskValue,
-   "event": defaultEventValues,
-   "file": defaultFileValues,
-   "new-file": defaultFileValues,
-   "project-settings": {},
-   "client-contact": defaultContact,
-   "partner-contact": defaultPartnerValues,
-   "sales-document-item": {},
-   "user-profile": defaultUserValue,
-   "new-project": defaultNewProjectValue,
-   "new-client": defaultClientValue,
-   "client-settings": defaultClientValue,
+   task: defaultTaskValue,
+   event: defaultEventValues,
+   file: defaultFileValues,
+   'new-file': defaultFileValues,
+   'project-settings': {},
+   'client-contact': defaultContact,
+   'partner-contact': defaultPartnerValues,
+   'sales-document-item': {},
+   'user-profile': defaultUserValue,
+   'new-project': defaultNewProjectValue,
+   'new-client': defaultClientValue,
+   'client-settings': defaultClientValue,
 };
-
-
-

@@ -18,6 +18,13 @@ export class EventsService {
 
     async create(userId: string, createEventDto: CreateEventDto) {
         try {
+            const project = await this.prismaService.project.findUnique({
+                where: { id: createEventDto.projectId },
+                select: { clientId: true },
+            });
+
+            if (!project) throw new Error('Project not found');
+
             const result = await this.prismaService.event.create({
                 data: {
                     dueAt: createEventDto.dueAt,
@@ -25,13 +32,14 @@ export class EventsService {
                     status: createEventDto.status,
                     details: createEventDto.details,
                     link: createEventDto.link,
+                    clientId: project.clientId,
                     projectId: createEventDto.projectId,
-                    clientId: createEventDto.clientId,
                     userId: userId,
                 },
             });
             return result;
         } catch (error) {
+            console.log('error', error);
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&
                 error.code === 'P2002'
@@ -48,24 +56,28 @@ export class EventsService {
         try {
             const result = await this.prismaService.event.findMany({
                 where: {
-                    userId: userId,
-                    name: {
-                        contains: filter.name,
-                    },
-                    status: filter.status,
-                    dueAt: filter.dueAt,
-                    projectId: filter.projectId,
-                    clientId: filter.clientId,
+                  userId: userId,
+                  name: {
+                    contains: filter.name,
+                  },
+                  status: filter.status,
+                  dueAt:
+                    filter.status === 'scheduled'
+                      ? { gte: new Date() }
+                      : filter.dueAt,
+                  projectId: filter.projectId,
+                  clientId: filter.clientId,
                 },
                 take: 20,
                 include: {
-                    client: true,
-                    project: true
+                  client: true,
+                  project: true,
                 },
                 orderBy: {
-                  dueAt: 'asc'
-              }
-            });
+                  dueAt: 'asc',
+                },
+              });
+
             return result;
         } catch {
             throw new InternalServerErrorException('Failed to find events');
@@ -89,11 +101,7 @@ export class EventsService {
         }
     }
 
-    async update(
-        userId: string,
-        eventId: string,
-        editEventDto: EditEventDto,
-    ) {
+    async update(userId: string, eventId: string, editEventDto: EditEventDto) {
         try {
             await this.prismaService.event.update({
                 where: { id: eventId, userId },

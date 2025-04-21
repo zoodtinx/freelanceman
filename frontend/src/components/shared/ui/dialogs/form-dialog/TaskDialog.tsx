@@ -1,5 +1,4 @@
 import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { DialogFooter } from '../../primitives/Dialog';
 import {
    DateTimePickerForm,
    DynamicHeightTextInputForm,
@@ -14,10 +13,6 @@ import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import {
-   DiscardButton,
-   SubmitButton,
-} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import {
    FormDialogProps,
    FormDialogState,
 } from '@/lib/types/form-dialog.types';
@@ -30,21 +25,28 @@ import {
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 import { useState } from 'react';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 
 export const TaskDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
+   // button loading state
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'submit',
    });
+
+   // form utilities
    const { handleSubmit, setValue } = formMethods;
+
+   // dialogs setup
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
 
+   // api setup
    const errorCallback = (err: Error) => setValue('mutationError', err.message);
    const successCallback = () => {
       setFormDialogState((prev) => {
@@ -60,11 +62,11 @@ export const TaskDialog = ({
          };
       });
    };
-
    const createTask = useCreateTask({ errorCallback, successCallback });
    const editTask = useEditTask({ errorCallback, successCallback });
    const deleteTask = useDeleteTask({ errorCallback, successCallback });
 
+   // submit handler
    const onSubmit = (data: TaskPayload) => {
       if (formDialogState.mode === 'create') {
          setIsApiLoading({ isLoading: true, type: 'submit' });
@@ -93,10 +95,12 @@ export const TaskDialog = ({
       }
    };
 
+   // discard/delete handler
    const handleLeftButtonClick = () => {
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
       } else if (formDialogState.mode === 'edit') {
+         setIsApiLoading({ isLoading: true, type: 'destructive' });
          handleDelete({
             mutateApi: deleteTask,
             payload: formDialogState.data.id,
@@ -112,6 +116,7 @@ export const TaskDialog = ({
                },
             },
          });
+         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 
@@ -162,21 +167,12 @@ export const TaskDialog = ({
                <LinkInputForm formMethods={formMethods} fieldName="link" />
             </div>
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4 pb-2">
-               <DiscardButton
-                  formMethods={formMethods}
-                  isApiLoading={isApiLoading}
-                  formDialogState={formDialogState}
-                  action={handleLeftButtonClick}
-               />
-               <SubmitButton
-                  formDialogState={formDialogState}
-                  formMethods={formMethods}
-                  isApiLoading={isApiLoading}
-               />
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formDialogState={formDialogState}
+            formMethods={formMethods}
+            isApiLoading={isApiLoading}
+            onDiscard={handleLeftButtonClick}
+         />
       </form>
    );
 };

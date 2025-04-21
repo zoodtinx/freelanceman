@@ -13,7 +13,7 @@ import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { useClientContactApi } from 'src/lib/api/client-contact-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter2';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
 
 export const ClientContactDialog = ({
@@ -199,13 +199,13 @@ export const ClientContactDialog = ({
                   />
                </div>
             </div>
-            <FormDialogFooter
+            {/* <FormDialogFooter
                formDialogState={formDialogState}
                formMethods={formMethods}
                isApiLoading={isApiLoading}
                destructiveButtonAction={handleLeftButtonClick}
                setIsApiLoading={setIsApiLoading}
-            />
+            /> */}
          </div>
       </form>
    );

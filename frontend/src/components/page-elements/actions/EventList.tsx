@@ -41,11 +41,6 @@ export const EventList: React.FC<EventListProps> = ({
          <React.Fragment key={group.date}>
             <EventGroup eventGroupData={group} />
             <div className="border-[0.5px] border-tertiary" />
-            <div className="flex justify-center">
-               <p className="w-fit text-center py-2 cursor-pointer">
-                  Load more
-               </p>
-            </div>
          </React.Fragment>
       );
    });
@@ -53,6 +48,11 @@ export const EventList: React.FC<EventListProps> = ({
    return (
       <div className="flex flex-col h-0 grow overflow-y-auto">
          <div className="flex flex-col">{eventGroups}</div>
+         <div className="flex justify-center">
+               <p className="w-fit text-center py-2 cursor-pointer">
+                  Load more
+               </p>
+            </div>
       </div>
    );
 };
