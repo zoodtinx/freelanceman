@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import {
    DynamicHeightTextInputForm,
@@ -10,35 +10,45 @@ import {
    Label,
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { useClientContactApi } from 'src/lib/api/client-contact-api';
+import {
+   useCreateClientContact,
+   useDeleteClientContact,
+   useEditClientContact,
+} from 'src/lib/api/client-contact-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter2';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import {
+   ClientContactPayload,
+   CreateClientContactDto,
+   EditClientContactDto,
+} from 'freelanceman-common';
+import { useNavigate } from 'react-router-dom';
+import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 
 export const ClientContactDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
-   const { createClientContact, deleteClientContact, editClientContact } =
-      useClientContactApi();
+   // button loading state
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'submit',
+   });
+
+   // form utilities
+   const { handleSubmit, setValue } = formMethods;
+
+   // dialogs setup
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const contactData = formDialogState.data as Contact;
 
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
-
-   const {
-      handleSubmit,
-      formState: { isDirty },
-   } = formMethods;
-
-   const handleDialogClose = () => {
+   // api setup
+   const errorCallback = (err: Error) => setValue('mutationError', err.message);
+   const successCallback = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
@@ -52,68 +62,88 @@ export const ClientContactDialog = ({
          };
       });
    };
+   const createClientContact = useCreateClientContact({
+      errorCallback,
+      successCallback,
+   });
+   const editClientContact = useEditClientContact({
+      errorCallback,
+      successCallback,
+   });
+   const deleteClientContact = useDeleteClientContact({
+      errorCallback,
+      successCallback,
+   });
 
-   const handleDelete = () => {
-      setFormDialogState((prev) => ({ ...prev, isOpen: false }));
-      setConfirmationDialogState({
-         isOpen: true,
-         actions: {
-            primary: () => deleteClientContact.mutate(contactData.id),
-         },
-         message: contactData.name,
-         type: 'delete',
-         dialogRequested: {
-            mode: 'edit',
-            type: 'client-contact',
-         },
-      });
-   };
-
-   const handleLeftButtonClick = () => {
+   // discard/delete handler
+   const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
       } else if (formDialogState.mode === 'edit') {
-         handleDelete()
+         setIsApiLoading({ isLoading: true, type: 'destructive' });
+         handleDelete({
+            mutateApi: deleteClientContact,
+            payload: formDialogState.data.id,
+            setFormDialogState: setFormDialogState,
+            openConfirmDialog: true,
+            setConfirmationDialogState: setConfirmationDialogState,
+            confirmDialogData: {
+               type: 'delete',
+               entityName: formDialogState.data.name,
+               dialogRequested: {
+                  mode: 'edit',
+                  type: 'client-contact',
+               },
+            },
+         });
+         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 
-   const onSubmit: SubmitHandler<CreateClientContactDto> = (data) => {
-      if (!isDirty) {
-         return;
-      }
-   
-      setIsApiLoading({ isLoading: true, type: 'submit' });
-   
+   // submit handler
+   const onSubmit = (data: ClientContactPayload) => {
       if (formDialogState.mode === 'create') {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateClientContactDto = {
             name: data.name,
             companyId: data.companyId,
             role: data.role,
             phoneNumber: data.phoneNumber,
             email: data.email,
-            detail: data.detail,
+            detail: data.details,
             avatar: data.avatar,
-         };
+         } as CreateClientContactDto;
          createClientContact.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       } else if (formDialogState.mode === 'edit') {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: EditClientContactDto = {
+            id: data.id,
             name: data.name,
             role: data.role,
             phoneNumber: data.phoneNumber,
             email: data.email,
-            details: data.detail,
+            details: data.details,
             avatar: data.avatar,
-         };
-         editClientContact.mutate({
-            clientContactId: formDialogState.data.id,
-            clientContactPayload: payload
-         });
+         } as EditClientContactDto;
+         editClientContact.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       }
-   
-      setIsApiLoading({ isLoading: false, type: 'submit' });
-      handleDialogClose();
    };
-   
+
+   //handle going to client
+   const navigate = useNavigate();
+   const handleClientClick = () => {
+      const clinetId = formDialogState.data.clientId;
+      navigate(`/home/clients/${clinetId}`);
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
@@ -138,20 +168,22 @@ export const ClientContactDialog = ({
                            Company
                         </Label>
                         {formDialogState.mode === 'edit' && (
-                           <p className="text-md">
+                           <p
+                              className="text-md cursor-pointer"
+                              onClick={handleClientClick}
+                           >
                               {formMethods.getValues('company').name}
                            </p>
-                           //    <Link to={`/home/clients/${formDialogState.data.companyId}`} className="text-md">
-                           //    {formDialogState.data.company}
-                           // </Link>
                         )}
                         {formDialogState.mode !== 'edit' && (
                            <SelectWithSearchForm
                               formMethods={formMethods}
-                              fieldName="company"
+                              fieldName="companyId"
                               type="client"
-                              placeholder="Select Company"
-                              className="text-md"
+                              size="lg"
+                              placeholder="Select a Client"
+                              required={true}
+                              errorMessage="Please select a client"
                            />
                         )}
                      </div>
@@ -199,13 +231,12 @@ export const ClientContactDialog = ({
                   />
                </div>
             </div>
-            {/* <FormDialogFooter
+            <FormDialogFooter
                formDialogState={formDialogState}
                formMethods={formMethods}
                isApiLoading={isApiLoading}
-               destructiveButtonAction={handleLeftButtonClick}
-               setIsApiLoading={setIsApiLoading}
-            /> */}
+               onDiscard={handleLeftButtonClick}
+            />
          </div>
       </form>
    );

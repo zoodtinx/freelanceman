@@ -43,10 +43,20 @@ export class ClientsController {
         return this.clientsService.findMany(userId, payload);
     }
 
+    @Post('selections')
+    @HttpCode(200)
+    findSelctions(
+        @Body(new ZodValidationPipe(clientFilterSchema)) payload: any,
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.clientsService.findSelections(userId, payload);
+    }
+
     @Get(':id')
     findOne(@Param('id') clientId: string, @Req() req: any) {
         const userId = req.user.id;
-        console.log('clientId', clientId)
+        console.log('clientId', clientId);
         return this.clientsService.findOne(userId, clientId);
     }
 

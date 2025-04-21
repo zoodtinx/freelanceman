@@ -1,4 +1,4 @@
-import { EventPayload } from 'freelanceman-common';
+import { ClientContactPayload, ClientPayload, EventPayload } from 'freelanceman-common';
 
 export const defaultEventValues: EventPayload = {
    name: '',
@@ -68,16 +68,18 @@ export const defaultFileValues = {
    createdAt: new Date().toISOString(),
 };
 
-export const defaultContactValues = {
+export const defaultContactValues: ClientContactPayload = {
    id: '',
    name: '',
-   company: '',
    companyId: '',
    role: '',
-   phoneNumber: [],
+   phoneNumber: '',
    email: '',
    details: '',
    avatar: '',
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+   userId: ''
 };
 
 export const defaultPartnerValues = {
@@ -129,13 +131,13 @@ export const defaultNewProjectValue = {
    assetFiles: [],
 };
 
-export const defaultClientValue = {
+export const defaultClientValue : ClientPayload = {
    name: '',
    id: '',
-   contactCount: 0,
-   projectCount: 0,
-   activeProjectCount: 0,
    taxId: '',
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+   userId:'',
    email: '',
    phoneNumber: '',
    address: '',

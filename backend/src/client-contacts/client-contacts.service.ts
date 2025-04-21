@@ -16,15 +16,18 @@ import { Prisma } from '@prisma/client';
 export class ClientContactService {
     constructor(private prismaService: PrismaService) {}
 
-    async create(userId: string, dto: CreateClientContactDto) {
+    async create(userId: string, createClientContactDto: CreateClientContactDto) {
         try {
+            const dto = Object.fromEntries(
+                Object.entries(createClientContactDto).filter(([_, v]) => v !== "")
+              );
             const result = await this.prismaService.clientContact.create({
                 data: {
                     name: dto.name,
                     companyId: dto.companyId,
                     role: dto.role,
                     phoneNumber: dto.phoneNumber,
-                    email: dto.email,
+                    email: dto.email && dto.email,
                     details: dto.detail ?? '',
                     avatar: dto.avatar ?? '',
                     userId,
@@ -32,6 +35,7 @@ export class ClientContactService {
             });
             return result;
         } catch (error) {
+            console.log('error', error)
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&
                 error.code === 'P2002'

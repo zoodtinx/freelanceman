@@ -32,12 +32,25 @@ export const partnerCompanyPayloadSchema = z.object({
     updatedAt: z.string().optional(),
 });
 
+export const partnerCompanySchema = z.object({
+    id: z.string().uuid(),
+    userId: z.string(),
+    name: z.string().min(1),
+    taxId: z.string().min(1),
+    email: z.string().email(),
+    phoneNumber: z.string().min(1),
+    address: z.string().min(1),
+    detail: z.string().min(1),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
+});
+
 export const partnerCompanyFilterSchema = z.object({
     name: z.string().optional(),
 });
 
+export type PartnerCompany = z.infer<typeof partnerCompanySchema>;
 export type PartnerCompanyPayload = z.infer<typeof partnerCompanyPayloadSchema>;
-
 export type CreatePartnerCompanyDto = z.infer<typeof createPartnerCompanySchema>;
 export type EditPartnerCompanyDto = z.infer<typeof editPartnerCompanySchema>;
 export type PartnerCompanyFilterDto = z.infer<typeof partnerCompanyFilterSchema>;

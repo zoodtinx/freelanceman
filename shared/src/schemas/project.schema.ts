@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { taskPayloadSchema } from './task.schema';
+import { taskPayloadSchema, taskSchema } from './task.schema';
 
 export const ProjectStatusEnum = z.enum(['active', 'on-hold', 'completed', '']);
 export const PaymentStatusEnum = z.enum(['unpaid', 'processing', 'paid', '']);
@@ -25,7 +25,22 @@ export const projectPayloadSchema = z.object({
         name: z.string(),
         themeColor: z.string(),
     }),
-    tasks: z.array(taskPayloadSchema),
+    tasks: z.array(taskSchema),
+});
+
+export const projectSchema = z.object({
+    id: z.string().uuid(),
+    title: z.string(),
+    clientId: z.string(),
+    budget: z.number().int(),
+    projectStatus: ProjectStatusEnum,
+    paymentStatus: PaymentStatusEnum,
+    links: z.array(z.string().url()),
+    note: z.string().optional(),
+    userId: z.string(),
+    pinned: z.boolean().default(false),
+    createdAt: z.date(),
+    updatedAt: z.date(),
 });
 
 export const createProjectSchema = z.object({
@@ -61,6 +76,7 @@ export const projectFilterSchema = z.object({
     pinned: z.boolean().optional(),
 });
 
+export type Project = z.infer<typeof projectSchema>;
 export type ProjectFilterDto = z.infer<typeof projectFilterSchema>;
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 export type EditProjectDto = z.infer<typeof editProjectSchema>;

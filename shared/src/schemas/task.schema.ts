@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { projectSchema } from './project.schema';
+import { clientSchema } from './client.schema';
 
 export const taskStatusEnum = z.enum(['pending', 'finished', 'cancelled']);
 
@@ -41,8 +43,25 @@ export const taskPayloadSchema = z.object({
    userId: z.string(),
    createdAt: z.string(),
    updatedAt: z.string().optional(),
+   project: projectSchema,
+   client: clientSchema
 });
 
+export const taskSchema = z.object({
+   id: z.string().uuid(),
+   name: z.string().min(1),
+   status: z.string().min(1),
+   details: z.string().optional(),
+   link: z.string().optional(),
+   dueAt: z.string(),
+   projectId: z.string(),
+   clientId: z.string(),
+   userId: z.string(),
+   createdAt: z.string(),
+   updatedAt: z.string().optional(),
+});
+
+export type Task = z.infer<typeof taskSchema>;
 export type TaskPayload = z.infer<typeof taskPayloadSchema>;
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 export type TaskFilterDto = z.infer<typeof taskFilterSchema>;

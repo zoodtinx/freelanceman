@@ -102,7 +102,7 @@ export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
          actions: {
             primary: () => handleDeleteProject(),
          },
-         message: projectTitle,
+         entityName: projectTitle,
          additionalMessage:
             'This action will also delete related tasks, events and files.',
          type: 'delete',

@@ -50,7 +50,7 @@ export interface SubmitButtonProps {
 }
 
 export interface DestructiveButtonProps {
-   onClick: () => void;
+   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
    formDialogState: FormDialogState;
    deleteText?: string;
    discardText?: string;

@@ -1,20 +1,22 @@
-import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import ClientCard from './ClientCard';
 import { Building2 } from 'lucide-react';
 import type { ClientFilterDto } from 'freelanceman-common/src/schemas';
 import { useState } from 'react';
-import { useAllClientsQuery, useClientsQuery } from '@/lib/api/client-api';
-import { Switch } from 'src/components/shared/ui/primitives/Switch';
+import { useClientsQuery } from '@/lib/api/client-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { defaultClientValue, defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
+import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
+import AddButton from '@/components/shared/ui/AddButton';
+import { ClientPayload } from 'freelanceman-common';
+import { ClientGridLoader } from '@/components/shared/ui/placeholder-ui/ClientGridLoader';
+import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 
 const ClientColumn = (): JSX.Element => {
-   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const [searchOptions, setSearchOptions] = useState<ClientFilterDto>({});
-
-   const isWithActiveProject = searchOptions.hasActiveProject
 
    const { data: clients, isLoading } = useClientsQuery(searchOptions);
 
@@ -22,72 +24,46 @@ const ClientColumn = (): JSX.Element => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
-   const ActiveProjectButton = () => {
-      const toggleActiveProjects = () => {
-         setSearchOptions((prev) => ({
-            ...prev,
-            hasActiveProjects: !prev.hasActiveProjects, // Toggle between true and undefined
-         }));
-      };
-
-      return (
-         <div className="flex gap-2">
-            with active projects
-            <Switch
-               checked={searchOptions.hasActiveProjects}
-               onCheckedChange={toggleActiveProjects}
-            />
-         </div>
-      );
-   };
-   
    const handleNewClient = () => {
       setFormDialogState({
-         isOpen:true,
+         isOpen: true,
          mode: 'create',
          openedOn: 'all-client-page',
          type: 'new-client',
-         data: defaultClientValue
-      })
-   }
+         data: { ...defaultClientValue },
+      });
+   };
 
    return (
-      <div className="flex flex-col rounded-[20px] bg-foreground p-4 pt-2 h-full gap-[6px] flex-1 shadow-md">
-         <div className="flex justify-between">
+      <div className="flex flex-col rounded-[20px] bg-foreground p-4 pt-2 h-full flex-1 shadow-md relative">
+         <div className="flex justify-between py-2">
             <div className="flex items-center gap-1">
                <Building2 className="w-[28px] h-auto" />
                <p className="text-xl pt-1 leading-none mr-2">Clients</p>
             </div>
-            <button
-               onClick={handleNewClient}
-               className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer"
-            >
-               <Plus className="aspect-square h-[20px]" />
-            </button>
+            <AddButton onClick={handleNewClient} />
          </div>
-         <div className="flex justify-between items-center">
+         {isLoading ? (
+            <Skeleton className="h-7 w-[300px] rounded-full" />
+         ) : (
             <SearchBox
                placeholder="Search client"
-               className=""
+               className="w-[300px]"
                onChange={handleSearch}
                value={searchOptions.name || ''}
             />
-            <ActiveProjectButton />
-         </div>
-         <div className="grid grid-cols-[repeat(auto-fit,minmax(215px,1fr))] gap-2 w-full">
-         {isLoading ? (
-            <p>Loading...</p>
-         ) : (
-            <>
-               {clients?.map((clients) => (
-                  <ClientCard
-                     key={clients.id}
-                     client={clients}
-                  />
-               ))}
-            </>
          )}
-         </div>
+         {isLoading ? <ClientGridLoader /> : <ClientGrid clients={clients} />}
+      </div>
+   );
+};
+
+const ClientGrid = ({ clients }: { clients: ClientPayload[] | undefined }) => {
+   return (
+      <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2">
+         {clients?.map((clients: ClientPayload) => (
+            <ClientCard key={clients.id} client={clients} />
+         ))}
       </div>
    );
 };

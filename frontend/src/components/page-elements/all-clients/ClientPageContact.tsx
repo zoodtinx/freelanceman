@@ -5,7 +5,10 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import type { ClientContactPayload, ClientContactFilterDto } from 'freelanceman-common/src/schemas';
+import type {
+   ClientContactPayload,
+   ClientContactFilterDto,
+} from 'freelanceman-common/src/schemas';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { User, BookUser } from 'lucide-react';
@@ -13,13 +16,17 @@ import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
+import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
+import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/ClientContactLoader';
 
 export const ContactColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({});
+   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>(
+      {}
+   );
 
    const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
 
@@ -33,36 +40,35 @@ export const ContactColumn = (): JSX.Element => {
          mode: 'create',
          openedOn: 'all-client-page',
          type: 'client-contact',
-         data: defaultContactValues
-      })
-   }
-
-   console.log('contacts', contacts)
+         data: { ...defaultContactValues },
+      });
+   };
 
    return (
       <div className="flex flex-col w-[335px] rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-auto gap-[6px] shrink-0 shadow-md">
-         <div className="flex justify-between py-1">
+         <div className="flex justify-between py-1 pt-2">
             <div className="flex items-center gap-1">
                <BookUser className="h-auto w-[28px]" />
                <p className="text-xl pt-1 leading-none mr-2">Client Contacts</p>
             </div>
             <AddButton onClick={handleNewContact} />
          </div>
-         <SearchBox
-            placeholder="Search contact"
-            className="w-full"
-            onChange={handleSearch}
-            value={searchOptions.name || ''}
-         />
          {isLoading ? (
-            <p>Loading...</p>
+            <Skeleton className="h-7 w-[300px] rounded-full shrink-0" />
          ) : (
-            <div className="flex flex-col gap-1 min-h-0 overflow-y-auto">
-               {contacts?.map((contact) => (
-                  <ContactCard
-                     key={contact.id}
-                     contact={contact}
-                  />
+            <SearchBox
+               placeholder="Search client"
+               className="w-[300px]"
+               onChange={handleSearch}
+               value={searchOptions.name || ''}
+            />
+         )}
+         {isLoading ? (
+            <ClientContactListLoader />
+         ) : (
+            <div className="flex flex-col gap-1 min-h-0 overflow-y-auto pt-1">
+               {contacts?.map((contact: ClientContactPayload) => (
+                  <ContactCard key={contact.id} contact={contact} />
                ))}
             </div>
          )}
@@ -70,11 +76,7 @@ export const ContactColumn = (): JSX.Element => {
    );
 };
 
-export const ContactCard = ({
-   contact
-}: {
-   contact: ClientContactPayload;
-}) => {
+export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -98,9 +100,9 @@ export const ContactCard = ({
          mode: 'edit',
          openedOn: 'client-page',
          type: 'client-contact',
-         data: contact
-      })
-   }
+         data: contact,
+      });
+   };
 
    return (
       <div

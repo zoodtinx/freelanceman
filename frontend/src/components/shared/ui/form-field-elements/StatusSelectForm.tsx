@@ -38,7 +38,7 @@ export const StatusSelectForm = <TFormData extends FieldValues>({
                      className={className}
                   />
                   {errors[fieldName] && (
-                     <p className="text-red-500 text-sm mt-1">
+                     <p className="text-red-500 text-sm mt-1 animate-shake">
                         {errors[fieldName]?.message as string}
                      </p>
                   )}

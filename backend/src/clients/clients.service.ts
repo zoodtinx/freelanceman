@@ -59,14 +59,8 @@ export class ClientsService {
                               : undefined,
                 },
                 include: {
-                    projects: {
-                        where: {
-                            projectStatus: 'active',
-                        },
-                        select: {
-                            id: true,
-                        },
-                    },
+                    projects: true,
+                    contacts: true,
                 },
             });
 
@@ -75,6 +69,26 @@ export class ClientsService {
             return clients;
         } catch (error) {
             throw new InternalServerErrorException('Failed to find client');
+        }
+    }
+
+    async findSelections(userId: string, filter: ClientFilterDto) {
+        console.log('trigged');
+        try {
+            const clients = await this.prismaService.client.findMany({
+                where: {
+                    userId,
+                    name: filter.name
+                        ? { contains: filter.name, mode: 'insensitive' }
+                        : undefined,
+                },
+            });
+            return clients.map((client) => ({
+                label: client.name,
+                value: client.id,
+            }));
+        } catch {
+            throw new InternalServerErrorException('Failed to find clients');
         }
     }
 
@@ -131,8 +145,8 @@ export class ClientsService {
             const result = await this.prismaService.client.delete({
                 where: { id: clientId, userId },
             });
-            
-            console.log('result', result)
+
+            console.log('result', result);
 
             return result;
         } catch (error) {

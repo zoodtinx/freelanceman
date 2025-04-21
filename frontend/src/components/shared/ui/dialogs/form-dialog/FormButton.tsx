@@ -1,6 +1,6 @@
-import React from 'react';
+
 import { Button } from '../../primitives/Button';
-import { CircleCheck, LoaderCircle, PencilLine, Plus, Trash2 } from 'lucide-react';
+import { CircleCheck, LoaderCircle, Plus, Trash2 } from 'lucide-react';
 import { DestructiveButtonProps, SubmitButtonProps } from '@/lib/types/form-element.type';
 import { cn } from '@/lib/helper/utils';
 

@@ -57,11 +57,11 @@ model Client {
   id             String          @id @default(uuid())
   userId         String
   name           String
-  taxId          String          @unique
-  email            String          @unique 
-  phoneNumber    String
-  address        String
-  detail         String
+  taxId          String?
+  email            String? 
+  phoneNumber    String?
+  address        String?
+  detail         String?
   themeColor     String
   createdAt      DateTime        @default(now())
   updatedAt      DateTime?       @updatedAt
@@ -78,12 +78,12 @@ model ClientContact {
   id          String                   @id @default(uuid())
   userId      String
   name        String
-  role        String
-  phoneNumber String
-  email            String           @unique 
-  details     String
-  avatar      String
-  companyId   String?
+  role        String?
+  phoneNumber String?
+  email       String?           @unique 
+  details     String?
+  avatar      String?
+  companyId   String
   createdAt   DateTime                 @default(now())
   updatedAt   DateTime?                @updatedAt
   company     Client?                  @relation(fields: [companyId], references: [id], onDelete: Cascade)
@@ -95,11 +95,11 @@ model PartnerCompany {
   id          String           @id @default(uuid())
   userId      String
   name        String
-  taxId       String           @unique
-  email            String           @unique 
-  phoneNumber String
-  address     String
-  detail      String
+  taxId       String?           @unique
+  email       String?           @unique 
+  phoneNumber String?
+  address     String?
+  detail      String?
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
   contacts    PartnerContact[]
@@ -111,11 +111,11 @@ model PartnerContact {
   userId      String
   name        String
   companyId   String
-  role        String
-  phoneNumber String
-  email            String           @unique 
-  details     String
-  avatar      String
+  role        String?
+  phoneNumber String?
+  email            String?           @unique 
+  details     String?
+  avatar      String?
   createdAt   DateTime                  @default(now())
   updatedAt   DateTime                  @updatedAt
   company     PartnerCompany            @relation(fields: [companyId], references: [id], onDelete: Cascade)

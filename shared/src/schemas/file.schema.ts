@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { clientSchema } from './client.schema';
+import { projectSchema } from './project.schema';
 
 export const fileType = z.enum([
     'image',
@@ -62,8 +64,25 @@ export const filePayloadSchema = z.object({
     clientId: z.string().optional(),
     userId: z.string(),
     size: z.number().optional(),
+    client: clientSchema,
+    project: projectSchema
 });
 
+export const fileSchema = z.object({
+    id: z.string().uuid(),
+    originalName: z.string().min(1),
+    displayName: z.string().min(1),
+    type: z.string().min(1),
+    category: z.string().min(1),
+    link: z.string().min(1),
+    s3Key: z.string().min(1),
+    projectId: z.string().optional(),
+    clientId: z.string().optional(),
+    userId: z.string(),
+    size: z.number().optional(),
+});
+
+export type File = z.infer<typeof fileSchema>;
 export type FilePayload = z.infer<typeof filePayloadSchema>;
 export type GetPresignedUrlDto = z.infer<typeof getPresignedUrlSchema>;
 export type CreateFileDto = z.infer<typeof createFileSchema>;

@@ -9,7 +9,7 @@ import { ApiLoadingState } from '@/lib/types/form-element.type';
 import { UseFormReturn } from 'react-hook-form';
 
 type Props = {
-   onDiscard: () => void;
+   onDiscard: (e: React.MouseEvent<HTMLButtonElement>) => void;
    isApiLoading: ApiLoadingState;
    formDialogState: FormDialogState;
    formMethods: UseFormReturn;

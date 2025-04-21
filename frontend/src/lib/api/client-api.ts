@@ -3,7 +3,8 @@ import {
    getClient,
    createClient,
    deleteClient,
-   getClients
+   getClients,
+   getClientSelections,
 } from './services/client-service';
 import { ClientFilterDto } from 'freelanceman-common';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
@@ -29,6 +30,18 @@ export const useClientQuery = (clientId: string) => {
       getClient(token, clientId)
    );
 };
+
+export const useClientSelectionsQuery = (filter: ClientFilterDto) => {
+   return useAppQuery(['clientSelections', filter], (token) =>
+      getClientSelections(token, filter)
+   );
+}
+
+// export const useProjectSelectionQuery = (filter: ProjectFilterDto = {}) => {
+//    return useAppQuery(['projectSelections', filter], (token) =>
+//       getProjectSelections(token, filter)
+//    );
+// };
 
 export const useCreateClient = (callbacks?: MutationCallbacks) => {
    return useAppMutation(

@@ -8,6 +8,7 @@ import {
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
+import { ClientContactFilterDto } from 'freelanceman-common';
 
 export const useClientContactApi = () => {
    return {
@@ -17,9 +18,9 @@ export const useClientContactApi = () => {
    };
 };
 
-export const useClientContactsQuery = (clientId: string) => {
-   return useAppQuery(['clientContacts', clientId], (token) =>
-      getClientContacts(token, clientId)
+export const useClientContactsQuery = (filter: ClientContactFilterDto) => {
+   return useAppQuery(['clientContacts', filter], (token) =>
+      getClientContacts(token, filter)
    );
 };
 

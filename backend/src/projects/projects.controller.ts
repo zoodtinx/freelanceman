@@ -45,7 +45,7 @@ export class ProjectsController {
     
     @Post('selections')
     @HttpCode(200)
-    findSeelctions(
+    findSelctions(
         @Body(new ZodValidationPipe(projectFilterSchema)) payload: any,
         @Req() req: any,
     ) {

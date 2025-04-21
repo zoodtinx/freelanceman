@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { projectSchema } from './project.schema';
 
 export const eventStatusEnum = z.enum(['scheduled', 'completed', 'cancelled']);
 
-export type EventStatus = 'scheduled' | 'completed' | 'cancelled'
+export type EventStatus = 'scheduled' | 'completed' | 'cancelled';
 
 export const createEventSchema = z.object({
     name: z.string().min(1),
@@ -44,8 +45,25 @@ export const eventPayloadSchema = z.object({
     tags: z.array(z.string()).min(1),
     createdAt: z.string(),
     updatedAt: z.string().optional(),
+    project: projectSchema
 });
 
+export const eventSchema = z.object({
+    id: z.string().uuid(),
+    name: z.string().min(1),
+    status: z.string().min(1),
+    details: z.string().optional(),
+    link: z.string().optional(),
+    dueAt: z.string(),
+    projectId: z.string(),
+    clientId: z.string(),
+    userId: z.string(),
+    tags: z.array(z.string()).min(1),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
+});
+
+export type Event = z.infer<typeof eventSchema>;
 export type EventPayload = z.infer<typeof eventPayloadSchema>;
 export type CreateEventDto = z.infer<typeof createEventSchema>;
 export type EventFilterDto = z.infer<typeof eventFilterSchema>;

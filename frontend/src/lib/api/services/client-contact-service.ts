@@ -33,14 +33,37 @@ export async function getClientContact(
 export async function createClientContact(
    accessToken: string,
    payload: CreateClientContactDto
-) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'client-contacts',
+      method: 'POST',
+      model: 'client',
+      requestPayload: payload,
+   });
+}
 
 export async function editClientContact(
    accessToken: string,
    payload: EditClientContactDto
-) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `client-contacts/${payload.id}`,
+      method: 'PATCH',
+      model: 'client',
+      requestPayload: payload,
+   });
+}
 
 export async function deleteClientContact(
    accessToken: string,
    contactId: string
-) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `client-contacts/${contactId}`,
+      method: 'DELETE',
+      model: 'client',
+   });
+}

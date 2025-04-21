@@ -129,8 +129,6 @@ const PartnerTab = ({ contact }: { contact: Partner }) => {
       });
    };
 
-   console.log('contact.company', contact)
-
    return (
       <div
          className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary"
