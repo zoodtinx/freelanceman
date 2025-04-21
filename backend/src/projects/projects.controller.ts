@@ -42,6 +42,16 @@ export class ProjectsController {
         const userId = req.user.id;
         return this.projectsService.findMany(userId, payload);
     }
+    
+    @Post('selections')
+    @HttpCode(200)
+    findSeelctions(
+        @Body(new ZodValidationPipe(projectFilterSchema)) payload: any,
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.projectsService.findSelections(userId, payload);
+    }
 
     @Get(':id')
     findOne(@Param('id') projectId: string, @Req() req: any) {

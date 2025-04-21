@@ -57,6 +57,7 @@ export class EventsService {
                     projectId: filter.projectId,
                     clientId: filter.clientId,
                 },
+                take: 20,
                 include: {
                     client: true,
                     project: true

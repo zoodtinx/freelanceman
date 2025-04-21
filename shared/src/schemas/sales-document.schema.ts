@@ -15,7 +15,7 @@ export const createSalesDocumentSchema = z.object({
     freelancerPhone: z.string().min(1),
     freelancerTaxId: z.string().min(1),
     freelancerDetail: z.string().optional(),
-    clientId: z.string(),
+    clientId: z.string().min(1).optional(),
     clientName: z.string().min(1),
     clientTaxId: z.string().min(1),
     clientAddress: z.string().optional(),

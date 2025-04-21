@@ -5,11 +5,7 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
-import {
-    CreateTaskDto,
-    EditTaskDto,
-    TaskFilterDto,
-} from 'freelanceman-common';
+import { CreateTaskDto, EditTaskDto, TaskFilterDto } from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -18,6 +14,13 @@ export class TasksService {
 
     async create(userId: string, createTaskDto: CreateTaskDto) {
         try {
+            const project = await this.prismaService.project.findUnique({
+                where: { id: createTaskDto.projectId },
+                select: { clientId: true },
+            });
+
+            if (!project) throw new Error('Project not found');
+
             const result = await this.prismaService.task.create({
                 data: {
                     dueAt: createTaskDto.dueAt,
@@ -26,8 +29,8 @@ export class TasksService {
                     details: createTaskDto.details,
                     link: createTaskDto.link,
                     projectId: createTaskDto.projectId,
-                    clientId: createTaskDto.clientId,
-                    userId: userId,
+                    userId,
+                    clientId: project.clientId,
                 },
             });
             return result;
@@ -40,14 +43,13 @@ export class TasksService {
                     'A task with this unique field already exists',
                 );
             }
-            console.log('error', error)
+
             throw new InternalServerErrorException('Failed to create task');
         }
     }
 
     async findAll(userId: string, filter: TaskFilterDto) {
         try {
-            console.log('filter', filter);
             const result = await this.prismaService.task.findMany({
                 where: {
                     userId: userId,
@@ -59,11 +61,27 @@ export class TasksService {
                     projectId: filter.projectId,
                     clientId: filter.clientId,
                 },
+                take: 20,
                 orderBy: {
-                    dueAt: 'asc'
+                    dueAt: 'asc',
+                },
+                include: {
+                    project: {
+                        select: {
+                            id: true,
+                            title: true,
+                        }
+                    },
+                    client: {
+                        select: {
+                            id: true,
+                            name: true,
+                            themeColor: true
+                        }
+                    }
                 }
             });
-            console.log('result', result);
+
             return result;
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');

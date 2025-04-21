@@ -6,7 +6,7 @@ export const createEventSchema = z.object({
     name: z.string().min(1),
     status: z.string().min(1),
     projectId: z.string().min(1),
-    clientId: z.string().min(1),
+    clientId: z.string().min(1).optional(),
     dueAt: z.string().datetime(),
     details: z.string().optional(),
     link: z.string().url().optional(),

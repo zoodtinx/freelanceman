@@ -6,10 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
-import {
-    SearchProjectDto,
-    UpdateProjectDto,
-} from 'src/shared/zod-schemas/project.schema';
+import { ProjectFilterDto, EditProjectDto } from 'freelanceman-common';
 
 @Injectable()
 export class ProjectsService {
@@ -37,7 +34,28 @@ export class ProjectsService {
         }
     }
 
-    async findMany(userId: string, filter: SearchProjectDto) {
+    async findSelections(userId: string, filter: ProjectFilterDto) {
+        console.log('trigged')
+        try {
+            const projects = await this.prismaService.project.findMany({
+                where: {
+                    userId,
+                    projectStatus: 'active',
+                    title: filter.title
+                        ? { contains: filter.title, mode: 'insensitive' }
+                        : undefined,
+                },
+            });
+            return projects.map((project) => ({
+                label: project.title,
+                value: project.id,
+            }));
+        } catch {
+            throw new InternalServerErrorException('Failed to find projects');
+        }
+    }
+
+    async findMany(userId: string, filter: ProjectFilterDto) {
         try {
             const projects = await this.prismaService.project.findMany({
                 where: {
@@ -136,7 +154,7 @@ export class ProjectsService {
     async update(
         userId: string,
         projectId: string,
-        updateDto: UpdateProjectDto,
+        updateDto: EditProjectDto,
     ) {
         try {
             const result = await this.prismaService.project.update({

@@ -6,10 +6,10 @@ export const createTaskSchema = z.object({
    name: z.string().min(1),
    status: z.string().min(1),
    projectId: z.string().min(1),
-   clientId: z.string().min(1),
+   clientId: z.string().min(1).optional(),
    dueAt: z.string().datetime(),
    details: z.string().optional(),
-   link: z.string().url().optional(),
+   link: z.string().optional(),
 });
 
 export const taskFilterSchema = z.object({
@@ -25,7 +25,7 @@ export const editTaskSchema = z.object({
    name: z.string().optional(),
    status: taskStatusEnum.optional(),
    dueAt: z.string().datetime().optional(),
-   link: z.string().url().optional(),
+   link: z.string().optional(),
    details: z.string().optional(),
 });
 
