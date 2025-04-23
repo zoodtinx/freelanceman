@@ -102,6 +102,7 @@ export class FilesService {
     }
 
     async update(userId: string, fileId: string, dto: EditFileDto) {
+        console.log('dto', dto)
         try {
             return await this.prisma.file.update({
                 where: { id: fileId, userId },

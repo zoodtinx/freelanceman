@@ -35,11 +35,6 @@ export interface DynamicHeightTextInputFormElementProps<
    isWithIcon?: boolean;
 }
 
-export interface ApiLoadingState {
-   isLoading: boolean;
-   type: 'submit' | 'destructive';
-}
-
 export interface SubmitButtonProps {
    formMethods: UseFormReturn;
    formDialogState: FormDialogState;

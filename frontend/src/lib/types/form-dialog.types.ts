@@ -1,3 +1,5 @@
+import { CrudApi } from '@/lib/api/api.type';
+import { ApiLoadingState } from '@/lib/types/form-element.type';
 import {
    EventPayload,
    FilePayload,
@@ -9,14 +11,25 @@ import {
    UserPayload,
    CreateProjectDto,
    ClientPayload,
-   UpdateClientDto,
+   EditClientDto,
 } from 'freelanceman-common';
 import { Dispatch, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
+export interface ApiLoadingState {
+   isLoading: boolean;
+   type: 'submit' | 'destructive';
+}
+
 export interface FormDialogProps {
+   dialogType: string;
    formMethods: UseFormReturn;
-   handleEscapeWithChange: () => void;
+   buttonLoadingState: {
+      isApiLoading: ApiLoadingState;
+      setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
+   };
+   crudApi: CrudApi[keyof CrudApi];
+   handleLeftButtonClick: (e: any) => void;
 }
 
 export interface PromptDialogProps {
@@ -28,6 +41,7 @@ export interface PromptDialogProps {
 export type FormDialogState =
    | {
         isOpen: boolean;
+        entity: 'task';
         type: 'task';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -35,6 +49,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'event';
         type: 'event';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -42,6 +57,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'file';
         type: 'file';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -49,6 +65,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'file';
         type: 'new-file';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -56,6 +73,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'project';
         type: 'project-settings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -63,6 +81,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'clientContact';
         type: 'client-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -70,6 +89,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'partnerContact';
         type: 'partner-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -77,20 +97,15 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'client';
         type: 'client-settings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: ClientContactPayload;
+        data: ClientContactPayload | EditClientDto;
      }
    | {
         isOpen: boolean;
-        type: 'partner-contact';
-        mode: 'create' | 'edit';
-        openedOn: OpenedOnType;
-        data: PartnerContactPayload;
-     }
-   | {
-        isOpen: boolean;
+        entity: 'salesDocument';
         type: 'sales-document-item';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -98,6 +113,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'user';
         type: 'user-profile';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -105,6 +121,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'project';
         type: 'new-project';
         mode: 'create';
         openedOn: OpenedOnType;
@@ -112,24 +129,11 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
+        entity: 'client';
         type: 'new-client';
         mode: 'create';
         openedOn: OpenedOnType;
         data: ClientPayload;
-     }
-   | {
-        isOpen: boolean;
-        type: 'client-settings';
-        mode: 'edit';
-        openedOn: OpenedOnType;
-        data: UpdateClientDto;
-     }
-   | {
-        isOpen: boolean;
-        type: 'placeholder';
-        mode: 'edit';
-        openedOn: OpenedOnType;
-        data: null;
      };
 
 export type FormDialogType =

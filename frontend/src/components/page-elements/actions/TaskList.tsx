@@ -65,6 +65,7 @@ const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
          mode: 'edit',
          openedOn: openedOn,
          type: 'task',
+         entity: 'task',
          data: data,
       });
    };

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import {
    DateTimePickerForm,
@@ -7,61 +6,33 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import {
-   useCreateEvent,
-   useDeleteEvent,
-   useEditEvent,
-} from '@/lib/api/event-api';
 import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import { eventStatusSelections } from '../../helpers/constants/selections';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { ProjectField } from '@/components/shared/ui/dialogs/form-dialog/TaskDialog';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { EventPayload } from 'freelanceman-common/src/schemas';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import { CreateEventDto, EditEventDto, EventStatus } from 'freelanceman-common';
-import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { CrudApi } from '@/lib/api/api.type';
 
 export const EventDialog = ({
    formMethods,
-   handleEscapeWithChange,
+   buttonLoadingState,
+   crudApi,
+   handleLeftButtonClick,
 }: FormDialogProps) => {
    // button loading state
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'submit',
-   });
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, setValue } = formMethods;
+   const { handleSubmit } = formMethods;
 
-   // dialogs setup
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
+   //dialog state
+   const { formDialogState } = useFormDialogStore();
 
    // api setup
-   const errorCallback = (err: Error) => setValue('mutationError', err.message);
-   const successCallback = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const editEvent = useEditEvent({ errorCallback, successCallback });
-   const deleteEvent = useDeleteEvent({ errorCallback, successCallback });
-   const createEvent = useCreateEvent({ errorCallback, successCallback });
+   const { createEvent, editEvent } = crudApi as CrudApi['event'];
 
    // submit handler
    const onSubmit = (data: EventPayload) => {
@@ -89,32 +60,6 @@ export const EventDialog = ({
          } as EditEventDto;
          editEvent.mutate(payload);
          setIsApiLoading({ isLoading: false, type: 'submit' });
-      }
-   };
-
-   // discard/delete handler
-   const handleLeftButtonClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      if (formDialogState.mode === 'create') {
-         handleEscapeWithChange();
-      } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'destructive' });
-         handleDelete({
-            mutateApi: deleteEvent,
-            payload: formDialogState.data.id,
-            setFormDialogState: setFormDialogState,
-            openConfirmDialog: true,
-            setConfirmationDialogState: setConfirmationDialogState,
-            confirmDialogData: {
-               type: 'delete',
-               entityName: formDialogState.data.name,
-               dialogRequested: {
-                  mode: 'edit',
-                  type: 'event',
-               },
-            },
-         });
-         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 

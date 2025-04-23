@@ -12,6 +12,7 @@ const useFormDialogStore = create<State>((set) => ({
    formDialogState: {
       isOpen: false,
       mode: 'create',
+      entity: 'task',
       type: 'task',
       openedOn: 'global-add-button',
       data: defaultTaskValue,

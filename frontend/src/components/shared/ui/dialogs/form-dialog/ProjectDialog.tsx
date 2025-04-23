@@ -1,10 +1,7 @@
-import { DialogFooter } from '../../primitives/Dialog';
 import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import { useDeleteProject, useEditProject, useProjectApi } from '@/lib/api/project-api';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import {
    EditProjectDto,
    PaymentStatus,
@@ -21,96 +18,38 @@ import {
    Label,
    StatusSelectForm,
 } from 'src/components/shared/ui/form-field-elements';
-import {
-   DiscardButton,
-   SubmitButton,
-} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import { CrudApi } from '@/lib/api/api.type';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 
-export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
+export const ProjectDialog = ({
+   formMethods,
+   buttonLoadingState,
+   crudApi,
+   handleLeftButtonClick,
+}: FormDialogProps) => {
    const navigate = useNavigate();
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const { setConfirmationDialogState } = useConfirmationDialogStore();
-   const editProject = useEditProject({
-      errorCallback(err) {
-         setValue('mutationError', err.message)
-      },
-      successCallback() {
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-      },
-   });
-   const deleteProject = useDeleteProject({
-      errorCallback(err) {
-         setValue('mutationError', err.message)
-      },
-      successCallback() {
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-      },
-   });
+   // button loading state
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
-   const { handleSubmit, setValue } = formMethods;
+   // form utilities
+   const { handleSubmit } = formMethods;
+
+   //dialog state
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+
+   // api setup
+   const { editProject } = crudApi as CrudApi['project'];
 
    const onSubmit = (data: ProjectPayload) => {
+      setIsApiLoading({ isLoading: true, type: 'submit' });
       const editProjectPayload: EditProjectDto = {
-         id: 'data.id',
+         id: formDialogState.data.id,
          title: data.title,
          projectStatus: data.projectStatus as ProjectStatus,
          paymentStatus: data.paymentStatus as PaymentStatus,
       };
-
       editProject.mutate(editProjectPayload);
-   };
-
-   const handleDeleteButtonClick = () => {
-      const projectTitle = formMethods.getValues('title');
-      const projectId = formMethods.getValues('id');
-
-      const handleDeleteProject = () => {
-         deleteProject.mutate(projectId);
-         if (deleteProject.isError) {
-            const { error } = deleteProject;
-            setValue('mutationError', error.message);
-            setConfirmationDialogState((prev) => {
-               return {
-                  ...prev,
-                  isOpen: false,
-               };
-            });
-            setFormDialogState((prev) => ({ ...prev, isOpen: true }));
-         }
-
-         setConfirmationDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-      };
-
-      setFormDialogState((prev) => ({ ...prev, isOpen: false }));
-      setConfirmationDialogState({
-         isOpen: true,
-         actions: {
-            primary: () => handleDeleteProject(),
-         },
-         entityName: projectTitle,
-         additionalMessage:
-            'This action will also delete related tasks, events and files.',
-         type: 'delete',
-         dialogRequested: {
-            mode: 'edit',
-            type: 'project-settings',
-         },
-      });
+      setIsApiLoading({ isLoading: false, type: 'submit' });
    };
 
    const handleClientClick = () => {
@@ -188,20 +127,12 @@ export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
                </div>
             </div>
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4 pb-2">
-               <DiscardButton
-                  formDialogState={formDialogState}
-                  action={handleDeleteButtonClick}
-                  formMethods={formMethods}
-                  deleteText="Delete Project"
-               />
-               <SubmitButton
-                  formDialogState={formDialogState}
-                  formMethods={formMethods}
-               />
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formDialogState={formDialogState}
+            formMethods={formMethods}
+            isApiLoading={isApiLoading}
+            onDiscard={handleLeftButtonClick}
+         />
       </form>
    );
 };

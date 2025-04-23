@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import {
@@ -10,14 +9,7 @@ import {
    Label,
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import {
-   useCreateClientContact,
-   useDeleteClientContact,
-   useEditClientContact,
-} from 'src/lib/api/client-contact-api';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import {
    ClientContactPayload,
@@ -25,81 +17,26 @@ import {
    EditClientContactDto,
 } from 'freelanceman-common';
 import { useNavigate } from 'react-router-dom';
-import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
+import { CrudApi } from '@/lib/api/api.type';
 
 export const ClientContactDialog = ({
    formMethods,
-   handleEscapeWithChange,
+   buttonLoadingState,
+   crudApi,
+   handleLeftButtonClick,
 }: FormDialogProps) => {
    // button loading state
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'submit',
-   });
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, setValue } = formMethods;
+   const { handleSubmit } = formMethods;
 
-   // dialogs setup
+   //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
 
    // api setup
-   const errorCallback = (err: Error) => setValue('mutationError', err.message);
-   const successCallback = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const createClientContact = useCreateClientContact({
-      errorCallback,
-      successCallback,
-   });
-   const editClientContact = useEditClientContact({
-      errorCallback,
-      successCallback,
-   });
-   const deleteClientContact = useDeleteClientContact({
-      errorCallback,
-      successCallback,
-   });
-
-   // discard/delete handler
-   const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      if (formDialogState.mode === 'create') {
-         handleEscapeWithChange();
-      } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'destructive' });
-         handleDelete({
-            mutateApi: deleteClientContact,
-            payload: formDialogState.data.id,
-            setFormDialogState: setFormDialogState,
-            openConfirmDialog: true,
-            setConfirmationDialogState: setConfirmationDialogState,
-            confirmDialogData: {
-               type: 'delete',
-               entityName: formDialogState.data.name,
-               dialogRequested: {
-                  mode: 'edit',
-                  type: 'client-contact',
-               },
-            },
-         });
-         setIsApiLoading({ isLoading: false, type: 'destructive' });
-      }
-   };
+   const { createClientContact, editClientContact } =
+      crudApi as CrudApi['clientContact'];
 
    // submit handler
    const onSubmit = (data: ClientContactPayload) => {

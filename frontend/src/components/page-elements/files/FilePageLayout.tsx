@@ -2,8 +2,6 @@ import {
    fileTypeSelections,
    fileCategorySelections,
 } from 'src/components/shared/ui/helpers/constants/selections';
-import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
-import { Plus } from '@/components/shared/icons';
 import { useState } from 'react';
 import { Folder } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
@@ -16,6 +14,7 @@ import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/de
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FileFilterDto, FilePayload } from 'freelanceman-common';
 import AddButton from '@/components/shared/ui/AddButton';
+import FileListLoader from '@/components/shared/ui/placeholder-ui/FilePageLoader';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -70,7 +69,8 @@ const FilePageLayout = (): JSX.Element => {
          isOpen: true,
          mode: 'create',
          openedOn: 'file-page',
-         type: 'file',
+         type: 'new-file',
+         entity: 'file',
          data: { ...defaultFileValues },
       });
    };
@@ -112,13 +112,13 @@ const FilePageLayout = (): JSX.Element => {
                onChange={(e) => handleFileFilter('displayName', e.target.value)}
             />
          </div>
-         <FileList
+         {isLoading ? <FileListLoader/> : <FileList
             filesData={filesData}
             isLoading={isLoading}
             selectState={selectState}
             size='base'
             setSelectState={setSelectState}
-         />
+         />}
       </div>
    );
 };

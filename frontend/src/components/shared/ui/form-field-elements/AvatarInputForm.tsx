@@ -47,7 +47,7 @@ export const AvatarInputForm = ({ formMethods }: InputProps) => {
             onClick={() => document.getElementById('avatar-upload')?.click()}
          >
             {avatarFile ? (
-               <>
+            <>
                   <img
                      src={avatarFile}
                      alt="Avatar Preview"

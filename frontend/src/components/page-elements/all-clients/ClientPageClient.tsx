@@ -30,6 +30,7 @@ const ClientColumn = (): JSX.Element => {
          mode: 'create',
          openedOn: 'all-client-page',
          type: 'new-client',
+         entity: 'client',
          data: { ...defaultClientValue },
       });
    };

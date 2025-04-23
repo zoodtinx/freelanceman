@@ -46,6 +46,7 @@ const GlobalAddButton = () => {
       setFormDialogState({
          isOpen: true,
          type: 'task',
+         entity: 'task',
          mode: 'create',
          data: defaultValues['task'],
          openedOn: 'global-add-button',
@@ -56,6 +57,7 @@ const GlobalAddButton = () => {
       setFormDialogState({
          isOpen: true,
          type: 'event',
+         entity: 'event',
          mode: 'create',
          data: defaultEventValues,
          openedOn: 'global-add-button',
@@ -66,6 +68,7 @@ const GlobalAddButton = () => {
       setFormDialogState({
          isOpen: true,
          type: 'client-contact',
+         entity: 'clientContact',
          mode: 'create',
          data: defaultValues['client-contact'],
          openedOn: 'global-add-button',
@@ -77,6 +80,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-client',
          mode: 'create',
+         entity: 'client',
          data: defaultValues['new-client'],
          openedOn: 'global-add-button',
       });
@@ -97,6 +101,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-file',
          mode: 'create',
+         entity: 'file',
          data: defaultValues['file'],
          openedOn: 'global-add-button',
       });

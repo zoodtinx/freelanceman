@@ -29,6 +29,7 @@ export default function EventSection() {
          mode: 'create',
          openedOn: 'action-page',
          type: 'event',
+         entity: 'event',
          data: {...defaultEventValues},
       });
    };

@@ -54,11 +54,11 @@ const useCrudApi = (callbacks: MutationCallbacks) => {
          editClientContact: useEditClientContact(callbacks),
          deleteClientContact: useDeleteClientContact(callbacks),
       },
-      //   partnerCompany: {
-      //     createPartnerCompany: useCreatePartnerCompany(callbacks),
-      //     editPartnerCompany: useEditPartnerCompany(callbacks),
-      //     deletePartnerCompany: useDeletePartnerCompany(callbacks),
-      //   },
+      partnerCompany: {
+         createPartnerCompany: useCreateClientContact(callbacks),
+         editPartnerCompany: useEditClientContact(callbacks),
+         deletePartnerCompany: useDeleteClientContact(callbacks),
+      },
       partnerContact: {
          createPartnerContact: useCreatePartnerContact(callbacks),
          editPartnerContact: useEditPartnerContact(callbacks),
@@ -69,21 +69,21 @@ const useCrudApi = (callbacks: MutationCallbacks) => {
          editProject: useEditProject(callbacks),
          deleteProject: useDeleteProject(callbacks),
       },
-      //   salesDocument: {
-      //     createSalesDocument: useCreateSalesDocument(callbacks),
-      //     editSalesDocument: useEditSalesDocument(callbacks),
-      //     deleteSalesDocument: useDeleteSalesDocument(callbacks),
-      //   },
-      //   salesDocumentItem: {
-      //     createSalesDocumentItem: useCreateSalesDocumentItem(callbacks),
-      //     editSalesDocumentItem: useEditSalesDocumentItem(callbacks),
-      //     deleteSalesDocumentItem: useDeleteSalesDocumentItem(callbacks),
-      //   },
-      //   user: {
-      //     createUser: useCreateUser(callbacks),
-      //     editUser: useEditUser(callbacks),
-      //     deleteUser: useDeleteUser(callbacks),
-      //   },
+      salesDocument: {
+         createSalesDocument: useCreateProject(callbacks),
+         editSalesDocument: useEditProject(callbacks),
+         deleteSalesDocument: useDeleteProject(callbacks),
+      },
+      salesDocumentItem: {
+         createsSalesDocumentItem: useCreateProject(callbacks),
+         editSalesDocumentItem: useEditProject(callbacks),
+         deleteSalesDocumentItem: useDeleteProject(callbacks),
+      },
+      user: {
+         createUser: useCreateProject(callbacks),
+         editUser: useEditProject(callbacks),
+         deleteUser: useDeleteProject(callbacks),
+      },
    };
 };
 

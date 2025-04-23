@@ -40,6 +40,7 @@ export const ContactColumn = (): JSX.Element => {
          mode: 'create',
          openedOn: 'all-client-page',
          type: 'client-contact',
+         entity: 'clientContact',
          data: { ...defaultContactValues },
       });
    };
@@ -100,6 +101,7 @@ export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
          mode: 'edit',
          openedOn: 'client-page',
          type: 'client-contact',
+         entity: 'clientContact',
          data: contact,
       });
    };

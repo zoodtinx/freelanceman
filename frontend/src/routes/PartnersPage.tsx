@@ -46,6 +46,7 @@ const PartnerContactLayout = (): JSX.Element => {
          isOpen: true,
          type: 'partner-contact',
          mode: 'create',
+         entity: 'partnerContact',
          openedOn: 'partner-page',
          data: { ...defaultPartnerContactValues },
       });
@@ -123,6 +124,7 @@ const PartnerTab = ({ contact }: { contact: PartnerContactPayload }) => {
          openedOn: 'all-client-page',
          type: 'partner-contact',
          data: contact,
+         entity: 'partnerContact'
       });
    };
 

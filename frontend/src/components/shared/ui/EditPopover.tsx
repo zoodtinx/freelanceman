@@ -42,7 +42,7 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
          <PopoverContent className="w-[80px] cursor-default select-none bg-foreground">
             <p onClick={(e) => handleEdit(e)}>Edit</p>
             <Separator />
-            <p onClick={(e) => handleDelete(e)} className="text-red-400">
+            <p onClick={(e) => {handleDelete(e) }} className="text-red-400">
                Delete
             </p>
          </PopoverContent>

@@ -107,6 +107,7 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
          mode: 'edit',
          openedOn: 'action-page',
          type: 'event',
+         entity: 'event',
          data: data,
       });
    };

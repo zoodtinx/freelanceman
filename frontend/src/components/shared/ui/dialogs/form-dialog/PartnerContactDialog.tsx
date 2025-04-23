@@ -1,78 +1,40 @@
-import { useState } from 'react';
 import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import {
    DynamicHeightTextInputForm,
-   SelectWithSearchForm,
    TextAreaForm,
    TextInputForm,
    AvatarInputForm,
    Label,
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import {
    CreatePartnerContactDto,
    EditPartnerContactDto,
    PartnerContactPayload,
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import {
-   useCreatePartnerContact,
-   useDeletePartnerContact,
-   useEditPartnerContact,
-} from '@/lib/api/partner-contact-api';
-import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
+import { CrudApi } from '@/lib/api/api.type';
 
 export const PartnerContactDialog = ({
    formMethods,
-   handleEscapeWithChange,
+   buttonLoadingState,
+   crudApi,
+   handleLeftButtonClick,
 }: FormDialogProps) => {
    // button loading state
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'submit',
-   });
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, setValue } = formMethods;
+   const { handleSubmit } = formMethods;
 
-   // dialogs setup
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
+   //dialog state
+   const { formDialogState } = useFormDialogStore();
 
    // api setup
-   const errorCallback = (err: Error) => setValue('mutationError', err.message);
-   const successCallback = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const createPartnerContact = useCreatePartnerContact({
-      errorCallback,
-      successCallback,
-   });
-   const editPartnerContact = useEditPartnerContact({
-      errorCallback,
-      successCallback,
-   });
-   const deletePartnerContact = useDeletePartnerContact({
-      errorCallback,
-      successCallback,
-   });
+   const { createPartnerContact, editPartnerContact } =
+      crudApi as CrudApi['partnerContact'];
 
    // submit handler
    const onSubmit = (data: PartnerContactPayload) => {
@@ -102,34 +64,6 @@ export const PartnerContactDialog = ({
          };
          editPartnerContact.mutate(payload);
          setIsApiLoading({ isLoading: false, type: 'submit' });
-      }
-   };
-
-   // discard/delete handler
-   const handleLeftButtonClick = async (
-      e: React.MouseEvent<HTMLButtonElement>
-   ) => {
-      e.preventDefault();
-      if (formDialogState.mode === 'create') {
-         handleEscapeWithChange();
-      } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'destructive' });
-         handleDelete({
-            mutateApi: deletePartnerContact,
-            payload: formDialogState.data.id,
-            setFormDialogState: setFormDialogState,
-            openConfirmDialog: true,
-            setConfirmationDialogState: setConfirmationDialogState,
-            confirmDialogData: {
-               type: 'delete',
-               entityName: formDialogState.data.name,
-               dialogRequested: {
-                  mode: 'edit',
-                  type: 'partner-contact',
-               },
-            },
-         });
-         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 

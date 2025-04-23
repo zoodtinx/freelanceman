@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Files, ClipboardX, ArrowDownToLine } from 'lucide-react';
+import { Files, ArrowDownToLine } from 'lucide-react';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
-import { DialogFooter } from '../../primitives/Dialog';
 import { Button } from '../../primitives/Button';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
@@ -15,26 +14,31 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import {
-   DiscardButton,
-   SubmitButton,
-} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useFileApi } from '@/lib/api/file-api';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { CrudApi } from '@/lib/api/api.type';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { EditFileDto } from 'freelanceman-common';
 
-export const FileDialog = ({ formMethods }: FormDialogProps) => {
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
+export const FileDialog = ({
+   formMethods,
+   buttonLoadingState,
+   crudApi,
+   handleLeftButtonClick,
+}: FormDialogProps) => {
+   // button loading state
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
+
+   // form utilities
+   const { handleSubmit, getValues, watch } = formMethods;
+
+   //dialog state
+   const { formDialogState } = useFormDialogStore();
+
+   // api setup
+   const { editFile } = crudApi as CrudApi['file'];
+
    const [copied, setCopied] = useState(false);
 
-   const { editFile } = useFileApi()
-
-   const { getValues, watch, handleSubmit } = formMethods;
-   const fileName = getValues('displayName')
    const fileSize = formatBytes(watch('size'));
    const link = watch('link');
    const category = getValues('category');
@@ -48,42 +52,22 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
       }
    };
 
-   const handleDeleteButtonClick = () => {
-      setFormDialogState((prev) => ({ ...prev, isOpen: false }));
-      setConfirmationDialogState({
-         isOpen: true,
-         actions: {
-            primary: () => {}
-         },
-         message: fileName,
-         type: 'delete',
-         dialogRequested: {
-            mode: 'edit',
-            type: 'file'
-         }
-      })
-   };
-
    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+      setIsApiLoading({ isLoading: true, type: 'submit' });
       const editFilePayload: EditFileDto = {
+         id: formDialogState.data.id,
          displayName: data.displayName,
-         type: data.type
-      }
-      const fileId = formDialogState.data.id
-      editFile.mutate({
-         fileId: fileId, 
-         filePayload: editFilePayload
-      } )
+         type: data.type,
+      };
+      editFile.mutate(editFilePayload);
+      setIsApiLoading({ isLoading: false, type: 'submit' });
    };
-
-   const handleDelete = () => {
-      console.log('deleting');
-   };
-
-   const fileUrl = formMethods.getValues('link');
 
    return (
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-background rounded-2xl text-primary flex flex-col">
+      <form
+         onSubmit={handleSubmit(onSubmit)}
+         className="bg-background rounded-2xl text-primary flex flex-col"
+      >
          <div className="flex gap-1 items-center px-5 pt-4 w-full">
             <FileIconByExtension
                fileType={watch('type')}
@@ -157,22 +141,12 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
                </div>
             </div>
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4">
-               <DiscardButton
-                  formDialogState={formDialogState}
-                  action={handleDeleteButtonClick}
-                  formMethods={formMethods}
-               />
-               <div className="flex gap-1">
-                  <SubmitButton
-                     formDialogState={formDialogState}
-                     formMethods={formMethods}
-                  />
-                  <DownloadButton url={fileUrl} />
-               </div>
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formDialogState={formDialogState}
+            formMethods={formMethods}
+            isApiLoading={isApiLoading}
+            onDiscard={handleLeftButtonClick}
+         />
       </form>
    );
 };
@@ -180,7 +154,11 @@ export const FileDialog = ({ formMethods }: FormDialogProps) => {
 const DownloadButton = ({ url }: { url: string }) => {
    return (
       <Link to={url}>
-         <Button type="submit" variant={'default'} className="flex gap-1 pl-2 pr-3">
+         <Button
+            type="submit"
+            variant={'default'}
+            className="flex gap-1 pl-2 pr-3"
+         >
             <ArrowDownToLine className="w-4 h-4" />
             Download
          </Button>

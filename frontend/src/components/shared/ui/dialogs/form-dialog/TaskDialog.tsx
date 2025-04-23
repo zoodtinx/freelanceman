@@ -7,11 +7,9 @@ import {
    StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useDeleteTask, useEditTask, useCreateTask } from '@/lib/api/task-api';
 import { taskStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import {
    FormDialogProps,
    FormDialogState,
@@ -22,49 +20,26 @@ import {
    TaskStatus,
    EditTaskDto,
 } from 'freelanceman-common';
-import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
-import { useState } from 'react';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { CrudApi } from '@/lib/api/api.type';
 
 export const TaskDialog = ({
    formMethods,
-   handleEscapeWithChange,
+   buttonLoadingState,
+   crudApi,
+   handleLeftButtonClick,
 }: FormDialogProps) => {
    // button loading state
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'submit',
-   });
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, setValue } = formMethods;
+   const { handleSubmit } = formMethods;
 
-   // dialogs setup
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
+   //dialog state
+   const { formDialogState } = useFormDialogStore();
 
    // api setup
-   const errorCallback = (err: Error) => setValue('mutationError', err.message);
-   const successCallback = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const createTask = useCreateTask({ errorCallback, successCallback });
-   const editTask = useEditTask({ errorCallback, successCallback });
-   const deleteTask = useDeleteTask({ errorCallback, successCallback });
+   const { createTask, editTask } = crudApi as CrudApi['task'];
 
    // submit handler
    const onSubmit = (data: TaskPayload) => {
@@ -92,32 +67,6 @@ export const TaskDialog = ({
          } as EditTaskDto;
          editTask.mutate(payload);
          setIsApiLoading({ isLoading: false, type: 'submit' });
-      }
-   };
-
-   // discard/delete handler
-   const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      if (formDialogState.mode === 'create') {
-         handleEscapeWithChange();
-      } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'destructive' });
-         handleDelete({
-            mutateApi: deleteTask,
-            payload: formDialogState.data.id,
-            setFormDialogState: setFormDialogState,
-            openConfirmDialog: true,
-            setConfirmationDialogState: setConfirmationDialogState,
-            confirmDialogData: {
-               type: 'delete',
-               entityName: formDialogState.data.name,
-               dialogRequested: {
-                  mode: 'edit',
-                  type: 'task',
-               },
-            },
-         });
-         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 

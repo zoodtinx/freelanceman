@@ -11,6 +11,7 @@ import {
 } from 'src/components/shared/ui/helpers/Helpers';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FilePayload } from 'freelanceman-common/src/schemas';
+import { useDeleteFile } from '@/lib/api/file-api';
 
 interface FileListProps {
    filesData: FilePayload[] | undefined;
@@ -22,16 +23,10 @@ interface FileListProps {
 
 export const FileList: React.FC<FileListProps> = ({
    filesData,
-   isLoading,
    selectState,
    setSelectState,
    size,
 }) => {
-
-   if (isLoading) {
-      return <p>Loading...</p>;
-   }
-
    if (!filesData || filesData.length === 0) {
       return <p>No File available</p>;
    }
@@ -71,6 +66,7 @@ export const FileListItem = ({
    );
    
    const isSelected = selectState.selectedValues.includes(data.id);
+   const deleteFile = useDeleteFile()
 
    const dateUploaded = formatDate(data.createdAt, 'LONG');
    const category = formatCategory(data.category);
@@ -79,10 +75,10 @@ export const FileListItem = ({
       setFormDialogState({
          isOpen: true,
          data: data,
-         id: data.id,
          mode: 'edit',
          type: 'file',
-         page: 'file-page',
+         entity: 'file',
+         openedOn: 'file-page'
       });
    }
 
@@ -116,8 +112,13 @@ export const FileListItem = ({
          mode: 'edit',
          openedOn:'file-page',
          type:'file',
-         data: data
+         entity: 'file',
+         data: {...data}
       })
+   }
+
+   const handleDeleteFile = () => {
+      deleteFile.mutate(data.id)
    }
 
    return (
@@ -160,7 +161,10 @@ export const FileListItem = ({
                   </div>
                </div>
             </div>
-            <EditPopover editFn={handleOpenDialog} />
+            <EditPopover
+               editFn={handleOpenDialog}
+               deleteFn={handleDeleteFile}
+            />
          </div>
          <Separator className="bg-quaternary h-[1px]" />
       </div>

@@ -28,6 +28,7 @@ export default function TaskSection() {
          isOpen: true,
          mode: 'create',
          openedOn: 'action-page',
+         entity: 'task',
          type: 'task',
          data: {...defaultTaskValue},
       });

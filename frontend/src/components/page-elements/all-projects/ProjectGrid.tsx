@@ -55,6 +55,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          mode: 'edit',
          openedOn: 'all-project-page',
          type: 'project-settings',
+         entity: 'project',
          data: project,
       });
    };
@@ -131,6 +132,7 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
          openedOn: 'all-project-page',
          mode: 'edit',
          type: 'task',
+         entity: 'task',
          data: task,
       });
    };

@@ -16,25 +16,52 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useWatch, useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect, useState } from 'react';
-import { FormDialogType } from '@/lib/types/form-dialog.types';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
+import {
+   ApiLoadingState,
+   FormDialogProps,
+   FormDialogType,
+} from '@/lib/types/form-dialog.types';
+import useCrudApi from '@/lib/api/services/all-api';
+import { CrudApi } from '@/lib/api/api.type';
+import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 
 const FormDialog = () => {
+   //dialog hooks setup
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
 
+   //api hook setup
+   const errorCallback = (err: Error) => setValue('mutationError', err.message);
+   const successCallback = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+      setConfirmationDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
+   const crudApi = useCrudApi({ errorCallback, successCallback });
+
+   //react hook form setup
    const formMethods = useForm({
       defaultValues: formDialogState.data as any,
    });
-
    const {
       formState: { isDirty },
       clearErrors,
+      setValue,
       reset,
    } = formMethods;
 
+   //handle dialog close with unsaved changes
    const handleDialogClose = useCallback(() => {
       setFormDialogState((prev) => {
          return {
@@ -49,7 +76,6 @@ const FormDialog = () => {
          };
       });
    }, [setFormDialogState, setConfirmationDialogState]);
-
    const handleEscapeWithChange = useCallback(() => {
       if (isDirty) {
          setConfirmationDialogState({
@@ -73,7 +99,6 @@ const FormDialog = () => {
       setConfirmationDialogState,
       handleDialogClose,
    ]);
-
    useEffect(() => {
       const handleEscKey = (event: KeyboardEvent) => {
          if (event.key === 'Escape') {
@@ -88,21 +113,51 @@ const FormDialog = () => {
       };
    }, [setConfirmationDialogState, handleEscapeWithChange]);
 
+   //handle data change when open/close dialogs
    useEffect(() => {
       clearErrors();
       reset(formDialogState.data);
    }, [formDialogState.data, reset, clearErrors]);
 
+   //dialog color access
    const color =
       formDialogState.type === 'client-contact' ||
       formDialogState.type === 'partner-contact'
          ? (formDialogState.data as any).company?.themeColor
          : formDialogState.data.client?.themeColor;
 
+   //button api laoding state
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'submit',
    });
+   const buttonLoadingState = { isApiLoading, setIsApiLoading };
+
+   //handle discard/delete
+   const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      if (formDialogState.mode === 'create') {
+         handleEscapeWithChange();
+      } else if (formDialogState.mode === 'edit') {
+         setIsApiLoading({ isLoading: true, type: 'destructive' });
+         handleDelete({
+            mutateApi: getDeleteFn(formDialogState.entity, crudApi),
+            payload: formDialogState.data.id,
+            setFormDialogState: setFormDialogState,
+            openConfirmDialog: true,
+            setConfirmationDialogState: setConfirmationDialogState,
+            confirmDialogData: {
+               type: 'delete',
+               entityName: formDialogState.data.name,
+               dialogRequested: {
+                  mode: 'edit',
+                  type: formDialogState.type,
+               },
+            },
+         });
+         setIsApiLoading({ isLoading: false, type: 'destructive' });
+      }
+   };
 
    return (
       <Dialog
@@ -130,7 +185,9 @@ const FormDialog = () => {
                <FormDialogContent
                   dialogType={formDialogState.type}
                   formMethods={formMethods}
-                  handleEscapeWithChange={handleEscapeWithChange}
+                  buttonLoadingState={buttonLoadingState}
+                  crudApi={crudApi[formDialogState.entity]}
+                  handleLeftButtonClick={handleLeftButtonClick}
                />
                <MutationErrorField formMethods={formMethods} />
             </div>
@@ -171,15 +228,7 @@ const FormDialogTitle = ({ dialogType }: { dialogType: string }) => {
    );
 };
 
-const FormDialogContent = ({
-   dialogType,
-   formMethods,
-   handleEscapeWithChange,
-}: {
-   dialogType: string;
-   formMethods: UseFormReturn;
-   handleEscapeWithChange: () => void;
-}) => {
+const FormDialogContent = (props: FormDialogProps) => {
    const {
       TaskDialog,
       EventDialog,
@@ -194,12 +243,7 @@ const FormDialogContent = ({
       PartnerContactDialog,
    } = Dialogs;
 
-   const props = {
-      formMethods: formMethods,
-      handleEscapeWithChange: handleEscapeWithChange,
-   };
-
-   switch (dialogType) {
+   switch (props.dialogType) {
       case 'task':
          return <TaskDialog {...props} />;
       case 'event':
@@ -226,6 +270,33 @@ const FormDialogContent = ({
          return <></>;
       default:
          return <></>;
+   }
+};
+
+const getDeleteFn = (entity: keyof CrudApi, crudApi: CrudApi) => {
+   switch (entity) {
+      case 'task':
+         return crudApi.task.deleteTask;
+      case 'event':
+         return crudApi.event.deleteEvent;
+      case 'file':
+         return crudApi.file.deleteFile;
+      case 'client':
+         return crudApi.client.deleteClient;
+      case 'clientContact':
+         return crudApi.clientContact.deleteClientContact;
+      case 'partnerCompany':
+         return crudApi.partnerCompany.deletePartnerCompany;
+      case 'partnerContact':
+         return crudApi.partnerContact.deletePartnerContact;
+      case 'project':
+         return crudApi.project.deleteProject;
+      case 'salesDocument':
+         return crudApi.salesDocument.deleteSalesDocument;
+      case 'salesDocumentItem':
+         return crudApi.salesDocumentItem.deleteSalesDocumentItem;
+      case 'user':
+         return crudApi.user.deleteUser;
    }
 };
 
