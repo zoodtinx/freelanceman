@@ -1,4 +1,4 @@
-import { ClientContactPayload, ClientPayload, EventPayload, ProjectPayload, TaskPayload } from 'freelanceman-common';
+import { ClientContactPayload, ClientPayload, EventPayload, PartnerContactPayload, ProjectPayload, TaskPayload } from 'freelanceman-common';
 
 export const defaultContact = {
    id: '',
@@ -9,18 +9,6 @@ export const defaultContact = {
    name: '',
    phoneNumber: [],
    role: '',
-};
-
-export const defaultPartnerValues = {
-   id: '',
-   name: '',
-   company: '',
-   companyId: '',
-   role: '',
-   phoneNumber: [],
-   email: '',
-   details: '',
-   avatar: '',
 };
 
 export const defaultUserValue = {
@@ -124,6 +112,21 @@ export const defaultContactValues: ClientContactPayload = {
    userId: ''
 };
 
+export const defaultPartnerContactValues: PartnerContactPayload = {
+   id: '',
+   name: '',
+   company: defaultClientValue,
+   companyId: '',
+   role: '',
+   phoneNumber: '',
+   email: '',
+   detail: '',
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+   userId: '',
+   avatar: '',
+};
+
 export const defaultTaskValue: TaskPayload = {
    id: '',
    name: '',
@@ -149,7 +152,7 @@ export const defaultValues = {
    'new-file': defaultFileValues,
    'project-settings': {},
    'client-contact': defaultContact,
-   'partner-contact': defaultPartnerValues,
+   'partner-contact': defaultPartnerContactValues,
    'sales-document-item': {},
    'user-profile': defaultUserValue,
    'new-project': defaultNewProjectValue,

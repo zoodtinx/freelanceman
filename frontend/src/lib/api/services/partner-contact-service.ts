@@ -33,14 +33,37 @@ export async function getPartnerContact(
 export async function createPartnerContact(
    accessToken: string,
    payload: CreatePartnerContactDto
-) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'partner-contacts',
+      method: 'POST',
+      model: 'partner contact',
+      requestPayload: payload,
+   });
+}
 
 export async function editPartnerContact(
    accessToken: string,
    payload: EditPartnerContactDto
-) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `partner-contacts/${payload.id}`,
+      method: 'PATCH',
+      model: 'partner contact',
+      requestPayload: payload,
+   });
+}
 
 export async function deletePartnerContact(
    accessToken: string,
    contactId: string
-) {}
+) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `partner-contacts/${contactId}`,
+      method: 'DELETE',
+      model: 'partner contact',
+   });
+}

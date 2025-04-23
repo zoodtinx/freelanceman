@@ -8,7 +8,7 @@ import {
 } from 'src/components/shared/ui/select/Select';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { useState } from 'react';
-import { BookUser, ChevronDown } from 'lucide-react';
+import { BookUser, ChevronDown, User } from 'lucide-react';
 import { usePartnerContactsQuery } from 'src/lib/api/partner-contact-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
@@ -16,10 +16,8 @@ import {
    PartnerContactFilterDto,
    PartnerContactPayload,
 } from 'freelanceman-common';
-import {
-   PartnerPageFilterLoader,
-   PartnerPageTabsLoader,
-} from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
+import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
+import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 
 const PartnerContactLayout = (): JSX.Element => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -27,22 +25,16 @@ const PartnerContactLayout = (): JSX.Element => {
    const [searchOptions, setSearchOptions] = useState<PartnerContactFilterDto>(
       {}
    );
-   const [searchMode, setSearchMode] = useState('name');
+   const [searchMode, setSearchMode] =
+      useState<keyof PartnerContactFilterDto>('name');
 
    const { data: contacts, isLoading } = usePartnerContactsQuery(searchOptions);
 
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-      switch (searchMode) {
-         case 'name':
-            setSearchOptions({ name: event.target.value });
-            break;
-         case 'role':
-            setSearchOptions({ role: event.target.value });
-            break;
-      }
+      setSearchOptions({ [searchMode]: event.target.value });
    };
 
-   const handleSearchOptionChange = (mode: string) => {
+   const handleSearchOptionChange = (mode: keyof PartnerContactFilterDto) => {
       setSearchMode(mode);
       setSearchOptions({});
    };
@@ -53,7 +45,7 @@ const PartnerContactLayout = (): JSX.Element => {
          type: 'partner-contact',
          mode: 'create',
          openedOn: 'partner-page',
-         data: formDialogState.data,
+         data: { ...defaultPartnerContactValues },
       });
    };
 
@@ -68,19 +60,15 @@ const PartnerContactLayout = (): JSX.Element => {
             </div>
             <AddButton onClick={handleNewPartner} />
          </div>
-         {isLoading ? (
-            <PartnerPageFilterLoader />
-         ) : (
-            <div className="flex gap-1">
-               <SearchCategory onChange={handleSearchOptionChange} />
-               <SearchBox
-                  placeholder="Search contact"
-                  className=""
-                  onChange={handleSearchValue}
-                  value={searchOptions.name || ''}
-               />
-            </div>
-         )}
+         <div className="flex gap-1">
+            <SearchCategory onChange={handleSearchOptionChange} />
+            <SearchBox
+               placeholder="Search contact"
+               className=""
+               onChange={handleSearchValue}
+               value={searchOptions[searchMode] || ''}
+            />
+         </div>
          {isLoading ? (
             <PartnerPageTabsLoader />
          ) : (
@@ -102,10 +90,10 @@ const PartnerContactLayout = (): JSX.Element => {
 const SearchCategory = ({
    onChange,
 }: {
-   onChange: (value: string) => void;
+   onChange: (value: keyof PartnerContactFilterDto) => void;
 }) => {
    return (
-      <Select onValueChange={(value) => onChange(value)}>
+      <Select onValueChange={(value: any) => onChange(value)}>
          <SelectTrigger className="flex pl-3 pr-2 text-base w-[110px] gap-2 bg-primary text-foreground rounded-full border-none">
             <SelectValue placeholder="Name" />
             <ChevronDown className="w-4 h-4" />
@@ -114,7 +102,7 @@ const SearchCategory = ({
             <SelectGroup>
                <SelectItem value="name">Name</SelectItem>
                <SelectItem value="role">Role</SelectItem>
-               <SelectItem value="company">Company</SelectItem>
+               <SelectItem value="companyName">Company</SelectItem>
             </SelectGroup>
          </SelectContent>
       </Select>
@@ -146,12 +134,16 @@ const PartnerTab = ({ contact }: { contact: PartnerContactPayload }) => {
                <p className="w-[190px] transition-opacity leading-tight">
                   {contact.role}
                </p>
-               <div className="h-9 w-9 rounded-full bg-tertiary mr-3 overflow-hidden object-contain">
-                  <img
-                     src={contact.avatar}
-                     alt="Avatar Preview"
-                     className="w-full h-full object-cover"
-                  />
+               <div className="flex justify-center items-center h-9 w-9 rounded-full bg-tertiary mr-3 overflow-hidden object-contain">
+                  {contact.avatar ? (
+                     <img
+                        src={contact.avatar}
+                        alt="Avatar Preview"
+                        className="w-full h-full object-cover"
+                     />
+                  ) : (
+                     <User className='text-secondary' />
+                  )}
                </div>
                <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
                   {contact.name}

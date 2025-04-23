@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { useState } from 'react';
+import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import {
    DynamicHeightTextInputForm,
@@ -10,39 +10,44 @@ import {
    Label,
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { useClientContactApi } from 'src/lib/api/client-contact-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter2';
 import { ApiLoadingState } from '@/lib/types/form-element.type';
+import {
+   CreatePartnerContactDto,
+   EditPartnerContactDto,
+   PartnerContactPayload,
+} from 'freelanceman-common';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import {
+   useCreatePartnerContact,
+   useDeletePartnerContact,
+   useEditPartnerContact,
+} from '@/lib/api/partner-contact-api';
+import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 
 export const PartnerContactDialog = ({
    formMethods,
    handleEscapeWithChange,
 }: FormDialogProps) => {
-   const { createClientContact, deleteClientContact, editClientContact } =
-      useClientContactApi();
+   // button loading state
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'submit',
+   });
+
+   // form utilities
+   const { handleSubmit, setValue } = formMethods;
+
+   // dialogs setup
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const contactData = formDialogState.data as Contact;
 
-   const [color, setColor] = useState('');
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'discard',
-   });
-
-   const {
-      handleSubmit,
-      reset,
-      register,
-      getValues,
-      formState: { isDirty },
-   } = formMethods;
-
-   const handleDialogClose = () => {
+   // api setup
+   const errorCallback = (err: Error) => setValue('mutationError', err.message);
+   const successCallback = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
@@ -56,40 +61,24 @@ export const PartnerContactDialog = ({
          };
       });
    };
+   const createPartnerContact = useCreatePartnerContact({
+      errorCallback,
+      successCallback,
+   });
+   const editPartnerContact = useEditPartnerContact({
+      errorCallback,
+      successCallback,
+   });
+   const deletePartnerContact = useDeletePartnerContact({
+      errorCallback,
+      successCallback,
+   });
 
-   const handleDelete = () => {
-      setFormDialogState((prev) => ({ ...prev, isOpen: false }));
-      setConfirmationDialogState({
-         isOpen: true,
-         actions: {
-            primary: () => deleteClientContact.mutate(contactData.id),
-         },
-         message: contactData.name,
-         type: 'delete',
-         dialogRequested: {
-            mode: 'edit',
-            type: 'client-contact',
-         },
-      });
-   };
-
-   const handleLeftButtonClick = () => {
+   // submit handler
+   const onSubmit = (data: PartnerContactPayload) => {
       if (formDialogState.mode === 'create') {
-         handleEscapeWithChange();
-      } else if (formDialogState.mode === 'edit') {
-         handleDelete()
-      }
-   };
-
-   const onSubmit: SubmitHandler<CreateClientContactDto> = (data) => {
-      if (!isDirty) {
-         return;
-      }
-   
-      setIsApiLoading({ isLoading: true, type: 'submit' });
-   
-      if (formDialogState.mode === 'create') {
-         const payload: CreateClientContactDto = {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
+         const payload: CreatePartnerContactDto = {
             name: data.name,
             companyId: data.companyId,
             role: data.role,
@@ -98,26 +87,51 @@ export const PartnerContactDialog = ({
             detail: data.detail,
             avatar: data.avatar,
          };
-         createClientContact.mutate(payload);
+         createPartnerContact.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       } else if (formDialogState.mode === 'edit') {
-         const payload: EditClientContactDto = {
+         setIsApiLoading({ isLoading: true, type: 'submit' });
+         const payload: EditPartnerContactDto = {
+            id: data.id,
             name: data.name,
             role: data.role,
             phoneNumber: data.phoneNumber,
             email: data.email,
-            details: data.detail,
+            detail: data.detail,
             avatar: data.avatar,
          };
-         editClientContact.mutate({
-            clientContactId: formDialogState.data.id,
-            clientContactPayload: payload
-         });
+         editPartnerContact.mutate(payload);
+         setIsApiLoading({ isLoading: false, type: 'submit' });
       }
-   
-      setIsApiLoading({ isLoading: false, type: 'submit' });
-      handleDialogClose();
    };
-   
+
+   // discard/delete handler
+   const handleLeftButtonClick = async (
+      e: React.MouseEvent<HTMLButtonElement>
+   ) => {
+      e.preventDefault();
+      if (formDialogState.mode === 'create') {
+         handleEscapeWithChange();
+      } else if (formDialogState.mode === 'edit') {
+         setIsApiLoading({ isLoading: true, type: 'destructive' });
+         handleDelete({
+            mutateApi: deletePartnerContact,
+            payload: formDialogState.data.id,
+            setFormDialogState: setFormDialogState,
+            openConfirmDialog: true,
+            setConfirmationDialogState: setConfirmationDialogState,
+            confirmDialogData: {
+               type: 'delete',
+               entityName: formDialogState.data.name,
+               dialogRequested: {
+                  mode: 'edit',
+                  type: 'partner-contact',
+               },
+            },
+         });
+         setIsApiLoading({ isLoading: false, type: 'destructive' });
+      }
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
@@ -136,25 +150,6 @@ export const PartnerContactDialog = ({
                            isWithIcon={false}
                            className="text-lg"
                         />
-                     </div>
-                     <div className="flex flex-col leading-5">
-                        <Label className="w-[80px] text-secondary">
-                           Company
-                        </Label>
-                        {formDialogState.mode === 'edit' && (
-                           <p className="text-md">
-                              {formMethods.getValues('company')}
-                           </p>
-                        )}
-                        {formDialogState.mode !== 'edit' && (
-                           <SelectWithSearchForm
-                              formMethods={formMethods}
-                              fieldName="company"
-                              type="client"
-                              placeholder="Select Company"
-                              className='text-md'
-                           />
-                        )}
                      </div>
                      <div className="flex flex-col leading-5">
                         <Label className="w-[80px] text-secondary">Role</Label>
@@ -200,13 +195,12 @@ export const PartnerContactDialog = ({
                   />
                </div>
             </div>
-            {/* <FormDialogFooter
+            <FormDialogFooter
                formDialogState={formDialogState}
                formMethods={formMethods}
                isApiLoading={isApiLoading}
-               destructiveButtonAction={handleLeftButtonClick}
-               setIsApiLoading={setIsApiLoading}
-            /> */}
+               onDiscard={handleLeftButtonClick}
+            />
          </div>
       </form>
    );

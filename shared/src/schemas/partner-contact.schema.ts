@@ -3,7 +3,7 @@ import { partnerCompanySchema } from './partner-company.schema';
 
 export const createPartnerContactSchema = z.object({
     name: z.string().min(1),
-    companyId: z.string().min(1),
+    companyId: z.string().transform(val => val.trim() === '' ? null : val),
     role: z.string().min(1),
     phoneNumber: z.string().optional(),
     email: z.string().optional(),
@@ -13,7 +13,7 @@ export const createPartnerContactSchema = z.object({
 
 export const partnerContactFilterSchema = z.object({
     name: z.string().optional(),
-    companyId: z.string().optional(),
+    companyName: z.string().optional(),
     role: z.string().optional(),
 });
 

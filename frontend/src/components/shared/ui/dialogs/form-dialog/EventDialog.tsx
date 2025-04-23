@@ -93,7 +93,8 @@ export const EventDialog = ({
    };
 
    // discard/delete handler
-   const handleLeftButtonClick = async () => {
+   const handleLeftButtonClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
       } else if (formDialogState.mode === 'edit') {

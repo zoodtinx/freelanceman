@@ -21,7 +21,7 @@ export class PartnerContactService {
             const result = await this.prismaService.partnerContact.create({
                 data: {
                     name: dto.name,
-                    companyId: dto.companyId,
+                    companyId: dto.companyId ?? "00000000-0000-0000-0000-000000000000",
                     role: dto.role,
                     phoneNumber: dto.phoneNumber,
                     email: dto.email,
@@ -51,8 +51,10 @@ export class PartnerContactService {
                 where: {
                     userId,
                     name: filter.name ? { contains: filter.name, mode: 'insensitive' } : undefined,
-                    companyId: filter.companyId,
-                    role: filter.role,
+                    role: filter.role ? { contains: filter.role, mode: 'insensitive' } : undefined,
+                    company: {
+                        name: filter.companyName ? { contains: filter.companyName, mode: 'insensitive' } : undefined
+                    }            
                 },
                 take: 20,
                 orderBy: {
