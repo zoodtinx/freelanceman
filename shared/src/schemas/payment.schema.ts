@@ -4,6 +4,7 @@ import {
     ProjectStatusEnum,
     salesDocumentPayloadSchema,
 } from './index';
+import { optionalString } from './helper/optional';
 
 export const paymentDataPayloadSchema = z.object({
     id: z.string().uuid(),
@@ -13,7 +14,7 @@ export const paymentDataPayloadSchema = z.object({
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
     links: z.array(z.string().url()),
-    note: z.string().optional(),
+    note: optionalString(),
     userId: z.string(),
     pinned: z.boolean().default(false),
     createdAt: z.string(),
@@ -22,7 +23,7 @@ export const paymentDataPayloadSchema = z.object({
 });
 
 export const paymentDataFilterSchema = z.object({
-    clientId: z.string().optional(),
+    clientId: optionalString(),
 });
 
 export type PaymentDataPayload = z.infer<typeof paymentDataPayloadSchema>;

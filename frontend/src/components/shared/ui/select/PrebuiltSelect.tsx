@@ -34,7 +34,6 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
          placeholder = 'Select a value',
          isWithIcon = true,
          defaultValue,
-         color,
          ...props
       },
       ref

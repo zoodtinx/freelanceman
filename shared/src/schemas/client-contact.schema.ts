@@ -1,32 +1,33 @@
 import { z } from 'zod';
 import { clientSchema } from './client.schema';
+import { optionalString } from './helper/optional';
 
 export const createClientContactSchema = z.object({
     name: z.string().min(1),
     companyId: z.string().min(1),
-    role: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    email: z.string().optional(),
-    detail: z.string().optional(),
-    avatar: z.string().optional(),
+    role: optionalString(),
+    phoneNumber: optionalString(),
+    email: optionalString(),
+    detail: optionalString(),
+    avatar: optionalString(),
 });
 
 export const clientContactFilterSchema = z.object({
-    id: z.string().optional(),
-    name: z.string().optional(),
-    companyId: z.string().optional(),
-    email: z.string().optional(),
-    phoneNumber: z.string().optional(),
+    id: optionalString(),
+    name: optionalString(),
+    companyId: optionalString(),
+    email: optionalString(),
+    phoneNumber: optionalString(),
 });
 
 export const editClientContactSchema = z.object({
     id: z.string().uuid(),
-    name: z.string().optional(),
-    role: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    email: z.string().optional(),
-    details: z.string().optional(),
-    avatar: z.string().optional(),
+    name: optionalString(),
+    role: optionalString(),
+    phoneNumber: optionalString(),
+    email: optionalString(),
+    details: optionalString(),
+    avatar: optionalString(),
 });
 
 export const clientContactPayloadSchema = z.object({
@@ -38,9 +39,9 @@ export const clientContactPayloadSchema = z.object({
     email: z.string(),
     details: z.string().min(1),
     avatar: z.string().min(1),
-    companyId: z.string().optional(),
+    companyId: optionalString(),
     createdAt: z.string(),
-    updatedAt: z.string().optional(),
+    updatedAt: optionalString(),
     company: clientSchema
 });
 
@@ -53,9 +54,9 @@ export const clientContactSchema = z.object({
     email: z.string(),
     details: z.string().min(1),
     avatar: z.string().min(1),
-    companyId: z.string().optional(),
+    companyId: optionalString(),
     createdAt: z.string(),
-    updatedAt: z.string().optional(),
+    updatedAt: optionalString(),
 });
 
 export type ClientContact = z.infer<typeof clientContactSchema>;

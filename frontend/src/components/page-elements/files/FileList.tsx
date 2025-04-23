@@ -13,7 +13,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FilePayload } from 'freelanceman-common/src/schemas';
 
 interface FileListProps {
-   filesData: File[] | undefined;
+   filesData: FilePayload[] | undefined;
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
@@ -75,6 +75,17 @@ export const FileListItem = ({
    const dateUploaded = formatDate(data.createdAt, 'LONG');
    const category = formatCategory(data.category);
 
+   const handleOpenDialog = () => {
+      setFormDialogState({
+         isOpen: true,
+         data: data,
+         id: data.id,
+         mode: 'edit',
+         type: 'file',
+         page: 'file-page',
+      });
+   }
+
    const handleClick = () => {
       if (selectState.enableSelect) {
          if (isSelected) {
@@ -95,14 +106,7 @@ export const FileListItem = ({
             });
          }
       } else if (!selectState.enableSelect) {
-         setFormDialogState({
-            isOpen: true,
-            data: data,
-            id: data.id,
-            mode: 'edit',
-            type: 'file',
-            page: 'file-page',
-         });
+         handleOpenDialog()
       }
    };
 
@@ -147,7 +151,7 @@ export const FileListItem = ({
                      )}
                      {size === 'base' && (
                         <p className="text-sm text-secondary w-[150px] line-clamp-1">
-                           {data.client}
+                           {data.client?.name || ''}
                         </p>
                      )}
                      <p className="text-sm text-secondary w-[120px]">
@@ -156,7 +160,7 @@ export const FileListItem = ({
                   </div>
                </div>
             </div>
-            <EditPopover />
+            <EditPopover editFn={handleOpenDialog} />
          </div>
          <Separator className="bg-quaternary h-[1px]" />
       </div>

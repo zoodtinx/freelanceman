@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
 export interface SelectObject {
-   id: string;
+   label: string;
    value: string;
    detail?: string;
 }

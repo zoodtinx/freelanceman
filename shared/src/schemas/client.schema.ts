@@ -1,31 +1,32 @@
 import { z } from 'zod';
 import { projectSchema } from './project.schema';
 import { clientContactSchema } from './client-contact.schema';
+import { optionalString } from './helper/optional';
 
 export const createClientSchema = z.object({
     name: z.string().min(1),
-    taxId: z.string().optional(),
-    email: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    address: z.string().optional(),
-    detail: z.string().optional(),
+    taxId: optionalString(),
+    email: optionalString(),
+    phoneNumber: optionalString(),
+    address: optionalString(),
+    detail: optionalString(),
     themeColor: z.string().min(1),
 });
 
 export const editClientSchema = z.object({
     id: z.string().uuid(),
-    name: z.string().optional(),
-    taxId: z.string().optional(),
-    email: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    address: z.string().optional(),
-    detail: z.string().optional(),
-    themeColor: z.string().optional(),
+    name: optionalString(),
+    taxId: optionalString(),
+    email: optionalString(),
+    phoneNumber: optionalString(),
+    address: optionalString(),
+    detail: optionalString(),
+    themeColor: optionalString(),
 });
 
 export const clientFilterSchema = z.object({
-    name: z.string().optional(),
-    hasActiveProject: z.boolean().optional(),
+    name: optionalString(),
+    hasActiveProject: optionalString(),
 });
 
 export const clientPayloadSchema = z.object({
@@ -39,7 +40,7 @@ export const clientPayloadSchema = z.object({
     detail: z.string().min(1),
     themeColor: z.string().min(1),
     createdAt: z.string(),
-    updatedAt: z.string().optional(),
+    updatedAt: optionalString(),
     projects: z.array(projectSchema),
     contacts: z.array(clientContactSchema),
 });
@@ -55,7 +56,7 @@ export const clientSchema = z.object({
     detail: z.string().min(1),
     themeColor: z.string().min(1),
     createdAt: z.string(),
-    updatedAt: z.string().optional(),
+    updatedAt: optionalString(),
 });
 
 export type Client = z.infer<typeof clientSchema>;

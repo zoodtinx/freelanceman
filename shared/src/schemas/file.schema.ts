@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { clientSchema } from './client.schema';
 import { projectSchema } from './project.schema';
+import { optionalString } from './helper/optional';
 
 export const fileType = z.enum([
     'image',
@@ -27,24 +28,24 @@ export const createFileSchema = z.object({
     category: z.string(),
     link: z.string(),
     s3Key: z.string(),
-    projectId: z.string().optional(),
-    clientId: z.string().optional(),
+    projectId: optionalString(),
+    clientId: optionalString(),
     size: z.number().optional(),
-});
-
-export const editFileSchema = z.object({
+  });
+  
+  export const editFileSchema = z.object({
     id: z.string().uuid(),
-    displayName: z.string().min(1).optional(),
+    displayName: optionalString(),
     type: fileType.optional(),
-});
+  });
 
 export const fileFilterSchema = z.object({
-    displayName: z.string().optional(),
-    category: z.string().optional(),
-    type: z.string().optional(),
-    clientId: z.string().optional(),
-    projectId: z.string().optional(),
-});
+    displayName: optionalString(),
+    category: optionalString(),
+    type: optionalString(),
+    clientId: optionalString(),
+    projectId: optionalString(),
+  });
 
 export const getPresignedUrlSchema = z.object({
     fileName: z.string().min(1),
@@ -60,10 +61,11 @@ export const filePayloadSchema = z.object({
     category: z.string().min(1),
     link: z.string().min(1),
     s3Key: z.string().min(1),
-    projectId: z.string().optional(),
-    clientId: z.string().optional(),
+    projectId: optionalString(),
+    clientId: optionalString(),
     userId: z.string(),
     size: z.number().optional(),
+    createdAt: z.string(),
     client: clientSchema,
     project: projectSchema
 });
@@ -76,8 +78,8 @@ export const fileSchema = z.object({
     category: z.string().min(1),
     link: z.string().min(1),
     s3Key: z.string().min(1),
-    projectId: z.string().optional(),
-    clientId: z.string().optional(),
+    projectId: optionalString(),
+    clientId: optionalString(),
     userId: z.string(),
     size: z.number().optional(),
 });

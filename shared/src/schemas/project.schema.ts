@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { taskPayloadSchema, taskSchema } from './task.schema';
+import { optionalString } from './helper/optional';
 
 export const ProjectStatusEnum = z.enum(['active', 'on-hold', 'completed', '']);
 export const PaymentStatusEnum = z.enum(['unpaid', 'processing', 'paid', '']);
@@ -15,7 +16,7 @@ export const projectPayloadSchema = z.object({
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
     links: z.array(z.string().url()),
-    note: z.string().optional(),
+    note: optionalString(),
     userId: z.string(),
     pinned: z.boolean().default(false),
     createdAt: z.date(),
@@ -36,7 +37,7 @@ export const projectSchema = z.object({
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
     links: z.array(z.string().url()),
-    note: z.string().optional(),
+    note: optionalString(),
     userId: z.string(),
     pinned: z.boolean().default(false),
     createdAt: z.date(),
@@ -54,25 +55,33 @@ export const createProjectSchema = z.object({
 export const editProjectSchema = z.object({
     id: z.string().uuid(),
     title: z.string().min(1).optional(),
-    projectStatus: z.enum(['active', 'completed', 'on-hold']).optional(),
-    paymentStatus: z.enum(['unpaid', 'paid', 'processing']).optional(),
+    projectStatus: ProjectStatusEnum.optional().transform((val) =>
+        val === '' ? undefined : val
+    ),
+    paymentStatus: PaymentStatusEnum.optional().transform((val) =>
+        val === '' ? undefined : val
+    ),
     contacts: z.array(z.string()).optional(),
     workingFiles: z.array(z.string()).optional(),
     assetFiles: z.array(z.string()).optional(),
     links: z.array(z.string()).optional(),
-    note: z.string().optional(),
+    note: optionalString(),
 });
 
 export const projectFilterSchema = z.object({
-    title: z.string().optional(),
-    projectId: z.string().optional(),
-    clientId: z.string().optional(),
-    contactId: z.string().optional(),
-    partnerId: z.string().optional(),
-    eventId: z.string().optional(),
-    taskId: z.string().optional(),
-    projectStatus: ProjectStatusEnum.optional().or(z.literal('')),
-    paymentStatus: PaymentStatusEnum.optional().or(z.literal('')),
+    title: optionalString(),
+    projectId: optionalString(),
+    clientId: optionalString(),
+    contactId: optionalString(),
+    partnerId: optionalString(),
+    eventId: optionalString(),
+    taskId: optionalString(),
+    projectStatus: ProjectStatusEnum.optional().transform((val) =>
+        val === '' ? undefined : val
+    ),
+    paymentStatus: PaymentStatusEnum.optional().transform((val) =>
+        val === '' ? undefined : val
+    ),
     pinned: z.boolean().optional(),
 });
 

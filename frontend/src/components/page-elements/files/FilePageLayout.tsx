@@ -4,34 +4,25 @@ import {
 } from 'src/components/shared/ui/helpers/constants/selections';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { Plus } from '@/components/shared/icons';
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Folder } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
-import { useAllFilesQuery, useFilesQuery } from '@/lib/api/file-api';
+import { useFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { FileFilterDto, FilePayload } from 'freelanceman-common';
+import AddButton from '@/components/shared/ui/AddButton';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const [fileDialogState, setFileDialogState] = useState<FormDialogState>({
-      isOpen: false,
-      id: '',
-      mode: 'view',
-      type: 'file',
-      data: {},
-      page: ''
-   });
-
-   const [fileFilter, setFileFilter] = useState<FileSearchOption>({
-   });
+   const [fileFilter, setFileFilter] = useState<FileFilterDto>({});
 
    const [selectState, setSelectState] = useState({
       enableSelect: false,
@@ -55,7 +46,7 @@ const FilePageLayout = (): JSX.Element => {
          return;
       }
       setSelectState((prev) => {
-         const selected = filesData.map((file) => {
+         const selected = filesData.map((file: FilePayload) => {
             return file.id;
          });
          return {
@@ -65,22 +56,13 @@ const FilePageLayout = (): JSX.Element => {
       });
    };
 
-   const handleFileFilter = (type, value: any) => {
-      if (type === 'type') {
-         setFileFilter((prev) => {
-            return {
-               ...prev,
-               type: value,
-            };
-         });
-      } else if (type === 'category') {
-         setFileFilter((prev) => {
-            return {
-               ...prev,
-               category: value,
-            };
-         });
-      }
+   const handleFileFilter = (type: keyof FileFilterDto, value: any) => {
+      setFileFilter((prev) => {
+         return {
+            ...prev,
+            [type]: value,
+         };
+      });
    };
 
    const handleNewFile = () => {
@@ -89,21 +71,20 @@ const FilePageLayout = (): JSX.Element => {
          mode: 'create',
          openedOn: 'file-page',
          type: 'file',
-         data: defaultFileValues,
+         data: { ...defaultFileValues },
       });
    };
-   
 
    return (
       <div className="flex flex-col w-full bg-foreground rounded-[20px] p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden shadow-md">
-         <div className="flex justify-between">
+         <div className="flex justify-between pt-2">
             <div className="flex items-center gap-1">
                <Folder className="h-6 w-6 mt-1" />
                <p className="text-xl pt-1 leading-none mr-2">Files</p>
             </div>
-            <NewFileButton setDialogState={handleNewFile} />
+            <AddButton onClick={handleNewFile} />
          </div>
-         <div className="flex gap-1">
+         <div className="flex gap-1 text-base">
             <MultiSelectButton
                selectState={selectState}
                setSelectState={setSelectState}
@@ -128,43 +109,17 @@ const FilePageLayout = (): JSX.Element => {
                className={cn('rounded-full h-7', {
                   hidden: selectState.enableSelect,
                })}
+               onChange={(e) => handleFileFilter('displayName', e.target.value)}
             />
          </div>
          <FileList
             filesData={filesData}
             isLoading={isLoading}
             selectState={selectState}
-            setDialogState={setFileDialogState}
+            size='base'
             setSelectState={setSelectState}
          />
       </div>
-   );
-};
-
-const NewFileButton = ({
-   setDialogState,
-   type, // Accept "clientContact" or "partnerContact" as props
-}: {
-   setDialogState: (dialogState: object) => void;
-   type: 'clientContact' | 'partnerContact';
-}) => {
-   const handleClick = () => {
-      setDialogState({
-         isOpen: true,
-         id: '',
-         mode: 'create',
-         data: defaultContact,
-         type, // Use the provided type prop
-      });
-   };
-
-   return (
-      <button
-         onClick={handleClick}
-         className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer"
-      >
-         <Plus className="aspect-square h-[20px]" />
-      </button>
    );
 };
 

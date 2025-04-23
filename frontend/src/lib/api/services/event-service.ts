@@ -21,7 +21,7 @@ export async function getEvent(accessToken: string, eventId: string) {
       apiEndpoint: `events/${eventId}`,
       method: 'GET',
       model: 'event',
-   });
+   }); 
 }
 
 export async function createEvent(

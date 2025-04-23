@@ -1,30 +1,31 @@
 import { z } from 'zod';
 import { partnerCompanySchema } from './partner-company.schema';
+import { optionalString } from './helper/optional';
 
 export const createPartnerContactSchema = z.object({
     name: z.string().min(1),
-    companyId: z.string().transform(val => val.trim() === '' ? null : val),
+    companyId: z.string().transform((val) => (val.trim() === '' ? null : val)),
     role: z.string().min(1),
-    phoneNumber: z.string().optional(),
-    email: z.string().optional(),
-    detail: z.string().optional(),
-    avatar: z.string().optional(),
+    phoneNumber: optionalString(),
+    email: optionalString(),
+    detail: optionalString(),
+    avatar: optionalString(),
 });
 
 export const partnerContactFilterSchema = z.object({
-    name: z.string().optional(),
-    companyName: z.string().optional(),
-    role: z.string().optional(),
+    name: optionalString(),
+    companyName: optionalString(),
+    role: optionalString(),
 });
 
 export const editPartnerContactSchema = z.object({
     id: z.string().uuid(),
-    name: z.string().optional(),
-    role: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    email: z.string().optional(),
-    detail: z.string().optional(),
-    avatar: z.string().optional(),
+    name: optionalString(),
+    role: optionalString(),
+    phoneNumber: optionalString(),
+    email: optionalString(),
+    detail: optionalString(),
+    avatar: optionalString(),
 });
 
 export const partnerContactPayloadSchema = z.object({
@@ -39,7 +40,7 @@ export const partnerContactPayloadSchema = z.object({
     avatar: z.string().min(1),
     createdAt: z.string(),
     updatedAt: z.string(),
-    company: partnerCompanySchema
+    company: partnerCompanySchema,
 });
 
 export const partnerContactSchema = z.object({
@@ -58,6 +59,10 @@ export const partnerContactSchema = z.object({
 
 export type PartnerContact = z.infer<typeof partnerContactSchema>;
 export type PartnerContactPayload = z.infer<typeof partnerContactPayloadSchema>;
-export type CreatePartnerContactDto = z.infer<typeof createPartnerContactSchema>;
-export type PartnerContactFilterDto = z.infer<typeof partnerContactFilterSchema>;
+export type CreatePartnerContactDto = z.infer<
+    typeof createPartnerContactSchema
+>;
+export type PartnerContactFilterDto = z.infer<
+    typeof partnerContactFilterSchema
+>;
 export type EditPartnerContactDto = z.infer<typeof editPartnerContactSchema>;

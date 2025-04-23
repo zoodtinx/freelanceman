@@ -16,12 +16,35 @@ export async function getFile(accessToken: string, fileId: string) {
       accessToken,
       apiEndpoint: `partner-contacts/${fileId}`,
       method: 'GET',
-      model: 'client',
+      model: 'file',
    });
 }
 
-export async function createFile(accessToken: string, payload: CreateFileDto) {}
+export async function createFile(accessToken: string, payload: CreateFileDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'files',
+      method: 'POST',
+      model: 'file',
+      requestPayload: payload,
+   });
+}
 
-export async function editFile(accessToken: string, payload: EditFileDto) {}
+export async function editFile(accessToken: string, payload: EditFileDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `files/${payload.id}`,
+      method: 'PATCH',
+      model: 'file',
+      requestPayload: payload,
+   });
+}
 
-export async function deleteFile(accessToken: string, fileId: string) {}
+export async function deleteFile(accessToken: string, fileId: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `files/${fileId}`,
+      method: 'DELETE',
+      model: 'file',
+   });
+}

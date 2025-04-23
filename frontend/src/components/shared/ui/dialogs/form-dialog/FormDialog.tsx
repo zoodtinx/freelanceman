@@ -15,8 +15,9 @@ import { cn } from '@/lib/helper/utils';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useWatch, useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormDialogType } from '@/lib/types/form-dialog.types';
+import { ApiLoadingState } from '@/lib/types/form-element.type';
 
 const FormDialog = () => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -97,6 +98,11 @@ const FormDialog = () => {
       formDialogState.type === 'partner-contact'
          ? (formDialogState.data as any).company?.themeColor
          : formDialogState.data.client?.themeColor;
+
+   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
+      isLoading: false,
+      type: 'submit',
+   });
 
    return (
       <Dialog

@@ -1,4 +1,12 @@
-import { ClientContactPayload, ClientPayload, EventPayload, PartnerContactPayload, ProjectPayload, TaskPayload } from 'freelanceman-common';
+import {
+   ClientContactPayload,
+   ClientPayload,
+   EventPayload,
+   FilePayload,
+   PartnerContactPayload,
+   ProjectPayload,
+   TaskPayload,
+} from 'freelanceman-common';
 
 export const defaultContact = {
    id: '',
@@ -48,13 +56,13 @@ export const defaultNewProjectValue = {
    assetFiles: [],
 };
 
-export const defaultClientValue : ClientPayload = {
+export const defaultClientValue: ClientPayload = {
    name: '',
    id: '',
    taxId: '',
    createdAt: new Date().toISOString(),
    updatedAt: new Date().toISOString(),
-   userId:'',
+   userId: '',
    email: '',
    phoneNumber: '',
    address: '',
@@ -87,7 +95,7 @@ export const defaultProject: ProjectPayload = {
    createdAt: new Date().toISOString(),
 };
 
-export const defaultFileValues = {
+export const defaultFileValues: FilePayload = {
    id: '',
    displayName: '',
    originalName: '',
@@ -95,6 +103,12 @@ export const defaultFileValues = {
    category: '',
    link: '',
    size: 0,
+   client: defaultClientValue,
+   project: defaultProject,
+   s3Key: '',
+   userId: '',
+   clientId: '',
+   projectId: '',
    createdAt: new Date().toISOString(),
 };
 
@@ -109,7 +123,7 @@ export const defaultContactValues: ClientContactPayload = {
    avatar: '',
    createdAt: new Date().toISOString(),
    updatedAt: new Date().toISOString(),
-   userId: ''
+   userId: '',
 };
 
 export const defaultPartnerContactValues: PartnerContactPayload = {
@@ -143,7 +157,6 @@ export const defaultTaskValue: TaskPayload = {
    createdAt: '',
    updatedAt: '',
 };
-
 
 export const defaultValues = {
    task: defaultTaskValue,

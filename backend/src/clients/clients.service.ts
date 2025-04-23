@@ -50,13 +50,7 @@ export class ClientsService {
                     userId,
                     name: filter.name
                         ? { contains: filter.name, mode: 'insensitive' }
-                        : undefined,
-                    projects:
-                        filter.hasActiveProject === true
-                            ? { some: {} }
-                            : filter.hasActiveProject === false
-                              ? { none: {} }
-                              : undefined,
+                        : undefined
                 },
                 include: {
                     projects: true,

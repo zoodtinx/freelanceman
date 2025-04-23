@@ -20,7 +20,9 @@ import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/Par
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 
 const PartnerContactLayout = (): JSX.Element => {
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const [searchOptions, setSearchOptions] = useState<PartnerContactFilterDto>(
       {}
