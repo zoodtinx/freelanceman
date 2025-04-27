@@ -1,4 +1,5 @@
 import {
+   Label,
    TextAreaForm,
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
@@ -15,30 +16,39 @@ const AdjustmentsField = ({
          <div className="flex flex-col">
             <div className="flex flex-col gap-2 peer order-2">
                <div className="flex gap-2">
-                  <TextInputForm
-                     fieldName="adjustment"
-                     label="Adjustments"
+                  <div className="flex-1">
+                     <Label className="pb-0">Adjustments (%)</Label>
+                     <TextInputForm
+                        fieldName="discountPercent"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
+                  <div className="flex-1">
+                     <Label className="pb-0">Adjustment (flat rate)</Label>
+                     <TextInputForm
+                        fieldName="discountFlat"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
+                  <div className="flex-1">
+                     <Label className="pb-0">Tax (%)</Label>
+                     <TextInputForm
+                        fieldName="tax"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
+               </div>
+               <div>
+                  <Label className="pb-0">Additional Notes</Label>
+                  <TextAreaForm
+                     fieldName="note"
                      formMethods={formMethods}
-                     className="flex-1"
-                  />
-                  <TextInputForm
-                     fieldName="discount"
-                     label="Discount"
-                     formMethods={formMethods}
-                     className="flex-1"
-                  />
-                  <TextInputForm
-                     fieldName="tax"
-                     label="Tax"
-                     formMethods={formMethods}
-                     className="flex-1"
+                     className="resize-none"
                   />
                </div>
-               <TextAreaForm
-                  fieldName="note"
-                  label="Additional Notes"
-                  formMethods={formMethods}
-               />
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
                Adjustments & Notes

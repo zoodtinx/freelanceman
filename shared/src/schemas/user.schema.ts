@@ -1,19 +1,22 @@
 import { z } from 'zod';
+import { optionalString } from './helper/optional';
 
 export const userPayloadSchema = z.object({
   id: z.string().uuid(),
   isDemo: z.boolean().default(false),
+  name: z.string().min(1),
   displayName: z.string().min(1),
   email: z.string().email(),
-  password: z.string().nullable(),
+  password: optionalString(),
   specialization: z.array(z.string()).min(1),
-  bio: z.string().nullable(),
+  bio: optionalString(),
+  taxId: optionalString(),
   role: z.string().default("user"),
-  phoneNumber: z.string().nullable(),
-  address: z.string().nullable(),
-  avatar: z.string().nullable(),
+  phoneNumber: optionalString(),
+  address: optionalString(),
+  avatar: optionalString(),
   pinnedProjects: z.array(z.string()).min(0),
-  currency: z.string().nullable(),
+  currency: optionalString(),
   quitting: z.boolean().default(false),
   createdAt: z.string(),
   updatedAt: z.string().optional(),

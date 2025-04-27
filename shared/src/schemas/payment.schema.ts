@@ -1,8 +1,11 @@
 import { z } from 'zod';
 import {
+    clientPayloadSchema,
+    filePayloadSchema,
     PaymentStatusEnum,
     ProjectStatusEnum,
     salesDocumentPayloadSchema,
+    userPayloadSchema,
 } from './index';
 import { optionalString } from './helper/optional';
 
@@ -19,7 +22,9 @@ export const paymentDataPayloadSchema = z.object({
     pinned: z.boolean().default(false),
     createdAt: z.string(),
     updatedAt: z.string(),
-    salesDocuments: salesDocumentPayloadSchema,
+    salesDocuments: z.array(salesDocumentPayloadSchema),
+    files: z.array(filePayloadSchema),
+    client: clientPayloadSchema,
 });
 
 export const paymentDataFilterSchema = z.object({

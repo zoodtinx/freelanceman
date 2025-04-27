@@ -1,5 +1,7 @@
 import { z } from 'zod';
 import { optionalString } from './helper/optional';
+import { filePayloadSchema } from './file.schema';
+import { salesDocumentItemSchema } from './sales-document-item.schema';
 
 export const createSalesDocumentSchema = z.object({
     title: z.string().min(1),
@@ -16,6 +18,7 @@ export const createSalesDocumentSchema = z.object({
     freelancerPhone: z.string().min(1),
     freelancerTaxId: z.string().min(1),
     freelancerDetail: optionalString(),
+    freelancerAddress: optionalString(),
     clientId: z.string().min(1).optional(),
     clientName: z.string().min(1),
     clientTaxId: z.string().min(1),
@@ -27,7 +30,8 @@ export const createSalesDocumentSchema = z.object({
     discount: z.number().optional(),
     tax: z.number(),
     total: z.number(),
-    customAdjustment: z.number().optional(),
+    discountPercent: z.number().optional(),
+    discountFlat: z.number().optional(),
     note: optionalString(),
 });
 
@@ -54,6 +58,7 @@ export const editSalesDocumentSchema = z.object({
     freelancerPhone: z.string().min(1).optional(),
     freelancerTaxId: z.string().min(1).optional(),
     freelancerDetail: optionalString(),
+    freelancerAddress: optionalString(),
     clientId: z.string().uuid().optional(),
     clientName: z.string().min(1).optional(),
     clientTaxId: z.string().min(1).optional(),
@@ -65,7 +70,8 @@ export const editSalesDocumentSchema = z.object({
     discount: z.number().optional(),
     tax: z.number().optional(),
     total: z.number().optional(),
-    customAdjustment: z.number().optional(),
+    discountPercent: z.number().optional(),
+    discountFlat: z.number().optional(),
     note: optionalString(),
 });
 
@@ -86,6 +92,7 @@ export const salesDocumentPayloadSchema = z.object({
     freelancerPhone: z.string().min(1),
     freelancerTaxId: z.string().min(1),
     freelancerDetail: optionalString(),
+    freelancerAddress: optionalString(),
     clientId: z.string(),
     clientName: z.string().min(1),
     clientTaxId: z.string().min(1),
@@ -97,11 +104,14 @@ export const salesDocumentPayloadSchema = z.object({
     discount: z.number().optional(),
     tax: z.number(),
     total: z.number(),
-    customAdjustment: z.number().optional(),
+    discountPercent: z.number().optional(),
+    discountFlat: z.number().optional(),
     note: optionalString(),
     generatedFileId: optionalString(),
     createdAt: z.string(),
     updatedAt: z.string(),
+    file: filePayloadSchema,
+    items: z.array(salesDocumentItemSchema)
 });
 
 export type SalesDocumentPayload = z.infer<typeof salesDocumentPayloadSchema>;

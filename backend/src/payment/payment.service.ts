@@ -30,6 +30,7 @@ export class PaymentService {
                 orderBy: {
                     paymentStatus: 'desc',
                 },
+                take: 15
             });
             return result;
         } catch (error) {

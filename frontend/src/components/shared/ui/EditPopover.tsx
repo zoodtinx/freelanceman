@@ -1,7 +1,5 @@
-import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import { Row } from '@tanstack/react-table';
 import { EllipsisVertical } from 'lucide-react';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import {
    Popover,
    PopoverTrigger,
@@ -18,16 +16,15 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
    editFn,
    deleteFn,
 }): JSX.Element => {
-   
    const handleEdit = (e) => {
       e.stopPropagation();
       editFn();
-   }
-   
+   };
+
    const handleDelete = (e) => {
       e.stopPropagation();
       deleteFn();
-   }
+   };
 
    return (
       <Popover>
@@ -42,7 +39,12 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
          <PopoverContent className="w-[80px] cursor-default select-none bg-foreground">
             <p onClick={(e) => handleEdit(e)}>Edit</p>
             <Separator />
-            <p onClick={(e) => {handleDelete(e) }} className="text-red-400">
+            <p
+               onClick={(e) => {
+                  handleDelete(e);
+               }}
+               className="text-red-400"
+            >
                Delete
             </p>
          </PopoverContent>

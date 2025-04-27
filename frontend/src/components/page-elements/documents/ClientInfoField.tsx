@@ -1,17 +1,29 @@
-import { TextInputForm, TextAreaForm } from 'src/components/shared/ui/form-field-elements';
-import { ClientPayload, SalesDocumentPayload } from 'freelanceman-common/src/schemas';
-import React, { useEffect, useState } from 'react';
+import {
+   TextInputForm,
+   TextAreaForm,
+   Label,
+} from 'src/components/shared/ui/form-field-elements';
+import {
+   ClientPayload,
+   SalesDocumentPayload,
+} from 'freelanceman-common/src/schemas';
+import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useClientsQuery } from '@/lib/api/client-api';
 import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 
-const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocumentPayload>} ) => {
+const ClientInfoField = ({
+   formMethods,
+}: {
+   formMethods: UseFormReturn<SalesDocumentPayload>;
+}) => {
    // const userData = some logic to fetch user data
-   const [searchTerm, setSearchTerm] = useState({})
-   const [clientData, setClientData] = useState<ClientPayload | undefined>()
-   const {data: clientList, isLoading} = useClientsQuery(searchTerm)
+   const [searchTerm, setSearchTerm] = useState({});
+   const [clientData, setClientData] = useState<ClientPayload | undefined>();
+   const { data: clientList, isLoading } = useClientsQuery(searchTerm);
+   
 
-   const {setValue, watch} = formMethods
+   const { setValue, watch } = formMethods;
 
    const searchName = (value: string) => {
       setSearchTerm({ name: value });
@@ -21,7 +33,7 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
 
    const populateClientField = (value: string) => {
       const selectedClientData = clientList?.find(
-         (client) => client.id === value
+         (client: ClientPayload) => client.id === value
       );
       setClientData(selectedClientData);
    };
@@ -29,7 +41,7 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
    useEffect(() => {
       if (selectedProject) {
          const selectedClient = clientList?.find(
-            (client) => client.id === selectedProject
+            (client: ClientPayload) => client.id === selectedProject
          );
          if (selectedClient) {
             setValue('clientId', selectedClient.id);
@@ -37,7 +49,6 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
             setValue('clientTaxId', selectedClient.taxId);
             setValue('clientAddress', selectedClient.address);
             setValue('clientPhone', selectedClient.phoneNumber);
-            setValue('clientOffice', selectedClient.office);
             setValue('clientDetail', selectedClient.detail);
             return;
          }
@@ -51,13 +62,12 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
          setValue('clientTaxId', clientData.taxId);
          setValue('clientAddress', clientData.address);
          setValue('clientPhone', clientData.phoneNumber);
-         setValue('clientOffice', clientData.office);
          setValue('clientDetail', clientData.detail);
       }
    }, [clientData, setValue]);
 
    const clientSelection = clientList
-      ? clientList.map((client) => {
+      ? clientList.map((client: ClientPayload) => {
            return { value: client.id, label: client.name };
         })
       : [];
@@ -67,53 +77,59 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
          <div className="flex flex-col h-full">
             <div className="flex flex-col gap-2 peer order-2 h-full">
                <div className="flex gap-2">
-                  <TextInputForm
-                     fieldName="clientName"
-                     label="Name"
-                     formMethods={formMethods}
-                     className="flex-1"
-                  />
-                  <TextInputForm
-                     fieldName="clientTaxId"
-                     label="Tax ID"
-                     formMethods={formMethods}
-                     className="flex-1"
-                  />
+                  <div className="flex-1">
+                     <Label className="pb-0">Name</Label>
+                     <TextInputForm
+                        fieldName="clientName"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
+                  <div className="flex-1">
+                     <Label className="pb-0">Tax ID</Label>
+                     <TextInputForm
+                        fieldName="clientTaxId"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
                </div>
-               <TextInputForm
-                  fieldName="clientAddress"
-                  label="Address"
-                  formMethods={formMethods}
-                  className="flex-1"
-               />
                <div className="flex gap-2">
-                  <TextInputForm
-                     fieldName="clientPhone"
-                     label="Phone Number"
+                  <div className="flex-1">
+                     <Label className="pb-0">Phone Number</Label>
+                     <TextInputForm
+                        fieldName="clientPhone"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
+                  <div className="flex-1">
+                     <Label className="pb-0">Office</Label>
+                     <TextInputForm
+                        fieldName="clientOffice"
+                        formMethods={formMethods}
+                        className="flex-1"
+                     />
+                  </div>
+               </div>
+               <div className="flex flex-col grow">
+                  <Label className="pb-0">Address</Label>
+                  <TextAreaForm
+                     fieldName="clientAddress"
                      formMethods={formMethods}
-                     className="flex-1"
-                  />
-                  <TextInputForm
-                     fieldName="clientOffice"
-                     label="Office"
-                     formMethods={formMethods}
-                     className="flex-1"
+                     className="flex-1 resize-none"
                   />
                </div>
-               <TextAreaForm
-                  fieldName="clientDetail"
-                  className='h-full'
-                  label="Additional Detail"
-                  formMethods={formMethods}
-               />
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Client Info</h2>
                <SelectWithSearch
+                  type='client'
                   selections={clientSelection}
-                  placeholder='Select a client'
+                  placeholder="Select a client"
                   className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary"
                   isLoading={isLoading}
+                  value={clientData?.id}
                   handleSelect={populateClientField}
                   handleSearch={searchName}
                />
@@ -123,4 +139,4 @@ const ClientInfoField = ({ formMethods }:{ formMethods : UseFormReturn<SalesDocu
    );
 };
 
-export default ClientInfoField
+export default ClientInfoField;

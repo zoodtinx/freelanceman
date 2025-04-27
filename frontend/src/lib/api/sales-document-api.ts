@@ -2,10 +2,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
    editSalesDocument,
    getSalesDocument,
-   getAllSalesDocuments,
    createSalesDocument,
    deleteSalesDocument,
-} from './mock/mock-document-draft-service';
+   getSalesDocuments
+} from './services/sales-document-service';
+import { SalesDocumentPayload } from 'freelanceman-common';
+import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 
 export const useSalesDocumentApi = () => {
    return {
@@ -13,15 +15,6 @@ export const useSalesDocumentApi = () => {
       deleteSalesDocument: useDeleteSalesDocument(),
       editSalesDocument: useEditSalesDocument(),
    };
-};
-
-export const useAllSalesDocumentsQuery = (
-   searchOptions: SalesDocumentSearchOption = {}
-) => {
-   return useQuery({
-      queryKey: ['salesDocuments', searchOptions],
-      queryFn: () => getAllSalesDocuments(searchOptions),
-   });
 };
 
 export const useSalesDocumentsQuery = (
@@ -34,10 +27,9 @@ export const useSalesDocumentsQuery = (
 };
 
 export const useSalesDocumentQuery = (salesDocumentId: string) => {
-   return useQuery<SalesDocument, Error, SalesDocument>({
-      queryKey: ['salesDocuments', salesDocumentId],
-      queryFn: () => getSalesDocument(salesDocumentId),
-   });
+   return useAppQuery(['salesDocuments', salesDocumentId], (token) =>
+      getSalesDocument(token, salesDocumentId)
+   );
 };
 
 export const useSalesDocumentSelectionQuery = (

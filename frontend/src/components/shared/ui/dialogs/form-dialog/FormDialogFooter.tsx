@@ -4,11 +4,10 @@ import {
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
-import { FormDialogState } from '@/lib/types/form-dialog.types';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
+import { ApiLoadingState, FormDialogState } from '@/lib/types/form-dialog.types';
 import { UseFormReturn } from 'react-hook-form';
 
-type Props = {
+export interface FormDialogFooterProps {
    onDiscard: (e: React.MouseEvent<HTMLButtonElement>) => void;
    isApiLoading: ApiLoadingState;
    formDialogState: FormDialogState;
@@ -20,7 +19,7 @@ export default function FormDialogFooter({
    isApiLoading,
    formDialogState,
    formMethods,
-}: Props) {
+}: FormDialogFooterProps) {
    return (
       <DialogFooter>
          <div className="flex justify-between p-4 pb-2">

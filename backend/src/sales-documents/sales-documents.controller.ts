@@ -57,11 +57,7 @@ export class SalesDocumentsController {
     @Get(':id')
     async findOne(@Param('id') docId: string, @Req() req: any) {
         const userId = req.user.id;
-        const result = await this.salesDocumentsService.findOne(userId, docId);
-        if (!result) {
-            return { success: false, message: 'Document not found' };
-        }
-        return { success: true, data: result };
+        return this.salesDocumentsService.findOne(userId, docId);
     }
 
     @Patch(':id')
@@ -86,11 +82,7 @@ export class SalesDocumentsController {
     @Delete(':id')
     async remove(@Param('id') docId: string, @Req() req: any) {
         const userId = req.user.id;
-        const result = await this.salesDocumentsService.delete(userId, docId);
-        if (!result) {
-            return { success: false, message: 'Failed to delete document' };
-        }
-        return { success: true, message: 'Document deleted successfully' };
+        return this.salesDocumentsService.delete(userId, docId);
     }
 
     @Post('create-pdf')

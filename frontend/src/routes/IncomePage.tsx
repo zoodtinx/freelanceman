@@ -4,7 +4,7 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
@@ -15,7 +15,14 @@ import {
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
-import { PaymentDataFilter, PaymentDataPayload, SalesDocumentPayload } from 'freelanceman-common/src/schemas';
+import {
+   PaymentDataFilter,
+   PaymentDataPayload,
+   SalesDocumentPayload,
+} from 'freelanceman-common/src/schemas';
+import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
+import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
+import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({});
@@ -51,6 +58,13 @@ const FilterBar = ({
             projectFilter={projectFilter}
             setProjectFilter={setProjectFilter}
          />
+         <FilterSelect selectContents={[
+            {label: 'Due', value: 'due'},
+            {label: 'Paid', value: 'paid'},
+         ]}
+         onValueChange={() => {}}
+         placeholder='Payment Status'
+         />
          <SearchBox className="w-fit" />
       </div>
    );
@@ -59,30 +73,38 @@ const FilterBar = ({
 const StatsBar = () => {
    const { data: statsData, isLoading } = usePaymentStatsQuery();
 
-   if (isLoading) {
-      return <p>Loading...</p>;
-   }
-
    return (
       <div className="flex gap-4">
-         <p className="text-secondary">
+         <div className="text-secondary flex gap-2 items-center">
             Unprocessed:{' '}
-            <span className="text-md font-medium text-primary">
-               {statsData?.unprocessed.toLocaleString()}
-            </span>
-         </p>
-         <p className="text-secondary">
+            {isLoading ? (
+               <Skeleton className="h-5 w-20 rounded-full" />
+            ) : (
+               <span className="text-md font-medium text-primary">
+                  {statsData?.unprocessed.toLocaleString()}
+               </span>
+            )}
+         </div>
+         <div className="text-secondary flex gap-2 items-center">
             Processing:{' '}
-            <span className="text-md font-medium text-primary">
-               {statsData?.processing.toLocaleString()}
-            </span>
-         </p>
-         <p className="text-secondary">
+            {isLoading ? (
+               <Skeleton className="h-5 w-20 rounded-full" />
+            ) : (
+               <span className="text-md font-medium text-primary">
+                  {statsData?.processing.toLocaleString()}
+               </span>
+            )}
+         </div>
+         <div className="text-secondary flex gap-2 items-center">
             All Amount Due:{' '}
-            <span className="text-md font-medium text-primary">
-               {statsData?.allAmountDue.toLocaleString()}
-            </span>
-         </p>
+            {isLoading ? (
+               <Skeleton className="h-5 w-20 rounded-full" />
+            ) : (
+               <span className="text-md font-medium text-primary">
+                  {statsData?.allAmountDue.toLocaleString()}
+               </span>
+            )}
+         </div>
       </div>
    );
 };
@@ -94,34 +116,33 @@ const ProjectPaymentTabList = ({
    projectData?: PaymentDataPayload[];
    isLoading: boolean;
 }) => {
-   if (isLoading) {
-      return <p>Loading...</p>;
-   }
-
-   if (!projectData) {
-      return <p>No payment data available</p>;
-   }
-
-   const projectList = projectData.map((project) => {
+   const projectList = projectData?.map((project) => {
       return <ProjectPaymentTab key={project.id} project={project} />;
    });
 
    return (
       <div className="flex flex-col gap-2 w-full h-0 grow overflow-y-auto pb-2 px-1">
-         {projectList}
+         {isLoading ? (
+            <IncomePageLoader />
+         ) : (
+            <>
+               {projectList}
+               <div className='flex w-full justify-center'>Load More</div>
+            </>
+         )}
       </div>
    );
 };
 
 const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
-   const handlePaymentStatusChange = (value) => {
-      console.log('changed');
+   const handlePaymentStatusChange = (value: string) => {
+      console.log(value);
    };
 
    return (
       <div
          className={cn(
-            'flex w-full bg-foreground h-fit rounded-2xl p-2 px-3 shadow-md',
+            'flex w-full bg-foreground rounded-2xl px-3 shadow-md h-[100px] items-center shrink-0',
             project.paymentStatus === 'paid' && 'bg-tertiary'
          )}
       >
@@ -139,7 +160,7 @@ const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
          <div className="flex flex-col gap-1 items-end justify-center leading-tight pr-3">
             <p className="text-[22px] pr-1">
                {project.budget.toLocaleString()}{' '}
-               <span className="text-sm">{project.currency}</span>
+               <span className="text-sm">{project.currency || 'THB'}</span>
             </p>
             <StatusSelect
                selections={paymentStatusSelections}
@@ -159,7 +180,6 @@ const DocumentButton = ({
    type: 'quotation' | 'invoice' | 'receipt';
    project: PaymentDataPayload;
 }) => {
-   const isPaid = project.paymentStatus === 'paid';
    const haveDocument = project.salesDocuments.some(
       (doc) => doc.category === type
    );
@@ -169,7 +189,11 @@ const DocumentButton = ({
    );
 
    if (haveDocument) {
-      return <EditDocumentButton salesDocumentData={salesDocumentData} />;
+      return (
+         <EditDocumentButton
+            salesDocumentData={salesDocumentData as SalesDocumentPayload}
+         />
+      );
    } else {
       return <AddDocumentButton type={type} project={project} />;
    }
@@ -189,13 +213,13 @@ const AddDocumentButton = ({
    const handleClick = (type: string) => {
       switch (type) {
          case 'quotation':
-            navigate('/home/payment/quotation/create');
+            navigate('/home/income/document/quotation');
             break;
          case 'invoice':
-            navigate('/home/payment/invoice/create');
+            navigate('/home/income/document/invoice');
             break;
          case 'receipt':
-            navigate('/home/payment/receipt/create');
+            navigate('/home/income/document/receipt');
             break;
       }
    };
@@ -224,19 +248,19 @@ const EditDocumentButton = ({
       salesDocumentData.category.charAt(0).toUpperCase() +
       salesDocumentData.category.slice(1);
 
-   const handleDownload = () => {
-      console.log('download');
-   };
-
    const handleEdit = () => {
-      navigate(`document/${salesDocumentData.id}`)
+      navigate(`document/${salesDocumentData.id}`);
    };
 
    const handleDelete = () => {
       console.log('delete');
    };
 
-   const fileUrl = salesDocumentData.file?.link;
+   const handleDownload = () => {
+      const fileUrl = salesDocumentData.file.link;
+      console.log('fileUrl', fileUrl)
+      window.open(fileUrl, '_blank', 'noopener,noreferrer');
+   }
 
    return (
       <Popover>
@@ -256,9 +280,9 @@ const EditDocumentButton = ({
             </div>
          </PopoverTrigger>
          <PopoverContent className="w-[110px] cursor-default select-none bg-foreground">
-            <Link to={fileUrl} className="text-left">
+            <button onClick={handleDownload} className="text-left">
                Download
-            </Link>
+            </button>
             <button className="text-left" onClick={handleEdit}>
                Edit
             </button>

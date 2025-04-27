@@ -9,27 +9,32 @@ export const TextAreaForm = <TFieldValues extends FieldValues>({
    fieldName,
    required,
    errorMessage,
-   placeholder
+   placeholder,
 }: FormElementProps<TFieldValues>) => {
    const {
       register,
-      formState: { errors }
+      formState: { errors },
    } = formMethods;
 
    return (
-      <div className="flex flex-col">
+      <>
          <Textarea
             {...register(fieldName as Path<TFieldValues>, {
-               required: required ? errorMessage || 'This field is required' : false
+               required: required
+                  ? errorMessage || 'This field is required'
+                  : false,
             })}
-            className={cn('bg-transparent border-tertiary py-1 px-2 resize-y h-20 placeholder:text-secondary' ,className)}
+            className={cn(
+               'bg-transparent border-tertiary py-1 px-2 resize-y  placeholder:text-secondary w-full',
+               className
+            )}
             placeholder={placeholder}
          />
          {errors[fieldName] && (
-            <span className="text-button-red text-sm mt-1">
+            <div className="text-button-red text-sm mt-1">
                {errors[fieldName]?.message as string}
-            </span>
+            </div>
          )}
-      </div>
+      </>
    );
 };

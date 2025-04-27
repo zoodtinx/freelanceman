@@ -41,13 +41,21 @@ export interface PromptDialogProps {
 export type FormDialogState =
    | {
         isOpen: boolean;
-        entity: 'task';
-        type: 'task';
+        entity: 'sales-document-item';
+        type: 'sales-document-item';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: TaskPayload;
+        data: any;
      }
    | {
+      isOpen: boolean;
+      entity: 'task';
+      type: 'task';
+      mode: 'create' | 'edit';
+      openedOn: OpenedOnType;
+      data: TaskPayload;
+   }
+ | {
         isOpen: boolean;
         entity: 'event';
         type: 'event';

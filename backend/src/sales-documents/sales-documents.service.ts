@@ -107,6 +107,9 @@ export class SalesDocumentsService {
         try {
             const document = await this.prismaService.salesDocument.findUnique({
                 where: { id: documentId, userId },
+                include: {
+                    items: true
+                }
             });
 
             if (!document) {

@@ -16,8 +16,20 @@ export const editSalesDocumentItemSchema = z.object({
     quantity: z.number().int().optional(),
 });
 
+export const salesDocumentItemSchema = z.object({
+    id: z.string().uuid(),
+    title: z.string().min(1),
+    description: z.string().optional(),
+    rate: z.number(),
+    quantity: z.number().int(),
+});
+
 export type CreateSalesDocumentItemDto = z.infer<
     typeof createSalesDocumentItemSchema
+>;
+
+export type SalesDocumentItemDto = z.infer<
+    typeof salesDocumentItemSchema
 >;
 
 export type EditSalesDocumentItemDto = z.infer<

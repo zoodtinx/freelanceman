@@ -16,8 +16,13 @@ import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/sel
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { CrudApi } from '@/lib/api/api.type';
-import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { FormDialogFooterProps } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { EditFileDto } from 'freelanceman-common';
+import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
+import {
+   DiscardButton,
+   SubmitButton,
+} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 
 export const FileDialog = ({
    formMethods,
@@ -141,7 +146,7 @@ export const FileDialog = ({
                </div>
             </div>
          </div>
-         <FormDialogFooter
+         <FileDialogFooter
             formDialogState={formDialogState}
             formMethods={formMethods}
             isApiLoading={isApiLoading}
@@ -151,18 +156,53 @@ export const FileDialog = ({
    );
 };
 
-const DownloadButton = ({ url }: { url: string }) => {
+const FileDialogFooter = ({
+   onDiscard,
+   isApiLoading,
+   formDialogState,
+   formMethods,
+}: FormDialogFooterProps) => {
+   const url = formMethods.getValues('link');
+
    return (
-      <Link to={url}>
-         <Button
-            type="submit"
-            variant={'default'}
-            className="flex gap-1 pl-2 pr-3"
-         >
-            <ArrowDownToLine className="w-4 h-4" />
-            Download
-         </Button>
-      </Link>
+      <DialogFooter>
+         <div className="flex justify-between p-4 pb-2">
+            <DiscardButton
+               onClick={onDiscard}
+               isApiLoading={isApiLoading}
+               formDialogState={formDialogState}
+            />
+            <div className="flex gap-1">
+               <SubmitButton
+                  formDialogState={formDialogState}
+                  formMethods={formMethods}
+                  isApiLoading={isApiLoading}
+               />
+               <DownloadButton url={url} />
+            </div>
+         </div>
+      </DialogFooter>
+   );
+};
+
+const DownloadButton = ({ url }: { url: string }) => {
+   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      if (url) {
+         window.open(url, '_blank');
+      }
+   };
+
+   return (
+      <Button
+         type="submit"
+         variant={'default'}
+         className="flex gap-1 pl-2 pr-3"
+         onClick={handleClick}
+      >
+         <ArrowDownToLine className="w-4 h-4" />
+         Download
+      </Button>
    );
 };
 

@@ -1,18 +1,18 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import Home from "../routes/HomePage";
-import ProjectPage from "@/routes/ProjectPage";
-import ActionPage from "@/routes/ActionPage";
-import AllProjectPage from "@/routes/AllProjectPage";
-import ProjectTasksPage from "@/routes/ProjectTaskPage";
-import PartnersPage from "@/routes/PartnersPage";
-import FilePage from "@/routes/FilePage";
-import QuickNotesPage from "@/routes/QuickNotesPage";
-import AllClientsPage from "src/routes/AllClientPage";
-import ClientPage from "@/routes/ClientPage";
-import IncomePage from "src/routes/IncomePage";
-import SalesDocumentBuilderPage from "src/components/page-elements/documents/DocumentPageCreateMode";
-import LoginPage from "@/routes/LoginPage";
-import RegisterPage from "@/routes/RegisterPage";
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import Home from '../routes/HomePage';
+import ProjectPage from '@/routes/ProjectPage';
+import ActionPage from '@/routes/ActionPage';
+import AllProjectPage from '@/routes/AllProjectPage';
+import ProjectTasksPage from '@/routes/ProjectTaskPage';
+import PartnersPage from '@/routes/PartnersPage';
+import FilePage from '@/routes/FilePage';
+import QuickNotesPage from '@/routes/QuickNotesPage';
+import AllClientsPage from 'src/routes/AllClientPage';
+import ClientPage from '@/routes/ClientPage';
+import IncomePage from 'src/routes/IncomePage';
+import SalesDocumentBuilderPage from '@/components/page-elements/documents/SalesDocumentBuilderPage';
+import LoginPage from '@/routes/LoginPage';
+import RegisterPage from '@/routes/RegisterPage';
 
 export const router = createBrowserRouter([
    {
@@ -93,16 +93,16 @@ export const router = createBrowserRouter([
                      },
                      {
                         path: 'quotation',
-                        element: <SalesDocumentBuilderPage />,
+                        element: <SalesDocumentBuilderPage category="quotation" />,
                      },
                      {
                         path: 'invoice',
-                        element: <SalesDocumentBuilderPage />,
+                        element: <SalesDocumentBuilderPage category="invoice" />,
                      },
                      {
                         path: 'receipt',
-                        element: <SalesDocumentBuilderPage />,
-                     }
+                        element: <SalesDocumentBuilderPage category="receipt" />,
+                     },
                   ],
                },
             ],

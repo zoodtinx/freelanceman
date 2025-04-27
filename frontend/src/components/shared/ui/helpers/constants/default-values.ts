@@ -19,6 +19,13 @@ export const defaultContact = {
    role: '',
 };
 
+export const defaultSalesDocumentItemValue = {
+   title: '',
+   description: '',
+   rate: 1,
+   quantity: 1
+}
+
 export const defaultUserValue = {
    id: '',
    name: '',
