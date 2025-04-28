@@ -2,12 +2,14 @@ import {
    TextInputForm,
    TextAreaForm,
    Label,
+   DatePickerForm,
 } from 'src/components/shared/ui/form-field-elements';
 import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 import { useProjectsQuery } from '@/lib/api/project-api';
 import { ProjectPayload, SalesDocumentPayload } from 'freelanceman-common';
+import { Calendar } from 'lucide-react';
 
 const ProjectInfoField = ({
    formMethods,
@@ -57,18 +59,22 @@ const ProjectInfoField = ({
                   <TextInputForm fieldName="number" formMethods={formMethods} />
                </div>
                <div className="peer flex-1">
-                  <Label className="pb-0">Issue date</Label>
-                  <TextInputForm
-                     fieldName="issuedAt"
-                     formMethods={formMethods}
-                  />
-               </div>
-               <div className="peer flex-1">
                   <Label className="pb-0">Currency</Label>
                   <TextInputForm
                      fieldName="currency"
                      formMethods={formMethods}
                   />
+               </div>
+               <div className="peer flex-1">
+                  <Label className="pb-0">Issue date</Label>
+                  <div className='flex gap-1 items-center'>
+                     <Calendar className='w-5 h-5 text-secondary' />
+                     <DatePickerForm
+                        fieldName="issuedAt"
+                        formMethods={formMethods}
+                        className='items-center text-md font-normal'
+                     />
+                  </div>
                </div>
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">

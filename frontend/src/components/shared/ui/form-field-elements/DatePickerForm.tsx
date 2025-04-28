@@ -10,6 +10,8 @@ import { useRef } from 'react';
 export const DatePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
+   className,
+   placeholder
 }: FormElementProps<TFieldValues>) => {
    const { control } = formMethods;
    const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +45,8 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
                      <p
                         className={cn(
                            'justify-start font-semibold cursor-pointer text-md w-fit',
-                           !value && 'text-secondary text-base border border-secondary py-1 px-3 rounded-full'
+                           !value && 'text-secondary text-base border border-secondary py-1 px-3 rounded-full',
+                           className
                         )}
                         onClick={() => setIsOpen(true)}
                      >

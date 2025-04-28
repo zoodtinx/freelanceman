@@ -101,7 +101,7 @@ const ItemsField = ({
             </h2>
          </div>
          <AdjustmentsField formMethods={formMethods} />
-         <footer className="flex w-full px-3 text-secondary justify-end gap-5">
+         <footer className="flex w-full px-3 text-secondary justify-end gap-4">
             <span>
                Subtotal: <span className="text-primary">{subtotal.toLocaleString()}</span>
             </span>

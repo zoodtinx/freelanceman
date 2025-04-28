@@ -17,7 +17,7 @@ const AdjustmentsField = ({
             <div className="flex flex-col gap-2 peer order-2">
                <div className="flex gap-2">
                   <div className="flex-1">
-                     <Label className="pb-0">Adjustments (%)</Label>
+                     <Label className="pb-0">Discount (%)</Label>
                      <TextInputForm
                         fieldName="discountPercent"
                         formMethods={formMethods}
@@ -25,7 +25,7 @@ const AdjustmentsField = ({
                      />
                   </div>
                   <div className="flex-1">
-                     <Label className="pb-0">Adjustment (flat rate)</Label>
+                     <Label className="pb-0">Discount (flat rate)</Label>
                      <TextInputForm
                         fieldName="discountFlat"
                         formMethods={formMethods}

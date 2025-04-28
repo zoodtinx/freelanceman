@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import ConfirmationDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
+import { Toaster } from '@/components/shared/ui/primitives/Toaster';
 import { useEffect } from 'react';
 import { useTheme } from 'next-themes';
 
@@ -31,6 +32,7 @@ export default function HomePage() {
          <FormDialog />
          <SelectorDialog />
          <ConfirmationDialog />
+         <Toaster />
       </div>
    );
 }
