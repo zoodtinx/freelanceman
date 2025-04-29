@@ -50,10 +50,6 @@ export async function generatePDFBuffer(
         if (data.discount)
             doc.text(`Discount: -${data.discount.toFixed(2)} ${data.currency}`);
         doc.text(`Tax: ${data.tax.toFixed(2)} ${data.currency}`);
-        if (data.customAdjustment)
-            doc.text(
-                `Adjustment: ${data.customAdjustment.toFixed(2)} ${data.currency}`,
-            );
         doc.text(`Total: ${data.total.toFixed(2)} ${data.currency}`);
         doc.moveDown();
 

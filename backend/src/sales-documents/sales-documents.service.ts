@@ -58,7 +58,6 @@ export class SalesDocumentsService {
                     discount: createDto.discount ?? null,
                     tax: createDto.tax,
                     total: createDto.total,
-                    customAdjustment: createDto.customAdjustment ?? null,
 
                     userId: userId,
                 },
@@ -108,8 +107,8 @@ export class SalesDocumentsService {
             const document = await this.prismaService.salesDocument.findUnique({
                 where: { id: documentId, userId },
                 include: {
-                    items: true
-                }
+                    items: true,
+                },
             });
 
             if (!document) {
@@ -172,47 +171,29 @@ export class SalesDocumentsService {
         }
     }
 
-    async createPdf(userId: string, createPdfDto: any) {
-        try {
-            const pdfBuffer = (await generatePDFBuffer(
-                createPdfDto,
-            )) as unknown as Readable;
+    async createPdf(userId: string, createPdfDto: EditSalesDocumentDto) {
+        const pdfBuffer = (await generatePDFBuffer(
+            createPdfDto,
+        )) as unknown as Readable;
 
-            const fileName = `${createPdfDto.title}.pdf`;
+        const fileName = `${createPdfDto.title}.pdf`;
 
-            let s3Response: any;
+        const s3Response = await this.s3Service.uploadAndGetSignedUrl({
+            file: pdfBuffer,
+            fileName,
+            category: 'sales-document',
+            contentType: 'application/pdf',
+        });
 
-            try {
-                s3Response = await this.s3Service.uploadAndGetSignedUrl({
-                    file: pdfBuffer,
-                    fileName,
-                    category: 'sales-document',
-                    contentType: 'application/pdf',
-                });
-            } catch (err) {
-                throw new InternalServerErrorException('S3 upload failed');
-            }
-
-            let fileRecord: any;
-
-            try {
-                fileRecord = await this.fileService.create(userId, {
-                    originalName: `${createPdfDto.number}.pdf`,
-                    displayName: fileName,
-                    type: 'document',
-                    category: 'document',
-                    s3Key: s3Response.key,
-                    link: s3Response.signedUrl,
-                    projectId: createPdfDto.projectId,
-                    clientId: createPdfDto.clientId,
-                });
-            } catch (err) {
-                throw new InternalServerErrorException('Database error');
-            }
-
-            return { pdfUrl: fileRecord.link };
-        } catch (error) {
-            throw new InternalServerErrorException('Failed to create PDF');
-        }
+        await this.prismaService.salesDocument.update({
+            where: {
+                id: createPdfDto.id,
+            },
+            data: {
+                fileKey: s3Response.key,
+            },
+        });
+        
+        return { pdfUrl: s3Response.signedUrl };
     }
 }

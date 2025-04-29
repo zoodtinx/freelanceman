@@ -216,7 +216,6 @@ model File {
   client       Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   project      Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  salesDocument SalesDocument? @relation("FileToSalesDocument")
 }
 
 model SalesDocument {
@@ -249,6 +248,7 @@ model SalesDocument {
   total                   Float
   customAdjustment        Float?
   note                    String?
+  fileKey                  String? 
   generatedFileId         String?   @unique
   createdAt               DateTime            @default(now())
   updatedAt               DateTime            @updatedAt
@@ -256,7 +256,6 @@ model SalesDocument {
   project                 Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   items                   SalesDocumentItem[]
-  file                    File?               @relation("FileToSalesDocument", fields: [generatedFileId], references: [id], onDelete: Cascade)
 }
 
 model SalesDocumentItem {

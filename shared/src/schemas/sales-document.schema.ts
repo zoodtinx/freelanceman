@@ -114,7 +114,47 @@ export const salesDocumentPayloadSchema = z.object({
     items: z.array(salesDocumentItemSchema)
 });
 
+export const createPdfSchema = z.object({
+    id: z.string().uuid(),
+    userId: z.string(),
+    title: z.string().min(1),
+    category: z.string().min(1),
+    number: z.string().min(1),
+    issuedAt: z.string(),
+    currency: z.string().min(1),
+    projectId: z.string(),
+    referenceNumber: z.string().min(1),
+    projectDescription: z.string().min(1),
+    selectedProjectClientId: z.string(),
+    freelancerName: z.string().min(1),
+    freelancerEmail: z.string().email(),
+    freelancerPhone: z.string().min(1),
+    freelancerTaxId: z.string().min(1),
+    freelancerDetail: optionalString(),
+    freelancerAddress: optionalString(),
+    clientId: z.string(),
+    clientName: z.string().min(1),
+    clientTaxId: z.string().min(1),
+    clientAddress: optionalString(),
+    clientPhone: optionalString(),
+    clientOffice: optionalString(),
+    clientDetail: optionalString(),
+    subtotal: z.number(),
+    discount: z.number().optional(),
+    tax: z.number(),
+    total: z.number(),
+    discountPercent: z.number().optional(),
+    discountFlat: z.number().optional(),
+    note: optionalString(),
+    generatedFileId: optionalString(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    items: z.array(salesDocumentItemSchema)
+});
+
+
 export type SalesDocumentPayload = z.infer<typeof salesDocumentPayloadSchema>;
 export type SalesDocumentFilterDto = z.infer<typeof salesDocumentFilterSchema>;
 export type EditSalesDocumentDto = z.infer<typeof editSalesDocumentSchema>;
 export type CreateSalesDocumentDto = z.infer<typeof createSalesDocumentSchema>;
+export type CreatePdfDto = z.infer<typeof createPdfSchema>;

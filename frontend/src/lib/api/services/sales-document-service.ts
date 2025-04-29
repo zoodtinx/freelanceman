@@ -4,6 +4,7 @@ import {
    EditSalesDocumentDto,
    SalesDocumentFilterDto,
 } from 'freelanceman-common';
+import { CreatePdfDto } from 'freelanceman-common/src/schemas';
 
 export async function getSalesDocuments(accessToken: string, filter: SalesDocumentFilterDto) {
    return await fetchProMax({
@@ -56,5 +57,15 @@ export async function deleteSalesDocument(accessToken: string, id: string) {
       apiEndpoint: `sales-documents/${id}`,
       method: 'DELETE',
       model: 'salesDocument',
+   });
+}
+
+export async function createPdf(accessToken: string, payload: CreatePdfDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: 'sales-documents/create-pdf',
+      method: 'POST',
+      model: 'salesDocument',
+      requestPayload: payload,
    });
 }

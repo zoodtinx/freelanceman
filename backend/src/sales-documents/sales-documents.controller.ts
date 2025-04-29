@@ -37,7 +37,7 @@ export class SalesDocumentsController {
             userId,
             createDto,
         );
-        return { success: true, data: result };
+        return result;
     }
 
     @Post('search')
@@ -51,7 +51,7 @@ export class SalesDocumentsController {
             userId,
             payload,
         );
-        return { success: true, data: result };
+        return result;
     }
 
     @Get(':id')
@@ -76,7 +76,7 @@ export class SalesDocumentsController {
         if (!result) {
             return { success: false, message: 'Failed to update document' };
         }
-        return { success: true, data: result };
+        return result;
     }
 
     @Delete(':id')
@@ -96,6 +96,6 @@ export class SalesDocumentsController {
             userId,
             createPdfDto,
         );
-        return { success: true, data: result };
+        return result;
     }
 }
