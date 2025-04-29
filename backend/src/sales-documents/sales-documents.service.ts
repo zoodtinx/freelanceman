@@ -28,40 +28,50 @@ export class SalesDocumentsService {
         try {
             const result = await this.prismaService.salesDocument.create({
                 data: {
-                    title: createDto.title,
+                    userId,
                     category: createDto.category,
-                    number: createDto.number,
                     issuedAt: new Date(createDto.issuedAt),
+                    projectId: createDto.projectId,
+                    freelancerName: createDto.freelancerName,
+                    clientId: createDto.clientId,
+                    clientName: createDto.clientName,
+
+                    title: createDto.title,
+                    number: createDto.number,
                     currency: createDto.currency,
                     referenceNumber: createDto.referenceNumber,
-                    note: createDto.note,
-
-                    projectId: createDto.projectId,
                     projectDescription: createDto.projectDescription,
-                    selectedProjectClientId: createDto.selectedProjectClientId,
 
-                    freelancerName: createDto.freelancerName,
                     freelancerEmail: createDto.freelancerEmail,
                     freelancerPhone: createDto.freelancerPhone,
                     freelancerTaxId: createDto.freelancerTaxId,
                     freelancerDetail: createDto.freelancerDetail,
 
-                    clientId: createDto.clientId,
-                    clientName: createDto.clientName,
                     clientTaxId: createDto.clientTaxId,
                     clientAddress: createDto.clientAddress,
                     clientPhone: createDto.clientPhone,
                     clientOffice: createDto.clientOffice,
                     clientDetail: createDto.clientDetail,
 
-                    subtotal: createDto.subtotal,
-                    discount: createDto.discount ?? null,
                     tax: createDto.tax,
+                    discountPercent: createDto.discountPercent,
+                    discountFlat: createDto.discountFlat,
                     total: createDto.total,
 
-                    userId: userId,
+                    note: createDto.note,
+
+                    items: {
+                        create: createDto.items.map((item) => ({
+                            userId,
+                            title: item.title,
+                            rate: item.rate,
+                            quantity: item.quantity,
+                            description: item.description,
+                        })),
+                    },
                 },
             });
+
             return result;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -88,9 +98,8 @@ export class SalesDocumentsService {
                     category: filter.category
                         ? { contains: filter.category, mode: 'insensitive' }
                         : undefined,
-                    projectId: filter.projectId || undefined,
-                    selectedProjectClientId:
-                        filter.selectedProjectClientId || undefined,
+                    projectId: filter.projectId,
+                    clientId: filter.clientId,
                 },
             });
 
@@ -132,9 +141,32 @@ export class SalesDocumentsService {
         updateDto: EditSalesDocumentDto,
     ) {
         try {
+            const { items, ...dto } = updateDto;
+
+            await this.prismaService.salesDocumentItem.deleteMany({
+                where: { parentDocumentId: documentId },
+            });
+
             const result = await this.prismaService.salesDocument.update({
                 where: { id: documentId, userId },
-                data: updateDto,
+                data: {
+                    ...dto,
+                    items: items
+                        ? {
+                              createMany: {
+                                  data: items.map((item) => {
+                                      return {
+                                          ...item,
+                                          userId,
+                                          title: item.title,
+                                          rate: item.rate,
+                                          quantity: item.quantity,
+                                      };
+                                  }),
+                              },
+                          }
+                        : undefined,
+                },
             });
             return result;
         } catch (error) {
@@ -172,28 +204,28 @@ export class SalesDocumentsService {
     }
 
     async createPdf(userId: string, createPdfDto: EditSalesDocumentDto) {
-        const pdfBuffer = (await generatePDFBuffer(
-            createPdfDto,
-        )) as unknown as Readable;
+        // const pdfBuffer = (await generatePDFBuffer(
+        //     createPdfDto,
+        // )) as unknown as Readable;
 
-        const fileName = `${createPdfDto.title}.pdf`;
+        // const fileName = `${createPdfDto.title}.pdf`;
 
-        const s3Response = await this.s3Service.uploadAndGetSignedUrl({
-            file: pdfBuffer,
-            fileName,
-            category: 'sales-document',
-            contentType: 'application/pdf',
-        });
+        // const s3Response = await this.s3Service.uploadAndGetSignedUrl({
+        //     file: pdfBuffer,
+        //     fileName,
+        //     category: 'sales-document',
+        //     contentType: 'application/pdf',
+        // });
 
-        await this.prismaService.salesDocument.update({
-            where: {
-                id: createPdfDto.id,
-            },
-            data: {
-                fileKey: s3Response.key,
-            },
-        });
-        
-        return { pdfUrl: s3Response.signedUrl };
+        // await this.prismaService.salesDocument.update({
+        //     where: {
+        //         id: createPdfDto.id,
+        //     },
+        //     data: {
+        //         fileKey: s3Response.key,
+        //     },
+        // });
+
+        // return { pdfUrl: s3Response.signedUrl };
     }
 }

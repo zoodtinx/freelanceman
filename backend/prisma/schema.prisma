@@ -221,35 +221,33 @@ model File {
 model SalesDocument {
   id                      String              @id @default(uuid())
   userId                  String
-  title                   String
+  title                   String?
   category                String
-  number                  String              
+  number                  String?              
   issuedAt                DateTime
-  currency                String
+  currency                String?             @default("THB")
   projectId               String
-  referenceNumber         String
-  projectDescription      String
-  selectedProjectClientId String
+  referenceNumber         String?
+  projectDescription      String?
   freelancerName          String
-  freelancerEmail            String           
-  freelancerPhone         String
-  freelancerTaxId         String
+  freelancerEmail         String?           
+  freelancerPhone         String?
+  freelancerTaxId         String?
   freelancerDetail        String?
   clientId                String
   clientName              String
-  clientTaxId             String
+  clientTaxId             String?
   clientAddress           String?
   clientPhone             String?
   clientOffice            String?
   clientDetail            String?
-  subtotal                Float
   discount                Float?
-  tax                     Float
-  total                   Float
-  customAdjustment        Float?
+  tax                     Float?
+  discountPercent         Float?
+  discountFlat            Float?
+  total                   Float?
   note                    String?
-  fileKey                  String? 
-  generatedFileId         String?   @unique
+  fileKey                 String? 
   createdAt               DateTime            @default(now())
   updatedAt               DateTime            @updatedAt
   client                  Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
@@ -266,7 +264,7 @@ model SalesDocumentItem {
   rate            Float
   quantity        Int
   parentDocumentId  String
-  parentDocument        SalesDocument @relation(fields: [parentDocumentId], references: [id], onDelete: Cascade)
+  parentDocument    SalesDocument @relation(fields: [parentDocumentId], references: [id], onDelete: Cascade)
   user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

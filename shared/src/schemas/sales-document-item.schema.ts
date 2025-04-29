@@ -22,6 +22,7 @@ export const salesDocumentItemSchema = z.object({
     description: z.string().optional(),
     rate: z.number(),
     quantity: z.number().int(),
+    parentDocumentId: z.string(),
 });
 
 export type CreateSalesDocumentItemDto = z.infer<

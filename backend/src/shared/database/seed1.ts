@@ -68,14 +68,14 @@ async function seedUserAndClient() {
                         user: { connect: { id: userId } },
                         project: { connect: { id: projectId } },
                         client: { connect: { id: clientId } },
-                        file: {
-                            create: {
-                                ...seedSalesDocumentFileData,
-                                user: { connect: { id: userId } },
-                                project: { connect: { id: projectId } },
-                                client: { connect: { id: clientId } },
-                            },
-                        },
+                        // file: {
+                        //     create: {
+                        //         ...seedSalesDocumentFileData,
+                        //         user: { connect: { id: userId } },
+                        //         project: { connect: { id: projectId } },
+                        //         client: { connect: { id: clientId } },
+                        //     },
+                        // },
                     },
                 }),
         ),

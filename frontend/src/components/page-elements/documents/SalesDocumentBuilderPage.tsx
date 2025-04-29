@@ -98,7 +98,9 @@ const SalesDocumentBuilderPage = ({
                      className="flex gap-1"
                      onClick={(e: React.MouseEvent) => {
                         e.preventDefault();
-                        toast('Ballerina Ballerina Ballerina');
+                        toast.success('Ballerina Ballerina Ballerina', {
+                           
+                        });
                      }}
                   >
                      <FilePlus2 className="w-4 h-4" />
@@ -129,7 +131,7 @@ export const SalesDocButton = ({
 }) => {
    return (
       <Button variant={mode === 'save' ? 'submit' : 'destructive'} className="flex gap-1 transition-all">
-         {isApiLoading.type === mode && !isApiLoading.isLoading && (
+         {isApiLoading.type === mode && isApiLoading.isLoading && (
             <LoaderCircle className="w-4 h-4 animate-spin transition-all" />
          )}
          {children}
