@@ -34,8 +34,6 @@ export async function generatePDFBuffer(
         doc.text(`Email: ${data.freelancerEmail}`);
         doc.text(`Phone: ${data.freelancerPhone}`);
         doc.text(`Tax ID: ${data.freelancerTaxId}`);
-        if (data.freelancerDetail)
-            doc.text(`Details: ${data.freelancerDetail}`);
         doc.moveDown();
 
         doc.text(`Client: ${data.clientName}`);

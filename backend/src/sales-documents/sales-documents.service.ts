@@ -45,7 +45,7 @@ export class SalesDocumentsService {
                     freelancerEmail: createDto.freelancerEmail,
                     freelancerPhone: createDto.freelancerPhone,
                     freelancerTaxId: createDto.freelancerTaxId,
-                    freelancerDetail: createDto.freelancerDetail,
+                    freelancerAddress: createDto.freelancerAddress,
 
                     clientTaxId: createDto.clientTaxId,
                     clientAddress: createDto.clientAddress,
@@ -140,12 +140,17 @@ export class SalesDocumentsService {
         documentId: string,
         updateDto: EditSalesDocumentDto,
     ) {
+        console.log('documentId', documentId)
         try {
             const { items, ...dto } = updateDto;
 
-            await this.prismaService.salesDocumentItem.deleteMany({
-                where: { parentDocumentId: documentId },
-            });
+            if (items) {
+                await this.prismaService.salesDocumentItem.deleteMany({
+                    where: {
+                        parentDocumentId: documentId
+                    }
+                })
+            }
 
             const result = await this.prismaService.salesDocument.update({
                 where: { id: documentId, userId },
@@ -178,7 +183,7 @@ export class SalesDocumentsService {
                 }
             }
             throw new InternalServerErrorException(
-                'Failed to update sales document',
+                error
             );
         }
     }

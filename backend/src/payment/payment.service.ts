@@ -20,6 +20,7 @@ export class PaymentService {
                     },
                 },
                 include: {
+                    salesDocuments: true,
                     client: true
                 },
                 orderBy: {

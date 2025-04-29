@@ -233,7 +233,7 @@ model SalesDocument {
   freelancerEmail         String?           
   freelancerPhone         String?
   freelancerTaxId         String?
-  freelancerDetail        String?
+  freelancerAddress        String?
   clientId                String
   clientName              String
   clientTaxId             String?

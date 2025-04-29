@@ -180,11 +180,11 @@ const DocumentButton = ({
    type: 'quotation' | 'invoice' | 'receipt';
    project: PaymentDataPayload;
 }) => {
-   const haveDocument = project.salesDocuments.some(
+   const haveDocument = project.salesDocuments?.some(
       (doc) => doc.category === type
-   );
+   ); 
 
-   const salesDocumentData = project.salesDocuments.find(
+   const salesDocumentData = project.salesDocuments?.find(
       (doc) => doc.category === type
    );
 

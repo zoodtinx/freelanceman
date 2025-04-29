@@ -1,16 +1,17 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import ProjectInfoField from '@/components/page-elements/documents/ProjectInfoField';
 import FreelancerInfoField from '@/components/page-elements/documents/FreelancerInfoField';
 import ClientInfoField from '@/components/page-elements/documents/ClientInfoField';
 import ItemsField from '@/components/page-elements/documents/ItemsField';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useSalesDocumentQuery } from 'src/lib/api/sales-document-api';
+import { useEditSalesDocument, useSalesDocumentQuery } from 'src/lib/api/sales-document-api';
 import { FilePlus2, LoaderCircle } from 'lucide-react';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import { toast } from 'sonner';
+import { EditSalesDocumentDto } from 'freelanceman-common';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -68,7 +69,7 @@ const SalesDocumentBuilderPage = ({
          </div>
          <form
             className="flex flex-col grow gap-3"
-            onSubmit={handleSubmit(onSubmit)}
+            // onSubmit={handleSubmit(onSubmit)}
          >
             <div className="flex grow gap-3">
                <div className="flex flex-col w-1/2  gap-3">
@@ -106,7 +107,7 @@ const SalesDocumentBuilderPage = ({
                      <FilePlus2 className="w-4 h-4" />
                      <p>Create PDF</p>
                   </Button>
-                  <SalesDocButton isApiLoading={isApiLoading} mode='save'>
+                  <SalesDocButton isApiLoading={isApiLoading} mode='save' formMethods={formMethods}>
                      Save Draft
                   </SalesDocButton>
                </div>
@@ -121,6 +122,7 @@ export const SalesDocButton = ({
    isApiLoading,
    mode,
    children,
+   formMethods
 }: {
    isApiLoading: {
       isLoading: boolean;
@@ -128,9 +130,55 @@ export const SalesDocButton = ({
    };
    mode: 'delete' | 'save';
    children: string;
+   formMethods: UseFormReturn
 }) => {
+   const editSalesDocument = useEditSalesDocument({
+      errorCallback() {
+         toast.error('Unexpected Error')
+      },
+      successCallback() {
+          toast.success('Sales document updated')
+      },
+   })
+   
+   const handleEditDoc = (e: React.MouseEvent) => {
+      e.preventDefault()
+      const data = formMethods.getValues();
+      const payload: EditSalesDocumentDto = {
+        id: data.id,
+        title: data.title || undefined,
+        category: data.category || undefined,
+        number: data.number || undefined,
+        issuedAt: data.issuedAt || undefined,
+        currency: data.currency || undefined,
+        referenceNumber: data.referenceNumber || undefined,
+        projectDescription: data.projectDescription || undefined,
+        freelancerName: data.freelancerName || undefined,
+        freelancerEmail: data.freelancerEmail || undefined,
+        freelancerPhone: data.freelancerPhone || undefined,
+        freelancerTaxId: data.freelancerTaxId || undefined,
+        freelancerDetail: data.freelancerDetail || undefined,
+        freelancerAddress: data.freelancerAddress || undefined,
+        clientName: data.clientName || undefined,
+        clientTaxId: data.clientTaxId || undefined,
+        clientAddress: data.clientAddress || undefined,
+        clientPhone: data.clientPhone || undefined,
+        clientOffice: data.clientOffice || undefined,
+        clientDetail: data.clientDetail || undefined,
+        tax: data.tax && data.tax !== '' ? parseFloat(data.tax) : undefined,
+        discountPercent: data.discountPercent && data.discountPercent !== '' ? parseFloat(data.discountPercent) : undefined,
+        discountFlat: data.discountFlat && data.discountFlat !== '' ? parseFloat(data.discountFlat) : undefined,
+        note: data.note || undefined,
+        items: data.items || undefined,
+      };
+    
+      editSalesDocument.mutate(payload)
+    };
+    
+    
+
    return (
-      <Button variant={mode === 'save' ? 'submit' : 'destructive'} className="flex gap-1 transition-all">
+      <Button variant={mode === 'save' ? 'submit' : 'destructive'} className="flex gap-1 transition-all" onClick={handleEditDoc}>
          {isApiLoading.type === mode && isApiLoading.isLoading && (
             <LoaderCircle className="w-4 h-4 animate-spin transition-all" />
          )}
