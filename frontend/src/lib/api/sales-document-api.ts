@@ -1,4 +1,3 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
    editSalesDocument,
    getSalesDocument,
@@ -6,7 +5,6 @@ import {
    deleteSalesDocument,
    createPdf
 } from './services/sales-document-service';
-import { SalesDocumentPayload } from 'freelanceman-common';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
@@ -19,9 +17,14 @@ export const useSalesDocumentApi = () => {
    };
 };
 
-export const useSalesDocumentQuery = (salesDocumentId: string) => {
-   return useAppQuery(['salesDocuments', salesDocumentId], (token) =>
-      getSalesDocument(token, salesDocumentId)
+export const useSalesDocumentQuery = (
+   salesDocumentId: string,
+   enabled?: boolean
+) => {
+   return useAppQuery(
+      ['salesDocuments', salesDocumentId],
+      (token) => getSalesDocument(token, salesDocumentId),
+      enabled
    );
 };
 

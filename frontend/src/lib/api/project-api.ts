@@ -31,9 +31,11 @@ export const useProjectSelectionQuery = (filter: ProjectFilterDto = {}) => {
    );
 };
 
-export const useProjectQuery = (projectId: string) => {
-   return useAppQuery(['projects', projectId], (token) =>
-      getProject(token, projectId)
+export const useProjectQuery = (projectId: string, enabled?: boolean) => {
+   return useAppQuery(
+      ['projects', projectId],
+      (token) => getProject(token, projectId),
+      enabled
    );
 };
 

@@ -1,17 +1,16 @@
 import { z } from 'zod';
 import { optionalString } from './helper/optional';
 import { filePayloadSchema } from './file.schema';
-import { createSalesDocumentItemSchema, salesDocumentItemSchema } from './sales-document-item.schema';
+import { createSalesDocumentItemSchema, nestedCreateSalesDocumentItemSchema, salesDocumentItemSchema } from './sales-document-item.schema';
 
 export const createSalesDocumentSchema = z.object({
-    userId: z.string(),
     category: z.string(),
     issuedAt: z.string(),
     projectId: z.string(),
     freelancerName: z.string().min(1),
     clientId: z.string(),
     clientName: z.string().min(1),
-    items: z.array(salesDocumentItemSchema).min(1),
+    items: z.array(nestedCreateSalesDocumentItemSchema).min(1),
 
     title: optionalString(),
     number: optionalString(),

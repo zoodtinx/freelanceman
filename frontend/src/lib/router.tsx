@@ -84,24 +84,35 @@ export const router = createBrowserRouter([
                   path: 'document',
                   children: [
                      {
-                        path: '',
-                        element: <SalesDocumentBuilderPage />,
-                     },
-                     {
                         path: ':id',
                         element: <SalesDocumentBuilderPage />,
                      },
                      {
                         path: 'quotation',
-                        element: <SalesDocumentBuilderPage category="quotation" />,
+                        children: [
+                           {
+                              path: ':projectId',
+                              element: <SalesDocumentBuilderPage category="quotation" />,
+                           }
+                        ]
                      },
                      {
                         path: 'invoice',
-                        element: <SalesDocumentBuilderPage category="invoice" />,
+                        children: [
+                           {
+                              path: ':projectId',
+                              element: <SalesDocumentBuilderPage category="invoice" />,
+                           }
+                        ]
                      },
                      {
                         path: 'receipt',
-                        element: <SalesDocumentBuilderPage category="receipt" />,
+                        children: [
+                           {
+                              path: ':projectId',
+                              element: <SalesDocumentBuilderPage category="receipt" />,
+                           }
+                        ]
                      },
                   ],
                },

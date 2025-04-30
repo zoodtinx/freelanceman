@@ -27,7 +27,7 @@ const SalesDocumentItemDialog = ({
    const { fields, append, remove, update } = fieldArrayMethods;
 
    const formMethods = useForm<SalesDocumentItemDto>();
-   const { reset, setError, clearErrors, handleSubmit } = formMethods;
+   const { reset, setError, clearErrors, handleSubmit, getValues } = formMethods;
 
    useEffect(() => {
       reset(dialogState.data)
@@ -55,7 +55,8 @@ const SalesDocumentItemDialog = ({
       }
    };
 
-   const onSubmit = (data: SalesDocumentItemDto) => {
+   const onSubmit = () => {
+      const data = getValues()
       const rate = Number(data.rate);
       const quantity = Number(data.quantity);
    
@@ -90,10 +91,9 @@ const SalesDocumentItemDialog = ({
                Edit Profile
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px]  flex flex-col focus:outline-none bg-freelanceman-darkgrey text-white">
+         <DialogContent className="sm:max-w-[425px]  flex flex-col focus:outline-none bg-freelanceman-darkgrey">
             <form
                className="bg-background rounded-2xl text-primary"
-               onSubmit={handleSubmit(onSubmit)}
             >
                <div className="px-4 pt-3 flex flex-col">
                   <Label className="text-secondary peer-focus:text-primary w-full text-sm">
@@ -149,6 +149,10 @@ const SalesDocumentItemDialog = ({
                      </Button>
                      <Button
                         variant={'submit'}
+                        onClick={(e) => {
+                           e.preventDefault()
+                           onSubmit()
+                        }}
                         className="text-freelanceman-darkgrey"
                      >
                         {dialogState.mode === 'create' && 'Add'}

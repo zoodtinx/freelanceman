@@ -39,6 +39,8 @@ const FreelancerInfoField = ({
                      fieldName="freelancerName"
                      formMethods={formMethods}
                      className="flex-1"
+                     errorMessage='Please add a freelancer name'
+                     required
                   />
                </div>
                <div className="flex-1">

@@ -11,6 +11,7 @@ export interface FormElementProps<
    errorMessage?: string;
    placeholder?: string;
    className?: string;
+   number?: boolean
 }
 
 export interface SelectFormElementProps<

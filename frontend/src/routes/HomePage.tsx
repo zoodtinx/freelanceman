@@ -32,7 +32,7 @@ export default function HomePage() {
          <FormDialog />
          <SelectorDialog />
          <ConfirmationDialog />
-         <Toaster position='bottom-center' duration={3000} closeButton />
+         <Toaster position='bottom-center' duration={3000} />
       </div>
    );
 }

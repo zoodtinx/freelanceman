@@ -83,6 +83,8 @@ const ClientInfoField = ({
                         fieldName="clientName"
                         formMethods={formMethods}
                         className="flex-1"
+                        errorMessage='Please add a client name'
+                        required
                      />
                   </div>
                   <div className="flex-1">
@@ -123,7 +125,7 @@ const ClientInfoField = ({
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Client Info</h2>
-               <SelectWithSearch
+               {/* <SelectWithSearch
                   type='client'
                   selections={clientSelection}
                   placeholder="Select a client"
@@ -132,7 +134,7 @@ const ClientInfoField = ({
                   value={clientData?.id}
                   handleSelect={populateClientField}
                   handleSearch={searchName}
-               />
+               /> */}
             </div>
          </div>
       </fieldset>

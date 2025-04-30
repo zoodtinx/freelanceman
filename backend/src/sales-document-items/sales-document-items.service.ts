@@ -24,7 +24,7 @@ export class SalesDocumentItemsService {
                     rate: createDto.rate,
                     quantity: createDto.quantity,
                     userId: userId,
-                    parentDocumentId: createDto.parentDocumentId
+                    parentDocumentId: createDto.description
                 },
             });
             return result;

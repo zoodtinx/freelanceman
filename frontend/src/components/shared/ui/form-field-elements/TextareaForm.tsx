@@ -24,6 +24,7 @@ export const TextAreaForm = <TFieldValues extends FieldValues>({
                   ? errorMessage || 'This field is required'
                   : false,
             })}
+            defaultValue={''}
             className={cn(
                'bg-transparent border-tertiary py-1 px-2 resize-y  placeholder:text-secondary w-full',
                className

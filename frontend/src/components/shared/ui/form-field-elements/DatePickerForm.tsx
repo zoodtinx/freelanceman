@@ -1,6 +1,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from '../primitives/Popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { Calendar } from '@/components/shared/ui/primitives/Calendar';
+import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { useEffect, useState } from 'react';
@@ -11,7 +12,7 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
    className,
-   placeholder
+   placeholder,
 }: FormElementProps<TFieldValues>) => {
    const { control } = formMethods;
    const [isOpen, setIsOpen] = useState(false);
@@ -42,16 +43,20 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
             return (
                <Popover open={isOpen}>
                   <PopoverTrigger asChild>
-                     <p
-                        className={cn(
-                           'justify-start font-semibold cursor-pointer text-md w-fit',
-                           !value && 'text-secondary text-base border border-secondary py-1 px-3 rounded-full',
-                           className
-                        )}
-                        onClick={() => setIsOpen(true)}
-                     >
-                        {value ? formatDate(value, 'LONG') : 'Pick a date'}
-                     </p>
+                     <div className='flex gap-1 items-center'>
+                        <CalendarIcon className="w-5 h-5 text-secondary" />
+                        <p
+                           className={cn(
+                              'justify-start font-semibold cursor-pointer text-md w-fit',
+                              !value &&
+                                 'text-secondary text-base',
+                              className
+                           )}
+                           onClick={() => setIsOpen(true)}
+                        >
+                           {value ? formatDate(value, 'LONG') : 'Pick a date'}
+                        </p>
+                     </div>
                   </PopoverTrigger>
                   <PopoverContent
                      className="p-0 bg-foreground rounded-xl"

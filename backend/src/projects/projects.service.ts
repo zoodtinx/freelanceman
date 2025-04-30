@@ -129,12 +129,7 @@ export class ProjectsService {
             const project = await this.prismaService.project.findUnique({
                 where: { id: projectId, userId },
                 include: {
-                    client: {
-                        select: {
-                            themeColor: true,
-                            name: true,
-                        }
-                    },
+                    client: true
                 }
             });
 

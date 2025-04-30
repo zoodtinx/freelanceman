@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';
 import SalesDocumentItemDialog from '@/components/page-elements/documents/SalesDocumentItemDialog';
@@ -24,17 +24,29 @@ const ItemsField = ({
       entity: 'sales-document-item',
       openedOn: 'global-add-button',
    });
-   const { control, watch } = formMethods;
+   const { control, watch, formState: {errors, isSubmitted}, setError, clearErrors } = formMethods;
+   const hasMounted = useRef(false);
    const items = watch('items')
    const fieldArrayMethods = useFieldArray<SalesDocumentPayload>({
       control,
       name: 'items',
    });
 
+   useEffect(() => {
+      if (!isSubmitted) return;
+  
+      if (!items || items.length === 0) {
+        setError('items', { type: 'manual', message: 'At least one item is required' });
+      } else {
+        clearErrors('items');
+      }
+    }, [items, isSubmitted, setError, clearErrors]);
+
+
    const { remove, fields } = fieldArrayMethods;
-   const adjustmentPercent = Number(watch('discountPercent')) || 0
-   const adjustmentFlat = Number(watch('discountFlat')) || 0
-   const tax = Number(watch('tax')) || 0
+   const adjustmentPercent = watch('discountPercent') ?? 0;
+   const adjustmentFlat = watch('discountFlat') ?? 0;
+   const tax = watch('tax') ?? 0;
    
    let subtotal = 0
    if (items) {
@@ -96,17 +108,24 @@ const ItemsField = ({
                   <Plus className="stroke-[3px]" />
                </div>
             </div>
-            <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
+            <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-center">
                Items & Pricing
+               {errors.items && typeof errors.items.message === 'string' && (
+                  <p className="text-general-red text-sm pl-2 animate-shake">
+                     {errors.items?.message as string}
+                  </p>
+               )}
             </h2>
          </div>
          <AdjustmentsField formMethods={formMethods} />
          <footer className="flex w-full px-3 text-secondary justify-end gap-4">
             <span>
-               Subtotal: <span className="text-primary">{subtotal.toLocaleString()}</span>
+               Subtotal:{' '}
+               <span className="text-primary">{subtotal.toLocaleString()}</span>
             </span>
             <span>
-               Total: <span className="text-primary">{total.toLocaleString()}</span>
+               Total:{' '}
+               <span className="text-primary">{total.toLocaleString()}</span>
             </span>
          </footer>
          <SalesDocumentItemDialog

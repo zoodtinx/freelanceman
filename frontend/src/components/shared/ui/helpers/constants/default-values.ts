@@ -8,6 +8,41 @@ import {
    TaskPayload,
 } from 'freelanceman-common';
 
+export const defaultCreateSalesDocumentValue = {
+   category: '',
+   issuedAt: '',
+   projectId: '',
+   freelancerName: '',
+   clientId: '',
+   clientName: '',
+   items: [],
+ 
+   title: '',
+   number: '',
+   currency: '',
+   referenceNumber: '',
+   projectDescription: '',
+ 
+   freelancerEmail: '',
+   freelancerPhone: '',
+   freelancerTaxId: '',
+   freelancerAddress: '',
+ 
+   clientTaxId: '',
+   clientAddress: '',
+   clientPhone: '',
+   clientOffice: '',
+   clientDetail: '',
+ 
+   tax: 0,
+   discountPercent: 0,
+   discountFlat: 0,
+   total: 0,
+   customAdjustment: 0,
+ 
+   note: '',
+ };
+
 export const defaultContact = {
    id: '',
    company: '',
@@ -81,7 +116,7 @@ export const defaultEventValues: EventPayload = {
    name: '',
    details: '',
    status: 'scheduled',
-   dueAt: '',
+   dueAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
    projectId: '',
    clientId: '',
    link: '',
@@ -154,7 +189,7 @@ export const defaultTaskValue: TaskPayload = {
    status: 'pending',
    details: '',
    link: '',
-   dueAt: '',
+   dueAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
    project: defaultProject,
    projectId: '',
    client: defaultClientValue,

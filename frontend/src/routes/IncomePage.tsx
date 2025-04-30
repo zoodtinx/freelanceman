@@ -213,13 +213,13 @@ const AddDocumentButton = ({
    const handleClick = (type: string) => {
       switch (type) {
          case 'quotation':
-            navigate('/home/income/document/quotation');
+            navigate(`/home/income/document/quotation/${project.id}`);
             break;
          case 'invoice':
-            navigate('/home/income/document/invoice');
+            navigate(`/home/income/document/invoice/${project.id}`);
             break;
          case 'receipt':
-            navigate('/home/income/document/receipt');
+            navigate(`/home/income/document/receipt/${project.id}`);
             break;
       }
    };

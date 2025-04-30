@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 export const useAppQuery = (
    queryKey: QueryKey,
-   queryFn: (token: string) => Promise<any>
+   queryFn: (token: string) => Promise<any>,
+   enabled: boolean = true
 ) => {
    const { accessToken } = useAuthStore();
    const navigate = useNavigate();
@@ -13,6 +14,7 @@ export const useAppQuery = (
    const queryResult = useQuery({
       queryKey,
       queryFn: () => queryFn(accessToken),
+      enabled
    });
 
    const { isError, error } = queryResult;

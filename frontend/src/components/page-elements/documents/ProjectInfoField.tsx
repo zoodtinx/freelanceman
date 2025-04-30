@@ -68,7 +68,6 @@ const ProjectInfoField = ({
                <div className="peer flex-1">
                   <Label className="pb-0">Issue date</Label>
                   <div className='flex gap-1 items-center'>
-                     <Calendar className='w-5 h-5 text-secondary' />
                      <DatePickerForm
                         fieldName="issuedAt"
                         formMethods={formMethods}
@@ -105,7 +104,7 @@ const ProjectInfoField = ({
             </div>
             <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <p>Project Info</p>
-               <SelectWithSearch
+               {/* <SelectWithSearch
                   selections={projectSelection}
                   placeholder="Select a project"
                   type="project"
@@ -115,7 +114,7 @@ const ProjectInfoField = ({
                   handleSelect={populateProjectField}
                   handleSearch={searchName}
                   size="lg"
-               />
+               /> */}
             </div>
          </div>
       </fieldset>

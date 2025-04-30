@@ -8,7 +8,8 @@ export const TextInputForm = <TFieldValues extends FieldValues>({
    fieldName,
    required,
    errorMessage,
-   placeholder
+   placeholder,
+   number = false
 }: FormElementProps<TFieldValues>) => {
    const {
       register,
@@ -19,10 +20,11 @@ export const TextInputForm = <TFieldValues extends FieldValues>({
       <div className="flex flex-col">
          <Input
             {...register(fieldName as Path<TFieldValues>, {
-               required: required ? errorMessage || 'This field is required' : false
+               required: required ? errorMessage || 'This field is required' : false,
             })}
             className={className}
             placeholder={placeholder}
+            type={number ? 'number' : 'text'}
          />
          {errors[fieldName] && (
             <p className="text-red-500 font-normal animate-shake text-sm pt-1">

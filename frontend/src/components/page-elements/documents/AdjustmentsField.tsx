@@ -22,6 +22,7 @@ const AdjustmentsField = ({
                         fieldName="discountPercent"
                         formMethods={formMethods}
                         className="flex-1"
+                        number
                      />
                   </div>
                   <div className="flex-1">
@@ -30,6 +31,7 @@ const AdjustmentsField = ({
                         fieldName="discountFlat"
                         formMethods={formMethods}
                         className="flex-1"
+                        number
                      />
                   </div>
                   <div className="flex-1">
@@ -38,6 +40,7 @@ const AdjustmentsField = ({
                         fieldName="tax"
                         formMethods={formMethods}
                         className="flex-1"
+                        number
                      />
                   </div>
                </div>

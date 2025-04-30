@@ -144,7 +144,7 @@ export class SalesDocumentsService {
         try {
             const { items, ...dto } = updateDto;
 
-            if (items) {
+            if (items.length > 0) {
                 await this.prismaService.salesDocumentItem.deleteMany({
                     where: {
                         parentDocumentId: documentId
@@ -158,17 +158,13 @@ export class SalesDocumentsService {
                     ...dto,
                     items: items
                         ? {
-                              createMany: {
-                                  data: items.map((item) => {
-                                      return {
-                                          ...item,
-                                          userId,
-                                          title: item.title,
-                                          rate: item.rate,
-                                          quantity: item.quantity,
-                                      };
-                                  }),
-                              },
+                            create: updateDto.items.map((item) => ({
+                                userId,
+                                title: item.title,
+                                rate: item.rate,
+                                quantity: item.quantity,
+                                description: item.description,
+                            })),
                           }
                         : undefined,
                 },

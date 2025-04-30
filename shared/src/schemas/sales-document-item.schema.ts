@@ -5,7 +5,13 @@ export const createSalesDocumentItemSchema = z.object({
     description: z.string().optional(),
     rate: z.number(),
     quantity: z.number().int(),
-    parentDocumentId: z.string(),
+});
+
+export const nestedCreateSalesDocumentItemSchema = z.object({
+    title: z.string().min(1),
+    description: z.string().optional(),
+    rate: z.number(),
+    quantity: z.number().int(),
 });
 
 export const editSalesDocumentItemSchema = z.object({
