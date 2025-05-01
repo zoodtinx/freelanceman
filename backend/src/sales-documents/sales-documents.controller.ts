@@ -16,6 +16,7 @@ import {
     createSalesDocumentSchema,
     salesDocumentFilterSchema,
     editSalesDocumentSchema,
+    createPdfSchema,
 } from 'freelanceman-common';
 import { SalesDocumentsService } from 'src/sales-documents/sales-documents.service';
 
@@ -87,7 +88,7 @@ export class SalesDocumentsController {
 
     @Post('create-pdf')
     async createPdf(
-        @Body(new ZodValidationPipe(createSalesDocumentSchema))
+        @Body(new ZodValidationPipe(createPdfSchema))
         createPdfDto: any,
         @Req() req: any,
     ) {

@@ -1,5 +1,6 @@
 import {
     DeleteObjectCommand,
+    GetObjectCommand,
     PutObjectCommand,
     S3Client,
 } from '@aws-sdk/client-s3';
@@ -47,6 +48,21 @@ export class S3Service {
         }
       }
       
+      async getSignedUrlForDownload(key: string) {
+        try {
+          const command = new GetObjectCommand({
+            Bucket: this.bucket,
+            Key: key,
+          });
+
+          const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
+          return { url };
+        } catch (error) {
+          console.log('error', error);
+          throw new InternalServerErrorException('Failed to generate presigned URL for download');
+        }
+      }
+
       async uploadAndGetSignedUrl({
         file,
         fileName,
@@ -70,7 +86,12 @@ export class S3Service {
       
           await this.s3.send(command);
       
-          const signedUrl = await getSignedUrl(this.s3, command, {
+          const getCommand = new GetObjectCommand({
+            Bucket: this.bucket,
+            Key: key,
+          });
+          
+          const signedUrl = await getSignedUrl(this.s3, getCommand, {
             expiresIn: 3600,
           });
       

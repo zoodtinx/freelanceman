@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
-import { FileText, Plus } from 'lucide-react';
+import { FileText, Loader, Plus } from 'lucide-react';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
@@ -23,6 +23,7 @@ import {
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
+import { useFileUrlQuery } from '@/lib/api/file-api';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({});
@@ -243,6 +244,11 @@ const EditDocumentButton = ({
 }: {
    salesDocumentData: SalesDocumentPayload;
 }) => {
+   const [fetch, setFetch] = useState(false)
+   if (salesDocumentData.fileKey) {
+      console.log('fileKey', salesDocumentData.fileKey)
+   }
+   const { data: payload, isLoading } = useFileUrlQuery(salesDocumentData.fileKey ?? '', fetch)
    const navigate = useNavigate();
    const label =
       salesDocumentData.category.charAt(0).toUpperCase() +
@@ -256,11 +262,11 @@ const EditDocumentButton = ({
       console.log('delete');
    };
 
-   const handleDownload = () => {
-      const fileUrl = salesDocumentData.file.link;
-      console.log('fileUrl', fileUrl)
-      window.open(fileUrl, '_blank', 'noopener,noreferrer');
-   }
+   const handleDownload = async () => {
+      if (!payload.url) return;
+
+      window.open(payload.url, '_blank', 'noopener,noreferrer');
+   };
 
    return (
       <Popover>
@@ -268,6 +274,7 @@ const EditDocumentButton = ({
             className="flex items-center"
             onClick={(e) => {
                e.stopPropagation();
+               setFetch(true)
             }}
          >
             <div
@@ -280,9 +287,9 @@ const EditDocumentButton = ({
             </div>
          </PopoverTrigger>
          <PopoverContent className="w-[110px] cursor-default select-none bg-foreground">
-            <button onClick={handleDownload} className="text-left">
+            {isLoading ? <Loader className='animate-spin' /> : <button onClick={handleDownload} className="text-left">
                Download
-            </button>
+            </button>}
             <button className="text-left" onClick={handleEdit}>
                Edit
             </button>

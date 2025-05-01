@@ -19,11 +19,15 @@ import {
     editFileSchema,
 } from 'freelanceman-common';
 import { FilesService } from 'src/files/files.service';
+import { S3Service } from '@/shared/s3/s3.service';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('files')
 export class FilesController {
-    constructor(private readonly filesService: FilesService) {}
+    constructor(
+        private readonly filesService: FilesService,
+        private readonly s3Service: S3Service,
+    ) {}
 
     @Post()
     create(
@@ -76,5 +80,11 @@ export class FilesController {
     remove(@Param('id') fileId: string, @Req() req: any) {
         const userId = req.user.id;
         return this.filesService.delete(userId, fileId);
+    }
+
+    @Post('url')
+    @HttpCode(200)
+    getFileUrl(@Body('key') fileKey: string) {
+        return this.s3Service.getSignedUrlForDownload(fileKey);
     }
 }

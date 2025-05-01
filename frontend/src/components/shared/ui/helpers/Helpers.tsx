@@ -28,6 +28,11 @@ import {
    Building2,
 } from 'lucide-react';
 
+export const capitalizeFirstChar = (str: string): string => {
+   if (!str) return '';
+   return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 export const getIcon = (
    fileType: string,
    className: string = '',

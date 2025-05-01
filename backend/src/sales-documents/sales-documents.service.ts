@@ -10,11 +10,12 @@ import {
     SalesDocumentFilterDto,
     EditSalesDocumentDto,
     CreateSalesDocumentDto,
+    CreatePdfDto,
 } from 'freelanceman-common';
 import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
-import { generatePDFBuffer } from 'src/sales-documents/helpers/pdf-utils';
 import { Readable } from 'stream';
+import { generatePDFBuffer } from '@/sales-documents/helpers/pdf-utils';
 
 @Injectable()
 export class SalesDocumentsService {
@@ -204,29 +205,36 @@ export class SalesDocumentsService {
         }
     }
 
-    async createPdf(userId: string, createPdfDto: EditSalesDocumentDto) {
-        // const pdfBuffer = (await generatePDFBuffer(
-        //     createPdfDto,
-        // )) as unknown as Readable;
+    async createPdf(userId: string, createPdfDto: CreatePdfDto) {
+        console.log('createPdfDto', createPdfDto);
+        const pdfBuffer = (await generatePDFBuffer(
+            createPdfDto,
+        )) as unknown as Readable;
 
-        // const fileName = `${createPdfDto.title}.pdf`;
+        const formattedFilename = createPdfDto.title
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
 
-        // const s3Response = await this.s3Service.uploadAndGetSignedUrl({
-        //     file: pdfBuffer,
-        //     fileName,
-        //     category: 'sales-document',
-        //     contentType: 'application/pdf',
-        // });
+        const fileName = `${formattedFilename}.pdf`;
 
-        // await this.prismaService.salesDocument.update({
-        //     where: {
-        //         id: createPdfDto.id,
-        //     },
-        //     data: {
-        //         fileKey: s3Response.key,
-        //     },
-        // });
+        const s3Response = await this.s3Service.uploadAndGetSignedUrl({
+            file: pdfBuffer,
+            fileName,
+            category: `sales-document/${createPdfDto.category}`,
+            contentType: 'application/pdf',
+        });
 
-        // return { pdfUrl: s3Response.signedUrl };
+        await this.prismaService.salesDocument.update({
+            where: {
+                id: createPdfDto.id,
+            },
+            data: {
+                fileKey: s3Response.key,
+            },
+        });
+
+        return { pdfUrl: s3Response.signedUrl };
     }
 }

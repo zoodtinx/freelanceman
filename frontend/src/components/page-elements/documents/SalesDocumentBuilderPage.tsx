@@ -6,24 +6,25 @@ import ProjectInfoField from '@/components/page-elements/documents/ProjectInfoFi
 import FreelancerInfoField from '@/components/page-elements/documents/FreelancerInfoField';
 import ClientInfoField from '@/components/page-elements/documents/ClientInfoField';
 import ItemsField from '@/components/page-elements/documents/ItemsField';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
+   useCreatePdf,
    useCreateSalesDocument,
    useDeleteSalesDocument,
    useEditSalesDocument,
    useSalesDocumentQuery,
 } from 'src/lib/api/sales-document-api';
-import {
-   FilePlus2,
-   LoaderCircle,
-   X,
-} from 'lucide-react';
+import { FilePlus2, LoaderCircle, X } from 'lucide-react';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import { toast } from 'sonner';
 import { cn } from '@/lib/helper/utils';
-import { getCreateSalesDocumentPayload, getEditSalesDocumentPayload } from '@/components/page-elements/documents/helper';
+import {
+   getCreateSalesDocumentPayload,
+   getEditSalesDocumentPayload,
+} from '@/components/page-elements/documents/helper';
 import { useProjectQuery } from '@/lib/api/project-api';
 import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/constants/default-values';
+import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -32,53 +33,65 @@ const SalesDocumentBuilderPage = ({
 }) => {
    const documentId = useParams()?.id;
    const projectId = useParams()?.projectId;
-   const isEditMode = Boolean(documentId)
+   const isEditMode = Boolean(documentId);
    const navigate = useNavigate();
+
    const [isApiLoading, setIsApiLoading] = useState<any>({
       isLoading: false,
       type: 'delete',
    });
-   const formMethods = useForm<SalesDocumentPayload>({});
-   const { data: salesDocumentData, isLoading: isDocLoading } = useSalesDocumentQuery(
-      documentId ?? '', isEditMode
-   );
-   const { data: projectData, isLoading: isProjectDataLoading } = useProjectQuery(
-      projectId ?? '', !isEditMode
-   );
 
-   const callbacks = {
-      errorCallback(err: Error) {
-          toast.error('Unexpected Error')
-      },
-      successCallback() {
-          toast.success('Saved changes')
-      },
-   }
+   const formMethods = useForm<SalesDocumentPayload>({});
+   const { data: salesDocumentData, isLoading: isDocLoading } =
+      useSalesDocumentQuery(documentId ?? '', isEditMode);
+   const { data: projectData, isLoading: isProjectDataLoading } =
+      useProjectQuery(projectId ?? '', !isEditMode);
+
+      console.log('salesDocumentData', salesDocumentData)
+
    const createSalesDoc = useCreateSalesDocument({
-      errorCallback(err: Error) {
-          toast.error('Error saving draft')
-      },
-      successCallback() {
-          toast.success('Draft saved')
-      },
-   })
+      errorCallback: () =>
+         toast.error(
+            `Error creating ${capitalizeFirstChar(category!)}`
+         ),
+      successCallback: () =>
+         toast.success(
+            `${capitalizeFirstChar(category!)} created`
+         ),
+   });
+
    const editSalesDoc = useEditSalesDocument({
-      errorCallback(err: Error) {
-          toast.error('Error editing draft')
-      },
-      successCallback() {
-          toast.success('Changes saved')
-      },
-   })
+      errorCallback: () =>
+         toast.error(
+            `Error editing ${capitalizeFirstChar(salesDocumentData.category)}`
+         ),
+      successCallback: () =>
+         toast.success(
+            `Edited ${capitalizeFirstChar(salesDocumentData.category)}`
+         ),
+   });
+
    const deleteSalesDoc = useDeleteSalesDocument({
-      errorCallback(err: Error) {
-          toast.error('Error deleting draft')
-      },
-      successCallback() {
-          toast.success('Draft deleted')
-      },
+      errorCallback: () =>
+         toast.error(
+            `Error deleting ${capitalizeFirstChar(salesDocumentData.category)}`
+         ),
+      successCallback: () =>
+         toast.success(
+            `${capitalizeFirstChar(salesDocumentData.category)} deleted`
+         ),
+   });
+
+   const createPdf = useCreatePdf({
+      errorCallback: () =>
+         toast.error(
+            `Error creating PDF`
+         ),
+      successCallback: () =>
+         toast.success(
+            `PDF Created`
+         ),
    })
-   const createPdf = {isPending: false}
 
    useEffect(() => {
       if (salesDocumentData) {
@@ -86,17 +99,17 @@ const SalesDocumentBuilderPage = ({
       }
 
       if (projectData) {
-         formMethods.reset(defaultCreateSalesDocumentValue)
+         formMethods.reset(defaultCreateSalesDocumentValue);
          formMethods.setValue('category', category!);
          formMethods.setValue('issuedAt', new Date().toISOString());
          formMethods.setValue('number', '1');
-         formMethods.setValue('projectId', projectData.id)
-         formMethods.setValue('title', projectData.title)
-         formMethods.setValue('clientId', projectData.client?.id)
-         formMethods.setValue('clientName', projectData.client?.name)
-         formMethods.setValue('clientTaxId', projectData.client?.taxId)
-         formMethods.setValue('clientPhone', projectData.client?.phoneNumber)
-         formMethods.setValue('clientAddress', projectData.client?.address)
+         formMethods.setValue('projectId', projectData.id);
+         formMethods.setValue('title', projectData.title);
+         formMethods.setValue('clientId', projectData.client?.id);
+         formMethods.setValue('clientName', projectData.client?.name);
+         formMethods.setValue('clientTaxId', projectData.client?.taxId);
+         formMethods.setValue('clientPhone', projectData.client?.phoneNumber);
+         formMethods.setValue('clientAddress', projectData.client?.address);
       }
    }, [salesDocumentData, formMethods, documentId, projectData]);
 
@@ -104,43 +117,62 @@ const SalesDocumentBuilderPage = ({
       return <div>Loading...</div>;
    }
 
-   const { handleSubmit, getValues, formState: {isDirty} } = formMethods;
+   const {
+      handleSubmit,
+      getValues,
+      formState: { isDirty },
+   } = formMethods;
 
    const onSubmit = async (data: SalesDocumentPayload) => {
       if (!data.items || data.items?.length === 0) {
-         formMethods.setError('items', { type: 'manual', message: 'At least one item is required' });
+         formMethods.setError('items', {
+            type: 'manual',
+            message: 'At least one item is required',
+         });
+         return;
       }
+
       setIsApiLoading({ type: 'submit', isLoading: true });
+
       if (!isEditMode) {
-         const payload = getCreateSalesDocumentPayload(data)
-         const result = await createSalesDoc.mutateAsync(payload)
-         navigate(`/home/income/document/${result.id}`)
+         const payload = getCreateSalesDocumentPayload(data);
+         const result = await createSalesDoc.mutateAsync(payload);
+         navigate(`/home/income/document/${result.id}`);
       } else {
-         const payload = getEditSalesDocumentPayload(data)
-         await editSalesDoc.mutateAsync(payload)
+         const payload = getEditSalesDocumentPayload(data);
+         await editSalesDoc.mutateAsync(payload);
          formMethods.reset(salesDocumentData);
       }
-      
+
       setIsApiLoading({ type: 'submit', isLoading: false });
    };
 
-   const handleDelete = (e: React.MouseEvent) => {
+   const handleDelete = async (e: React.MouseEvent) => {
       e.preventDefault();
-      setIsApiLoading({ type: 'submit', isLoading: true });
-      deleteSalesDoc.mutate(salesDocumentData?.id)
-      navigate('/home/income')
-      setIsApiLoading({ type: 'submit', isLoading: false });
-   }
-
-   const documentCategory = category ? category : getValues('category');
+      setIsApiLoading({ type: 'delete', isLoading: true });
+      await deleteSalesDoc.mutateAsync(salesDocumentData?.id);
+      navigate('/home/income');
+      setIsApiLoading({ type: 'delete', isLoading: false });
+   };
 
    const handleDiscard = (e: React.MouseEvent) => {
       e.preventDefault();
       navigate('/home/income');
    };
 
+   const handleCreatePdf = async (e: React.MouseEvent) => {
+      e.preventDefault();
+      setIsApiLoading({ type: 'delete', isLoading: true });
+      toast.loading('Creating PDF')
+      await createPdf.mutateAsync(salesDocumentData);
+      setIsApiLoading({ type: 'delete', isLoading: false });
+   }
+
+   const documentCategory = category ?? getValues('category');
+
    return (
       <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-4 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-y-auto">
+         {/* Header */}
          <div className="flex justify-between items-center">
             <div className="flex gap-1 items-center">
                <FilePlus2 className="h-6 w-6 mt-1" />
@@ -149,23 +181,29 @@ const SalesDocumentBuilderPage = ({
                   <p>{documentCategory}</p>
                </div>
             </div>
-            <X className="w-5 h-5 stroke-[3px] transition-opacity opacity-35 hover:opacity-100 cursor-pointer"
-            onClick={() => navigate('/home/income')} />
+            <X
+               className="w-5 h-5 stroke-[3px] transition-opacity opacity-35 hover:opacity-100 cursor-pointer"
+               onClick={() => navigate('/home/income')}
+            />
          </div>
+
+         {/* Form */}
          <form
             className="flex flex-col grow gap-3"
             onSubmit={handleSubmit(onSubmit)}
          >
             <div className="flex grow gap-3">
-               <div className="flex flex-col w-1/2  gap-3">
+               <div className="flex flex-col w-1/2 gap-3">
                   <ProjectInfoField formMethods={formMethods} />
                   <FreelancerInfoField formMethods={formMethods} />
                   <ClientInfoField formMethods={formMethods} />
                </div>
-               <div className="flex flex-col w-1/2  gap-3">
+               <div className="flex flex-col w-1/2 gap-3">
                   <ItemsField formMethods={formMethods} />
                </div>
             </div>
+
+            {/* Footer */}
             <footer className="flex justify-between shrink-0">
                <div className="flex gap-2">
                   {isEditMode && (
@@ -174,13 +212,11 @@ const SalesDocumentBuilderPage = ({
                         onClick={handleDelete}
                      />
                   )}
-                  <Button
-                     onClick={handleDiscard}
-                     variant={'destructiveOutline'}
-                  >
+                  <Button onClick={handleDiscard} variant="destructiveOutline">
                      Discard Changes
                   </Button>
                </div>
+
                <div className="flex gap-2">
                   <Button
                      variant={
@@ -190,14 +226,12 @@ const SalesDocumentBuilderPage = ({
                      }
                      disabled={createPdf.isPending || isDirty || !isEditMode}
                      className="flex gap-1"
-                     onClick={(e: React.MouseEvent) => {
-                        e.preventDefault();
-                        toast.success('Ballerina Ballerina Ballerina', {});
-                     }}
+                     onClick={handleCreatePdf}
                   >
                      <FilePlus2 className="w-4 h-4" />
                      <p>Create PDF</p>
                   </Button>
+
                   <SubmitButton
                      isApiLoading={isApiLoading}
                      formMethods={formMethods}
@@ -205,6 +239,7 @@ const SalesDocumentBuilderPage = ({
                </div>
             </footer>
          </form>
+
          <SelectorDialog />
       </div>
    );
@@ -249,8 +284,6 @@ export const SubmitButton = ({
    const {
       formState: { isDirty, dirtyFields },
    } = formMethods;
-
-   console.log('dirtyFields', dirtyFields)
 
    const isLoading = isApiLoading?.isLoading;
    const isSubmitting =

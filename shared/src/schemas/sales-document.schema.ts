@@ -111,7 +111,7 @@ export const salesDocumentPayloadSchema = z.object({
     generatedFileId: optionalString(),
     createdAt: z.string(),
     updatedAt: z.string(),
-    file: filePayloadSchema,
+    fileKey: z.string(),
     items: z.array(salesDocumentItemSchema),
 });
 

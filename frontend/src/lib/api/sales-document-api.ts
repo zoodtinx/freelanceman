@@ -28,6 +28,13 @@ export const useSalesDocumentQuery = (
    );
 };
 
+export const usePdfLinkQuery = (fileKey: string) => {
+  return useAppQuery(
+    ['pdfLink', fileKey],
+    (token) => getSalesDocument(token, fileKey),
+ );
+}
+
 export const useCreateSalesDocument = (callbacks?: MutationCallbacks) => {
    return useAppMutation(
          {

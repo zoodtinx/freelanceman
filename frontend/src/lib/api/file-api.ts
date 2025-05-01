@@ -4,6 +4,7 @@ import {
    createFile,
    deleteFile,
    editFile,
+   getFileUrl,
 } from '@/lib/api/services/file-service';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
@@ -24,6 +25,14 @@ export const useFilesQuery = (filter: FileFilterDto = {}) => {
 
 export const useFileQuery = (fileId: string) => {
    return useAppQuery(['files', fileId], (token) => getFile(token, fileId));
+};
+
+export const useFileUrlQuery = (fileKey: string, enabled?: boolean) => {
+   return useAppQuery(
+      ['filesUrl', fileKey],
+      (token) => getFileUrl(token, fileKey),
+      enabled
+   );
 };
 
 export const useCreateFile = (callbacks?: MutationCallbacks) => {

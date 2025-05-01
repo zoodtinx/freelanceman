@@ -48,3 +48,13 @@ export async function deleteFile(accessToken: string, fileId: string) {
       model: 'file',
    });
 }
+
+export async function getFileUrl(accessToken: string, fileKey: string) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `files/url`,
+      requestPayload: {key: fileKey},
+      method: 'POST',
+      model: 'fileUrl',
+   });
+}
