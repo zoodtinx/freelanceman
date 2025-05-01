@@ -45,7 +45,6 @@ export async function generatePDFBuffer(
         doc.moveDown();
 
         doc.text(`Tax: ${data.tax.toFixed(2)} ${data.currency}`);
-        doc.text(`Total: ${data.total.toFixed(2)} ${data.currency}`);
         doc.moveDown();
 
         if (data.note) doc.text(`Note: ${data.note}`);

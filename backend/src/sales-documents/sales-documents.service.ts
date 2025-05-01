@@ -57,7 +57,6 @@ export class SalesDocumentsService {
                     tax: createDto.tax,
                     discountPercent: createDto.discountPercent,
                     discountFlat: createDto.discountFlat,
-                    total: createDto.total,
 
                     note: createDto.note,
 

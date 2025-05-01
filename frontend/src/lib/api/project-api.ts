@@ -54,7 +54,7 @@ export const useEditProject = (callbacks?: MutationCallbacks) => {
    return useAppMutation(
       {
          mutationKey: 'editProject',
-         invalidationKeys: ['projects'],
+         invalidationKeys: ['projects', 'paymentData', 'paymentStats'],
          mutationFn: editProject,
       },
       callbacks

@@ -32,8 +32,6 @@ export const createSalesDocumentSchema = z.object({
     tax: z.number().optional(),
     discountPercent: z.number().optional(),
     discountFlat: z.number().optional(),
-    total: z.number().optional(),
-    customAdjustment: z.number().optional(),
 
     note: optionalString(),
 });

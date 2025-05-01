@@ -25,6 +25,7 @@ import {
 import { useProjectQuery } from '@/lib/api/project-api';
 import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
+import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -47,51 +48,47 @@ const SalesDocumentBuilderPage = ({
    const { data: projectData, isLoading: isProjectDataLoading } =
       useProjectQuery(projectId ?? '', !isEditMode);
 
-      console.log('salesDocumentData', salesDocumentData)
+   const isLoading = isDocLoading || isProjectDataLoading
 
    const createSalesDoc = useCreateSalesDocument({
-      errorCallback: () =>
-         toast.error(
-            `Error creating ${capitalizeFirstChar(category!)}`
-         ),
-      successCallback: () =>
-         toast.success(
-            `${capitalizeFirstChar(category!)} created`
-         ),
+      errorCallback: () => {
+         toast.error(`Error creating ${capitalizeFirstChar(category!)}`);
+      },
+      successCallback: () => {
+         toast.success(`${capitalizeFirstChar(category!)} created`);
+      },
    });
 
    const editSalesDoc = useEditSalesDocument({
-      errorCallback: () =>
+      errorCallback: () => {
          toast.error(
             `Error editing ${capitalizeFirstChar(salesDocumentData.category)}`
-         ),
-      successCallback: () =>
+         );
+      },
+      successCallback: () => {
          toast.success(
             `Edited ${capitalizeFirstChar(salesDocumentData.category)}`
-         ),
+         );
+      },
    });
 
    const deleteSalesDoc = useDeleteSalesDocument({
-      errorCallback: () =>
+      errorCallback: () => {
          toast.error(
             `Error deleting ${capitalizeFirstChar(salesDocumentData.category)}`
-         ),
-      successCallback: () =>
+         );
+      },
+      successCallback: () => {
          toast.success(
             `${capitalizeFirstChar(salesDocumentData.category)} deleted`
-         ),
+         );
+      },
    });
 
    const createPdf = useCreatePdf({
-      errorCallback: () =>
-         toast.error(
-            `Error creating PDF`
-         ),
-      successCallback: () =>
-         toast.success(
-            `PDF Created`
-         ),
-   })
+      errorCallback: () => toast.error(`Error creating PDF`),
+      successCallback: () => toast.success(`PDF Created`),
+   });
 
    useEffect(() => {
       if (salesDocumentData) {
@@ -163,10 +160,11 @@ const SalesDocumentBuilderPage = ({
    const handleCreatePdf = async (e: React.MouseEvent) => {
       e.preventDefault();
       setIsApiLoading({ type: 'delete', isLoading: true });
-      toast.loading('Creating PDF')
+      toast.loading('Creating PDF', { id: 'loader' });
       await createPdf.mutateAsync(salesDocumentData);
+      toast.dismiss('loader');
       setIsApiLoading({ type: 'delete', isLoading: false });
-   }
+   };
 
    const documentCategory = category ?? getValues('category');
 
@@ -194,12 +192,12 @@ const SalesDocumentBuilderPage = ({
          >
             <div className="flex grow gap-3">
                <div className="flex flex-col w-1/2 gap-3">
-                  <ProjectInfoField formMethods={formMethods} />
-                  <FreelancerInfoField formMethods={formMethods} />
-                  <ClientInfoField formMethods={formMethods} />
+                  {isLoading ? <Skeleton className='w-full h-1/3 rounded-xl'/> : <ProjectInfoField formMethods={formMethods} />}
+                  {isLoading ? <Skeleton className='w-full h-1/3 rounded-xl'/> : <FreelancerInfoField formMethods={formMethods} />}
+                  {isLoading ? <Skeleton className='w-full h-1/3 rounded-xl'/> : <ClientInfoField formMethods={formMethods} />} 
                </div>
                <div className="flex flex-col w-1/2 gap-3">
-                  <ItemsField formMethods={formMethods} />
+               {isLoading ? <Skeleton className='w-full h-full rounded-xl'/> : <ItemsField formMethods={formMethods} />}
                </div>
             </div>
 
@@ -212,7 +210,7 @@ const SalesDocumentBuilderPage = ({
                         onClick={handleDelete}
                      />
                   )}
-                  <Button onClick={handleDiscard} variant="destructiveOutline">
+                  <Button onClick={handleDiscard} variant="destructiveOutline" disabled={isLoading}>
                      Discard Changes
                   </Button>
                </div>

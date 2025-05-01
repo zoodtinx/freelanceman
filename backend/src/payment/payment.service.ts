@@ -23,9 +23,10 @@ export class PaymentService {
                     salesDocuments: true,
                     client: true
                 },
-                orderBy: {
-                    paymentStatus: 'desc',
-                },
+                orderBy: [
+                    { paymentStatus: 'desc' },
+                    { updatedAt: 'desc' },
+                  ],
                 take: 15
             });
             return result;

@@ -30,7 +30,7 @@ const FreelancerInfoField = ({
    }, [userData, setValue]);
 
    return (
-      <fieldset className="flex flex-col grow rounded-xl border border-tertiary p-3 relative ">
+      <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative ">
          <div className="flex flex-col gap-2 peer order-2 h-full">
             <div className="flex gap-2">
                <div className="flex-1">

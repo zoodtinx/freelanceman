@@ -10,6 +10,7 @@ import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 import { useProjectsQuery } from '@/lib/api/project-api';
 import { ProjectPayload, SalesDocumentPayload } from 'freelanceman-common';
 import { Calendar } from 'lucide-react';
+import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 
 const ProjectInfoField = ({
    formMethods,
@@ -50,8 +51,9 @@ const ProjectInfoField = ({
            return { value: project.id, label: project.title };
         })
       : [];
+      
    return (
-      <fieldset className="flex flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
+      <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
          <div className="flex flex-col">
             <div className="flex gap-2 peer order-2">
                <div className="peer flex-1">
@@ -77,7 +79,7 @@ const ProjectInfoField = ({
                </div>
             </div>
             <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1">
-               Quotation Info
+               {capitalizeFirstChar(formMethods.getValues('category'))} Info
             </h2>
          </div>
          <div className="flex flex-col grow">

@@ -24,6 +24,8 @@ import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 import { useFileUrlQuery } from '@/lib/api/file-api';
+import { toast } from 'sonner';
+import { useEditProject } from '@/lib/api/project-api';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({});
@@ -136,38 +138,49 @@ const ProjectPaymentTabList = ({
 };
 
 const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
+   const editProject = useEditProject({
+      successCallback() {
+          toast.success('Payment status updated')
+      },
+      errorCallback() {
+         toast.error('Error updating payment status')
+      }
+   })
+
    const handlePaymentStatusChange = (value: string) => {
-      console.log(value);
+      editProject.mutate({ id: project.id, paymentStatus: value });
    };
 
    return (
       <div
          className={cn(
-            'flex w-full bg-foreground rounded-2xl px-3 shadow-md h-[100px] items-center shrink-0',
+            'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
             project.paymentStatus === 'paid' && 'bg-tertiary'
          )}
       >
-         <div className="flex flex-col gap-2 w-0 grow leading-snug">
+         <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
             <div>
                <p className="text-sm text-secondary">{project.client.name}</p>
                <p className="text-lg">{project.title}</p>
             </div>
-            <div className="flex pb-1 gap-1">
+            <div className="flex gap-1">
                <DocumentButton type="quotation" project={project} />
                <DocumentButton type="invoice" project={project} />
                <DocumentButton type="receipt" project={project} />
             </div>
          </div>
-         <div className="flex flex-col gap-1 items-end justify-center leading-tight pr-3">
-            <p className="text-[22px] pr-1">
-               {project.budget.toLocaleString()}{' '}
-               <span className="text-sm">{project.currency || 'THB'}</span>
-            </p>
+         <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2">
+            <div className="flex text-[22px] pr-1 grow items-center">
+               <p className="text-[22px]">
+                  {project.budget.toLocaleString()}{' '}
+                  <span className="text-sm">{project.currency || 'THB'}</span>
+               </p>
+            </div>
             <StatusSelect
                selections={paymentStatusSelections}
                value={project.paymentStatus}
                handleValueChange={handlePaymentStatusChange}
-               className="p-0 bg-transparent"
+               className="bg-transparent border dark:border-tertiary"
             />
          </div>
       </div>
@@ -229,7 +242,8 @@ const AddDocumentButton = ({
       <div
          onClick={() => handleClick(type)}
          className={cn(
-            'flex gap-1 text-secondary border-tertiary dark:text-quaternary dark:border-quaternary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
+            'flex gap-1 text-secondary border-tertiary dark:text-tertiary dark:border-tertiary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
+            'hover:text-primary hover:border-primary dark:hover:text-primary dark:hover:border-primary transition-colors duration-75',
             isPaid && 'text-secondary'
          )}
       >
@@ -245,9 +259,6 @@ const EditDocumentButton = ({
    salesDocumentData: SalesDocumentPayload;
 }) => {
    const [fetch, setFetch] = useState(false)
-   if (salesDocumentData.fileKey) {
-      console.log('fileKey', salesDocumentData.fileKey)
-   }
    const { data: payload, isLoading } = useFileUrlQuery(salesDocumentData.fileKey ?? '', fetch)
    const navigate = useNavigate();
    const label =
@@ -274,7 +285,9 @@ const EditDocumentButton = ({
             className="flex items-center"
             onClick={(e) => {
                e.stopPropagation();
-               setFetch(true)
+               if (salesDocumentData.fileKey) {
+                  setFetch(true);
+               }
             }}
          >
             <div
@@ -286,16 +299,20 @@ const EditDocumentButton = ({
                {label}
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[110px] cursor-default select-none bg-foreground">
-            {isLoading ? <Loader className='animate-spin' /> : <button onClick={handleDownload} className="text-left">
-               Download
-            </button>}
+         <PopoverContent className="w-[110px] cursor-default select-none bg-foreground gap-1">
             <button className="text-left" onClick={handleEdit}>
                Edit
             </button>
             <button className="text-left" onClick={handleDelete}>
                Delete
             </button>
+            {!salesDocumentData.fileKey ? null : isLoading ? (
+               <Loader className="animate-spin" />
+            ) : (
+               <button onClick={handleDownload} className="text-left">
+                  Download
+               </button>
+            )}
          </PopoverContent>
       </Popover>
    );
