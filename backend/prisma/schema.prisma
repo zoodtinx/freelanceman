@@ -21,6 +21,7 @@ model User {
   avatar           String?
   pinnedProjects   String[]
   currency         String?
+  taxId               String?
   quitting         Boolean         @default(false)
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt

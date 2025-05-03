@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
-import { FileText, Loader, Plus } from 'lucide-react';
+import { Download, Edit, FileText, Loader, Plus, Trash } from 'lucide-react';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
@@ -16,7 +16,6 @@ import {
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
 import {
-   PaymentDataFilter,
    PaymentDataPayload,
    SalesDocumentPayload,
 } from 'freelanceman-common/src/schemas';
@@ -28,16 +27,14 @@ import { toast } from 'sonner';
 import { useEditProject } from '@/lib/api/project-api';
 import { ProjectFilterDto } from 'freelanceman-common';
 import { useDeleteSalesDocument } from '@/lib/api/sales-document-api';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
       paymentStatus: 'unpaid',
    });
    const { data: projectData, isLoading } = usePaymentDataQuery(projectFilter);
-
-   console.log('projectFilter', projectFilter)
-
-   console.log('projectFilter', projectFilter)
 
    return (
       <section className="flex flex-col gap-2 w-full h-full sm:flex-col">
@@ -173,7 +170,7 @@ const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
       <div
          className={cn(
             'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
-            project.paymentStatus === 'paid' && 'bg-tertiary'
+            project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >
          <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
@@ -190,15 +187,15 @@ const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
          <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2">
             <div className="flex text-[22px] pr-1 grow items-center">
                <p className="text-[22px]">
-                  {project.budget.toLocaleString()}{' '}
-                  <span className="text-sm">{project.currency || 'THB'}</span>
+                  {project.budget.toLocaleString()}
+                  <span className="text-sm">.-</span>
                </p>
             </div>
             <StatusSelect
                selections={paymentStatusSelections}
                value={project.paymentStatus}
                handleValueChange={handlePaymentStatusChange}
-               className="bg-transparent border dark:border-tertiary"
+               className="bg-transparent border border-secondary"
             />
          </div>
       </div>
@@ -260,8 +257,9 @@ const AddDocumentButton = ({
       <div
          onClick={() => handleClick(type)}
          className={cn(
-            'flex gap-1 text-secondary border-tertiary dark:text-tertiary dark:border-tertiary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
-            'hover:text-primary hover:border-primary dark:hover:text-primary dark:hover:border-primary transition-colors duration-75',
+            'flex gap-1 text-secondary border-tertiary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
+            'hover:text-primary hover:border-primary transition-colors duration-75',
+            'dark:text-secondary dark:border-secondary dark:hover:text-primary dark:hover:border-primary',
             isPaid && 'text-secondary'
          )}
       >
@@ -278,6 +276,11 @@ const EditDocumentButton = ({
 }) => {
    const [fetch, setFetch] = useState(false)
    const { data: payload, isLoading } = useFileUrlQuery(salesDocumentData.fileKey ?? '', fetch)
+
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+
    const deleteSalesDoc = useDeleteSalesDocument({
       successCallback() {
           toast.success('Sales document deleted')
@@ -296,8 +299,23 @@ const EditDocumentButton = ({
    };
 
    const handleDelete = () => {
-      console.log('triggered')
-      deleteSalesDoc.mutate(salesDocumentData.id)
+      setConfirmationDialogState({
+         actions: {
+            primary: () => {
+               deleteSalesDoc.mutate(salesDocumentData.id);
+               setConfirmationDialogState((prev) => {
+                  return { ...prev, isOpen: false };
+               });
+            },
+         },
+         entityName: `${capitalizeFirstChar(salesDocumentData.category)}`,
+         isOpen: true,
+         type: 'delete',
+         appearance: {
+            overlay: true,
+            size: 'md',
+         },
+      });
       console.log('delete');
    };
 
@@ -328,19 +346,22 @@ const EditDocumentButton = ({
             </div>
          </PopoverTrigger>
          <PopoverContent className="w-[110px] cursor-default select-none bg-foreground gap-1">
-            <button className="text-left" onClick={handleEdit}>
+            <button className="text-left gap-1 flex items-center" onClick={handleEdit}>
+               <Edit className='h-4 w-4' />
                Edit
-            </button>
-            <button className="text-left" onClick={handleDelete}>
-               Delete
             </button>
             {!salesDocumentData.fileKey ? null : isLoading ? (
                <Loader className="animate-spin" />
             ) : (
-               <button onClick={handleDownload} className="text-left">
+               <button onClick={handleDownload} className="text-left gap-1 flex items-center">
+                  <Download className='h-4 w-4' />
                   Download
                </button>
             )}
+            <button className="flex items-center gap-1 text-left" onClick={handleDelete}>
+               <Trash className='h-4 w-4' />
+               Delete
+            </button>
          </PopoverContent>
       </Popover>
    );

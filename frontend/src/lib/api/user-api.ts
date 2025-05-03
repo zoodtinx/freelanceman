@@ -3,8 +3,8 @@ import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 
-export const useUserQuery = (userId: string) => {
-   return useAppQuery(['user', userId], (token) => getUser(token, userId));
+export const useUserQuery = (enabled?: boolean) => {
+   return useAppQuery(['user'], (token) => getUser(token), enabled);
 };
 
 export const useEditUser = (callbacks?: MutationCallbacks) => {

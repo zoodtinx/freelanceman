@@ -22,4 +22,20 @@ export const userPayloadSchema = z.object({
   updatedAt: z.string().optional(),
 });
 
+export const editUserProfileSchema = z.object({
+  name: optionalString(),
+  displayName: optionalString(),
+  email: optionalString(),
+  specialization: z.array(z.string()).optional(),
+  bio: optionalString(),
+  taxId: optionalString(),
+  phoneNumber: optionalString(),
+  address: optionalString(),
+  avatar: optionalString(),
+  pinnedProjects: z.array(z.string()).optional(),
+  currency: optionalString(),
+  quitting: z.boolean().default(false),
+});
+
 export type UserPayload = z.infer<typeof userPayloadSchema>;
+export type EditUserDto = z.infer<typeof editUserProfileSchema>;

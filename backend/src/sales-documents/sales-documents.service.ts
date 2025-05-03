@@ -140,16 +140,16 @@ export class SalesDocumentsService {
         documentId: string,
         updateDto: EditSalesDocumentDto,
     ) {
-        console.log('documentId', documentId)
+        console.log('documentId', documentId);
         try {
             const { items, ...dto } = updateDto;
 
             if (items.length > 0) {
                 await this.prismaService.salesDocumentItem.deleteMany({
                     where: {
-                        parentDocumentId: documentId
-                    }
-                })
+                        parentDocumentId: documentId,
+                    },
+                });
             }
 
             const result = await this.prismaService.salesDocument.update({
@@ -158,13 +158,13 @@ export class SalesDocumentsService {
                     ...dto,
                     items: items
                         ? {
-                            create: updateDto.items.map((item) => ({
-                                userId,
-                                title: item.title,
-                                rate: item.rate,
-                                quantity: item.quantity,
-                                description: item.description,
-                            })),
+                              create: updateDto.items.map((item) => ({
+                                  userId,
+                                  title: item.title,
+                                  rate: item.rate,
+                                  quantity: item.quantity,
+                                  description: item.description,
+                              })),
                           }
                         : undefined,
                 },
@@ -178,9 +178,7 @@ export class SalesDocumentsService {
                     );
                 }
             }
-            throw new InternalServerErrorException(
-                error
-            );
+            throw new InternalServerErrorException(error);
         }
     }
 
@@ -189,16 +187,17 @@ export class SalesDocumentsService {
             const result = await this.prismaService.salesDocument.delete({
                 where: { id: documentId, userId },
                 select: {
-                    fileKey: true
-                }
+                    fileKey: true,
+                },
             });
 
-            console.log('result.fileKey', result.fileKey)
-
-            await this.s3Service.deleteFile(result.fileKey)
+            if (result.fileKey) {
+                await this.s3Service.deleteFile(result.fileKey);
+            }
 
             return result;
         } catch (error) {
+            console.log('error', error);
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {
                     throw new BadRequestException(
@@ -227,8 +226,8 @@ export class SalesDocumentsService {
         const fileName = `${formattedFilename}.pdf`;
 
         if (createPdfDto.fileKey) {
-            console.log('Triggered')
-            await this.s3Service.deleteFile(createPdfDto.fileKey)
+            console.log('Triggered');
+            await this.s3Service.deleteFile(createPdfDto.fileKey);
         }
 
         const s3Response = await this.s3Service.uploadAndGetSignedUrl({

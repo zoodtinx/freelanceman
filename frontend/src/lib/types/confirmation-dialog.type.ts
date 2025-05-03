@@ -3,7 +3,7 @@ import { FormDialogType } from '@/lib/types/form-dialog.types';
 export interface ConfirmationDialogState {
    isOpen: boolean;
    type: 'delete' | 'unsaved-changes';
-   dialogRequested: {
+   dialogRequested?: {
       type: FormDialogType;
       mode: 'create' | 'edit';
    };
@@ -14,7 +14,7 @@ export interface ConfirmationDialogState {
       secondary?: () => void;
    };
    appearance?: {
-      overlay: boolean;
-      size: 'sm' | 'md' | 'lg';
+      overlay?: boolean;
+      size?: 'sm' | 'md' | 'lg';
    };
 }

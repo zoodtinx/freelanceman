@@ -26,6 +26,7 @@ import { useProjectQuery } from '@/lib/api/project-api';
 import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
+import { useUserQuery } from '@/lib/api/user-api';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -47,6 +48,11 @@ const SalesDocumentBuilderPage = ({
       useSalesDocumentQuery(documentId ?? '', isEditMode);
    const { data: projectData, isLoading: isProjectDataLoading } =
       useProjectQuery(projectId ?? '', !isEditMode);
+   const { data: userData, isLoading: isUserLoading } = useUserQuery(
+      !isEditMode
+   );
+
+   
 
    const isLoading = isDocLoading || isProjectDataLoading
 
@@ -95,8 +101,16 @@ const SalesDocumentBuilderPage = ({
          formMethods.reset(salesDocumentData);
       }
 
+
       if (projectData) {
+         console.log('userData.taxId', userData)
          formMethods.reset(defaultCreateSalesDocumentValue);
+         formMethods.setValue('currency', userData.currency);
+         formMethods.setValue('freelancerName', userData.displayName);
+         formMethods.setValue('freelancerTaxId', userData.taxId);
+         formMethods.setValue('freelancerPhone', userData.phoneNumber);
+         formMethods.setValue('freelancerEmail', userData.email);
+         formMethods.setValue('freelancerAddress', userData.address);
          formMethods.setValue('category', category!);
          formMethods.setValue('issuedAt', new Date().toISOString());
          formMethods.setValue('number', '1');
@@ -108,7 +122,7 @@ const SalesDocumentBuilderPage = ({
          formMethods.setValue('clientPhone', projectData.client?.phoneNumber);
          formMethods.setValue('clientAddress', projectData.client?.address);
       }
-   }, [salesDocumentData, formMethods, documentId, projectData]);
+   }, [salesDocumentData, formMethods, documentId, projectData, userData]);
 
    if (isDocLoading || isProjectDataLoading) {
       return <div>Loading...</div>;
@@ -138,19 +152,18 @@ const SalesDocumentBuilderPage = ({
       } else {
          const payload = getEditSalesDocumentPayload(data);
          await editSalesDoc.mutateAsync(payload);
-         formMethods.reset(salesDocumentData);
       }
 
       setIsApiLoading({ type: 'submit', isLoading: false });
    };
 
-   const handleDelete = async (e: React.MouseEvent) => {
-      e.preventDefault();
-      setIsApiLoading({ type: 'delete', isLoading: true });
-      await deleteSalesDoc.mutateAsync(salesDocumentData?.id);
-      navigate('/home/income');
-      setIsApiLoading({ type: 'delete', isLoading: false });
-   };
+   // const handleDelete = async (e: React.MouseEvent) => {
+   //    e.preventDefault();
+   //    setIsApiLoading({ type: 'delete', isLoading: true });
+   //    await deleteSalesDoc.mutateAsync(salesDocumentData?.id);
+   //    navigate('/home/income');
+   //    setIsApiLoading({ type: 'delete', isLoading: false });
+   // };
 
    const handleDiscard = (e: React.MouseEvent) => {
       e.preventDefault();
@@ -204,12 +217,6 @@ const SalesDocumentBuilderPage = ({
             {/* Footer */}
             <footer className="flex justify-between shrink-0">
                <div className="flex gap-2">
-                  {isEditMode && (
-                     <DiscardButton
-                        isApiLoading={isApiLoading}
-                        onClick={handleDelete}
-                     />
-                  )}
                   <Button onClick={handleDiscard} variant="destructiveOutline" disabled={isLoading}>
                      Discard Changes
                   </Button>

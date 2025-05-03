@@ -19,6 +19,7 @@ import { S3Module } from 'src/shared/s3/s3.module';
 import { MailModule } from 'src/shared/email/email.module';
 import { DemoModule } from 'src/demo/demo.module';
 import { PaymentModule } from 'src/payment/payment.module';
+import { UsersModule } from '@/user/users.module';
 
 @Module({
     imports: [
@@ -40,6 +41,7 @@ import { PaymentModule } from 'src/payment/payment.module';
         SalesDocumentItemsModule,
         SalesDocumentsModule,
         TasksModule,
+        UsersModule
     ],
     providers: [AppService],
     controllers: [AppController],

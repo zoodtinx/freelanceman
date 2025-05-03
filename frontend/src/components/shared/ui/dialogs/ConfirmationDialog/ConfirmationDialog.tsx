@@ -27,12 +27,14 @@ const ConfirmationDialog = () => {
    );
 
    const handleCancel = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: true,
-         };
-      });
+      if (confirmationDialogState.dialogRequested) {
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: true,
+            };
+         });
+      }
       setConfirmationDialogState((prev) => {
          return {
             ...prev,
@@ -49,6 +51,7 @@ const ConfirmationDialog = () => {
             </Button>
          </DialogTrigger>
          <DialogContent
+            overlay={confirmationDialogState.appearance?.overlay}
             onEscapeKeyDown={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(
@@ -116,8 +119,8 @@ const ConfirmationDialogTitle = ({
    const { type, dialogRequested } = dialogState;
    const title = getDialogTitle(
       type,
-      dialogRequested.mode,
-      dialogRequested.type
+      dialogRequested?.mode,
+      dialogRequested?.type
    );
 
    return (
