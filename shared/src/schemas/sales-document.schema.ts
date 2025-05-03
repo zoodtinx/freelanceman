@@ -116,6 +116,7 @@ export const salesDocumentPayloadSchema = z.object({
 export const createPdfSchema = z
     .object({
         id: z.string().uuid(),
+        fileKey: optionalString(),
     })
     .merge(createSalesDocumentSchema);
 

@@ -60,7 +60,7 @@ export const useEditSalesDocument = (callbacks?: MutationCallbacks) => {
    return useAppMutation(
      {
        mutationKey: 'deleteSalesDocument',
-       invalidationKeys: ['salesDocument'],
+       invalidationKeys: ['salesDocument', 'paymentData'],
        mutationFn: deleteSalesDocument,
      },
      callbacks

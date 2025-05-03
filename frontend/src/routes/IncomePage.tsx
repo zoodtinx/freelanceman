@@ -27,6 +27,7 @@ import { useFileUrlQuery } from '@/lib/api/file-api';
 import { toast } from 'sonner';
 import { useEditProject } from '@/lib/api/project-api';
 import { ProjectFilterDto } from 'freelanceman-common';
+import { useDeleteSalesDocument } from '@/lib/api/sales-document-api';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -277,6 +278,14 @@ const EditDocumentButton = ({
 }) => {
    const [fetch, setFetch] = useState(false)
    const { data: payload, isLoading } = useFileUrlQuery(salesDocumentData.fileKey ?? '', fetch)
+   const deleteSalesDoc = useDeleteSalesDocument({
+      successCallback() {
+          toast.success('Sales document deleted')
+      },
+      errorCallback() {
+         toast.error('Error deleting sales document')
+      }
+   })
    const navigate = useNavigate();
    const label =
       salesDocumentData.category.charAt(0).toUpperCase() +
@@ -287,6 +296,8 @@ const EditDocumentButton = ({
    };
 
    const handleDelete = () => {
+      console.log('triggered')
+      deleteSalesDoc.mutate(salesDocumentData.id)
       console.log('delete');
    };
 

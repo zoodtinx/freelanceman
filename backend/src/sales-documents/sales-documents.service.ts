@@ -188,7 +188,15 @@ export class SalesDocumentsService {
         try {
             const result = await this.prismaService.salesDocument.delete({
                 where: { id: documentId, userId },
+                select: {
+                    fileKey: true
+                }
             });
+
+            console.log('result.fileKey', result.fileKey)
+
+            await this.s3Service.deleteFile(result.fileKey)
+
             return result;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -217,6 +225,11 @@ export class SalesDocumentsService {
             .replace(/(^-|-$)/g, '');
 
         const fileName = `${formattedFilename}.pdf`;
+
+        if (createPdfDto.fileKey) {
+            console.log('Triggered')
+            await this.s3Service.deleteFile(createPdfDto.fileKey)
+        }
 
         const s3Response = await this.s3Service.uploadAndGetSignedUrl({
             userId,
