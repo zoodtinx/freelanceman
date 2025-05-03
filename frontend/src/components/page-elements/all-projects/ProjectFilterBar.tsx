@@ -163,6 +163,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
 
    const [clientFilter, setClientFilter] = useState<ClientFilterDto>({});
    const { data: clientList, isLoading } = useClientsQuery(clientFilter);
+   
 
    useEffect(() => {
       if (projectFilter.clientId) {

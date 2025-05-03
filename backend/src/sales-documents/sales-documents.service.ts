@@ -219,6 +219,7 @@ export class SalesDocumentsService {
         const fileName = `${formattedFilename}.pdf`;
 
         const s3Response = await this.s3Service.uploadAndGetSignedUrl({
+            userId,
             file: pdfBuffer,
             fileName,
             category: `sales-document/${createPdfDto.category}`,

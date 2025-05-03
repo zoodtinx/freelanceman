@@ -50,14 +50,17 @@ export class FilesService {
         }
     }
 
-    async getUploadUrl(getPresignedUrlDto: GetPresignedUrlDto) {
+    async getUploadUrl(userId: string, getPresignedUrlDto: GetPresignedUrlDto) {
         const { fileName, category, contentType } = getPresignedUrlDto;
 
         try {
             const presignedUrl = await this.s3Service.getPresignedUrl(
-                fileName,
-                category,
-                contentType,
+                {
+                    category,
+                    contentType,
+                    fileName,
+                    userId
+                }
             );
             return presignedUrl;
         } catch (error) {

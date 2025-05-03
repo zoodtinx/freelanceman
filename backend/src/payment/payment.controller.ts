@@ -13,7 +13,7 @@ import {
 import { PaymentService } from 'src/payment/payment.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { paymentDataFilterSchema } from 'freelanceman-common';
+import { paymentDataFilterSchema, ProjectFilterDto, projectFilterSchema } from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('payment')
@@ -23,7 +23,7 @@ export class PaymentsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(paymentDataFilterSchema)) payload: any,
+        @Body(new ZodValidationPipe(projectFilterSchema)) payload: ProjectFilterDto,
         @Req() req: any,
     ) {
         const userId = req.user.id;

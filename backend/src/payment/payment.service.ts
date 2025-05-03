@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { ProjectsService } from 'src/projects/projects.service';
+import { ProjectFilterDto } from 'freelanceman-common';
 
 @Injectable()
 export class PaymentService {
@@ -9,28 +10,31 @@ export class PaymentService {
         private projectService: ProjectsService,
     ) {}
 
-    async getPaymentData(userId: string, clientId: string) {
+    async getPaymentData(userId: string, filter: ProjectFilterDto) {
+
         try {
             const result = await this.prismaService.project.findMany({
                 where: {
                     userId,
-                    clientId,
-                    paymentStatus: {
-                        not: 'paid',
-                    },
+                    clientId: filter.clientId,
+                    paymentStatus: filter.paymentStatus
+                        ? filter.paymentStatus === 'paid'
+                            ? 'paid'
+                            : {
+                                  not: 'paid',
+                              }
+                        : undefined,
                 },
                 include: {
                     salesDocuments: true,
-                    client: true
+                    client: true,
                 },
-                orderBy: [
-                    { paymentStatus: 'desc' },
-                    { updatedAt: 'desc' },
-                  ],
-                take: 15
+                orderBy: [{ paymentStatus: 'desc' }, { updatedAt: 'desc' }],
+                take: 15,
             });
             return result;
         } catch (error) {
+            console.log('error', error)
             throw new InternalServerErrorException(
                 'Failed to fetch payment data',
             );

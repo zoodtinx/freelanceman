@@ -44,8 +44,10 @@ export class FilesController {
     getPresignedUrl(
         @Body(new ZodValidationPipe(getPresignedUrlSchema))
         getPresignedUrlDto: any,
+        @Req() req: any,
     ) {
-        const presignedUrl = this.filesService.getUploadUrl(getPresignedUrlDto);
+        const userId = req.user.id;
+        const presignedUrl = this.filesService.getUploadUrl(userId, getPresignedUrlDto);
         return { presignedUrl: presignedUrl };
     }
 

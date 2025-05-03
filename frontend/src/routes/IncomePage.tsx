@@ -26,10 +26,17 @@ import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 import { useFileUrlQuery } from '@/lib/api/file-api';
 import { toast } from 'sonner';
 import { useEditProject } from '@/lib/api/project-api';
+import { ProjectFilterDto } from 'freelanceman-common';
 
 const IncomePage: React.FC = () => {
-   const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({});
+   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
+      paymentStatus: 'unpaid',
+   });
    const { data: projectData, isLoading } = usePaymentDataQuery(projectFilter);
+
+   console.log('projectFilter', projectFilter)
+
+   console.log('projectFilter', projectFilter)
 
    return (
       <section className="flex flex-col gap-2 w-full h-full sm:flex-col">
@@ -52,21 +59,31 @@ const FilterBar = ({
    projectFilter,
    setProjectFilter,
 }: {
-   projectFilter: PaymentDataFilter;
-   setProjectFilter: Dispatch<SetStateAction<PaymentDataFilter>>;
+   projectFilter: ProjectFilterDto;
+   setProjectFilter: any;
 }) => {
+   const handleStatusValueChange = (value: string) => {
+      setProjectFilter((prev: any) => {
+         return {
+            ...prev,
+            paymentStatus: value
+         }
+      })
+   }
+   
    return (
       <div className="flex gap-1">
+         <FilterSelect selectContents={[
+            {label: 'Due', value: 'unpaid'},
+            {label: 'Paid', value: 'paid'},
+         ]}
+         onValueChange={handleStatusValueChange}
+         value={projectFilter.paymentStatus}
+         placeholder='Payment Status'
+         />
          <ClientFilterBubble
             projectFilter={projectFilter}
             setProjectFilter={setProjectFilter}
-         />
-         <FilterSelect selectContents={[
-            {label: 'Due', value: 'due'},
-            {label: 'Paid', value: 'paid'},
-         ]}
-         onValueChange={() => {}}
-         placeholder='Payment Status'
          />
          <SearchBox className="w-fit" />
       </div>
