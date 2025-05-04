@@ -66,6 +66,11 @@ export class FilesService {
                     clientId: filter.clientId,
                     projectId: filter.projectId,
                 },
+                orderBy: {
+                    updatedAt: {
+                        sort: 'desc'
+                    }
+                }
             });
         } catch (error) {
             throw new InternalServerErrorException('Failed to find files');

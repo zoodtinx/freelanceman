@@ -31,6 +31,7 @@ export const UserProfileDialog = ({
 
    // form utilities
    const { handleSubmit, getValues, setValue } = formMethods;
+   // setValue('avatarFile', '')
 
    //dialog state
    const { formDialogState } = useFormDialogStore();
@@ -47,30 +48,36 @@ export const UserProfileDialog = ({
       setIsApiLoading({ isLoading: true, type: 'submit' });
 
       const avatarFile = getValues('avatarFile')
-
-      const presignedUrl = await getPresignedUrl.mutateAsync({
-         fileName: 'avatar',
-         category: 'user',
-         contentType: avatarFile.type,
-      })
-
       console.log('avatarFile', avatarFile)
 
-      const formData = new FormData();
-      formData.append('file', avatarFile);
+      let presignedUrl
 
-      const uploadResponse = await fetch(presignedUrl.url, {
-         method: 'PUT',
-         body: avatarFile,
-         headers: {
-            'Content-Type': 'image/jpeg',
-         }
-      });
+      if (avatarFile instanceof File) {
+         presignedUrl = await getPresignedUrl.mutateAsync({
+            fileName: 'avatar',
+            category: 'user',
+            contentType: avatarFile.type,
+         })
+   
+         console.log('avatarFile', avatarFile)
+   
+         const formData = new FormData();
+         formData.append('file', avatarFile);
+   
+         const uploadResponse = await fetch(presignedUrl.url, {
+            method: 'PUT',
+            body: avatarFile,
+            headers: {
+               'Content-Type': 'image/jpeg',
+            }
+         });
+   
+          if (!uploadResponse.ok) {
+            toast.error('Error saving changes')
+            return
+          }
+      }
 
-       if (!uploadResponse.ok) {
-         toast.error('Error saving changes')
-         return
-       }
 
       const payload: EditUserDto = {
          name: data.name,
@@ -84,7 +91,7 @@ export const UserProfileDialog = ({
          quitting: data.quitting,
          pinnedProjects: data.pinnedProjects,
          specialization: data.specialization,
-         avatar: presignedUrl.key
+         avatar: presignedUrl?.key
       };
       await editUser.mutateAsync(payload);
       toast.success('Profile updated')

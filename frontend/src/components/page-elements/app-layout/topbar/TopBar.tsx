@@ -125,7 +125,7 @@ const SettingsPopover = () => {
          mode: 'edit',
          openedOn: 'global-add-button',
          type: 'user-profile',
-         data: userData,
+         data: {...userData},
          entity: 'user'
       });
    };

@@ -12,6 +12,7 @@ export interface FormDialogFooterProps {
    isApiLoading: ApiLoadingState;
    formDialogState: FormDialogState;
    formMethods: UseFormReturn;
+   isUrlLoading?: boolean
 };
 
 export default function FormDialogFooter({

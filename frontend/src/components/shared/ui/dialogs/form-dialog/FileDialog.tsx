@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Files, ArrowDownToLine } from 'lucide-react';
+import { Files, ArrowDownToLine, Loader, Loader2 } from 'lucide-react';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
@@ -23,6 +23,8 @@ import {
    DiscardButton,
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
+import { toast } from 'sonner';
+import { useFileUrlQuery, useGetPresignedUrl } from '@/lib/api/file-api';
 
 export const FileDialog = ({
    formMethods,
@@ -34,24 +36,31 @@ export const FileDialog = ({
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, getValues, watch } = formMethods;
+   const { handleSubmit, getValues, setValue, watch } = formMethods;
+   const s3Key = getValues('s3Key');
 
    //dialog state
    const { formDialogState } = useFormDialogStore();
 
    // api setup
    const { editFile } = crudApi as CrudApi['file'];
+   const { data: fileUrl, isUrlLoading } = useFileUrlQuery(
+      s3Key,
+      Boolean(s3Key)
+   );
+   if (fileUrl) {
+      setValue('fileUrl', fileUrl?.url);
+   }
 
    const [copied, setCopied] = useState(false);
 
    const fileSize = formatBytes(watch('size'));
-   const link = watch('link');
    const category = getValues('category');
-   const dateCreated = formatDate(getValues('createdAt'), 'LONG');
+   const dateCreated = formatDate(getValues('createdAt'), 'FULL');
 
    const handleCopy = () => {
-      if (link) {
-         navigator.clipboard.writeText(link);
+      if (fileUrl?.url) {
+         navigator.clipboard.writeText(fileUrl.url);
          setCopied(true);
          setTimeout(() => setCopied(false), 2000);
       }
@@ -65,6 +74,7 @@ export const FileDialog = ({
          type: data.type,
       };
       editFile.mutate(editFilePayload);
+      toast.success('File updated')
       setIsApiLoading({ isLoading: false, type: 'submit' });
    };
 
@@ -126,18 +136,24 @@ export const FileDialog = ({
             </div>
          )}
          <div className="flex gap-2 px-5 pb-2 w-full">
-            <div className="flex flex-col leading-5 w-1/2">
+            <div className="flex shrink-0 flex-col leading-5 w-1/2">
                <Label className="pb-0">Date Created</Label>
                <p>{dateCreated}</p>
             </div>
-            <div className="flex flex-col leading-5 w-1/2">
+            <div className="flex shrink-0 flex-col leading-5 w-1/2">
                <Label className="pb-0">Copy Link</Label>
                <div
                   className="cursor-default flex gap-1 relative"
                   onClick={handleCopy}
                >
-                  <Files className="w-5 h-5" />
-                  <p className="truncate">{link}</p>
+                  {isUrlLoading ? (
+                     <Loader2 className="w-5 h-5 shrink-0 animate-spin" />
+                  ) : (
+                     <>
+                        <Files className="w-5 h-5 shrink-0" />
+                        <p className="truncate mr-3">{fileUrl?.url}</p>
+                     </>
+                  )}
                   {copied && (
                      <p className="absolute bg-primary rounded-md text-sm text-foreground px-2 w-full text-center opacity-100 transition-opacity duration-100">
                         Link copied to clipboard
@@ -150,6 +166,7 @@ export const FileDialog = ({
             formDialogState={formDialogState}
             formMethods={formMethods}
             isApiLoading={isApiLoading}
+            isUrlLoading={isUrlLoading}
             onDiscard={handleLeftButtonClick}
          />
       </form>
@@ -161,8 +178,10 @@ const FileDialogFooter = ({
    isApiLoading,
    formDialogState,
    formMethods,
+   isUrlLoading,
 }: FormDialogFooterProps) => {
-   const url = formMethods.getValues('link');
+   const url = formMethods.getValues('fileUrl');
+   console.log('url', url);
 
    return (
       <DialogFooter>
@@ -178,14 +197,20 @@ const FileDialogFooter = ({
                   formMethods={formMethods}
                   isApiLoading={isApiLoading}
                />
-               <DownloadButton url={url} />
+               <DownloadButton url={url} isLoading={isUrlLoading!} />
             </div>
          </div>
       </DialogFooter>
    );
 };
 
-const DownloadButton = ({ url }: { url: string }) => {
+const DownloadButton = ({
+   url,
+   isLoading,
+}: {
+   url: string;
+   isLoading: boolean;
+}) => {
    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (url) {
@@ -196,7 +221,8 @@ const DownloadButton = ({ url }: { url: string }) => {
    return (
       <Button
          type="submit"
-         variant={'default'}
+         disabled={isLoading}
+         variant={isLoading ? 'ghost' : 'default'}
          className="flex gap-1 pl-2 pr-3"
          onClick={handleClick}
       >
