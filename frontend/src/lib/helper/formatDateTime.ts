@@ -2,52 +2,21 @@ import { format, toZonedTime } from 'date-fns-tz';
 
 export function formatDate(
    isoString: string | undefined,
-   format: 'SHORT' | 'LONG' = 'SHORT'
+   type: 'SHORT' | 'LONG' | 'FULL' = 'SHORT'
 ) {
    if (!isoString) {
       return '';
    }
-   
-   const date = new Date(isoString);
-   
-   const monthAbbreviations = [
-      'JAN',
-      'FEB',
-      'MAR',
-      'APR',
-      'MAY',
-      'JUN',
-      'JUL',
-      'AUG',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DEC',
-   ];
-   const fullMonthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-   ];
 
-   const day = date.getDate();
-   const year = date.getFullYear();
-   const monthShort = monthAbbreviations[date.getMonth()];
-   const monthLong = fullMonthNames[date.getMonth()];
-
-   if (format === 'SHORT') {
-      return `${monthShort} ${day}`;
-   } else {
-      return `${monthLong} ${day}, ${year}`;
+   switch (type) {
+      case 'SHORT':
+         return format(new Date(isoString), 'MM d')         ;
+      case 'LONG':
+         return format(new Date(isoString), 'MMMM d')
+      case 'FULL':
+         return format(new Date(isoString), 'EEEE, d MMMM, yyyy')
+      default:
+         return '';
    }
 }
 

@@ -1,5 +1,5 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import { CreateFileDto, EditFileDto, FileFilterDto } from 'freelanceman-common';
+import { CreateFileDto, EditFileDto, FileFilterDto, GetPresignedUrlDto } from 'freelanceman-common';
 
 export async function getFiles(accessToken: string, filter: FileFilterDto) {
    return await fetchProMax({
@@ -56,5 +56,15 @@ export async function getFileUrl(accessToken: string, fileKey: string) {
       requestPayload: {key: fileKey},
       method: 'POST',
       model: 'fileUrl',
+   });
+}
+
+export async function getPresignedUrl(accessToken: string, payload: GetPresignedUrlDto) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `files/presign`,
+      requestPayload: payload,
+      method: 'POST',
+      model: 'presignedUrl',
    });
 }

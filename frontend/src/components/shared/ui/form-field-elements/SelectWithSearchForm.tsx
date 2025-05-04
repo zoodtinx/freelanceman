@@ -194,13 +194,13 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />}
          </SelectTrigger>
          <SelectContent
-            className="bg-foreground rounded-xl p-1 overflow-hidden text-sm font-normal w-[300px] shadow-sm"
+            className="bg-foreground overflow-hidden text-sm font-normal w-[300px] shadow-sm"
             ref={selectRef}
          >
-            <div className="w-full max-h-[250px] bg-foreground rounded-md border-0 flex flex-col">
+            <div className="w-full max-h-[250px] bg-foreground rounded-md border-0 flex flex-col gap-1">
                <SearchBox
                   onChange={handleInputChange}
-                  className="w-full mb-2 bg-background rounded-md"
+                  className="w-full bg-background rounded-md"
                   placeholder="Search..."
                />
                <SelectionList
@@ -229,25 +229,25 @@ const SelectionList: React.FC<SelectionListProps> = ({
    handleClose,
 }) => {
    return (
-      <div className="max-h-[250px] pr-2 overflow-y-auto overflow-x-hidden">
+      <div className="max-h-[250px] overflow-y-auto overflow-x-hidden">
          {isLoading ? (
-            <div className="text-gray-500 text-sm px-2 py-2">Loading...</div>
+            <div className="text-gray-500 text-sm">Loading...</div>
          ) : selections.length > 0 ? (
             selections.map((selection) => (
                <div
                   key={selection.value}
-                  className="p-1 px-2 rounded cursor-pointer hover:bg-background"
+                  className="py-1 px-2 rounded-md cursor-pointer hover:bg-background"
                   onClick={() => {
                      handleSelect(selection.value);
                      handleClose();
                   }}
                >
-                  <p className="w-full pr-5 line-clamp-2">{selection.label}</p>
+                  <p className="w-full pr-5 line-clamp-2 text-base">{selection.label}</p>
                </div>
             ))
          ) : (
-            <div className="text-gray-500 text-sm px-2 py-2">
-               No results found
+            <div className="py-1 px-2 rounded-md cursor-pointer hover:bg-background text-secondary">
+               No result found
             </div>
          )}
       </div>

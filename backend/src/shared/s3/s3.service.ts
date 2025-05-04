@@ -7,6 +7,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { GetPresignedUrlDto } from 'freelanceman-common';
 import { Readable } from 'stream';
 
 @Injectable()
@@ -25,13 +26,8 @@ export class S3Service {
         this.bucket = this.configService.get('aws.bucket');
     }
 
-    async getPresignedUrl(payload: {
-        userId: string;
-        fileName: string;
-        category: string;
-        contentType: string;
-    }) {
-        const { fileName, category, contentType, userId } = payload;
+    async getPresignedUrl( userId: string, getPresignedUrlDto: GetPresignedUrlDto) {
+        const { fileName, category, contentType } = getPresignedUrlDto;
         try {
             const command = new PutObjectCommand({
                 Bucket: this.bucket,
@@ -42,7 +38,7 @@ export class S3Service {
             const url = await getSignedUrl(this.s3, command, {
                 expiresIn: 3600,
             });
-            return url;
+            return {url, key: `${userId}/${category}/${fileName}`};
         } catch (error) {
             console.log('error', error);
             throw new InternalServerErrorException(

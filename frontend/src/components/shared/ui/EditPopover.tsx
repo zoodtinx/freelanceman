@@ -36,7 +36,7 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
          >
             <EllipsisVertical className="w-4 h-4 text-secondary hover:text-primary transition-colors" />
          </PopoverTrigger>
-         <PopoverContent className="w-[80px] cursor-default select-none bg-foreground">
+         <PopoverContent className="w-[80px] cursor-default select-none bg-foreground ">
             <p onClick={(e) => handleEdit(e)}>Edit</p>
             <Separator />
             <p

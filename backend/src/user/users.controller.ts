@@ -22,7 +22,7 @@ export class UsersController {
         return this.usersService.findOne(userId);
     }
 
-    @Patch(':id')
+    @Patch()
     update(
         @Req() req: any,
         @Body(new ZodValidationPipe(editUserProfileSchema)) payload: any,

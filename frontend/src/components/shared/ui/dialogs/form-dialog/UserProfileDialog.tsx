@@ -1,7 +1,5 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import React, { useEffect } from 'react';
+import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { Button } from '../../primitives/Button';
-import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { UserIcon } from 'lucide-react';
 import {
    AvatarInputForm,
@@ -18,67 +16,84 @@ import {
 import { SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { useEditUser, useUserApi } from '@/lib/api/user-api';
+import { EditUserDto, UserPayload } from 'freelanceman-common';
+import { CrudApi } from '@/lib/api/api.type';
+import { toast } from 'sonner';
+import { useGetPresignedUrl } from '@/lib/api/file-api';
 
 export const UserProfileDialog = ({
    formMethods,
-   handleEscapeWithChange,
+   buttonLoadingState,
+   crudApi,
 }: FormDialogProps) => {
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const editUser = useEditUser()
+   // button loading state
+   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
-   const {
-      handleSubmit,
-      reset,
-      formState: { errors },
-   } = formMethods;
+   // form utilities
+   const { handleSubmit, getValues, setValue } = formMethods;
 
-   useEffect(() => {
-      const { mode, data } = formDialogState;
+   //dialog state
+   const { formDialogState } = useFormDialogStore();
 
-      if (mode === 'view') {
-         reset(data);
-      } else if (mode === 'create' || mode === 'edit') {
-         reset(mode === 'create' ? defaultContact : data);
-      }
-   }, [formDialogState, reset]);
+   // api setup
+   const { editUser } = crudApi as CrudApi['user'];
+   const getPresignedUrl = useGetPresignedUrl({
+      errorCallback() {
+          toast.error('Unable to upload file')
+      },
+   })
 
-   const onError = (errors: any) => {
-      console.error('Validation Errors:', errors);
-   };
+   const onSubmit: SubmitHandler<UserPayload> = async (data) => {
+      setIsApiLoading({ isLoading: true, type: 'submit' });
 
-   const onSubmit: SubmitHandler<Contact> = (data) => {
+      const avatarFile = getValues('avatarFile')
+
+      const presignedUrl = await getPresignedUrl.mutateAsync({
+         fileName: 'avatar',
+         category: 'user',
+         contentType: avatarFile.type,
+      })
+
+      console.log('avatarFile', avatarFile)
+
+      const formData = new FormData();
+      formData.append('file', avatarFile);
+
+      const uploadResponse = await fetch(presignedUrl.url, {
+         method: 'PUT',
+         body: avatarFile,
+         headers: {
+            'Content-Type': 'image/jpeg',
+         }
+      });
+
+       if (!uploadResponse.ok) {
+         toast.error('Error saving changes')
+         return
+       }
+
       const payload: EditUserDto = {
          name: data.name,
          email: data.email,
          phoneNumber: data.phoneNumber,
          address: data.address,
-         avatarUrl: data.avatarUrl,
          bio: data.bio,
          taxId: data.taxId,
+         displayName: data.displayName,
+         currency: data.currency,
+         quitting: data.quitting,
+         pinnedProjects: data.pinnedProjects,
+         specialization: data.specialization,
+         avatar: presignedUrl.key
       };
-      editUser.mutate({
-         userId: formDialogState.data.id,
-         userPayload: payload,
-      });
+      await editUser.mutateAsync(payload);
+      toast.success('Profile updated')
+      setIsApiLoading({ isLoading: false, type: 'submit' });
    };
-
-   let avatar;
-   if (!formDialogState.data.avatar) {
-      avatar = <UserIcon className="w-16 h-16" />;
-   } else {
-      avatar = (
-         <img
-            src={formDialogState.data.avatar}
-            alt="Contact Avatar"
-            className="w-full h-full object-cover"
-         />
-      );
-   }
 
    return (
       <form
-         onSubmit={handleSubmit(onSubmit, onError)}
+         onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
          className="flex flex-col items-center pt-5"
       >
          <AvatarInputForm
@@ -88,7 +103,7 @@ export const UserProfileDialog = ({
          />
          <DynamicHeightTextInputForm
             formMethods={formMethods}
-            fieldName="name"
+            fieldName="displayName"
             required={true}
             errorMessage="Please enter your name."
             placeholder="What's youe name?"
@@ -151,11 +166,12 @@ export const UserProfileDialog = ({
          </div>
 
          <DialogFooter className="w-full">
-            <div className="flex justify-between p-4">
+            <div className="flex justify-between p-4 pb-2">
                <Button variant={'outline'}>Feeling tired ?</Button>
                <SubmitButton
                   formDialogState={formDialogState}
                   formMethods={formMethods}
+                  isApiLoading={isApiLoading}
                />
             </div>
          </DialogFooter>

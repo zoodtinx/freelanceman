@@ -17,7 +17,7 @@ export const userPayloadSchema = z.object({
   avatar: optionalString(),
   pinnedProjects: z.array(z.string()).min(0),
   currency: optionalString(),
-  quitting: z.boolean().default(false),
+  quitting: z.boolean().optional(),
   createdAt: z.string(),
   updatedAt: z.string().optional(),
 });
@@ -34,7 +34,7 @@ export const editUserProfileSchema = z.object({
   avatar: optionalString(),
   pinnedProjects: z.array(z.string()).optional(),
   currency: optionalString(),
-  quitting: z.boolean().default(false),
+  quitting: z.boolean().optional(),
 });
 
 export type UserPayload = z.infer<typeof userPayloadSchema>;

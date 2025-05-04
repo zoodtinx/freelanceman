@@ -14,7 +14,7 @@ export const DateTimePickerForm = <TFieldValues extends FieldValues>({
    } = formMethods;
 
    return (
-      <div>
+      <div className='flex flex-col gap-[2px]'>
             <DatePickerForm
                fieldName={fieldName}
                formMethods={formMethods}

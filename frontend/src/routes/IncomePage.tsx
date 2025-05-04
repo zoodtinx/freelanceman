@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
-import { Download, Edit, FileText, Loader, Plus, Trash } from 'lucide-react';
+import { Delete, Download, Edit, FileText, Loader, Plus, Trash } from 'lucide-react';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
@@ -64,20 +64,21 @@ const FilterBar = ({
       setProjectFilter((prev: any) => {
          return {
             ...prev,
-            paymentStatus: value
-         }
-      })
-   }
-   
+            paymentStatus: value,
+         };
+      });
+   };
+
    return (
       <div className="flex gap-1">
-         <FilterSelect selectContents={[
-            {label: 'Due', value: 'unpaid'},
-            {label: 'Paid', value: 'paid'},
-         ]}
-         onValueChange={handleStatusValueChange}
-         value={projectFilter.paymentStatus}
-         placeholder='Payment Status'
+         <FilterSelect
+            selectContents={[
+               { label: 'Due', value: 'unpaid' },
+               { label: 'Paid', value: 'paid' },
+            ]}
+            onValueChange={handleStatusValueChange}
+            value={projectFilter.paymentStatus}
+            placeholder="Payment Status"
          />
          <ClientFilterBubble
             projectFilter={projectFilter}
@@ -145,7 +146,7 @@ const ProjectPaymentTabList = ({
          ) : (
             <>
                {projectList}
-               <div className='flex w-full justify-center'>Load More</div>
+               <div className="flex w-full justify-center">Load More</div>
             </>
          )}
       </div>
@@ -155,12 +156,12 @@ const ProjectPaymentTabList = ({
 const ProjectPaymentTab = ({ project }: { project: PaymentDataPayload }) => {
    const editProject = useEditProject({
       successCallback() {
-          toast.success('Payment status updated')
+         toast.success('Payment status updated');
       },
       errorCallback() {
-         toast.error('Error updating payment status')
-      }
-   })
+         toast.error('Error updating payment status');
+      },
+   });
 
    const handlePaymentStatusChange = (value: string) => {
       editProject.mutate({ id: project.id, paymentStatus: value });
@@ -211,7 +212,7 @@ const DocumentButton = ({
 }) => {
    const haveDocument = project.salesDocuments?.some(
       (doc) => doc.category === type
-   ); 
+   );
 
    const salesDocumentData = project.salesDocuments?.find(
       (doc) => doc.category === type
@@ -274,8 +275,11 @@ const EditDocumentButton = ({
 }: {
    salesDocumentData: SalesDocumentPayload;
 }) => {
-   const [fetch, setFetch] = useState(false)
-   const { data: payload, isLoading } = useFileUrlQuery(salesDocumentData.fileKey ?? '', fetch)
+   const [fetch, setFetch] = useState(false);
+   const { data: payload, isLoading } = useFileUrlQuery(
+      salesDocumentData.fileKey ?? '',
+      fetch
+   );
 
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
@@ -283,12 +287,12 @@ const EditDocumentButton = ({
 
    const deleteSalesDoc = useDeleteSalesDocument({
       successCallback() {
-          toast.success('Sales document deleted')
+         toast.success('Sales document deleted');
       },
       errorCallback() {
-         toast.error('Error deleting sales document')
-      }
-   })
+         toast.error('Error deleting sales document');
+      },
+   });
    const navigate = useNavigate();
    const label =
       salesDocumentData.category.charAt(0).toUpperCase() +
@@ -308,7 +312,7 @@ const EditDocumentButton = ({
                });
             },
          },
-         entityName: `${capitalizeFirstChar(salesDocumentData.category)}`,
+         entityName: `${salesDocumentData.category}`,
          isOpen: true,
          type: 'delete',
          appearance: {
@@ -345,21 +349,30 @@ const EditDocumentButton = ({
                {label}
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[110px] cursor-default select-none bg-foreground gap-1">
-            <button className="text-left gap-1 flex items-center" onClick={handleEdit}>
-               <Edit className='h-4 w-4' />
+         <PopoverContent className="w-[120px] cursor-default select-none bg-foreground gap-0">
+            <button
+               className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background"
+               onClick={handleEdit}
+            >
+               <Edit className="h-4 w-4" />
                Edit
             </button>
             {!salesDocumentData.fileKey ? null : isLoading ? (
                <Loader className="animate-spin" />
             ) : (
-               <button onClick={handleDownload} className="text-left gap-1 flex items-center">
-                  <Download className='h-4 w-4' />
+               <button
+                  onClick={handleDownload}
+                  className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background"
+               >
+                  <Download className="h-4 w-4" />
                   Download
                </button>
             )}
-            <button className="flex items-center gap-1 text-left" onClick={handleDelete}>
-               <Trash className='h-4 w-4' />
+            <button
+               className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background"
+               onClick={handleDelete}
+            >
+               <Trash className="h-4 w-4" />
                Delete
             </button>
          </PopoverContent>

@@ -296,7 +296,7 @@ const getDeleteFn = (entity: keyof CrudApi, crudApi: CrudApi) => {
       case 'salesDocumentItem':
          return crudApi.salesDocumentItem.deleteSalesDocumentItem;
       case 'user':
-         return crudApi.user.deleteUser;
+         return;
    }
 };
 

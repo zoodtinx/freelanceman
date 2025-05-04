@@ -5,6 +5,8 @@ import {
    PopoverTrigger,
 } from '@/components/shared/ui/primitives/Popover';
 import {
+   Calendar,
+   CircleCheck,
    Eclipse,
    Loader2,
    Moon,
@@ -22,6 +24,10 @@ import { useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { UserPayload } from 'freelanceman-common';
+import { useTasksQuery } from '@/lib/api/task-api';
+import { useEventsQuery } from '@/lib/api/event-api';
+import { formatDate } from '@/lib/helper/formatDateTime';
+import { useFileUrlQuery } from '@/lib/api/file-api';
 
 export const mockUser = {
    id: "id_00458_59",
@@ -43,6 +49,9 @@ export const mockUser = {
  
 
 export default function TopBar() {
+   const date = new Date().toISOString()
+   const formattedDate = formatDate(date, 'FULL')
+   
    return (
       <header
          className={`flex flex-shrink-0 h-[63px] w-full items-center justify-between px-3
@@ -52,17 +61,17 @@ export default function TopBar() {
       >
          <FreelanceManLogo />
          <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-foreground h-[37px] sm:h-[43px] w-auto rounded-full px-4 sm:hidden">
-            <p>Monday, 19 December 2025</p>
-            {/* <CountDisplay
+            <p>{formattedDate}</p>
+            <CountDisplay
                icon={CircleCheck}
                label="Task"
-               queryHook={useActiveTaskCountQuery}
-            /> */}
-            {/* <CountDisplay
+               queryHook={() => useTasksQuery({status: 'pending'})}
+            />
+            <CountDisplay
                icon={Calendar}
                label="Event"
-               queryHook={useEventsQuery}
-            /> */}
+               queryHook={() => useEventsQuery({status: 'scheduled'})}
+            />
          </div>
          <div className="h-[55px] items-center flex gap-2">
             <SettingsPopover />
@@ -81,7 +90,7 @@ const CountDisplay = ({
    label: string;
 }) => {
    const navigate = useNavigate();
-   const { data: count, isLoading } = queryHook();
+   const { data, isLoading } = queryHook();
 
    if (isLoading) {
       return <Loader2 className="animate-spin h-5 w-5" />;
@@ -93,8 +102,8 @@ const CountDisplay = ({
          className="flex gap-1 items-center select-none cursor-pointer hover:text-primary transition-colors duration-100"
       >
          <Icon className="h-5 w-5" />
-         <span>{count}</span>
-         <span>{count === 1 ? label : `${label}s`}</span>
+         <span>{data?.length}</span>
+         <span>{data?.length === 1 ? label : `${label}s`}</span>
       </p>
    );
 };
@@ -105,10 +114,10 @@ const SettingsPopover = () => {
       (state) => state.setFormDialogState
    );
 
-   const {data, isLoading} = useUserQuery()
-   const userData = data as UserPayload
+   const {data: userDataPayload, isLoading: userDataIsLoading} = useUserQuery()
+   const {data: urlDataPayload, isLoading: urlIsLoading} = useFileUrlQuery(userDataPayload?.avatar, Boolean(userDataPayload))
 
-   console.log('userData', userData)
+   const userData = userDataPayload as UserPayload
 
    const handleEditProfile = () => {
       setFormDialogState({
@@ -116,7 +125,8 @@ const SettingsPopover = () => {
          mode: 'edit',
          openedOn: 'global-add-button',
          type: 'user-profile',
-         data: mockUser,
+         data: userData,
+         entity: 'user'
       });
    };
 
@@ -130,23 +140,23 @@ const SettingsPopover = () => {
 
    return (
       <div className="flex gap-2 items-center">
-         {!isLoading && (
-            <div className="flex flex-col leading-5 items-end">
+         {!userDataIsLoading && (
+            <div className="flex flex-col leading-tight items-end">
                <p>Good morning</p>
                <p className="text-md font-semibold">{userData.displayName}</p>
             </div>
          )}
          <Popover>
             <PopoverTrigger asChild>
-               <div className="w-12 h-12">
-                  {isLoading ? (
+               <div className="w-12 h-12 overflow-hidden rounded-full">
+                  {urlIsLoading ? (
                      <Skeleton className="rounded-full w-full h-full" />
                   ) : (
-                     <div className="w-12 h-12 bg-black rounded-full"></div>
+                     <img src={urlDataPayload?.url} alt="" />
                   )}
                </div>
             </PopoverTrigger>
-            <PopoverContent className="w-[250px] bg-foreground border-tertiary flex flex-col rounded-xl p-[6px] cursor-default select-none">
+            <PopoverContent className="w-[250px] bg-foreground border-tertiary flex flex-col rounded-xl cursor-default select-none">
                <div className="flex items-center gap-[5px] justify-between">
                   <div className="flex items-center gap-[5px] pl-1">
                      <Eclipse className="h-4 w-4" />
@@ -175,7 +185,7 @@ const SettingsPopover = () => {
                </div>
                <div className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75">
                   <div
-                     className="flex items-center gap-[5px] pl-1 p-1"
+                     className="flex items-center gap-[5px] pl-1 p-1 w-full"
                      onClick={handleEditProfile}
                   >
                      <Settings2 className="h-4 w-4" />

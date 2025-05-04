@@ -54,8 +54,6 @@ export interface CrudApi {
       deleteSalesDocumentItem: CrudOperation;  
    };
    user: {
-      createUser: CrudOperation;  
       editUser: CrudOperation;    
-      deleteUser: CrudOperation;  
    };
 }

@@ -5,6 +5,7 @@ import {
    deleteFile,
    editFile,
    getFileUrl,
+   getPresignedUrl,
 } from '@/lib/api/services/file-service';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
@@ -67,3 +68,14 @@ export const useDeleteFile = (callbacks?: MutationCallbacks) => {
       callbacks
    );
 };
+
+export const useGetPresignedUrl = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'getPresignedUrl',
+         invalidationKeys: ['files'],
+         mutationFn: getPresignedUrl,
+      },
+      callbacks
+   );
+}

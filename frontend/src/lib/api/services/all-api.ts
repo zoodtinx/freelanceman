@@ -26,6 +26,7 @@ import {
 } from '@/lib/api/project-api';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';
+import { useEditUser } from '@/lib/api/user-api';
 
 const useCrudApi = (callbacks: MutationCallbacks) => {
    return {
@@ -80,9 +81,7 @@ const useCrudApi = (callbacks: MutationCallbacks) => {
          deleteSalesDocumentItem: useDeleteProject(callbacks),
       },
       user: {
-         createUser: useCreateProject(callbacks),
-         editUser: useEditProject(callbacks),
-         deleteUser: useDeleteProject(callbacks),
+         editUser: useEditUser(callbacks),
       },
    };
 };

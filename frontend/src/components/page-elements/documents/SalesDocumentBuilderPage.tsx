@@ -218,7 +218,7 @@ const SalesDocumentBuilderPage = ({
             <footer className="flex justify-between shrink-0">
                <div className="flex gap-2">
                   <Button onClick={handleDiscard} variant="destructiveOutline" disabled={isLoading}>
-                     Discard Changes
+                     {isDirty ? 'Discard Changes' : 'Back'}
                   </Button>
                </div>
 

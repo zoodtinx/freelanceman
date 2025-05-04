@@ -17,6 +17,7 @@ import {
     getPresignedUrlSchema,
     fileFilterSchema,
     editFileSchema,
+    GetPresignedUrlDto,
 } from 'freelanceman-common';
 import { FilesService } from 'src/files/files.service';
 import { S3Service } from '@/shared/s3/s3.service';
@@ -37,18 +38,6 @@ export class FilesController {
     ) {
         const userId = req.user.id;
         return this.filesService.create(userId, createDto);
-    }
-
-    @Post('presign')
-    @HttpCode(200)
-    getPresignedUrl(
-        @Body(new ZodValidationPipe(getPresignedUrlSchema))
-        getPresignedUrlDto: any,
-        @Req() req: any,
-    ) {
-        const userId = req.user.id;
-        const presignedUrl = this.filesService.getUploadUrl(userId, getPresignedUrlDto);
-        return { presignedUrl: presignedUrl };
     }
 
     @Post('search')
@@ -88,5 +77,16 @@ export class FilesController {
     @HttpCode(200)
     getFileUrl(@Body('key') fileKey: string) {
         return this.s3Service.getSignedUrlForDownload(fileKey);
+    }
+
+    @Post('presign')
+    @HttpCode(200)
+    getPresignedUrl(
+        @Body(new ZodValidationPipe(getPresignedUrlSchema))
+        payload: GetPresignedUrlDto,
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.s3Service.getPresignedUrl(userId, payload);
     }
 }

@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { useEffect, useState } from 'react';
 import { FormElementProps } from '@/lib/types/form-element.type';
 import { useRef } from 'react';
+import { format } from 'date-fns';
 
 export const DatePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -54,7 +55,7 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
                            )}
                            onClick={() => setIsOpen(true)}
                         >
-                           {value ? formatDate(value, 'LONG') : 'Pick a date'}
+                           {value ? format(new Date(value), 'd MMMM yyyy') : 'Pick a date'}
                         </p>
                      </div>
                   </PopoverTrigger>

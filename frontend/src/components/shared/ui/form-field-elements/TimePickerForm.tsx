@@ -3,7 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../primitives/Popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { setHours, setMinutes, format } from 'date-fns';
 import { FormElementProps } from '@/lib/types/form-element.type';
-import { XIcon } from 'lucide-react';
+import { CalendarIcon, Clock, XIcon } from 'lucide-react';
 
 export const TimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -23,7 +23,10 @@ export const TimePickerForm = <TFieldValues extends FieldValues>({
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
-               <TimePicker value={value || null} handleChange={handleChange} />
+               <div className='flex gap-1 items-center'>
+                  <Clock className="w-5 h-5 text-secondary" />
+                  <TimePicker value={value || null} handleChange={handleChange} />
+               </div>
             );
          }}
       />
@@ -136,7 +139,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
       } else {
          return (
             <p
-               className="text-secondary cursor-pointer hover:text-primary font-semibold"
+               className="text-secondary cursor-pointer hover:text-primary font-medium"
                onClick={(e) => {
                   e.stopPropagation();
                   handleAddTime();

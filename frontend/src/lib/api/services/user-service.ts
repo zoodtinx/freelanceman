@@ -10,6 +10,14 @@ export async function getUser(accessToken: string) {
       });
 }
 
-export async function editUser(accessToken: string, payload: any) {}
+export async function editUser(accessToken: string, payload: any) {
+    return await fetchProMax({
+        accessToken,
+        apiEndpoint: 'users',
+        method: 'PATCH',
+        model: 'user',
+        requestPayload: payload
+     });
+}
 
 export async function deleteUser(accessToken: string, userId: string) {}

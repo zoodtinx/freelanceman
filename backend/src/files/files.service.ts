@@ -50,24 +50,6 @@ export class FilesService {
         }
     }
 
-    async getUploadUrl(userId: string, getPresignedUrlDto: GetPresignedUrlDto) {
-        const { fileName, category, contentType } = getPresignedUrlDto;
-
-        try {
-            const presignedUrl = await this.s3Service.getPresignedUrl(
-                {
-                    category,
-                    contentType,
-                    fileName,
-                    userId
-                }
-            );
-            return presignedUrl;
-        } catch (error) {
-            throw new InternalServerErrorException('Failed to get upload URL');
-        }
-    }
-
     async findMany(userId: string, filter: FileFilterDto) {
         try {
             return await this.prisma.file.findMany({
