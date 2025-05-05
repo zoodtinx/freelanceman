@@ -83,6 +83,63 @@ type FileIconByExtensionProps = {
    className?: string;
 };
 
+export const FileIconByMimeType = ({
+   mimeType = 'application/octet-stream',
+   className = '',
+}): JSX.Element => {
+   switch (true) {
+      case mimeType.startsWith('image/'):
+         return <Image className={className} />;
+
+      case mimeType.startsWith('video/'):
+         return <Video className={className} />;
+
+      case mimeType === 'application/pdf':
+         return <FileText className={className} />;
+
+      case mimeType.startsWith('text/'):
+         return <Code className={className} />;
+
+      case mimeType === 'application/msword':
+      case mimeType ===
+         'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+         return <FileText className={className} />;
+      case mimeType === 'application/vnd.ms-excel':
+      case mimeType ===
+         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+         return <Table className={className} />;
+      case mimeType === 'application/vnd.ms-powerpoint':
+      case mimeType ===
+         'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+         return <Monitor className={className} />;
+
+      case mimeType.startsWith('audio/'):
+         return <Music className={className} />;
+
+      case mimeType.startsWith('application/zip'):
+      case mimeType.startsWith('application/x-tar'):
+      case mimeType.startsWith('application/gzip'):
+         return <Archive className={className} />;
+
+      case mimeType.startsWith('video/mp4'):
+      case mimeType.startsWith('video/quicktime'):
+         return <Film className={className} />;
+
+      case mimeType.startsWith('application/x-project-management'):
+         return <Briefcase className={className} />;
+
+      case mimeType.startsWith('application/x-sqlite3'):
+         return <Database className={className} />;
+
+      case mimeType.startsWith('application/vnd.ms-design'):
+      case mimeType.startsWith('application/figma'):
+         return <Layout className={className} />;
+
+      default:
+         return <FileStack className={className} />;
+   }
+};
+
 export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({
    fileType = 'other',
    className = '',
@@ -141,7 +198,7 @@ export const formatCategory = (fileCategory: FileCategory) => {
 };
 
 export const formatProjectStatus = (
-   projectStatus: 'active' | 'on-hold' | 'completed'
+   projectStatus: 'active' | 'on-hold' | 'completed' | ''
 ) => {
    if (!projectStatus) return '';
 
@@ -158,7 +215,7 @@ export const formatProjectStatus = (
 };
 
 export const formatPaymentStatus = (
-   paymentStatus: 'unpaid' | 'processing' | 'paid'
+   paymentStatus: 'unpaid' | 'processing' | 'paid' | ''
 ) => {
    if (!paymentStatus) return '';
 
@@ -318,28 +375,28 @@ export const validateUrl = (inputValue: string) => {
    }
 
    try {
-      new URL(inputValue);
+      const url = new URL(inputValue);
+      if (!url.protocol || !url.hostname) {
+         return { error: 'Invalid URL format.' };
+      }
       return { error: '' };
    } catch {
-      return {
-         error: 'Please enter a valid link. (Starting with http:// or https://)',
-      };
+      return { error: 'Invalid URL format.' };
    }
 };
 
 export const getFileTypeFromMimeType = (mime: string): FileType => {
    const mimeMap: Record<string, FileType> = {
-      // Image types
       'image/jpeg': 'image',
       'image/png': 'image',
       'image/gif': 'image',
       'image/webp': 'image',
+      'image/avif': 'image',
       'image/svg+xml': 'image',
       'image/bmp': 'image',
       'image/tiff': 'image',
       'image/x-icon': 'image',
 
-      // Video types
       'video/mp4': 'video',
       'video/mpeg': 'video',
       'video/quicktime': 'video',
@@ -347,14 +404,12 @@ export const getFileTypeFromMimeType = (mime: string): FileType => {
       'video/x-flv': 'video',
       'video/webm': 'video',
 
-      // Document types
       'application/pdf': 'document',
       'application/msword': 'document',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
          'document',
       'application/rtf': 'document',
 
-      // Code types
       'text/plain': 'code',
       'text/javascript': 'code',
       'application/json': 'code',
@@ -363,39 +418,32 @@ export const getFileTypeFromMimeType = (mime: string): FileType => {
       'text/x-c': 'code',
       'text/x-c++': 'code',
 
-      // Archive types
       'application/zip': 'archive',
       'application/x-tar': 'archive',
       'application/x-7z-compressed': 'archive',
       'application/x-rar-compressed': 'archive',
 
-      // Design types
       'application/vnd.adobe.photoshop': 'design',
       'application/x-coreldraw': 'design',
       'image/vnd.dwg': 'design',
 
-      // Spreadsheet types
       'application/vnd.ms-excel': 'spreadsheet',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
          'spreadsheet',
 
-      // Presentation types
       'application/vnd.ms-powerpoint': 'presentation',
       'application/vnd.openxmlformats-officedocument.presentationml.presentation':
          'presentation',
 
-      // Audio types
       'audio/mpeg': 'audio',
       'audio/wav': 'audio',
       'audio/ogg': 'audio',
       'audio/aac': 'audio',
       'audio/flac': 'audio',
 
-      // Database types
       'application/x-sql': 'database',
       'application/vnd.ms-access': 'database',
 
-      // Project Management types
       'application/vnd.ms-project': 'project-management',
       'application/x-trello-json': 'project-management',
    };

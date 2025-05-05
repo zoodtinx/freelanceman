@@ -48,7 +48,7 @@ const GlobalAddButton = () => {
          type: 'task',
          entity: 'task',
          mode: 'create',
-         data: defaultValues['task'],
+         data: {...defaultValues['task']},
          openedOn: 'global-add-button',
       });
    };
@@ -59,7 +59,7 @@ const GlobalAddButton = () => {
          type: 'event',
          entity: 'event',
          mode: 'create',
-         data: defaultEventValues,
+         data: {...defaultEventValues},
          openedOn: 'global-add-button',
       });
    };
@@ -70,7 +70,7 @@ const GlobalAddButton = () => {
          type: 'client-contact',
          entity: 'clientContact',
          mode: 'create',
-         data: defaultValues['client-contact'],
+         data: {...defaultValues['client-contact']},
          openedOn: 'global-add-button',
       });
    };
@@ -81,7 +81,7 @@ const GlobalAddButton = () => {
          type: 'new-client',
          mode: 'create',
          entity: 'client',
-         data: defaultValues['new-client'],
+         data: {...defaultValues['new-client']},
          openedOn: 'global-add-button',
       });
    };
@@ -91,7 +91,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'new-project',
          mode: 'create',
-         data: defaultValues['new-project'],
+         data: {...defaultValues['new-project']},
          openedOn: 'global-add-button',
       });
    };
@@ -102,7 +102,7 @@ const GlobalAddButton = () => {
          type: 'new-file',
          mode: 'create',
          entity: 'file',
-         data: defaultValues['file'],
+         data: {...defaultValues['file']},
          openedOn: 'global-add-button',
       });
    };

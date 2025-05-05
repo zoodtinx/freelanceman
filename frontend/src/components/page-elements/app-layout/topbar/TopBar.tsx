@@ -14,8 +14,6 @@ import {
    Sun,
    UserRoundPen,
 } from 'lucide-react';
-import ProfileBar from './ProfileBar';
-import Avatar from './Avatar';
 import FreelanceManLogo from './Logo';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { useTheme } from 'next-themes';
@@ -85,14 +83,14 @@ const CountDisplay = ({
    icon: Icon,
    label,
 }: {
-   queryHook: () => { data?: number; isLoading: boolean };
+   queryHook: () => { data?: any[]; isLoading: boolean };
    icon: React.ElementType;
    label: string;
 }) => {
    const navigate = useNavigate();
    const { data, isLoading } = queryHook();
 
-   if (isLoading) {
+   if (isLoading || !data) {
       return <Loader2 className="animate-spin h-5 w-5" />;
    }
 
@@ -103,7 +101,7 @@ const CountDisplay = ({
       >
          <Icon className="h-5 w-5" />
          <span>{data?.length}</span>
-         <span>{data?.length === 1 ? label : `${label}s`}</span>
+         <span>{data.length === 1 ? label : `${label}s`}</span>
       </p>
    );
 };

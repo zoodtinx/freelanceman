@@ -7,7 +7,6 @@ import { Folder } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
-import { useDeleteFile, useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
@@ -16,6 +15,7 @@ import { FileFilterDto, FilePayload } from 'freelanceman-common';
 import AddButton from '@/components/shared/ui/AddButton';
 import FileListLoader from '@/components/shared/ui/placeholder-ui/FilePageLoader';
 import { toast } from 'sonner';
+import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -89,8 +89,17 @@ const FilePageLayout = (): JSX.Element => {
       });
    };
 
-   const handleDeleteMultipleFiles = () => {
-      deleteManyFiles.mutate(selectState.selectedValues)
+   const handleDeleteMultipleFiles = async () => {
+      toast.loading('Deleting files')
+      setSelectState((prev) => {
+         return {
+            ...prev,
+            enableSelect: false
+         }
+      })
+      await deleteManyFiles.mutateAsync(selectState.selectedValues)
+      toast.dismiss()
+      toast.success('Files deleted')
    }
 
    return (
@@ -114,14 +123,14 @@ const FilePageLayout = (): JSX.Element => {
             <FilterSelect
                onValueChange={(value) => handleFileFilter('type', value)}
                selectContents={fileTypeSelections}
-               value={fileFilter.type}
+               value={fileFilter.type as string}
                placeholder="Type"
                className={cn({ hidden: selectState.enableSelect })}
             />
             <FilterSelect
                onValueChange={(value) => handleFileFilter('category', value)}
                selectContents={fileCategorySelections}
-               value={fileFilter.category}
+               value={fileFilter.category  as string}
                placeholder="Category"
                className={cn({ hidden: selectState.enableSelect })}
             />

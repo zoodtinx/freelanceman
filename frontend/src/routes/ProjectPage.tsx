@@ -12,15 +12,15 @@ import {
 } from 'src/components/shared/ui/helpers/Helpers';
 import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
-import useDialogStore from '@/lib/zustand/dialog-store';
-
-export interface ProjectPageSectionProps {
-   project: Project;
-}
+import { ProjectPayload } from 'freelanceman-common';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
-   const { data: project, isLoading } = useProjectQuery(projectId);
+   const { data: project, isLoading } = useProjectQuery(
+      projectId!,
+      Boolean(projectId)
+   );
 
    return (
       <section className="flex grow gap-2">
@@ -40,7 +40,7 @@ export default function ProjectPage() {
                      <ProjectTaskSection project={project} />
                   )}
                </div>
-               <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2">
+               <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden">
                   {isLoading ? (
                      <p>Loading...</p>
                   ) : (
@@ -102,8 +102,10 @@ export default function ProjectPage() {
    );
 }
 
-const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
-   const { formDialogState, setFormDialogState } = useDialogStore();
+const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const handleOpenDialog = () => {
       setFormDialogState((prev) => {
@@ -113,6 +115,8 @@ const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
             mode: 'edit',
             data: project,
             type: 'project-settings',
+            entity: 'project',
+            openedOn: 'project-page',
          };
       });
    };
@@ -138,18 +142,14 @@ const ProjectHeader: React.FC<ProjectPageSectionProps> = ({ project }) => {
             </div>
             <div className="flex gap-1">
                <div
-                  className={`flex items-center gap-1 px-3 rounded-full text-constant-primary bg-${getStatusColor(
-                     project.projectStatus
-                  )}`}
+                  className={`flex items-center gap-1 px-3 rounded-full bg-primary text-foreground`}
                >
                   <Briefcase className="w-4 h-4" />
                   <p>Status :</p>
                   <p>{formatProjectStatus(project.projectStatus)}</p>
                </div>
                <div
-                  className={`flex items-center gap-1 px-3 rounded-full text-constant-primary bg-${getStatusColor(
-                     project.paymentStatus
-                  )}`}
+                  className={`flex items-center gap-1 px-3 rounded-full bg-primary text-foreground`}
                >
                   <Wallet className="w-4 h-4" />
                   <p>Payment :</p>

@@ -50,39 +50,36 @@ export class TasksService {
 
     async findAll(userId: string, filter: TaskFilterDto) {
         try {
-            const result = await this.prismaService.task.findMany({
-                where: {
-                    userId: userId,
-                    name: {
-                        contains: filter.name,
-                    },
-                    status: filter.status,
-                    dueAt: filter.dueAt,
-                    projectId: filter.projectId,
-                    clientId: filter.clientId,
-                },
-                take: 20,
-                orderBy: {
-                    dueAt: 'asc',
-                },
-                include: {
-                    project: {
-                        select: {
-                            id: true,
-                            title: true,
-                        }
-                    },
-                    client: {
-                        select: {
-                            id: true,
-                            name: true,
-                            themeColor: true
-                        }
-                    }
-                }
-            });
+            const where = {
+                userId: userId,
+                name: {
+                    contains: filter.name,
+                    mode: 'insensitive' as const,
+                  },
+                status: filter.status,
+                dueAt: filter.dueAt,
+                projectId: filter.projectId,
+                clientId: filter.clientId,
+            };
 
-            return result;
+            const [total, tasks] = await Promise.all([
+                this.prismaService.task.count({ where }),
+                this.prismaService.task.findMany({
+                    where,
+                    take: 20,
+                    orderBy: { dueAt: 'asc' },
+                    include: {
+                        project: {
+                            select: { id: true, title: true },
+                        },
+                        client: {
+                            select: { id: true, name: true, themeColor: true },
+                        },
+                    },
+                }),
+            ]);
+
+            return { tasks, total };
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');
         }

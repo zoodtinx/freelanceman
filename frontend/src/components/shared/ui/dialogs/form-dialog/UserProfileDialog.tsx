@@ -1,6 +1,5 @@
 import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { Button } from '../../primitives/Button';
-import { UserIcon } from 'lucide-react';
 import {
    AvatarInputForm,
    Label,
@@ -59,11 +58,6 @@ export const UserProfileDialog = ({
             contentType: avatarFile.type,
          })
    
-         console.log('avatarFile', avatarFile)
-   
-         const formData = new FormData();
-         formData.append('file', avatarFile);
-   
          const uploadResponse = await fetch(presignedUrl.url, {
             method: 'PUT',
             body: avatarFile,
@@ -77,7 +71,6 @@ export const UserProfileDialog = ({
             return
           }
       }
-
 
       const payload: EditUserDto = {
          name: data.name,

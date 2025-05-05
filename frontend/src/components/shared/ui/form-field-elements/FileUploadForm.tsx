@@ -2,8 +2,9 @@ import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form';
 import React, { useState, useRef } from 'react';
 import { Plus, Upload, X } from 'lucide-react';
 import { FormElementProps, SelectFormElementProps } from '@/lib/types/form-element.type';
-import { FileIconByExtension, getFileTypeFromMimeType } from '@/components/shared/ui/helpers/Helpers';
+import { FileIconByExtension, FileIconByMimeType, getFileTypeFromMimeType } from '@/components/shared/ui/helpers/Helpers';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
+import { toast } from 'sonner';
 
 export const FileUploadForm = <TFormData extends FieldValues>({
    formMethods,
@@ -37,8 +38,8 @@ export const FileUploadForm = <TFormData extends FieldValues>({
                <div className={className}>
                   <FileUploadField
                      setFormValue={setFormValue}
-                     setAdditionalValue={setValue}
                      resetForm={reset}
+                     formMethods={formMethods}
                   />
                   {errors[fieldName] && (
                      <p className="text-red-500 font-normal animate-shake text-sm pt-1">
@@ -54,39 +55,45 @@ export const FileUploadForm = <TFormData extends FieldValues>({
 
 const FileUploadField = ({
    setFormValue,
-   setAdditionalValue,
-   resetForm
+   resetForm,
+   formMethods
 }: {
    setFormValue: (file: File) => void;
-   setAdditionalValue: (fieldName :any, value: any) => void;
-   resetForm: (value: any) => void
+   resetForm: (value: any) => void;
+   formMethods: UseFormReturn<any>
 }): JSX.Element => {
+   const {setValue: setAdditionalValue, clearErrors} = formMethods
+   
    const [isUploaded, setIsUploaded] = useState(false);
-   const [fileExtension, setFileExtension] = useState<string | undefined>('');
+   const [fileMimeType, setFileMimeType] = useState<string | undefined>('');
    const [fileLabel, setFileLabel] = useState('');
-   const [fileSize, setFileSize] = useState<number | undefined>();
+   const [fileSize, setFileSize] = useState<string | undefined>();
 
    const inputRef = useRef<HTMLInputElement>(null);
 
    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      clearErrors()
       if (inputRef.current?.files?.length) {
          const file = event.target.files![0];
-         const fileExtension = file.name.split('.').pop()?.toLowerCase();
-         setFileExtension(fileExtension);
+
+          if (file.size > 10 * 1024 * 1024) {
+            toast.error('File exceed 10MB for demo version 😅')
+            return;
+          }
+
+         const fileType = file.type
+         setFileMimeType(fileType);
          setFileLabel(file.name);
          setFileSize(convertFileSize(file.size))
          setIsUploaded(true);
          
          setAdditionalValue('type', getFileTypeFromMimeType(file.type))
+         setAdditionalValue('size', file.size)
          setAdditionalValue('displayName', file.name)
+         setAdditionalValue('originalName', file.name)
          setFormValue(file)
       }
    };
-
-   // auto populate file type
-   // auto add file size
-   // discarding file also reset form
-   // integrate presigned url flow, set form as presigned url
 
    const handleUploadClick = () => {
       inputRef.current?.click();
@@ -106,11 +113,11 @@ const FileUploadField = ({
                onClick={handleUploadClick}
             >
                <div className="flex flex-col leading-tight text-md items-center w-full px-5 truncate justify-center">
-                  <FileIconByExtension
-                     fileExtension={fileExtension}
+                  <FileIconByMimeType
+                     mimeType={fileMimeType}
                      className="w-5 h-5 mb-1"
                   />
-                  <p className='font-semibold'>{fileLabel}</p>
+                  <p className='font-semibold truncate w-full text-center'>{fileLabel}</p>
                   <p className='text-sm'>{fileSize}</p>
                </div>
                <X

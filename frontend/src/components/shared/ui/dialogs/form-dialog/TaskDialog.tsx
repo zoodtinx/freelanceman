@@ -34,6 +34,7 @@ export const TaskDialog = ({
 
    // form utilities
    const { handleSubmit } = formMethods;
+   console.log('date', formMethods.getValues('dueAt'))
 
    //dialog state
    const { formDialogState } = useFormDialogStore();
@@ -43,6 +44,13 @@ export const TaskDialog = ({
 
    // submit handler
    const onSubmit = (data: TaskPayload) => {
+      if (data.dueAt) {
+         const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
+         data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
+       }
+
+       console.log('data.dueAt', data.dueAt)
+
       if (formDialogState.mode === 'create') {
          setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateTaskDto = {
@@ -99,10 +107,10 @@ export const TaskDialog = ({
                   />
                </div>
             </div>
-            <ProjectField
+            {formDialogState.openedOn !== 'project-page' && <ProjectField
                formMethods={formMethods}
                formDialogState={formDialogState}
-            />
+            />}
             <div className="w-full">
                <Label>Details</Label>
                <TextAreaForm

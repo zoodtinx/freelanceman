@@ -101,7 +101,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
             <div
                suppressContentEditableWarning
                className={cn(
-                  'peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap text-lg font-medium',
+                  'peer w-full rounded-md focus:outline-none break-words whitespace-pre-wrap text-lg font-medium pr-2 leading-tight',
                   className
                )}
                contentEditable

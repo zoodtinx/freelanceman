@@ -217,14 +217,6 @@ export class SalesDocumentsService {
             createPdfDto,
         )) as unknown as Readable;
 
-        const formattedFilename = createPdfDto.title
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '');
-
-        const fileName = `${formattedFilename}.pdf`;
-
         if (createPdfDto.fileKey) {
             console.log('Triggered');
             await this.s3Service.deleteFile(createPdfDto.fileKey);
@@ -233,7 +225,7 @@ export class SalesDocumentsService {
         const s3Response = await this.s3Service.uploadAndGetSignedUrl({
             userId,
             file: pdfBuffer,
-            fileName,
+            fileName: createPdfDto.title,
             category: `sales-document/${createPdfDto.category}`,
             contentType: 'application/pdf',
         });

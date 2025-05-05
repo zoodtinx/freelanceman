@@ -139,7 +139,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
       } else {
          return (
             <p
-               className="text-secondary cursor-pointer hover:text-primary font-medium"
+               className="text-secondary cursor-pointer hover:text-primary "
                onClick={(e) => {
                   e.stopPropagation();
                   handleAddTime();

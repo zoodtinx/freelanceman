@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Files, ArrowDownToLine, Loader, Loader2 } from 'lucide-react';
+import { Files, ArrowDownToLine, Loader2 } from 'lucide-react';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { FileIconByExtension } from 'src/components/shared/ui/helpers/Helpers';
@@ -24,7 +24,7 @@ import {
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { toast } from 'sonner';
-import { useFileUrlQuery, useGetPresignedUrl } from '@/lib/api/file-api';
+import { useFileUrlQuery } from '@/lib/api/file-api';
 
 export const FileDialog = ({
    formMethods,
@@ -36,7 +36,8 @@ export const FileDialog = ({
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, getValues, setValue, watch } = formMethods;
+   const { handleSubmit, getValues, setValue, watch, formState: {dirtyFields}  } = formMethods;
+   const fileLink = getValues('link')
    const s3Key = getValues('s3Key');
 
    //dialog state
@@ -44,13 +45,17 @@ export const FileDialog = ({
 
    // api setup
    const { editFile } = crudApi as CrudApi['file'];
-   const { data: fileUrl, isUrlLoading } = useFileUrlQuery(
+   const { data: fileUrl, isLoading: isUrlLoading } = useFileUrlQuery(
       s3Key,
       Boolean(s3Key)
    );
    if (fileUrl) {
       setValue('fileUrl', fileUrl?.url);
+   } else if (fileLink) {
+      setValue('fileUrl', fileLink);
    }
+
+   console.log('dirtyFields', dirtyFields)
 
    const [copied, setCopied] = useState(false);
 
@@ -80,7 +85,6 @@ export const FileDialog = ({
 
    //ui shorthands
    const project = formDialogState.data.project
-   const fileCategory = formDialogState.data.category
    const categorySelection = [
       {label: 'Working File', value: 'work'},
       {label: 'Project Asset', value: 'asset'}
@@ -91,7 +95,7 @@ export const FileDialog = ({
          onSubmit={handleSubmit(onSubmit)}
          className="bg-background rounded-2xl text-primary flex flex-col"
       >
-         <div className="flex gap-1 items-center px-5 pt-4 w-full">
+         <div className="flex gap-1 items-start px-5 pt-4 pb-1 w-full">
             <FileIconByExtension
                fileType={watch('type')}
                className="h-6 w-6 text-secondary"
@@ -178,7 +182,7 @@ export const FileDialog = ({
                   ) : (
                      <>
                         <Files className="w-5 h-5 shrink-0" />
-                        <p className="truncate mr-3">{fileUrl?.url}</p>
+                        <p className="truncate mr-3">{fileUrl ? fileUrl.url : getValues('link')}</p>
                      </>
                   )}
                   {copied && (

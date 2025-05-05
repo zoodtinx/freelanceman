@@ -24,6 +24,8 @@ import {
 import useCrudApi from '@/lib/api/services/all-api';
 import { CrudApi } from '@/lib/api/api.type';
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
+import { toast } from 'sonner';
+import { kebabToSentenceCase } from '@/components/page-elements/documents/helper';
 
 const FormDialog = () => {
    //dialog hooks setup
@@ -33,8 +35,11 @@ const FormDialog = () => {
    );
 
    //api hook setup
+   const callbackEntity = kebabToSentenceCase(formDialogState.entity)
+   const callbackAction = formDialogState.mode === 'create' ? 'created' : 'updated'
    const errorCallback = (err: Error) => setValue('mutationError', err.message);
    const successCallback = () => {
+      toast.dismiss()
       setFormDialogState((prev) => {
          return {
             ...prev,
@@ -47,6 +52,7 @@ const FormDialog = () => {
             isOpen: false,
          };
       });
+      toast.success(`${callbackEntity} ${callbackAction}`)
    };
    const crudApi = useCrudApi({ errorCallback, successCallback });
 

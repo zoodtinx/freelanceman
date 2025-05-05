@@ -19,6 +19,7 @@ export const LinkInputForm = <TFieldValues extends FieldValues>({
       formState: { errors },
       clearErrors,
       watch,
+      setError
    } = formMethods;
 
    return (
@@ -50,6 +51,7 @@ export const LinkInputForm = <TFieldValues extends FieldValues>({
                      handleValueChange={handleValueChange}
                      handleDiscardValue={handleDiscardValue}
                      className='grow'
+                     setError={setError}
                   />
                   {errors[fieldName] && (
                      <p className="text-red-500 font-normal animate-shake text-sm">
@@ -69,6 +71,7 @@ interface LinkInputProps {
    handleDiscardValue: () => void;
    placeholder?: string 
    className?: string
+   setError: any
 }
 
 const LinkInput:React.FC<LinkInputProps> = ({
@@ -76,11 +79,11 @@ const LinkInput:React.FC<LinkInputProps> = ({
    handleValueChange,
    handleDiscardValue,
    className,
+   setError,
    placeholder = 'Add a link'
 }) => {
    const [isButtonMode, setIsButtonMode] = useState(false);
    const [url, setUrl] = useState('');
-   const [error, setError] = useState('');
 
    useEffect(() => {
       if (value) {
@@ -90,7 +93,7 @@ const LinkInput:React.FC<LinkInputProps> = ({
             setUrl(value);
             setIsButtonMode(true);
          } else {
-            setError(error);
+            setError('link', 'Invalid URL format');
             setIsButtonMode(false);
          }
       }
@@ -102,7 +105,7 @@ const LinkInput:React.FC<LinkInputProps> = ({
          const { error } = validateUrl(inputValue);
 
          if (error) {
-            setError(error);
+            setError('link');
             setIsButtonMode(false);
             return;
          }
@@ -134,14 +137,14 @@ const LinkInput:React.FC<LinkInputProps> = ({
                   to={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="grow"
+                  className="grow truncate"
                >
                   <span className="truncate">{url}</span>
                </Link>
                <button
                   type="button"
                   onClick={handleReset}
-                  className="text-gray-500"
+                  className="text-gray-500 shrink-0"
                   aria-label="Reset"
                >
                   <X className="w-4 h-auto" />
@@ -155,11 +158,6 @@ const LinkInput:React.FC<LinkInputProps> = ({
                   placeholder={placeholder}
                />
             
-         )}
-         {error && (
-            <p className="text-red-500 font-normal animate-shake text-sm">
-               {error}
-            </p>
          )}
       </div>
    );

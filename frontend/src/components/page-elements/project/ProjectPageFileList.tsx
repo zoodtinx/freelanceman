@@ -18,14 +18,12 @@ interface FileListProps {
    isLoading: boolean;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
 export const ProjectPageFileList: React.FC<FileListProps> = ({
    filesData,
    isLoading,
    selectState,
-   setDialogState,
    setSelectState,
 }) => {
    

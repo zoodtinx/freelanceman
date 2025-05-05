@@ -4,13 +4,11 @@ import {
     InternalServerErrorException,
     NotFoundException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { S3Service } from 'src/shared/s3/s3.service';
 import {
     CreateFileDto,
-    GetPresignedUrlDto,
     FileFilterDto,
     EditFileDto,
 } from 'freelanceman-common';
@@ -24,6 +22,16 @@ export class FilesService {
 
     async create(userId: string, dto: CreateFileDto) {
         try {
+            const project = await this.prisma.project.findUnique({
+                where: { id: dto.projectId },
+                include: {
+                    client: {
+                        select: {
+                            id: true,
+                        },
+                    },
+                },
+            });
             return await this.prisma.file.create({
                 data: {
                     originalName: dto.originalName,
@@ -32,10 +40,22 @@ export class FilesService {
                     category: dto.category,
                     link: dto.link,
                     s3Key: dto.s3Key,
-                    projectId: dto.projectId,
-                    clientId: dto.clientId,
                     size: dto.size,
-                    userId,
+                    project: {
+                        connect: {
+                            id: project.id
+                        }
+                    },
+                    client: {
+                        connect: {
+                            id: project.client.id
+                        }
+                    },
+                    user: {
+                        connect: {
+                            id: userId
+                        }
+                    }
                 },
             });
         } catch (error) {

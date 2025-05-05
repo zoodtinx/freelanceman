@@ -97,7 +97,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
-        entity: 'partnerContact';
+        entity: 'partner-contact';
         type: 'partner-contact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
@@ -113,7 +113,7 @@ export type FormDialogState =
      }
    | {
         isOpen: boolean;
-        entity: 'salesDocument';
+        entity: 'sales-document';
         type: 'sales-document-item';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;

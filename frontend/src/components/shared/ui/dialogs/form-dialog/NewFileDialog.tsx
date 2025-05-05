@@ -13,52 +13,102 @@ import { DialogFooter } from '../../primitives/Dialog';
 import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { useState, Dispatch, SetStateAction } from 'react';
 import { Link } from 'lucide-react';
-import {
-   fileTypeSelections,
-   fileCategorySelections,
-} from '@/components/shared/ui/helpers/constants/selections';
+import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { FileUploadForm } from '@/components/shared/ui/form-field-elements/FileUploadForm';
 import {
    DiscardButton,
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { ApiLoadingState } from '@/components/shared/ui/dialogs/form-dialog/dialog-elements.type';
+import { ApiLoadingState, FormDialogProps } from '@/lib/types/form-dialog.types';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useFileApi } from '@/lib/api/file-api';
+import { useFileApi, useGetPresignedUrl } from '@/lib/api/file-api';
+import { CreateFileDto } from 'freelanceman-common';
+import { toast } from 'sonner';
 
 export const NewFileDialog = ({
    formMethods,
-}: {
-   formMethods: UseFormReturn;
-}) => {
+   crudApi
+}: FormDialogProps) => {
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
-      type: 'discard',
+      type: 'destructive',
    });
    const [mode, setMode] = useState<'add-link' | 'upload'>('upload');
-   const { formDialogState } = useFormDialogStore();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
 
-   const { createFile } = useFileApi();
+   // api setup
+   const { createFile } = crudApi
+   const getPresignedUrl = useGetPresignedUrl({
+      errorCallback() {
+         toast.error('Unable to edit profile');
+      },
+   });
 
-   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+      setIsApiLoading({ isLoading: true, type: 'submit' });
       console.log('submitted ', data);
+
+      let presignedUrl;
+
+      const projectId = formMethods.getValues('projectId');
+      const fileType = formMethods.getValues('type');
+      const fileName = formMethods.getValues('displayName');
+      const file = formMethods.getValues('file');
+      const link = formMethods.getValues('link');
+
+      console.log('link', link);
+
+      if (mode === 'upload') {
+         toast.loading('Uploading file')
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false
+            }
+         })
+         presignedUrl = await getPresignedUrl.mutateAsync({
+            fileName: fileName,
+            category: `project_${projectId}`,
+            contentType: fileType,
+         });
+
+         const uploadResponse = await fetch(presignedUrl.url, {
+            method: 'PUT',
+            body: file,
+            headers: {
+               'Content-Type': fileType,
+            },
+         });
+
+         if (!uploadResponse.ok) {
+            toast.error('Error uploading file');
+            return;
+         }
+      }
+
       const payload: CreateFileDto = {
          category: data.category,
          displayName: data.displayName,
          link: data.link,
-         originalName: data.link,
+         originalName: data.originalName,
          type: data.type,
          clientId: data.clientId,
          projectId: data.projectId,
          size: data.size,
+         s3Key: mode === 'upload' ? presignedUrl.key : undefined,
+         url: mode === 'add-link' ? link : undefined,
       };
       createFile.mutate(payload);
-      console.log('payload', payload)
+      setIsApiLoading({ isLoading: false, type: 'submit' });
    };
 
    const categoryValue = formMethods.watch('category');
+   const categorySelection = [
+      { label: 'Working File', value: 'work' },
+      { label: 'Project Asset', value: 'asset' },
+   ];
 
    return (
       <div className="bg-background rounded-2xl text-primary">
@@ -70,7 +120,7 @@ export const NewFileDialog = ({
                <ModeSelect setMode={setMode} mode={mode} />
                {mode === 'upload' && (
                   <FileUploadForm
-                     fieldName="link"
+                     fieldName="file"
                      formMethods={formMethods}
                      required={mode === 'upload'}
                      errorMessage="Please upload a file"
@@ -84,6 +134,7 @@ export const NewFileDialog = ({
                         required={mode === 'add-link'}
                         fieldName="link"
                         className="w-full"
+                        errorMessage='Invalid URL format'
                      />
                   </div>
                )}
@@ -95,7 +146,17 @@ export const NewFileDialog = ({
                      formMethods={formMethods}
                      required={true}
                      errorMessage="Please enter display name"
-                     placeholder="Something straightforward"
+                  />
+               </div>
+               <div className="flex flex-col">
+                  <Label>Project</Label>
+                  <SelectWithSearchForm
+                     fieldName="projectId"
+                     formMethods={formMethods}
+                     type='project'
+                     required={true}
+                     errorMessage='Please select a project'
+                     placeholder='Select a project'
                   />
                </div>
                <div className="flex gap-2">
@@ -115,7 +176,7 @@ export const NewFileDialog = ({
                      <TextSelectForm
                         fieldName="category"
                         formMethods={formMethods}
-                        selection={fileCategorySelections}
+                        selection={categorySelection}
                         required={true}
                         errorMessage="File category must be specified"
                         placeholder="Select file category"

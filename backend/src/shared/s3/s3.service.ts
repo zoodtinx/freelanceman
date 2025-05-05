@@ -28,17 +28,24 @@ export class S3Service {
 
     async getPresignedUrl( userId: string, getPresignedUrlDto: GetPresignedUrlDto) {
         const { fileName, category, contentType } = getPresignedUrlDto;
+        
+        const formattedFilename = fileName
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9.]+/g, '-') 
+            .replace(/(^-|-$)/g, '');
+        
         try {
             const command = new PutObjectCommand({
                 Bucket: this.bucket,
-                Key: `${userId}/${category}/${fileName}`,
+                Key: `${userId}/${category}/${formattedFilename}`,
                 ContentType: contentType,
             });
 
             const url = await getSignedUrl(this.s3, command, {
                 expiresIn: 3600,
             });
-            return {url, key: `${userId}/${category}/${fileName}`};
+            return {url, key: `${userId}/${category}/${formattedFilename}`};
         } catch (error) {
             console.log('error', error);
             throw new InternalServerErrorException(

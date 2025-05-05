@@ -87,15 +87,18 @@ export const SubmitButton = ({
    isApiLoading
 }: SubmitButtonProps) => {
    const {
-      formState: { isDirty },
+      formState: { isDirty, dirtyFields },
    } = formMethods;
 
    const isNoInput = !isDirty
 
-   const isEditMode = formDialogState.mode === "edit";
+   const isEditMode = formDialogState.mode === 'edit';
    const isLoading = isApiLoading?.isLoading;
    const isSubmitting =
       isApiLoading?.isLoading && isApiLoading?.type === 'submit';
+
+   console.log('isDirty', isDirty);
+   console.log('dirtyFields', dirtyFields);
 
    const getVariant = () => {
       if (!isDirty) {

@@ -40,7 +40,7 @@ export const TextSelectForm = <TFormData extends FieldValues>({
                      placeholder={placeholder}
                   />
                   {errors[fieldName] && (
-                     <p className="text-red-500 text-sm">
+                     <p className="text-red-500 text-sm animate-shake">
                         {errors[fieldName]?.message as string}
                      </p>
                   )}

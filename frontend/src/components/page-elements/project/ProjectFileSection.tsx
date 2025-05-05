@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
-import React from 'react';
-import { useFileQuery } from '@/lib/api/file-api';
+import { useFilesQuery } from '@/lib/api/file-api';
 import { ProjectPageFileList } from '@/components/page-elements/project/ProjectPageFileList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
-import { Paperclip, Package2, BookUser } from 'lucide-react';
+import { Paperclip, Package2 } from 'lucide-react';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
+import { ProjectPayload } from 'freelanceman-common';
 
-const ProjectFileSection: React.FC = ({ project }) => {
+const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
    const setFormDialogState = useDialogStore(
       (state) => state.setFormDialogState
    );
@@ -20,6 +20,7 @@ const ProjectFileSection: React.FC = ({ project }) => {
          openedOn: 'project-page',
          type: 'file',
          data: defaultFileValues,
+         entity: 'file'
       });
    };
 
@@ -27,7 +28,7 @@ const ProjectFileSection: React.FC = ({ project }) => {
 
    const [fileFilter, setFileFilter] = useState({
       projectId: project.id,
-      category: 'project-file',
+      category: 'work',
    });
 
    const [selectState, setSelectState] = useState({
@@ -35,7 +36,7 @@ const ProjectFileSection: React.FC = ({ project }) => {
       selectedValues: [] as string[],
    });
 
-   const { data: filesData, isLoading } = useFileQuery(fileFilter);
+   const { data: filesData, isLoading } = useFilesQuery(fileFilter);
 
    useEffect(() => {
       if (project?.id) {

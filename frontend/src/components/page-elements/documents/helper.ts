@@ -74,3 +74,12 @@ export const getEditSalesDocumentPayload = (
       note: data.note,
    };
 };
+
+export function kebabToSentenceCase(str: string): string {
+   return str
+     .split('-')
+     .map((word, i) =>
+       i === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
+     )
+     .join(' ');
+ }

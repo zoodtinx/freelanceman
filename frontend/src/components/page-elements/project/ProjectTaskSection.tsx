@@ -2,26 +2,26 @@ import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
-import { useTaskQuery } from '@/lib/api/task-api';
+import { useTasksQuery } from '@/lib/api/task-api';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { TaskList } from '@/components/page-elements/actions/TaskList';
-import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
-import { ProjectPageSectionProps } from '@/routes/ProjectPage';
-import { TaskFilterDto } from 'freelanceman-common';
+import { defaultClientValue, defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
+import { ProjectPayload, TaskFilterDto } from 'freelanceman-common';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({project}) => {
-   const setFormDialogState = useDialogStore(
+const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
    const [taskFilter, setTaskFilter] = useState<TaskFilterDto>({
-      projectId: project?.id,
+      projectId: project.id,
+      status: 'pending'
    });
 
-   const { data: tasksData, isLoading } = useTaskQuery(taskFilter);
+   const { data: tasksData, isLoading } = useTasksQuery(taskFilter);
 
    useEffect(() => {
       if (project?.id) {
@@ -32,19 +32,24 @@ const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({project}) => {
       }
    }, [project?.id]);
 
+   console.log('project.client', project.client)
+
    const handleNewTask = () => {
+      const {themeColor, ...clientData} = defaultClientValue
       setFormDialogState({
          isOpen: true,
          mode: 'create',
          openedOn: 'project-page',
          type: 'task',
+         entity: 'task',
          data: {
             ...defaultTaskValue,
-            themeColor: project.themeColor,
-            client: project.client,
+            client: {
+               themeColor: project.client.themeColor,
+               ...clientData
+            },
             clientId: project.clientId,
-            project: project.title,
-            projectId: project.id
+            projectId: project.id,
          },
       });
    };
@@ -52,31 +57,35 @@ const ProjectTaskSection: React.FC<ProjectPageSectionProps> = ({project}) => {
    return (
       <div className="flex flex-col w-full">
          <div className="flex justify-between items-center pl-3 pr-2">
-               <p className="flex items-center h-9 text-md gap-1">
-                  <CircleCheck className="w-4 h-4" />
-                  Task
-               </p>
-            <div className='flex gap-1'>
+            <p className="flex items-center h-9 text-md gap-1">
+               <CircleCheck className="w-4 h-4" />
+               Task
+            </p>
+            <div className="flex gap-1">
                <ToggleGroup
-                     type="single"
-                     value={taskFilter.status}
-                     onValueChange={(value) =>
-                        setTaskFilter((prev: any) => ({
-                           ...prev,
-                           status: value,
-                        }))
-                     }
-                  >
-                     <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
-                     <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
-                     <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
-                  </ToggleGroup>
-            <AddButton onClick={handleNewTask} />
+                  type="single"
+                  value={taskFilter.status!}
+                  onValueChange={(value) =>
+                     setTaskFilter((prev: any) => ({
+                        ...prev,
+                        status: value,
+                     }))
+                  }
+               >
+                  <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
+                  <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
+                  <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
+               </ToggleGroup>
+               <AddButton onClick={handleNewTask} />
             </div>
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow px-2 pt-2">
-               <TaskList isLoading={isLoading} tasksData={tasksData} />
+            <TaskList
+               isLoading={isLoading}
+               tasksData={tasksData}
+               page="project-page"
+            />
          </div>
       </div>
    );

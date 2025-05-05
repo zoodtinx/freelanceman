@@ -31,10 +31,8 @@ export const paymentStatusSelections = [
 ];
 
 export const fileCategorySelections = [
-   { value: 'project-document', label: 'Project Document' },
-   { value: 'project-assets', label: 'Project Assets' },
-   { value: 'project-file', label: 'Working File' },
-   { value: 'client-file', label: 'Client File' },
+   { value: 'work', label: 'Working Files' },
+   { value: 'asset', label: 'Project Assets' },
 ];
 
 export const clientPageFileCategorySelections = [
@@ -45,21 +43,21 @@ export const clientPageFileCategorySelections = [
    { value: 'personal', label: 'Personal' },
 ];
 
-export  const fileTypeSelections = [
+export const fileTypeSelections = [
    { value: 'image', label: 'Image' },
    { value: 'video', label: 'Video' },
    { value: 'document', label: 'Document' },
    { value: 'code', label: 'Code' },
+   { value: 'archive', label: 'Archive' },
    { value: 'design', label: 'Design' },
    { value: 'spreadsheet', label: 'Spreadsheet' },
    { value: 'presentation', label: 'Presentation' },
    { value: 'audio', label: 'Audio' },
-   { value: 'archive', label: 'Archive' },
-   { value: 'video-editing', label: 'Video Editing' },
-   { value: 'project-management', label: 'Project Management' },
    { value: 'database', label: 'Database' },
+   { value: 'project-management', label: 'Project Management' },
    { value: 'other', label: 'Other' },
-];
+ ];
+
 
 export const currencySelections = [
    { value: 'AED', label: 'United Arab Emirates Dirham' },

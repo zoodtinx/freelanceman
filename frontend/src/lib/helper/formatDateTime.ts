@@ -10,13 +10,13 @@ export function formatDate(
 
    switch (type) {
       case 'SHORT':
-         return format(new Date(isoString), 'MM d')         ;
+         return format(new Date(isoString), 'MMM d');
       case 'LONG':
-         return format(new Date(isoString), 'MMMM d')
+         return format(new Date(isoString), 'MMMM d');
       case 'SEMIFULL':
-         return format(new Date(isoString), 'MMMM d, yyyy')
+         return format(new Date(isoString), 'MMMM d, yyyy');
       case 'FULL':
-         return format(new Date(isoString), 'EEEE, d MMMM, yyyy')
+         return format(new Date(isoString), 'EEEE, d MMMM, yyyy');
       default:
          return '';
    }

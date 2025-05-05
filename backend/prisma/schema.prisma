@@ -206,8 +206,9 @@ model File {
   displayName  String
   type         String
   category     String
-  link         String
-  s3Key        String 
+  link         String?
+  s3Key        String?
+  url          String?
   projectId    String?
   clientId     String?
   userId       String

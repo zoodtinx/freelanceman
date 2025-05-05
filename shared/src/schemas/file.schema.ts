@@ -27,11 +27,12 @@ export const createFileSchema = z.object({
     type: z.string(),
     category: z.string(),
     link: z.string(),
-    s3Key: z.string(),
+    s3Key: optionalString(),
+    url: optionalString(),
     projectId: optionalString(),
     clientId: optionalString(),
     size: z.number().optional(),
-  });
+});
   
   export const editFileSchema = z.object({
     id: z.string().uuid(),
@@ -60,7 +61,8 @@ export const filePayloadSchema = z.object({
     type: z.string().min(1),
     category: z.string().min(1),
     link: z.string().min(1),
-    s3Key: z.string().min(1),
+    s3Key: optionalString(),
+    url:optionalString(),
     projectId: optionalString(),
     clientId: optionalString(),
     userId: z.string(),
@@ -77,11 +79,12 @@ export const fileSchema = z.object({
     type: z.string().min(1),
     category: z.string().min(1),
     link: z.string().min(1),
-    s3Key: z.string().min(1),
+    s3Key: optionalString(),
     projectId: optionalString(),
     clientId: optionalString(),
     userId: z.string(),
     size: z.number().optional(),
+    url: optionalString(),
 });
 
 export type File = z.infer<typeof fileSchema>;
