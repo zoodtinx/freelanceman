@@ -12,6 +12,8 @@ import {
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FilePayload } from 'freelanceman-common/src/schemas';
 import { useDeleteFile } from '@/lib/api/file-api';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { toast } from 'sonner';
 
 interface FileListProps {
    filesData: FilePayload[] | undefined;
@@ -64,12 +66,21 @@ export const FileListItem = ({
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-   
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+
    const isSelected = selectState.selectedValues.includes(data.id);
-   const deleteFile = useDeleteFile()
+   const deleteFile = useDeleteFile({
+      errorCallback(err) {
+         toast.error('Error deleting file')
+      },
+      successCallback() {
+          toast.success('File deleted')
+      },
+   });
 
    const dateUploaded = formatDate(data.createdAt, 'LONG');
-   const category = formatCategory(data.category);
 
    const handleOpenDialog = () => {
       setFormDialogState({
@@ -78,11 +89,12 @@ export const FileListItem = ({
          mode: 'edit',
          type: 'file',
          entity: 'file',
-         openedOn: 'file-page'
+         openedOn: 'file-page',
       });
-   }
+   };
 
    const handleClick = () => {
+      console.log('selectState.enableSelect', selectState.enableSelect)
       if (selectState.enableSelect) {
          if (isSelected) {
             setSelectState((prev) => {
@@ -102,24 +114,23 @@ export const FileListItem = ({
             });
          }
       } else if (!selectState.enableSelect) {
-         handleOpenDialog()
+         console.log('triggered')
+         handleOpenDialog();
       }
    };
 
-   const handleClickFile = () => {
-      setFormDialogState({
-         isOpen: true,
-         mode: 'edit',
-         openedOn:'file-page',
-         type:'file',
-         entity: 'file',
-         data: {...data}
-      })
-   }
-
    const handleDeleteFile = () => {
-      deleteFile.mutate(data.id)
-   }
+      setConfirmationDialogState({
+         actions: {
+            primary() {
+               deleteFile.mutate(data.id);
+            },
+         },
+         entityName: data.displayName,
+         isOpen: true,
+         type: 'delete',
+      });
+   };
 
    return (
       <div className="flex flex-col cursor-default" onClick={handleClick}>
@@ -136,7 +147,7 @@ export const FileListItem = ({
                )}
                checked={isSelected}
             />
-            <div className="flex flex-col w-full" onClick={handleClickFile}>
+            <div className="flex flex-col w-full">
                <div className="flex justify-between py-[10px] grow items-center">
                   <div className="flex gap-2 items-center">
                      {getIcon(data.type, 'w-4 h-4 text-secondary')}
@@ -145,17 +156,10 @@ export const FileListItem = ({
                      </div>
                   </div>
                   <div className="flex">
-                     {size === 'base' && (
-                        <p className="text-sm text-secondary w-[100px]">
-                           {category}
-                        </p>
-                     )}
-                     {size === 'base' && (
-                        <p className="text-sm text-secondary w-[150px] line-clamp-1">
-                           {data.client?.name || ''}
-                        </p>
-                     )}
-                     <p className="text-sm text-secondary w-[120px]">
+                     <p className="text-sm text-secondary w-[150px] line-clamp-1 text-right mr-5">
+                        {data.client?.name || ''}
+                     </p>
+                     <p className="text-sm text-secondary w-[60px]">
                         {dateUploaded}
                      </p>
                   </div>

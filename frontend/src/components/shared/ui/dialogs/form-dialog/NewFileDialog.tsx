@@ -37,7 +37,7 @@ export const NewFileDialog = ({
       isLoading: false,
       type: 'discard',
    });
-   const [mode, setMode] = useState('add-link');
+   const [mode, setMode] = useState<'add-link' | 'upload'>('upload');
    const { formDialogState } = useFormDialogStore();
 
    const { createFile } = useFileApi();

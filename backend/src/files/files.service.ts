@@ -66,6 +66,21 @@ export class FilesService {
                     clientId: filter.clientId,
                     projectId: filter.projectId,
                 },
+                include: {
+                    client: {
+                        select: {
+                            id: true,
+                            name: true,
+                            themeColor: true,
+                        }
+                    },
+                    project: {
+                        select: {
+                            id: true,
+                            title: true,
+                        }
+                    }
+                },
                 orderBy: {
                     updatedAt: {
                         sort: 'desc'
@@ -134,6 +149,38 @@ export class FilesService {
                 );
             }
             throw new InternalServerErrorException('Failed to delete file');
+        }
+    }
+
+    async deleteMany(userId: string, fileIds: string[]) {
+        try {
+            const files = await this.prisma.file.findMany({
+                where: {
+                    id: { in: fileIds },
+                    userId,
+                },
+            });
+
+            console.log('files', files)
+
+            if (files.length !== fileIds.length) {
+                throw new BadRequestException('Some files were not found');
+            }
+
+            const s3Keys = files.map(file => file.s3Key);
+            console.log('s3Keys', s3Keys)
+
+            await Promise.all(s3Keys.map(key => this.s3Service.deleteFile(key)));
+
+            return await this.prisma.file.deleteMany({
+                where: {
+                    id: { in: fileIds },
+                    userId,
+                },
+            });
+        } catch (error) {
+            console.log('error', error)
+            throw new InternalServerErrorException('Failed to delete files');
         }
     }
 }

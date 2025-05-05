@@ -120,6 +120,7 @@ export const SubmitButton = ({
          variant={variant}
          type="submit"
          className={cn("gap-1 items-center", isNoInput && 'cursor-not-allowed')}
+         disabled={!isDirty || isSubmitting}
          onClick={handleClick}
       >
          {isSubmitting ? (

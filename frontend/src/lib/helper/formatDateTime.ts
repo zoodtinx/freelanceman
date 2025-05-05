@@ -2,7 +2,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 
 export function formatDate(
    isoString: string | undefined,
-   type: 'SHORT' | 'LONG' | 'FULL' = 'SHORT'
+   type: 'SHORT' | 'LONG' | 'FULL' | 'SEMIFULL' = 'SHORT'
 ) {
    if (!isoString) {
       return '';
@@ -13,6 +13,8 @@ export function formatDate(
          return format(new Date(isoString), 'MM d')         ;
       case 'LONG':
          return format(new Date(isoString), 'MMMM d')
+      case 'SEMIFULL':
+         return format(new Date(isoString), 'MMMM d, yyyy')
       case 'FULL':
          return format(new Date(isoString), 'EEEE, d MMMM, yyyy')
       default:

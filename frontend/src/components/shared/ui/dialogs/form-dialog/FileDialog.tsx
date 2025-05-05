@@ -56,7 +56,7 @@ export const FileDialog = ({
 
    const fileSize = formatBytes(watch('size'));
    const category = getValues('category');
-   const dateCreated = formatDate(getValues('createdAt'), 'FULL');
+   const dateCreated = formatDate(getValues('createdAt'), 'SEMIFULL');
 
    const handleCopy = () => {
       if (fileUrl?.url) {
@@ -78,6 +78,14 @@ export const FileDialog = ({
       setIsApiLoading({ isLoading: false, type: 'submit' });
    };
 
+   //ui shorthands
+   const project = formDialogState.data.project
+   const fileCategory = formDialogState.data.category
+   const categorySelection = [
+      {label: 'Working File', value: 'work'},
+      {label: 'Project Asset', value: 'asset'}
+   ]
+
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
@@ -97,7 +105,7 @@ export const FileDialog = ({
                className="w-full"
             />
          </div>
-         <div className="flex px-5  gap-2">
+         <div className="flex px-5 pb-2 gap-2">
             <TextSelectForm
                fieldName="type"
                formMethods={formMethods}
@@ -106,7 +114,26 @@ export const FileDialog = ({
                errorMessage="File type must be specified"
                placeholder="Select file type"
             />
-            <p className="pb-3">{fileSize}</p>
+            <p>{fileSize}</p>
+         </div>
+         <div className="flex gap-2 w-full px-5 pb-3">
+            <div className="flex flex-col w-1/2 shrink-0">
+               <Label className="pb-0">Project</Label>
+               <Link
+                  to={`/home/project/${project?.id}`}
+                  className="leading-tight"
+               >
+                  {formDialogState.data.project.title}
+               </Link>
+            </div>
+            <div className="flex flex-col w-1/2 shrink-0">
+               <Label className="pb-0">Category</Label>
+               <TextSelectForm
+                  fieldName="category"
+                  formMethods={formMethods}
+                  selection={categorySelection}
+               />
+            </div>
          </div>
          <div className="px-5 pb-3">
             <Separator />
@@ -181,7 +208,6 @@ const FileDialogFooter = ({
    isUrlLoading,
 }: FormDialogFooterProps) => {
    const url = formMethods.getValues('fileUrl');
-   console.log('url', url);
 
    return (
       <DialogFooter>

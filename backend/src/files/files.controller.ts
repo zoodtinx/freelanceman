@@ -21,6 +21,7 @@ import {
 } from 'freelanceman-common';
 import { FilesService } from 'src/files/files.service';
 import { S3Service } from '@/shared/s3/s3.service';
+import { z } from 'zod';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('files')
@@ -71,6 +72,16 @@ export class FilesController {
     remove(@Param('id') fileId: string, @Req() req: any) {
         const userId = req.user.id;
         return this.filesService.delete(userId, fileId);
+    }
+
+    @Post('delete-many')
+    @HttpCode(200)
+    removeMany(
+        @Body(new ZodValidationPipe(z.array(z.string()))) fileIds: string[],
+        @Req() req: any,
+    ) {
+        const userId = req.user.id;
+        return this.filesService.deleteMany(userId, fileIds);
     }
 
     @Post('url')

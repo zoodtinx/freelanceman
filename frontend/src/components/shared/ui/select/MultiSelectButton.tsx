@@ -2,15 +2,13 @@ import { cn } from '@/lib/helper/utils';
 import React, { Dispatch, forwardRef, SetStateAction, useEffect, useRef, useState } from 'react';
 import { CopyCheck, X } from 'lucide-react';
 import { SelectState } from '@/lib/types/list.type';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { UseMutateFunction } from '@tanstack/react-query';
 
 interface MultiSelectButtonProps {
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    enableMultiSelect: () => void;
    className?: string;
-   onDelete: UseMutateFunction<void, Error, string, unknown>
+   onDelete: () => void;
    selectAllFn?: () => void;
 }
 
@@ -71,7 +69,11 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
       }
 
       const handleDelete = () => {
-         console.log('deleting')
+         onDelete()
+         setSelectState({
+            enableSelect: false,
+            selectedValues: []
+         })
       }
 
       return (
@@ -86,13 +88,13 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
                },
                className
             )}
-            ref={taskBarRef} // Use the combined ref here
+            ref={taskBarRef}
             onClick={enableMultiSelect}
          >
             {selectState.enableSelect ? (
                <div className="flex h-full items-center gap-2 ml-1 pl-1 pr-2">
                   <div
-                     className="flex items-center"
+                     className="flex items-center gap-1"
                      onClick={handleDeselectAll}
                   >
                      <X className="w-4 h-4 group-hover:text-primary" />
@@ -109,7 +111,7 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
                   <button onClick={selectAllFn}>Select all</button>
                   <div className="h-full border-[0.5px] border-secondary" />
                   <button
-                     className="text-freelanceman-red"
+                     className="text-general-red"
                      onClick={handleDelete}
                   >
                      Delete

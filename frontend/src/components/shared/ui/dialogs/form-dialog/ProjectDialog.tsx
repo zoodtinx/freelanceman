@@ -17,6 +17,7 @@ import {
    DynamicHeightTextInputForm,
    Label,
    StatusSelectForm,
+   TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
 import { CrudApi } from '@/lib/api/api.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
@@ -47,6 +48,7 @@ export const ProjectDialog = ({
          title: data.title,
          projectStatus: data.projectStatus as ProjectStatus,
          paymentStatus: data.paymentStatus as PaymentStatus,
+         budget: Number(data.budget)
       };
       editProject.mutate(editProjectPayload);
       setIsApiLoading({ isLoading: false, type: 'submit' });
@@ -91,6 +93,10 @@ export const ProjectDialog = ({
                   />
                </div>
             </div>
+            <div className="flex flex-col w-1/2 grow-0">
+               <Label>Budget</Label>
+               <TextInputForm number fieldName="budget" formMethods={formMethods} />
+            </div>
             <div className="">
                <Separator />
             </div>
@@ -109,7 +115,10 @@ export const ProjectDialog = ({
                   <div className="w-1/2">
                      <Label className="pb-0">Date Created</Label>
                      <p>
-                        {formatDate(formMethods.getValues('createdAt'), 'LONG')}
+                        {formatDate(
+                           formMethods.getValues('createdAt'),
+                           'SEMIFULL'
+                        )}
                      </p>
                      <p className="text-sm">
                         {formatTime(formMethods.getValues('createdAt'))}
@@ -118,7 +127,10 @@ export const ProjectDialog = ({
                   <div className="w-1/2">
                      <Label className="pb-0">Last Update</Label>
                      <p>
-                        {formatDate(formMethods.getValues('updatedAt'), 'LONG')}
+                        {formatDate(
+                           formMethods.getValues('updatedAt'),
+                           'SEMIFULL'
+                        )}
                      </p>
                      <p className="text-sm">
                         {formatTime(formMethods.getValues('updatedAt'))}

@@ -49,6 +49,16 @@ export async function deleteFile(accessToken: string, fileId: string) {
    });
 }
 
+export async function deleteManyFile(accessToken: string, fileIds: string[]) {
+   return await fetchProMax({
+      accessToken,
+      apiEndpoint: `files/delete-many`,
+      method: 'POST',
+      model: 'file',
+      requestPayload: fileIds
+   });
+}
+
 export async function getFileUrl(accessToken: string, fileKey: string) {
    return await fetchProMax({
       accessToken,

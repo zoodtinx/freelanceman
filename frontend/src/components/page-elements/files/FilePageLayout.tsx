@@ -7,7 +7,7 @@ import { Folder } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { FileList } from '@/components/page-elements/files/FileList';
-import { useFilesQuery } from '@/lib/api/file-api';
+import { useDeleteFile, useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
@@ -15,6 +15,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FileFilterDto, FilePayload } from 'freelanceman-common';
 import AddButton from '@/components/shared/ui/AddButton';
 import FileListLoader from '@/components/shared/ui/placeholder-ui/FilePageLoader';
+import { toast } from 'sonner';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -29,6 +30,19 @@ const FilePageLayout = (): JSX.Element => {
    });
 
    const { data: filesData, isLoading } = useFilesQuery(fileFilter);
+   const deleteManyFiles = useDeleteManyFile({
+      errorCallback() {
+          toast.error('Error deleting files')
+      },
+      successCallback() {
+          toast.success('Files deleted')
+      },
+      optimisticUpdate: {
+         enable: true,
+         key: ['files'],
+         type: 'delete'
+      }
+   })
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
@@ -75,6 +89,10 @@ const FilePageLayout = (): JSX.Element => {
       });
    };
 
+   const handleDeleteMultipleFiles = () => {
+      deleteManyFiles.mutate(selectState.selectedValues)
+   }
+
    return (
       <div className="flex flex-col w-full bg-foreground rounded-[20px] p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 overflow-hidden shadow-md">
          <div className="flex justify-between pt-2">
@@ -90,6 +108,8 @@ const FilePageLayout = (): JSX.Element => {
                setSelectState={setSelectState}
                enableMultiSelect={enableMultiSelect}
                selectAllFn={selectAll}
+               onDelete={handleDeleteMultipleFiles}
+               
             />
             <FilterSelect
                onValueChange={(value) => handleFileFilter('type', value)}

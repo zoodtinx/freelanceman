@@ -1,4 +1,4 @@
-import { EllipsisVertical } from 'lucide-react';
+import { Edit, EllipsisVertical, Trash } from 'lucide-react';
 import React from 'react';
 import {
    Popover,
@@ -36,17 +36,23 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
          >
             <EllipsisVertical className="w-4 h-4 text-secondary hover:text-primary transition-colors" />
          </PopoverTrigger>
-         <PopoverContent className="w-[80px] cursor-default select-none bg-foreground ">
-            <p onClick={(e) => handleEdit(e)}>Edit</p>
-            <Separator />
-            <p
+         <PopoverContent className="w-[100px] cursor-default select-none bg-foreground">
+            <button
+               className="flex gap-1 items-center p-1 px-2 rounded-md cursor-pointer hover:bg-background"
+               onClick={(e) => handleEdit(e)}
+            >
+               <Edit className="h-4 w-4" />
+               Edit
+            </button>
+            <button
+               className="flex gap-1 items-center p-1 px-2 rounded-md cursor-pointer hover:bg-background"
                onClick={(e) => {
                   handleDelete(e);
                }}
-               className="text-red-400"
             >
+               <Trash className="h-4 w-4 shrink-0" />
                Delete
-            </p>
+            </button>
          </PopoverContent>
       </Popover>
    );

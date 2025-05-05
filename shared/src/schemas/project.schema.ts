@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { optional, z } from 'zod';
 import { taskPayloadSchema, taskSchema } from './task.schema';
 import { optionalString } from './helper/optional';
 
@@ -66,6 +66,7 @@ export const editProjectSchema = z.object({
     assetFiles: z.array(z.string()).optional(),
     links: z.array(z.string()).optional(),
     note: optionalString(),
+    budget: z.number().optional(),
 });
 
 export const projectFilterSchema = z.object({

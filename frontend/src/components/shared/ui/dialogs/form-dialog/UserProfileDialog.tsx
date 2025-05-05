@@ -40,7 +40,7 @@ export const UserProfileDialog = ({
    const { editUser } = crudApi as CrudApi['user'];
    const getPresignedUrl = useGetPresignedUrl({
       errorCallback() {
-          toast.error('Unable to upload file')
+          toast.error('Unable to edit profile')
       },
    })
 
