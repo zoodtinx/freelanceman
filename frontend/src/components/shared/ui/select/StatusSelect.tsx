@@ -16,11 +16,12 @@ interface StandardSelectProps {
    value: string;
    handleValueChange: (value: string) => void;
    className?: string;
+   showColor?: boolean
 }
 
 const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
    (
-      { className, isWithIcon = true, selections, value, handleValueChange },
+      { className, isWithIcon = true, selections, value, handleValueChange, showColor = true },
       ref
    ) => {
       return (
@@ -30,8 +31,8 @@ const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
                   ref={ref}
                   isWithIcon={isWithIcon}
                >
-                  <div className="flex gap-1 items-center text-base font-medium">
-                     <div className={`w-3 h-3 rounded-full bg-${getStatusColor(value)}`} />
+                  <div className="flex gap-1 items-center text-base">
+                     {showColor && <div className={`w-3 h-3 rounded-full bg-${getStatusColor(value)}`} />}
                      <SelectValue />
                   </div>
                </SelectTrigger>

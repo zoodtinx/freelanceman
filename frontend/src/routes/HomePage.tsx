@@ -32,7 +32,17 @@ export default function HomePage() {
          <FormDialog />
          <SelectorDialog />
          <ConfirmationDialog />
-         <Toaster position='top-center' duration={3000} />
+         <Toaster
+            toastOptions={{
+               classNames: {
+                  toast: '!bg-primary !py-2 !pr-4 !pl-3 !rounded-xl',
+                  title: '!text-white',
+                  icon: '!text-white',
+               },
+            }}
+            position="bottom-center"
+            duration={3000}
+         />
       </div>
    );
 }
