@@ -18,9 +18,14 @@ export const useClientContactApi = () => {
    };
 };
 
-export const useClientContactsQuery = (filter: ClientContactFilterDto) => {
-   return useAppQuery(['clientContacts', filter], (token) =>
-      getClientContacts(token, filter)
+export const useClientContactsQuery = (
+   filter: ClientContactFilterDto,
+   enabled?: boolean
+) => {
+   return useAppQuery(
+      ['clientContacts', filter],
+      (token) => getClientContacts(token, filter),
+      enabled
    );
 };
 

@@ -45,7 +45,7 @@ const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
                <LinkIcon className="w-4 h-4" />
                Links
             </p>
-            <AddButton onClick={() => setMode('add')} />
+            <AddButton className='w-7 h-7' onClick={() => setMode('add')} />
          </div>
          <div className="w-full border-[0.5px] border-quaternary" />
          <div className="flex flex-col gap-1 w-full p-2">

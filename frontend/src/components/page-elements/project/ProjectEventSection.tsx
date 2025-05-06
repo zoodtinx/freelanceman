@@ -63,7 +63,7 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({ project })
                   <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
-               <AddButton onClick={handleNewEvent} />
+               <AddButton className='w-7 h-7' onClick={handleNewEvent} />
             </div>
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />

@@ -148,7 +148,7 @@ export const NewFileDialog = ({
                      errorMessage="Please enter display name"
                   />
                </div>
-               <div className="flex flex-col">
+               {formDialogState.openedOn !== 'project-page' && <div className="flex flex-col">
                   <Label>Project</Label>
                   <SelectWithSearchForm
                      fieldName="projectId"
@@ -158,7 +158,7 @@ export const NewFileDialog = ({
                      errorMessage='Please select a project'
                      placeholder='Select a project'
                   />
-               </div>
+               </div>}
                <div className="flex gap-2">
                   <div className="flex flex-col leading-5 w-1/2">
                      <Label>File Type</Label>

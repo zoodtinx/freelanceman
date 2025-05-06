@@ -71,7 +71,10 @@ export const editProjectSchema = z.object({
     paymentStatus: PaymentStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
-    contacts: z.array(z.string()).optional(),
+    contacts: z.object({
+        contactType: z.string(),
+        contacts: z.array(z.string())
+      }).optional(),
     workingFiles: z.array(z.string()).optional(),
     assetFiles: z.array(z.string()).optional(),
     links: z.array(linkSchema).optional().nullable(),

@@ -18,9 +18,14 @@ export const usePartnerContactApi = () => {
    };
 };
 
-export const usePartnerContactsQuery = (filter: PartnerContactFilterDto) => {
-   return useAppQuery(['partnerContacts', filter], (token) =>
-      getPartnerContacts(token, filter)
+export const usePartnerContactsQuery = (
+   filter: PartnerContactFilterDto,
+   enabled?: boolean
+) => {
+   return useAppQuery(
+      ['partnerContacts', filter],
+      (token) => getPartnerContacts(token, filter),
+      enabled
    );
 };
 

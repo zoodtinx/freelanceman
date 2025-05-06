@@ -49,20 +49,32 @@ export class ClientContactService {
         }
     }
 
-    async findAll(userId: string, filter: ClientContactFilterDto) {
+    async findAll(userId: string, contactFilter: ClientContactFilterDto) {
+        
+        const {projectId, ...filter} = contactFilter
+        
+        console.log('contactFilter', contactFilter)
+
         try {
             const result = await this.prismaService.clientContact.findMany({
                 where: {
                     userId,
                     id: filter.id,
-                    name: filter.name ? { contains: filter.name, mode: 'insensitive' } : undefined,
+                    name: filter.name
+                        ? { contains: filter.name, mode: 'insensitive' }
+                        : undefined,
                     companyId: filter.companyId,
                     email: filter.email,
                     phoneNumber: filter.phoneNumber,
+                    projects: projectId ? {
+                        some: {
+                            projectId: projectId
+                        },
+                    }: undefined,
                 },
                 include: {
                     company: true,
-                }
+                },
             });
             return result;
         } catch {

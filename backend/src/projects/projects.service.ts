@@ -35,7 +35,7 @@ export class ProjectsService {
     }
 
     async findSelections(userId: string, filter: ProjectFilterDto) {
-        console.log('trigged')
+        console.log('trigged');
         try {
             const projects = await this.prismaService.project.findMany({
                 where: {
@@ -87,40 +87,40 @@ export class ProjectsService {
                             id: true,
                             name: true,
                             themeColor: true,
-                        }
+                        },
                     },
                     tasks: {
                         orderBy: {
-                            dueAt: 'asc'
+                            dueAt: 'asc',
                         },
                         take: 1,
                         where: {
                             dueAt: {
-                                gte: new Date() 
-                            }
+                                gte: new Date(),
+                            },
                         },
                         include: {
                             project: {
                                 select: {
                                     id: true,
                                     title: true,
-                                }
+                                },
                             },
                             client: {
                                 select: {
                                     id: true,
                                     name: true,
-                                    themeColor: true
-                                }
-                            }
-                        }
-                    }
-                }
+                                    themeColor: true,
+                                },
+                            },
+                        },
+                    },
+                },
             });
 
             return projects;
-        } catch(e) {
-            console.log('e', e)
+        } catch (e) {
+            console.log('e', e);
             throw new InternalServerErrorException('Failed to find projects');
         }
     }
@@ -132,7 +132,12 @@ export class ProjectsService {
                 include: {
                     client: true,
                     links: true,
-                }
+                    clientContacts: {
+                        include: {
+                            clientContact: true
+                        }
+                    }
+                },
             });
 
             if (!project) {
@@ -148,33 +153,66 @@ export class ProjectsService {
         }
     }
 
-    async update(
-        userId: string,
-        projectId: string,
-        updateDto: EditProjectDto,
-    ) {
+    async update(userId: string, projectId: string, updateDto: EditProjectDto) {
         try {
-            const { links, ...dto } = updateDto;
+            const { links, contacts, ...dto } = updateDto;
 
-            console.log('note', dto.note)
+            if (contacts?.contactType === 'client') {
+                await this.prismaService.clientContactOnProject.deleteMany({
+                    where: { projectId },
+                });
+            } else if (contacts?.contactType === 'partner') {
+                await this.prismaService.partnerContactOnProject.deleteMany({
+                    where: { projectId },
+                });
+            }
 
             const result = await this.prismaService.project.update({
                 where: { id: projectId, userId },
                 data: {
                     ...dto,
-                    links: links && {
-                        deleteMany: {},
-                        create: links.map((link) => ({
-                            label: link.label,
-                            url: link.url,
-                            user: { connect: { id: userId } },
-                        })),
-                    },
+                    partnerContacts:
+                        contacts?.contactType === 'partner'
+                            ? {
+                                  create: contacts.contacts.map(
+                                      (partnerContactId) => ({
+                                          partnerContact: {
+                                              connect: { id: partnerContactId },
+                                          },
+                                      }),
+                                  ),
+                              }
+                            : undefined,
+                    clientContacts:
+                        contacts?.contactType === 'client'
+                            ? {
+                                  create: contacts.contacts.map(
+                                      (contactId) => ({
+                                          clientContact: {
+                                              connect: {
+                                                  id: contactId, // Connect each client contact dynamically
+                                              },
+                                          },
+                                      }),
+                                  ),
+                              }
+                            : undefined,
+                    links: links
+                        ? {
+                              deleteMany: {},
+                              create: links.map((link) => ({
+                                  label: link.label,
+                                  url: link.url,
+                                  user: { connect: { id: userId } },
+                              })),
+                          }
+                        : undefined,
                 },
             });
 
             return result;
         } catch (error) {
+            console.log('error', error)
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {
                     throw new BadRequestException(
@@ -191,7 +229,7 @@ export class ProjectsService {
             await this.prismaService.project.delete({
                 where: { id: projectId, userId },
             });
-            return {success: true};
+            return { success: true };
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {

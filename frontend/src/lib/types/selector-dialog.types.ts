@@ -1,14 +1,17 @@
+import { UseQueryResult } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface SelectObject {
    label: string;
    value: string;
    detail?: string;
+   id: string;
 }
 
 export interface SelectorDialogState {
    isOpen: boolean;
    type: 'file' | 'contact';
+   projectId: string;
    selected: SelectObject[];
    setSelected: Dispatch<SetStateAction<SelectObject[]>>;
    option?: any;
@@ -17,8 +20,7 @@ export interface SelectorDialogState {
 export interface SelectionListProps {
    selected: SelectObject[];
    setSelected: Dispatch<SetStateAction<SelectObject[]>>;
-   filter: any;
-   setfilter: Dispatch<SetStateAction<any>>;
+   queryResult: UseQueryResult
 }
 
 export interface FileSelectionItemProps {
@@ -36,5 +38,5 @@ export interface SelectedListProps {
 export interface SelectedItemProps {
    data: SelectObject;
    isSelected: boolean;
-   onCheckedChange: () => void;
+   onCheckedChange: (e: any) => void;
 }

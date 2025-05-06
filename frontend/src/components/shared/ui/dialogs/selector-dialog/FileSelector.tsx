@@ -124,7 +124,9 @@ const FileSelector = () => {
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
-               <Button variant={'destructiveOutline'} onClick={handleDiscard}>Discard</Button>
+               <Button variant={'destructiveOutline'} onClick={handleDiscard}>
+                  Discard
+               </Button>
                <Button
                   variant={'submit'}
                   className="text-freelanceman-darkgrey"

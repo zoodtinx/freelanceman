@@ -24,8 +24,6 @@ import {
 import useCrudApi from '@/lib/api/services/all-api';
 import { CrudApi } from '@/lib/api/api.type';
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
-import { toast } from 'sonner';
-import { kebabToSentenceCase } from '@/components/page-elements/documents/helper';
 import { getApiCallBacks } from '@/components/shared/ui/dialogs/form-dialog/helper/api-callbacks';
 
 const FormDialog = () => {
@@ -43,7 +41,6 @@ const FormDialog = () => {
       formState: { isDirty, dirtyFields },
       clearErrors,
       getValues,
-      setValue,
       reset,
    } = formMethods;
 

@@ -8,44 +8,43 @@ datasource db {
 }
 
 model User {
-  id               String           @id @default(uuid())
-  isDemo            Boolean         @default(false)
-  displayName      String
-  email            String           @unique
-  password         String?
-  specialization   String[]
-  bio              String?
-  role             String          @default("user")
-  phoneNumber      String?
-  address          String?
-  avatar           String?
-  pinnedProjects   String[]
-  currency         String?
-  taxId               String?
-  quitting         Boolean         @default(false)
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  authProvider     AuthProvider[]
-  clients          Client[]
-  clientContacts   ClientContact[]
-  events           Event[]
-  files            File[]
-  partnerContacts  PartnerContact[]
-  projects         Project[]
-  refreshTokens    RefreshToken?
-  salesDocuments   SalesDocument[]
-  tasks            Task[]
-  links Link[]
-  partnerCompanies PartnerCompany[] 
+  id                String              @id @default(uuid())
+  isDemo            Boolean             @default(false)
+  displayName       String
+  email             String              @unique
+  password          String?
+  specialization    String[]
+  bio               String?
+  role              String              @default("user")
+  phoneNumber       String?
+  address           String?
+  avatar            String?
+  pinnedProjects    String[]
+  currency          String?
+  taxId             String?
+  quitting          Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  authProvider      AuthProvider[]
+  clients           Client[]
+  clientContacts    ClientContact[]
+  events            Event[]
+  files             File[]
+  partnerContacts   PartnerContact[]
+  projects          Project[]
+  refreshTokens     RefreshToken?
+  salesDocuments    SalesDocument[]
+  tasks             Task[]
+  links             Link[]
+  partnerCompanies  PartnerCompany[]
   salesDocumentItem SalesDocumentItem[]
 }
 
-
 model AuthProvider {
-  id         String @id @default(uuid())
-  userId     String
-  provider   String
-  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  userId   String
+  provider String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model RefreshToken {
@@ -60,7 +59,7 @@ model Client {
   userId         String
   name           String
   taxId          String?
-  email            String? 
+  email          String?
   phoneNumber    String?
   address        String?
   detail         String?
@@ -70,8 +69,8 @@ model Client {
   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   contacts       ClientContact[]
   files          File[]
-  task          Task[]
-  event           Event[]
+  task           Task[]
+  event          Event[]
   projects       Project[]
   salesDocuments SalesDocument[]
 }
@@ -82,7 +81,7 @@ model ClientContact {
   name        String
   role        String?
   phoneNumber String?
-  email       String?           @unique 
+  email       String?                  @unique
   details     String?
   avatar      String?
   companyId   String
@@ -97,15 +96,15 @@ model PartnerCompany {
   id          String           @id @default(uuid())
   userId      String
   name        String
-  taxId       String?           @unique
-  email       String?           @unique 
+  taxId       String?          @unique
+  email       String?          @unique
   phoneNumber String?
   address     String?
   detail      String?
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
   contacts    PartnerContact[]
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PartnerContact {
@@ -115,7 +114,7 @@ model PartnerContact {
   companyId   String
   role        String?
   phoneNumber String?
-  email            String?           @unique 
+  email       String?                   @unique
   details     String?
   avatar      String?
   createdAt   DateTime                  @default(now())
@@ -143,7 +142,7 @@ model Project {
   user            User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   salesDocuments  SalesDocument[]
   tasks           Task[]
-  links Link[]
+  links           Link[]
   clientContacts  ClientContactOnProject[]
   partnerContacts PartnerContactOnProject[]
 }
@@ -154,7 +153,7 @@ model ClientContactOnProject {
   project         Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
   clientContact   ClientContact @relation(fields: [clientContactId], references: [id], onDelete: Cascade)
 
-  @@id([projectId, clientContactId]) // Composite primary key
+  @@id([projectId, clientContactId])
 }
 
 model PartnerContactOnProject {
@@ -167,40 +166,40 @@ model PartnerContactOnProject {
 }
 
 model Event {
-  id        String    @id @default(uuid())
-  name      String
-  status    String
-  details   String?
-  link      String?
-  dueAt     DateTime
-  projectId String
-  clientId String      
-  userId    String
-  tags      String[]
-  isWithTime  Boolean? @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String    @id @default(uuid())
+  name       String
+  status     String
+  details    String?
+  link       String?
+  dueAt      DateTime
+  projectId  String
+  clientId   String
+  userId     String
+  tags       String[]
+  isWithTime Boolean?  @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client     Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Task {
-  id        String    @id @default(uuid())
-  name      String
-  status    String
-  details   String?
-  link      String?
-  dueAt     DateTime
-  projectId String
-  clientId String      
-  userId    String
-  isWithTime  Boolean? @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String    @id @default(uuid())
+  name       String
+  status     String
+  details    String?
+  link       String?
+  dueAt      DateTime
+  projectId  String
+  clientId   String
+  userId     String
+  isWithTime Boolean?  @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client     Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model File {
@@ -224,53 +223,53 @@ model File {
 }
 
 model SalesDocument {
-  id                      String              @id @default(uuid())
-  userId                  String
-  title                   String?
-  category                String
-  number                  String?              
-  issuedAt                DateTime
-  currency                String?             @default("THB")
-  projectId               String
-  referenceNumber         String?
-  projectDescription      String?
-  freelancerName          String
-  freelancerEmail         String?           
-  freelancerPhone         String?
-  freelancerTaxId         String?
-  freelancerAddress        String?
-  clientId                String
-  clientName              String
-  clientTaxId             String?
-  clientAddress           String?
-  clientPhone             String?
-  clientOffice            String?
-  clientDetail            String?
-  discount                Float?
-  tax                     Float?
-  discountPercent         Float?
-  discountFlat            Float?
-  total                   Float?
-  note                    String?
-  fileKey                 String? 
-  createdAt               DateTime            @default(now())
-  updatedAt               DateTime            @updatedAt
-  client                  Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  project                 Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items                   SalesDocumentItem[]
+  id                 String              @id @default(uuid())
+  userId             String
+  title              String?
+  category           String
+  number             String?
+  issuedAt           DateTime
+  currency           String?             @default("THB")
+  projectId          String
+  referenceNumber    String?
+  projectDescription String?
+  freelancerName     String
+  freelancerEmail    String?
+  freelancerPhone    String?
+  freelancerTaxId    String?
+  freelancerAddress  String?
+  clientId           String
+  clientName         String
+  clientTaxId        String?
+  clientAddress      String?
+  clientPhone        String?
+  clientOffice       String?
+  clientDetail       String?
+  discount           Float?
+  tax                Float?
+  discountPercent    Float?
+  discountFlat       Float?
+  total              Float?
+  note               String?
+  fileKey            String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  client             Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project            Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items              SalesDocumentItem[]
 }
 
 model SalesDocumentItem {
-  id              String        @id @default(uuid())
-  userId                  String
-  title           String
-  description     String?
-  rate            Float
-  quantity        Int
-  parentDocumentId  String
-  parentDocument    SalesDocument @relation(fields: [parentDocumentId], references: [id], onDelete: Cascade)
-  user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String        @id @default(uuid())
+  userId           String
+  title            String
+  description      String?
+  rate             Float
+  quantity         Int
+  parentDocumentId String
+  parentDocument   SalesDocument @relation(fields: [parentDocumentId], references: [id], onDelete: Cascade)
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum SalesDocumentCategory {
@@ -280,11 +279,11 @@ enum SalesDocumentCategory {
 }
 
 model Link {
-  id              String        @id @default(uuid())
-  userId                  String
-  projectId                  String
-    label String
-    url   String
-   user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-   project                 Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id        String  @id @default(uuid())
+  userId    String
+  projectId String
+  label     String
+  url       String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }

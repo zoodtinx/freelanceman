@@ -5,7 +5,6 @@ import {
 } from 'src/components/shared/ui/primitives/Tabs';
 import { DialogFooter } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
-import { cn } from '@/lib/helper/utils';
 import {
    SelectedListProps,
    SelectionListProps,
@@ -16,40 +15,93 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
+import { ClientContactFilterDto } from 'freelanceman-common';
+import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
+import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
+import { Loader2 } from 'lucide-react';
+import { useEditProject } from '@/lib/api/project-api';
+import { toast } from 'sonner';
 
 const ContactSelector = () => {
-   const [selected, setSelected] = useState<SelectObject[]>([]);
+   const {selectorDialogState, setSelectorDialogState} = useSelectionDialogStore();
+   const [tab, setTab] = useState<'client' | 'partner'>('client');
    const [mode, setMode] = useState<'select' | 'view'>('select');
-   const [contactFilter, setContactFilter] = useState<ClientContactSearchOption>({});
+   const [selected, setSelected] = useState<SelectObject[]>([]);
+   const [contactFilter, setContactFilter] = useState<ClientContactFilterDto>(
+      {}
+   );
 
-   const handleFileFilter = (type: string, value: any) => {
-      setContactFilter((prev) => ({ ...prev, [type]: value }));
-   };
+   const clientQueryResult = useClientContactsQuery(
+      contactFilter,
+      tab === 'client'
+   );
+   const partnerQueryResult = usePartnerContactsQuery(
+      contactFilter,
+      tab === 'partner'
+   );
 
-   const handleChangeMode = () => {
-      if (mode === 'view') {
-         setMode('select');
-      } else {
-         setMode('view');
-      }
-   };
+   const editProject = useEditProject({
+         errorCallback() {
+             toast.error('Undable to add contacts')
+         },
+         successCallback() {
+             toast.success('Added contacts')
+         },
+         optimisticUpdate: {
+            enable: true,
+            key: [],
+            type: 'edit'
+         }
+      })
 
    const handleSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-      setContactFilter((prev) => ({ ...prev, displayName: e.target.value }));
+      setContactFilter((prev) => ({ ...prev, name: e.target.value }));
    }, 400);
 
    const handleClearSelection = () => {
       setSelected([]);
-      if (mode === 'view') {
-         setMode('select');
-      }
+      if (mode === 'view') setMode('select');
+   };
+
+   const handleChangeMode = () => {
+      setMode((prev) => (prev === 'view' ? 'select' : 'view'));
+   };
+
+   const handleSave = () => {
+      const contacts = selected.map((item) => item.id)
+      const contactType = tab
+      
+      editProject.mutate({
+         id: selectorDialogState.projectId,
+         contacts: {
+            contactType,
+            contacts
+         }
+      })
+      setSelectorDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+   };
+
+   const currentData =
+      tab === 'client' ? clientQueryResult : partnerQueryResult;
+
+   const handleTabChange = (value: 'client' | 'partner') => {
+      setSelected([]);
+      setTab(value);
    };
 
    return (
       <>
          {mode === 'select' && (
-            <div className={cn('flex flex-wrap gap-1 px-3 pt-3')}>
-               <ContactCategoryFilter />
+            <div className="flex flex-wrap gap-1 px-3 pt-3">
+               <ContactCategoryFilter
+                  currentTab={tab}
+                  onTabChange={handleTabChange}
+               />
                <SearchBox
                   className="h-5 p-3 px-2 grow w-0 min-w-10"
                   onChange={handleSearch}
@@ -57,39 +109,33 @@ const ContactSelector = () => {
             </div>
          )}
          <div className="px-3 py-3 flex flex-col">
-            <div className="w-full border rounded-lg border-tertiary overflow-hidden h-[250px] overflow-y-auto relative">
-               <div className="sticky top-0 flex bg-foreground p-2 pl-3 pr-2 justify-between">
+            <div className="flex flex-col w-full border rounded-lg border-tertiary h-[250px] overflow-y-auto relative">
+               <div className="sticky top-0 flex bg-foreground p-2 justify-between">
                   <p className="font-medium">{selected.length} Selected</p>
                   <div className="flex gap-1">
-                     <p
-                        className={cn(
-                           `text-sm border border-primary px-2 rounded-full cursor-default
-                                    hover:bg-primary hover:text-foreground transition-colors duration-75`,
-                           selected.length === 0 && 'hidden'
-                        )}
-                        onClick={handleChangeMode}
-                     >
-                        {mode === 'view' && 'select more'}
-                        {mode === 'select' && 'view selected'}
-                     </p>
-                     <p
-                        className={`text-sm border border-primary px-2 rounded-full cursor-default
-                                    hover:bg-primary hover:text-foreground transition-colors duration-75`}
+                     {selected.length > 0 && (
+                        <button
+                           onClick={handleChangeMode}
+                           className="text-sm border border-primary px-2 rounded-full hover:bg-primary hover:text-foreground transition-colors"
+                        >
+                           {mode === 'view' ? 'select more' : 'view selected'}
+                        </button>
+                     )}
+                     <button
                         onClick={handleClearSelection}
+                        className="text-sm border border-primary px-2 rounded-full hover:bg-primary hover:text-foreground transition-colors"
                      >
                         clear
-                     </p>
+                     </button>
                   </div>
                </div>
-               {mode === 'select' && (
+               {mode === 'select' ? (
                   <ContactSelectorList
+                     queryResult={currentData}
                      selected={selected}
-                     setfilter={setContactFilter}
                      setSelected={setSelected}
-                     filter={contactFilter}
                   />
-               )}
-               {mode === 'view' && (
+               ) : (
                   <SelectedContactList
                      selected={selected}
                      setSelected={setSelected}
@@ -100,12 +146,23 @@ const ContactSelector = () => {
          </div>
          <DialogFooter>
             <div className="flex justify-between p-4">
-               <Button variant={'destructiveOutline'}>Delete</Button>
                <Button
-                  variant={'submit'}
+                  variant="destructiveOutline"
+                  onClick={() => setSelectorDialogState((prev) => {
+                     return {
+                        ...prev,
+                        isOpen: false
+                     }
+                  })}
+               >
+                  Discard
+               </Button>
+               <Button
+                  variant="submit"
+                  onClick={handleSave}
                   className="text-freelanceman-darkgrey"
                >
-                  Add
+                  Save
                </Button>
             </div>
          </DialogFooter>
@@ -113,9 +170,15 @@ const ContactSelector = () => {
    );
 };
 
-const ContactCategoryFilter = () => {
+const ContactCategoryFilter = ({
+   currentTab,
+   onTabChange,
+}: {
+   currentTab: 'client' | 'partner';
+   onTabChange: (value: any) => void;
+}) => {
    return (
-      <Tabs className="w-1/2" defaultValue={'client'}>
+      <Tabs className="w-1/2" value={currentTab} onValueChange={onTabChange}>
          <TabsList className="bg-foreground w-full flex h-full rounded-full">
             <TabsTrigger
                value="client"
@@ -123,7 +186,10 @@ const ContactCategoryFilter = () => {
             >
                Client
             </TabsTrigger>
-            <TabsTrigger value="link" className="w-1/2 text-base rounded-full">
+            <TabsTrigger
+               value="partner"
+               className="w-1/2 text-base rounded-full"
+            >
                Partner
             </TabsTrigger>
          </TabsList>
@@ -136,28 +202,23 @@ const SelectedContactList: React.FC<SelectedListProps> = ({
    setSelected,
    setMode,
 }) => {
-   return selected.map((selectedItem) => {
-      const isSelected = selected.some(
-         (item) =>
-            item.id === selectedItem.id && item.value === selectedItem.value
-      );
+   if (selected.length === 0) return <p className="p-2">No selected contact</p>;
 
-      const handleCheck = () => {
+   return selected.map((item) => {
+      const handleUnselect = () => {
          setSelected((prev) => {
-            const updated = prev.filter((item) => item.id !== selectedItem.id);
-            if (updated.length === 0) {
-               console.log('Hello');
-               setMode('select');
-            }
+            const updated = prev.filter((x) => x.id !== item.id);
+            if (updated.length === 0) setMode('select');
             return updated;
          });
       };
+
       return (
-         <ContactSelectionItem
-            key={selectedItem.id}
-            data={selectedItem}
-            isSelected={isSelected}
-            onCheckedChange={handleCheck}
+         <SelectorListItem
+            key={item.id}
+            data={item}
+            isSelected={true}
+            onCheckedChange={handleUnselect}
          />
       );
    });
@@ -166,43 +227,46 @@ const SelectedContactList: React.FC<SelectedListProps> = ({
 const ContactSelectorList: React.FC<SelectionListProps> = ({
    selected,
    setSelected,
-   filter,
+   queryResult,
 }) => {
-   const { data, isLoading } = useClientContactsQuery(filter);
-
-   console.log('data', data);
+   const { data, isLoading } = queryResult;
+   console.log('data', data)
+   const contactData = data as any[];
 
    if (isLoading) {
-      return <p>Loading...</p>;
-   }
-
-   if (!data || data.length === 0) {
-      return <p>No file</p>;
-   }
-
-   return data.map((contact) => {
-      const detail = `${contact.role}, ${contact.company}`;
-      const data = { id: contact.id, value: contact.name, detail: detail };
-      const isSelected = selected.some(
-         (item) => item.id === contact.id && item.value === contact.name
+      return (
+         <div className="flex justify-center items-center grow">
+            <Loader2 className="animate-spin" />
+         </div>
       );
-      const handleCheck = () => {
-         if (isSelected) {
-            setSelected((prev) =>
-               prev.filter((item) => item.id !== contact.id)
-            );
-         } else {
-            setSelected((prev) => [
-               ...prev,
-               { id: contact.id, value: contact.name, detail: detail },
-            ]);
-         }
+   }
+
+   if (!contactData || contactData?.length === 0)
+      return <p className="p-2">No contact</p>;
+
+   return contactData.map((contact) => {
+      const detail = `${contact.role}, ${contact.company.name}`;
+      const contactData = {
+         id: contact.id,
+         value: contact.name,
+         detail,
+         label: contact.name,
+      };
+      const isSelected = selected.some((item) => item.id === contact.id);
+
+      const handleCheck = (e: React.MouseEvent) => {
+         e.stopPropagation();
+         setSelected((prev) =>
+            isSelected
+               ? prev.filter((item: SelectObject) => item.id !== contact.id)
+               : [...prev, contactData]
+         );
       };
 
       return (
          <SelectorListItem
             key={contact.id}
-            data={data}
+            data={contactData}
             isSelected={isSelected}
             onCheckedChange={handleCheck}
          />

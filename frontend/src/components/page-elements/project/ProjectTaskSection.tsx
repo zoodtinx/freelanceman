@@ -77,7 +77,7 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
                   <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
-               <AddButton onClick={handleNewTask} />
+               <AddButton className='w-7 h-7' onClick={handleNewTask} />
             </div>
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />

@@ -5,12 +5,12 @@ import { ProjectPageFileList } from '@/components/page-elements/project/ProjectP
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2 } from 'lucide-react';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
-import { ProjectPayload } from 'freelanceman-common';
+import { FileFilterDto, ProjectPayload } from 'freelanceman-common';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
    const handleNewFile = () => {
@@ -18,15 +18,19 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
          isOpen: true,
          mode: 'create',
          openedOn: 'project-page',
-         type: 'file',
-         data: defaultFileValues,
-         entity: 'file'
+         type: 'new-file',
+         data: {
+            ...defaultFileValues,
+            projectId: project.id,
+            category: fileFilter.category!,
+         },
+         entity: 'file',
       });
    };
 
    const [tab, setTab] = useState('work');
 
-   const [fileFilter, setFileFilter] = useState({
+   const [fileFilter, setFileFilter] = useState<FileFilterDto>({
       projectId: project.id,
       category: 'work',
    });
@@ -58,6 +62,17 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
       });
    };
 
+   const handleSearch = (value: string) => {
+      setFileFilter((prev) => {
+         return {
+            ...prev,
+            displayName: value
+         }
+      })
+   }
+
+   console.log('fileFilter', fileFilter)
+
    return (
       <>
          <div className="flex items-center">
@@ -66,8 +81,7 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
                   className={cn(
                      'flex items-center gap-1 px-4 pr-3 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
                      {
-                        'text-primary':
-                           tab === 'work',
+                        'text-primary': tab === 'work',
                      }
                   )}
                   onClick={() => handleTabChange('work')}
@@ -79,8 +93,7 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
                   className={cn(
                      'flex items-center gap-1 text-secondary transition-colors duration-150 px-3 h-full border-b-[0.5px] border-tertiary hover:text-primary',
                      {
-                        'text-primary':
-                           tab === 'asset',
+                        'text-primary': tab === 'asset',
                      }
                   )}
                   onClick={() => handleTabChange('asset')}
@@ -90,11 +103,14 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
                </p>
             </div>
             <div className="flex duration-75 items-center border-b-[0.5px] pr-2 h-9 border-tertiary grow justify-end">
-               <AddButton onClick={handleNewFile} />
+               <AddButton className='w-7 h-7' onClick={handleNewFile} />
             </div>
          </div>
          <div className="flex flex-col grow p-2 pt-3">
-            <SearchBox className="rounded-full w-1/2 h-6 text-base ml-2" />
+            <SearchBox
+               onChange={(e) => handleSearch(e.target.value)}
+               className="rounded-full w-1/2 h-6 text-base ml-2"
+            />
             <ProjectPageFileList
                filesData={filesData}
                isLoading={isLoading}

@@ -21,6 +21,7 @@ const useSelectionDialogStore = create<State>((set) => ({
       isOpen: false,
       selected: [],
       type: 'file',
+      projectId: '',
       setSelected: () => {},
       option: {},
    },

@@ -18,6 +18,7 @@ export const clientContactFilterSchema = z.object({
     companyId: optionalString(),
     email: optionalString(),
     phoneNumber: optionalString(),
+    projectId: optionalString(),
 });
 
 export const editClientContactSchema = z.object({

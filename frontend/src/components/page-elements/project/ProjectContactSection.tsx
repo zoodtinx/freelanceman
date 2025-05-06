@@ -8,27 +8,28 @@ import { useEffect, useState } from 'react';
 import { User, BookUser } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
+import { ClientContactFilterDto, ProjectPayload } from 'freelanceman-common';
+import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 
-export const ProjectContactSection = ({ project }): JSX.Element => {
+export const ProjectContactSection = ({
+   project,
+}: {
+   project: ProjectPayload;
+}): JSX.Element => {
    const setFormDialogState = useDialogStore(
       (state) => state.setFormDialogState
    );
-   const handleAddContact = () => {
-      setFormDialogState({
-         isOpen: true,
-         mode: 'create',
-         openedOn: 'project-page',
-         type: 'client-contact',
-         entity: 'clientContact',
-         data: defaultContactValues,
-      });
-   };
 
-   const [searchOptions, setSearchOptions] = useState<ContactSearchOption>({
-      companyId: project.clientId,
+   console.log('project', project.clientContacts)
+
+   const setSelectorDialogState = useSelectionDialogStore(
+      (state) => state.setSelectorDialogState
+   )
+
+   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({
+      projectId: project.id
    });
 
    const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
@@ -37,14 +38,16 @@ export const ProjectContactSection = ({ project }): JSX.Element => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
    };
 
-   useEffect(() => {
-      if (project?.id) {
-         setSearchOptions((prev: ContactSearchOption) => ({
-            ...prev,
-            companyId: project.clientId,
-         }));
-      }
-   }, [project]);
+   const handleAddContact = () => {
+      console.log('clicked')
+      setSelectorDialogState({
+         isOpen: true,
+         type: 'contact',
+         selected: [],
+         projectId: project.id,
+         setSelected: () => {}
+      })
+   }
 
    return (
       <>
@@ -53,7 +56,7 @@ export const ProjectContactSection = ({ project }): JSX.Element => {
                <BookUser className="w-4 h-4" />
                Contacts
             </p>
-            <AddButton onClick={handleAddContact} />
+            <AddButton className='w-7 h-7' onClick={handleAddContact} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          {isLoading ? (
