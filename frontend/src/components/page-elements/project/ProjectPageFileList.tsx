@@ -4,14 +4,11 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import type { FormDialogState } from 'src/lib/types/form-dialog.types';
 import {
    getIcon,
-   formatCategory,
 } from 'src/components/shared/ui/helpers/Helpers';
-import useDialogStore from '@/lib/zustand/dialog-store';
-import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { FilePayload } from 'freelanceman-common/src/schemas';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 interface FileListProps {
    filesData: FilePayload[] | undefined;
@@ -26,7 +23,6 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
    selectState,
    setSelectState,
 }) => {
-   
    if (isLoading) {
       return <p>Loading...</p>;
    }
@@ -41,6 +37,7 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
          data={filesData}
          setSelectState={setSelectState}
          selectState={selectState}
+         deleteFunction={() => {}}
       />
    ));
 
@@ -55,30 +52,29 @@ interface FileListItemProps {
    data: FilePayload;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    deleteFunction: () => void;
 }
 
 export const FileListItem = ({
    data,
    selectState,
-   setSelectState,
-   setDialogState,
 }: FileListItemProps) => {
-   const setFormDialogState = useDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
    const handleClickFile = () => {
-         setFormDialogState({
-            isOpen: true,
-            mode: 'view',
-            openedOn: 'project-page',
-            type: 'file',
-            data: data
-         })
-      }
+      setFormDialogState({
+         isOpen: true,
+         mode: 'edit',
+         openedOn: 'project-page',
+         type: 'file',
+         data: data,
+         entity: 'file'
+      });
+   };
    const isSelected = selectState.selectedValues.includes(data.id);
 
    const dateUploaded = formatDate(data.createdAt, 'SHORT');
-   const category = formatCategory(data.category);
 
    return (
       <div className="flex flex-col cursor-default" onClick={handleClickFile}>
@@ -95,16 +91,12 @@ export const FileListItem = ({
                )}
                checked={isSelected}
             />
-            <div className="flex flex-col w-full">
-               <div className="flex justify-between py-[7px] grow items-center">
-                  <div className="flex gap-2 items-center">
-                     {getIcon(data.type, 'w-4 h-4 text-secondary')}
-                     <div className="flex gap-1 items-center text-base">
-                        <p>{data.displayName}</p>
-                     </div>
-                  </div>
-                  <p className="text-sm text-secondary">{dateUploaded}</p>
+            <div className="flex justify-between py-[7px] grow items-center w-full">
+               <div className="flex gap-2 items-center w-0 grow">
+                  {getIcon(data.type, 'w-4 h-4 text-secondary')}
+                  <p className="truncate pr-2">{data.displayName}</p>
                </div>
+               <p className="text-sm text-secondary shrink-0">{dateUploaded}</p>
             </div>
          </div>
          <div className="px-2">

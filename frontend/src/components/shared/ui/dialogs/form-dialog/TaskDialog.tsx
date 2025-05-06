@@ -89,6 +89,7 @@ export const TaskDialog = ({
                placeholder="What do you need to do?"
             />
             <div className="flex leading-tight">
+               <input hidden {...formMethods.register('isWithTime')} />
                <div className="w-1/2">
                   <Label>Status</Label>
                   <StatusSelectForm
@@ -164,7 +165,7 @@ export const ProjectField = ({
       return (
          <div className="grow leading-snug">
             <Label className="pb-0">Project</Label>
-            <p className="text-md">{formMethods.getValues('project').title}</p>
+            <p className="text-md">{formMethods.getValues('project')?.title}</p>
          </div>
       );
    }

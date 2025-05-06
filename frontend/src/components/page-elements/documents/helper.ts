@@ -83,3 +83,7 @@ export function kebabToSentenceCase(str: string): string {
      )
      .join(' ');
  }
+
+export function kebabToLowerCase(str: string): string {
+   return str.split('-').join(' ');
+}

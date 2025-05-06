@@ -6,7 +6,10 @@ import { X } from 'lucide-react';
 import { useEditEvent } from '@/lib/api/event-api';
 
 interface EventListProps {
-   eventsData: EventPayload[] | undefined;
+   eventsData: {
+         events: EventPayload[],
+         total: number
+      } | undefined;
    isLoading: boolean;
 }
 
@@ -18,11 +21,11 @@ export const EventList: React.FC<EventListProps> = ({
       return <p>Loading...</p>;
    }
 
-   if (!eventsData || eventsData.length === 0) {
+   if (!eventsData || eventsData.events.length === 0) {
       return <p>No Event available</p>;
    }
 
-   const groupedEvents = eventsData.reduce((acc, event) => {
+   const groupedEvents = eventsData.events.reduce((acc, event) => {
       const date = formatDate(event.dueAt, 'SHORT');
       if (!acc[date]) {
          acc[date] = [];
@@ -36,6 +39,8 @@ export const EventList: React.FC<EventListProps> = ({
       events: groupedEvents[date],
    }));
 
+   const remainingTasks = (eventsData.total - eventsData.events.length) > 0
+
    const eventGroups = processedEvents.map((group) => {
       return (
          <React.Fragment key={group.date}>
@@ -48,11 +53,9 @@ export const EventList: React.FC<EventListProps> = ({
    return (
       <div className="flex flex-col h-0 grow overflow-y-auto">
          <div className="flex flex-col">{eventGroups}</div>
-         <div className="flex justify-center">
-               <p className="w-fit text-center py-2 cursor-pointer">
-                  Load more
-               </p>
-            </div>
+         {remainingTasks && <div className="flex justify-center">
+            <p className="w-fit text-center py-2 cursor-pointer">Load more</p>
+         </div>}
       </div>
    );
 };

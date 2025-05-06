@@ -10,6 +10,7 @@ import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
+import AddButton from '@/components/shared/ui/AddButton';
 
 export const ProjectContactSection = ({ project }): JSX.Element => {
    const setFormDialogState = useDialogStore(
@@ -21,6 +22,7 @@ export const ProjectContactSection = ({ project }): JSX.Element => {
          mode: 'create',
          openedOn: 'project-page',
          type: 'client-contact',
+         entity: 'clientContact',
          data: defaultContactValues,
       });
    };
@@ -51,7 +53,7 @@ export const ProjectContactSection = ({ project }): JSX.Element => {
                <BookUser className="w-4 h-4" />
                Contacts
             </p>
-            <NewContactButton setDialogState={handleAddContact} />
+            <AddButton onClick={handleAddContact} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          {isLoading ? (

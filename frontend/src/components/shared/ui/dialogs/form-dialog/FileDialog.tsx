@@ -77,6 +77,7 @@ export const FileDialog = ({
          id: formDialogState.data.id,
          displayName: data.displayName,
          type: data.type,
+         category: data.category,
       };
       editFile.mutate(editFilePayload);
       toast.success('File updated')

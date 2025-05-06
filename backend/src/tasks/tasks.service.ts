@@ -29,8 +29,9 @@ export class TasksService {
                     details: createTaskDto.details,
                     link: createTaskDto.link,
                     projectId: createTaskDto.projectId,
-                    userId,
+                    isWithTime: createTaskDto.isWithTime,
                     clientId: project.clientId,
+                    userId,
                 },
             });
             return result;

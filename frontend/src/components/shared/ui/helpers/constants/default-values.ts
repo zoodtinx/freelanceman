@@ -111,6 +111,15 @@ export const defaultClientValue: ClientPayload = {
    detail: '',
    themeColor: '',
 };
+export const defaultProject: ProjectPayload = {
+   id: '',
+   title: '',
+   client: defaultClientValue,
+   clientId: '',
+   projectStatus: 'active',
+   paymentStatus: 'unpaid',
+   createdAt: new Date().toISOString(),
+};
 
 export const defaultEventValues: EventPayload = {
    name: '',
@@ -125,17 +134,10 @@ export const defaultEventValues: EventPayload = {
    createdAt: new Date().toISOString(),
    updatedAt: new Date().toISOString(),
    userId: '',
+   isWithTime: false,
+   project: defaultProject
 };
 
-export const defaultProject: ProjectPayload = {
-   id: '',
-   title: '',
-   client: defaultClientValue,
-   clientId: '',
-   projectStatus: 'active',
-   paymentStatus: 'unpaid',
-   createdAt: new Date().toISOString(),
-};
 
 export const defaultFileValues: FilePayload = {
    id: '',
@@ -163,6 +165,7 @@ export const defaultContactValues: ClientContactPayload = {
    email: '',
    details: '',
    avatar: '',
+   company: defaultClientValue,
    createdAt: new Date().toISOString(),
    updatedAt: new Date().toISOString(),
    userId: '',
@@ -197,6 +200,7 @@ export const defaultTaskValue: TaskPayload = {
    userId: '',
    createdAt: '',
    updatedAt: '',
+   isWithTime: false,
 };
 
 export const defaultValues = {

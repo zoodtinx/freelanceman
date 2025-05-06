@@ -13,6 +13,8 @@ export const DateTimePickerForm = <TFieldValues extends FieldValues>({
       formState: { errors },
    } = formMethods;
 
+   console.log('withtime', formMethods.getValues('isWithTime' as any))
+
    return (
       <div className='flex flex-col gap-[2px]'>
             <DatePickerForm
@@ -24,6 +26,7 @@ export const DateTimePickerForm = <TFieldValues extends FieldValues>({
             <TimePickerForm
                fieldName={fieldName}
                formMethods={formMethods}
+               isWithTime={formMethods.getValues('isWithTime' as any)}
             />
          {errors[fieldName] && (
             <p className="text-sm text-red-500 font-normal animate-shake">

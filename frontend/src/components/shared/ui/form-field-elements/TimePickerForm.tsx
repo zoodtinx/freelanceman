@@ -8,6 +8,7 @@ import { CalendarIcon, Clock, XIcon } from 'lucide-react';
 export const TimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
+   isWithTime = false
 }: FormElementProps<TFieldValues>): JSX.Element | null => {
    const { control, watch } = formMethods;
 
@@ -18,6 +19,15 @@ export const TimePickerForm = <TFieldValues extends FieldValues>({
          render={({ field }) => {
             const handleChange = (value: string) => {
                field.onChange(value);
+               if (value.includes('T')) {
+                  formMethods.setValue('isWithTime' as any, true as any, {
+                     shouldDirty: false,
+                  });
+               } else {
+                  formMethods.setValue('isWithTime' as any, false as any, {
+                     shouldDirty: false,
+                  });
+               }
             };
 
             const value = watch(fieldName as Path<TFieldValues>);
@@ -25,7 +35,7 @@ export const TimePickerForm = <TFieldValues extends FieldValues>({
             return (
                <div className='flex gap-1 items-center'>
                   <Clock className="w-5 h-5 text-secondary" />
-                  <TimePicker value={value || null} handleChange={handleChange} />
+                  <TimePicker value={value || null} handleChange={handleChange} enableTime={isWithTime} />
                </div>
             );
          }}
@@ -36,9 +46,10 @@ export const TimePickerForm = <TFieldValues extends FieldValues>({
 interface TimePickerProps {
    value: string | null;
    handleChange: (value: string) => void;
+   enableTime?: boolean
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
+const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange, enableTime = false }) => {
    const dateObject = useMemo(() => new Date(value as string), [value]);
 
    const hours = Array.from({ length: 12 }, (_, i) =>
@@ -52,7 +63,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange }) => {
    const [selectedMinute, setSelectedMinute] = useState('00');
    const [selectedPeriod, setSelectedPeriod] = useState('AM');
    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-   const [isWithTime, setIsWithTime] = useState(value && value.includes('T'));
+   const [isWithTime, setIsWithTime] = useState(enableTime);
 
    useEffect(() => {
       if (!value || !value.includes('T')) {

@@ -1,4 +1,4 @@
-import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import {
    DateTimePickerForm,
    DynamicHeightTextInputForm,
@@ -15,6 +15,7 @@ import { EventPayload } from 'freelanceman-common/src/schemas';
 import { CreateEventDto, EditEventDto, EventStatus } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
+import { formatDueAt } from '@/components/shared/ui/helpers/Helpers';
 
 export const EventDialog = ({
    formMethods,
@@ -36,15 +37,18 @@ export const EventDialog = ({
 
    // submit handler
    const onSubmit = (data: EventPayload) => {
+      const formattedDueAt = formatDueAt(data.dueAt)
+
       if (formDialogState.mode === 'create') {
          setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateEventDto = {
             name: data.name,
             projectId: data.projectId,
             details: data.details,
-            dueAt: data.dueAt,
+            dueAt: formattedDueAt,
             link: data.link,
             status: data.status,
+            isWithTime: data.isWithTime
          } as CreateEventDto;
          createEvent.mutate(payload);
          setIsApiLoading({ isLoading: false, type: 'submit' });
@@ -54,9 +58,10 @@ export const EventDialog = ({
             id: data.id,
             name: data.name,
             details: data.details,
-            dueAt: data.dueAt,
+            dueAt: formattedDueAt,
             link: data.link,
             status: data.status as EventStatus,
+            isWithTime: data.isWithTime
          } as EditEventDto;
          editEvent.mutate(payload);
          setIsApiLoading({ isLoading: false, type: 'submit' });
@@ -93,10 +98,10 @@ export const EventDialog = ({
                   />
                </div>
             </div>
-            <ProjectField
+            {formDialogState.openedOn !== 'project-page' && <ProjectField
                formMethods={formMethods}
                formDialogState={formDialogState}
-            />
+            />}
             <div className="w-full">
                <Label>Details</Label>
                <TextAreaForm

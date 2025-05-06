@@ -119,7 +119,8 @@ export class ProjectsService {
             });
 
             return projects;
-        } catch {
+        } catch(e) {
+            console.log('e', e)
             throw new InternalServerErrorException('Failed to find projects');
         }
     }
@@ -129,7 +130,8 @@ export class ProjectsService {
             const project = await this.prismaService.project.findUnique({
                 where: { id: projectId, userId },
                 include: {
-                    client: true
+                    client: true,
+                    links: true,
                 }
             });
 
@@ -152,10 +154,25 @@ export class ProjectsService {
         updateDto: EditProjectDto,
     ) {
         try {
+            const { links, ...dto } = updateDto;
+
+            console.log('note', dto.note)
+
             const result = await this.prismaService.project.update({
                 where: { id: projectId, userId },
-                data: updateDto,
+                data: {
+                    ...dto,
+                    links: links && {
+                        deleteMany: {},
+                        create: links.map((link) => ({
+                            label: link.label,
+                            url: link.url,
+                            user: { connect: { id: userId } },
+                        })),
+                    },
+                },
             });
+
             return result;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {

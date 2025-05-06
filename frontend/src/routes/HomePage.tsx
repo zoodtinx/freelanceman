@@ -35,9 +35,9 @@ export default function HomePage() {
          <Toaster
             toastOptions={{
                classNames: {
-                  toast: '!bg-primary !py-2 !pr-4 !pl-3 !rounded-xl',
-                  title: '!text-white',
-                  icon: '!text-white',
+                  toast: '!bg-primary !py-2 !pr-4 !pl-3 !rounded-xl !border-secondary',
+                  title: '!text-foreground',
+                  icon: '!text-foreground',
                },
             }}
             position="bottom-center"

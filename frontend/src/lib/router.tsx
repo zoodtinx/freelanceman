@@ -44,6 +44,7 @@ export const router = createBrowserRouter([
                },
                {
                   path: ':projectId',
+                  errorElement: <p className='w-full h-full flex justify-center items-center'>Error</p>,
                   element: <ProjectPage />,
                },
             ],

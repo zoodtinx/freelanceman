@@ -13,6 +13,7 @@ export const createTaskSchema = z.object({
    dueAt: z.string().datetime(),
    details:optionalString(),
    link:optionalString(),
+   isWithTime: z.boolean().optional()
 });
 
 export const taskFilterSchema = z.object({
@@ -30,6 +31,7 @@ export const editTaskSchema = z.object({
    dueAt:optionalString(),
    link:optionalString(),
    details:optionalString(),
+   isWithTime: z.boolean().optional()
 });
 
 export const taskPayloadSchema = z.object({

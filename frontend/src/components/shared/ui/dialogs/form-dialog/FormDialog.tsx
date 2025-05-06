@@ -26,6 +26,7 @@ import { CrudApi } from '@/lib/api/api.type';
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 import { toast } from 'sonner';
 import { kebabToSentenceCase } from '@/components/page-elements/documents/helper';
+import { getApiCallBacks } from '@/components/shared/ui/dialogs/form-dialog/helper/api-callbacks';
 
 const FormDialog = () => {
    //dialog hooks setup
@@ -34,38 +35,42 @@ const FormDialog = () => {
       (state) => state.setConfirmationDialogState
    );
 
-   //api hook setup
-   const callbackEntity = kebabToSentenceCase(formDialogState.entity)
-   const callbackAction = formDialogState.mode === 'create' ? 'created' : 'updated'
-   const errorCallback = (err: Error) => setValue('mutationError', err.message);
-   const successCallback = () => {
-      toast.dismiss()
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      toast.success(`${callbackEntity} ${callbackAction}`)
-   };
-   const crudApi = useCrudApi({ errorCallback, successCallback });
-
    //react hook form setup
    const formMethods = useForm({
       defaultValues: formDialogState.data as any,
    });
    const {
-      formState: { isDirty },
+      formState: { isDirty, dirtyFields },
       clearErrors,
+      getValues,
       setValue,
       reset,
    } = formMethods;
+
+   //api hook setup
+   const handleFormDialogCloseCallback = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+   }
+   const handleConfirmDialogCloseCallback = () => {
+      setConfirmationDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+   }
+   const callbacks = getApiCallBacks({
+      entity: formDialogState.entity,
+      formMethods: formMethods,
+      setFormDialogState: handleFormDialogCloseCallback,
+      setConfirmationDialogState: handleConfirmDialogCloseCallback
+   })
+   const crudApi = useCrudApi(callbacks);
 
    //handle dialog close with unsaved changes
    const handleDialogClose = useCallback(() => {
@@ -124,6 +129,13 @@ const FormDialog = () => {
       clearErrors();
       reset(formDialogState.data);
    }, [formDialogState.data, reset, clearErrors]);
+
+   //handle false dirty fields
+   useEffect(() => {
+      if (isDirty && Object.keys(dirtyFields).length === 0) {
+        reset(getValues());
+      }
+    }, [isDirty, dirtyFields, reset, getValues]);
 
    //dialog color access
    const color =

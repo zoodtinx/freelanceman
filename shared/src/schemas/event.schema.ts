@@ -14,6 +14,7 @@ export const createEventSchema = z.object({
     dueAt: z.string().datetime(),
     details: optionalString(),
     link: optionalString(),
+    isWithTime: z.boolean().optional()
 });
 
 export const eventFilterSchema = z.object({
@@ -31,6 +32,7 @@ export const editEventSchema = z.object({
     dueAt: optionalString(),
     link: optionalString(),
     details: optionalString(),
+    isWithTime: z.boolean().optional()
 });
 
 export const eventPayloadSchema = z.object({
@@ -47,6 +49,7 @@ export const eventPayloadSchema = z.object({
     createdAt: z.string(),
     updatedAt: optionalString(),
     project: projectSchema,
+    isWithTime: z.boolean()
 });
 
 export const eventSchema = z.object({
@@ -62,6 +65,7 @@ export const eventSchema = z.object({
     tags: z.array(z.string()).min(1),
     createdAt: z.string(),
     updatedAt: optionalString(),
+    isWithTime: z.boolean()
 });
 
 export type Event = z.infer<typeof eventSchema>;

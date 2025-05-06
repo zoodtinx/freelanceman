@@ -5,20 +5,20 @@ import { ProjectContactSection } from '@/components/page-elements/project/Projec
 import ProjectFileSection from '@/components/page-elements/project/ProjectFileSection';
 import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSection';
 import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSection';
-import {
-   formatPaymentStatus,
-   formatProjectStatus,
-   getStatusColor,
-} from 'src/components/shared/ui/helpers/Helpers';
 import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
-import { PaymentStatus, ProjectPayload, ProjectStatus } from 'freelanceman-common';
+import {
+   ProjectPayload,
+} from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
-import { paymentStatusSelections, projectStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
+import {
+   paymentStatusSelections,
+   projectStatusSelections,
+} from '@/components/shared/ui/helpers/constants/selections';
 import { toast } from 'sonner';
-import { LegacyRef, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
@@ -28,82 +28,81 @@ export default function ProjectPage() {
    );
 
    if (!isLoading && !project) {
-      return 'No Project'
+      return 'No Project';
    }
 
    return (
       <section className="flex grow gap-2">
-  <div className="flex flex-col grow gap-2">
-    {isLoading || !project ? (
-      <Skeleton className="flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center" />
-    ) : (
-      <div className="flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center">
-        <ProjectHeader project={project} />
-      </div>
-    )}
+         <div className="flex flex-col grow gap-2">
+            {isLoading || !project ? (
+               <Skeleton className="flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center" />
+            ) : (
+               <div className="flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center">
+                  <ProjectHeader project={project} />
+               </div>
+            )}
 
-    <div className="flex gap-2 grow">
-      {isLoading || !project ? (
-        <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 h-full" />
-      ) : (
-        <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2">
-          <ProjectTaskSection project={project} />
-        </div>
-      )}
+            <div className="flex gap-2 grow">
+               {isLoading || !project ? (
+                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 h-full" />
+               ) : (
+                  <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2">
+                     <ProjectTaskSection project={project} />
+                  </div>
+               )}
 
-      {isLoading || !project ? (
-        <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 h-full" />
-      ) : (
-        <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden">
-          <ProjectEventSection project={project} />
-        </div>
-      )}
-    </div>
+               {isLoading || !project ? (
+                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 h-full" />
+               ) : (
+                  <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden">
+                     <ProjectEventSection project={project} />
+                  </div>
+               )}
+            </div>
 
-    <div className="flex gap-2 h-1/3">
-      {isLoading || !project ? (
-        <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/3 h-full" />
-      ) : (
-        <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/3">
-          <ProjectLinkSection project={project} />
-        </div>
-      )}
+            <div className="flex gap-2 h-1/3">
+               {isLoading || !project ? (
+                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/3 h-full" />
+               ) : (
+                  <div className="flex rounded-[13px] bg-foreground relative shadow-md w-1/3">
+                     <ProjectLinkSection project={project} />
+                  </div>
+               )}
 
-      {isLoading || !project ? (
-        <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-2/3 h-full" />
-      ) : (
-        <div className="flex rounded-[13px] bg-foreground relative shadow-md w-2/3">
-          <ProjectNoteSection project={project} />
-        </div>
-      )}
-    </div>
-  </div>
+               {isLoading || !project ? (
+                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-2/3 h-full" />
+               ) : (
+                  <div className="flex rounded-[13px] bg-foreground relative shadow-md w-2/3">
+                     <ProjectNoteSection project={project} />
+                  </div>
+               )}
+            </div>
+         </div>
 
-  <div className="w-[340px] flex flex-col rounded-[13px] gap-2">
-    {isLoading || !project ? (
-      <Skeleton className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md" />
-    ) : (
-      <div className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md">
-        <ProjectFileSection project={project} />
-      </div>
-    )}
+         <div className="w-[340px] flex flex-col rounded-[13px] gap-2">
+            {isLoading || !project ? (
+               <Skeleton className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md" />
+            ) : (
+               <div className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md">
+                  <ProjectFileSection project={project} />
+               </div>
+            )}
 
-    {isLoading || !project ? (
-      <Skeleton className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md" />
-    ) : (
-      <div className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md">
-        <ProjectContactSection project={project} />
-      </div>
-    )}
-  </div>
-</section>
-
+            {isLoading || !project ? (
+               <Skeleton className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md" />
+            ) : (
+               <div className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md">
+                  <ProjectContactSection project={project} />
+               </div>
+            )}
+         </div>
+      </section>
    );
 }
 
 const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
-   const [projectStatus, setprojectStatus] = useState(project.projectStatus)
-   const [paymentStatus, setPaymentStatus] = useState(project.paymentStatus)
+   const [projectStatus, setprojectStatus] = useState(project.projectStatus);
+   const [paymentStatus, setPaymentStatus] = useState(project.paymentStatus);
 
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -111,20 +110,20 @@ const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
 
    const editProject = useEditProject({
       errorCallback() {
-          toast.error('Unable to update the project')
+         toast.error('Unable to update the project');
       },
       successCallback() {
-          toast.success('Project updated')
+         toast.success('Project updated');
       },
-   })
+   });
 
    const handleEditProject = () => {
       editProject.mutate({
          id: project.id,
          projectStatus: projectStatus,
-         paymentStatus: paymentStatus
-      })
-   }
+         paymentStatus: paymentStatus,
+      });
+   };
 
    const handleOpenDialog = () => {
       setFormDialogState((prev) => {
@@ -141,23 +140,23 @@ const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
    };
 
    const handleProjectStatusChange = (value: any) => {
-      setprojectStatus(value)
-      handleEditProject()
-   }
-   
-   const handlePaymentStatusChange = (value: any) => {
-      setPaymentStatus(value)
-      handleEditProject()
-   }
+      setprojectStatus(value);
+      handleEditProject();
+   };
 
-   const projectSelectRef = useRef<HTMLButtonElement | null>(null)
-   const paymentSelectRef = useRef<HTMLButtonElement | null>(null)
+   const handlePaymentStatusChange = (value: any) => {
+      setPaymentStatus(value);
+      handleEditProject();
+   };
+
+   const projectSelectRef = useRef<HTMLButtonElement | null>(null);
+   const paymentSelectRef = useRef<HTMLButtonElement | null>(null);
    const handleProjectSelectGroupClick = () => {
       projectSelectRef.current?.click();
-   }
+   };
    const handlePaymentSelectGroupClick = () => {
       paymentSelectRef.current?.click();
-   }
+   };
 
    return (
       <>

@@ -11,6 +11,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventFilterDto } from 'freelanceman-common';
 import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
+import { toast } from 'sonner';
 
 export default function EventSection() {
    const setFormDialogState = useFormDialogStore(
@@ -24,6 +25,10 @@ export default function EventSection() {
    const { data: eventsData, isLoading } = useEventsQuery(eventFilter);
 
    const handleNewEvent = () => {
+      if (!eventsData) {
+         toast.error('Unexpected error')
+         return
+      }
       setFormDialogState({
          isOpen: true,
          mode: 'create',

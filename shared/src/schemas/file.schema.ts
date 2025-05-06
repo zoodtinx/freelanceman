@@ -38,6 +38,7 @@ export const createFileSchema = z.object({
     id: z.string().uuid(),
     displayName: optionalString(),
     type: fileType.optional(),
+    category: optionalString(),
   });
 
 export const fileFilterSchema = z.object({

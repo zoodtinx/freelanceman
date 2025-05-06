@@ -1,12 +1,20 @@
 import { optional, z } from 'zod';
 import { taskPayloadSchema, taskSchema } from './task.schema';
 import { optionalString } from './helper/optional';
+import { PrismaPayloadInterface, prismaPayloadSchema } from './helper/payload-template';
 
 export const ProjectStatusEnum = z.enum(['active', 'on-hold', 'completed', '']);
 export const PaymentStatusEnum = z.enum(['unpaid', 'processing', 'paid', '']);
 
 export type ProjectStatus = 'active' | 'on-hold' | 'completed';
 export type PaymentStatus = 'unpaid' | 'processing' | 'paid';
+
+const linkSchema = z.object({
+    label: z.string(),
+    url: z.string()
+})
+
+const linkPayloadSchema = linkSchema.merge(prismaPayloadSchema);
 
 export const projectPayloadSchema = z.object({
     id: z.string().uuid(),
@@ -15,18 +23,19 @@ export const projectPayloadSchema = z.object({
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
-    links: z.array(z.string().url()),
+
     note: optionalString(),
     userId: z.string(),
     pinned: z.boolean().default(false),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
     client: z.object({
         id: z.string(),
         name: z.string(),
         themeColor: z.string(),
     }),
     tasks: z.array(taskSchema),
+    links: z.array(linkPayloadSchema)
 });
 
 export const projectSchema = z.object({
@@ -36,12 +45,13 @@ export const projectSchema = z.object({
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
-    links: z.array(z.string().url()),
+
     note: optionalString(),
     userId: z.string(),
     pinned: z.boolean().default(false),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    links: z.array(linkSchema)
 });
 
 export const createProjectSchema = z.object({
@@ -64,7 +74,7 @@ export const editProjectSchema = z.object({
     contacts: z.array(z.string()).optional(),
     workingFiles: z.array(z.string()).optional(),
     assetFiles: z.array(z.string()).optional(),
-    links: z.array(z.string()).optional(),
+    links: z.array(linkSchema).optional().nullable(),
     note: optionalString(),
     budget: z.number().optional(),
 });
@@ -86,8 +96,12 @@ export const projectFilterSchema = z.object({
     pinned: z.boolean().optional(),
 });
 
+
 export type Project = z.infer<typeof projectSchema>;
 export type ProjectFilterDto = z.infer<typeof projectFilterSchema>;
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 export type EditProjectDto = z.infer<typeof editProjectSchema>;
 export type ProjectPayload = z.infer<typeof projectPayloadSchema>;
+
+export type ProjectLinks = z.infer<typeof linkSchema>;
+export type ProjectLinksPayload = ProjectLinks & PrismaPayloadInterface;

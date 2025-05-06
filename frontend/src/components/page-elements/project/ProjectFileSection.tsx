@@ -24,7 +24,7 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
       });
    };
 
-   const [tab, setTab] = useState('project-file');
+   const [tab, setTab] = useState('work');
 
    const [fileFilter, setFileFilter] = useState({
       projectId: project.id,
@@ -47,7 +47,7 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
       }
    }, [project?.id]);
 
-   const handleTabChange = (tab: 'project-file' | 'project-asset') => {
+   const handleTabChange = (tab: 'work' | 'asset') => {
       setTab(tab);
       console.log('category', tab);
       setFileFilter((prev) => {
@@ -64,26 +64,26 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
             <div className="flex items-center h-9 text-md cursor-default">
                <p
                   className={cn(
-                     'flex items-center gap-1 px-4 pr-3 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary',
+                     'flex items-center gap-1 px-4 pr-3 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
                      {
-                        'text-primary border-r-[0.5px] border-b-0 border-tertiary':
-                           tab === 'project-file',
+                        'text-primary':
+                           tab === 'work',
                      }
                   )}
-                  onClick={() => handleTabChange('project-file')}
+                  onClick={() => handleTabChange('work')}
                >
                   <Paperclip className="w-4 h-4" />
                   Draft
                </p>
                <p
                   className={cn(
-                     'flex items-center gap-1 text-secondary transition-colors duration-150 px-3 h-full border-b-[0.5px] border-tertiary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 px-3 h-full border-b-[0.5px] border-tertiary hover:text-primary',
                      {
-                        'text-primary border-r-[0.5px] border-b-0 border-tertiary':
-                           tab === 'project-asset',
+                        'text-primary':
+                           tab === 'asset',
                      }
                   )}
-                  onClick={() => handleTabChange('project-asset')}
+                  onClick={() => handleTabChange('asset')}
                >
                   <Package2 className="w-4 h-4" />
                   Assets

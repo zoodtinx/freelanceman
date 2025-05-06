@@ -450,3 +450,9 @@ export const getFileTypeFromMimeType = (mime: string): FileType => {
 
    return mimeMap[mime] || 'other';
 };
+
+export const formatDueAt = (dueAt: string) => {
+   if (typeof dueAt !== 'string' || !dueAt.trim()) return;
+   const isISO = /^\d{4}-\d{2}-\d{2}T/.test(dueAt);
+   return isISO ? dueAt : `${dueAt}T00:00:00Z`;
+};

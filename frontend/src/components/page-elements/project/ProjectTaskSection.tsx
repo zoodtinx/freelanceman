@@ -32,8 +32,6 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
       }
    }, [project?.id]);
 
-   console.log('project.client', project.client)
-
    const handleNewTask = () => {
       const {themeColor, ...clientData} = defaultClientValue
       setFormDialogState({
@@ -65,11 +63,14 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
                <ToggleGroup
                   type="single"
                   value={taskFilter.status!}
-                  onValueChange={(value) =>
-                     setTaskFilter((prev: any) => ({
-                        ...prev,
-                        status: value,
-                     }))
+                  onValueChange={(value) => {
+                     if (value) {
+                        setTaskFilter((prev: any) => ({
+                           ...prev,
+                           status: value,
+                        }))
+                     }
+                  }
                   }
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>

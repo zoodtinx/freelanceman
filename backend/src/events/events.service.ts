@@ -32,8 +32,9 @@ export class EventsService {
                     status: createEventDto.status,
                     details: createEventDto.details,
                     link: createEventDto.link,
-                    clientId: project.clientId,
                     projectId: createEventDto.projectId,
+                    isWithTime: createEventDto.isWithTime,
+                    clientId: project.clientId,
                     userId: userId,
                 },
             });
@@ -54,35 +55,46 @@ export class EventsService {
 
     async findAll(userId: string, filter: EventFilterDto) {
         try {
-            const result = await this.prismaService.event.findMany({
-                where: {
-                  userId: userId,
-                  name: {
+            const where = {
+                userId,
+                name: {
                     contains: filter.name,
-                  },
-                  status: filter.status,
-                  dueAt:
+                    mode: 'insensitive' as const,
+                },
+                status: filter.status === 'cancelled' ? filter.status : {not: 'cancelled'},
+                dueAt:
                     filter.status === 'scheduled'
-                      ? { gte: new Date() }
-                      : filter.dueAt,
-                  projectId: filter.projectId,
-                  clientId: filter.clientId,
-                },
-                take: 20,
-                include: {
-                  client: true,
-                  project: true,
-                },
-                orderBy: {
-                  dueAt: 'asc',
-                },
-              });
-
-            return result;
+                        ? { gte: new Date() }
+                        : filter.status === 'completed'
+                          ? { lt: new Date() }
+                          : filter.dueAt,
+                projectId: filter.projectId,
+                clientId: filter.clientId,
+            };
+    
+            const [total, events] = await Promise.all([
+                this.prismaService.event.count({ where }),
+                this.prismaService.event.findMany({
+                    where,
+                    take: 20,
+                    orderBy: { dueAt: 'asc' },
+                    include: {
+                        client: {
+                            select: { id: true, name: true, themeColor: true },
+                        },
+                        project: {
+                            select: { id: true, title: true },
+                        },
+                    },
+                }),
+            ]);
+    
+            return { events, total };
         } catch {
             throw new InternalServerErrorException('Failed to find events');
         }
     }
+    
 
     async findOne(userId: string, eventId: string) {
         try {

@@ -3,15 +3,16 @@ import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventList } from '@/components/page-elements/actions/EventList';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
+import { EventFilterDto, ProjectPayload } from 'freelanceman-common';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectEventSection: React.FC<{ project: Project }> = ({ project }) => {
-   const setFormDialogState = useDialogStore(
+const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({ project }) => {
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
    const handleNewEvent = () => {
@@ -20,17 +21,19 @@ const ProjectEventSection: React.FC<{ project: Project }> = ({ project }) => {
          mode: 'create',
          openedOn: 'project-page',
          type: 'event',
-         data: defaultEventValues,
+         entity: 'event',
+         data: {...defaultEventValues, projectId: project.id},
       });
    };
 
-   const [eventFilter, setEventFilter] = useState<EventSearchOption>({
+   const [eventFilter, setEventFilter] = useState<EventFilterDto>({
       projectId: project.id,
+      status: 'scheduled'
    });
 
    useEffect(() => {
       if (project?.id) {
-         setEventFilter((prev: EventSearchOption) => ({
+         setEventFilter((prev: EventFilterDto) => ({
             ...prev,
             projectId: project.id,
          }));
@@ -49,10 +52,12 @@ const ProjectEventSection: React.FC<{ project: Project }> = ({ project }) => {
             <div className='flex gap-1'>
                <ToggleGroup
                   type="single"
-                  value={eventFilter.status}
-                  onValueChange={(value) =>
-                     setEventFilter((prev) => ({ ...prev, status: value }))
-                  }
+                  value={eventFilter.status as any}
+                  onValueChange={(value) => {
+                     if (value) {
+                       setEventFilter((prev) => ({ ...prev, status: value }));
+                     }
+                   }}
                >
                   <ToggleGroupItem value="scheduled">Scheduled</ToggleGroupItem>
                   <ToggleGroupItem value="completed">Completed</ToggleGroupItem>

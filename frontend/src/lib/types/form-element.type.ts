@@ -12,6 +12,7 @@ export interface FormElementProps<
    placeholder?: string;
    className?: string;
    number?: boolean
+   isWithTime?: boolean
 }
 
 export interface SelectFormElementProps<

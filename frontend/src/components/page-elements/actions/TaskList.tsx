@@ -33,12 +33,12 @@ export const TaskList: React.FC<TaskListProps> = ({
       <TaskListItem key={tasksData.id} data={tasksData} openedOn={page} />
    ));
 
-   const remainingTasks = tasksData.total - tasksData.tasks.length
+   const remainingTasks = (tasksData.total - tasksData.tasks.length) > 0
 
    return (
       <div className="flex flex-col h-0 grow gap-1 overflow-y-auto">
          {taskListItems}
-         {remainingTasks > 0 && <div className='flex justify-center'>
+         {remainingTasks && <div className='flex justify-center'>
             <p className='w-fit text-center py-2 cursor-pointer'>Load more</p>
          </div>}
       </div>
