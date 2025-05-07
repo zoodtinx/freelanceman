@@ -70,7 +70,7 @@ export const ColorSelectorPopover = ({
       const colorName = getColorName(value);
       return (
          <p
-            className={`p-1 px-2 w-full rounded-full border border-transparent text-center select-none cursor-default bg-theme-${value}`}
+            className={`p-1 px-2 w-full text-constant-primary rounded-full border border-transparent text-center select-none cursor-default bg-theme-${value}`}
          >
             {colorName}
          </p>

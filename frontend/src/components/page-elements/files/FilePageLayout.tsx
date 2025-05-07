@@ -16,6 +16,7 @@ import AddButton from '@/components/shared/ui/AddButton';
 import FileListLoader from '@/components/shared/ui/placeholder-ui/FilePageLoader';
 import { toast } from 'sonner';
 import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
+import { SharedFileList } from '@/components/page-elements/files/FileListMax';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -29,7 +30,7 @@ const FilePageLayout = (): JSX.Element => {
       selectedValues: [] as string[],
    });
 
-   const { data: filesData, isLoading } = useFilesQuery(fileFilter);
+   const filesQueryResult = useFilesQuery(fileFilter);
    const deleteManyFiles = useDeleteManyFile({
       errorCallback() {
           toast.error('Error deleting files')
@@ -118,7 +119,6 @@ const FilePageLayout = (): JSX.Element => {
                enableMultiSelect={enableMultiSelect}
                selectAllFn={selectAll}
                onDelete={handleDeleteMultipleFiles}
-               
             />
             <FilterSelect
                onValueChange={(value) => handleFileFilter('type', value)}
@@ -130,7 +130,7 @@ const FilePageLayout = (): JSX.Element => {
             <FilterSelect
                onValueChange={(value) => handleFileFilter('category', value)}
                selectContents={fileCategorySelections}
-               value={fileFilter.category  as string}
+               value={fileFilter.category as string}
                placeholder="Category"
                className={cn({ hidden: selectState.enableSelect })}
             />
@@ -141,13 +141,14 @@ const FilePageLayout = (): JSX.Element => {
                onChange={(e) => handleFileFilter('displayName', e.target.value)}
             />
          </div>
-         {isLoading ? <FileListLoader/> : <FileList
-            filesData={filesData}
-            isLoading={isLoading}
-            selectState={selectState}
-            size='base'
+         <SharedFileList
+            variant="project-page"
+            filesQueryResult={filesQueryResult}
             setSelectState={setSelectState}
-         />}
+            selectState={selectState}
+            placeHolder="Add a file"
+            addFn={handleNewFile}
+         />
       </div>
    );
 };

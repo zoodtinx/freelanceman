@@ -294,54 +294,54 @@ export const getDialogHeaderText = (dialogType: string) => {
    }
 };
 
-export const getColorName = (color) => {
+export const getColorName = (color: string) => {
    switch (color.toLowerCase()) {
-      case 'red':
-         return 'Ardentia';
-      case 'orange':
-         return 'Aurea';
-      case 'yellow':
-         return 'Lucerna';
-      case 'green':
-         return 'Viridis';
-      case 'blue':
-         return 'Caerulea';
-      case 'purple':
-         return 'Regalis';
-      case 'pink':
-         return 'Rosalia';
-      case 'turquoise':
-         return 'Claritudo';
-      case 'magenta':
-         return 'Vividus';
-      case 'teal':
-         return 'Tranquilla';
-      case 'olive':
-         return 'Harmonia';
-      case 'maroon':
-         return 'Fidelitas';
-      case 'beige':
-         return 'Serenitas';
-      case 'coral':
-         return 'Calor';
-      case 'lavender':
-         return 'Levita';
-      case 'peach':
-         return 'Beatitudo';
-      case 'mint':
-         return 'Frigidus';
-      case 'bronze':
-         return 'Aeternum';
-      case 'taupe':
-         return 'Umbra';
-      case 'lilac':
-         return 'Somnium';
-      case 'zinc':
-         return 'Mysticum';
-      default:
-         return 'Unknown Color';
+     case 'red':
+       return 'Deadline Yesterday';
+     case 'orange':
+       return 'ASAP';
+     case 'yellow':
+       return 'Draft 27';
+     case 'green':
+       return 'Meeting That Could Be Email';
+     case 'blue':
+       return '11PM Call';
+     case 'purple':
+       return 'Desk Dining';
+     case 'pink':
+       return 'Ghosted Client';
+     case 'turquoise':
+       return 'Professionally Nice';
+     case 'magenta':
+       return 'final2_v5_(3).zip';
+     case 'teal':
+       return 'No Sleep';
+     case 'olive':
+       return 'Approved (just kidding)';
+     case 'maroon':
+       return 'Nap Break';
+     case 'beige':
+       return 'Moodboard';
+     case 'coral':
+       return 'No Brief';
+     case 'lavender':
+       return 'Side Hustle';
+     case 'peach':
+       return 'Coffee Rush';
+     case 'mint':
+       return 'Inbox Explosion';
+     case 'bronze':
+       return 'Payment Pending';
+     case 'taupe':
+       return 'Midnight Inspiration';
+     case 'lilac':
+       return 'On Leave';
+     case 'zinc':
+       return 'Team of 1';
+     default:
+       return 'Work From Bed';
    }
-};
+ };
 
 export const getStatusColor = (status: string = '') => {
    const formattedStatus = status?.toLowerCase() ?? '';

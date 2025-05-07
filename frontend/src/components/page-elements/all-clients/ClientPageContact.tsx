@@ -18,6 +18,8 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/ClientContactLoader';
+import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
+import { useFileUrlQuery } from '@/lib/api/file-api';
 
 export const ContactColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -95,6 +97,8 @@ export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
       );
    }
 
+   const {data, isLoading } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar))
+
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
@@ -109,12 +113,12 @@ export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
    return (
       <div
          onClick={handleClick}
-         className="flex w-full h-fit rounded-full bg-quaternary p-2 items-center gap-2 border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary cursor-default"
+         className={`flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[75px] shrink-0
+            border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
+            cursor-default`}
       >
-         <div className="flex w-14 h-14 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
-            {avatar}
-         </div>
-         <div className="flex flex-col leading-tight h-fit">
+         <AvatarDisplay url={data?.url} />
+         <div className="flex flex-col leading-tight">
             <p className="font-semibold text-md">{contact.name}</p>
             <p className="font-semibold text-base text-secondary">
                {contact.company.name}

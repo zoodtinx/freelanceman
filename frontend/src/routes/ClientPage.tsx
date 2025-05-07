@@ -9,13 +9,13 @@ import { ClientSectionProps } from 'src/components/page-elements/client/props.ty
 export default function ClientPage() {
    const { clientId } = useParams();
 
-   const { data: clientData, isLoading } = useClientQuery('clientId', clientId);
+   const { data: clientData, isLoading } = useClientQuery(clientId || '', Boolean(clientId));
 
    if (isLoading) {
       return <p>Loading...</p>
    }
 
-   if (!clientData) {
+   if (!clientId || !clientData) {
       return <p>Client not found</p>
    }
 

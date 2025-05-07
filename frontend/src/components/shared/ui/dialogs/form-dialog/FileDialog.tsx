@@ -223,12 +223,12 @@ const FileDialogFooter = ({
                formDialogState={formDialogState}
             />
             <div className="flex gap-1">
+               <DownloadButton url={url} isLoading={isUrlLoading!} />
                <SubmitButton
                   formDialogState={formDialogState}
                   formMethods={formMethods}
                   isApiLoading={isApiLoading}
                />
-               <DownloadButton url={url} isLoading={isUrlLoading!} />
             </div>
          </div>
       </DialogFooter>

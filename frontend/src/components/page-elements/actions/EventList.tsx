@@ -11,6 +11,7 @@ import {
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 import { cn } from '@/lib/helper/utils';
+import { toast } from 'sonner';
 
 interface EventListProps {
    eventsQueryResult: UseQueryResult<EventPayload>;
@@ -79,10 +80,10 @@ const EventGroup = ({ eventGroupData }: { eventGroupData: any }) => {
    const month = formattedDate.split(' ')[0].toUpperCase();
    const date = formattedDate.split(' ')[1];
 
-   const dueAt = new Date(eventGroupData.date)
-   const isToday = dueAt.getDate() === new Date().getDate()
+   const dueAt = new Date(eventGroupData.date);
+   const isToday = dueAt.getDate() === new Date().getDate();
 
-   console.log('formattedDate', formattedDate)
+   console.log('formattedDate', formattedDate);
 
    const events = eventGroupData.events.map(
       (data: EventPayload, index: number) => {
@@ -102,7 +103,12 @@ const EventGroup = ({ eventGroupData }: { eventGroupData: any }) => {
          <div className="flex flex-col w-14 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-foreground border-r border-r-tertiary relative">
             <p className="text-md font-normal">{date}</p>
             <p className="text-sm">{month}</p>
-            <div className={cn('absolute w-full h-full opacity-10', isToday ? 'bg-general-red' : 'bg-general-blue')} />
+            <div
+               className={cn(
+                  'absolute w-full h-full',
+                  isToday ? 'bg-general-red opacity-5 dark:opacity-20' : 'bg-general-blue opacity-10'
+               )}
+            />
          </div>
          <div className="flex flex-col w-full">{events}</div>
       </div>
@@ -115,6 +121,12 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
    );
 
    const editEvents = useEditEvent({
+      errorCallback(err) {
+          toast.error('Error cancelling an event')
+      },
+      successCallback() {
+          toast.success('Event cancelled')
+      },
       optimisticUpdate: {
          enable: true,
          key: ['events'],

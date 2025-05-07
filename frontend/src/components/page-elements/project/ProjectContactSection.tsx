@@ -17,6 +17,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { cn } from '@/lib/helper/utils';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { ApiErrorPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 
 export const ProjectContactSection = ({
    project,
@@ -154,9 +155,7 @@ export const ContactCard = ({ contact }: { contact: Contact }) => {
          onClick={handleClick}
          className="flex w-full h-fit rounded-full bg-quaternary p-2 items-center gap-2 border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary cursor-default"
       >
-         <div className="flex w-9 h-9 bg-tertiary rounded-full items-center justify-center text-secondary overflow-hidden">
-            {avatar}
-         </div>
+         <AvatarDisplay />
          <div className="flex flex-col leading-tight h-fit">
             <p className="font-semibold text-md">{contact.name}</p>
             <p className="text-base text-secondary">{contact.role}</p>

@@ -19,6 +19,8 @@ export const AvatarInputForm = ({ formMethods }: InputProps) => {
       Boolean(avatarFileKey)
    );
 
+   console.log('data', data)
+
    useEffect(() => {
       if (data?.url) {
          setAvatarImage(data.url);
@@ -70,11 +72,11 @@ export const AvatarInputForm = ({ formMethods }: InputProps) => {
             onClick={() => document.getElementById('avatar-upload')?.click()}
          >
             {avatarImage ? (
-               <div className="group">
+               <>
                   <img
                      src={avatarImage}
                      alt="Avatar Preview"
-                     className="w-full h-full object-cover"
+                     className="w-full h-full object-cover bg-tertiary"
                   />
                   <div
                      className={`absolute inset-x-0 bottom-0 h-1/2 
@@ -87,7 +89,7 @@ export const AvatarInputForm = ({ formMethods }: InputProps) => {
                         Edit
                      </span>
                   </div>
-               </div>
+               </>
             ) : (
                <Upload className="w-10 h-10" />
             )}

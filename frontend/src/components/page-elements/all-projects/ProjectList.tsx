@@ -59,6 +59,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
          openedOn: 'all-project-page',
          type: 'project-settings',
          data: project,
+         entity: 'project'
       });
    };
 

@@ -21,7 +21,7 @@ export default function TaskSection() {
       status: 'pending',
    });
 
-   const { data: tasksData, isLoading } = useTasksQuery(taskFilter);
+   const tasksQueryResult = useTasksQuery(taskFilter);
 
    const handleNewTask = () => {
       setFormDialogState({
@@ -59,10 +59,10 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-         {isLoading ? <TaskListLoader /> : <TaskList
-            tasksData={tasksData}
-            isLoading={isLoading}
-            page="project-page"
+         {tasksQueryResult.isLoading ? <TaskListLoader /> : <TaskList
+         tasksQueryResult={tasksQueryResult}
+         addFn={handleNewTask}
+         openedOn='action-page'
          />}
       </div>
    );

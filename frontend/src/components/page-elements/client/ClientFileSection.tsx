@@ -11,6 +11,8 @@ import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import { FileList } from '@/components/page-elements/files/FileList';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
+import { SharedFileList } from '@/components/page-elements/files/FileListMax';
 
 const ClientFileSection: React.FC<ClientSectionProps> = () => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -26,7 +28,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
       clientId: clientId,
    });
 
-   const { data: filesData, isLoading } = useFilesQuery(fileFilter);
+   const filesQueryResult = useFilesQuery(fileFilter);
 
    const { mutate: deleteFile, isPending } = useDeleteFile();
 
@@ -55,11 +57,11 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
    };
 
    const selectAll = () => {
-      if (!filesData) {
+      if (!filesQueryResult.data) {
          return
       }
       setSelectState((prev) => {
-         const selected = filesData.map((file) => {
+         const selected = filesQueryResult.data.map((file) => {
             return file.id
          })
          return {
@@ -93,8 +95,9 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
          type: 'new-file',
          mode: 'create',
          openedOn: 'client-page',
-         data: formDialogState.data
-      })
+         data: { ...defaultFileValues },
+         entity: 'file',
+      });
    }
 
    return (
@@ -131,12 +134,13 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
                })}
             />
          </div>
-         <FileList
-            filesData={filesData}
-            isLoading={isLoading}
-            selectState={selectState}
+         <SharedFileList
+            variant="project-page"
+            filesQueryResult={filesQueryResult}
             setSelectState={setSelectState}
-            size="md"
+            selectState={selectState}
+            placeHolder="Add a file"
+            addFn={handleAddFile}
          />
       </div>
    );

@@ -18,6 +18,9 @@ import {
 } from 'freelanceman-common';
 import { useNavigate } from 'react-router-dom';
 import { CrudApi } from '@/lib/api/api.type';
+import { useGetPresignedUrl } from '@/lib/api/file-api';
+import { v4 as uuidv4 } from 'uuid'
+import { toast } from 'sonner';
 
 export const ClientContactDialog = ({
    formMethods,
@@ -29,7 +32,7 @@ export const ClientContactDialog = ({
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit } = formMethods;
+   const { handleSubmit, getValues } = formMethods;
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -37,9 +40,46 @@ export const ClientContactDialog = ({
    // api setup
    const { createClientContact, editClientContact } =
       crudApi as CrudApi['clientContact'];
+   const getPresignedUrl = useGetPresignedUrl({
+      errorCallback() {
+         toast.error('Unable to edit profile');
+      },
+   });
 
    // submit handler
-   const onSubmit = (data: ClientContactPayload) => {
+   const onSubmit = async (data: ClientContactPayload) => {
+      const avatarFile = getValues('avatarFile');
+      const contactId = getValues('id')
+      console.log('avatarFile', avatarFile);
+
+      let presignedUrl;
+
+      if (avatarFile instanceof File) {
+         setFormDialogState((prev) => {
+            return { ...prev, isOpen: false };
+         });
+         toast.loading('Creating a client contact')
+         const randomId = crypto.randomUUID()
+         presignedUrl = await getPresignedUrl.mutateAsync({
+            fileName: `avatar_${contactId ? contactId : randomId}`,
+            category: 'client-contact',
+            contentType: avatarFile.type,
+         });
+
+         const uploadResponse = await fetch(presignedUrl.url, {
+            method: 'PUT',
+            body: avatarFile,
+            headers: {
+               'Content-Type': 'image/jpeg',
+            },
+         });
+
+         if (!uploadResponse.ok) {
+            toast.error('Error saving changes');
+            return;
+         }
+      }
+
       if (formDialogState.mode === 'create') {
          setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateClientContactDto = {
@@ -49,7 +89,7 @@ export const ClientContactDialog = ({
             phoneNumber: data.phoneNumber,
             email: data.email,
             detail: data.details,
-            avatar: data.avatar,
+            avatar: presignedUrl?.key
          } as CreateClientContactDto;
          createClientContact.mutate(payload);
          setIsApiLoading({ isLoading: false, type: 'submit' });
@@ -62,9 +102,10 @@ export const ClientContactDialog = ({
             phoneNumber: data.phoneNumber,
             email: data.email,
             details: data.details,
-            avatar: data.avatar,
+            avatar: presignedUrl?.key
          } as EditClientContactDto;
          editClientContact.mutate(payload);
+         toast.dismiss()
          setIsApiLoading({ isLoading: false, type: 'submit' });
       }
    };
@@ -106,7 +147,7 @@ export const ClientContactDialog = ({
                         </Label>
                         {formDialogState.mode === 'edit' && (
                            <p
-                              className="text-md cursor-pointer"
+                              className="text-md cursor-pointer w-fit"
                               onClick={handleClientClick}
                            >
                               {formMethods.getValues('company').name}
@@ -130,6 +171,8 @@ export const ClientContactDialog = ({
                            formMethods={formMethods}
                            fieldName="role"
                            placeholder="Describe this contact."
+                           errorMessage='Please specify their role'
+                           required
                         />
                      </div>
                   </div>

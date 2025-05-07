@@ -18,6 +18,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
          mode: 'create',
          openedOn: 'client-page',
          type: 'client-contact',
+         entity: 'clientContact',
          data: defaultContactValues,
       });
    };
@@ -46,10 +47,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = () => {
             ) : (
                <div className="flex flex-col gap-1">
                   {contacts?.map((contact) => (
-                     <ContactCard
-                        key={contact.id}
-                        contact={contact}
-                     />
+                     <ContactCard key={contact.id} contact={contact} />
                   ))}
                </div>
             )}

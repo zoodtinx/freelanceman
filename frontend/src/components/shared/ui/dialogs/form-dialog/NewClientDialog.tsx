@@ -16,6 +16,7 @@ import {
    ColorSelectorForm,
    ColorSelectorPopover,
 } from '@/components/shared/ui/form-field-elements/ColorSelector';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
 
 export const NewClientDialog = ({
    formMethods,
@@ -79,7 +80,7 @@ export const NewClientDialog = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <div className="px-5 py-3 flex flex-col gap-2">
+         <div className="px-5 pt-3 pb-5 flex flex-col gap-2">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
                fieldName="name"
@@ -88,6 +89,22 @@ export const NewClientDialog = ({
                required={true}
                errorMessage="Please enter client name"
             />
+            <div className="flex flex-col grow relative">
+               <Label>Theme Color</Label>
+               <div className="relative">
+                  <ColorSelectorForm
+                     fieldName="themeColor"
+                     formMethods={formMethods}
+                     required={true}
+                     errorMessage="Please select a color"
+                  />
+               </div>
+            </div>
+            <Separator className='mt-2 mb-1' />
+            <p className='text-md'>
+               Client Details{' '}
+               <span className="text-base text-secondary">Don't worry, you can add it later.</span>
+            </p>
             <div className="flex leading-tight gap-2">
                <div className="flex flex-col grow">
                   <Label>Email</Label>
@@ -122,17 +139,6 @@ export const NewClientDialog = ({
                   formMethods={formMethods}
                   placeholder="Don't worry, you can add it later."
                />
-            </div>
-            <div className="flex flex-col grow relative">
-               <Label>Theme Color</Label>
-               <div className="relative">
-                  <ColorSelectorForm
-                     fieldName="themeColor"
-                     formMethods={formMethods}
-                     required={true}
-                     errorMessage="Please select a color"
-                  />
-               </div>
             </div>
          </div>
          <FormDialogFooter

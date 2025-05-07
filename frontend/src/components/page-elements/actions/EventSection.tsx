@@ -22,20 +22,16 @@ export default function EventSection() {
       status: 'scheduled',
    });
 
-   const { data: eventsData, isLoading } = useEventsQuery(eventFilter);
+   const eventsQueryResult = useEventsQuery(eventFilter);
 
    const handleNewEvent = () => {
-      if (!eventsData) {
-         toast.error('Unexpected error')
-         return
-      }
       setFormDialogState({
          isOpen: true,
          mode: 'create',
          openedOn: 'action-page',
          type: 'event',
          entity: 'event',
-         data: {...defaultEventValues},
+         data: { ...defaultEventValues },
       });
    };
 
@@ -61,11 +57,10 @@ export default function EventSection() {
             </div>
             <AddButton onClick={handleNewEvent} />
          </div>
-         {isLoading ? (
-            <EventListLoader />
-         ) : (
-            <EventList eventsData={eventsData} isLoading={isLoading} />
-         )}
+         {eventsQueryResult.isLoading ? <EventListLoader /> : <EventList
+            eventsQueryResult={eventsQueryResult}
+            addFn={handleNewEvent}
+         />}
       </div>
    );
 }

@@ -84,7 +84,7 @@ const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
          openedOn: openedOn,
          type: 'task',
          entity: 'task',
-         data: data,
+         data: {...data},
       });
    };
 

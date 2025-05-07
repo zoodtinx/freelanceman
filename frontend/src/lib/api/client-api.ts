@@ -30,9 +30,9 @@ export const useClientsQuery = (
    );
 };
 
-export const useClientQuery = (clientId: string) => {
+export const useClientQuery = (clientId: string, enabled: boolean) => {
    return useAppQuery(['clients', clientId], (token) =>
-      getClient(token, clientId)
+      getClient(token, clientId), enabled
    );
 };
 

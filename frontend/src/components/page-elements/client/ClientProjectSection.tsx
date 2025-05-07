@@ -62,6 +62,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
          openedOn: 'client-page',
          data: clientData,
          type: 'client-settings',
+         entity: 'client'
       });
    };
 
@@ -138,8 +139,8 @@ const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
       <Link
          to={`../../projects/${project.id}`}
          style={{
-            backgroundColor: `var(--freelanceman-theme-${project.themeColor})`,
-            borderColor: `var(--freelanceman-theme-${project.themeColor})`,
+            backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
          }}
          className={`flex rounded-[15px] h-[40px] relative transition-colors
             hover:border-primary border group overflow-hidden cursor-default`}

@@ -13,7 +13,6 @@ import {
 import { Prisma } from '@prisma/client';
 import { DateTime } from 'luxon';
 
-
 @Injectable()
 export class EventsService {
     constructor(private prismaService: PrismaService) {}
@@ -82,7 +81,7 @@ export class EventsService {
                 projectId: filter.projectId,
                 clientId: filter.clientId,
             };
-    
+
             const [total, events] = await Promise.all([
                 this.prismaService.event.count({ where }),
                 this.prismaService.event.findMany({
@@ -99,13 +98,12 @@ export class EventsService {
                     },
                 }),
             ]);
-    
+
             return { events, total };
         } catch {
             throw new InternalServerErrorException('Failed to find events');
         }
     }
-    
 
     async findOne(userId: string, eventId: string) {
         try {

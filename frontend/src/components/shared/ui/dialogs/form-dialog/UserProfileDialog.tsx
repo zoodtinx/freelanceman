@@ -29,7 +29,7 @@ export const UserProfileDialog = ({
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, getValues, setValue } = formMethods;
+   const { handleSubmit, getValues } = formMethods;
    // setValue('avatarFile', '')
 
    //dialog state

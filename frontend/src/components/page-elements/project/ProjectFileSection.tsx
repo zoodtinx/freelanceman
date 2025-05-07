@@ -8,6 +8,8 @@ import { Paperclip, Package2 } from 'lucide-react';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { FileFilterDto, ProjectPayload } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { SharedFileList } from '@/components/page-elements/files/FileListMax';
 
 const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
    const setFormDialogState = useFormDialogStore(
@@ -107,12 +109,14 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
             </div>
             <AddButton className="w-7 h-7" onClick={handleNewFile} />
          </div>
+         <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow p-2 pt-3">
             <SearchBox
                onChange={(e) => handleSearch(e.target.value)}
                className="rounded-full h-6 text-base mx-1"
             />
-            <ProjectPageFileList
+            <SharedFileList
+               variant='project-page'
                filesQueryResult={filesQueryResult}
                setSelectState={setSelectState}
                selectState={selectState}
