@@ -35,20 +35,27 @@ export const editTaskSchema = z.object({
 });
 
 export const taskPayloadSchema = z.object({
-   id: z.string().uuid(),
-   name: z.string().min(1),
-   status: z.string().min(1),
-   details:optionalString(),
-   link:optionalString(),
-   dueAt: z.string(),
-   projectId: z.string(),
-   clientId: z.string(),
-   userId: z.string(),
-   createdAt: z.string(),
-   updatedAt:optionalString(),
-   project: projectSchema,
-   client: clientSchema
-});
+   total: z.number(),
+   tasks: z.array(
+     z.object({
+       id: z.string().uuid(),
+       name: z.string().min(1),
+       status: z.string().min(1),
+       details: optionalString(),
+       link: optionalString(),
+       dueAt: z.string(),
+       projectId: z.string(),
+       clientId: z.string(),
+       userId: z.string(),
+       tags: z.array(z.string()).min(1),
+       createdAt: z.string(),
+       updatedAt: optionalString(),
+       project: projectSchema,
+       client: clientSchema,
+       isWithTime: z.boolean(),
+     })
+   ),
+ });
 
 export const taskSchema = z.object({
    id: z.string().uuid(),

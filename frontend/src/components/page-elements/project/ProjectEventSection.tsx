@@ -11,7 +11,9 @@ import {
 import { EventFilterDto, ProjectPayload } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({ project }) => {
+const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
+   project,
+}) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -22,13 +24,13 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({ project })
          openedOn: 'project-page',
          type: 'event',
          entity: 'event',
-         data: {...defaultEventValues, projectId: project.id},
+         data: { ...defaultEventValues, projectId: project.id },
       });
    };
 
    const [eventFilter, setEventFilter] = useState<EventFilterDto>({
       projectId: project.id,
-      status: 'scheduled'
+      status: 'scheduled',
    });
 
    useEffect(() => {
@@ -40,7 +42,7 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({ project })
       }
    }, [project?.id]);
 
-   const { data: eventsData, isLoading } = useEventsQuery(eventFilter);
+   const eventsQueryResult = useEventsQuery(eventFilter);
 
    return (
       <div className="flex flex-col w-full">
@@ -49,26 +51,29 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({ project })
                <Calendar className="w-4 h-4" />
                Event
             </p>
-            <div className='flex gap-1'>
+            <div className="flex gap-1">
                <ToggleGroup
                   type="single"
                   value={eventFilter.status as any}
                   onValueChange={(value) => {
                      if (value) {
-                       setEventFilter((prev) => ({ ...prev, status: value }));
+                        setEventFilter((prev) => ({ ...prev, status: value }));
                      }
-                   }}
+                  }}
                >
                   <ToggleGroupItem value="scheduled">Scheduled</ToggleGroupItem>
                   <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
-               <AddButton className='w-7 h-7' onClick={handleNewEvent} />
+               <AddButton className="w-7 h-7" onClick={handleNewEvent} />
             </div>
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow">
-            <EventList isLoading={isLoading} eventsData={eventsData} />
+            <EventList
+               eventsQueryResult={eventsQueryResult}
+               addFn={handleNewEvent}
+            />
          </div>
       </div>
    );

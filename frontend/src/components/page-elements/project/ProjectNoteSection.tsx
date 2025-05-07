@@ -45,8 +45,9 @@ const ProjectNoteSection: React.FC<{ project: ProjectPayload }> = ({ project }) 
          </p>
          <div className="w-full border-[0.5px] border-quaternary" />
          <textarea
-            className="flex text-primary border-0 grow px-4 py-3 resize-none focus:outline-none focus:ring-0 focus:border-transparent bg-transparent"
-            value={note || ''}
+            className="flex text-primary border-0 grow px-4 py-3 resize-none focus:outline-none focus:ring-0 focus:border-transparent bg-transparent placeholder:text-secondary"
+            placeholder='Add note for quick reminder or more.'
+            value={note}
             onChange={handleChange}
          />
       </div>

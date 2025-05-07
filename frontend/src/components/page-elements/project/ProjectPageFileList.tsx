@@ -4,46 +4,62 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import {
-   getIcon,
-} from 'src/components/shared/ui/helpers/Helpers';
+import { getIcon } from 'src/components/shared/ui/helpers/Helpers';
 import { FilePayload } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import {
+   ApiErrorPlaceHolder,
+   LoadingPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { UseQueryResult } from '@tanstack/react-query';
 
 interface FileListProps {
-   filesData: FilePayload[] | undefined;
-   isLoading: boolean;
+   filesQueryResult: UseQueryResult<FilePayload[]>;
+   placeHolder: string;
    selectState: SelectState;
    setSelectState: Dispatch<SetStateAction<SelectState>>;
+   addFn: () => void;
 }
 
 export const ProjectPageFileList: React.FC<FileListProps> = ({
-   filesData,
-   isLoading,
+   filesQueryResult,
+   addFn,
    selectState,
-   setSelectState,
+   placeHolder = 'Add File',
 }) => {
+   const { data: filesData, isLoading, isError, refetch } = filesQueryResult;
+
    if (isLoading) {
-      return <p>Loading...</p>;
+      return <LoadingPlaceHolder />;
    }
 
-   if (!filesData || filesData.length === 0) {
-      return <p>No File available</p>;
+   if (isError || !filesData) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
+   }
+
+   if (!filesData.length) {
+      return (
+         <NoDataPlaceHolder addFn={addFn}>{placeHolder}</NoDataPlaceHolder>
+      );
    }
 
    const fileListItems = filesData.map((filesData) => (
       <FileListItem
-         key={filesData.id}
          data={filesData}
-         setSelectState={setSelectState}
          selectState={selectState}
-         deleteFunction={() => {}}
       />
    ));
 
    return (
       <div className="flex flex-col h-0  pt-1 grow overflow-y-auto">
-         {fileListItems}
+         {!filesData.length ? (
+            <NoDataPlaceHolder addFn={() => {}}>
+               {placeHolder}
+            </NoDataPlaceHolder>
+         ) : (
+            fileListItems
+         )}
       </div>
    );
 };
@@ -51,14 +67,9 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
 interface FileListItemProps {
    data: FilePayload;
    selectState: SelectState;
-   setSelectState: Dispatch<SetStateAction<SelectState>>;
-   deleteFunction: () => void;
 }
 
-export const FileListItem = ({
-   data,
-   selectState,
-}: FileListItemProps) => {
+export const FileListItem = ({ data, selectState }: FileListItemProps) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -69,7 +80,7 @@ export const FileListItem = ({
          openedOn: 'project-page',
          type: 'file',
          data: data,
-         entity: 'file'
+         entity: 'file',
       });
    };
    const isSelected = selectState.selectedValues.includes(data.id);

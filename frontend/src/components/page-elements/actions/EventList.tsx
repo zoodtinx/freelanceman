@@ -4,25 +4,34 @@ import type { EventPayload } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { X } from 'lucide-react';
 import { useEditEvent } from '@/lib/api/event-api';
+import { UseQueryResult } from '@tanstack/react-query';
+import {
+   ApiErrorPlaceHolder,
+   LoadingPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholders/ListPlaceHolder';
 
 interface EventListProps {
-   eventsData: {
-         events: EventPayload[],
-         total: number
-      } | undefined;
-   isLoading: boolean;
+   eventsQueryResult: UseQueryResult<EventPayload>;
+   addFn: () => void;
 }
 
 export const EventList: React.FC<EventListProps> = ({
-   eventsData,
-   isLoading,
+   eventsQueryResult,
+   addFn,
 }) => {
+   const { data: eventsData, isLoading, isError, refetch } = eventsQueryResult;
+
    if (isLoading) {
-      return <p>Loading...</p>;
+      return <LoadingPlaceHolder />;
+   }
+
+   if (isError) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
    if (!eventsData || eventsData.events.length === 0) {
-      return <p>No Event available</p>;
+      return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
 
    const groupedEvents = eventsData.events.reduce((acc, event) => {
@@ -30,7 +39,7 @@ export const EventList: React.FC<EventListProps> = ({
       if (!acc[date]) {
          acc[date] = [];
       }
-      acc[date].push(event);
+      acc[date].push(event as any);
       return acc;
    }, {} as Record<string, EventPayload[]>);
 
@@ -39,7 +48,7 @@ export const EventList: React.FC<EventListProps> = ({
       events: groupedEvents[date],
    }));
 
-   const remainingTasks = (eventsData.total - eventsData.events.length) > 0
+   const remainingTasks = eventsData.total - eventsData.events.length > 0;
 
    const eventGroups = processedEvents.map((group) => {
       return (
@@ -53,9 +62,13 @@ export const EventList: React.FC<EventListProps> = ({
    return (
       <div className="flex flex-col h-0 grow overflow-y-auto">
          <div className="flex flex-col">{eventGroups}</div>
-         {remainingTasks && <div className="flex justify-center">
-            <p className="w-fit text-center py-2 cursor-pointer">Load more</p>
-         </div>}
+         {remainingTasks && (
+            <div className="flex justify-center">
+               <p className="w-fit text-center py-2 cursor-pointer">
+                  Load more
+               </p>
+            </div>
+         )}
       </div>
    );
 };

@@ -78,7 +78,7 @@ export const editProjectSchema = z.object({
     workingFiles: z.array(z.string()).optional(),
     assetFiles: z.array(z.string()).optional(),
     links: z.array(linkSchema).optional().nullable(),
-    note: optionalString(),
+    note: z.string().optional(),
     budget: z.number().optional(),
 });
 

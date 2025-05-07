@@ -9,6 +9,7 @@ import { Button } from '@/components/shared/ui/primitives/Button';
 import { useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
 import { ProjectLinks, ProjectLinksPayload } from 'freelanceman-common/src/schemas';
+import { NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 
 const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
    project,
@@ -45,10 +46,15 @@ const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
                <LinkIcon className="w-4 h-4" />
                Links
             </p>
-            <AddButton className='w-7 h-7' onClick={() => setMode('add')} />
+            <AddButton className="w-7 h-7" onClick={() => setMode('add')} />
          </div>
          <div className="w-full border-[0.5px] border-quaternary" />
-         <div className="flex flex-col gap-1 w-full p-2">
+         <div className="flex flex-col gap-1 w-full p-2 h-full">
+            {mode === 'view' && !project.links.length && (
+               <NoDataPlaceHolder addFn={() => setMode('add')}>
+                  Add Link
+               </NoDataPlaceHolder>
+            )}
             {mode === 'add' && (
                <NewLinkField setMode={setMode} project={project} />
             )}

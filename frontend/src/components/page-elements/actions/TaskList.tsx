@@ -6,31 +6,37 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useEditTask } from '@/lib/api/task-api';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
+import { UseQueryResult } from '@tanstack/react-query';
+import { ApiErrorPlaceHolder, LoadingPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { toast } from 'sonner';
 
 interface TaskListProps {
-   tasksData: {
-      tasks: TaskPayload[],
-      total: number
-   } | undefined;
-   isLoading: boolean;
-   page: 'action-page' | 'project-page';
+   tasksQueryResult: UseQueryResult<TaskPayload>;
+   addFn: () => void;
+   openedOn: string
 }
 
 export const TaskList: React.FC<TaskListProps> = ({
-   tasksData,
-   isLoading,
-   page,
+   tasksQueryResult,
+   openedOn,
+   addFn
 }) => {
+   const { data: tasksData, isLoading, isError, refetch } = tasksQueryResult
+   
    if (isLoading) {
-      return <p>Loading...</p>;
+      return <LoadingPlaceHolder />;
    }
+
+   if (isError) {
+         return <ApiErrorPlaceHolder retryFn={refetch} />;
+      }
 
    if (!tasksData || tasksData.tasks.length === 0) {
-      return <p>No Task available</p>;
+      return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
 
-   const taskListItems = tasksData.tasks.map((tasksData) => (
-      <TaskListItem key={tasksData.id} data={tasksData} openedOn={page} />
+   const taskListItems = tasksData.tasks.map((taskData) => (
+      <TaskListItem key={taskData.id} data={taskData} openedOn={openedOn as any} />
    ));
 
    const remainingTasks = (tasksData.total - tasksData.tasks.length) > 0
@@ -46,12 +52,18 @@ export const TaskList: React.FC<TaskListProps> = ({
 };
 
 interface TaskListItemProps {
-   data: TaskPayload;
+   data: TaskPayload['tasks'][number]
    openedOn: 'action-page' | 'project-page';
 }
 
 const TaskListItem = ({ data, openedOn }: TaskListItemProps) => {
    const editTasks = useEditTask({
+      errorCallback(err) {
+          toast.error('Error cancelling task')
+      },
+      successCallback() {
+         toast.error('Task cancelled')
+      },
       optimisticUpdate: {
          enable: true,
          key: ['tasks'],

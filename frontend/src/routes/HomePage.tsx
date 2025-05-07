@@ -7,6 +7,7 @@ import ConfirmationDialog from 'src/components/shared/ui/dialogs/ConfirmationDia
 import { Toaster } from '@/components/shared/ui/primitives/Toaster';
 import { useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { Loader2 } from 'lucide-react';
 
 export default function HomePage() {
    const { theme } = useTheme();

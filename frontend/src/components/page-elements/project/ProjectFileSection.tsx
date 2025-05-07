@@ -40,7 +40,7 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
       selectedValues: [] as string[],
    });
 
-   const { data: filesData, isLoading } = useFilesQuery(fileFilter);
+   const filesQueryResult = useFilesQuery(fileFilter);
 
    useEffect(() => {
       if (project?.id) {
@@ -72,6 +72,9 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
    };
 
    console.log('fileFilter', fileFilter);
+
+   const placeholder =
+      tab === 'work' ? 'Add Working File' : 'Add Project Asset';
 
    return (
       <>
@@ -110,10 +113,11 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
                className="rounded-full h-6 text-base mx-1"
             />
             <ProjectPageFileList
-               filesData={filesData}
-               isLoading={isLoading}
-               selectState={selectState}
+               filesQueryResult={filesQueryResult}
                setSelectState={setSelectState}
+               selectState={selectState}
+               placeHolder={placeholder}
+               addFn={handleNewFile}
             />
          </div>
       </>

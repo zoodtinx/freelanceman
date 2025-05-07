@@ -21,7 +21,7 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
       status: 'pending'
    });
 
-   const { data: tasksData, isLoading } = useTasksQuery(taskFilter);
+   const tasksQueryResult = useTasksQuery(taskFilter);
 
    useEffect(() => {
       if (project?.id) {
@@ -83,9 +83,9 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow px-2 pt-2">
             <TaskList
-               isLoading={isLoading}
-               tasksData={tasksData}
-               page="project-page"
+               tasksQueryResult={tasksQueryResult}
+               addFn={handleNewTask}
+               openedOn='project-page'
             />
          </div>
       </div>

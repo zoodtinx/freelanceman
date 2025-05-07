@@ -171,6 +171,7 @@ export class ProjectsService {
                 where: { id: projectId, userId },
                 data: {
                     ...dto,
+                    note: dto.note,
                     partnerContacts:
                         contacts?.contactType === 'partner'
                             ? {

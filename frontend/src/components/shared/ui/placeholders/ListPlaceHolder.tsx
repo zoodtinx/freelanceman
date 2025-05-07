@@ -1,11 +1,11 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { CirclePlus, Plus } from 'lucide-react';
+import { CirclePlus, Loader2, Plus, Square, SquareX } from 'lucide-react';
 
 export const ApiErrorPlaceHolder = ({
-   children,
+   children = 'Network Error',
    retryFn,
 }: {
-   children: string;
+   children?: string;
    retryFn: () => void;
 }) => {
    return (
@@ -24,10 +24,10 @@ export const ApiErrorPlaceHolder = ({
 };
 
 export const NoDataPlaceHolder = ({
-   children,
+   children = 'Add New Entry',
    addFn,
 }: {
-   children: string;
+   children?: string;
    addFn: () => void;
 }) => {
    return (
@@ -37,6 +37,14 @@ export const NoDataPlaceHolder = ({
             onClick={addFn}
          />
          <p>{children}</p>
+      </div>
+   );
+};
+
+export const LoadingPlaceHolder = () => {
+   return (
+      <div className="flex justify-center items-center grow">
+         <Loader2 className="animate-spin text-primary" />
       </div>
    );
 };

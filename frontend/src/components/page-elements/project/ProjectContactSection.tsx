@@ -16,7 +16,6 @@ import { SelectObject } from '@/lib/types/selector-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { cn } from '@/lib/helper/utils';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
-import { isError } from 'lodash';
 import { ApiErrorPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 
 export const ProjectContactSection = ({
@@ -32,7 +31,7 @@ export const ProjectContactSection = ({
       (state) => state.setSelectorDialogState
    )
 
-   const [tab, setTab] = useState('client')
+   const [tab, setTab] = useState<'client' | 'partner'>('client')
    const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({
       projectId: project.id
    });
@@ -63,7 +62,7 @@ export const ProjectContactSection = ({
          selected: selected,
          projectId: project.id,
          tab: tab,
-         mode: 'select',
+         mode: contacts.length ? 'view' : 'select',
       })
    }
 
@@ -103,7 +102,7 @@ export const ProjectContactSection = ({
             <AddButton className="w-7 h-7" onClick={handleAddContact} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
-         {clientIsLoading || partnerIsLoading ? (
+         {isLoading ? (
             <div className="flex justify-center items-center grow">
                <Loader2 className="animate-spin text-primary" />
             </div>
