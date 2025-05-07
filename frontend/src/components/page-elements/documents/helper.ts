@@ -1,4 +1,7 @@
-import { CreateSalesDocumentDto, EditSalesDocumentDto } from 'freelanceman-common';
+import {
+   CreateSalesDocumentDto,
+   EditSalesDocumentDto,
+} from 'freelanceman-common';
 
 export const getCreateSalesDocumentPayload = (
    data: any
@@ -77,12 +80,28 @@ export const getEditSalesDocumentPayload = (
 
 export function kebabToSentenceCase(str: string): string {
    return str
-     .split('-')
-     .map((word, i) =>
-       i === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
-     )
-     .join(' ');
- }
+      .split('-')
+      .map((word, i) => (i === 0 ? capitalize(word) : word))
+      .join('  ');
+}
+
+function capitalize(word: string) {
+   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+export function camelToSentenceCase(input: string): string {
+   return input
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .toLowerCase()
+      .replace(/^\w/, (char) => char.toUpperCase());
+}
+
+export function camelToLowerCase(input: string): string {
+   return input
+      .replace(/([A-Z])/g, ' $1')
+      .toLowerCase()
+      .trim();
+}
 
 export function kebabToLowerCase(str: string): string {
    return str.split('-').join(' ');

@@ -10,6 +10,7 @@ import {
    LoadingPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { cn } from '@/lib/helper/utils';
 
 interface EventListProps {
    eventsQueryResult: UseQueryResult<EventPayload>;
@@ -75,8 +76,13 @@ export const EventList: React.FC<EventListProps> = ({
 
 const EventGroup = ({ eventGroupData }: { eventGroupData: any }) => {
    const formattedDate = formatDate(eventGroupData.date, 'SHORT');
-   const month = formattedDate.split(' ')[0];
+   const month = formattedDate.split(' ')[0].toUpperCase();
    const date = formattedDate.split(' ')[1];
+
+   const dueAt = new Date(eventGroupData.date)
+   const isToday = dueAt.getDate() === new Date().getDate()
+
+   console.log('formattedDate', formattedDate)
 
    const events = eventGroupData.events.map(
       (data: EventPayload, index: number) => {
@@ -93,9 +99,10 @@ const EventGroup = ({ eventGroupData }: { eventGroupData: any }) => {
 
    return (
       <div className="flex w-full cursor-default">
-         <div className="flex flex-col w-12 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-foreground border-r border-r-tertiary">
+         <div className="flex flex-col w-14 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-foreground border-r border-r-tertiary relative">
             <p className="text-md font-normal">{date}</p>
-            <p className="">{month}</p>
+            <p className="text-sm">{month}</p>
+            <div className={cn('absolute w-full h-full opacity-10', isToday ? 'bg-general-red' : 'bg-general-blue')} />
          </div>
          <div className="flex flex-col w-full">{events}</div>
       </div>

@@ -28,6 +28,7 @@ export const EventDialog = ({
 
    // form utilities
    const { handleSubmit } = formMethods;
+   console.log('date', formMethods.getValues('dueAt'))
 
    //dialog state
    const { formDialogState } = useFormDialogStore();

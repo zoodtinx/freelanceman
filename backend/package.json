@@ -41,10 +41,12 @@
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "freelanceman-common": "file:../shared",
     "glob": "^11.0.1",
     "helmet": "^8.1.0",
     "joi": "^17.13.3",
     "js-yaml": "^4.1.0",
+    "luxon": "^3.6.1",
     "module-alias": "^2.2.3",
     "nodemailer": "^6.10.0",
     "passport": "^0.7.0",
@@ -58,8 +60,7 @@
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.1",
     "sharp": "^0.33.5",
-    "zod": "^3.24.2",
-    "freelanceman-common": "file:../shared"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

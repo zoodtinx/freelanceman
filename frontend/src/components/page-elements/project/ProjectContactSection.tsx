@@ -67,7 +67,7 @@ export const ProjectContactSection = ({
    }
 
    const handleTabChange = (value: string) => {
-      setTab(value)
+      setTab(value as any)
    }
 
    return (
