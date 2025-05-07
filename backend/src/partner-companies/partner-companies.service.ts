@@ -63,6 +63,26 @@ export class PartnerCompaniesService {
         }
     }
 
+    async findSelections(userId: string, filter: PartnerCompanyFilterDto) {
+            console.log('trigged');
+            try {
+                const clients = await this.prismaService.partnerCompany.findMany({
+                    where: {
+                        userId,
+                        name: filter.name
+                            ? { contains: filter.name, mode: 'insensitive' }
+                            : undefined,
+                    },
+                });
+                return clients.map((client) => ({
+                    label: client.name,
+                    value: client.id,
+                }));
+            } catch {
+                throw new InternalServerErrorException('Failed to find clients');
+            }
+        }
+
     async findOne(userId: string, companyId: string) {
         try {
             const company = await this.prismaService.partnerCompany.findUnique({

@@ -10,34 +10,55 @@ import {
    SelectionListProps,
    SelectObject,
 } from 'src/lib/types/selector-dialog.types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
-import { ClientContactFilterDto } from 'freelanceman-common';
+import { ClientContactFilterDto, ClientFilterDto, PartnerCompany } from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
-import { Loader2 } from 'lucide-react';
+import { CheckSquare2, Loader2, Plus } from 'lucide-react';
 import { useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
+import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
+import { useClientSelectionsQuery, useClientsQuery } from '@/lib/api/client-api';
+import { CompanyFilterBubble } from '@/components/shared/ui/select/CompanyFilterBubble';
 
 const ContactSelector = () => {
-   const {selectorDialogState, setSelectorDialogState} = useSelectionDialogStore();
+   const { selectorDialogState, setSelectorDialogState } =
+      useSelectionDialogStore();
+
    const [tab, setTab] = useState<'client' | 'partner'>('client');
    const [mode, setMode] = useState<'select' | 'view'>('select');
+   const [selectedClientContact, setSelectedClientContact] = useState()
    const [selected, setSelected] = useState<SelectObject[]>([]);
-   const [contactFilter, setContactFilter] = useState<ClientContactFilterDto>(
-      {}
+   const [companyFilter, setCompanyFilter] = useState<ClientFilterDto | PartnerCompany>({})
+   const [contactFilter, setContactFilter] = useState<ClientContactFilterDto>({});
+   
+   useEffect(() => {
+      setMode(selectorDialogState.mode)
+      setTab(selectorDialogState.tab)
+      setSelected(selectorDialogState.selected)
+   },[selectorDialogState])
+
+   const { data: clientData, isLoading: clientIsLoading } = useClientSelectionsQuery(
+      companyFilter,
+      selectorDialogState.tab === 'client'
+   );
+   
+   const { data: partnerData, isLoading: partnerIsLoading } = useClientsQuery(
+      companyFilter,
+      selectorDialogState.tab === 'partner'
    );
 
    const clientQueryResult = useClientContactsQuery(
       contactFilter,
-      tab === 'client'
+      selectorDialogState.tab === 'client'
    );
    const partnerQueryResult = usePartnerContactsQuery(
       contactFilter,
-      tab === 'partner'
+      selectorDialogState.tab === 'partner'
    );
 
    const editProject = useEditProject({
@@ -45,7 +66,7 @@ const ContactSelector = () => {
              toast.error('Undable to add contacts')
          },
          successCallback() {
-             toast.success('Added contacts')
+             toast.success('Updated contacts')
          },
          optimisticUpdate: {
             enable: true,
@@ -89,18 +110,23 @@ const ContactSelector = () => {
    const currentData =
       tab === 'client' ? clientQueryResult : partnerQueryResult;
 
-   const handleTabChange = (value: 'client' | 'partner') => {
-      setSelected([]);
-      setTab(value);
-   };
+   const handleSelectCompany = (value: string) => {
+      setContactFilter((prev) => {
+         return {
+            ...prev,
+            companyId: value
+         }
+      })
+   }
 
    return (
       <>
          {mode === 'select' && (
             <div className="flex flex-wrap gap-1 px-3 pt-3">
-               <ContactCategoryFilter
-                  currentTab={tab}
-                  onTabChange={handleTabChange}
+               <CompanyFilterBubble
+                  entity={tab === 'client' ? 'client' : 'partner'}
+                  setFilter={handleSelectCompany}
+                  value={contactFilter.companyId}
                />
                <SearchBox
                   className="h-5 p-3 px-2 grow w-0 min-w-10"
@@ -109,23 +135,32 @@ const ContactSelector = () => {
             </div>
          )}
          <div className="px-3 py-3 flex flex-col">
-            <div className="flex flex-col w-full border rounded-lg border-tertiary h-[250px] overflow-y-auto relative">
+            <div className="flex flex-col w-full border rounded-lg border-secondary h-[350px] overflow-y-auto relative">
                <div className="sticky top-0 flex bg-foreground p-2 justify-between">
                   <p className="font-medium">{selected.length} Selected</p>
                   <div className="flex gap-1">
                      {selected.length > 0 && (
                         <button
                            onClick={handleChangeMode}
-                           className="text-sm border border-primary px-2 rounded-full hover:bg-primary hover:text-foreground transition-colors"
+                           className="text-sm border border-primary px-2 pr-2 rounded-full text-primary font-medium"
                         >
-                           {mode === 'view' ? 'select more' : 'view selected'}
+                           {mode === 'view' ? (
+                              <p className="flex items-center gap-1">
+                                 <Plus className="w-4 h-4" /> Select More
+                              </p>
+                           ) : (
+                              <p className="flex items-center gap-1">
+                                 <CheckSquare2 className="w-4 h-4" /> View
+                                 Selected
+                              </p>
+                           )}
                         </button>
                      )}
                      <button
                         onClick={handleClearSelection}
-                        className="text-sm border border-primary px-2 rounded-full hover:bg-primary hover:text-foreground transition-colors"
+                        className="text-sm border border-primary px-2 rounded-full text-primary font-medium"
                      >
-                        clear
+                        Clear
                      </button>
                   </div>
                </div>
@@ -148,12 +183,14 @@ const ContactSelector = () => {
             <div className="flex justify-between p-4">
                <Button
                   variant="destructiveOutline"
-                  onClick={() => setSelectorDialogState((prev) => {
-                     return {
-                        ...prev,
-                        isOpen: false
-                     }
-                  })}
+                  onClick={() =>
+                     setSelectorDialogState((prev) => {
+                        return {
+                           ...prev,
+                           isOpen: false,
+                        };
+                     })
+                  }
                >
                   Discard
                </Button>

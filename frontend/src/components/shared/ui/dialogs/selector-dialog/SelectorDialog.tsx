@@ -25,9 +25,7 @@ const SelectorDialog = () => {
       })
    };
 
-   const headerText =
-      selectorDialogState.type.charAt(0).toUpperCase() +
-      selectorDialogState.type.slice(1);
+   const headerText = selectorDialogState.tab === 'client' ? 'Client Contact' : 'Partner Contact'
 
    const Selector = () => {
       switch (type) {

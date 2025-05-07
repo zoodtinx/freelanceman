@@ -16,6 +16,7 @@ export const partnerContactFilterSchema = z.object({
     name: optionalString(),
     companyName: optionalString(),
     role: optionalString(),
+    projectId: optionalString(),
 });
 
 export const editPartnerContactSchema = z.object({

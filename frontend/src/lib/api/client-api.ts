@@ -19,9 +19,14 @@ export const useClientApi = () => {
    };
 };
 
-export const useClientsQuery = (filter: ClientFilterDto = {}) => {
-   return useAppQuery(['clients', filter], (token) =>
-      getClients(token, filter)
+export const useClientsQuery = (
+   filter: ClientFilterDto = {},
+   enabled?: boolean
+) => {
+   return useAppQuery(
+      ['clients', filter],
+      (token) => getClients(token, filter),
+      enabled
    );
 };
 
@@ -31,11 +36,16 @@ export const useClientQuery = (clientId: string) => {
    );
 };
 
-export const useClientSelectionsQuery = (filter: ClientFilterDto) => {
-   return useAppQuery(['clientSelections', filter], (token) =>
-      getClientSelections(token, filter)
+export const useClientSelectionsQuery = (
+   filter: ClientFilterDto,
+   enabled?: boolean
+) => {
+   return useAppQuery(
+      ['clientSelections', filter],
+      (token) => getClientSelections(token, filter),
+      enabled
    );
-}
+};
 
 // export const useProjectSelectionQuery = (filter: ProjectFilterDto = {}) => {
 //    return useAppQuery(['projectSelections', filter], (token) =>

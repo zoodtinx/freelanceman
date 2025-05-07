@@ -209,6 +209,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
             handleSearch={handleSearch}
             handleSelect={handleSelect}
             isLoading={isLoading}
+            type='client'
             value={projectFilter.clientId || ''}
             selections={clientSelection || []}
             className={cn(

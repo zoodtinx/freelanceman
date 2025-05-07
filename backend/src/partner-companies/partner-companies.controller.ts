@@ -43,6 +43,16 @@ export class PartnerCompaniesController {
       return this.partnerCompaniesService.findMany(userId, payload);
   }
 
+  @Post('selections')
+  @HttpCode(200)
+  findSelections(
+      @Body(new ZodValidationPipe(partnerCompanyFilterSchema)) payload: any,
+      @Req() req: any,
+  ) {
+      const userId = req.user.id;
+      return this.partnerCompaniesService.findMany(userId, payload);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string, @Req() req: any) {
       const userId = req.user.id;

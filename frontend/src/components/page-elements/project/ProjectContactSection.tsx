@@ -5,13 +5,19 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from '@/components/shared/icons';
 import { useEffect, useState } from 'react';
-import { User, BookUser } from 'lucide-react';
+import { User, BookUser, UsersRound, Loader2 } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
-import { ClientContactFilterDto, ProjectPayload } from 'freelanceman-common';
+import { ClientContactFilterDto, ClientContactPayload, ProjectPayload } from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
+import { SelectObject } from '@/lib/types/selector-dialog.types';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { cn } from '@/lib/helper/utils';
+import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
+import { isError } from 'lodash';
+import { ApiErrorPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 
 export const ProjectContactSection = ({
    project,
@@ -22,45 +28,89 @@ export const ProjectContactSection = ({
       (state) => state.setFormDialogState
    );
 
-   console.log('project', project.clientContacts)
-
    const setSelectorDialogState = useSelectionDialogStore(
       (state) => state.setSelectorDialogState
    )
 
+   const [tab, setTab] = useState('client')
    const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({
       projectId: project.id
    });
 
-   const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
+   const { data: clientContacts, isLoading: clientIsLoading, isError: clientIsError } =
+      useClientContactsQuery(searchOptions, tab === 'client');
+   const { data: partnerContacts, isLoading: partnerIsLoading, isError: partnerIsError } =
+      usePartnerContactsQuery(searchOptions, tab === 'partner');
 
-   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
-   };
+   const contacts = tab === 'client' ? clientContacts : partnerContacts
+   const isLoading = tab === 'client' ? clientIsLoading : partnerIsLoading
+   const isError = tab === 'client' ? clientIsError : partnerIsError
 
    const handleAddContact = () => {
-      console.log('clicked')
+      const selected = contacts.map((contact: ClientContactPayload): SelectObject => {
+         const detail = `${contact.role}, ${contact.company.name}`;
+         return {
+            id: contact.id,
+            label: contact.name,
+            value: contact.name,
+            detail: detail
+         }
+      })
+
       setSelectorDialogState({
          isOpen: true,
          type: 'contact',
-         selected: [],
+         selected: selected,
          projectId: project.id,
-         setSelected: () => {}
+         tab: tab,
+         mode: 'select',
       })
+   }
+
+   const handleTabChange = (value: string) => {
+      setTab(value)
    }
 
    return (
       <>
-         <div className="flex justify-between px-2 items-center">
-            <p className="flex items-center px-2 h-9 text-md gap-1">
-               <BookUser className="w-4 h-4" />
-               Contacts
-            </p>
-            <AddButton className='w-7 h-7' onClick={handleAddContact} />
+         <div className="flex justify-between px-4 pr-2 items-center">
+            <div className="flex gap-3 h-9 text-md">
+               <button
+                  className={cn(
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-tertiary hover:text-primary',
+                     {
+                        'text-primary': tab === 'client',
+                     }
+                  )}
+                  onClick={() => handleTabChange('client')}
+               >
+                  <UsersRound className="w-4 h-4" />
+                  Clients
+               </button>
+               <button
+                  className={cn(
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full  border-tertiary hover:text-primary',
+                     {
+                        'text-primary': tab === 'partner',
+                     }
+                  )}
+                  onClick={() => handleTabChange('partner')}
+               >
+                  <UsersRound className="w-4 h-4" />
+                  Partners
+               </button>
+            </div>
+            <AddButton className="w-7 h-7" onClick={handleAddContact} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
-         {isLoading ? (
-            <p>Loading...</p>
+         {clientIsLoading || partnerIsLoading ? (
+            <div className="flex justify-center items-center grow">
+               <Loader2 className="animate-spin text-primary" />
+            </div>
+         ) : isError ? (
+            <ApiErrorPlaceHolder retryFn={() => {}}>Network Error</ApiErrorPlaceHolder>
+         ) : !contacts.length ? (
+            <NoDataPlaceHolder addFn={handleAddContact}>Add Partner Contact</NoDataPlaceHolder>
          ) : (
             <div className="flex flex-col gap-1 h-0 grow overflow-y-auto p-3">
                {contacts?.map((contact) => (
@@ -73,16 +123,17 @@ export const ProjectContactSection = ({
 };
 
 export const ContactCard = ({ contact }: { contact: Contact }) => {
-   const setFormDialogState = useDialogStore(
+   const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
-         mode: 'view',
+         mode: 'edit',
          openedOn: 'project-page',
          type: 'client-contact',
          data: contact,
+         entity: 'clientContact'
       });
    };
 

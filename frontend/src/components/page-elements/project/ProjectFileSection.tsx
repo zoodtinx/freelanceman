@@ -9,7 +9,7 @@ import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/de
 import { FileFilterDto, ProjectPayload } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
+const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -66,20 +66,20 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
       setFileFilter((prev) => {
          return {
             ...prev,
-            displayName: value
-         }
-      })
-   }
+            displayName: value,
+         };
+      });
+   };
 
-   console.log('fileFilter', fileFilter)
+   console.log('fileFilter', fileFilter);
 
    return (
       <>
-         <div className="flex items-center">
-            <div className="flex items-center h-9 text-md cursor-default">
-               <p
+         <div className="flex items-center px-4 pr-2 justify-between">
+            <div className="flex items-center h-9 gap-3 text-md cursor-default">
+               <button
                   className={cn(
-                     'flex items-center gap-1 px-4 pr-3 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
                      {
                         'text-primary': tab === 'work',
                      }
@@ -88,10 +88,10 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
                >
                   <Paperclip className="w-4 h-4" />
                   Draft
-               </p>
-               <p
+               </button>
+               <button
                   className={cn(
-                     'flex items-center gap-1 text-secondary transition-colors duration-150 px-3 h-full border-b-[0.5px] border-tertiary hover:text-primary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
                      {
                         'text-primary': tab === 'asset',
                      }
@@ -100,16 +100,14 @@ const ProjectFileSection = ({ project }:{ project : ProjectPayload}) => {
                >
                   <Package2 className="w-4 h-4" />
                   Assets
-               </p>
+               </button>
             </div>
-            <div className="flex duration-75 items-center border-b-[0.5px] pr-2 h-9 border-tertiary grow justify-end">
-               <AddButton className='w-7 h-7' onClick={handleNewFile} />
-            </div>
+            <AddButton className="w-7 h-7" onClick={handleNewFile} />
          </div>
          <div className="flex flex-col grow p-2 pt-3">
             <SearchBox
                onChange={(e) => handleSearch(e.target.value)}
-               className="rounded-full w-1/2 h-6 text-base ml-2"
+               className="rounded-full h-6 text-base mx-1"
             />
             <ProjectPageFileList
                filesData={filesData}

@@ -13,8 +13,9 @@ export interface SelectorDialogState {
    type: 'file' | 'contact';
    projectId: string;
    selected: SelectObject[];
-   setSelected: Dispatch<SetStateAction<SelectObject[]>>;
    option?: any;
+   tab: 'client' | 'partner',
+   mode: 'view' | 'select'
 }
 
 export interface SelectionListProps {

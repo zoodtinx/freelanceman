@@ -21,7 +21,8 @@ export class PartnerContactService {
             const result = await this.prismaService.partnerContact.create({
                 data: {
                     name: dto.name,
-                    companyId: dto.companyId ?? "00000000-0000-0000-0000-000000000000",
+                    companyId:
+                        dto.companyId ?? '00000000-0000-0000-0000-000000000000',
                     role: dto.role,
                     phoneNumber: dto.phoneNumber,
                     email: dto.email,
@@ -45,28 +46,46 @@ export class PartnerContactService {
         }
     }
 
-    async findMany(userId: string, filter: PartnerContactFilterDto) {
+    async findMany(userId: string, partnerFilter: PartnerContactFilterDto) {
+        const { projectId, ...filter } = partnerFilter;
+
         try {
             const result = await this.prismaService.partnerContact.findMany({
                 where: {
                     userId,
-                    name: filter.name ? { contains: filter.name, mode: 'insensitive' } : undefined,
-                    role: filter.role ? { contains: filter.role, mode: 'insensitive' } : undefined,
+                    name: filter.name
+                        ? { contains: filter.name, mode: 'insensitive' }
+                        : undefined,
+                    role: filter.role
+                        ? { contains: filter.role, mode: 'insensitive' }
+                        : undefined,
                     company: {
-                        name: filter.companyName ? { contains: filter.companyName, mode: 'insensitive' } : undefined
-                    }            
+                        name: filter.companyName
+                            ? {
+                                  contains: filter.companyName,
+                                  mode: 'insensitive',
+                              }
+                            : undefined,
+                    },
+                    projects: projectId
+                    ? {
+                          some: {
+                              projectId: projectId,
+                          },
+                      }
+                    : undefined,
                 },
                 take: 20,
                 orderBy: {
-                  name: 'asc'
+                    name: 'asc',
                 },
                 include: {
-                  company: {
-                      select: {
-                          name: true
-                      }
-                  }
-              }
+                    company: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
             });
             return result;
         } catch {

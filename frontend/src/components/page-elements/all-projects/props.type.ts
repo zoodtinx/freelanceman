@@ -1,9 +1,10 @@
 import { UseQueryResult } from '@tanstack/react-query';
+import { ClientFilterDto, PartnerCompanyFilterDto } from 'freelanceman-common';
 import {
    ProjectPayload,
    ProjectFilterDto,
    TaskPayload,
-} from 'freelanceman-common/dist/types/src/schemas';
+} from 'freelanceman-common';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {
@@ -25,6 +26,7 @@ export type ProjectFilterBubble = Pick<
    ProjectFilterProps,
    'projectFilter' | 'setProjectFilter'
 >;
+
 export type ViewModeToggleBubble = Pick<
    ProjectFilterProps,
    'viewMode' | 'setViewMode'
