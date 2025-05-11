@@ -135,11 +135,16 @@ const FormDialog = () => {
     }, [isDirty, dirtyFields, reset, getValues]);
 
    //dialog color access
-   const color =
-      formDialogState.type === 'client-contact' ||
-      formDialogState.type === 'partner-contact'
-         ? (formDialogState.data as any).company?.themeColor
-         : formDialogState.data.client?.themeColor;
+   const color = (() => {
+      const { type, data } = formDialogState;
+      if (type === 'client-contact' || type === 'partner-contact') {
+         return (data as any).company?.themeColor;
+      }
+      if (type === 'client-settings') {
+         return (data as any)?.themeColor;
+      }
+      return (data as any).client?.themeColor;
+   })();
 
    //button api laoding state
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({

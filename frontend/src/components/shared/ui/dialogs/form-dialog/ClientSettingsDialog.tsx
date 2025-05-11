@@ -1,67 +1,59 @@
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { DialogFooter } from '../../primitives/Dialog';
 import {
    TextAreaForm,
    TextInputForm,
    DynamicHeightTextInputForm,
+   Label,
 } from 'src/components/shared/ui/form-field-elements';
+import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import {
-   DiscardButton,
-   SubmitButton,
-} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { useClientApi } from '@/lib/api/client-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { ColorSelectorForm } from '@/components/shared/ui/form-field-elements/ColorSelector';
+import { EditClientDto } from 'freelanceman-common';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { FormDialogProps } from '@/lib/types/form-dialog.types';
+import { CrudApi } from '@/lib/api/api.type';
 
-export const ClientDialog = ({
-   formMethods,
-}: {
-   formMethods: UseFormReturn;
-}) => {
+export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const { editClient } = useClientApi()
+   const { editClient } = crudApi as CrudApi['client'];
 
    const { handleSubmit } = formMethods;
-   const clientName = formDialogState.data.name
+   const clientName = formDialogState.data.name;
 
    const onSubmit: SubmitHandler<EditClientDto> = (data) => {
+      console.log('data', data);
       const editClientPayload: EditClientDto = {
-         address: data.address,
+         id: data.id,
+         address: data.address || '',
          name: data.name,
          taxId: data.taxId,
          email: data.email,
          phoneNumber: data.phoneNumber,
-         detail: data.detail,
          themeColor: data.themeColor,
       };
-      const validatedPayload = Object.fromEntries(
-         Object.entries(editClientPayload).filter(
-            ([_, value]) => value !== undefined
-         )
-      ) as EditClientDto;
-      editClient.mutate({
-         clientId: formDialogState.data.id,
-         clientPayload: validatedPayload,
-      });
+      editClient.mutate(editClientPayload);
    };
 
-   const handleDeleteButtonClick = () => {
+   const handleDeleteButtonClick = (e: React.MouseEvent) => {
+      e.preventDefault();
       setFormDialogState((prev) => ({ ...prev, isOpen: false }));
       setConfirmationDialogState({
          isOpen: true,
          actions: {
-            primary: () => {}
+            primary: () => {},
          },
-         message: clientName,
+         entityName: clientName,
+         additionalMessage:
+            'This action will delete all projects under this client. Files, tasks, events and everything under those projects will also be deleted as well. This action cannot be undone.',
          type: 'delete',
          dialogRequested: {
             mode: 'edit',
-            type: 'client-settings'
-         }
-      })
+            type: 'client-settings',
+         },
+      });
    };
 
    return (
@@ -74,17 +66,28 @@ export const ClientDialog = ({
                errorMessage="Please name your client"
                placeholder="Client Name"
             />
+            <div className="flex flex-col grow relative">
+               <Label>Theme Color</Label>
+               <div className="relative">
+                  <ColorSelectorForm
+                     fieldName="themeColor"
+                     formMethods={formMethods}
+                     required={true}
+                     errorMessage="Please select a color"
+                  />
+               </div>
+            </div>
             <div className="flex flex-col gap-3">
                <div className="flex gap-2">
                   <div className="w-1/2">
-                     <p className="text-secondary ">Tax ID</p>
+                     <Label>Tax ID</Label>
                      <TextInputForm
                         formMethods={formMethods}
                         fieldName="taxId"
                      />
                   </div>
                   <div className="w-1/2">
-                     <p className="text-secondary ">Phone Number</p>
+                     <Label>Phone Number</Label>
                      <TextInputForm
                         formMethods={formMethods}
                         fieldName="phoneNumber"
@@ -92,29 +95,20 @@ export const ClientDialog = ({
                   </div>
                </div>
                <div>
-                  <p className="text-secondary">Email</p>
+                  <Label>Email</Label>
                   <TextInputForm formMethods={formMethods} fieldName="email" />
                </div>
                <div className="">
-                  <p className="text-secondary ">Address</p>
+                  <Label>Address</Label>
                   <TextAreaForm formMethods={formMethods} fieldName="address" />
                </div>
             </div>
          </div>
-         <DialogFooter>
-            <div className="flex justify-between p-4">
-               <DiscardButton
-                  formMethods={formMethods}
-                  formDialogState={formDialogState}
-                  action={handleDeleteButtonClick}
-                  deleteText="Delete Client"
-               />
-               <SubmitButton
-                  formDialogState={formDialogState}
-                  formMethods={formMethods}
-               />
-            </div>
-         </DialogFooter>
+         <FormDialogFooter
+            formMethods={formMethods}
+            isApiLoading={false}
+            onDiscard={handleDeleteButtonClick}
+         />
       </form>
    );
 };

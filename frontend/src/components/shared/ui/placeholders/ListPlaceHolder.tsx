@@ -1,4 +1,5 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
+import { cn } from '@/lib/helper/utils';
 import { CirclePlus, Loader2, Plus, Square, SquareX } from 'lucide-react';
 
 export const ApiErrorPlaceHolder = ({
@@ -26,12 +27,19 @@ export const ApiErrorPlaceHolder = ({
 export const NoDataPlaceHolder = ({
    children = 'Add New Entry',
    addFn,
+   className,
 }: {
    children?: string;
    addFn: () => void;
+   className?: string;
 }) => {
    return (
-      <div className="flex flex-col justify-center items-center grow pb-5 gap-1 text-secondary">
+      <div
+         className={cn(
+            'flex flex-col justify-center items-center grow pb-5 gap-1 text-secondary',
+            className
+         )}
+      >
          <Plus
             className="h-11 w-11 stroke text-tertiary hover:text-primary transition-colors cursor-pointer"
             onClick={addFn}

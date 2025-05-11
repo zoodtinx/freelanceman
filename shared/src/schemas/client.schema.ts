@@ -20,8 +20,8 @@ export const editClientSchema = z.object({
     email: optionalString(),
     phoneNumber: optionalString(),
     address: optionalString(),
-    detail: optionalString(),
     themeColor: optionalString(),
+    note: optionalString(),
 });
 
 export const clientFilterSchema = z.object({
@@ -43,6 +43,7 @@ export const clientPayloadSchema = z.object({
     updatedAt: optionalString(),
     projects: z.array(projectSchema),
     contacts: z.array(clientContactSchema),
+    note: optionalString(),
 });
 
 export const clientSchema = z.object({
@@ -57,6 +58,7 @@ export const clientSchema = z.object({
     themeColor: z.string().min(1),
     createdAt: z.string(),
     updatedAt: optionalString(),
+    note: optionalString(),
 });
 
 export type Client = z.infer<typeof clientSchema>;

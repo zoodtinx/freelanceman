@@ -48,7 +48,7 @@ export const mockUser = {
 
 export default function TopBar() {
    const date = new Date().toISOString()
-   const formattedDate = formatDate(date, 'FULL')
+   const formattedDate = formatDate(date, 'FULL'
    
    return (
       <header
@@ -89,10 +89,13 @@ const CountDisplay = ({
 }) => {
    const navigate = useNavigate();
    const { data, isLoading } = queryHook();
+   console.log('isLoading', isLoading)
 
    if (isLoading || !data) {
       return <Loader2 className="animate-spin h-5 w-5" />;
    }
+
+   console.log('data?.length', data?.length)
 
    return (
       <p

@@ -9,12 +9,12 @@ import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton
 import { cn } from '@/lib/helper/utils';
 import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
-import { FileList } from '@/components/page-elements/files/FileList';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { SharedFileList } from '@/components/page-elements/files/FileListMax';
+import { Paperclip } from 'lucide-react';
 
-const ClientFileSection: React.FC<ClientSectionProps> = () => {
+const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const clientId = useParams().clientId || '';
    const fileSectionRef = useRef<HTMLDivElement | undefined>();
@@ -31,11 +31,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
    const filesQueryResult = useFilesQuery(fileFilter);
 
    const { mutate: deleteFile, isPending } = useDeleteFile();
-
-   if (isPending) {
-      return <p>Loading...</p>;
-   }
-
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
@@ -58,18 +53,18 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
 
    const selectAll = () => {
       if (!filesQueryResult.data) {
-         return
+         return;
       }
       setSelectState((prev) => {
          const selected = filesQueryResult.data.map((file) => {
-            return file.id
-         })
+            return file.id;
+         });
          return {
             ...prev,
-            selectedValues: selected
-         }
-      })
-   }
+            selectedValues: selected,
+         };
+      });
+   };
 
    const handleFileFilter = (type, value: any) => {
       if (type === 'type') {
@@ -95,21 +90,25 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
          type: 'new-file',
          mode: 'create',
          openedOn: 'client-page',
-         data: { ...defaultFileValues },
+         data: { ...defaultFileValues},
          entity: 'file',
       });
-   }
+   };
 
    return (
       <div
-         className="flex flex-col w-full bg-foreground rounded-[20px] p-2 sm:w-full gap-1 shrink-0 overflow-hidden h-1/2 shadow-md"
+         className="flex flex-col w-full bg-foreground rounded-[20px] sm:w-full shrink-0 overflow-hidden h-1/2 shadow-md"
          ref={fileSectionRef}
       >
-         <div className="flex justify-between items-center">
-            <p className="text-lg pl-2">Files</p>
-            <AddButton onClick={handleAddFile} />
+         <div className="flex justify-between items-center px-4 pr-2 h-9">
+            <div className="flex gap-1 items-center">
+               <Paperclip className='w-4 h-4' />
+               <p className="text-md">Files</p>
+            </div>
+            <AddButton className="w-7 h-7" onClick={handleAddFile} />
          </div>
-         <div className="flex gap-1 px-2">
+         <div className="w-full border-[0.5px] border-tertiary" />
+         <div className="flex gap-1 p-2">
             <div className="relative">
                <MultiSelectButton
                   enableMultiSelect={enableMultiSelect}
@@ -141,6 +140,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = () => {
             selectState={selectState}
             placeHolder="Add a file"
             addFn={handleAddFile}
+            className="p-2 pt-0"
          />
       </div>
    );

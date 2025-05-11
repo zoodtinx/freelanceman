@@ -81,6 +81,13 @@ export default function ProjectPage() {
 
          <div className="w-[340px] flex flex-col rounded-[13px] gap-2">
             {isLoading || !project ? (
+               <Skeleton className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md" />
+            ) : (
+               <div className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md">
+                  <ProjectContactSection project={project} />
+               </div>
+            )}
+            {isLoading || !project ? (
                <Skeleton className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md" />
             ) : (
                <div className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md">
@@ -88,13 +95,6 @@ export default function ProjectPage() {
                </div>
             )}
 
-            {isLoading || !project ? (
-               <Skeleton className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md" />
-            ) : (
-               <div className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md">
-                  <ProjectContactSection project={project} />
-               </div>
-            )}
          </div>
       </section>
    );

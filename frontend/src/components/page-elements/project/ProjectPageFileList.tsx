@@ -31,7 +31,9 @@ export const ProjectPageFileList: React.FC<FileListProps> = ({
    const { data: filesData, isLoading, isError, refetch } = filesQueryResult;
 
    if (isLoading) {
-      return <LoadingPlaceHolder />;
+      if (isLoading) {
+         return <LoadingPlaceHolder />;
+      }
    }
 
    if (isError || !filesData) {

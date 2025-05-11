@@ -1,37 +1,33 @@
-import {
-   Building2,
-   EllipsisVertical,
-   FolderClock,
-   Settings,
-} from 'lucide-react';
+import { Building2, Edit, FolderClock, Plus, Settings } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
-import { Switch } from '@/components/shared/ui/primitives/Switch';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { Link } from 'react-router-dom';
-import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
-import { ProjectPayload, ProjectFilterDto } from 'freelanceman-common/src/schemas';
+import { useProjectsQuery } from '@/lib/api/project-api';
+import {
+   ProjectPayload,
+   ProjectFilterDto,
+} from 'freelanceman-common/src/schemas';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import {
+   ApiErrorPlaceHolder,
+   LoadingPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { UseQueryResult } from '@tanstack/react-query';
+import { defaultProject } from '@/components/shared/ui/helpers/constants/default-values';
+import AddButton from '@/components/shared/ui/AddButton';
 
-const ClientProjectSection: React.FC<ClientSectionProps> = ({
-   clientData,
-   isLoading: clientIsLoading,
-}) => {
-   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
-      clientId: clientData?.id,
-   });
-   const { data: projectsData, isLoading: projectIsLoading } =
-      useProjectsQuery(projectFilter);
+const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-
-   if (clientIsLoading && projectIsLoading) {
-      return 'Loading';
-   }
+   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
+      clientId: clientData?.id,
+   });
+   const projectQueryResult = useProjectsQuery(projectFilter);
 
    const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       const searchValue = e.target.value;
@@ -41,28 +37,26 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
       }));
    };
 
-   const handleToggleActive = (value: boolean) => {
-      let status;
-      if (value === true) {
-         status = 'active';
-      } else {
-         status = '';
-      }
-      setProjectFilter((prevFilter) => ({
-         ...prevFilter,
-         projectStatus: status,
-      }));
-   };
-
    const handleClientSettings = () => {
-      console.log('clicked')
+      console.log('clicked');
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
          openedOn: 'client-page',
          data: clientData,
          type: 'client-settings',
-         entity: 'client'
+         entity: 'client',
+      });
+   };
+
+   const handleNewProject = () => {
+      setFormDialogState({
+         isOpen: true,
+         data: { ...defaultProject, clientId: clientData.id },
+         entity: 'project',
+         mode: 'create',
+         openedOn: 'client-page',
+         type: 'new-project',
       });
    };
 
@@ -73,15 +67,14 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
       >
          <div className="flex justify-between">
             <div className="flex items-center h-[40px] justify-between w-full">
-               <div className="flex gap-1 items-center">
-                  <Building2 className="w-[28px] h-auto mt-1" />
-                  <p className="text-xl pt-1 leading-none mr-2">
+               <div className="flex gap-1 items-center cursor-pointer" onClick={handleClientSettings}>
+                  <Building2 className="w-[28px] h-auto" />
+                  <p className="text-xl leading-none">
                      {clientData.name}
                   </p>
                </div>
-               <Settings
-                  onClick={handleClientSettings}
-                  className="w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors"
+               <AddButton
+                  onClick={handleNewProject}
                />
             </div>
          </div>
@@ -90,16 +83,10 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
                className="border rounded-full h-7 w-[250px]"
                onChange={handleSearchInput}
             />
-            <div className="flex">
-               <div className="flex gap-1">
-                  <p>Active</p>
-                  <Switch onCheckedChange={handleToggleActive} />
-               </div>
-            </div>
          </div>
          <ProjectList
-            projectsData={projectsData}
-            loadingState={projectIsLoading}
+            projectQueryResult={projectQueryResult}
+            clientId={clientData.id}
             className="pt-1"
          />
       </div>
@@ -107,18 +94,53 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({
 };
 
 interface ProjectListProps {
-   projectsData: ProjectPayload[];
-   loadingState: boolean;
+   projectQueryResult: UseQueryResult<ProjectPayload[]>;
+   placeHolder?: string;
+   clientId: string;
    className: string;
 }
 
 const ProjectList: React.FC<ProjectListProps> = ({
-   projectsData,
-   loadingState,
+   projectQueryResult,
+   clientId,
+   placeHolder = 'Add new project to this client',
    className,
 }) => {
-   if (loadingState) {
-      return 'Loading...';
+   const {
+      data: projectsData,
+      isLoading,
+      isError,
+      refetch,
+   } = projectQueryResult;
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
+
+   const handleNewProject = () => {
+      setFormDialogState({
+         isOpen: true,
+         data: { ...defaultProject, clientId: clientId },
+         entity: 'project',
+         mode: 'create',
+         openedOn: 'client-page',
+         type: 'new-project',
+      });
+   };
+
+   if (isLoading) {
+      return <LoadingPlaceHolder />;
+   }
+
+   if (isError || !projectsData) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
+   }
+
+   if (!projectsData.length) {
+      return (
+         <NoDataPlaceHolder addFn={handleNewProject}>
+            {placeHolder}
+         </NoDataPlaceHolder>
+      );
    }
 
    const projectListItems = projectsData.map((project) => {
@@ -133,7 +155,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
 };
 
 const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
-   const formattedDateModified = formatDate(project.modifiedAt, 'LONG');
+   const formattedDateModified = formatDate(project.updatedAt, 'LONG');
 
    return (
       <Link

@@ -30,6 +30,7 @@ interface SharedFileListProps {
    size?: 'base' | 'sm' | 'md';
    addFn: () => void;
    placeHolder?: string;
+   className?: string
 }
 
 export const SharedFileList = ({
@@ -40,6 +41,7 @@ export const SharedFileList = ({
    addFn,
    placeHolder = 'Add File',
    filesQueryResult,
+   className
 }: SharedFileListProps) => {
    const { data: files, isLoading, isError, refetch } = filesQueryResult;
 
@@ -49,7 +51,7 @@ export const SharedFileList = ({
       return <NoDataPlaceHolder addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
 
    return (
-      <div className="flex flex-col h-0 grow overflow-y-auto pt-1">
+      <div className={ cn("flex flex-col h-0 grow overflow-y-auto pt-1", className)}>
          {files.map((file) => (
             <SharedFileListItem
                key={file.id}

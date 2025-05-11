@@ -4,13 +4,12 @@ import {
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
-import { ApiLoadingState, FormDialogState } from '@/lib/types/form-dialog.types';
+import { ApiLoadingState } from '@/lib/types/form-dialog.types';
 import { UseFormReturn } from 'react-hook-form';
 
 export interface FormDialogFooterProps {
    onDiscard: (e: React.MouseEvent<HTMLButtonElement>) => void;
    isApiLoading: ApiLoadingState;
-   formDialogState: FormDialogState;
    formMethods: UseFormReturn;
    isUrlLoading?: boolean
 };
@@ -18,7 +17,6 @@ export interface FormDialogFooterProps {
 export default function FormDialogFooter({
    onDiscard,
    isApiLoading,
-   formDialogState,
    formMethods,
 }: FormDialogFooterProps) {
    return (
@@ -27,10 +25,8 @@ export default function FormDialogFooter({
             <DiscardButton
                onClick={onDiscard}
                isApiLoading={isApiLoading}
-               formDialogState={formDialogState}
             />
             <SubmitButton
-               formDialogState={formDialogState}
                formMethods={formMethods}
                isApiLoading={isApiLoading}
             />

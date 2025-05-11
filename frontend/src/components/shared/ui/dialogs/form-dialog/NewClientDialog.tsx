@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
    TextAreaForm,
    TextInputForm,
    DynamicHeightTextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { FormDialogProps } from 'src/lib/types/form-dialog.types';
-import { useCreateClient } from '@/lib/api/client-api';
-import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { ApiLoadingState, FormDialogProps } from 'src/lib/types/form-dialog.types';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import { CreateClientDto } from 'freelanceman-common';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import {
    ColorSelectorForm,
-   ColorSelectorPopover,
 } from '@/components/shared/ui/form-field-elements/ColorSelector';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { CrudApi } from '@/lib/api/api.type';
 
 export const NewClientDialog = ({
+   crudApi,
    formMethods,
-   handleEscapeWithChange,
+   handleLeftButtonClick
 }: FormDialogProps) => {
+   // api setup
+   const { createClient } = crudApi as CrudApi['client'];
+   
    // button loading state
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
@@ -29,31 +29,7 @@ export const NewClientDialog = ({
    });
 
    // form utilities
-   const { handleSubmit, setValue } = formMethods;
-
-   // dialogs setup
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore(
-      (state) => state.setConfirmationDialogState
-   );
-
-   // api setup
-   const errorCallback = (err: Error) => setValue('mutationError', err.message);
-   const successCallback = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const createClient = useCreateClient({ errorCallback, successCallback });
+   const { handleSubmit } = formMethods;
 
    // submit handler
    const onSubmit = (data: any) => {
@@ -70,12 +46,6 @@ export const NewClientDialog = ({
       console.log('createClientPayload', createClientPayload);
       createClient.mutate(createClientPayload);
       setIsApiLoading({ isLoading: false, type: 'submit' });
-   };
-
-   // discard/delete handler
-   const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      handleEscapeWithChange();
    };
 
    return (
@@ -142,7 +112,6 @@ export const NewClientDialog = ({
             </div>
          </div>
          <FormDialogFooter
-            formDialogState={formDialogState}
             formMethods={formMethods}
             isApiLoading={isApiLoading}
             onDiscard={handleLeftButtonClick}

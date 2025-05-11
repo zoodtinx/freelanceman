@@ -93,6 +93,7 @@ const GlobalAddButton = () => {
          mode: 'create',
          data: {...defaultValues['new-project']},
          openedOn: 'global-add-button',
+         entity: 'project',
       });
    };
 

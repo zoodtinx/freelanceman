@@ -39,7 +39,6 @@ export interface DynamicHeightTextInputFormElementProps<
 
 export interface SubmitButtonProps {
    formMethods: UseFormReturn;
-   formDialogState: FormDialogState;
    isApiLoading: {
       isLoading: boolean;
       type: 'submit' | 'destructive';
@@ -48,7 +47,6 @@ export interface SubmitButtonProps {
 
 export interface DestructiveButtonProps {
    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-   formDialogState: FormDialogState;
    deleteText?: string;
    discardText?: string;
    isApiLoading: {

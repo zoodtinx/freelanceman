@@ -4,7 +4,6 @@ import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { ClientPayload } from 'freelanceman-common/src/schemas';
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 
 const ClientInfoSection: React.FC<ClientSectionProps> = ({
@@ -18,7 +17,7 @@ const ClientInfoSection: React.FC<ClientSectionProps> = ({
    });
 
    return (
-      <div className="flex flex-col bg-foreground p-2 rounded-[20px] shrink-0 transition-all duration-150 shadow-md">
+      <div className="flex flex-col flex-1 h-1/2 bg-foreground p-2 rounded-[20px] shrink-0 transition-all duration-150 shadow-md">
          <div className="flex justify-between items-center">
             <p className="text-lg px-2">Information</p>
             <PencilLine

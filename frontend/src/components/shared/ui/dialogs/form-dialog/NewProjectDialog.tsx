@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TextAreaForm } from 'src/components/shared/ui/form-field-elements';
+import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
 import { CircleCheck, Package, Plus, UserRound } from 'lucide-react';
-import { FormDialogProps } from 'src/lib/types/form-dialog.types';
+import { ApiLoadingState, FormDialogProps } from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import {
    paymentStatusSelections,
@@ -13,30 +13,27 @@ import {
    DynamicHeightTextInputForm,
    StatusSelectForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useProjectApi } from '@/lib/api/project-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FormDialogFooter } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter2';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
+import { CreateProjectDto } from 'freelanceman-common';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { CrudApi } from '@/lib/api/api.type';
 
 export const NewProjectDialog = ({
+   crudApi,
    formMethods,
-   handleEscapeWithChange,
+   handleLeftButtonClick
 }: FormDialogProps) => {
-   const { createProject } = useProjectApi();
+   const { createProject } = crudApi as CrudApi['project'];
    const { formDialogState } = useFormDialogStore();
 
    const [haveNote, setHaveNote] = useState(false);
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
-      type: 'discard',
+      type: 'destructive',
    });
 
    const { handleSubmit } = formMethods;
-
-   const handleDiscard = async () => {
-      handleEscapeWithChange();
-   };
 
    const onSubmit = (data: any) => {
       const createProjectPayload: CreateProjectDto = {
@@ -44,9 +41,7 @@ export const NewProjectDialog = ({
          clientId: data.clientId,
          projectStatus: data.projectStatus,
          paymentStatus: data.paymentStatus,
-         contacts: data.contacts ?? [],
-         workingFiles: data.workingFiles ?? [],
-         assetFiles: data.assetFiles ?? [],
+         budget: Number(data.budget.replace(/,/g, ""))
       };
       createProject.mutate(createProjectPayload);
    };
@@ -94,6 +89,10 @@ export const NewProjectDialog = ({
                   />
                </div>
             </div>
+            <div className="w-1/2">
+                  <Label>Budget</Label>
+                  <TextInputForm fieldName='budget' formMethods={formMethods} />
+               </div>
             {!haveNote ? (
                <div
                   onClick={() => setHaveNote(true)}
@@ -115,13 +114,11 @@ export const NewProjectDialog = ({
                </div>
             )}
          </div>
-         {/* <FormDialogFooter
-            formDialogState={formDialogState}
+         <FormDialogFooter
             formMethods={formMethods}
             isApiLoading={isApiLoading}
-            destructiveButtonAction={handleDiscard}
-            setIsApiLoading={setIsApiLoading}
-         /> */}
+            onDiscard={handleLeftButtonClick}
+         />
       </form>
    );
 };

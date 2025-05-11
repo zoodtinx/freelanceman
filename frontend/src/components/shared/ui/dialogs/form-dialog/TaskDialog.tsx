@@ -34,7 +34,7 @@ export const TaskDialog = ({
 
    // form utilities
    const { handleSubmit } = formMethods;
-   console.log('date', formMethods.getValues('dueAt'))
+   console.log('date', formMethods.getValues('dueAt'));
 
    //dialog state
    const { formDialogState } = useFormDialogStore();
@@ -43,13 +43,13 @@ export const TaskDialog = ({
    const { createTask, editTask } = crudApi as CrudApi['task'];
 
    // submit handler
-   const onSubmit = (data: TaskPayload) => {
+   const onSubmit = (data: TaskPayload['tasks'][number]) => {
       if (data.dueAt) {
          const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
-       }
+      }
 
-       console.log('data.dueAt', data.dueAt)
+      console.log('data.dueAt', data.dueAt);
 
       if (formDialogState.mode === 'create') {
          setIsApiLoading({ isLoading: true, type: 'submit' });
@@ -108,10 +108,12 @@ export const TaskDialog = ({
                   />
                </div>
             </div>
-            {formDialogState.openedOn !== 'project-page' && <ProjectField
-               formMethods={formMethods}
-               formDialogState={formDialogState}
-            />}
+            {formDialogState.openedOn !== 'project-page' && (
+               <ProjectField
+                  formMethods={formMethods}
+                  formDialogState={formDialogState}
+               />
+            )}
             <div className="w-full">
                <Label>Details</Label>
                <TextAreaForm
@@ -127,7 +129,6 @@ export const TaskDialog = ({
             </div>
          </div>
          <FormDialogFooter
-            formDialogState={formDialogState}
             formMethods={formMethods}
             isApiLoading={isApiLoading}
             onDiscard={handleLeftButtonClick}

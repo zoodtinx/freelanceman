@@ -20,17 +20,18 @@ import {
    DiscardButton,
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
-import { ApiLoadingState, FormDialogProps } from '@/lib/types/form-dialog.types';
+import {
+   ApiLoadingState,
+   FormDialogProps,
+} from '@/lib/types/form-dialog.types';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useFileApi, useGetPresignedUrl } from '@/lib/api/file-api';
+import { useGetPresignedUrl } from '@/lib/api/file-api';
 import { CreateFileDto } from 'freelanceman-common';
 import { toast } from 'sonner';
+import { CrudApi } from '@/lib/api/api.type';
 
-export const NewFileDialog = ({
-   formMethods,
-   crudApi
-}: FormDialogProps) => {
+export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'destructive',
@@ -39,7 +40,7 @@ export const NewFileDialog = ({
    const { formDialogState, setFormDialogState } = useFormDialogStore();
 
    // api setup
-   const { createFile } = crudApi
+   const { createFile } = crudApi as CrudApi['file'];
    const getPresignedUrl = useGetPresignedUrl({
       errorCallback() {
          toast.error('Unable to edit profile');
@@ -61,13 +62,13 @@ export const NewFileDialog = ({
       console.log('link', link);
 
       if (mode === 'upload') {
-         toast.loading('Uploading file')
+         toast.loading('Uploading file');
          setFormDialogState((prev) => {
             return {
                ...prev,
-               isOpen: false
-            }
-         })
+               isOpen: false,
+            };
+         });
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: fileName,
             category: `project_${projectId}`,
@@ -134,7 +135,7 @@ export const NewFileDialog = ({
                         required={mode === 'add-link'}
                         fieldName="link"
                         className="w-full"
-                        errorMessage='Invalid URL format'
+                        errorMessage="Invalid URL format"
                      />
                   </div>
                )}
@@ -148,17 +149,19 @@ export const NewFileDialog = ({
                      errorMessage="Please enter display name"
                   />
                </div>
-               {formDialogState.openedOn !== 'project-page' && <div className="flex flex-col">
-                  <Label>Project</Label>
-                  <SelectWithSearchForm
-                     fieldName="projectId"
-                     formMethods={formMethods}
-                     type='project'
-                     required={true}
-                     errorMessage='Please select a project'
-                     placeholder='Select a project'
-                  />
-               </div>}
+               {formDialogState.openedOn !== 'project-page' && (
+                  <div className="flex flex-col">
+                     <Label>Project</Label>
+                     <SelectWithSearchForm
+                        fieldName="projectId"
+                        formMethods={formMethods}
+                        type="project"
+                        required={true}
+                        errorMessage="Please select a project"
+                        placeholder="Select a project"
+                     />
+                  </div>
+               )}
                <div className="flex gap-2">
                   <div className="flex flex-col leading-5 w-1/2">
                      <Label>File Type</Label>
@@ -201,15 +204,13 @@ export const NewFileDialog = ({
                )}
             </div>
             <DialogFooter>
-               <div className="flex justify-between p-4">
+               <div className="flex justify-between p-4 pb-2">
                   <DiscardButton
-                     formDialogState={formDialogState}
                      formMethods={formMethods}
                      isApiLoading={isApiLoading}
                      setIsApiLoading={setIsApiLoading}
                   />
                   <SubmitButton
-                     formDialogState={formDialogState}
                      formMethods={formMethods}
                      isApiLoading={isApiLoading}
                      setIsApiLoading={setIsApiLoading}

@@ -68,7 +68,7 @@ export const useEditClient = (callbacks?: MutationCallbacks) => {
    return useAppMutation(
       {
          mutationKey: 'editClient',
-         invalidationKeys: ['clients'],
+         invalidationKeys: ['clients', 'projects', 'clientContacts'],
          mutationFn: editClient,
       },
       callbacks
