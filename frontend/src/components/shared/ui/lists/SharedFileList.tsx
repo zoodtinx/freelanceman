@@ -186,17 +186,25 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
          });
       };
 
-      const handleClick = () => {
-         if (variant === 'base' && setSelectState) {
-            if (selectState.enableSelect) {
-               setSelectState((prev) => ({
-                  ...prev,
-                  selectedValues: isSelected
-                     ? prev.selectedValues.filter((id) => id !== data.id)
-                     : [...prev.selectedValues, data.id],
-               }));
+      const handleClick = (e: React.MouseEvent) => {
+         e.stopPropagation();
+         if (setSelectState && selectState.enableSelect) {
+            if (isSelected) {
+               setSelectState((prev) => {
+                  return {
+                     ...prev,
+                     selectedValues: prev.selectedValues.filter(
+                        (id) => id !== data.id
+                     ),
+                  };
+               });
             } else {
-               handleOpenDialog();
+               setSelectState((prev) => {
+                  return {
+                     enableSelect: true,
+                     selectedValues: [...prev.selectedValues, data.id],
+                  };
+               });
             }
          } else {
             handleOpenDialog();

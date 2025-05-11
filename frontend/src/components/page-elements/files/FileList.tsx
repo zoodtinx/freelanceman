@@ -93,8 +93,8 @@ export const FileListItem = ({
       });
    };
 
-   const handleClick = () => {
-      console.log('selectState.enableSelect', selectState.enableSelect)
+   const handleClick = (e: React.MouseEvent) => {
+      e.stopPropagation()
       if (selectState.enableSelect) {
          if (isSelected) {
             setSelectState((prev) => {

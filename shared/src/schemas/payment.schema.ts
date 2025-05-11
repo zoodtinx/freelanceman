@@ -7,7 +7,7 @@ import {
     salesDocumentPayloadSchema,
     userPayloadSchema,
 } from './index';
-import { optionalString } from './helper/optional';
+import { optionalNumber, optionalString } from './helper/optional';
 
 export const paymentDataPayloadSchema = z.object({
     id: z.string().uuid(),
@@ -27,9 +27,18 @@ export const paymentDataPayloadSchema = z.object({
     client: clientPayloadSchema,
 });
 
+export const paymentDataListPayloadSchema = z.object({
+    total: z.number(),
+    items: z.array(paymentDataPayloadSchema)
+});
+
 export const paymentDataFilterSchema = z.object({
     clientId: optionalString(),
+    take: optionalNumber(),
+    paymentStatus: optionalString()
 });
 
 export type PaymentDataPayload = z.infer<typeof paymentDataPayloadSchema>;
+export type PaymentDataListPayload = z.infer<typeof paymentDataListPayloadSchema>;
 export type PaymentDataFilter = z.infer<typeof paymentDataFilterSchema>;
+

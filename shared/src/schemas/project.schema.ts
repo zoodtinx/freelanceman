@@ -1,6 +1,6 @@
 import { optional, z } from 'zod';
 import { taskPayloadSchema, taskSchema } from './task.schema';
-import { optionalString } from './helper/optional';
+import { optionalNumber, optionalString } from './helper/optional';
 import { PrismaPayloadInterface, prismaPayloadSchema } from './helper/payload-template';
 
 export const ProjectStatusEnum = z.enum(['active', 'on-hold', 'completed', '']);
@@ -103,6 +103,7 @@ export const projectFilterSchema = z.object({
         val === '' ? undefined : val
     ),
     pinned: z.boolean().optional(),
+    take: optionalNumber()
 });
 
 

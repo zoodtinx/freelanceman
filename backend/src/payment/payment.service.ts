@@ -11,35 +11,38 @@ export class PaymentService {
     ) {}
 
     async getPaymentData(userId: string, filter: ProjectFilterDto) {
+    try {
+        const where = {
+            userId,
+            clientId: filter.clientId,
+            paymentStatus: filter.paymentStatus
+                ? filter.paymentStatus === 'paid'
+                    ? 'paid'
+                    : { not: 'paid' }
+                : undefined,
+        };
 
-        try {
-            const result = await this.prismaService.project.findMany({
-                where: {
-                    userId,
-                    clientId: filter.clientId,
-                    paymentStatus: filter.paymentStatus
-                        ? filter.paymentStatus === 'paid'
-                            ? 'paid'
-                            : {
-                                  not: 'paid',
-                              }
-                        : undefined,
-                },
-                include: {
-                    salesDocuments: true,
-                    client: true,
-                },
-                orderBy: [{ paymentStatus: 'desc' }, { updatedAt: 'desc' }],
-                take: 15,
-            });
-            return result;
-        } catch (error) {
-            console.log('error', error)
-            throw new InternalServerErrorException(
-                'Failed to fetch payment data',
-            );
-        }
+        const [total, items] = await Promise.all([
+            this.prismaService.project.count({ where }),
+            this.prismaService.project.findMany({
+            where,
+            include: {
+                salesDocuments: true,
+                client: true,
+            },
+            orderBy: [
+                { paymentStatus: 'desc' },
+                { updatedAt: 'desc' },
+            ],
+            take: filter.take ? filter.take : 13,
+            }),
+        ]);
+
+        return {total, items};
+    } catch {
+        throw new InternalServerErrorException('Failed to fetch payment data');
     }
+}
 
     async getPaymentStats(userId: string) {
         try {
