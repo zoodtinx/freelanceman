@@ -47,53 +47,53 @@ export class PartnerContactService {
     }
 
     async findMany(userId: string, partnerFilter: PartnerContactFilterDto) {
-        const { projectId, ...filter } = partnerFilter;
+    const { projectId, ...filter } = partnerFilter;
 
-        try {
-            const result = await this.prismaService.partnerContact.findMany({
-                where: {
-                    userId,
-                    name: filter.name
-                        ? { contains: filter.name, mode: 'insensitive' }
-                        : undefined,
-                    role: filter.role
-                        ? { contains: filter.role, mode: 'insensitive' }
-                        : undefined,
-                    company: {
-                        name: filter.companyName
-                            ? {
-                                  contains: filter.companyName,
-                                  mode: 'insensitive',
-                              }
-                            : undefined,
-                    },
-                    projects: projectId
-                    ? {
-                          some: {
-                              projectId: projectId,
-                          },
-                      }
-                    : undefined,
-                },
-                take: 20,
-                orderBy: {
-                    name: 'asc',
-                },
+    try {
+        const where = {
+            userId,
+            name: filter.name
+                ? { contains: filter.name, mode: 'insensitive' as const }
+                : undefined,
+            role: filter.role
+                ? { contains: filter.role, mode: 'insensitive' as const }
+                : undefined,
+            company: filter.companyName
+                ? {
+                      name: {
+                          contains: filter.companyName,
+                          mode: 'insensitive' as const,
+                      },
+                  }
+                : undefined,
+            projects: projectId
+                ? {
+                      some: {
+                          projectId,
+                      },
+                  }
+                : undefined,
+        };
+
+        const [total, items] = await Promise.all([
+            this.prismaService.partnerContact.count({ where }),
+            this.prismaService.partnerContact.findMany({
+                where,
+                take: filter.take ? filter.take : 20,
+                orderBy: { name: 'asc' },
                 include: {
-                    company: {
-                        select: {
-                            name: true,
-                        },
-                    },
+                    company: { select: { name: true } },
                 },
-            });
-            return result;
-        } catch {
-            throw new InternalServerErrorException(
-                'Failed to search partner contacts',
-            );
-        }
+            }),
+        ]);
+
+        return { items, total };
+    } catch {
+        throw new InternalServerErrorException(
+            'Failed to search partner contacts',
+        );
     }
+}
 
     async findOne(userId: string, id: string) {
         try {

@@ -18,18 +18,15 @@ export class ClientContactService {
 
     async create(userId: string, createClientContactDto: CreateClientContactDto) {
         try {
-            const dto = Object.fromEntries(
-                Object.entries(createClientContactDto).filter(([_, v]) => v !== "")
-              );
             const result = await this.prismaService.clientContact.create({
                 data: {
-                    name: dto.name,
-                    companyId: dto.companyId,
-                    role: dto.role,
-                    phoneNumber: dto.phoneNumber,
-                    email: dto.email && dto.email,
-                    details: dto.detail ?? '',
-                    avatar: dto.avatar ?? '',
+                    name: createClientContactDto.name,
+                    companyId: createClientContactDto.companyId,
+                    role: createClientContactDto.role,
+                    phoneNumber: createClientContactDto.phoneNumber,
+                    email: createClientContactDto.email && createClientContactDto.email,
+                    details: createClientContactDto.detail ?? '',
+                    avatar: createClientContactDto.avatar ?? '',
                     userId,
                 },
             });
@@ -49,40 +46,49 @@ export class ClientContactService {
         }
     }
 
-    async findAll(userId: string, contactFilter: ClientContactFilterDto) {
-        
-        const {projectId, ...filter} = contactFilter
-        
-        console.log('contactFilter', contactFilter)
+   async findAll(userId: string, contactFilter: ClientContactFilterDto) {
+    const { projectId, ...filter } = contactFilter;
 
-        try {
-            const result = await this.prismaService.clientContact.findMany({
-                where: {
-                    userId,
-                    id: filter.id,
-                    name: filter.name
-                        ? { contains: filter.name, mode: 'insensitive' }
-                        : undefined,
-                    companyId: filter.companyId,
-                    email: filter.email,
-                    phoneNumber: filter.phoneNumber,
-                    projects: projectId ? {
-                        some: {
-                            projectId: projectId
-                        },
-                    }: undefined,
-                },
+    console.log('contactFilter', contactFilter)
+
+    try {
+        const where = {
+            userId,
+            id: filter.id,
+            name: filter.name
+                ? { contains: filter.name, mode: 'insensitive' as const }
+                : undefined,
+            companyId: filter.companyId,
+            email: filter.email,
+            phoneNumber: filter.phoneNumber,
+            projects: projectId
+                ? {
+                      some: {
+                          projectId,
+                      },
+                  }
+                : undefined,
+        };
+
+        const [total, items] = await Promise.all([
+            this.prismaService.clientContact.count({ where }),
+            this.prismaService.clientContact.findMany({
+                where,
+                take: filter.take ? filter.take : 15,
                 include: {
                     company: true,
                 },
-            });
-            return result;
-        } catch {
-            throw new InternalServerErrorException(
-                'Failed to search client contacts',
-            );
-        }
+            }),
+        ]);
+
+        return { items, total };
+    } catch {
+        throw new InternalServerErrorException(
+            'Failed to search client contacts',
+        );
     }
+}
+
 
     async findOne(userId: string, id: string) {
         try {

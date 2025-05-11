@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { useFilesQuery } from '@/lib/api/file-api';
-import { ProjectPageFileList } from '@/components/page-elements/project/ProjectPageFileList';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2 } from 'lucide-react';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { FileFilterDto, ProjectPayload } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { SharedFileList } from '@/components/page-elements/files/FileListMax';
+import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 
 const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
    const setFormDialogState = useFormDialogStore(

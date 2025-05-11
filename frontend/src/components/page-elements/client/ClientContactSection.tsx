@@ -2,7 +2,6 @@ import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
 import { ContactCard } from 'src/components/page-elements/all-clients/ClientPageContact';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
-import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -12,13 +11,13 @@ import {
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 import { UseQueryResult } from '@tanstack/react-query';
-import { ClientContactPayload } from 'freelanceman-common';
+import { ClientContactFilterDto, ClientContactListPayload } from 'freelanceman-common';
 import { UsersRound } from 'lucide-react';
+import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
+import { ListProps } from '@/lib/types/list-props.type';
 
 const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
-   const contactQueryResult = useClientContactsQuery({
-      companyId: clientData.id,
-   });
+   const [filter, setFilter] = useState({})
 
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -46,37 +45,61 @@ const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
          <div className="w-full border-[0.5px] border-tertiary" />
          <ContactList
             addFn={handleNewContact}
-            contactQueryResult={contactQueryResult}
+            filter={filter}
+            setFilter={setFilter}
+            page='client-page'
          />
       </div>
    );
 };
 
-const ContactList = ({
-   contactQueryResult,
+export const ContactList = ({
    addFn,
-}: {
-   contactQueryResult: UseQueryResult<ClientContactPayload[]>;
-   addFn: () => void;
-}) => {
-   const { data: contacts, isLoading, isError, refetch } = contactQueryResult;
+   filter,
+   setFilter,
+}: ListProps<ClientContactFilterDto>) => {
+   const {
+      data: contacts,
+      isLoading,
+      isError,
+      refetch,
+   } = useClientContactsQuery(
+      filter
+   ) as UseQueryResult<ClientContactListPayload>;
 
    if (isLoading) return <LoadingPlaceHolder />;
    if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (!contacts.length)
+   if (!contacts.items.length)
       return <NoDataPlaceHolder addFn={addFn}>Add a contact</NoDataPlaceHolder>;
+
+    const handleLoadMore = () => {
+      const curentLength = contacts?.items.length;
+
+      if (!curentLength) {
+         return;
+      }
+
+      setFilter((prev) => {
+         return {
+            ...prev,
+            take: curentLength + 13,
+         };
+      });
+   };
 
    return (
       <div className="grow overflow-y-auto h-0 pt-1">
-         {isLoading ? (
-            <p>Loading...</p>
-         ) : (
-            <div className="flex flex-col gap-1">
-               {contacts?.map((contact) => (
-                  <ContactCard key={contact.id} contact={contact} />
-               ))}
+         <div className="flex flex-col gap-1">
+            {contacts?.items.map((contact) => (
+               <ContactCard key={contact.id} contact={contact} />
+            ))}
+         </div>
+         <div className="flex justify-center pt-3">
+               <LoadMoreButton
+                  loadMoreFn={handleLoadMore}
+                  isLoading={isLoading}
+               />
             </div>
-         )}
       </div>
    );
 };

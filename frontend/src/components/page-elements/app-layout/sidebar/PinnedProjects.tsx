@@ -2,11 +2,10 @@ import { cn } from '@/lib/helper/utils';
 import { useEditProject, useProjectSelectionQuery, useProjectsQuery } from '@/lib/api/project-api';
 import { Link, useParams } from 'react-router-dom';
 import { ProjectPayload } from 'freelanceman-common/src/schemas';
-import { Minus, Pin, Plus, X } from 'lucide-react';
+import { Minus, Pin, Plus } from 'lucide-react';
 import { toast } from 'sonner';
-import { Popover, PopoverTrigger } from '@/components/shared/ui/primitives/Popover';
 import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
-import { ProjectFilterDto } from 'freelanceman-common';
+import { ProjectFilterDto, ProjectListPayload } from 'freelanceman-common';
 import { useState } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 
@@ -64,7 +63,7 @@ export default function PinnedProjects() {
 const PinnedProjectTabs = ({
    projectQueryResult,
 }: {
-   projectQueryResult: UseQueryResult<ProjectPayload>;
+   projectQueryResult: UseQueryResult<ProjectListPayload>;
 }) => {
    const {data: projects, isLoading, isError} = projectQueryResult
 
@@ -76,7 +75,7 @@ const PinnedProjectTabs = ({
       return null;
    }
 
-   const pinnedProjects = projects.map((project) => {
+   const pinnedProjects = projects?.items.map((project) => {
       return <PinnedProjectCard project={project} key={project.id} />;
    });
 
@@ -106,8 +105,6 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
          pinned: false,
       });
    };
-
-   console.log('project', project)
 
    return (
       <div className="relative group">

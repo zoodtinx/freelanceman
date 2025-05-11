@@ -2,7 +2,7 @@ import { useEventsQuery } from '@/lib/api/event-api';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
-import { EventList } from '@/components/page-elements/actions/EventList';
+import { EventList } from '@/components/shared/ui/lists/EventList';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import {
    ToggleGroup,
@@ -71,8 +71,9 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow">
             <EventList
-               eventsQueryResult={eventsQueryResult}
                addFn={handleNewEvent}
+               filter={eventFilter}
+               setFilter={setEventFilter}
             />
          </div>
       </div>

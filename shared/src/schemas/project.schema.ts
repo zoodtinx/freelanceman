@@ -34,8 +34,13 @@ export const projectPayloadSchema = z.object({
         name: z.string(),
         themeColor: z.string(),
     }),
-    tasks: z.array(taskSchema),
-    links: z.array(linkPayloadSchema)
+    tasks: z.array(taskPayloadSchema),
+    links: z.array(linkPayloadSchema),
+});
+
+export const projectListPayloadSchema = z.object({
+  total: z.number(),
+  items: z.array(projectPayloadSchema),
 });
 
 export const projectSchema = z.object({
@@ -106,6 +111,8 @@ export type ProjectFilterDto = z.infer<typeof projectFilterSchema>;
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 export type EditProjectDto = z.infer<typeof editProjectSchema>;
 export type ProjectPayload = z.infer<typeof projectPayloadSchema>;
+export type ProjectListPayload = z.infer<typeof projectListPayloadSchema>;
 
 export type ProjectLinks = z.infer<typeof linkSchema>;
 export type ProjectLinksPayload = ProjectLinks & PrismaPayloadInterface;
+

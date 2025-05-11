@@ -8,20 +8,14 @@ import {
    Building2,
    Calendar,
    CircleCheck,
-   FilePlus2,
-   FileText,
    PencilRuler,
    Plus,
    Upload,
    UserRound,
 } from 'lucide-react';
 import {
-   defaultClientValue,
    defaultContactValues,
    defaultEventValues,
-   defaultFileValues,
-   defaultNewProjectValue,
-   defaultTaskValue,
    defaultValues,
 } from '@/components/shared/ui/helpers/constants/default-values';
 import { useNavigate } from 'react-router-dom';
@@ -70,7 +64,7 @@ const GlobalAddButton = () => {
          type: 'client-contact',
          entity: 'clientContact',
          mode: 'create',
-         data: {...defaultValues['client-contact']},
+         data: {...defaultContactValues},
          openedOn: 'global-add-button',
       });
    };
@@ -108,11 +102,6 @@ const GlobalAddButton = () => {
       });
    };
 
-   const handleNewDocument = () => {
-      navigate('/home/documents/create');
-      setOpen(false);
-   };
-
    const menuItems: MenuEntry[] = [
       { Icon: CircleCheck, label: 'Task', action: handleNewTask },
       { Icon: Calendar, label: 'Event', action: handleNewEvent },
@@ -123,8 +112,8 @@ const GlobalAddButton = () => {
       { Icon: UserRound, label: 'Contact', action: handleNewContact },
       'separator',
       { Icon: Upload, label: 'File', action: handleNewFile },
-      'separator',
-      { Icon: FileText, label: 'Sales Document', action: handleNewDocument },
+      // 'separator',
+      // { Icon: FileText, label: 'Sales Document', action: handleNewDocument },
    ];
 
    return (

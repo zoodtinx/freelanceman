@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { clientSchema } from './client.schema';
 import { projectSchema } from './project.schema';
-import { optionalString } from './helper/optional';
+import { optionalNumber, optionalString } from './helper/optional';
 
 export const fileType = z.enum([
     'image',
@@ -47,6 +47,7 @@ export const fileFilterSchema = z.object({
     type: optionalString(),
     clientId: optionalString(),
     projectId: optionalString(),
+    take: optionalNumber()
   });
 
 export const getPresignedUrlSchema = z.object({
@@ -73,6 +74,11 @@ export const filePayloadSchema = z.object({
     project: projectSchema
 });
 
+export const fileListPayloadSchema = z.object({
+  total: z.number(),
+  items: z.array(filePayloadSchema),
+});
+
 export const fileSchema = z.object({
     id: z.string().uuid(),
     originalName: z.string().min(1),
@@ -94,3 +100,4 @@ export type GetPresignedUrlDto = z.infer<typeof getPresignedUrlSchema>;
 export type CreateFileDto = z.infer<typeof createFileSchema>;
 export type EditFileDto = z.infer<typeof editFileSchema>;
 export type FileFilterDto = z.infer<typeof fileFilterSchema>;
+export type FileListPayload = z.infer<typeof fileListPayloadSchema>;

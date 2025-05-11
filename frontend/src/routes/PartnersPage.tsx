@@ -7,38 +7,65 @@ import {
    SelectValue,
 } from 'src/components/shared/ui/select/Select';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { BookUser, ChevronDown, User } from 'lucide-react';
 import { usePartnerContactsQuery } from 'src/lib/api/partner-contact-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import {
    PartnerContactFilterDto,
+   PartnerContactListPayload,
    PartnerContactPayload,
 } from 'freelanceman-common';
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
+import { UseQueryResult } from '@tanstack/react-query';
+import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
+import {
+   ApiErrorPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholders/ListPlaceHolder';
 
 const PartnerContactLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const [searchOptions, setSearchOptions] = useState<PartnerContactFilterDto>(
-      {}
-   );
+   const [filter, setFilter] = useState<PartnerContactFilterDto>({});
    const [searchMode, setSearchMode] =
       useState<keyof PartnerContactFilterDto>('name');
 
-   const { data: contacts, isLoading } = usePartnerContactsQuery(searchOptions);
+   const {
+      data: contacts,
+      isLoading,
+      isError,
+      refetch,
+   } = usePartnerContactsQuery(
+      filter
+   ) as UseQueryResult<PartnerContactListPayload>;
+
+   const lastItemRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      if (!contacts || contacts?.items.length <= 20) {
+         return;
+      }
+
+      if (lastItemRef.current) {
+         lastItemRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+         });
+      }
+   }, [contacts?.items.length]);
 
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchOptions({ [searchMode]: event.target.value });
+      setFilter({ [searchMode]: event.target.value });
    };
 
    const handleSearchOptionChange = (mode: keyof PartnerContactFilterDto) => {
       setSearchMode(mode);
-      setSearchOptions({});
+      setFilter({});
    };
 
    const handleNewPartner = () => {
@@ -46,11 +73,53 @@ const PartnerContactLayout = (): JSX.Element => {
          isOpen: true,
          type: 'partner-contact',
          mode: 'create',
-         entity: 'partnerContact',
+         entity: 'partner-contact',
          openedOn: 'partner-page',
          data: { ...defaultPartnerContactValues },
       });
    };
+
+   if (isLoading) {
+      return <PartnerPageTabsLoader />;
+   }
+
+   if (isError) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
+   }
+
+   if (!contacts || contacts.items.length === 0) {
+      return (
+         <NoDataPlaceHolder addFn={handleNewPartner} children="Add New Event" />
+      );
+   }
+
+   const remainingItems = contacts?.total - contacts?.items.length > 0;
+   const handleLoadMore = () => {
+      const curentLength = contacts?.items.length;
+
+      if (!curentLength) {
+         return;
+      }
+
+      setFilter((prev) => {
+         return {
+            ...prev,
+            take: curentLength + 13,
+         };
+      });
+   };
+
+   const partnerTabs = contacts.items.map((contact, i, arr) => {
+      const isLast = i === arr.length - 1;
+
+      return (
+         <PartnerTab
+            key={contact.id}
+            contact={contact}
+            ref={isLast ? lastItemRef : undefined}
+         />
+      );
+   });
 
    return (
       <div className="flex flex-col grow rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 shadow-md relative">
@@ -69,23 +138,20 @@ const PartnerContactLayout = (): JSX.Element => {
                placeholder="Search contact"
                className=""
                onChange={handleSearchValue}
-               value={searchOptions[searchMode] || ''}
+               value={filter[searchMode] || ''}
             />
          </div>
-         {isLoading ? (
-            <PartnerPageTabsLoader />
-         ) : (
-            <div className="flex flex-col gap-1 overflow-y-scroll  ">
-               {contacts?.map((contact: any) => (
-                  <PartnerTab key={contact.id} contact={contact} />
-               ))}
-               <div className="flex justify-center">
-                  <p className="w-fit text-center py-2 cursor-pointer">
-                     Load more
-                  </p>
+         <div className="flex flex-col gap-1 overflow-y-scroll  ">
+            {partnerTabs}
+            {remainingItems && (
+               <div className="flex justify-center pt-3">
+                  <LoadMoreButton
+                     loadMoreFn={handleLoadMore}
+                     isLoading={isLoading}
+                  />
                </div>
-            </div>
-         )}
+            )}
+         </div>
       </div>
    );
 };
@@ -112,7 +178,10 @@ const SearchCategory = ({
    );
 };
 
-const PartnerTab = ({ contact }: { contact: PartnerContactPayload }) => {
+const PartnerTab = forwardRef<
+   HTMLDivElement,
+   { contact: PartnerContactPayload }
+>(({ contact }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -124,12 +193,13 @@ const PartnerTab = ({ contact }: { contact: PartnerContactPayload }) => {
          openedOn: 'all-client-page',
          type: 'partner-contact',
          data: contact,
-         entity: 'partnerContact'
+         entity: 'partner-contact',
       });
    };
 
    return (
       <div
+         ref={ref}
          className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary cursor-default"
          onClick={handleClick}
       >
@@ -146,7 +216,7 @@ const PartnerTab = ({ contact }: { contact: PartnerContactPayload }) => {
                         className="w-full h-full object-cover"
                      />
                   ) : (
-                     <User className='text-secondary' />
+                     <User className="text-secondary" />
                   )}
                </div>
                <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
@@ -159,6 +229,8 @@ const PartnerTab = ({ contact }: { contact: PartnerContactPayload }) => {
          </div>
       </div>
    );
-};
+});
+
+PartnerTab.displayName = 'PartnerTab';
 
 export default PartnerContactLayout;

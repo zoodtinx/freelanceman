@@ -7,9 +7,10 @@ import { useClientsQuery } from '@/lib/api/client-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
-import { ClientPayload } from 'freelanceman-common';
+import { ClientListPayload } from 'freelanceman-common';
 import { ClientGridLoader } from '@/components/shared/ui/placeholder-ui/ClientGridLoader';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
+import { UseQueryResult } from '@tanstack/react-query';
 
 const ClientColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -18,7 +19,7 @@ const ClientColumn = (): JSX.Element => {
 
    const [searchOptions, setSearchOptions] = useState<ClientFilterDto>({});
 
-   const { data: clients, isLoading } = useClientsQuery(searchOptions);
+   const { data: clients, isLoading } = useClientsQuery(searchOptions) as UseQueryResult<ClientListPayload>
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
@@ -59,12 +60,16 @@ const ClientColumn = (): JSX.Element => {
    );
 };
 
-const ClientGrid = ({ clients }: { clients: ClientPayload[] | undefined }) => {
+const ClientGrid = ({ clients }: { clients: ClientListPayload | undefined }) => {
+   const clientCards = clients?.items.map((client) => {
+      return (
+         <ClientCard key={client.id} client={client} />
+      )
+   })
+   
    return (
       <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2">
-         {clients?.map((clients: ClientPayload) => (
-            <ClientCard key={clients.id} client={clients} />
-         ))}
+         {clientCards}
       </div>
    );
 };

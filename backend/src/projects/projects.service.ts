@@ -48,10 +48,10 @@ export class ProjectsService {
                 include: {
                     client: {
                         select: {
-                            themeColor: true
-                        }
-                    }
-                }
+                            themeColor: true,
+                        },
+                    },
+                },
             });
             return projects.map((project) => ({
                 label: project.title,
@@ -64,70 +64,63 @@ export class ProjectsService {
 
     async findMany(userId: string, filter: ProjectFilterDto) {
         try {
-            const projects = await this.prismaService.project.findMany({
-                where: {
-                    userId,
-                    title: filter.title
-                        ? { contains: filter.title, mode: 'insensitive' }
-                        : undefined,
-                    projectStatus: filter.projectStatus || undefined,
-                    paymentStatus: filter.paymentStatus || undefined,
-                    pinned: filter.pinned,
-                    id: filter.projectId || undefined,
-                    clientId: filter.clientId || undefined,
-                    events: filter.eventId
-                        ? { some: { id: filter.eventId } }
-                        : undefined,
-                    tasks: filter.taskId
-                        ? { some: { id: filter.taskId } }
-                        : undefined,
-                    clientContacts: filter.contactId
-                        ? { some: { clientContactId: filter.contactId } }
-                        : undefined,
-                    partnerContacts: filter.partnerId
-                        ? { some: { partnerContactId: filter.partnerId } }
-                        : undefined,
-                },
-                include: {
-                    client: {
-                        select: {
-                            id: true,
-                            name: true,
-                            themeColor: true,
-                        },
-                    },
-                    tasks: {
-                        orderBy: {
-                            dueAt: 'asc',
-                        },
-                        take: 1,
-                        where: {
-                            dueAt: {
-                                gte: new Date(),
-                            },
-                        },
-                        include: {
-                            project: {
-                                select: {
-                                    id: true,
-                                    title: true,
-                                },
-                            },
-                            client: {
-                                select: {
-                                    id: true,
-                                    name: true,
-                                    themeColor: true,
-                                },
-                            },
-                        },
-                    },
-                },
-            });
+            const where = {
+                userId,
+                title: filter.title
+                    ? { contains: filter.title, mode: 'insensitive' as const }
+                    : undefined,
+                projectStatus: filter.projectStatus || undefined,
+                paymentStatus: filter.paymentStatus || undefined,
+                pinned: filter.pinned,
+                id: filter.projectId || undefined,
+                clientId: filter.clientId || undefined,
+                events: filter.eventId
+                    ? { some: { id: filter.eventId } }
+                    : undefined,
+                tasks: filter.taskId
+                    ? { some: { id: filter.taskId } }
+                    : undefined,
+                clientContacts: filter.contactId
+                    ? { some: { clientContactId: filter.contactId } }
+                    : undefined,
+                partnerContacts: filter.partnerId
+                    ? { some: { partnerContactId: filter.partnerId } }
+                    : undefined,
+            };
 
-            return projects;
-        } catch (e) {
-            console.log('e', e);
+            const [total, items] = await Promise.all([
+                this.prismaService.project.count({ where }),
+                this.prismaService.project.findMany({
+                    where,
+                    include: {
+                        client: {
+                            select: {
+                                id: true,
+                                name: true,
+                                themeColor: true,
+                            },
+                        },
+                        tasks: {
+                            orderBy: { dueAt: 'asc' },
+                            take: 1,
+                            where: { dueAt: { gte: new Date() } },
+                            include: {
+                                project: { select: { id: true, title: true } },
+                                client: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        themeColor: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                }),
+            ]);
+
+            return { items, total };
+        } catch {
             throw new InternalServerErrorException('Failed to find projects');
         }
     }
@@ -141,9 +134,9 @@ export class ProjectsService {
                     links: true,
                     clientContacts: {
                         include: {
-                            clientContact: true
-                        }
-                    }
+                            clientContact: true,
+                        },
+                    },
                 },
             });
 
@@ -220,7 +213,7 @@ export class ProjectsService {
 
             return result;
         } catch (error) {
-            console.log('error', error)
+            console.log('error', error);
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {
                     throw new BadRequestException(

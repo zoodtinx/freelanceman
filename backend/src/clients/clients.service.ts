@@ -45,23 +45,26 @@ export class ClientsService {
 
     async findMany(userId: string, filter: ClientFilterDto) {
         try {
-            const clients = await this.prismaService.client.findMany({
-                where: {
-                    userId,
-                    name: filter.name
-                        ? { contains: filter.name, mode: 'insensitive' }
-                        : undefined
-                },
-                include: {
-                    projects: true,
-                    contacts: true,
-                },
-            });
+            const where = {
+                userId,
+                name: filter.name
+                    ? { contains: filter.name, mode: 'insensitive' as const }
+                    : undefined,
+            };
 
-            console.log('clients length', clients.length);
+            const [total, items] = await Promise.all([
+                this.prismaService.client.count({ where }),
+                this.prismaService.client.findMany({
+                    where,
+                    include: {
+                        projects: true,
+                        contacts: true,
+                    },
+                }),
+            ]);
 
-            return clients;
-        } catch (error) {
+            return { items, total };
+        } catch {
             throw new InternalServerErrorException('Failed to find client');
         }
     }

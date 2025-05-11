@@ -21,7 +21,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { EventPayload, UserPayload } from 'freelanceman-common';
+import { EventListPayload, EventPayload, UserPayload } from 'freelanceman-common';
 import { useTasksQuery } from '@/lib/api/task-api';
 import { useEventsQuery } from '@/lib/api/event-api';
 import { formatDate } from '@/lib/helper/formatDateTime';
@@ -87,13 +87,12 @@ const CountDisplay = ({
    icon: Icon,
    label,
 }: {
-   queryResult: UseQueryResult<EventPayload>;
+   queryResult: UseQueryResult<EventListPayload>;
    icon: React.ElementType;
    label: string;
 }) => {
    const { data, isLoading } = queryResult;
    const navigate = useNavigate();
-   console.log('isLoading', isLoading)
 
    if (isLoading) {
       return <Loader2 className="animate-spin h-5 w-5" />;

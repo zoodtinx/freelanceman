@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { CircleCheck } from 'lucide-react';
 import { useTasksQuery } from '@/lib/api/task-api';
 import { defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
-import { TaskList } from '@/components/page-elements/actions/TaskList';
+import { TaskList } from '@/components/shared/ui/lists/TaskList';
 import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
@@ -20,8 +20,6 @@ export default function TaskSection() {
    const [taskFilter, setTaskFilter] = useState<TaskFilterDto>({
       status: 'pending',
    });
-
-   const tasksQueryResult = useTasksQuery(taskFilter);
 
    const handleNewTask = () => {
       setFormDialogState({
@@ -59,11 +57,12 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-         {tasksQueryResult.isLoading ? <TaskListLoader /> : <TaskList
-         tasksQueryResult={tasksQueryResult}
-         addFn={handleNewTask}
-         openedOn='action-page'
-         />}
+         <TaskList
+            addFn={handleNewTask}
+            filter={taskFilter}
+            setFilter={setTaskFilter}
+            page="action-page"
+         />
       </div>
    );
 }

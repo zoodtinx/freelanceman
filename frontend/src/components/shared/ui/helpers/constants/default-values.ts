@@ -91,11 +91,12 @@ export const defaultUserValue = {
 export const defaultNewProjectValue = {
    title: '',
    clientId: '',
-   projectStatus: 'active',
-   paymentStatus: 'notProcessed',
+   projectStatus: 'active' as const,
+   paymentStatus: 'unpaid' as const,
    contacts: [],
    workingFiles: [],
    assetFiles: [],
+   budget: 0
 };
 
 export const defaultClientValue: ClientPayload = {

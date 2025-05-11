@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { partnerCompanySchema } from './partner-company.schema';
-import { optionalString } from './helper/optional';
+import { optionalNumber, optionalString } from './helper/optional';
 
 export const createPartnerContactSchema = z.object({
     name: z.string().min(1),
@@ -17,6 +17,7 @@ export const partnerContactFilterSchema = z.object({
     companyName: optionalString(),
     role: optionalString(),
     projectId: optionalString(),
+    take: optionalNumber()
 });
 
 export const editPartnerContactSchema = z.object({
@@ -44,6 +45,11 @@ export const partnerContactPayloadSchema = z.object({
     company: partnerCompanySchema,
 });
 
+export const partnerContactListPayloadSchema = z.object({
+  total: z.number(),
+  items: z.array(partnerContactPayloadSchema),
+});
+
 export const partnerContactSchema = z.object({
     id: z.string().uuid(),
     userId: z.string(),
@@ -67,3 +73,4 @@ export type PartnerContactFilterDto = z.infer<
     typeof partnerContactFilterSchema
 >;
 export type EditPartnerContactDto = z.infer<typeof editPartnerContactSchema>;
+export type PartnerContactListPayload = z.infer<typeof partnerContactListPayloadSchema>;

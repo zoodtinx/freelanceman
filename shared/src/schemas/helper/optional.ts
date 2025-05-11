@@ -1,4 +1,15 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const optionalString = () =>
-    z.string().transform(val => val === '' ? undefined : val).optional().nullable()
+    z
+        .preprocess(
+            (val) => (val === '' ? undefined : val),
+            z.string().optional()
+        )
+        .nullable();
+
+export const optionalNumber = () =>
+    z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.number().optional()
+    );

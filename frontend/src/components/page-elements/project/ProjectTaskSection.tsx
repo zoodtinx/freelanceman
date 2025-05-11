@@ -6,7 +6,7 @@ import { useTasksQuery } from '@/lib/api/task-api';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
-import { TaskList } from '@/components/page-elements/actions/TaskList';
+import { TaskList } from '@/components/shared/ui/lists/TaskList';
 import { defaultClientValue, defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
 import { ProjectPayload, TaskFilterDto } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';

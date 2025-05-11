@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { useEventsQuery } from '@/lib/api/event-api';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
-import { EventList } from '@/components/page-elements/actions/EventList';
+import { EventList } from '@/components/shared/ui/lists/EventList';
 import {
    ToggleGroup,
    ToggleGroupItem,
@@ -11,7 +11,6 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventFilterDto } from 'freelanceman-common';
 import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
-import { toast } from 'sonner';
 
 export default function EventSection() {
    const setFormDialogState = useFormDialogStore(
@@ -21,8 +20,6 @@ export default function EventSection() {
    const [eventFilter, setEventFilter] = useState<EventFilterDto>({
       status: 'scheduled',
    });
-
-   const eventsQueryResult = useEventsQuery(eventFilter);
 
    const handleNewEvent = () => {
       setFormDialogState({
@@ -45,7 +42,7 @@ export default function EventSection() {
                </div>
                <ToggleGroup
                   type="single"
-                  value={eventFilter.status}
+                  value={eventFilter.status as any}
                   onValueChange={(value: any) =>
                      setEventFilter((prev) => ({ ...prev, status: value }))
                   }
@@ -57,10 +54,11 @@ export default function EventSection() {
             </div>
             <AddButton onClick={handleNewEvent} />
          </div>
-         {eventsQueryResult.isLoading ? <EventListLoader /> : <EventList
-            eventsQueryResult={eventsQueryResult}
-            addFn={handleNewEvent}
-         />}
+         <EventList
+               filter={eventFilter}
+               setFilter={setEventFilter}
+               addFn={handleNewEvent}
+            />
       </div>
    );
 }

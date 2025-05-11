@@ -25,11 +25,11 @@ const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
       }
    }
 
-   if (!projects || projects.length === 0) {
+   if (!projects || projects.items.length === 0) {
       return <p>Get started by creating a new project</p>;
    }
 
-   const projectTabs = projects.map((project) => (
+   const projectTabs = projects.items.map((project) => (
       <ProjectTab project={project} key={project.id} />
    ));
 

@@ -16,7 +16,7 @@ import AddButton from '@/components/shared/ui/AddButton';
 import FileListLoader from '@/components/shared/ui/placeholder-ui/FilePageLoader';
 import { toast } from 'sonner';
 import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
-import { SharedFileList } from '@/components/page-elements/files/FileListMax';
+import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(

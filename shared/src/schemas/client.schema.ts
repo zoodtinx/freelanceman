@@ -46,6 +46,12 @@ export const clientPayloadSchema = z.object({
     note: optionalString(),
 });
 
+export const clientListPayloadSchema = z.object({
+  total: z.number(),
+  items: z.array(clientPayloadSchema),
+});
+
+
 export const clientSchema = z.object({
     id: z.string().uuid(),
     userId: z.string(),
@@ -63,6 +69,7 @@ export const clientSchema = z.object({
 
 export type Client = z.infer<typeof clientSchema>;
 export type ClientPayload = z.infer<typeof clientPayloadSchema>;
+export type ClientListPayload = z.infer<typeof clientListPayloadSchema>;
 export type CreateClientDto = z.infer<typeof createClientSchema>;
 export type EditClientDto = z.infer<typeof editClientSchema>;
 export type ClientFilterDto = z.infer<typeof clientFilterSchema>;

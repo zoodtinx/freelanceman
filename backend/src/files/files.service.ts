@@ -5,13 +5,13 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { PrismaService } from 'src/shared/database/prisma.service';
 import { S3Service } from 'src/shared/s3/s3.service';
 import {
     CreateFileDto,
     FileFilterDto,
     EditFileDto,
 } from 'freelanceman-common';
+import { PrismaService } from '@/shared/database/prisma.service';
 
 @Injectable()
 export class FilesService {
@@ -70,47 +70,54 @@ export class FilesService {
         }
     }
 
-    async findMany(userId: string, filter: FileFilterDto) {
-        try {
-            return await this.prisma.file.findMany({
-                where: {
-                    userId,
-                    displayName: filter.displayName
-                        ? {
-                              contains: filter.displayName,
-                              mode: 'insensitive',
-                          }
-                        : undefined,
-                    type: filter.type,
-                    category: filter.category,
-                    clientId: filter.clientId,
-                    projectId: filter.projectId,
-                },
+  async findMany(userId: string, filter: FileFilterDto) {
+    try {
+        const where = {
+            userId,
+            displayName: filter.displayName
+                ? {
+                      contains: filter.displayName,
+                      mode: 'insensitive' as const,
+                  }
+                : undefined,
+            type: filter.type,
+            category: filter.category,
+            clientId: filter.clientId,
+            projectId: filter.projectId,
+        };
+
+        const [total, items] = await Promise.all([
+            this.prisma.file.count({ where }),
+            this.prisma.file.findMany({
+                where,
+                take: filter.take ? filter.take : 20,
                 include: {
                     client: {
                         select: {
                             id: true,
                             name: true,
                             themeColor: true,
-                        }
+                        },
                     },
                     project: {
                         select: {
                             id: true,
                             title: true,
-                        }
-                    }
+                        },
+                    },
                 },
                 orderBy: {
-                    updatedAt: {
-                        sort: 'desc'
-                    }
-                }
-            });
-        } catch (error) {
-            throw new InternalServerErrorException('Failed to find files');
-        }
+                    updatedAt: 'desc',
+                },
+            }),
+        ]);
+
+        return { items, total };
+    } catch {
+        throw new InternalServerErrorException('Failed to find files');
     }
+}
+
 
     async findOne(userId: string, fileId: string) {
         try {

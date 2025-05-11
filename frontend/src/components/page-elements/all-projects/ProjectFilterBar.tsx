@@ -173,7 +173,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
       }
    }, [projectFilter.clientId]);
 
-   const clientSelection = clientList?.map((client: ClientPayload) => {
+   const clientSelection = clientList?.items.map((client: ClientPayload) => {
       return {
          value: client.id,
          label: client.name,

@@ -8,28 +8,43 @@ import {
 } from '@/components/page-elements/all-projects/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
+import {
+   ApiErrorPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import {
+   defaultNewProjectValue,
+} from '@/components/shared/ui/helpers/constants/default-values';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult }) => {
-   const { data: projects, isLoading, isError, error } = queryResult;
+   const { data: projects, isLoading, isError, refetch } = queryResult;
 
-   if (isError) {
-      if ((error as any).message === 'Internal Server Error') {
-         <p>Something went wrong on our end. Please try again later.</p>;
-      }
-      if ((error as any).message === 'Network Error') {
-         return (
-            <p>Unable to connect. Please check your internet connection.</p>
-         );
-      }
-   }
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
-   if (!projects || projects.length === 0) {
-      return <p>Get started by creating a new project</p>;
-   }
+   const handleNewProject = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'new-project',
+         mode: 'create',
+         data: { ...defaultNewProjectValue },
+         openedOn: 'global-add-button',
+         entity: 'project',
+      });
+   };
 
+   if (isLoading) return <AllProjectPageLoader />;
+   if (isError || !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
+   if (!projects.items.length)
+      return (
+         <NoDataPlaceHolder addFn={handleNewProject} className="h-full">
+            Get started by adding a new project
+         </NoDataPlaceHolder>
+      );
    const projectCards =
-      projects.length !== 0
-         ? projects.map((project: ProjectPayload) => {
+      projects.items.length !== 0
+         ? projects.items.map((project: ProjectPayload) => {
               return <ProjectCard project={project} key={project.id} />;
            })
          : 'no content';

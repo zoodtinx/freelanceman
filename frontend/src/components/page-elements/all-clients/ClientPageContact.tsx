@@ -17,23 +17,21 @@ import { defaultContactValues } from 'src/components/shared/ui/helpers/constants
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/ClientContactLoader';
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { useFileUrlQuery } from '@/lib/api/file-api';
+import { ContactList } from '@/components/shared/ui/lists/ClientContactList';
 
 export const ContactColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>(
-      {}
-   );
+   const [filter, setFilter] = useState<ClientContactFilterDto>({});
 
-   const { data: contacts, isLoading } = useClientContactsQuery(searchOptions);
+   const { isLoading } = useClientContactsQuery(filter);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
+      setFilter((prev) => ({ ...prev, name: event.target.value }));
    };
 
    const handleNewContact = () => {
@@ -63,18 +61,15 @@ export const ContactColumn = (): JSX.Element => {
                placeholder="Search client"
                className="w-[300px]"
                onChange={handleSearch}
-               value={searchOptions.name || ''}
+               value={filter.name || ''}
             />
          )}
-         {isLoading ? (
-            <ClientContactListLoader />
-         ) : (
-            <div className="flex flex-col gap-1 min-h-0 overflow-y-auto pt-1">
-               {contacts?.map((contact: ClientContactPayload) => (
-                  <ContactCard key={contact.id} contact={contact} />
-               ))}
-            </div>
-         )}
+         <ContactList
+            addFn={handleNewContact}
+            filter={filter}
+            setFilter={setFilter}
+            page="client-page"
+         />
       </div>
    );
 };
@@ -97,7 +92,10 @@ export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
       );
    }
 
-   const {data, isLoading } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar))
+   const { data } = useFileUrlQuery(
+      contact.avatar,
+      Boolean(contact.avatar)
+   );
 
    const handleClick = () => {
       setFormDialogState({

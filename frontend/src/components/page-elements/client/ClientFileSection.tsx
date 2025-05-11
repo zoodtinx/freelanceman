@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
-import { SharedFileList } from '@/components/page-elements/files/FileListMax';
+import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 import { Paperclip } from 'lucide-react';
 
 const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {

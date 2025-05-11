@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { projectSchema } from './project.schema';
 import { clientSchema } from './client.schema';
-import { optionalString } from './helper/optional';
+import { optionalNumber, optionalString } from './helper/optional';
 
 export const taskStatusEnum = z.enum(['pending', 'finished', 'cancelled']);
 
@@ -22,6 +22,7 @@ export const taskFilterSchema = z.object({
    dueAt:optionalString(),
    projectId:optionalString(),
    clientId:optionalString(),
+   take: optionalNumber()
 });
 
 export const editTaskSchema = z.object({
@@ -35,26 +36,26 @@ export const editTaskSchema = z.object({
 });
 
 export const taskPayloadSchema = z.object({
-   total: z.number(),
-   items: z.array(
-     z.object({
-       id: z.string().uuid(),
-       name: z.string().min(1),
-       status: z.string().min(1),
-       details: optionalString(),
-       link: optionalString(),
-       dueAt: z.string(),
-       projectId: z.string(),
-       clientId: z.string(),
-       userId: z.string(),
-       tags: z.array(z.string()).min(1),
-       createdAt: z.string(),
-       updatedAt: optionalString(),
-       project: projectSchema,
-       client: clientSchema,
-       isWithTime: z.boolean(),
-     })
-   ),
+    id: z.string().uuid(),
+    name: z.string().min(1),
+    status: z.string().min(1),
+    details: optionalString(),
+    link: optionalString(),
+    dueAt: z.string(),
+    projectId: z.string(),
+    clientId: z.string(),
+    userId: z.string(),
+    tags: z.array(z.string()).min(1),
+    createdAt: z.string(),
+    updatedAt: optionalString(),
+    project: projectSchema,
+    client: clientSchema,
+    isWithTime: z.boolean(),
+});
+
+ export const taskListPayloadSchema = z.object({
+     total: z.number(),
+     items: z.array(taskPayloadSchema),
  });
 
 export const taskSchema = z.object({
@@ -73,6 +74,7 @@ export const taskSchema = z.object({
 
 export type Task = z.infer<typeof taskSchema>;
 export type TaskPayload = z.infer<typeof taskPayloadSchema>;
+export type TaskListPayload = z.infer<typeof taskListPayloadSchema>;
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 export type TaskFilterDto = z.infer<typeof taskFilterSchema>;
 export type EditTaskDto = z.infer<typeof editTaskSchema>;
