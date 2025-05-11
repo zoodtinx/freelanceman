@@ -63,7 +63,7 @@ export class TasksService {
                 clientId: filter.clientId,
             };
 
-            const [total, tasks] = await Promise.all([
+            const [total, items] = await Promise.all([
                 this.prismaService.task.count({ where }),
                 this.prismaService.task.findMany({
                     where,
@@ -80,7 +80,7 @@ export class TasksService {
                 }),
             ]);
 
-            return { tasks, total };
+            return { items, total };
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');
         }

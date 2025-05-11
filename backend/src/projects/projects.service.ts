@@ -45,6 +45,13 @@ export class ProjectsService {
                         ? { contains: filter.title, mode: 'insensitive' }
                         : undefined,
                 },
+                include: {
+                    client: {
+                        select: {
+                            themeColor: true
+                        }
+                    }
+                }
             });
             return projects.map((project) => ({
                 label: project.title,

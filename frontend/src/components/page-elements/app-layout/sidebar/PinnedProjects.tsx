@@ -1,85 +1,152 @@
 import { cn } from '@/lib/helper/utils';
-import { useTranslation } from 'react-i18next';
-import { Pin } from '@/components/shared/icons';
-import { useAllProjectsQuery, useProjectsQuery } from '@/lib/api/project-api';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useEditProject, useProjectSelectionQuery, useProjectsQuery } from '@/lib/api/project-api';
+import { Link, useParams } from 'react-router-dom';
 import { ProjectPayload } from 'freelanceman-common/src/schemas';
-
-const project = {
-   name: 'Sansiri Dog Freindly House Launch Campaign Sansiri Dog Freindly House Launch Campaign',
-};
+import { Minus, Pin, Plus, X } from 'lucide-react';
+import { toast } from 'sonner';
+import { Popover, PopoverTrigger } from '@/components/shared/ui/primitives/Popover';
+import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
+import { ProjectFilterDto } from 'freelanceman-common';
+import { useState } from 'react';
+import { UseQueryResult } from '@tanstack/react-query';
 
 export default function PinnedProjects() {
-   const { t } = useTranslation();
+   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
+      pinned: true
+   })
+   const projectQueryResult = useProjectsQuery(projectFilter)
+   const projectSelectionQueryResult = useProjectSelectionQuery();
+   const editProject = useEditProject({
+      errorCallback(err) {
+         toast.error('Error pinning a project');
+      },
+   });
+
+   const handlePinProject = (projectId: string) => {
+      editProject.mutate({
+         id: projectId,
+         pinned: true
+      })
+   }
+   
+   const handleSearchProject = (value: string) => {
+      setProjectFilter((prev) => {
+         return {
+            ...prev,
+            title: value
+         }
+      })
+   }
 
    return (
       <div className="flex flex-col md:hidden">
          <div className="flex items-center px-3 pb-2 gap-1 w-full text-secondary">
-            <Pin width={16} height={16} />
-            <p className="text-sub">{t('pinnedProjects')}</p>
+            <Pin className="stroke-[3px] w-4 h-4" />
+            <div className="flex justify-between items-center w-full">
+               <p className="text-sub">{'Pinned'}</p>
+               <SelectWithSearch
+                  optionalTriggerUi={
+                     <Plus className="w-4 h-4 stroke-[3px] cursor-pointer" />
+                  }
+                  handleSearch={handleSearchProject}
+                  handleSelect={handlePinProject}
+                  selections={projectSelectionQueryResult.data}
+                  type='project'
+                  isLoading={projectSelectionQueryResult.isLoading}
+               />
+            </div>
          </div>
-         <PinnedProjectTabs />
+         <PinnedProjectTabs projectQueryResult={projectQueryResult} />
       </div>
    );
 }
 
+const PinnedProjectTabs = ({
+   projectQueryResult,
+}: {
+   projectQueryResult: UseQueryResult<ProjectPayload>;
+}) => {
+   const {data: projects, isLoading, isError} = projectQueryResult
 
-const PinnedProjectTabs: React.FC = () => {
-   const { data: projects, isLoading, isError } = useProjectsQuery({ pinned: true });
-   
    if (isLoading) {
-      return <p>Loading...</p>
+      return <p>Loading...</p>;
    }
 
    if (isError) {
-      return null
+      return null;
    }
 
    const pinnedProjects = projects.map((project) => {
-      return (
-          <PinnedProjectCard project={project} key={project.id} />
-      )
-   })
+      return <PinnedProjectCard project={project} key={project.id} />;
+   });
 
    return (
       <div className="flex flex-col px-[6px] gap-2">
          {pinnedProjects}
+         {/* <div className="group flex justify-center items-center h-[64px] rounded-xl border border-tertiary hover:border-secondary transition-colors cursor-pointer duration-75">
+            <Plus className="text-tertiary group-hover:text-secondary transition-colors duration-75" />
+         </div> */}
       </div>
    );
-}
+};
 
 const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
    const { projectId } = useParams();
-   const isActive = projectId === project.id
+   const isActive = projectId === project.id;
+
+   const editProject = useEditProject({
+      errorCallback(err) {
+         toast.error('Error unpinning a project');
+      },
+   });
+
+   const handleUnpin = () => {
+      editProject.mutate({
+         id: project.id,
+         pinned: false,
+      });
+   };
+
+   console.log('project', project)
 
    return (
-      <Link
-         to={`/home/projects/${project.id}`}
-         className={cn(
-            'relative flex h-[64px] rounded-xl overflow-hidden border border-secondary cursor-default',
-            isActive && ''
-         )}
-      >
-         <div
+      <div className="relative group">
+         <button
+            onClick={handleUnpin}
+            className={`absolute -top-1 -right-1 z-30 bg-foreground rounded-full p-1 opacity-0
+                        group-hover:opacity-100 transition-opacity duration-75 border border-secondary`}
+         >
+            <Minus className="text-primary w-4 h-4 stroke-[4px]" />
+         </button>
+         <Link
+            to={`/home/projects/${project.id}`}
             className={cn(
-               'w-full rounded-xl z-20 mt-2 bg-background text-secondary hover:text-primary transition-colors duration-75',
-               isActive && 'bg-foreground text-primary'
+               'group relative flex h-[64px] rounded-xl overflow-hidden border border-secondary cursor-default',
+               'hover:border-primary transition-colors duration-75',
+               isActive && ''
             )}
          >
-            <p className="p-[6px] px-2 line-clamp-2 text-ellipsis font-normal">
-               {project.title}
-            </p>
-         </div>
-         {isActive ? (
             <div
-               className="w-full h-1/2 z-10 absolute"
-               style={{
-                  backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
-               }}
-            />
-         ) : (
-            <div className="w-full h-1/2 z-10 absolute bg-tertiary" />
-         )}
-      </Link>
+               className={cn(
+                  'w-full rounded-xl z-20 mt-2 bg-background text-secondary group-hover:text-primary transition-colors duration-75',
+                  isActive && 'bg-foreground text-primary'
+               )}
+            >
+               <p className="p-[6px] px-2 line-clamp-2 text-ellipsis font-normal">
+                  {project.title}
+               </p>
+            </div>
+            {isActive ? (
+               <div
+                  className="w-full h-1/2 z-10 absolute"
+                  style={{
+                     // backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+                  }}
+               />
+            ) : (
+               <div className="w-full h-1/2 z-10 absolute bg-tertiary" />
+            )}
+         </Link>
+      </div>
    );
 };

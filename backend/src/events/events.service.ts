@@ -82,7 +82,7 @@ export class EventsService {
                 clientId: filter.clientId,
             };
 
-            const [total, events] = await Promise.all([
+            const [total, items] = await Promise.all([
                 this.prismaService.event.count({ where }),
                 this.prismaService.event.findMany({
                     where,
@@ -99,7 +99,7 @@ export class EventsService {
                 }),
             ]);
 
-            return { events, total };
+            return { items, total };
         } catch {
             throw new InternalServerErrorException('Failed to find events');
         }

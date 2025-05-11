@@ -90,7 +90,8 @@ type SelectWithSearchProps = Pick<
    selections: SelectItemContent[] | undefined;
    isLoading: boolean;
    handleSearch: (value: string) => void;
-   type: 'client' | 'project'
+   type: 'client' | 'project';
+   optionalTriggerUi?: React.ReactNode;
 };
 
 export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
@@ -103,6 +104,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    placeholder,
    size,
    isWithIcon = true,
+   optionalTriggerUi
 }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [selectedValue, setSelectedValue] = useState<SelectItemContent>({
@@ -188,9 +190,9 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             )}
             onClick={handleOpen}
          >
-            <p className="truncate font-normal">
+            {optionalTriggerUi ? optionalTriggerUi : <p className="truncate font-normal">
                {selectedValue.label ? selectedValue.label : placeholder}
-            </p>
+            </p>}
             {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />}
          </SelectTrigger>
          <SelectContent

@@ -21,11 +21,12 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { UserPayload } from 'freelanceman-common';
+import { EventPayload, UserPayload } from 'freelanceman-common';
 import { useTasksQuery } from '@/lib/api/task-api';
 import { useEventsQuery } from '@/lib/api/event-api';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { useFileUrlQuery } from '@/lib/api/file-api';
+import { UseQueryResult } from '@tanstack/react-query';
 
 export const mockUser = {
    id: "id_00458_59",
@@ -48,8 +49,11 @@ export const mockUser = {
 
 export default function TopBar() {
    const date = new Date().toISOString()
-   const formattedDate = formatDate(date, 'FULL'
+   const formattedDate = formatDate(date, 'FULL')
    
+   const eventQueryResult = useEventsQuery({status: 'scheduled'})
+   const taskQueryResult = useTasksQuery({status: 'pending'})
+
    return (
       <header
          className={`flex flex-shrink-0 h-[63px] w-full items-center justify-between px-3
@@ -63,12 +67,12 @@ export default function TopBar() {
             <CountDisplay
                icon={CircleCheck}
                label="Task"
-               queryHook={() => useTasksQuery({status: 'pending'})}
+               queryResult={taskQueryResult}
             />
             <CountDisplay
                icon={Calendar}
                label="Event"
-               queryHook={() => useEventsQuery({status: 'scheduled'})}
+               queryResult={eventQueryResult}
             />
          </div>
          <div className="h-[55px] items-center flex gap-2">
@@ -79,23 +83,21 @@ export default function TopBar() {
 }
 
 const CountDisplay = ({
-   queryHook,
+   queryResult,
    icon: Icon,
    label,
 }: {
-   queryHook: () => { data?: any[]; isLoading: boolean };
+   queryResult: UseQueryResult<EventPayload>;
    icon: React.ElementType;
    label: string;
 }) => {
+   const { data, isLoading } = queryResult;
    const navigate = useNavigate();
-   const { data, isLoading } = queryHook();
    console.log('isLoading', isLoading)
 
-   if (isLoading || !data) {
+   if (isLoading) {
       return <Loader2 className="animate-spin h-5 w-5" />;
    }
-
-   console.log('data?.length', data?.length)
 
    return (
       <p
@@ -103,8 +105,8 @@ const CountDisplay = ({
          className="flex gap-1 items-center select-none cursor-pointer hover:text-primary transition-colors duration-100"
       >
          <Icon className="h-5 w-5" />
-         <span>{data?.length}</span>
-         <span>{data.length === 1 ? label : `${label}s`}</span>
+         <span>{data?.items?.length || '0'}</span>
+         <span>{(data?.items?.length || 0) <= 1 ? label : `${label}s`}</span>
       </p>
    );
 };

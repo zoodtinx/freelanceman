@@ -38,7 +38,7 @@ export const editEventSchema = z.object({
 
 export const eventPayloadSchema = z.object({
     total: z.number(),
-    events: z.array(
+    items: z.array(
         z.object({
             id: z.string().uuid(),
             name: z.string().min(1),

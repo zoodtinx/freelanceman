@@ -80,6 +80,7 @@ export const editProjectSchema = z.object({
     links: z.array(linkSchema).optional().nullable(),
     note: z.string().optional(),
     budget: z.number().optional(),
+    pinned: z.boolean().optional()
 });
 
 export const projectFilterSchema = z.object({

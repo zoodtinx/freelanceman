@@ -36,7 +36,7 @@ export const editTaskSchema = z.object({
 
 export const taskPayloadSchema = z.object({
    total: z.number(),
-   tasks: z.array(
+   items: z.array(
      z.object({
        id: z.string().uuid(),
        name: z.string().min(1),
