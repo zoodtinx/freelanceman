@@ -8,6 +8,7 @@ import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 import { ProjectFilterDto, ProjectListPayload } from 'freelanceman-common';
 import { useState } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
+import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 
 export default function PinnedProjects() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -16,7 +17,7 @@ export default function PinnedProjects() {
    const projectQueryResult = useProjectsQuery(projectFilter)
    const projectSelectionQueryResult = useProjectSelectionQuery();
    const editProject = useEditProject({
-      errorCallback(err) {
+      errorCallback() {
          toast.error('Error pinning a project');
       },
    });
@@ -44,6 +45,7 @@ export default function PinnedProjects() {
             <div className="flex justify-between items-center w-full">
                <p className="text-sub">{'Pinned'}</p>
                <SelectWithSearch
+                  isWithIcon={false}
                   optionalTriggerUi={
                      <Plus className="w-4 h-4 stroke-[3px] cursor-pointer" />
                   }
@@ -68,7 +70,12 @@ const PinnedProjectTabs = ({
    const {data: projects, isLoading, isError} = projectQueryResult
 
    if (isLoading) {
-      return <p>Loading...</p>;
+      return (
+         <div className="flex flex-col px-[6px] gap-2">
+            <Skeleton className="h-[64px] rounded-xl" />
+            <Skeleton className="h-[64px] rounded-xl" />
+         </div>
+      );
    }
 
    if (isError) {
@@ -82,9 +89,6 @@ const PinnedProjectTabs = ({
    return (
       <div className="flex flex-col px-[6px] gap-2">
          {pinnedProjects}
-         {/* <div className="group flex justify-center items-center h-[64px] rounded-xl border border-tertiary hover:border-secondary transition-colors cursor-pointer duration-75">
-            <Plus className="text-tertiary group-hover:text-secondary transition-colors duration-75" />
-         </div> */}
       </div>
    );
 };
@@ -94,7 +98,7 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
    const isActive = projectId === project.id;
 
    const editProject = useEditProject({
-      errorCallback(err) {
+      errorCallback() {
          toast.error('Error unpinning a project');
       },
    });
@@ -113,7 +117,7 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
             className={`absolute -top-1 -right-1 z-30 bg-foreground rounded-full p-1 opacity-0
                         group-hover:opacity-100 transition-opacity duration-75 border border-secondary`}
          >
-            <Minus className="text-primary w-4 h-4 stroke-[4px]" />
+            <Minus className="text-primary w-3 h-3 stroke-[4px]" />
          </button>
          <Link
             to={`/home/projects/${project.id}`}

@@ -11,6 +11,7 @@ import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
 
 export default function TaskSection() {
    const setFormDialogState = useFormDialogStore(
@@ -33,15 +34,16 @@ export default function TaskSection() {
    };
 
    return (
-      <div className="flex flex-col grow">
-         <div className="flex w-full justify-between pb-1 pl-2">
+      <div className="flex flex-col grow ">
+         <div className="flex w-full justify-between p-4 pb-3">
             <div className="flex gap-1 items-center">
-               <div className="flex items-end pb-3 gap-1">
+               <div className="flex items-end gap-1">
                   <CircleCheck className="w-[28px] h-auto" />
                   <p className="text-xl leading-none mr-2">Tasks</p>
                </div>
                <ToggleGroup
                   type="single"
+                  className='pt-1'
                   value={taskFilter.status}
                   onValueChange={(value) =>
                      setTaskFilter((prev) => ({
@@ -57,12 +59,14 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-         <TaskList
-            addFn={handleNewTask}
-            filter={taskFilter}
-            setFilter={setTaskFilter}
-            page="action-page"
-         />
+         <div className='flex flex-col p-4 pt-1 grow'>
+            <TaskList
+               addFn={handleNewTask}
+               filter={taskFilter}
+               setFilter={setTaskFilter}
+               page="action-page"
+            />
+         </div>
       </div>
    );
 }

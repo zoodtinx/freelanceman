@@ -114,8 +114,9 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
                className="rounded-full h-6 text-base mx-1"
             />
             <SharedFileList
-               variant='project-page'
-               filesQueryResult={filesQueryResult}
+               page="project-page"
+               setFilter={setFileFilter}
+               filter={fileFilter}
                setSelectState={setSelectState}
                selectState={selectState}
                placeHolder={placeholder}

@@ -42,8 +42,6 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
       }
    }, [project?.id]);
 
-   const eventsQueryResult = useEventsQuery(eventFilter);
-
    return (
       <div className="flex flex-col w-full">
          <div className="flex justify-between items-center pl-3 pr-2">
@@ -74,6 +72,8 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
                addFn={handleNewEvent}
                filter={eventFilter}
                setFilter={setEventFilter}
+               loader='spinner'
+               page='project-page'
             />
          </div>
       </div>

@@ -20,21 +20,9 @@ const ProjectInfoField = ({
    const [searchTerm, setSearchTerm] = useState({});
    const [selectedProject, setSelectedProject] = useState<string>();
    const [projectData, setProjectData] = useState<ProjectPayload | undefined>();
-   const { data: projectList, isLoading } = useProjectsQuery(searchTerm);
+   const { data: projectList, isLoading } = useProjectsQuery(searchTerm) 
 
    const { setValue } = formMethods;
-
-   const searchName = (value: string) => {
-      setSearchTerm({ name: value });
-   };
-
-   const populateProjectField = (value: string) => {
-      setSelectedProject(value);
-      const selectedProjectData = projectList?.find(
-         (project: any) => project.id === value
-      );
-      setProjectData(selectedProjectData);
-   };
 
    useEffect(() => {
       if (projectData) {
@@ -45,12 +33,6 @@ const ProjectInfoField = ({
          setValue('selectedProjectClientId', projectData.clientId);
       }
    }, [projectData, setValue]);
-
-   const projectSelection = projectList
-      ? projectList.map((project: ProjectPayload) => {
-           return { value: project.id, label: project.title };
-        })
-      : [];
       
    return (
       <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
@@ -103,20 +85,6 @@ const ProjectInfoField = ({
                      className="resize-none grow"
                   />
                </div>
-            </div>
-            <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
-               <p>Project Info</p>
-               {/* <SelectWithSearch
-                  selections={projectSelection}
-                  placeholder="Select a project"
-                  type="project"
-                  value={selectedProject}
-                  className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary max-w-[230px] truncate"
-                  isLoading={isLoading}
-                  handleSelect={populateProjectField}
-                  handleSearch={searchName}
-                  size="lg"
-               /> */}
             </div>
          </div>
       </fieldset>

@@ -83,9 +83,10 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow px-2 pt-2">
             <TaskList
-               tasksQueryResult={tasksQueryResult}
                addFn={handleNewTask}
-               openedOn='project-page'
+               filter={taskFilter}
+               setFilter={setTaskFilter}
+               loader='spinner'
             />
          </div>
       </div>

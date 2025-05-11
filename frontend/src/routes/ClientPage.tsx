@@ -159,7 +159,7 @@ const ClientInfoSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                Add client info
             </NoDataPlaceHolder>
          ) : (
-            <div className="flex flex-col pt-3 pb-4 px-4 gap-2">
+            <div className="flex flex-col pt-3 pb-5 px-5 gap-2">
                <div className="flex">
                   {clientData.phoneNumber && (
                      <div className="w-1/2 leading-tight">

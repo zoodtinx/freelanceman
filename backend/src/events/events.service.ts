@@ -11,7 +11,7 @@ import {
     EventFilterDto,
 } from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
-import { DateTime } from 'luxon';
+import { getTimezonedDate } from '@/shared/helper/timezoned-date';
 
 @Injectable()
 export class EventsService {
@@ -55,11 +55,7 @@ export class EventsService {
     }
 
     async findAll(userId: string, filter: EventFilterDto) {
-        const date = DateTime.now()
-            .setZone('Asia/Bangkok')
-            .startOf('day')
-            .toUTC()
-            .toJSDate();
+        const date = getTimezonedDate()
 
         try {
             const where = {

@@ -1,8 +1,4 @@
-import React, {
-   useRef,
-   forwardRef,
-   useEffect,
-} from 'react';
+import React, { useRef, forwardRef, useEffect } from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { EventPayload } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -11,17 +7,22 @@ import { useEditEvent, useEventsQuery } from '@/lib/api/event-api';
 import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
+   LoadingPlaceHolder,
 } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 import { cn } from '@/lib/helper/utils';
 import { toast } from 'sonner';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
 import { ListProps } from '@/lib/types/list-props.type';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { EventFilterDto } from 'freelanceman-common';
 
-export const EventList: React.FC<ListProps<EventPayload>> = ({
+export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    addFn,
    filter,
    setFilter,
+   loader = 'skeleton',
+   page,
 }) => {
    const {
       data: eventsData,
@@ -34,7 +35,7 @@ export const EventList: React.FC<ListProps<EventPayload>> = ({
 
    useEffect(() => {
       if (!eventsData || eventsData?.items.length <= 20) {
-         return
+         return;
       }
 
       if (lastItemRef.current) {
@@ -46,7 +47,11 @@ export const EventList: React.FC<ListProps<EventPayload>> = ({
    }, [eventsData?.items.length]);
 
    if (isLoading) {
-      return <EventListLoader />;
+      if (loader == 'skeleton') {
+         return <EventListLoader />;
+      } else {
+         return <LoadingPlaceHolder />;
+      }
    }
 
    if (isError) {
@@ -57,14 +62,17 @@ export const EventList: React.FC<ListProps<EventPayload>> = ({
       return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
 
-   const groupedEvents = eventsData.items.reduce((acc: any, event: EventPayload) => {
-      const date = formatDate(event.dueAt, 'SHORT');
-      if (!acc[date]) {
-         acc[date] = [];
-      }
-      acc[date].push(event as any);
-      return acc;
-   }, {} as Record<string, EventPayload[]>);
+   const groupedEvents = eventsData.items.reduce(
+      (acc: any, event: EventPayload) => {
+         const date = formatDate(event.dueAt, 'SHORT');
+         if (!acc[date]) {
+            acc[date] = [];
+         }
+         acc[date].push(event as any);
+         return acc;
+      },
+      {} as Record<string, EventPayload[]>
+   );
 
    const processedEvents = Object.keys(groupedEvents).map((date) => ({
       date,
@@ -104,6 +112,7 @@ export const EventList: React.FC<ListProps<EventPayload>> = ({
 
    return (
       <div className="flex flex-col h-0 grow overflow-y-auto">
+         {page !== 'project-page' && <Separator />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
             <div className="flex justify-center pt-3">

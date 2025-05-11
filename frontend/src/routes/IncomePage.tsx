@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
-import { Delete, Download, Edit, FileText, Loader, Plus, Trash } from 'lucide-react';
+import { Download, Edit, FileText, Loader, Plus, Trash } from 'lucide-react';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
@@ -83,7 +83,7 @@ const FilterBar = ({
             placeholder="Payment Status"
          />
          <ClientFilterBubble
-            projectFilter={projectFilter}
+            projectFilter={projectFilter as any}
             setProjectFilter={setProjectFilter}
          />
          <SearchBox className="w-fit" />

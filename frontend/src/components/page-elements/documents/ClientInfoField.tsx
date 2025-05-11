@@ -10,7 +10,8 @@ import {
 import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useClientsQuery } from '@/lib/api/client-api';
-import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
+import { UseQueryResult } from '@tanstack/react-query';
+import { ClientListPayload } from 'freelanceman-common';
 
 const ClientInfoField = ({
    formMethods,
@@ -20,40 +21,12 @@ const ClientInfoField = ({
    // const userData = some logic to fetch user data
    const [searchTerm, setSearchTerm] = useState({});
    const [clientData, setClientData] = useState<ClientPayload | undefined>();
-   const { data: clientList, isLoading } = useClientsQuery(searchTerm);
+   const { data: clientList, isLoading } = useClientsQuery(
+      searchTerm
+   ) as UseQueryResult<ClientListPayload>;
    
 
    const { setValue, watch } = formMethods;
-
-   const searchName = (value: string) => {
-      setSearchTerm({ name: value });
-   };
-
-   const selectedProject = watch('selectedProjectClientId');
-
-   const populateClientField = (value: string) => {
-      const selectedClientData = clientList?.find(
-         (client: ClientPayload) => client.id === value
-      );
-      setClientData(selectedClientData);
-   };
-
-   useEffect(() => {
-      if (selectedProject) {
-         const selectedClient = clientList?.find(
-            (client: ClientPayload) => client.id === selectedProject
-         );
-         if (selectedClient) {
-            setValue('clientId', selectedClient.id);
-            setValue('clientName', selectedClient.name);
-            setValue('clientTaxId', selectedClient.taxId);
-            setValue('clientAddress', selectedClient.address);
-            setValue('clientPhone', selectedClient.phoneNumber);
-            setValue('clientDetail', selectedClient.detail);
-            return;
-         }
-      }
-   }, [selectedProject, setValue, clientList]);
 
    useEffect(() => {
       if (clientData) {
@@ -65,12 +38,6 @@ const ClientInfoField = ({
          setValue('clientDetail', clientData.detail);
       }
    }, [clientData, setValue]);
-
-   const clientSelection = clientList
-      ? clientList.map((client: ClientPayload) => {
-           return { value: client.id, label: client.name };
-        })
-      : [];
 
    return (
       <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
@@ -123,9 +90,9 @@ const ClientInfoField = ({
                   />
                </div>
             </div>
-            <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
+            {/* <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Client Info</h2>
-               {/* <SelectWithSearch
+               <SelectWithSearch
                   type='client'
                   selections={clientSelection}
                   placeholder="Select a client"
@@ -134,8 +101,8 @@ const ClientInfoField = ({
                   value={clientData?.id}
                   handleSelect={populateClientField}
                   handleSearch={searchName}
-               /> */}
-            </div>
+               />
+            </div> */}
          </div>
       </fieldset>
    );

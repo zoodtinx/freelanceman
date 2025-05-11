@@ -5,4 +5,5 @@ export interface ListProps<T> {
    filter: T;
    setFilter: Dispatch<SetStateAction<T>>;
    page?: string;
+   loader?: 'skeleton' | 'spinner'
 }

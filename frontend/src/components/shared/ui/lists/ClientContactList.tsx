@@ -16,11 +16,13 @@ import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { useFileUrlQuery } from '@/lib/api/file-api';
 import { forwardRef, useEffect, useRef } from 'react';
 import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/ClientContactLoader';
+import { cn } from '@/lib/helper/utils';
 
 export const ContactList = ({
    addFn,
    filter,
    setFilter,
+   page
 }: ListProps<ClientContactFilterDto>) => {
    const {
       data: contacts,
@@ -33,7 +35,7 @@ export const ContactList = ({
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
-   useEffect(() => {
+useEffect(() => {
       if (!contacts || contacts?.items.length <= 20) {
          return;
       }
@@ -75,6 +77,7 @@ export const ContactList = ({
          <ContactCard
             key={contact.id}
             contact={contact}
+            page={page}
             ref={isLast ? lastItemRef : undefined}
          />
       );
@@ -99,8 +102,8 @@ export const ContactList = ({
 
 export const ContactCard = forwardRef<
    HTMLDivElement,
-   { contact: ClientContactPayload }
->(({ contact }, ref) => {
+   { contact: ClientContactPayload, page: string }
+>(({ contact, page }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -125,16 +128,16 @@ export const ContactCard = forwardRef<
       <div
          ref={ref}
          onClick={handleClick}
-         className={`flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[75px] shrink-0
+         className={cn(`flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[75px] shrink-0
                border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
-               cursor-default`}
+               cursor-default`, page !== 'all-client-page' && 'h-[55px]' )}
       >
          <AvatarDisplay url={data?.url} />
          <div className="flex flex-col leading-tight">
             <p className="font-semibold text-md">{contact.name}</p>
-            <p className="font-semibold text-base text-secondary">
+            {page === 'all-client-page' && <p className="font-semibold text-base text-secondary">
                {contact.company.name}
-            </p>
+            </p>}
             <p className="text-base text-secondary">{contact.role}</p>
          </div>
       </div>

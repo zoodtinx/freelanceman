@@ -63,6 +63,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
    const navigate = useNavigate();
 
+   console.log('project', project.tasks)
+
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();
       setFormDialogState({

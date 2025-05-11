@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Calendar } from 'lucide-react';
-import { useEventsQuery } from '@/lib/api/event-api';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { EventList } from '@/components/shared/ui/lists/EventList';
 import {
@@ -10,7 +9,6 @@ import {
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventFilterDto } from 'freelanceman-common';
-import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
 
 export default function EventSection() {
    const setFormDialogState = useFormDialogStore(
@@ -34,14 +32,15 @@ export default function EventSection() {
 
    return (
       <div className="flex flex-col grow">
-         <div className="flex w-full justify-between pb-1">
+         <div className="flex w-full justify-between p-4 pb-3">
             <div className="flex gap-1 items-center">
-               <div className="flex items-end pb-3 gap-1">
+               <div className="flex items-end gap-1">
                   <Calendar className="w-[28px] h-auto" />
                   <p className="text-xl leading-none mr-2">Events</p>
                </div>
                <ToggleGroup
                   type="single"
+                  className='pt-1'
                   value={eventFilter.status as any}
                   onValueChange={(value: any) =>
                      setEventFilter((prev) => ({ ...prev, status: value }))

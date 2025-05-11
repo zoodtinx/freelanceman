@@ -1,6 +1,6 @@
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import { TaskListPayload, TaskPayload } from 'freelanceman-common';
+import { TaskFilterDto, TaskListPayload, TaskPayload } from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useEditTask, useTasksQuery } from '@/lib/api/task-api';
@@ -8,6 +8,7 @@ import { X } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
 import {
    ApiErrorPlaceHolder,
+   LoadingPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholders/ListPlaceHolder';
 import { toast } from 'sonner';
@@ -18,11 +19,12 @@ import { forwardRef } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ListProps } from '@/lib/types/list-props.type';
 
-export const TaskList: React.FC<ListProps<TaskPayload>> = ({
+export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    addFn,
    filter,
    setFilter,
    page,
+   loader = 'skeleton'
 }) => {
    const {
       data: tasksData,
@@ -46,8 +48,12 @@ export const TaskList: React.FC<ListProps<TaskPayload>> = ({
       }
    }, [tasksData?.items.length]);
 
-   if (isLoading) {
-      return <TaskListLoader />;
+    if (isLoading) {
+      if (loader == 'skeleton') {
+         return <TaskListLoader />;
+      } else {
+         return <LoadingPlaceHolder />;
+      }
    }
 
    if (isError) {

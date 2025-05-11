@@ -7,6 +7,7 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 import { ProjectFilterDto, EditProjectDto } from 'freelanceman-common';
+import { getTimezonedDate } from '@/shared/helper/timezoned-date';
 
 @Injectable()
 export class ProjectsService {
@@ -63,6 +64,8 @@ export class ProjectsService {
     }
 
     async findMany(userId: string, filter: ProjectFilterDto) {
+        const date = getTimezonedDate()
+        
         try {
             const where = {
                 userId,
@@ -103,7 +106,7 @@ export class ProjectsService {
                         tasks: {
                             orderBy: { dueAt: 'asc' },
                             take: 1,
-                            where: { dueAt: { gte: new Date() } },
+                            where: { dueAt: { gte: date } },
                             include: {
                                 project: { select: { id: true, title: true } },
                                 client: {
