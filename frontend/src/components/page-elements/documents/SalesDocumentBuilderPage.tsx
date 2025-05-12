@@ -131,7 +131,7 @@ const SalesDocumentBuilderPage = ({
    const {
       handleSubmit,
       getValues,
-      formState: { isDirty },
+      formState: { isDirty, dirtyFields },
    } = formMethods;
 
    const onSubmit = async (data: SalesDocumentPayload) => {
@@ -152,6 +152,7 @@ const SalesDocumentBuilderPage = ({
       } else {
          const payload = getEditSalesDocumentPayload(data);
          await editSalesDoc.mutateAsync(payload);
+         window.location.reload();
       }
 
       setIsApiLoading({ type: 'submit', isLoading: false });
@@ -173,13 +174,16 @@ const SalesDocumentBuilderPage = ({
    const handleCreatePdf = async (e: React.MouseEvent) => {
       e.preventDefault();
       setIsApiLoading({ type: 'delete', isLoading: true });
-      toast.loading('Creating PDF', { id: 'loader' });
-      await createPdf.mutateAsync(salesDocumentData);
+      toast.loading('Creating PDF (this might take a while)', { id: 'loader' });
+      const result = await createPdf.mutateAsync(salesDocumentData);
       toast.dismiss('loader');
       setIsApiLoading({ type: 'delete', isLoading: false });
+      window.open(result.pdfUrl, '_blank');
    };
 
    const documentCategory = category ?? getValues('category');
+
+   console.log('dirtyFields', dirtyFields)
 
    return (
       <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-4 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-y-auto">
