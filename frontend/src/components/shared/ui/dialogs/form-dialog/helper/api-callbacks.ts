@@ -16,7 +16,6 @@ export const getApiCallBacks = ({
    setFormDialogState,
    setConfirmationDialogState,
 }: Option) => {
-   console.log('entity', entity)
    const entitySentenceCase = camelToSentenceCase(entity);
    const entityLowerCase = camelToLowerCase(entity);
 

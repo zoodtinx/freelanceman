@@ -11,7 +11,7 @@ import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
    NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { UseQueryResult } from '@tanstack/react-query';
 
 interface FileListProps {

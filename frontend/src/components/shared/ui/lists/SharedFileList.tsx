@@ -16,7 +16,7 @@ import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
    NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { EditPopover } from '@/components/shared/ui/EditPopover';
 import { UseQueryResult } from '@tanstack/react-query';
 import { FileFilterDto, FileListPayload } from 'freelanceman-common';

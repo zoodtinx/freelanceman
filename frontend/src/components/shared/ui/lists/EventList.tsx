@@ -8,7 +8,7 @@ import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
    LoadingPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { cn } from '@/lib/helper/utils';
 import { toast } from 'sonner';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
@@ -115,7 +115,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
          {page !== 'project-page' && <Separator />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
-            <div className="flex justify-center pt-3">
+            <div className="flex justify-center py-3">
                <LoadMoreButton
                   loadMoreFn={handleLoadMore}
                   isLoading={isLoading}

@@ -3,7 +3,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { UseQueryResult } from '@tanstack/react-query';
 import {
    ClientContactFilterDto,

@@ -16,7 +16,7 @@ import { SelectObject } from '@/lib/types/selector-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { cn } from '@/lib/helper/utils';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
-import { ApiErrorPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { ApiErrorPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 
 export const ProjectContactSection = ({

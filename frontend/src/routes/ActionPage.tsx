@@ -7,7 +7,7 @@ export default function ActionPage() {
          <div className="flex flex-col w-1/2 rounded-[20px] bg-foreground sm:w-full grow h-full shadow-md">
             <TasksSection />
          </div>
-         <div className="flex flex-col w-1/2 rounded-[20px] bg-foreground sm:w-full grow h-full shadow-md">
+         <div className="flex flex-col w-1/2 rounded-[20px] bg-foreground sm:w-full grow h-full shadow-md overflow-hidden">
             <EventSection />
          </div>
       </section>

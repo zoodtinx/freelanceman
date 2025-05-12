@@ -30,7 +30,7 @@ import { useDeleteSalesDocument } from '@/lib/api/sales-document-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { UseQueryResult } from '@tanstack/react-query';
-import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({

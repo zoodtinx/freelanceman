@@ -10,7 +10,7 @@ import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
    NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { toast } from 'sonner';
 import { useEffect, useRef } from 'react';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';

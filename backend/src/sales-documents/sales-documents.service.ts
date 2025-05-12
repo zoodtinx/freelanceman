@@ -214,8 +214,10 @@ export class SalesDocumentsService {
     async createPdf(userId: string, createPdfDto: CreatePdfDto) {
         console.log('createPdfDto', createPdfDto);
         const pdfBuffer = (await generatePDFBuffer(
-            createPdfDto,
+            // createPdfDto,
         )) as unknown as Readable;
+
+        console.log('pdfBuffer', pdfBuffer)
 
         if (createPdfDto.fileKey) {
             console.log('Triggered');

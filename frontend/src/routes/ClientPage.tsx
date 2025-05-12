@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { Book, Edit, Star, StickyNote } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Label } from '@/components/shared/ui/form-field-elements';
-import { NoDataPlaceHolder } from '@/components/shared/ui/placeholders/ListPlaceHolder';
+import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { toast } from 'sonner';
 import { useMemo, useState } from 'react';
 import { debounce } from 'lodash';

@@ -24,7 +24,7 @@ import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton
 import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 
 const PartnerContactLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(

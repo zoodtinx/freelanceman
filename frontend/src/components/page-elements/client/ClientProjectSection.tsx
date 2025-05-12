@@ -15,7 +15,7 @@ import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
    NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholders/ListPlaceHolder';
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { UseQueryResult } from '@tanstack/react-query';
 import { defaultProject } from '@/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';

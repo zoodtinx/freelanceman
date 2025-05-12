@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8" />
+   <title>Quotation</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <style>
+      body {
+         width: 210mm;
+         max-width: 210mm;
+         height: 297mm;
+         margin: 0 auto;
+      }
+   </style>
+</head>
+
+<body class="flex flex-col justify-between font-sans text-[12px] text-gray-800 bg-white border border-gray-200 relative">
+   <div class="flex flex-col justify-between grow p-8">
+      <div class="flex flex-col">
+         <div class="flex justify-between mb-6">
+            <div class="flex flex-col gap-3 justify-between">
+               <section class="max-w-1/3">
+                  <h2 class="font-semibold">Issued By</h2>
+                  <p>John Doe<br />john@example.com<br />Tax ID: 123456789</p>
+               </section>
+               <section class="max-w-1/3">
+                  <h2 class="font-semibold">Client Information</h2>
+                  <p>Acme Corp<br />123 Main St<br />client@example.com</p>
+               </section>
+            </div>
+            <header class="flex flex-col justify-between items-end">
+               <h1
+                  class="text-[27px] text-right font-medium text-gray-500 border-[1.5px] border-gray-300 px-4 rounded-xl justify-center w-fit">
+                  Invoice</h1>
+               <div class="flex flex-col items-end">
+                  <p class="mt-1">No: QT000019</p>
+                  <p class="mt-1">Issued: May 12, 2025</p>
+               </div>
+            </header>
+         </div>
+         <table class="mb-6 w-full border-collapse">
+            <thead>
+               <tr class="bg-gray-200">
+                  <th class="pl-3 py-1 text-left w-[5px] rounded-tl-lg rounded-bl-lg">No.</th>
+                  <th class="px-3 py-1 text-left w-1/2">Item</th>
+                  <th class="px-2 py-1 text-right">Quantity</th>
+                  <th class="px-2 py-1 text-right">Rate</th>
+                  <th class="px-3 py-1 text-right rounded-tr-lg rounded-br-lg">Total</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="border-b px-2 py-1 text-center w-3">1</td>
+                  <td class="border-b px-2 py-2">
+                     <p>Premium Business Card Design (Double-sided)</p>
+                     <p class="text-[11px] text-gray-400">High-quality, double-sided business card design with custom
+                        graphics, layout, and font selection.</p>
+                  </td>
+                  <td class="border-b px-2 py-1 text-right">3</td>
+                  <td class="border-b px-2 py-1 text-right">400</td>
+                  <td class="border-b px-2 py-1 text-right">1200</td>
+               </tr>
+               <tr>
+                  <td class="border-b px-2 py-1 text-center w-3">2</td>
+                  <td class="border-b px-2 py-2">
+                     <p>Premium Business Card Design (Double-sided)</p>
+                     <p class="text-[11px] text-gray-400">High-quality, double-sided business card design with custom
+                        graphics, layout, and font selection.</p>
+                  </td>
+                  <td class="border-b px-2 py-1 text-right">3</td>
+                  <td class="border-b px-2 py-1 text-right">400</td>
+                  <td class="border-b px-2 py-1 text-right">1200</td>
+               </tr>
+               <tr>
+                  <td class="border-b px-2 py-1 text-center w-3">3</td>
+                  <td class="border-b px-2 py-2">
+                     <p>Premium Business Card Design (Double-sided)</p>
+                     <p class="text-[11px] text-gray-400">High-quality, double-sided business card design with custom
+                        graphics, layout, and font selection.</p>
+                  </td>
+                  <td class="border-b px-2 py-1 text-right">3</td>
+                  <td class="border-b px-2 py-1 text-right">400</td>
+                  <td class="border-b px-2 py-1 text-right">1200</td>
+               </tr>
+            </tbody>
+         </table>
+         <div class="flex flex-col items-end w-full">
+            <div class="flex">
+               <p class="">Subtotal:</p>
+               <p class="w-[120px] justify-between text-right">1200 <span class="text-[11px]">THB</span></p>
+            </div>
+            <div class="flex">
+               <p class="">Discount:</p>
+               <p class="w-[120px] justify-between text-right">1200 <span class="text-[11px]">THB</span></p>
+            </div>
+            <div class="flex">
+               <p class="">Tax:</p>
+               <p class="w-[120px] justify-between text-right">1200 <span class="text-[11px]">THB</span></p>
+            </div>
+            <div class="flex">
+               <p class="">Total:</p>
+               <p class="w-[120px] justify-between text-right">1200 <span class="text-[11px]">THB</span></p>
+            </div>
+         </div>
+      </div>
+      <div class="pb-7">
+         <div>
+            <p>Payment will be considered complete once the company has received the full amount.</p>
+            <p>Cash / Cheque / Bank Transfer / Credit Card</p>
+            <div class="flex w-full py-4 pb-5">
+               <span class="flex-1 grow">Bank</span>
+               <span class="flex-1">No.</span>
+               <span class="flex-1">Date</span>
+               <span class="flex-1">Amount</span>
+            </div>
+         </div>
+         <div class="flex justify-between">
+            <div class="flex flex-col w-1/3">
+                  <p>On behalf of Acme Corps</p>
+                  <div class="flex grow gap-3">
+                     <div class="flex-col flex-1">
+                        <div class="h-16 border-b">
+                        </div>
+                        <p class="text-center mt-1">Recipent</p>
+                     </div>
+                     <div class="flex-col flex-1">
+                        <div class="h-16 border-b">
+                        </div>
+                        <p class="text-center mt-1">Date</p>
+                     </div>
+                  </div>
+            </div>
+            <div class="flex flex-col w-1/3">
+                  <p class="text-right">On behalf of John Doe</p>
+                  <div class="flex grow gap-3">
+                     <div class="flex-col flex-1">
+                        <div class="h-16 border-b">
+                        </div>
+                        <p class="text-center mt-1">Payer</p>
+                     </div>
+                     <div class="flex-col flex-1">
+                        <div class="h-16 border-b">
+                        </div>
+                        <p class="text-center mt-1">Date</p>
+                     </div>
+                  </div>
+            </div>
+         </div>
+      </div>
+      <div class="flex items-center absolute bottom-4 right-9 text-gray-400">
+         Created using FreelanceMan
+         <img class="w-9 " src="https://i.postimg.cc/Qdz9F4Gx/Artboard-1.png" alt="" srcset="">
+      </div>
+   </div>
+
+   <!-- <footer class="mt-12 text-xs text-gray-500">
+      <p>Created using FreelanceMan</p>
+   </footer> -->
+</body>
+
+</html>

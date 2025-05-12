@@ -3,6 +3,7 @@
 export default {
    darkMode: ['class'],
    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+   // content: ['/Users/zoodtinx/freelanceman/frontend/src/test/template.html'],
    safelist: [
       'bg-primary',
       'text-secondary',
