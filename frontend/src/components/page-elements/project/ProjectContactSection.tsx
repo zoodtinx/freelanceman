@@ -10,14 +10,24 @@ import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
-import { ClientContactFilterDto, ClientContactPayload, ProjectPayload } from 'freelanceman-common';
+import {
+   ClientContactFilterDto,
+   ClientContactListPayload,
+   ClientContactPayload,
+   PartnerContactListPayload,
+   ProjectPayload,
+} from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { cn } from '@/lib/helper/utils';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
-import { ApiErrorPlaceHolder, NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import {
+   ApiErrorPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
+import { UseQueryResult } from '@tanstack/react-query';
 
 export const ProjectContactSection = ({
    project,
@@ -30,32 +40,46 @@ export const ProjectContactSection = ({
 
    const setSelectorDialogState = useSelectionDialogStore(
       (state) => state.setSelectorDialogState
-   )
+   );
 
-   const [tab, setTab] = useState<'client' | 'partner'>('client')
+   const [tab, setTab] = useState<'client' | 'partner'>('client');
    const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({
-      projectId: project.id
+      projectId: project.id,
    });
 
-   const { data: clientContacts, isLoading: clientIsLoading, isError: clientIsError } =
-      useClientContactsQuery(searchOptions, tab === 'client');
-   const { data: partnerContacts, isLoading: partnerIsLoading, isError: partnerIsError } =
-      usePartnerContactsQuery(searchOptions, tab === 'partner');
+   const {
+      data: clientContacts,
+      isLoading: clientIsLoading,
+      isError: clientIsError,
+   } = useClientContactsQuery(
+      searchOptions,
+      tab === 'client'
+   ) as UseQueryResult<ClientContactListPayload>;
+   const {
+      data: partnerContacts,
+      isLoading: partnerIsLoading,
+      isError: partnerIsError,
+   } = usePartnerContactsQuery(
+      searchOptions,
+      tab === 'partner'
+   ) as UseQueryResult<PartnerContactListPayload>;
 
-   const contacts = tab === 'client' ? clientContacts : partnerContacts
-   const isLoading = tab === 'client' ? clientIsLoading : partnerIsLoading
-   const isError = tab === 'client' ? clientIsError : partnerIsError
+   const contacts = tab === 'client' ? clientContacts : partnerContacts;
+   const isLoading = tab === 'client' ? clientIsLoading : partnerIsLoading;
+   const isError = tab === 'client' ? clientIsError : partnerIsError;
 
    const handleAddContact = () => {
-      const selected = contacts.map((contact: ClientContactPayload): SelectObject => {
-         const detail = `${contact.role}, ${contact.company.name}`;
-         return {
-            id: contact.id,
-            label: contact.name,
-            value: contact.name,
-            detail: detail
+      const selected = contacts?.items.map(
+         (contact: ClientContactPayload): SelectObject => {
+            const detail = `${contact.role}, ${contact.company.name}`;
+            return {
+               id: contact.id,
+               label: contact.name,
+               value: contact.name,
+               detail: detail,
+            };
          }
-      })
+      );
 
       setSelectorDialogState({
          isOpen: true,
@@ -63,13 +87,13 @@ export const ProjectContactSection = ({
          selected: selected,
          projectId: project.id,
          tab: tab,
-         mode: contacts.length ? 'view' : 'select',
-      })
-   }
+         mode: contacts?.items.length ? 'view' : 'select',
+      });
+   };
 
    const handleTabChange = (value: string) => {
-      setTab(value as any)
-   }
+      setTab(value as any);
+   };
 
    return (
       <>
@@ -108,13 +132,17 @@ export const ProjectContactSection = ({
                <Loader2 className="animate-spin text-primary" />
             </div>
          ) : isError ? (
-            <ApiErrorPlaceHolder retryFn={() => {}}>Network Error</ApiErrorPlaceHolder>
-         ) : !contacts.length ? (
-            <NoDataPlaceHolder addFn={handleAddContact}>Add Partner Contact</NoDataPlaceHolder>
+            <ApiErrorPlaceHolder retryFn={() => {}}>
+               Network Error
+            </ApiErrorPlaceHolder>
+         ) : !contacts?.items.length ? (
+            <NoDataPlaceHolder addFn={handleAddContact}>
+               Add Partner Contact
+            </NoDataPlaceHolder>
          ) : (
             <div className="flex flex-col gap-1 h-0 grow overflow-y-auto p-3">
-               {contacts?.map((contact) => (
-                  <ContactCard key={contact.id} contact={contact} />
+               {contacts?.items.map((contact) => (
+                  <ContactCard key={contact.id} contact={contact as any} />
                ))}
             </div>
          )}
@@ -122,7 +150,7 @@ export const ProjectContactSection = ({
    );
 };
 
-export const ContactCard = ({ contact }: { contact: Contact }) => {
+export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -133,7 +161,7 @@ export const ContactCard = ({ contact }: { contact: Contact }) => {
          openedOn: 'project-page',
          type: 'client-contact',
          data: contact,
-         entity: 'clientContact'
+         entity: 'clientContact',
       });
    };
 

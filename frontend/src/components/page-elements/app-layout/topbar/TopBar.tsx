@@ -12,6 +12,7 @@ import {
    Moon,
    Settings2,
    Sun,
+   UserRound,
    UserRoundPen,
 } from 'lucide-react';
 import FreelanceManLogo from './Logo';
@@ -116,8 +117,12 @@ const SettingsPopover = () => {
       (state) => state.setFormDialogState
    );
 
-   const {data: userDataPayload, isLoading: userDataIsLoading} = useUserQuery()
-   const {data: urlDataPayload, isLoading: urlIsLoading} = useFileUrlQuery(userDataPayload?.avatar, Boolean(userDataPayload))
+   const { data: userDataPayload, isLoading: userDataIsLoading } =
+      useUserQuery() as UseQueryResult<UserPayload>;
+   const { data: urlDataPayload, isLoading: urlIsLoading } = useFileUrlQuery(
+      userDataPayload?.avatar ?? '',
+      Boolean(userDataPayload?.avatar)
+   );
 
    const userData = userDataPayload as UserPayload
 
@@ -153,8 +158,12 @@ const SettingsPopover = () => {
                <div className="w-12 h-12 overflow-hidden rounded-full">
                   {urlIsLoading ? (
                      <Skeleton className="rounded-full w-full h-full" />
-                  ) : (
+                  ) : urlDataPayload?.url ? (
                      <img src={urlDataPayload?.url} alt="" />
+                  ) : (
+                     <div className="flex bg-foreground w-full h-full items-center justify-center">
+                        <UserRound className='text-secondary w-7 h-7' />
+                     </div>
                   )}
                </div>
             </PopoverTrigger>

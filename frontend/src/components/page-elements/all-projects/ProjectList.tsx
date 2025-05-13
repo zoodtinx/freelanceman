@@ -6,9 +6,14 @@ import {
 } from '@/components/page-elements/all-projects/props.type';
 import { EllipsisVertical } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
    const { data: projects, isLoading, isError, error } = queryResult;
+   const setFormDialogState = useFormDialogStore(
+         (state) => state.setFormDialogState
+      );
 
    if (isLoading) {
       return <p>Loading</p>;
@@ -25,8 +30,22 @@ const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
       }
    }
 
-   if (!projects || projects.items.length === 0) {
-      return <p>Get started by creating a new project</p>;
+    const handleNewProject = () => {
+         setFormDialogState({
+            isOpen: true,
+            type: 'new-project',
+            mode: 'create',
+            data: { ...defaultNewProjectValue },
+            openedOn: 'global-add-button',
+            entity: 'project',
+         });
+      };
+   
+
+   if (projects || projects.items.length === 0) {
+      return <div className='flex grow h-full items-center justify-center'>
+         <NoDataPlaceHolder addFn={handleNewProject}>New Project</NoDataPlaceHolder>
+      </div>;
    }
 
    const projectTabs = projects.items.map((project) => (

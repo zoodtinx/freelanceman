@@ -21,12 +21,12 @@ export const useAppQuery = (
 
    useEffect(() => {
       if (
-         queryResult.isError &&
-         queryResult.error instanceof Error &&
-         queryResult.error.message === 'Unauthorized'
-      ) {
-         navigate('/login');
-      }
+    queryResult.isError &&
+    queryResult.error instanceof Error &&
+    queryResult.error.message === 'Unauthorized'
+  ) {
+    navigate('/login');
+  }
    }, [isError, error, navigate]);
 
    return queryResult;

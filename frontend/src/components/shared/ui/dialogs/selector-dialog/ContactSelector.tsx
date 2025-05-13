@@ -15,7 +15,7 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
-import { ClientContactFilterDto, ClientFilterDto, PartnerCompany } from 'freelanceman-common';
+import { ClientContactFilterDto, ClientContactListPayload, ClientFilterDto, PartnerCompany, PartnerContactListPayload } from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { CheckSquare2, Loader2, Plus } from 'lucide-react';
@@ -24,6 +24,7 @@ import { toast } from 'sonner';
 import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 import { useClientSelectionsQuery, useClientsQuery } from '@/lib/api/client-api';
 import { CompanyFilterBubble } from '@/components/shared/ui/select/CompanyFilterBubble';
+import { UseQueryResult } from '@tanstack/react-query';
 
 const ContactSelector = () => {
    const { selectorDialogState, setSelectorDialogState } =
@@ -45,7 +46,7 @@ const ContactSelector = () => {
    const { data: clientData, isLoading: clientIsLoading } = useClientSelectionsQuery(
       companyFilter,
       selectorDialogState.tab === 'client'
-   );
+   )
    
    const { data: partnerData, isLoading: partnerIsLoading } = useClientsQuery(
       companyFilter,
@@ -55,11 +56,11 @@ const ContactSelector = () => {
    const clientQueryResult = useClientContactsQuery(
       contactFilter,
       selectorDialogState.tab === 'client'
-   );
+   ) as UseQueryResult<ClientContactListPayload>
    const partnerQueryResult = usePartnerContactsQuery(
       contactFilter,
       selectorDialogState.tab === 'partner'
-   );
+   ) as UseQueryResult<PartnerContactListPayload>
 
    const editProject = useEditProject({
          errorCallback() {
@@ -268,7 +269,7 @@ const ContactSelectorList: React.FC<SelectionListProps> = ({
 }) => {
    const { data, isLoading } = queryResult;
    console.log('data', data)
-   const contactData = data as any[];
+   const contactData = data as ClientContactListPayload
 
    if (isLoading) {
       return (
@@ -278,10 +279,10 @@ const ContactSelectorList: React.FC<SelectionListProps> = ({
       );
    }
 
-   if (!contactData || contactData?.length === 0)
+   if (!contactData || contactData?.items.length === 0)
       return <p className="p-2">No contact</p>;
 
-   return contactData.map((contact) => {
+   return contactData.items.map((contact) => {
       const detail = `${contact.role}, ${contact.company.name}`;
       const contactData = {
          id: contact.id,

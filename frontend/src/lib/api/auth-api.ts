@@ -1,6 +1,6 @@
 interface AuthApiResponse {
-   success: boolean,
-   data: any
+   success: boolean;
+   data: any;
 }
 
 interface registerUserRequestPayload {
@@ -10,7 +10,7 @@ interface registerUserRequestPayload {
 
 interface RegisterUserResponsePayload {
    accessToken: string;
-   user: any
+   user: any;
 }
 
 export async function register(
@@ -24,7 +24,7 @@ export async function register(
       body: JSON.stringify(payload),
    });
 
-   return res.json();
+   return await res.json();
 }
 
 export async function login(
@@ -35,19 +35,62 @@ export async function login(
       headers: {
          'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(payload),
+   });
+
+   if (!res.ok) {
+      throw new Error('Session expired');
+   }
+
+   for (const [key, value] of res.headers.entries()) {
+      console.log(key, value);
+   }
+
+   return {
+      success: true,
+      data: await res.json(),
+   };
+}
+
+export async function refreshAccess(): Promise<AuthApiResponse> {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/refresh`, {
+      method: 'GET',
+      credentials: 'include',
+   });
+
+   console.log('res.ok', res.ok)
+
+   if (!res.ok) {
+      return {
+         success: false,
+         data: await res.json(),
+      };
+   }
+
+   return {
+      success: true,
+      data: await res.json(),
+   };
+}
+
+export async function checkAccess(token: string) {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/check`, {
+      method: 'GET',
+      headers: {
+         'Authorization': `Bearer ${token}`,
+      },
    });
 
    if (!res.ok) {
       return {
          success: false,
-         data: res.json()
-      }
+         data: await res.json(),
+      };
    }
 
    return {
       success: true,
-      data: res.json()
-   }
+      data: await res.json(),
+   };
 }
-

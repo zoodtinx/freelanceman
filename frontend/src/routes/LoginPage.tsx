@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 const RegisterPage: React.FC = () => {
    const navigate = useNavigate()
-   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+   // const setAccessToken = useAuthStore((state) => state.setAccessToken);
+   const {setAccessToken, accessToken} = useAuthStore();
 
    const formMethods = useForm();
    const {
@@ -32,9 +33,12 @@ const RegisterPage: React.FC = () => {
       console.log('payload', payload)
 
       const result = await login(payload);
+      console.log('result', result)
 
       if (result.success) {
-         setAccessToken(result.data.accessToken);
+         console.log('result.data.accessTokenString', result.data.accessTokenString)
+         setAccessToken(result.data.accessTokenString);
+         console.log('accessToken', accessToken)
          navigate('/home');
       }
    };

@@ -36,7 +36,7 @@ import {
             `Success Response:
             Status: ${response.statusCode}
             Duration: ${Date.now() - now}ms
-            Body: ${JSON.stringify(responseBody).slice(0, 200)}${JSON.stringify(responseBody).length > 200 ? '... (truncated)' : ''}`
+            Body: ${safeJsonPreview(responseBody)}`
           );
        }),
        // Error logging (including guard failures)
@@ -58,3 +58,12 @@ import {
      );
    }
  }
+
+ function safeJsonPreview(data: any): string {
+  try {
+    const json = JSON.stringify(data);
+    return json.length > 200 ? json.slice(0, 200) + '... (truncated)' : json;
+  } catch {
+    return '[Unserializable response body]';
+  }
+}

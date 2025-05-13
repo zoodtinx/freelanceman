@@ -10,7 +10,7 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common';
-import { Request as ExpressRequest, Response } from 'express';
+import { Request as ExpressRequest, Request, Response } from 'express';
 import {
     JwtAccessTokenAuthGuard,
     LocalAuthGuard,
@@ -43,16 +43,14 @@ export class AuthController {
     ) {}
 
     @UseGuards(JwtAccessTokenAuthGuard)
-    @Post('check')
-    checkAuth(@Req() req: Request) {
-        return { user: { email: 'zoodtinx@gmail.com' } };
+    @Get('check')
+    checkAuth() {
+        return { ok: true };
     }
 
     @Get('refresh')
     async refreshAccessToken(@Req() req: ExpressRequest, @Res() res: Response) {
         const refreshToken = req.cookies?.refreshToken;
-        console.log('headers', req.headers);
-        console.log('parsed cookie', req.cookies);
 
         if (!refreshToken) {
             throw new UnauthorizedException('No refresh token found');
@@ -62,10 +60,15 @@ export class AuthController {
             await this.tokenService.refreshAccessToken(refreshToken);
         const { newAccessToken, newRefreshToken, user } = refreshResult;
 
+        console.log('newRefreshToken', newRefreshToken)
+
         res.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
+            secure: false,
+            sameSite: 'lax',
+            priority: 'high',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60 * 1000, 
         });
 
         res.json({ newAccessToken, user });
@@ -73,30 +76,30 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post('login')
+    @HttpCode(200)
     @UsePipes(new ZodValidationPipe(loginUserSchema))
-    async login(@Req() req: Request, @Res() res: Response) {
+    async login(@Req() req: Request) {
         const loginResult = await this.localAuthService.login(req);
-        const { accessTokenString, refreshTokenString, user } = loginResult;
+        const { accessTokenString, refreshTokenString } = loginResult;
 
-        res.cookie('refreshToken', refreshTokenString, {
+        req.res?.cookie('refreshToken', refreshTokenString, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
+            secure: false,
+            sameSite: 'lax',
+            priority: 'high',
+            domain: 'localhost',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60 * 1000, 
         });
 
-        res.status(200);
-
-        return res.json({ accessTokenString, user });
+        return { accessTokenString };
     }
 
     @Post('register')
     @UsePipes(new ZodValidationPipe(registerUserSchema))
-    async register(
-        @Body() registerUserDto: RegisterUserDto,
-        @Res() res: Response,
-    ) {
+    async register(@Body() registerUserDto: RegisterUserDto) {
         const result = await this.localAuthService.register(registerUserDto);
-        return res.status(201).json(result);
+        return result;
     }
 
     @Post('reset-password-request')
@@ -105,8 +108,9 @@ export class AuthController {
         @Body(new ZodValidationPipe(resetPasswordRequestSchema))
         payload: ResetPasswordRequestDto,
     ) {
-        const result = await this.localAuthService.resetPasswordRequest(payload)
-        return { success: true }
+        const result =
+            await this.localAuthService.resetPasswordRequest(payload);
+        return { success: true };
     }
 
     @Post('reset-password')
@@ -116,7 +120,7 @@ export class AuthController {
         payload: ResetPasswordDto,
     ) {
         const result = await this.localAuthService.resetPassword(payload);
-        return { success: true }
+        return { success: true };
     }
 
     @UseGuards(AuthGuard('google'))

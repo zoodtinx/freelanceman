@@ -725,6 +725,11 @@ html[lang="th"] {
   margin-bottom: 1rem;
 }
 
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -1382,6 +1387,10 @@ html[lang="th"] {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-36 {
+  width: 9rem;
 }
 
 .min-w-10 {
@@ -2242,6 +2251,11 @@ html[lang="th"] {
   background-color: rgb(254 240 138 / var(--tw-bg-opacity, 1));
 }
 
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -2351,6 +2365,14 @@ html[lang="th"] {
 
 .p-\[6px\] {
   padding: 6px;
+}
+
+.p-56 {
+  padding: 14rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
 }
 
 .\!py-2 {
@@ -2800,6 +2822,10 @@ html[lang="th"] {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-general-blue {
+  color: var(--freelanceman-general-blue);
 }
 
 .underline-offset-4 {

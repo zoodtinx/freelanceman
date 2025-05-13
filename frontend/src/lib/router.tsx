@@ -17,7 +17,8 @@ import RegisterPage from '@/routes/RegisterPage';
 export const router = createBrowserRouter([
    {
       path: '/',
-      element: <Navigate to={'home/projects'} />,
+      element: <></>,
+      children: [],
    },
    {
       path: '/login',
@@ -44,7 +45,11 @@ export const router = createBrowserRouter([
                },
                {
                   path: ':projectId',
-                  errorElement: <p className='w-full h-full flex justify-center items-center'>Error</p>,
+                  errorElement: (
+                     <p className="w-full h-full flex justify-center items-center">
+                        Error
+                     </p>
+                  ),
                   element: <ProjectPage />,
                },
             ],
@@ -93,27 +98,33 @@ export const router = createBrowserRouter([
                         children: [
                            {
                               path: ':projectId',
-                              element: <SalesDocumentBuilderPage category="quotation" />,
-                           }
-                        ]
+                              element: (
+                                 <SalesDocumentBuilderPage category="quotation" />
+                              ),
+                           },
+                        ],
                      },
                      {
                         path: 'invoice',
                         children: [
                            {
                               path: ':projectId',
-                              element: <SalesDocumentBuilderPage category="invoice" />,
-                           }
-                        ]
+                              element: (
+                                 <SalesDocumentBuilderPage category="invoice" />
+                              ),
+                           },
+                        ],
                      },
                      {
                         path: 'receipt',
                         children: [
                            {
                               path: ':projectId',
-                              element: <SalesDocumentBuilderPage category="receipt" />,
-                           }
-                        ]
+                              element: (
+                                 <SalesDocumentBuilderPage category="receipt" />
+                              ),
+                           },
+                        ],
                      },
                   ],
                },
