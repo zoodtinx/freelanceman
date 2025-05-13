@@ -150,7 +150,7 @@ const SettingsPopover = () => {
          {!userDataIsLoading && (
             <div className="flex flex-col leading-tight items-end">
                <p>Good morning</p>
-               <p className="text-md font-semibold">{userData.displayName}</p>
+               <p className="text-md font-semibold">{userData?.displayName}</p>
             </div>
          )}
          <Popover>

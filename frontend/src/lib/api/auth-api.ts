@@ -43,10 +43,6 @@ export async function login(
       throw new Error('Session expired');
    }
 
-   for (const [key, value] of res.headers.entries()) {
-      console.log(key, value);
-   }
-
    return {
       success: true,
       data: await res.json(),
@@ -58,8 +54,6 @@ export async function refreshAccess(): Promise<AuthApiResponse> {
       method: 'GET',
       credentials: 'include',
    });
-
-   console.log('res.ok', res.ok)
 
    if (!res.ok) {
       return {

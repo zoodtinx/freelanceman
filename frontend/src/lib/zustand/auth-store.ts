@@ -6,8 +6,8 @@ type State = {
 };
 
 const useAuthStore = create<State>((set) => ({
-   accessToken: '',
-      // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYzlmZjExYS02ZGNhLTQ4M2UtYmIwNi0xMTI5MDIwYzM5MzYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NDI4ODQ0NywiZXhwIjoxNzQ5NDcyNDQ3fQ.shQAOme77Y2TVlpM5L_ALNWyN7uUXyheEUA73i7VGi8',
+   // accessToken: '',
+   accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYzlmZjExYS02ZGNhLTQ4M2UtYmIwNi0xMTI5MDIwYzM5MzYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NDI4ODQ0NywiZXhwIjoxNzQ5NDcyNDQ3fQ.shQAOme77Y2TVlpM5L_ALNWyN7uUXyheEUA73i7VGi8',
 
    setAccessToken: (update) =>
       set((state) => ({

@@ -14,7 +14,7 @@ export const useAppQuery = (
    const queryResult = useQuery({
       queryKey,
       queryFn: () => queryFn(accessToken),
-      enabled
+      enabled: Boolean(accessToken) && enabled
    });
 
    const { isError, error } = queryResult;

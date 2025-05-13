@@ -42,13 +42,13 @@ const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
       };
    
 
-   if (projects || projects.items.length === 0) {
+   if (projects || projects?.items?.length === 0) {
       return <div className='flex grow h-full items-center justify-center'>
          <NoDataPlaceHolder addFn={handleNewProject}>New Project</NoDataPlaceHolder>
       </div>;
    }
 
-   const projectTabs = projects.items.map((project) => (
+   const projectTabs = projects?.items?.map((project) => (
       <ProjectTab project={project} key={project.id} />
    ));
 

@@ -13,147 +13,154 @@ import IncomePage from 'src/routes/IncomePage';
 import SalesDocumentBuilderPage from '@/components/page-elements/documents/SalesDocumentBuilderPage';
 import LoginPage from '@/routes/LoginPage';
 import RegisterPage from '@/routes/RegisterPage';
+import RootPage from '@/routes/RootPage';
 
 export const router = createBrowserRouter([
    {
       path: '/',
-      element: <></>,
-      children: [],
-   },
-   {
-      path: '/login',
-      element: <LoginPage />,
-   },
-   {
-      path: '/register',
-      element: <RegisterPage />,
-   },
-   {
-      path: '/home',
-      element: <Home />,
+      element: <RootPage />,
       children: [
          {
-            path: '',
-            element: <Navigate to={'projects'} />,
-         },
-         {
-            path: 'projects',
+            path: 'user',
             children: [
                {
-                  path: '',
-                  element: <AllProjectPage />,
+                  path: 'login',
+                  element: <LoginPage />,
                },
                {
-                  path: ':projectId',
-                  errorElement: (
-                     <p className="w-full h-full flex justify-center items-center">
-                        Error
-                     </p>
-                  ),
-                  element: <ProjectPage />,
+                  path: 'register',
+                  element: <RegisterPage />,
                },
             ],
          },
          {
-            path: 'actions',
-            element: <ActionPage />,
-         },
-         {
-            path: 'clients',
+            path: 'home',
+            element: <Home />,
             children: [
                {
                   path: '',
-                  element: <AllClientsPage />,
+                  element: <Navigate to={'projects'} />,
                },
                {
-                  path: ':clientId',
-                  element: <ClientPage />,
-               },
-            ],
-         },
-         {
-            path: 'partners',
-            element: <PartnersPage />,
-         },
-         {
-            path: 'files',
-            element: <FilePage />,
-         },
-         {
-            path: 'income',
-            children: [
-               {
-                  path: '',
-                  element: <IncomePage />,
-               },
-               {
-                  path: 'document',
+                  path: 'projects',
                   children: [
                      {
-                        path: ':id',
-                        element: <SalesDocumentBuilderPage />,
+                        path: '',
+                        element: <AllProjectPage />,
                      },
                      {
-                        path: 'quotation',
+                        path: ':projectId',
+                        errorElement: (
+                           <p className="w-full h-full flex justify-center items-center">
+                              Error
+                           </p>
+                        ),
+                        element: <ProjectPage />,
+                     },
+                  ],
+               },
+               {
+                  path: 'actions',
+                  element: <ActionPage />,
+               },
+               {
+                  path: 'clients',
+                  children: [
+                     {
+                        path: '',
+                        element: <AllClientsPage />,
+                     },
+                     {
+                        path: ':clientId',
+                        element: <ClientPage />,
+                     },
+                  ],
+               },
+               {
+                  path: 'partners',
+                  element: <PartnersPage />,
+               },
+               {
+                  path: 'files',
+                  element: <FilePage />,
+               },
+               {
+                  path: 'income',
+                  children: [
+                     {
+                        path: '',
+                        element: <IncomePage />,
+                     },
+                     {
+                        path: 'document',
                         children: [
                            {
-                              path: ':projectId',
-                              element: (
-                                 <SalesDocumentBuilderPage category="quotation" />
-                              ),
+                              path: ':id',
+                              element: <SalesDocumentBuilderPage />,
                            },
-                        ],
-                     },
-                     {
-                        path: 'invoice',
-                        children: [
                            {
-                              path: ':projectId',
-                              element: (
-                                 <SalesDocumentBuilderPage category="invoice" />
-                              ),
+                              path: 'quotation',
+                              children: [
+                                 {
+                                    path: ':projectId',
+                                    element: (
+                                       <SalesDocumentBuilderPage category="quotation" />
+                                    ),
+                                 },
+                              ],
                            },
-                        ],
-                     },
-                     {
-                        path: 'receipt',
-                        children: [
                            {
-                              path: ':projectId',
-                              element: (
-                                 <SalesDocumentBuilderPage category="receipt" />
-                              ),
+                              path: 'invoice',
+                              children: [
+                                 {
+                                    path: ':projectId',
+                                    element: (
+                                       <SalesDocumentBuilderPage category="invoice" />
+                                    ),
+                                 },
+                              ],
+                           },
+                           {
+                              path: 'receipt',
+                              children: [
+                                 {
+                                    path: ':projectId',
+                                    element: (
+                                       <SalesDocumentBuilderPage category="receipt" />
+                                    ),
+                                 },
+                              ],
                            },
                         ],
                      },
                   ],
                },
-            ],
-         },
-         {
-            path: 'notes',
-            element: <QuickNotesPage />,
-         },
-         {
-            path: ':projectId',
-            element: <ProjectPage />,
-            children: [
                {
-                  path: '',
-                  element: <div>Hello</div>,
+                  path: 'notes',
+                  element: <QuickNotesPage />,
                },
                {
-                  path: 'tasks',
-                  element: <ProjectTasksPage />,
-               },
-               {
-                  path: 'files',
-               },
-               {
-                  path: 'documents',
-               },
-               {
-                  path: 'materials',
+                  path: ':projectId',
+                  element: <ProjectPage />,
+                  children: [
+                     {
+                        path: '',
+                        element: <div>Hello</div>,
+                     },
+                     {
+                        path: 'tasks',
+                        element: <ProjectTasksPage />,
+                     },
+                     {
+                        path: 'files',
+                     },
+                     {
+                        path: 'documents',
+                     },
+                     {
+                        path: 'materials',
+                     },
+                  ],
                },
             ],
          },
