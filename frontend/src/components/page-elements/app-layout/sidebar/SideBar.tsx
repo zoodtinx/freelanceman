@@ -14,9 +14,11 @@ export default function SideBar() {
                <SideBarTab tab="files" />
                <SideBarTab tab="income" />
             </ul>
+         </div>
+         <div className='grow overflow-y-auto'>
             <PinnedProjects />
          </div>
-         <div className="flex flex-col gap-5 items-center w-full mb-5">
+         <div className="flex flex-col gap-5 items-center w-full mb-5 shrink-0">
             <GlobalAddButton />
          </div>
       </nav>

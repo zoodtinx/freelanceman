@@ -37,15 +37,16 @@ const passwords = [
 
 export const mockUserRecords = [
     {
+        id: uuidv4(),
         displayName: 'John Doe',
         password: passwords[0].hashed,
-        email: 'alice.sssmidfdfth@example.com',
+        email: uuidv4(),
         specialization: ['Graphic Design', 'Illustration'],
         pinnedProjects: [],
         quitting: false,
     },
     {
-        id: 'e1e71ab4-1506-49f4-8760-eeada600ac70',
+        id: uuidv4(),
         displayName: 'Alice Smith',
         password: passwords[1].hashed,
         email: 'alice.smith@example.com',
@@ -54,7 +55,7 @@ export const mockUserRecords = [
         quitting: false,
     },
     {
-        id: '8b9d34f0-e9ad-4f0e-b766-d9d6b4244db1',
+        id: uuidv4(),
         displayName: 'Bob Johnson',
         password: passwords[2].hashed,
         email: 'bob.johnson@example.com',

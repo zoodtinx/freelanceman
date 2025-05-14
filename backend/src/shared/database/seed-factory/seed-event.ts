@@ -384,6 +384,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
     projectData: ProjectsData,
 ) => [
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Campaign Kickoff',
         status: 'scheduled',
         details:
@@ -395,6 +396,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['meeting', 'kickoff', 'strategy'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Content Creation - Phase 1',
         status: 'scheduled',
         details:
@@ -406,6 +408,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['content', 'creation', 'social media'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Brand Collaboration Announcement',
         status: 'completed',
         details:
@@ -417,6 +420,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['announcement', 'collaboration', 'partnership'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'First Campaign Ad Launch',
         status: 'scheduled',
         details:
@@ -428,6 +432,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['ad', 'launch', 'marketing'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'User-Generated Content Campaign',
         status: 'completed',
         details:
@@ -439,6 +444,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['user-generated', 'content', 'engagement'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Live Q&A with Farmers',
         status: 'scheduled',
         details:
@@ -450,6 +456,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['live', 'q&a', 'engagement'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Mid-Campaign Performance Review',
         status: 'cancelled',
         details: 'Midway review to assess campaign performance, now cancelled.',
@@ -460,6 +467,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['review', 'cancelled', 'performance'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Behind-the-Scenes Content',
         status: 'scheduled',
         details:
@@ -471,6 +479,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['behind-the-scenes', 'content', 'organic farm'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Campaign Wrap-Up and Thank You',
         status: 'completed',
         details:
@@ -482,6 +491,7 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['wrap-up', 'thank-you', 'campaign'],
     },
     {
+        ...projectData['Social Media Campaign for Organic Farm'],
         name: 'Final Performance Analysis',
         status: 'scheduled',
         details: 'Analyzing final campaign performance and preparing a report.',
@@ -492,8 +502,10 @@ const seedSocialMediaCampaignForOrganicFarmData = (
         tags: ['analysis', 'report', 'performance'],
     },
 ];
+
 const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Design Brief Meeting',
         status: 'scheduled',
         details:
@@ -505,6 +517,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['meeting', 'brief', 'design'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Concept Sketches Review',
         status: 'scheduled',
         details: 'Reviewing initial concept sketches for the packaging design.',
@@ -515,6 +528,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['design', 'review', 'concept'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Packaging Material Sourcing',
         status: 'completed',
         details: 'Sourcing eco-friendly materials for the Thai tea packaging.',
@@ -525,6 +539,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['material', 'sourcing', 'eco-friendly'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Final Packaging Design Presentation',
         status: 'scheduled',
         details:
@@ -536,6 +551,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['presentation', 'design', 'final'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Prototype Printing',
         status: 'scheduled',
         details:
@@ -547,6 +563,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['printing', 'prototype', 'review'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Production Approval',
         status: 'completed',
         details:
@@ -558,6 +575,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['approval', 'production', 'client'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Packaging Photoshoot',
         status: 'scheduled',
         details:
@@ -569,6 +587,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['photoshoot', 'marketing', 'packaging'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Campaign Launch - Packaging Reveal',
         status: 'scheduled',
         details:
@@ -580,6 +599,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['launch', 'campaign', 'reveal'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Client Feedback on Final Design',
         status: 'cancelled',
         details: 'Scheduled feedback session with the client, now cancelled.',
@@ -590,6 +610,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['feedback', 'cancelled', 'client'],
     },
     {
+        ...projectData['Packaging Design for Thai Tea Brand'],
         name: 'Packaging Design for Retail Shelf',
         status: 'scheduled',
         details:
@@ -601,6 +622,7 @@ const seedPackagingDesignForThaiTeaBrandData = (projectData: ProjectsData) => [
         tags: ['retail', 'design', 'shelf'],
     },
 ];
+
 const seedAnnualReportForGreenEnergyCorpData = (projectData: ProjectsData) => [
     {
         ...projectData['Annual Report for Green Energy Corp.'],

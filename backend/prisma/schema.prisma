@@ -84,7 +84,7 @@ model ClientContact {
   name        String
   role        String?
   phoneNumber String?
-  email       String?                  @unique
+  email       String?                  
   details     String?
   avatar      String?
   companyId   String
@@ -99,8 +99,8 @@ model PartnerCompany {
   id          String           @id @default(uuid())
   userId      String
   name        String
-  taxId       String?          @unique
-  email       String?          @unique
+  taxId       String?          
+  email       String?          
   phoneNumber String?
   address     String?
   detail      String?
@@ -117,7 +117,7 @@ model PartnerContact {
   companyId   String
   role        String?
   phoneNumber String?
-  email       String?                   @unique
+  email       String?                   
   details     String?
   avatar      String?
   createdAt   DateTime                  @default(now())

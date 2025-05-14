@@ -14,6 +14,7 @@ import {
    Moon,
    Settings2,
    Sun,
+   TimerReset,
    UserRound,
    UserRoundPen,
 } from 'lucide-react';
@@ -64,13 +65,15 @@ export default function TopBar() {
 
    return (
       <header
-         className={`flex flex-shrink-0 h-[63px] w-full items-center justify-between px-3
-                     md:h-[82px]
+         className={`flex flex-shrink-0 h-[80px] w-full items-center justify-between px-4
+                     md:h-[82px] rounded-xl
                      sm:h-[62px] sm:px-3 sm:sticky sm:top-0 sm:z-50 sm:backdrop-blur sm:bg-opacity-60 sm:dark:bg-header-dark sm:dark:bg-opacity-60
                   `}
       >
-         <FreelanceManLogo />
-         <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-foreground h-[37px] sm:h-[43px] w-auto rounded-full px-4 sm:hidden">
+         <div className='pl-1'>
+            <SettingsPopover />
+         </div>
+         <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-tertiary h-[37px] sm:h-[43px] w-auto rounded-full px-6 sm:hidden">
             <p>{formattedDate}</p>
             <CountDisplay
                icon={CircleCheck}
@@ -83,9 +86,7 @@ export default function TopBar() {
                queryResult={eventQueryResult}
             />
          </div>
-         <div className="h-[55px] items-center flex gap-2">
-            <SettingsPopover />
-         </div>
+         <FreelanceManLogo />
       </header>
    );
 }
@@ -161,19 +162,13 @@ const SettingsPopover = () => {
 
    return (
       <div className="flex gap-2 items-center">
-         {!userDataIsLoading && (
-            <div className="flex flex-col leading-tight items-end">
-               <p>Good morning</p>
-               <p className="text-md font-semibold">{userData?.displayName}</p>
-            </div>
-         )}
          <Popover>
             <PopoverTrigger asChild>
                <div className="w-12 h-12 overflow-hidden rounded-full">
                   {urlIsLoading ? (
                      <Skeleton className="rounded-full w-full h-full" />
                   ) : urlDataPayload?.url ? (
-                     <img src={urlDataPayload?.url} alt="" />
+                     <img src={urlDataPayload?.url} alt="" className="w-full h-full object-cover bg-tertiary" />
                   ) : (
                      <div className="flex bg-foreground w-full h-full items-center justify-center">
                         <UserRound className="text-secondary w-7 h-7" />
@@ -181,7 +176,7 @@ const SettingsPopover = () => {
                   )}
                </div>
             </PopoverTrigger>
-            <PopoverContent className="w-[250px] bg-foreground border-tertiary flex flex-col rounded-xl cursor-default select-none">
+            <PopoverContent className="w-[250px] bg-foreground border-tertiary flex flex-col rounded-xl cursor-default select-none ml-3">
                <div className="flex items-center gap-[5px] justify-between">
                   <div className="flex items-center gap-[5px] pl-1">
                      <Eclipse className="h-4 w-4" />
@@ -224,6 +219,12 @@ const SettingsPopover = () => {
                      <p>Get Account</p>
                   </div>
                </div>
+               <div className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75">
+                  <div className="flex items-center gap-[5px] pl-1 p-1">
+                     <TimerReset className="h-4 w-4" />
+                     <p>Reset Demo</p>
+                  </div>
+               </div>
                <div onClick={handleSignOut} className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75 text-button-red">
                   <div className="flex items-center gap-[5px] pl-1 p-1">
                      <LogOut className="h-4 w-4" />
@@ -232,6 +233,12 @@ const SettingsPopover = () => {
                </div>
             </PopoverContent>
          </Popover>
+         {!userDataIsLoading && (
+            <div className="flex flex-col leading-tight">
+               <p>Good morning</p>
+               <p className="text-md font-semibold">{userData?.displayName}</p>
+            </div>
+         )}
       </div>
    );
 };

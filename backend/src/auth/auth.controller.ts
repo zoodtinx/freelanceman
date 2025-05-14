@@ -32,6 +32,7 @@ import {
 } from 'freelanceman-common';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
+import { DemoService } from '@/demo/demo.service';
 
 @Controller('auth')
 export class AuthController {
@@ -40,6 +41,7 @@ export class AuthController {
         private tokenService: TokenService,
         private googleOAuthService: GoogleOAuthService,
         private configService: ConfigService,
+        private demoService: DemoService
     ) {}
 
     @UseGuards(JwtAccessTokenAuthGuard)
@@ -49,20 +51,29 @@ export class AuthController {
     }
 
     @Get('refresh')
-    async refreshAccessToken(@Req() req: ExpressRequest, @Res() res: Response) {
+    async refreshAccessToken(@Req() req: ExpressRequest) {
         const refreshToken = req.cookies?.refreshToken;
 
         if (!refreshToken) {
-            throw new UnauthorizedException('No refresh token found');
+            const { accessToken, refreshToken, user } =
+                await this.demoService.resolveNewDemoUser();
+                console.log('refreshToken', refreshToken)
+            req.res?.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                priority: 'high',
+                path: '/',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            });
+            return { newAccessToken: accessToken };
         }
 
         const refreshResult =
             await this.tokenService.refreshAccessToken(refreshToken);
         const { newAccessToken, newRefreshToken, user } = refreshResult;
 
-        console.log('newRefreshToken', newRefreshToken)
-
-        res.cookie('refreshToken', newRefreshToken, {
+        req.res?.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
@@ -71,7 +82,7 @@ export class AuthController {
             maxAge: 7 * 24 * 60 * 60 * 1000, 
         });
 
-        res.json({ newAccessToken, user });
+        req.res?.json({ newAccessToken, user });
     }
 
     @UseGuards(LocalAuthGuard)

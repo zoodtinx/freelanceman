@@ -8,11 +8,13 @@ import { LocalStrategy } from 'src/auth/strategies/local.strategy';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { RefreshTokenStrategy } from 'src/auth/strategies/refresh.strategy';
 import { MailModule } from 'src/shared/email/email.module';
+import { DemoModule } from '@/demo/demo.module';
 
 @Module({
     imports: [
         MailModule,
         PassportModule,
+        DemoModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

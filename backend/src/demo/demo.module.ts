@@ -7,7 +7,6 @@ import { DemoService } from 'src/demo/demo.service';
 
 @Module({
     imports: [
-        AuthModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

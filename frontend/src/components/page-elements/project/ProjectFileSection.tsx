@@ -53,7 +53,6 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
 
    const handleTabChange = (tab: 'work' | 'asset') => {
       setTab(tab);
-      console.log('category', tab);
       setFileFilter((prev) => {
          return {
             ...prev,
@@ -70,8 +69,6 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
          };
       });
    };
-
-   console.log('fileFilter', fileFilter);
 
    const placeholder =
       tab === 'work' ? 'Add Working File' : 'Add Project Asset';

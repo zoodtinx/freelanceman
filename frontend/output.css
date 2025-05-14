@@ -695,6 +695,18 @@ html[lang="th"] {
   margin: 0.75rem;
 }
 
+.m-2 {
+  margin: 0.5rem;
+}
+
+.m-4 {
+  margin: 1rem;
+}
+
+.m-1 {
+  margin: 0.25rem;
+}
+
 .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
@@ -1104,6 +1116,18 @@ html[lang="th"] {
   height: 100vh;
 }
 
+.h-\[70px\] {
+  height: 70px;
+}
+
+.h-\[80px\] {
+  height: 80px;
+}
+
+.h-\[82px\] {
+  height: 82px;
+}
+
 .max-h-52 {
   max-height: 13rem;
 }
@@ -1399,6 +1423,30 @@ html[lang="th"] {
 
 .w-36 {
   width: 9rem;
+}
+
+.w-\[px\] {
+  width: px;
+}
+
+.w-\[85px\] {
+  width: 85px;
+}
+
+.w-\[65px\] {
+  width: 65px;
+}
+
+.w-\[105px\] {
+  width: 105px;
+}
+
+.w-\[57px\] {
+  width: 57px;
+}
+
+.w-\[103px\] {
+  width: 103px;
 }
 
 .min-w-10 {
@@ -2522,6 +2570,11 @@ html[lang="th"] {
   padding-right: 7px;
 }
 
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .\!pl-3 {
   padding-left: 0.75rem !important;
 }
@@ -3158,6 +3211,10 @@ html[lang="th"] {
 
 .hover\:bg-tertiary:hover {
   background-color: hsl(var(--tertiary));
+}
+
+.hover\:bg-general-red:hover {
+  background-color: var(--freelanceman-general-red);
 }
 
 .hover\:text-accent-foreground:hover {

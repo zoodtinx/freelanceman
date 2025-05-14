@@ -25,7 +25,7 @@ export const useAppQuery = (
     queryResult.error instanceof Error &&
     queryResult.error.message === 'Unauthorized'
   ) {
-    navigate('/login');
+    navigate('/user/login');
   }
    }, [isError, error, navigate]);
 

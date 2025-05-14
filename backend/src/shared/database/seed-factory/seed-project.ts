@@ -22,10 +22,7 @@ export const panyaDesignWorkProjects = (
         budget: 50000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.thai-coffee.com',
-            'https://www.behance.net/brandidentity',
-        ],
+
         note: 'Working on a complete rebrand, including logo, packaging, and website.',
         userId: userId,
         clientId: clientId['Panya Design Works'],
@@ -36,10 +33,7 @@ export const panyaDesignWorkProjects = (
         budget: 120000,
         projectStatus: 'on-hold',
         paymentStatus: 'processing',
-        links: [
-            'https://www.siamfashion.com',
-            'https://www.behance.net/webdesign',
-        ],
+
         note: 'Waiting for client approval on the final mockups before starting development.',
         userId: userId,
         clientId: clientId['Panya Design Works'],
@@ -50,10 +44,7 @@ export const panyaDesignWorkProjects = (
         budget: 85000,
         projectStatus: 'active',
         paymentStatus: 'paid',
-        links: [
-            'https://www.thaiartgallery.com',
-            'https://www.behance.net/artwebsite',
-        ],
+
         note: 'Site completed with integrated online store and payment gateway.',
         userId: userId,
         pinned: false,
@@ -64,10 +55,7 @@ export const panyaDesignWorkProjects = (
         budget: 30000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.organicfarm.com',
-            'https://www.behance.net/socialmedia',
-        ],
+
         note: 'Full social media package delivered, including content and design.',
         userId: userId,
         pinned: true,
@@ -78,10 +66,7 @@ export const panyaDesignWorkProjects = (
         budget: 45000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.thaitea.com',
-            'https://www.behance.net/packagingdesign',
-        ],
+
         note: 'Designing packaging for a new range of products.',
         userId: userId,
         pinned: false,
@@ -92,10 +77,7 @@ export const panyaDesignWorkProjects = (
         budget: 70000,
         projectStatus: 'on-hold',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.greenenergy.com',
-            'https://www.behance.net/reportdesign',
-        ],
+
         note: 'Waiting for final data before proceeding with design.',
         userId: userId,
         pinned: false,
@@ -112,10 +94,7 @@ export const lotusRiverHotelProject = (
         budget: 60000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.lotusriverhotel.com',
-            'https://www.behance.net/webdesign',
-        ],
+
         note: 'Redesigning the hotel booking interface and improving mobile responsiveness.',
         userId: userId,
         pinned: true,
@@ -126,10 +105,7 @@ export const lotusRiverHotelProject = (
         budget: 100000,
         projectStatus: 'on-hold',
         paymentStatus: 'processing',
-        links: [
-            'https://www.lotusriverhotel.com',
-            'https://www.behance.net/branding',
-        ],
+
         note: 'Designing a luxury suite brand identity including logo, brochures, and website.',
         userId: userId,
         pinned: false,
@@ -140,10 +116,7 @@ export const lotusRiverHotelProject = (
         budget: 75000,
         projectStatus: 'active',
         paymentStatus: 'paid',
-        links: [
-            'https://www.lotusriverhotel.com',
-            'https://www.behance.net/ecommerce',
-        ],
+
         note: 'Integrating room packages into an online store for easy booking.',
         userId: userId,
         pinned: false,
@@ -154,10 +127,7 @@ export const lotusRiverHotelProject = (
         budget: 25000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.lotusriverhotel.com',
-            'https://www.behance.net/socialmedia',
-        ],
+
         note: 'Creating promotional social media posts and ads for peak season discounts.',
         userId: userId,
         pinned: true,
@@ -168,10 +138,7 @@ export const lotusRiverHotelProject = (
         budget: 90000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.lotusriverhotel.com',
-            'https://www.behance.net/interiordesign',
-        ],
+
         note: 'Designing the interior layout and decoration for a modern hotel lobby.',
         userId: userId,
         pinned: false,
@@ -182,10 +149,7 @@ export const lotusRiverHotelProject = (
         budget: 50000,
         projectStatus: 'on-hold',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.lotusriverhotel.com',
-            'https://www.behance.net/reportdesign',
-        ],
+
         note: 'Creating an annual report highlighting the hotel’s yearly performance and achievements.',
         userId: userId,
         pinned: false,
@@ -202,10 +166,7 @@ export const lannaAssociatesProjects = (
         budget: 120000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.lannaassociates.com',
-            'https://www.behance.net/branding',
-        ],
+
         note: 'Developing brand identity for a newly acquired subsidiary, including logo, brand guidelines, and collateral.',
         userId: userId,
         clientId: clientId['Lanna Associates'],
@@ -216,10 +177,7 @@ export const lannaAssociatesProjects = (
         budget: 40000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.lannaassociates.com',
-            'https://www.behance.net/presentationdesign',
-        ],
+
         note: 'Designing a visually appealing investor presentation for quarterly earnings call.',
         userId: userId,
         clientId: clientId['Lanna Associates'],
@@ -230,10 +188,7 @@ export const lannaAssociatesProjects = (
         budget: 70000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.lannaassociates.com',
-            'https://www.behance.net/infographics',
-        ],
+
         note: 'Creating a set of infographics to present market research data for a new product launch.',
         userId: userId,
         clientId: clientId['Lanna Associates'],
@@ -244,10 +199,7 @@ export const lannaAssociatesProjects = (
         budget: 90000,
         projectStatus: 'on-hold',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.lannaassociates.com',
-            'https://www.behance.net/packagingdesign',
-        ],
+
         note: 'Designing product packaging for a new consumer electronics line under one of the subsidiaries.',
         userId: userId,
         clientId: clientId['Lanna Associates'],
@@ -258,10 +210,7 @@ export const lannaAssociatesProjects = (
         budget: 60000,
         projectStatus: 'active',
         paymentStatus: 'paid',
-        links: [
-            'https://www.lannaassociates.com',
-            'https://www.behance.net/eventbranding',
-        ],
+
         note: 'Creating event branding for the company’s annual conference, including signage, banners, and presentation decks.',
         userId: userId,
         clientId: clientId['Lanna Associates'],
@@ -272,10 +221,7 @@ export const lannaAssociatesProjects = (
         budget: 110000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.lannaassociates.com',
-            'https://www.behance.net/advertising',
-        ],
+
         note: 'Designing an advertising campaign for the new retail product line, including print, digital, and TV ads.',
         userId: userId,
         clientId: clientId['Lanna Associates'],
@@ -292,10 +238,7 @@ export const sullivanPhanichProjects = (
         budget: 80000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.sullivanphanich.com',
-            'https://www.behance.net/branding',
-        ],
+
         note: 'Redesigning the law firm’s branding, including logo, business cards, and letterhead.',
         userId: userId,
         clientId: clientId['Sullivan & Phanich'],
@@ -306,10 +249,7 @@ export const sullivanPhanichProjects = (
         budget: 45000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.sullivanphanich.com',
-            'https://www.behance.net/documentdesign',
-        ],
+
         note: 'Creating a set of customizable legal document templates for the firm’s corporate clients.',
         userId: userId,
         clientId: clientId['Sullivan & Phanich'],
@@ -320,10 +260,7 @@ export const sullivanPhanichProjects = (
         budget: 35000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.sullivanphanich.com',
-            'https://www.behance.net/guidebook',
-        ],
+
         note: 'Designing a client onboarding guide for new legal clients, including a step-by-step process and relevant forms.',
         userId: userId,
         clientId: clientId['Sullivan & Phanich'],
@@ -334,10 +271,7 @@ export const sullivanPhanichProjects = (
         budget: 25000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.sullivanphanich.com',
-            'https://www.behance.net/brochure',
-        ],
+
         note: 'Designing an informative brochure to promote family law services offered by the firm.',
         userId: userId,
         clientId: clientId['Sullivan & Phanich'],
@@ -348,10 +282,7 @@ export const sullivanPhanichProjects = (
         budget: 70000,
         projectStatus: 'on-hold',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.sullivanphanich.com',
-            'https://www.behance.net/reportdesign',
-        ],
+
         note: 'Designing the layout and graphics for the firm’s annual report highlighting legal insights and case studies.',
         userId: userId,
         clientId: clientId['Sullivan & Phanich'],
@@ -362,10 +293,7 @@ export const sullivanPhanichProjects = (
         budget: 95000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.sullivanphanich.com',
-            'https://www.behance.net/adcampaign',
-        ],
+
         note: 'Creating a targeted advertising campaign to promote the firm’s personal injury law services across digital and print media.',
         userId: userId,
         clientId: clientId['Sullivan & Phanich'],
@@ -382,10 +310,7 @@ export const chaoprayaBankProjects = (
         budget: 60000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.chaophrayabank.com',
-            'https://www.behance.net/training',
-        ],
+
         note: 'Designing a comprehensive customer service training manual for the bank’s front-line staff.',
         userId: userId,
         clientId: clientId['Chao Phraya Bank'],
@@ -396,10 +321,7 @@ export const chaoprayaBankProjects = (
         budget: 90000,
         projectStatus: 'on-hold',
         paymentStatus: 'processing',
-        links: [
-            'https://www.chaophrayabank.com',
-            'https://www.behance.net/appdesign',
-        ],
+
         note: "Making improvements to the user interface of the bank's mobile app for a better customer experience.",
         userId: userId,
         clientId: clientId['Chao Phraya Bank'],
@@ -410,10 +332,7 @@ export const chaoprayaBankProjects = (
         budget: 45000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.chaophrayabank.com',
-            'https://www.behance.net/signage',
-        ],
+
         note: 'Designing an updated signage system for branches, including directional signs and service information.',
         userId: userId,
         clientId: clientId['Chao Phraya Bank'],
@@ -424,10 +343,7 @@ export const chaoprayaBankProjects = (
         budget: 25000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.chaophrayabank.com',
-            'https://www.behance.net/surveydesign',
-        ],
+
         note: 'Designing a customer feedback survey to gather insights about services provided by the bank.',
         userId: userId,
         clientId: clientId['Chao Phraya Bank'],
@@ -438,10 +354,7 @@ export const chaoprayaBankProjects = (
         budget: 70000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.chaophrayabank.com',
-            'https://www.behance.net/brochure',
-        ],
+
         note: 'Creating a detailed brochure for a new loan product, outlining terms, benefits, and application process.',
         userId: userId,
         clientId: clientId['Chao Phraya Bank'],
@@ -452,10 +365,7 @@ export const chaoprayaBankProjects = (
         budget: 80000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.chaophrayabank.com',
-            'https://www.behance.net/video',
-        ],
+
         note: 'Producing an instructional video to guide customers through the bank’s online banking system.',
         userId: userId,
         clientId: clientId['Chao Phraya Bank'],
@@ -472,10 +382,7 @@ export const bambooBayBeautyProjects = (
         budget: 50000,
         projectStatus: 'active',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.bamboobaybeauty.com',
-            'https://www.behance.net/packagingdesign',
-        ],
+
         note: 'Designing the packaging for a new skincare product line, including labels and boxes.',
         userId: userId,
         clientId: clientId['Bamboo Bay Beauty'],
@@ -486,10 +393,7 @@ export const bambooBayBeautyProjects = (
         budget: 25000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.bamboobaybeauty.com',
-            'https://www.behance.net/socialmediacontent',
-        ],
+
         note: 'Creating visually appealing content for social media platforms to launch a new skincare product.',
         userId: userId,
         clientId: clientId['Bamboo Bay Beauty'],
@@ -500,10 +404,7 @@ export const bambooBayBeautyProjects = (
         budget: 40000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.bamboobaybeauty.com',
-            'https://www.behance.net/webdesign',
-        ],
+
         note: 'Designing a blog section for the website to share skincare tips, customer testimonials, and product news.',
         userId: userId,
         clientId: clientId['Bamboo Bay Beauty'],
@@ -514,10 +415,7 @@ export const bambooBayBeautyProjects = (
         budget: 15000,
         projectStatus: 'completed',
         paymentStatus: 'paid',
-        links: [
-            'https://www.bamboobaybeauty.com',
-            'https://www.behance.net/emaildesign',
-        ],
+
         note: 'Designing a series of email templates for marketing campaigns, product launches, and promotions.',
         userId: userId,
         clientId: clientId['Bamboo Bay Beauty'],
@@ -528,10 +426,7 @@ export const bambooBayBeautyProjects = (
         budget: 35000,
         projectStatus: 'on-hold',
         paymentStatus: 'unpaid',
-        links: [
-            'https://www.bamboobaybeauty.com',
-            'https://www.behance.net/retaildesign',
-        ],
+
         note: 'Designing an attractive retail display to showcase skincare products in partner stores.',
         userId: userId,
         clientId: clientId['Bamboo Bay Beauty'],
@@ -542,10 +437,7 @@ export const bambooBayBeautyProjects = (
         budget: 60000,
         projectStatus: 'active',
         paymentStatus: 'processing',
-        links: [
-            'https://www.bamboobaybeauty.com',
-            'https://www.behance.net/videocontent',
-        ],
+
         note: 'Producing a series of customer testimonial videos to build trust and promote the brand.',
         userId: userId,
         clientId: clientId['Bamboo Bay Beauty'],

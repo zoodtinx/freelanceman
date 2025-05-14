@@ -48,7 +48,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
             />
    })
 
-   if (projects || projects?.items?.length === 0) {
+   if (!projects || projects?.items?.length === 0) {
       return (
          <div className="flex flex-col w-full gap-1">
             <div

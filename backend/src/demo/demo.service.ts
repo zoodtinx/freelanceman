@@ -1,3 +1,4 @@
+import { seedDemoUser } from '@/shared/database/seed-demo-user-data';
 import {
     Injectable,
     InternalServerErrorException,
@@ -21,11 +22,8 @@ export class DemoService {
     async createDemoUser(): Promise<Partial<User>> {
         let demoUser: any;
         try {
-            demoUser = await this.prismaService.user.create({
-                data: mockUserRecords[0],
-            });
-            console.log('created demo user')
-            return demoUser;
+            const result = await seedDemoUser()
+            return result;
         } catch (error) {
             console.log('error', error)
             throw new InternalServerErrorException(

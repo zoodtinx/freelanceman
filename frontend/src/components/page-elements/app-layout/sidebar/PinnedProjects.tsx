@@ -1,20 +1,24 @@
 import { cn } from '@/lib/helper/utils';
-import { useEditProject, useProjectSelectionQuery, useProjectsQuery } from '@/lib/api/project-api';
-import { Link, useParams } from 'react-router-dom';
+import {
+   useEditProject,
+   useProjectSelectionQuery,
+   useProjectsQuery,
+} from '@/lib/api/project-api';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ProjectPayload } from 'freelanceman-common/src/schemas';
 import { Minus, Pin, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
 import { ProjectFilterDto, ProjectListPayload } from 'freelanceman-common';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 
 export default function PinnedProjects() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
-      pinned: true
-   })
-   const projectQueryResult = useProjectsQuery(projectFilter)
+      pinned: true,
+   });
+   const projectQueryResult = useProjectsQuery(projectFilter);
    const projectSelectionQueryResult = useProjectSelectionQuery();
    const editProject = useEditProject({
       errorCallback() {
@@ -25,21 +29,21 @@ export default function PinnedProjects() {
    const handlePinProject = (projectId: string) => {
       editProject.mutate({
          id: projectId,
-         pinned: true
-      })
-   }
-   
+         pinned: true,
+      });
+   };
+
    const handleSearchProject = (value: string) => {
       setProjectFilter((prev) => {
          return {
             ...prev,
-            title: value
-         }
-      })
-   }
+            title: value,
+         };
+      });
+   };
 
    return (
-      <div className="flex flex-col md:hidden">
+      <div className="flex flex-col md:hidden grow">
          <div className="flex items-center px-3 pb-2 gap-1 w-full text-secondary">
             <Pin className="stroke-[3px] w-4 h-4" />
             <div className="flex justify-between items-center w-full">
@@ -52,7 +56,7 @@ export default function PinnedProjects() {
                   handleSearch={handleSearchProject}
                   handleSelect={handlePinProject}
                   selections={projectSelectionQueryResult.data}
-                  type='project'
+                  type="project"
                   isLoading={projectSelectionQueryResult.isLoading}
                />
             </div>
@@ -67,7 +71,7 @@ const PinnedProjectTabs = ({
 }: {
    projectQueryResult: UseQueryResult<ProjectListPayload>;
 }) => {
-   const {data: projects, isLoading, isError} = projectQueryResult
+   const { data: projects, isLoading, isError } = projectQueryResult;
 
    if (isLoading) {
       return (
@@ -87,7 +91,7 @@ const PinnedProjectTabs = ({
    });
 
    return (
-      <div className="flex flex-col px-[6px] gap-2">
+      <div className="flex flex-col  gap-2 border border-secondary border-dashed p-2 rounded-xl">
          {pinnedProjects}
       </div>
    );
@@ -95,6 +99,7 @@ const PinnedProjectTabs = ({
 
 const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
    const { projectId } = useParams();
+   const navigate = useNavigate();
    const isActive = projectId === project.id;
 
    const editProject = useEditProject({
@@ -103,51 +108,38 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
       },
    });
 
-   const handleUnpin = () => {
+   const handleUnpin = (e: React.MouseEvent) => {
+      e.stopPropagation()
       editProject.mutate({
          id: project.id,
          pinned: false,
       });
    };
 
+   const handleClick = () => {
+      navigate(`/home/projects/${project.id}`);
+   };
+
    return (
-      <div className="relative group">
+      <div
+         onClick={handleClick}
+         className={cn(
+            'p-1 px-2 border border-dashed rounded-lg cursor-pointer relative group',
+            isActive && 'text-primary bg-tertiary border-secondary',
+            !isActive && 'bg-transparent text-secondary border border-tertiary'
+         )}
+      >
          <button
             onClick={handleUnpin}
             className={`absolute -top-1 -right-1 z-30 bg-foreground rounded-full p-1 opacity-0
-                        group-hover:opacity-100 transition-opacity duration-75 border border-secondary`}
+                         group-hover:opacity-100 transition-opacity duration-75 border border-secondary`}
          >
             <Minus className="text-primary w-3 h-3 stroke-[4px]" />
          </button>
-         <Link
-            to={`/home/projects/${project.id}`}
-            className={cn(
-               'group relative flex h-[64px] rounded-xl overflow-hidden border border-secondary cursor-default',
-               'hover:border-primary transition-colors duration-75',
-               isActive && ''
-            )}
-         >
-            <div
-               className={cn(
-                  'w-full rounded-xl z-20 mt-2 bg-background text-secondary group-hover:text-primary transition-colors duration-75',
-                  isActive && 'bg-foreground text-primary'
-               )}
-            >
-               <p className="p-[6px] px-2 line-clamp-2 text-ellipsis font-normal">
-                  {project.title}
-               </p>
-            </div>
-            {isActive ? (
-               <div
-                  className="w-full h-1/2 z-10 absolute"
-                  style={{
-                     // backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
-                  }}
-               />
-            ) : (
-               <div className="w-full h-1/2 z-10 absolute bg-tertiary" />
-            )}
-         </Link>
+         <p className="line-clamp-2">
+            <span></span>
+            {project.title}
+         </p>
       </div>
    );
 };

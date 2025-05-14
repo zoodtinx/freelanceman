@@ -8,7 +8,7 @@ import { Toaster } from '@/components/shared/ui/primitives/Toaster';
 
 export default function HomePage() {
    return (
-      <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative pt-1 pl-1">
+      <div className="bg-background w-auto h-screen flex flex-col sm:min-h-screen relative">
          <TopBar />
          <main className="flex flex-grow min-h-0 px-2 pb-3 gap-2 sm:px-2 sm:pb-2 relative">
             <SideBar />
