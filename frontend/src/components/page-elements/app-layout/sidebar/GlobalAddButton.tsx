@@ -119,11 +119,11 @@ const GlobalAddButton = () => {
    return (
       <Popover open={open} onOpenChange={setOpen}>
          <PopoverTrigger asChild>
-            <div className="rounded-full w-[60px] md:w-[45px] aspect-square flex items-center justify-center text-white bg-foreground hover:bg-tertiary transition-colors duration-100">
-               <Plus className="h-full w-full stroke-[2.5px] text-primary p-2" />
+            <div className="rounded-full w-[50px] mb-3 md:mb-0 md:w-[45px] aspect-square flex items-center justify-center text-white bg-primary transition-colors duration-100 cursor-pointer">
+               <Plus className="h-full w-full stroke-[2.5px] text-foreground p-2" />
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none bg-foreground border-tertiary">
+         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none bg-foreground border-tertiary md:ml-4">
             {menuItems.map((item, index) =>
                item === 'separator' ? (
                   <Separator key={index} />

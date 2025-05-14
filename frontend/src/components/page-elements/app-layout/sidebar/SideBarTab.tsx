@@ -29,10 +29,10 @@ const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
          <Link
             to={tab}
             className={clsx(
-               'flex w-full items-center gap-2 border-[1.75px] rounded-xl py-[8px] px-[10px] text-md cursor-pointer transition-colors duration-75 md:p-[10px]',
+               'flex w-full items-center gap-2 rounded-lg py-[7px] px-[7px] text-md cursor-pointer transition-colors duration-75 md:p-[10px]',
                isActive
-                  ? 'border-background text-primary bg-foreground'
-                  : 'border-background text-secondary hover:text-primary'
+                  ? 'bg-primary text-foreground dark:bg-foreground dark:text-primary'
+                  : 'text-secondary hover:text-primary'
             )}
          >
             <Icon className="w-[24px] h-auto md:w-7 md:h-7" />

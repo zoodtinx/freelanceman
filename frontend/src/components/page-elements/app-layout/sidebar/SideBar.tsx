@@ -4,9 +4,9 @@ import GlobalAddButton from '@/components/page-elements/app-layout/sidebar/Globa
 
 export default function SideBar() {
    return (
-      <nav className="w-[180px] flex flex-col gap-2 h-full justify-between md:w-fit sm:hidden">
-         <div className="flex flex-col gap-4">
-            <ul className="mb-2 flex flex-col">
+      <nav className="w-[180px] flex flex-col gap-2 h-full justify-between md:w-fit sm:hidden px-1">
+         <div className="flex flex-col gap-3">
+            <ul className="mb-2 flex flex-col bg-tertiary p-2 gap-1 rounded-xl">
                <SideBarTab tab="projects" />
                <SideBarTab tab="actions" />
                <SideBarTab tab="clients" />
@@ -22,4 +22,3 @@ export default function SideBar() {
       </nav>
    );
 }
-
