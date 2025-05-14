@@ -10,9 +10,9 @@ import useAuthStore from '@/lib/zustand/auth-store';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterPage: React.FC = () => {
-   const navigate = useNavigate()
+   const navigate = useNavigate();
    // const setAccessToken = useAuthStore((state) => state.setAccessToken);
-   const {setAccessToken, accessToken} = useAuthStore();
+   const { setAccessToken, accessToken } = useAuthStore();
 
    const formMethods = useForm();
    const {
@@ -30,15 +30,10 @@ const RegisterPage: React.FC = () => {
          password: data.password,
       };
 
-      console.log('payload', payload)
-
       const result = await login(payload);
-      console.log('result', result)
 
       if (result.success) {
-         console.log('result.data.accessTokenString', result.data.accessTokenString)
          setAccessToken(result.data.accessTokenString);
-         console.log('accessToken', accessToken)
          navigate('/home');
       }
    };

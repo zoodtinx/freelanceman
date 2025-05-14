@@ -28,7 +28,6 @@ export const EventDialog = ({
 
    // form utilities
    const { handleSubmit } = formMethods;
-   console.log('date', formMethods.getValues('dueAt'))
 
    //dialog state
    const { formDialogState } = useFormDialogStore();
@@ -99,10 +98,12 @@ export const EventDialog = ({
                   />
                </div>
             </div>
-            {formDialogState.openedOn !== 'project-page' && <ProjectField
-               formMethods={formMethods}
-               formDialogState={formDialogState}
-            />}
+            {formDialogState.openedOn !== 'project-page' && (
+               <ProjectField
+                  formMethods={formMethods}
+                  formDialogState={formDialogState}
+               />
+            )}
             <div className="w-full">
                <Label>Details</Label>
                <TextAreaForm
@@ -114,7 +115,10 @@ export const EventDialog = ({
             </div>
             <div className="w-full">
                <Label>Link</Label>
-               <LinkInputForm formMethods={formMethods} fieldName="link" />
+               <LinkInputForm
+                  formMethods={formMethods}
+                  fieldName="link"
+               />
             </div>
          </div>
          <FormDialogFooter

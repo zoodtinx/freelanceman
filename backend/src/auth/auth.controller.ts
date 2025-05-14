@@ -95,6 +95,22 @@ export class AuthController {
         return { accessTokenString };
     }
 
+    @UseGuards(AuthGuard('jwt-access'))
+    @Get('logout')
+    async logOut(@Req() req: Request) {
+        await this.localAuthService.logOut(req);
+
+        req.res?.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            domain: 'localhost',
+            path: '/',
+        });
+
+        req.res.send()
+    }
+    
     @Post('register')
     @UsePipes(new ZodValidationPipe(registerUserSchema))
     async register(@Body() registerUserDto: RegisterUserDto) {

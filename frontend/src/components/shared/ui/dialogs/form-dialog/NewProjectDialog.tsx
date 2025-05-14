@@ -48,7 +48,7 @@ export const NewProjectDialog = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <div className="px-5 py-3 flex flex-col gap-2">
+         <div className="px-5 py-3 flex flex-col gap-3">
             <DynamicHeightTextInputForm
                formMethods={formMethods}
                required={true}
@@ -57,7 +57,7 @@ export const NewProjectDialog = ({
                fieldName="title"
                placeholder="Enter project name"
             />
-            <div className="w-full">
+            <div className="w-full leading-tight">
                <Label>Client</Label>
                <SelectWithSearchForm
                   formMethods={formMethods}

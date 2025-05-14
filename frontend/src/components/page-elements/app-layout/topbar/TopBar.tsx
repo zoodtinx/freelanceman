@@ -7,8 +7,10 @@ import {
 import {
    Calendar,
    CircleCheck,
+   DoorClosed,
    Eclipse,
    Loader2,
+   LogOut,
    Moon,
    Settings2,
    Sun,
@@ -22,38 +24,43 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { EventListPayload, EventPayload, UserPayload } from 'freelanceman-common';
+import {
+   EventListPayload,
+   EventPayload,
+   UserPayload,
+} from 'freelanceman-common';
 import { useTasksQuery } from '@/lib/api/task-api';
 import { useEventsQuery } from '@/lib/api/event-api';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { useFileUrlQuery } from '@/lib/api/file-api';
 import { UseQueryResult } from '@tanstack/react-query';
+import useAuthStore from '@/lib/zustand/auth-store';
+import { logOut } from '@/lib/api/auth-api';
 
 export const mockUser = {
-   id: "id_00458_59",
-   name: "Alice Morgan",
-   specialization: ["Graphic Design", "Branding", "Illustration"],
-   bio: "Creative graphic designer with a passion for visual storytelling and brand identity.",
-   email: "alicemorgan@example.com",
-   phoneNumber: "+1987654321",
-   address: "456 Creative Avenue, Los Angeles, CA, USA",
+   id: 'id_00458_59',
+   name: 'Alice Morgan',
+   specialization: ['Graphic Design', 'Branding', 'Illustration'],
+   bio: 'Creative graphic designer with a passion for visual storytelling and brand identity.',
+   email: 'alicemorgan@example.com',
+   phoneNumber: '+1987654321',
+   address: '456 Creative Avenue, Los Angeles, CA, USA',
    taxId: '1103300137575',
-   avatarUrl: "https://example.com/avatar-alice.jpg",
+   avatarUrl: 'https://example.com/avatar-alice.jpg',
    settings: {
-     theme: "light",
+      theme: 'light',
    },
    pinnedProjects: [],
-   createdAt: new Date("2023-06-15T09:30:00Z"),
+   createdAt: new Date('2023-06-15T09:30:00Z'),
    updatedAt: new Date(),
- };
- 
+};
 
 export default function TopBar() {
-   const date = new Date().toISOString()
-   const formattedDate = formatDate(date, 'FULL')
-   
-   const eventQueryResult = useEventsQuery({status: 'scheduled'})
-   const taskQueryResult = useTasksQuery({status: 'pending'})
+   const date = new Date().toISOString();
+   const formattedDate = formatDate(date, 'FULL');
+
+   const eventQueryResult = useEventsQuery({ status: 'scheduled' });
+   const taskQueryResult = useTasksQuery({ status: 'pending' });
 
    return (
       <header
@@ -113,9 +120,16 @@ const CountDisplay = ({
 
 const SettingsPopover = () => {
    const theme = useTheme();
+   const navigate = useNavigate()
+   const { accessToken } = useAuthStore();
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
+
+   const handleSignOut = async () => {
+      await logOut(accessToken)
+      navigate('/user/login')
+   }
 
    const { data: userDataPayload, isLoading: userDataIsLoading } =
       useUserQuery() as UseQueryResult<UserPayload>;
@@ -124,7 +138,7 @@ const SettingsPopover = () => {
       Boolean(userDataPayload?.avatar)
    );
 
-   const userData = userDataPayload as UserPayload
+   const userData = userDataPayload as UserPayload;
 
    const handleEditProfile = () => {
       setFormDialogState({
@@ -132,8 +146,8 @@ const SettingsPopover = () => {
          mode: 'edit',
          openedOn: 'global-add-button',
          type: 'user-profile',
-         data: {...userData},
-         entity: 'user'
+         data: { ...userData },
+         entity: 'user',
       });
    };
 
@@ -162,7 +176,7 @@ const SettingsPopover = () => {
                      <img src={urlDataPayload?.url} alt="" />
                   ) : (
                      <div className="flex bg-foreground w-full h-full items-center justify-center">
-                        <UserRound className='text-secondary w-7 h-7' />
+                        <UserRound className="text-secondary w-7 h-7" />
                      </div>
                   )}
                </div>
@@ -208,6 +222,12 @@ const SettingsPopover = () => {
                   <div className="flex items-center gap-[5px] pl-1 p-1">
                      <UserRoundPen className="h-4 w-4" />
                      <p>Get Account</p>
+                  </div>
+               </div>
+               <div onClick={handleSignOut} className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75 text-button-red">
+                  <div className="flex items-center gap-[5px] pl-1 p-1">
+                     <LogOut className="h-4 w-4" />
+                     <p>Sign Out</p>
                   </div>
                </div>
             </PopoverContent>

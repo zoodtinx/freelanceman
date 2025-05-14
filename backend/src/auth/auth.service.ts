@@ -1,4 +1,3 @@
-
 import {
     ConflictException,
     Injectable,
@@ -34,7 +33,14 @@ export class LocalAuthService {
             where: { email },
         });
 
-        if (!user || !(await bcrypt.compare(pass, user.password))) {
+        const isDev = process.env.NODE_ENV === 'development';
+
+        const passwordsMatch = async (input: string, stored: string) => {
+            if (isDev) return input === stored;
+            return bcrypt.compare(input, stored);
+        };
+
+        if (!user || !(await passwordsMatch(pass, user.password))) {
             throw new UnauthorizedException('Invalid email or password');
         }
 
@@ -45,47 +51,54 @@ export class LocalAuthService {
     }
 
     async register(registerUserDto: RegisterUserDto) {
-        let user
+        let user;
         try {
             const existingUser = await this.prismaService.user.findFirst({
                 where: { email: registerUserDto.email },
             });
-    
+
             if (existingUser) {
-                throw new ConflictException('User with this email already exist');
+                throw new ConflictException(
+                    'User with this email already exist',
+                );
             }
-    
-            const hashedPassword = await bcrypt.hash(registerUserDto.password, 10);
-    
+
+            const hashedPassword = await bcrypt.hash(
+                registerUserDto.password,
+                10,
+            );
+
             const newUser: any = {
                 ...registerUserDto,
                 password: hashedPassword,
             };
-    
+
             user = await this.prismaService.user.create({
                 data: newUser,
                 select: {
                     id: true,
-                    role: true
-                }
+                    role: true,
+                },
             });
-    
-            console.log('result', user)
+
+            console.log('result', user);
             const accessToken = this.jwtService.sign(
                 {
-                sub: user.id,
-                role: user.role,
-            },
-            {
-                expiresIn: this.configService.get('jwt.accessTokenExpiresIn'),
-                secret: this.configService.get('jwt.accessTokenSecret'),
-            }
+                    sub: user.id,
+                    role: user.role,
+                },
+                {
+                    expiresIn: this.configService.get(
+                        'jwt.accessTokenExpiresIn',
+                    ),
+                    secret: this.configService.get('jwt.accessTokenSecret'),
+                },
             );
-    
+
             return { accessToken };
         } catch (error) {
-                  await this.prismaService.user.delete({ where: { id: user?.id } });
-            console.log('error', error)
+            await this.prismaService.user.delete({ where: { id: user?.id } });
+            console.log('error', error);
         }
     }
 
@@ -116,12 +129,27 @@ export class LocalAuthService {
             },
         );
 
-        const refreshTokenString = refreshTokenRecord.id
+        const refreshTokenString = refreshTokenRecord.id;
 
         return {
             accessTokenString,
             refreshTokenString,
         };
+    }
+
+    async logOut(req: any) {
+        try {
+            const user = req.user;
+
+            await this.prismaService.refreshToken.deleteMany({
+                where: {
+                    userId: user.id,
+                },
+            });
+        } catch (error) {
+            console.log('error', error)
+            throw new InternalServerErrorException('Failed to log out');
+        }
     }
 
     async resetPasswordRequest(payload: ResetPasswordRequestDto) {
@@ -137,8 +165,11 @@ export class LocalAuthService {
                 );
             }
 
-            await this.emailService.sendResetPasswordEmail('peerapon.klajing@gmail.com', '1234');
-            
+            await this.emailService.sendResetPasswordEmail(
+                'peerapon.klajing@gmail.com',
+                '1234',
+            );
+
             return;
         } catch (error) {
             throw new UnauthorizedException(
@@ -162,7 +193,7 @@ export class LocalAuthService {
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            console.log('hashedPassword', hashedPassword)
+            console.log('hashedPassword', hashedPassword);
 
             await this.prismaService.user.update({
                 where: { email },
@@ -239,18 +270,18 @@ export class TokenService {
             throw new UnauthorizedException('Expired refresh token');
         }
 
-        await this.prismaService.refreshToken.delete({
-            where: { id: oldRefreshToken },
-        });
+        // await this.prismaService.refreshToken.delete({
+        //     where: { id: oldRefreshToken },
+        // });
 
         const { user } = refreshTokenData;
 
-        const newRefreshToken = await this.prismaService.refreshToken.create({
-            data: {
-                userId: user.id,
-                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            },
-        });
+        // const newRefreshToken = await this.prismaService.refreshToken.create({
+        //     data: {
+        //         userId: user.id,
+        //         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        //     },
+        // });
 
         const newAccessToken = this.jwtService.sign(
             { sub: user.id, role: user.role },
@@ -260,7 +291,7 @@ export class TokenService {
             },
         );
 
-        return { newAccessToken, newRefreshToken: newRefreshToken.id, user };
+        return { newAccessToken, newRefreshToken: refreshTokenData.id, user };
     }
 }
 
@@ -316,9 +347,9 @@ export class GoogleOAuthService {
                 },
             };
         } catch (err) {
-            throw new InternalServerErrorException('Failed to login with Google');
+            throw new InternalServerErrorException(
+                'Failed to login with Google',
+            );
         }
     }
 }
-
-

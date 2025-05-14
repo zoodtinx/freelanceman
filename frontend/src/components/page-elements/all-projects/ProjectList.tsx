@@ -4,7 +4,7 @@ import {
    ProjectCardProps,
    ProjectListProps,
 } from '@/components/page-elements/all-projects/props.type';
-import { EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, Plus } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
@@ -12,8 +12,8 @@ import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants
 const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
    const { data: projects, isLoading, isError, error } = queryResult;
    const setFormDialogState = useFormDialogStore(
-         (state) => state.setFormDialogState
-      );
+      (state) => state.setFormDialogState
+   );
 
    if (isLoading) {
       return <p>Loading</p>;
@@ -30,22 +30,37 @@ const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
       }
    }
 
-    const handleNewProject = () => {
-         setFormDialogState({
-            isOpen: true,
-            type: 'new-project',
-            mode: 'create',
-            data: { ...defaultNewProjectValue },
-            openedOn: 'global-add-button',
-            entity: 'project',
-         });
-      };
-   
+   const handleNewProject = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'new-project',
+         mode: 'create',
+         data: { ...defaultNewProjectValue },
+         openedOn: 'global-add-button',
+         entity: 'project',
+      });
+   };
+
+   const amount = Array(15).fill(0)
+   const placeholder = amount.map(() => {
+      return <div
+               className={`border border-primary opacity-15 border-dashed rounded-[15px] h-[40px]`}
+            />
+   })
 
    if (projects || projects?.items?.length === 0) {
-      return <div className='flex grow h-full items-center justify-center'>
-         <NoDataPlaceHolder addFn={handleNewProject}>New Project</NoDataPlaceHolder>
-      </div>;
+      return (
+         <div className="flex flex-col w-full gap-1">
+            <div
+               onClick={handleNewProject}
+               className={`flex border border-dashed border-primary text-primary rounded-[15px] h-[40px] opacity-35
+                              hover:opacity-100 transition-opacity duration-100 cursor-pointer justify-center items-center`}
+            >
+               <Plus className="w-6 h-6" />
+            </div>
+            {placeholder}
+         </div>
+      );
    }
 
    const projectTabs = projects?.items?.map((project) => (
@@ -78,7 +93,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
          openedOn: 'all-project-page',
          type: 'project-settings',
          data: project,
-         entity: 'project'
+         entity: 'project',
       });
    };
 

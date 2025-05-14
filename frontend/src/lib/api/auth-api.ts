@@ -49,6 +49,24 @@ export async function login(
    };
 }
 
+export async function logOut(token: string) {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/logout`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+         Authorization: `Bearer ${token}`,
+      },
+   });
+
+   if (!res.ok) {
+      throw new Error('Error signing out');
+   }
+
+   return {
+      success: true
+   };
+}
+
 export async function refreshAccess(): Promise<AuthApiResponse> {
    const res = await fetch(`${import.meta.env.VITE_API_URL}auth/refresh`, {
       method: 'GET',
@@ -72,7 +90,7 @@ export async function checkAccess(token: string) {
    const res = await fetch(`${import.meta.env.VITE_API_URL}auth/check`, {
       method: 'GET',
       headers: {
-         'Authorization': `Bearer ${token}`,
+         Authorization: `Bearer ${token}`,
       },
    });
 

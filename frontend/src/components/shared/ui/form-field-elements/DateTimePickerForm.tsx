@@ -13,8 +13,6 @@ export const DateTimePickerForm = <TFieldValues extends FieldValues>({
       formState: { errors },
    } = formMethods;
 
-   console.log('withtime', formMethods.getValues('isWithTime' as any))
-
    return (
       <div className='flex flex-col gap-[2px]'>
             <DatePickerForm

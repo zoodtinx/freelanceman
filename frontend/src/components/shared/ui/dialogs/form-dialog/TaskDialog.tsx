@@ -22,6 +22,7 @@ import {
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
+import { useRef } from 'react';
 
 export const TaskDialog = ({
    formMethods,
@@ -29,6 +30,8 @@ export const TaskDialog = ({
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
+   const submitButtonRef = useRef<HTMLButtonElement>(null);
+   
    // button loading state
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 

@@ -27,8 +27,10 @@ const RootPage: React.FC = () => {
    useEffect(() => {
       const refreshAccess = async () => {
          const result = await apiRefreshAccess();
+         console.log('result', result)
          if (!result.success) {
             navigate('/user/login');
+            return
          }
          setAccessToken(result.data.newAccessToken);
       };
@@ -39,7 +41,7 @@ const RootPage: React.FC = () => {
             await refreshAccess();
             return
          }
-         const isOnAuthPages = pathSections.includes('user')
+         const isOnAuthPages = pathSections.includes('user') || !pathSections.length
          if (isOnAuthPages) {
             navigate('/home')
          }
