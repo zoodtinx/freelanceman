@@ -5,6 +5,7 @@ import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog'
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import ConfirmationDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
 import { Toaster } from '@/components/shared/ui/primitives/Toaster';
+import { GreetingDialog } from '@/components/shared/ui/dialogs/greeting-dialog/GreetingDialog';
 
 export default function HomePage() {
    return (
@@ -16,6 +17,7 @@ export default function HomePage() {
                <Outlet />
             </section>
          </main>
+         <GreetingDialog  />
          <FormDialog />
          <SelectorDialog />
          <ConfirmationDialog />

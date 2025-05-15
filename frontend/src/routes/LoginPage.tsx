@@ -38,6 +38,10 @@ const RegisterPage: React.FC = () => {
       }
    };
 
+   const handleRegiser = () => {
+      navigate('../register')
+   }
+
    return (
       <div className="bg-background w-full h-screen flex items-center justify-center">
          <div className="bg-white p-8 rounded-2xl w-full max-w-md">
@@ -78,14 +82,10 @@ const RegisterPage: React.FC = () => {
             </button>
 
             <div className="mt-4 text-center text-sm text-gray-600">
-               <span>Already have an account?</span>
-               <a
-                  href="/login"
-                  className="text-indigo-600 hover:text-indigo-800"
-               >
-                  {' '}
-                  Log in
-               </a>
+               <span>Not have an account?</span>
+               <span className='font-semibold cursor-pointer' onClick={handleRegiser}>
+                  {' '}Register
+               </span>
             </div>
          </div>
       </div>

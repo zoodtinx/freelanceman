@@ -691,6 +691,10 @@ html[lang="th"] {
   order: 2;
 }
 
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
 .m-3 {
   margin: 0.75rem;
 }
@@ -1128,6 +1132,14 @@ html[lang="th"] {
   height: 82px;
 }
 
+.h-\[1000px\] {
+  height: 1000px;
+}
+
+.h-\[800px\] {
+  height: 800px;
+}
+
 .max-h-52 {
   max-height: 13rem;
 }
@@ -1449,6 +1461,34 @@ html[lang="th"] {
   width: 103px;
 }
 
+.w-\[650\] {
+  width: 650;
+}
+
+.w-\[650px\] {
+  width: 650px;
+}
+
+.w-\[750px\] {
+  width: 750px;
+}
+
+.w-\[1000px\] {
+  width: 1000px;
+}
+
+.w-\[500px\] {
+  width: 500px;
+}
+
+.w-\[550px\] {
+  width: 550px;
+}
+
+.w-60 {
+  width: 15rem;
+}
+
 .min-w-10 {
   min-width: 2.5rem;
 }
@@ -1609,6 +1649,10 @@ html[lang="th"] {
   grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
 }
 
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .grid-rows-2 {
   grid-template-rows: repeat(2, minmax(0, 1fr));
 }
@@ -1695,6 +1739,14 @@ html[lang="th"] {
 
 .gap-\[6px\] {
   gap: 6px;
+}
+
+.gap-\[3px\] {
+  gap: 3px;
+}
+
+.gap-\[10px\] {
+  gap: 10px;
 }
 
 .gap-x-2 {
@@ -2705,6 +2757,10 @@ html[lang="th"] {
 
 .align-middle {
   vertical-align: middle;
+}
+
+.font-serif {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 .text {

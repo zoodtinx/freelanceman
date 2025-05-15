@@ -9,6 +9,7 @@ import {
    CircleCheck,
    DoorClosed,
    Eclipse,
+   Info,
    Loader2,
    LogOut,
    Moon,
@@ -73,7 +74,7 @@ export default function TopBar() {
          <div className='pl-1'>
             <SettingsPopover />
          </div>
-         <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-tertiary h-[37px] sm:h-[43px] w-auto rounded-full px-6 sm:hidden">
+         <div className="flex gap-4 cursor-default items-center justify-between text-secondary text-md bg-quaternary h-[37px] sm:h-[43px] w-auto rounded-full px-6 sm:hidden">
             <p>{formattedDate}</p>
             <CountDisplay
                icon={CircleCheck}
@@ -213,7 +214,13 @@ const SettingsPopover = () => {
                   </div>
                </div>
                <Separator />
-               <div className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75">
+               <div className="flex items-center justify-between hover:bg-background rounded-md transition-colors duration-75">
+                  <div className="flex items-center gap-[5px] pl-1 p-1">
+                     <Info className="h-4 w-4" />
+                     <p>View Tips</p>
+                  </div>
+               </div>
+               <div className="flex items-center justify-between hover:bg-background rounded-md transition-colors duration-75">
                   <div className="flex items-center gap-[5px] pl-1 p-1">
                      <UserRoundPen className="h-4 w-4" />
                      <p>Get Account</p>

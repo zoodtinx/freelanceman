@@ -11,8 +11,10 @@ import { Button } from '@/components/shared/ui/primitives/Button';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import FreelanceManLogo from '@/components/page-elements/app-layout/topbar/Logo';
 import { FreelanceManIcon } from '@/components/shared/icons';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage: React.FC = () => {
+   const navigate = useNavigate();
    const setAccessToken = useAuthStore((state) => state.setAccessToken);
 
    const formMethods = useForm();
@@ -36,12 +38,16 @@ const RegisterPage: React.FC = () => {
       setAccessToken(accessToken);
    };
 
+   const handleLogin = () => {
+      navigate('../login')
+   }
+
    return (
       <div className="flex bg-background w-full h-screen items-center justify-center p-8">
-         <div className='flex grow justify-center items-center'>
+         <div className='flex grow justify-center items-center w-1/2'>
             <FreelanceManIcon className='w-36' />
          </div>
-         <div className="flex flex-col p-8 rounded-2xl items-center bg-white h-full w-2/3 justify-center shadow-md">
+         <div className="flex flex-col p-8 rounded-2xl items-center bg-white h-full w-3/5 justify-center shadow-md">
             <div className='w-1/2'>
                <h2 className="text-xl font-medium text-center mb-6">
                   Create an Account
@@ -98,8 +104,8 @@ const RegisterPage: React.FC = () => {
                <div className="mt-4 text-center text-sm text-gray-600">
                   <span>Already have an account?</span>
                   <a
-                     href="/login"
                      className="text-button-blue-blue font-semibold"
+                     onClick={handleLogin}
                   >
                      {' '}
                      Log in

@@ -6,7 +6,7 @@ export default function SideBar() {
    return (
       <nav className="w-[180px] flex flex-col gap-2 h-full justify-between md:w-fit sm:hidden px-1">
          <div className="flex flex-col gap-3">
-            <ul className="mb-2 flex flex-col bg-tertiary p-2 gap-1 rounded-xl">
+            <ul className="mb-2 flex flex-col bg-quaternary p-2 gap-1 rounded-xl">
                <SideBarTab tab="projects" />
                <SideBarTab tab="actions" />
                <SideBarTab tab="clients" />

@@ -91,7 +91,7 @@ const PinnedProjectTabs = ({
    });
 
    return (
-      <div className="flex flex-col  gap-2 border border-secondary border-dashed p-2 rounded-xl">
+      <div className="flex flex-col  gap-2 border border-tertiary p-2 rounded-xl">
          {pinnedProjects}
       </div>
    );
@@ -124,7 +124,7 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
       <div
          onClick={handleClick}
          className={cn(
-            'p-1 px-2 border border-dashed rounded-lg cursor-pointer relative group',
+            'p-1 px-2 border border-tertiary border-dashed rounded-lg cursor-pointer relative group',
             isActive && 'text-primary bg-tertiary border-secondary',
             !isActive && 'bg-transparent text-secondary border border-tertiary'
          )}

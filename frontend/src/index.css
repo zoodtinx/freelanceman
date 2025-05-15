@@ -55,14 +55,14 @@
 @layer base {
   :root {
     --foreground: 0 0 100;
-    --background: 0 0 96;
+    --background: 0 0 97;
     --primary: 0 0 20;
     --primary-foreground: 0 0 0;
-    --secondary: 0 0 74.1;
+    --secondary: 0 0 74;
     --secondary-foreground: 0 0 9;
-    --tertiary: 0 0 92;
+    --tertiary: 0 0 90;
     --tertiary-foreground: 0 0 9;
-    --quaternary: 0 0 96;
+    --quaternary: 0 0 94;
     --card-foreground: 0 0 3.9;
     --card: 0 0 100;
     --popover-foreground: 0 0 3.9;
