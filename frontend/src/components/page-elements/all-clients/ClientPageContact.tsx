@@ -68,61 +68,8 @@ export const ContactColumn = (): JSX.Element => {
             addFn={handleNewContact}
             filter={filter}
             setFilter={setFilter}
-            page="client-page"
+            page="all-client-page"
          />
-      </div>
-   );
-};
-
-export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
-   const setFormDialogState = useFormDialogStore(
-      (state) => state.setFormDialogState
-   );
-
-   let avatar;
-   if (!contact.avatar) {
-      avatar = <User className="w-8 h-8" />;
-   } else {
-      avatar = (
-         <img
-            src={contact.avatar}
-            alt="Contact Avatar"
-            className="w-full h-full object-cover"
-         />
-      );
-   }
-
-   const { data } = useFileUrlQuery(
-      contact.avatar,
-      Boolean(contact.avatar)
-   );
-
-   const handleClick = () => {
-      setFormDialogState({
-         isOpen: true,
-         mode: 'edit',
-         openedOn: 'client-page',
-         type: 'client-contact',
-         entity: 'clientContact',
-         data: contact,
-      });
-   };
-
-   return (
-      <div
-         onClick={handleClick}
-         className={`flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[75px] shrink-0
-            border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
-            cursor-default`}
-      >
-         <AvatarDisplay url={data?.url} />
-         <div className="flex flex-col leading-tight">
-            <p className="font-semibold text-md">{contact.name}</p>
-            <p className="font-semibold text-base text-secondary">
-               {contact.company.name}
-            </p>
-            <p className="text-base text-secondary">{contact.role}</p>
-         </div>
       </div>
    );
 };

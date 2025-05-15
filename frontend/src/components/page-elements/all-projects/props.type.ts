@@ -1,5 +1,5 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import { ClientFilterDto, PartnerCompanyFilterDto, ProjectListPayload } from 'freelanceman-common';
+import { ProjectListPayload } from 'freelanceman-common';
 import {
    ProjectPayload,
    ProjectFilterDto,
@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {
    queryResult: UseQueryResult<ProjectListPayload>;
+   handleLoadMore: (value: number) => void;
 }
 
 export interface ProjectCardProps {

@@ -16,6 +16,7 @@ import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoad
 import { ListProps } from '@/lib/types/list-props.type';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { EventFilterDto } from 'freelanceman-common';
+import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
 
 export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    addFn,
@@ -55,10 +56,14 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    }
 
    if (isError) {
+      
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
    if (!eventsData || eventsData.items.length === 0) {
+      if (page === 'action-page') {
+         return <ActionPageEventListPlaceholder addFn={addFn} />
+      }
       return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
 

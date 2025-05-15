@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import useAuthStore from '@/lib/zustand/auth-store';
 import {
@@ -7,43 +7,43 @@ import {
    checkAccess as apiCheckAccess,
 } from '@/lib/api/auth-api';
 import React from 'react';
+import { useDarkMode } from '@/lib/zustand/theme-store';
 
 const RootPage: React.FC = () => {
-   const { theme } = useTheme();
+   const { mode } = useDarkMode();
+   console.log('mode', mode)
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
    const { accessToken, setAccessToken } = useAuthStore();
    const navigate = useNavigate();
 
    useEffect(() => {
-      const htmlClass = document.documentElement.className;
-      console.log('HTML class after theme is applied:', htmlClass);
-      const prefersDarkMode = window.matchMedia(
-         '(prefers-color-scheme: dark)'
-      ).matches;
-      console.log('Prefers dark mode:', prefersDarkMode ? 'dark' : 'light');
-   }, [theme]);
-
-   useEffect(() => {
       const refreshAccess = async () => {
          const result = await apiRefreshAccess();
-         console.log('result', result)
          if (!result.success) {
             navigate('/user/login');
-            return
+            return;
          }
-         setAccessToken(result.data.newAccessToken);
+         setAccessToken(result.data.accessToken);
+         const isOnAuthPages =
+            pathSections.includes('user') || !pathSections.length;
+         if (isOnAuthPages) {
+            navigate('/home');
+         }
       };
 
       const checkAccess = async () => {
+         console.log('accessToken', accessToken);
          const result = await apiCheckAccess(accessToken);
+         console.log('result', result);
          if (!result.success) {
             await refreshAccess();
-            return
+            return;
          }
-         const isOnAuthPages = pathSections.includes('user') || !pathSections.length
+         const isOnAuthPages =
+            pathSections.includes('user') || !pathSections.length;
          if (isOnAuthPages) {
-            navigate('/home')
+            navigate('/home');
          }
       };
 

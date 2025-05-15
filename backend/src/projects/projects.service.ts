@@ -95,6 +95,7 @@ export class ProjectsService {
                 this.prismaService.project.count({ where }),
                 this.prismaService.project.findMany({
                     where,
+                    take: filter.take ? filter.take : 28,
                     include: {
                         client: {
                             select: {
@@ -121,6 +122,8 @@ export class ProjectsService {
                     },
                 }),
             ]);
+
+            console.log('total', total)
 
             return { items, total };
         } catch {

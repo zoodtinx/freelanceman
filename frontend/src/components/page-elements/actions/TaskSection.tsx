@@ -29,12 +29,12 @@ export default function TaskSection() {
          openedOn: 'action-page',
          entity: 'task',
          type: 'task',
-         data: {...defaultTaskValue},
+         data: { ...defaultTaskValue },
       });
    };
 
    return (
-      <div className="flex flex-col grow ">
+      <div className="flex flex-col h-full">
          <div className="flex w-full justify-between p-4 pb-3">
             <div className="flex gap-1 items-center">
                <div className="flex items-end gap-1">
@@ -43,7 +43,7 @@ export default function TaskSection() {
                </div>
                <ToggleGroup
                   type="single"
-                  className='pt-1'
+                  className="pt-1"
                   value={taskFilter.status}
                   onValueChange={(value) =>
                      setTaskFilter((prev) => ({
@@ -59,14 +59,12 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-         <div className='flex flex-col p-4 pt-1 grow'>
-            <TaskList
-               addFn={handleNewTask}
-               filter={taskFilter}
-               setFilter={setTaskFilter}
-               page="action-page"
-            />
-         </div>
+         <TaskList
+            addFn={handleNewTask}
+            filter={taskFilter}
+            setFilter={setTaskFilter}
+            page="action-page"
+         />
       </div>
    );
 }

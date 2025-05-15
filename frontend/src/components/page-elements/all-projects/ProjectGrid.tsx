@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { ProjectPayload } from 'freelanceman-common/src/schemas';
-import { CircleCheck, EllipsisVertical, Plus, UsersRound } from 'lucide-react';
+import { CircleCheck, EllipsisVertical,UsersRound } from 'lucide-react';
 import {
    ProjectListProps,
    ProjectCardProps,
@@ -10,12 +9,12 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
 import {
    ApiErrorPlaceHolder,
-   NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 import NoProjectPlaceholder from '@/components/shared/ui/placeholder-ui/AllProjectPagePlaceHolder';
+import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 
-const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult }) => {
+const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult, handleLoadMore }) => {
    const { data: projects, isLoading, isError, refetch } = queryResult;
 
    const setFormDialogState = useFormDialogStore(
@@ -36,22 +35,44 @@ const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult }) => {
    if (isLoading) return <AllProjectPageLoader />;
    if (isError || !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (!projects.items.length)
-      return (
-         <NoProjectPlaceholder addFn={handleNewProject} />
-      );
+      return <NoProjectPlaceholder addFn={handleNewProject} />;
 
-   const projectCards =
-      projects.items.length !== 0
-         ? projects.items.map((project: ProjectPayload) => {
-              return <ProjectCard project={project} key={project.id} />;
-           })
-         : 'no content';
+   const placeholdersNeeded = Math.max(0, 4 - projects.items.length);
+
+   const placeholders = Array.from({ length: placeholdersNeeded }, (_, i) => ({
+      id: `placeholder-${i}`,
+      isPlaceholder: true,
+   }));
+
+   const filledProjects = [...projects.items, ...placeholders];
+
+   const projectCards = filledProjects.map((project: any) =>
+      project.isPlaceholder ? (
+         <div key={project.id} />
+      ) : (
+         <ProjectCard project={project} key={project.id} />
+      )
+   );
+
+   const remainingItems = projects.total - projects.items.length > 0;
+
+   const loadMoreProject = () => {
+      const newAmount = projects.total + 16
+      handleLoadMore(newAmount)
+   }
 
    return (
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 w-full">
-         {projectCards}
-      </div>
-   )
+      <>
+         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1">
+            {projectCards}
+         </div>
+         {remainingItems && (
+            <div className="flex justify-center pb-5 pt-1 w-full">
+               <LoadMoreButton loadMoreFn={loadMoreProject} isLoading={isLoading} />
+            </div>
+         )}
+      </>
+   );
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {

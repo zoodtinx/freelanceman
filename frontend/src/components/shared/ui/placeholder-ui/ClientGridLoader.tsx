@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 
 export const ClientGridLoader = () => {
-   const placeholder = Array.from({ length: 8 }, (_, index) => ({
+   const placeholder = Array.from({ length: 10 }, (_, index) => ({
       id: index + 1,
       name: `Client ${index + 1}`,
       email: `client${index + 1}@example.com`,

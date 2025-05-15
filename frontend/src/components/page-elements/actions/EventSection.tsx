@@ -31,7 +31,7 @@ export default function EventSection() {
    };
 
    return (
-      <div className="flex flex-col grow">
+      <div className="flex flex-col h-full">
          <div className="flex w-full justify-between p-4 pb-3">
             <div className="flex gap-1 items-center">
                <div className="flex items-end gap-1">
@@ -40,7 +40,7 @@ export default function EventSection() {
                </div>
                <ToggleGroup
                   type="single"
-                  className='pt-1'
+                  className="pt-1"
                   value={eventFilter.status as any}
                   onValueChange={(value: any) =>
                      setEventFilter((prev) => ({ ...prev, status: value }))
@@ -54,10 +54,11 @@ export default function EventSection() {
             <AddButton onClick={handleNewEvent} />
          </div>
          <EventList
-               filter={eventFilter}
-               setFilter={setEventFilter}
-               addFn={handleNewEvent}
-            />
+            filter={eventFilter}
+            setFilter={setEventFilter}
+            addFn={handleNewEvent}
+            page="action-page"
+         />
       </div>
    );
 }

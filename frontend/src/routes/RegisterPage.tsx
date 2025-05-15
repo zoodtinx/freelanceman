@@ -12,6 +12,7 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import FreelanceManLogo from '@/components/page-elements/app-layout/topbar/Logo';
 import { FreelanceManIcon } from '@/components/shared/icons';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const RegisterPage: React.FC = () => {
    const navigate = useNavigate();
@@ -27,15 +28,21 @@ const RegisterPage: React.FC = () => {
       console.log('Google Sign-up triggered');
    };
 
-   const onSubmit = async (data: any) => {
+   const onSubmit = async (formData: any) => {
       const payload = {
-         email: data.email,
-         displayName: data.displayName,
-         password: data.password,
+         email: formData.email,
+         displayName: formData.displayName,
+         password: formData.password,
       };
 
-      const { accessToken } = await register(payload);
-      setAccessToken(accessToken);
+      const {success, data} = await register(payload);
+
+      if (!success) {
+         toast.error('This email is already in use.')
+         return
+      }
+      setAccessToken(data.accessToken);
+      navigate('/home/projects')
    };
 
    const handleLogin = () => {
@@ -44,9 +51,13 @@ const RegisterPage: React.FC = () => {
 
    return (
       <div className="flex bg-background w-full h-screen items-center justify-center p-8">
-         <div className='flex grow justify-center items-center w-1/2'>
-            <FreelanceManIcon className='w-36' />
-         </div>
+         <div className="flex flex-col gap-4 grow justify-center items-center w-1/2">
+                     <FreelanceManIcon className="w-40" />
+                     <p className="text-center font-medium text-[30px] leading-tight">
+                        Freelancing,
+                        <br /> Leveled Up
+                     </p>
+                  </div>
          <div className="flex flex-col p-8 rounded-2xl items-center bg-white h-full w-3/5 justify-center shadow-md">
             <div className='w-1/2'>
                <h2 className="text-xl font-medium text-center mb-6">
@@ -91,7 +102,7 @@ const RegisterPage: React.FC = () => {
                      type="submit"
                      className="w-full py-2 text-foreground h-8 mt-4 focus:outline-none"
                   >
-                     Sign Up
+                     Register
                   </Button>
                </form>
                <Button
@@ -99,16 +110,16 @@ const RegisterPage: React.FC = () => {
                   variant={'outline'}
                   className="w-full py-2 h-8 mt-2 focus:outline-none text-primary"
                >
-                  Sign Up with Google
+                  Register with Google
                </Button>
-               <div className="mt-4 text-center text-sm text-gray-600">
+               <div className="mt-4 text-center text-gray-600">
                   <span>Already have an account?</span>
                   <a
-                     className="text-button-blue-blue font-semibold"
+                     className="text-button-blue-blue font-semibold cursor-pointer"
                      onClick={handleLogin}
                   >
                      {' '}
-                     Log in
+                     Sign in
                   </a>
                </div>
             </div>

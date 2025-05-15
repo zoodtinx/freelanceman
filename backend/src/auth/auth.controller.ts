@@ -55,7 +55,7 @@ export class AuthController {
         const refreshToken = req.cookies?.refreshToken;
 
         if (!refreshToken) {
-            const { accessToken, refreshToken, user } =
+            const { accessToken, refreshToken } =
                 await this.demoService.resolveNewDemoUser();
                 console.log('refreshToken', refreshToken)
             req.res?.cookie('refreshToken', refreshToken, {
@@ -66,7 +66,7 @@ export class AuthController {
                 path: '/',
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             });
-            return { newAccessToken: accessToken };
+            return { accessToken };
         }
 
         const refreshResult =
@@ -82,7 +82,7 @@ export class AuthController {
             maxAge: 7 * 24 * 60 * 60 * 1000, 
         });
 
-        req.res?.json({ newAccessToken, user });
+        req.res?.json({ accessToken: newAccessToken, user });
     }
 
     @UseGuards(LocalAuthGuard)
@@ -91,9 +91,9 @@ export class AuthController {
     @UsePipes(new ZodValidationPipe(loginUserSchema))
     async login(@Req() req: Request) {
         const loginResult = await this.localAuthService.login(req);
-        const { accessTokenString, refreshTokenString } = loginResult;
+        const { accessToken, refreshToken } = loginResult;
 
-        req.res?.cookie('refreshToken', refreshTokenString, {
+        req.res?.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
@@ -103,7 +103,7 @@ export class AuthController {
             maxAge: 7 * 24 * 60 * 60 * 1000, 
         });
 
-        return { accessTokenString };
+        return { accessToken };
     }
 
     @UseGuards(AuthGuard('jwt-access'))
@@ -124,9 +124,22 @@ export class AuthController {
     
     @Post('register')
     @UsePipes(new ZodValidationPipe(registerUserSchema))
-    async register(@Body() registerUserDto: RegisterUserDto) {
-        const result = await this.localAuthService.register(registerUserDto);
-        return result;
+    async register(@Body() registerUserDto: RegisterUserDto, @Req() req: Request) {
+        
+        const { accessToken, refreshToken } =
+            await this.localAuthService.register(registerUserDto);
+
+        req.res?.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            priority: 'high',
+            domain: 'localhost',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60 * 1000, 
+        });
+        
+        return { accessToken };
     }
 
     @Post('reset-password-request')

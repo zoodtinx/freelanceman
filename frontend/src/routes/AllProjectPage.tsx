@@ -6,6 +6,7 @@ import { ProjectFilterBar } from '@/components/page-elements/all-projects/Projec
 import { ProjectFilterDto } from 'freelanceman-common';
 import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
 import { UnexpectedError } from '@/components/shared/ui/placeholder-ui/ErrorUI';
+import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 
 export default function AllProjectPage() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -25,8 +26,17 @@ export default function AllProjectPage() {
       return <UnexpectedError onClick={() => refetch()} />;
    }
 
+   const handleLoadMore = (value: number) => {
+      setProjectFilter((prev) => {
+         return {
+            ...prev,
+            take: value
+         }
+      })
+   }
+
    return (
-      <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative">
+      <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative gap-2">
          <ProjectFilterBar
             projectFilter={projectFilter}
             setProjectFilter={setProjectFilter}
@@ -36,14 +46,14 @@ export default function AllProjectPage() {
          <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto min-h-0 relative h-full">
             <div className="sm:hidden h-full">
                {viewMode === 'grid' && (
-                  <ProjectGrid queryResult={projectsQueryResult} />
+                  <ProjectGrid queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
                )}
                {viewMode === 'list' && (
-                  <ProjectList queryResult={projectsQueryResult} />
+                  <ProjectList queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
                )}
             </div>
             <div className="hidden sm:block">
-               <ProjectList queryResult={projectsQueryResult} />
+               <ProjectList queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
             </div>
          </div>
       </div>

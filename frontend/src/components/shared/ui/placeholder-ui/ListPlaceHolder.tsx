@@ -35,15 +35,13 @@ export const NoDataPlaceHolder = ({
 }) => {
    return (
       <div
+         onClick={addFn}
          className={cn(
-            'flex flex-col justify-center items-center grow pb-5 gap-1 text-secondary',
+            'flex flex-col justify-center items-center grow pb-5 gap-1 text-secondary cursor-pointer',
             className
          )}
       >
-         <Plus
-            className="h-11 w-11 stroke text-tertiary hover:text-primary transition-colors cursor-pointer"
-            onClick={addFn}
-         />
+         <Plus className="h-8 w-8 text-tertiary hover:text-primary transition-colors" />
          <p>{children}</p>
       </div>
    );

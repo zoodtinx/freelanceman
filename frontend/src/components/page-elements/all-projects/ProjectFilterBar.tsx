@@ -25,7 +25,7 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    setViewMode,
 }) => {
    return (
-      <div className="flex items-center justify-between pb-2 select-none bg-background">
+      <div className="flex items-center justify-between select-none bg-quaternary p-2 rounded-full">
          <div className="flex gap-[6px]">
             <ProjectStatusFilterBubble
                projectFilter={projectFilter}

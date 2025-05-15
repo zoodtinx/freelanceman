@@ -17,12 +17,13 @@ import { useFileUrlQuery } from '@/lib/api/file-api';
 import { forwardRef, useEffect, useRef } from 'react';
 import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/ClientContactLoader';
 import { cn } from '@/lib/helper/utils';
+import { Plus } from 'lucide-react';
 
 export const ContactList = ({
    addFn,
    filter,
    setFilter,
-   page
+   page,
 }: ListProps<ClientContactFilterDto>) => {
    const {
       data: contacts,
@@ -35,7 +36,7 @@ export const ContactList = ({
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
+   useEffect(() => {
       if (!contacts || contacts?.items.length <= 20) {
          return;
       }
@@ -51,10 +52,7 @@ useEffect(() => {
    if (isLoading) return <ClientContactListLoader />;
    if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (!contacts.items.length)
-      return <NoDataPlaceHolder addFn={addFn}>Add a contact</NoDataPlaceHolder>;
-
-   console.log('length', contacts?.items.length);
-   console.log('total', contacts.total);
+      return <ContactListPlaceholder addFn={addFn} />;
 
    const handleLoadMore = () => {
       const curentLength = contacts?.items.length;
@@ -77,7 +75,7 @@ useEffect(() => {
          <ContactCard
             key={contact.id}
             contact={contact}
-            page={page}
+            page={page ? page : 'all-client-page'}
             ref={isLast ? lastItemRef : undefined}
          />
       );
@@ -102,16 +100,13 @@ useEffect(() => {
 
 export const ContactCard = forwardRef<
    HTMLDivElement,
-   { contact: ClientContactPayload, page: string }
+   { contact: ClientContactPayload; page: string }
 >(({ contact, page }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const { data } = useFileUrlQuery(
-      contact.avatar,
-      Boolean(contact.avatar)
-   );
+   const { data } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar));
 
    const handleClick = () => {
       setFormDialogState({
@@ -128,16 +123,21 @@ export const ContactCard = forwardRef<
       <div
          ref={ref}
          onClick={handleClick}
-         className={cn(`flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[75px] shrink-0
+         className={cn(
+            `flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[55px] shrink-0
                border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
-               cursor-default`, page !== 'all-client-page' && 'h-[55px]' )}
+               cursor-default`,
+            page === 'all-client-page' && 'h-[75px] p-2'
+         )}
       >
-         <AvatarDisplay url={data?.url} />
+         <AvatarDisplay page={page} url={data?.url} />
          <div className="flex flex-col leading-tight">
             <p className="font-semibold text-md">{contact.name}</p>
-            {page === 'all-client-page' && <p className="font-semibold text-base text-secondary">
-               {contact.company.name}
-            </p>}
+            {page === 'all-client-page' && (
+               <p className="font-semibold text-base text-secondary">
+                  {contact.company.name}
+               </p>
+            )}
             <p className="text-base text-secondary">{contact.role}</p>
          </div>
       </div>
@@ -145,3 +145,27 @@ export const ContactCard = forwardRef<
 });
 
 ContactCard.displayName = 'ContactCard';
+
+
+const ContactListPlaceholder = ({ addFn }: { addFn: () => void }) => {
+   const placeholders = [...Array(25)].map(() => {
+      return (
+         <div className="h-[75px] opacity-50 shrink-0 border border-secondary border-dashed rounded-full" />
+      );
+   });
+
+   return (
+      <div className="flex flex-col pt-1 gap-1 h-full overflow-hidden relative">
+         <div className="z-10 absolute h-full w-full bottom-0 bg-gradient-to-t from-foreground via-foreground to-transparent pointer-events-none" />
+         <div
+            onClick={addFn}
+            className={`h-[75px] shrink-0 border border-dashed border-secondary flex gap-2 justify-center items-center text-secondary
+                        rounded-full hover:border-primary hover:text-primary transition-colors duration-100 cursor-pointer`}
+         >
+            <Plus className="w-6 h-6" />
+            <p>Add a new contact</p>
+         </div>
+         {placeholders}
+      </div>
+   );
+};

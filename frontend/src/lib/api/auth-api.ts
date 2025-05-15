@@ -1,6 +1,8 @@
 interface AuthApiResponse {
    success: boolean;
-   data: any;
+   data: {
+      accessToken: string
+   };
 }
 
 interface registerUserRequestPayload {
@@ -24,7 +26,10 @@ export async function register(
       body: JSON.stringify(payload),
    });
 
-   return await res.json();
+   return {
+      success: true,
+      data: await res.json(),
+   };
 }
 
 export async function login(

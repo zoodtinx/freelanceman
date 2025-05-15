@@ -86,7 +86,8 @@ const PinnedProjectTabs = ({
       return null;
    }
 
-   const pinnedProjects = projects?.items.map((project) => {
+   const pinnedProjects = projects?.items.map((project, i) => {
+      if (i > 3) return
       return <PinnedProjectCard project={project} key={project.id} />;
    });
 

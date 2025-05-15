@@ -167,7 +167,8 @@ export type OpenedOnType =
    | 'action-page'
    | 'file-page'
    | 'document-page'
-   | 'global-add-button';
+   | 'global-add-button'
+   | 'income-page';
 
 export interface PromptDialogState {
    isOpen: boolean;

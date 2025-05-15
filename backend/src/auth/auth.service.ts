@@ -16,6 +16,7 @@ import {
 import { EmailService } from 'src/shared/email/email.service';
 import { GoogleUserDto } from 'freelanceman-common';
 import { JwtService } from '@nestjs/jwt';
+import { refreshToken } from 'e2e-tests/test-utils';
 
 @Injectable()
 export class LocalAuthService {
@@ -36,7 +37,7 @@ export class LocalAuthService {
         const isDev = process.env.NODE_ENV === 'development';
 
         const passwordsMatch = async (input: string, stored: string) => {
-            if (isDev) return input === stored;
+            // if (isDev) return input === stored;
             return bcrypt.compare(input, stored);
         };
 
@@ -95,7 +96,20 @@ export class LocalAuthService {
                 },
             );
 
-            return { accessToken };
+            const refreshTokenRecord = await this.prismaService.refreshToken.upsert(
+            {
+                where: { userId: user.id },
+                update: {
+                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                },
+                create: {
+                    userId: user.id,
+                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                },
+            },
+        );
+
+            return { accessToken, refreshToken: refreshTokenRecord };
         } catch (error) {
             await this.prismaService.user.delete({ where: { id: user?.id } });
             console.log('error', error);
@@ -105,7 +119,7 @@ export class LocalAuthService {
     async login(req: any) {
         const user = req.user;
 
-        const accessTokenString = this.jwtService.sign(
+        const accessToken = this.jwtService.sign(
             {
                 sub: user.id,
                 role: user.role,
@@ -129,11 +143,11 @@ export class LocalAuthService {
             },
         );
 
-        const refreshTokenString = refreshTokenRecord.id;
+        const refreshToken = refreshTokenRecord.id;
 
         return {
-            accessTokenString,
-            refreshTokenString,
+            accessToken,
+            refreshToken,
         };
     }
 

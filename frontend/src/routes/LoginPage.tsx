@@ -8,8 +8,11 @@ import {
 import { login } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { useNavigate } from 'react-router-dom';
+import { FreelanceManIcon } from '@/components/shared/icons';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { Button } from '@/components/shared/ui/primitives/Button';
 
-const RegisterPage: React.FC = () => {
+const LogInPage: React.FC = () => {
    const navigate = useNavigate();
    // const setAccessToken = useAuthStore((state) => state.setAccessToken);
    const { setAccessToken, accessToken } = useAuthStore();
@@ -25,6 +28,8 @@ const RegisterPage: React.FC = () => {
    };
 
    const onSubmit = async (data: any) => {
+      console.log('data', data)
+      
       const payload = {
          email: data.email,
          password: data.password,
@@ -43,53 +48,72 @@ const RegisterPage: React.FC = () => {
    }
 
    return (
-      <div className="bg-background w-full h-screen flex items-center justify-center">
-         <div className="bg-white p-8 rounded-2xl w-full max-w-md">
-            <h2 className="text-xl font-medium text-center mb-6">Login</h2>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-               <div>
-                  <Label>Email</Label>
-                  <TextInputForm
-                     fieldName="email"
-                     formMethods={formMethods}
-                     required={true}
-                  />
-               </div>
-               <div>
-                  <Label>Password</Label>
-                  <TextInputForm
-                     fieldName="password"
-                     formMethods={formMethods}
-                     required={true}
-                  />
-               </div>
-
-               <button
-                  type="submit"
-                  className="w-full py-2 bg-indigo-600 text-white rounded-md mt-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      <div className="flex bg-background w-full h-screen items-center justify-center p-8">
+         <div className="flex flex-col gap-4 grow justify-center items-center w-1/2 text-primary">
+            <FreelanceManIcon className="w-40" />
+            <p className="text-center font-medium text-[30px] leading-tight">
+               Gear up,
+               <br /> Freelancer
+            </p>
+         </div>
+         <div className="flex flex-col p-8 rounded-2xl items-center bg-white h-full w-3/5 justify-between shadow-md">
+            <div></div>
+            <div className="w-1/2">
+               <h2 className="text-xl font-medium text-center mb-6">Sign In</h2>
+               <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-4 w-full"
                >
-                  Log In
-               </button>
-            </form>
-
-            <button
-               onClick={handleGoogleSignup}
-               className="w-full mt-2 flex items-center justify-center py-2 border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-               <HamIcon className="w-5 h-5 mr-2" />
-               Sign up with Google
-            </button>
-
-            <div className="mt-4 text-center text-sm text-gray-600">
-               <span>Not have an account?</span>
-               <span className='font-semibold cursor-pointer' onClick={handleRegiser}>
-                  {' '}Register
-               </span>
+                  <div>
+                     <Label className="text-primary">Email</Label>
+                     <TextInputForm
+                        fieldName="email"
+                        formMethods={formMethods}
+                        required={true}
+                     />
+                  </div>
+                  <div>
+                     <Label className="text-primary">Password</Label>
+                     <TextInputForm
+                        fieldName="password"
+                        formMethods={formMethods}
+                        required={true}
+                     />
+                  </div>
+                  <div className="py-2">
+                     <Separator className="" />
+                  </div>
+                  <Button
+                     type="submit"
+                     className="w-full py-2 text-foreground h-8 mt-4 focus:outline-none"
+                  >
+                     Sign in
+                  </Button>
+               </form>
+               <Button
+                  type="submit"
+                  variant={'outline'}
+                  className="w-full py-2 h-8 mt-2 focus:outline-none text-primary"
+               >
+                  Sign in with Google
+               </Button>
+               <div className="mt-4 text-center">
+                  <span className='opacity-70'>New Freelancer?</span>
+                  <a
+                     className="text-button-blue-blue font-semibold cursor-pointer opacity-70 hover:opacity-100"
+                     onClick={handleRegiser}
+                  >
+                     {' '}
+                     Register
+                  </a>
+               </div>
+            </div>
+            <div className='opacity-70 hover:opacity-100 cursor-pointer'>
+               Skip setup, explore demo.
             </div>
          </div>
       </div>
    );
 };
 
-export default RegisterPage;
+export default LogInPage;

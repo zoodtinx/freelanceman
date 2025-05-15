@@ -31,6 +31,9 @@ import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store'
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import IncomePagePlacholder from '@/components/shared/ui/placeholder-ui/IncomePagePlaceholder';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
@@ -39,8 +42,8 @@ const IncomePage: React.FC = () => {
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter) 
 
    return (
-      <section className="flex flex-col gap-2 w-full h-full sm:flex-col">
-         <div className="flex justify-between">
+      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col pl-1">
+         <div className="flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4">
             <StatsBar />
             <FilterBar
                projectFilter={projectFilter}
@@ -137,6 +140,9 @@ const ProjectPaymentTabList = ({
    paymentDataQueryResult: UseQueryResult<PaymentDataListPayload>;
    setFilter: Dispatch<SetStateAction<PaymentDataFilter>>;
 }) => {
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
    const {
       data: projectData,
       isLoading,
@@ -158,6 +164,17 @@ const ProjectPaymentTabList = ({
       }
    }, [projectData?.items.length]);
 
+      const handleNewProject = () => {
+         setFormDialogState({
+            isOpen: true,
+            type: 'new-project',
+            mode: 'create',
+            data: {...defaultValues['new-project']},
+            openedOn: 'income-page',
+            entity: 'project',
+         });
+      };
+
    if (isLoading) {
       return <IncomePageLoader />;
    }
@@ -167,7 +184,7 @@ const ProjectPaymentTabList = ({
    }
 
    if (!projectData || projectData.items.length === 0) {
-      return <div>Get started by creating a new project</div>;
+      return <IncomePagePlacholder addFn={handleNewProject} />
    }
 
    const handleLoadMore = () => {
@@ -192,21 +209,15 @@ const ProjectPaymentTabList = ({
    });
 
    return (
-      <div className="flex flex-col gap-2 w-full h-0 grow overflow-y-auto pb-2 px-1">
-         {isLoading ? (
-            <IncomePageLoader />
-         ) : (
-            <>
-               {projectList}
-               {remainingItems && (
-                  <div className="flex justify-center pt-3">
-                     <LoadMoreButton
-                        loadMoreFn={handleLoadMore}
-                        isLoading={isLoading}
-                     />
-                  </div>
-               )}
-            </>
+      <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2">
+         {projectList}
+         {remainingItems && (
+            <div className="flex justify-center pt-3">
+               <LoadMoreButton
+                  loadMoreFn={handleLoadMore}
+                  isLoading={isLoading}
+               />
+            </div>
          )}
       </div>
    );

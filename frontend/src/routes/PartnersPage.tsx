@@ -25,6 +25,7 @@ import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactList';
 
 const PartnerContactLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -34,30 +35,6 @@ const PartnerContactLayout = (): JSX.Element => {
    const [filter, setFilter] = useState<PartnerContactFilterDto>({});
    const [searchMode, setSearchMode] =
       useState<keyof PartnerContactFilterDto>('name');
-
-   const {
-      data: contacts,
-      isLoading,
-      isError,
-      refetch,
-   } = usePartnerContactsQuery(
-      filter
-   ) as UseQueryResult<PartnerContactListPayload>;
-
-   const lastItemRef = useRef<HTMLDivElement>(null);
-
-   useEffect(() => {
-      if (!contacts || contacts?.items.length <= 20) {
-         return;
-      }
-
-      if (lastItemRef.current) {
-         lastItemRef.current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-         });
-      }
-   }, [contacts?.items.length]);
 
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFilter({ [searchMode]: event.target.value });
@@ -79,48 +56,6 @@ const PartnerContactLayout = (): JSX.Element => {
       });
    };
 
-   if (isLoading) {
-      return <PartnerPageTabsLoader />;
-   }
-
-   if (isError) {
-      return <ApiErrorPlaceHolder retryFn={refetch} />;
-   }
-
-   if (!contacts || contacts.items.length === 0) {
-      return (
-         <NoDataPlaceHolder addFn={handleNewPartner} children="Add New Event" />
-      );
-   }
-
-   const remainingItems = contacts?.total - contacts?.items.length > 0;
-   const handleLoadMore = () => {
-      const curentLength = contacts?.items.length;
-
-      if (!curentLength) {
-         return;
-      }
-
-      setFilter((prev) => {
-         return {
-            ...prev,
-            take: curentLength + 13,
-         };
-      });
-   };
-
-   const partnerTabs = contacts.items.map((contact, i, arr) => {
-      const isLast = i === arr.length - 1;
-
-      return (
-         <PartnerTab
-            key={contact.id}
-            contact={contact}
-            ref={isLast ? lastItemRef : undefined}
-         />
-      );
-   });
-
    return (
       <div className="flex flex-col grow rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 shadow-md relative">
          <div className="flex justify-between py-2">
@@ -141,17 +76,12 @@ const PartnerContactLayout = (): JSX.Element => {
                value={filter[searchMode] || ''}
             />
          </div>
-         <div className="flex flex-col gap-1 overflow-y-scroll  ">
-            {partnerTabs}
-            {remainingItems && (
-               <div className="flex justify-center pt-3">
-                  <LoadMoreButton
-                     loadMoreFn={handleLoadMore}
-                     isLoading={isLoading}
-                  />
-               </div>
-            )}
-         </div>
+         <PartnerContactList
+            filter={filter}
+            setFilter={setFilter}
+            page="partner-page"
+            addFn={handleNewPartner}
+         />
       </div>
    );
 };

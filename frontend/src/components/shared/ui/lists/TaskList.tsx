@@ -18,6 +18,7 @@ import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader
 import { forwardRef } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ListProps } from '@/lib/types/list-props.type';
+import ActionPageTaskListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageTaskListPlaceholder';
 
 export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    addFn,
@@ -61,6 +62,9 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    }
 
    if (!tasksData || tasksData.items.length === 0) {
+      if (page === 'action-page') {
+         return <ActionPageTaskListPlaceholder addFn={addFn} />
+      }
       return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
 
