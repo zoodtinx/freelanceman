@@ -1,6 +1,5 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useTheme } from 'next-themes';
 import useAuthStore from '@/lib/zustand/auth-store';
 import {
    refreshAccess as apiRefreshAccess,
@@ -8,9 +7,11 @@ import {
 } from '@/lib/api/auth-api';
 import React from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
+import { Loader2 } from 'lucide-react';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
+   const [isLoading, setIsLoading] = useState(false)
    console.log('mode', mode)
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
@@ -19,9 +20,11 @@ const RootPage: React.FC = () => {
 
    useEffect(() => {
       const refreshAccess = async () => {
+         setIsLoading(true)
          const result = await apiRefreshAccess();
+         setIsLoading(false)
          if (!result.success) {
-            navigate('/user/login');
+            navigate('/user/welcome');
             return;
          }
          setAccessToken(result.data.accessToken);
@@ -31,13 +34,15 @@ const RootPage: React.FC = () => {
             navigate('/home');
          }
       };
-
+      
       const checkAccess = async () => {
-         console.log('accessToken', accessToken);
+         setIsLoading(true)
          const result = await apiCheckAccess(accessToken);
-         console.log('result', result);
+         setIsLoading(false)
          if (!result.success) {
+            setIsLoading(true)
             await refreshAccess();
+            setIsLoading(false)
             return;
          }
          const isOnAuthPages =
@@ -53,6 +58,14 @@ const RootPage: React.FC = () => {
          checkAccess();
       }
    }, [accessToken]);
+
+   if (isLoading) {
+      return (
+         <div className="w-screen h-screen flex justify-center items-center">
+            <Loader2 className="animate-spin h-14 w-14" />
+         </div>
+      );
+   }
 
    return <Outlet />;
 };

@@ -9,6 +9,7 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { RefreshTokenStrategy } from 'src/auth/strategies/refresh.strategy';
 import { MailModule } from 'src/shared/email/email.module';
 import { DemoModule } from '@/demo/demo.module';
+import { GoogleStrategy } from '@/auth/strategies/google.strategy';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { DemoModule } from '@/demo/demo.module';
         LocalStrategy,
         JwtStrategy,
         RefreshTokenStrategy,
+        GoogleStrategy,
         TokenService,
         GoogleOAuthService,
     ],

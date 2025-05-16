@@ -8,6 +8,7 @@ import { EllipsisVertical, Plus } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
+import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 
 const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
    const { data: projects, isLoading, isError, error } = queryResult;
@@ -50,16 +51,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
 
    if (!projects || projects?.items?.length === 0) {
       return (
-         <div className="flex flex-col w-full gap-1">
-            <div
-               onClick={handleNewProject}
-               className={`flex border border-dashed border-primary text-primary rounded-[15px] h-[40px] opacity-35
-                              hover:opacity-100 transition-opacity duration-100 cursor-pointer justify-center items-center`}
-            >
-               <Plus className="w-6 h-6" />
-            </div>
-            {placeholder}
-         </div>
+         <TabListPlaceHolder page='all-project-page' addFn={handleNewProject} children='Start a new project' />
       );
    }
 

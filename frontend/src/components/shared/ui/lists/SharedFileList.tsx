@@ -22,6 +22,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { FileFilterDto, FileListPayload } from 'freelanceman-common';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { forwardRef } from 'react';
+import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 
 type Variant = 'base' | 'project-page';
 
@@ -72,8 +73,13 @@ export const SharedFileList = ({
 
    if (isLoading) return <LoadingPlaceHolder />;
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (!filesData.items.length)
-      return <NoDataPlaceHolder addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
+   if (!filesData.items.length) {
+      if (page === 'file-page') {
+         return <TabListPlaceHolder addFn={addFn} children='Add a file' />
+      } else {
+         return <NoDataPlaceHolder addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
+      }
+   }
 
    const remainingItems = filesData.total - filesData.items.length > 0;
    const handleLoadMore = () => {

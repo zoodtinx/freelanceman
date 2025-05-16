@@ -18,7 +18,7 @@ const NoProjectPlaceholder: React.FC<{ addFn: () => void }> = ({addFn}) => {
                         transition-opacity duration-100 cursor-pointer`}
          >
             <Plus className="w-8 h-8" />
-            <p>New Project</p>
+            <p>Start a new project</p>
          </div>
          {placeholders}
       </div>

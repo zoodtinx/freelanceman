@@ -18,7 +18,7 @@ interface RegisterUserResponsePayload {
 export async function register(
    payload: registerUserRequestPayload
 ): Promise<AuthApiResponse> {
-   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/register`, {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function register(
 export async function login(
    payload: registerUserRequestPayload
 ): Promise<AuthApiResponse> {
-   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/login`, {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export async function login(
 }
 
 export async function logOut(token: string) {
-   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/logout`, {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -73,7 +73,7 @@ export async function logOut(token: string) {
 }
 
 export async function refreshAccess(): Promise<AuthApiResponse> {
-   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/refresh`, {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/refresh`, {
       method: 'GET',
       credentials: 'include',
    });
@@ -92,7 +92,7 @@ export async function refreshAccess(): Promise<AuthApiResponse> {
 }
 
 export async function checkAccess(token: string) {
-   const res = await fetch(`${import.meta.env.VITE_API_URL}auth/check`, {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/check`, {
       method: 'GET',
       headers: {
          Authorization: `Bearer ${token}`,
@@ -111,3 +111,45 @@ export async function checkAccess(token: string) {
       data: await res.json(),
    };
 }
+
+export async function getDemo() {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/demo`, {
+      method: 'GET',
+      credentials: 'include',
+   });
+
+   console.log('Response Headers:', Array.from(res.headers.entries()));
+
+   if (!res.ok) {
+      return {
+         success: false,
+         data: await res.json(),
+      };
+   }
+
+   return {
+      success: true,
+      data: await res.json(),
+   };
+}
+
+// export async function googleSignIn() {
+//    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/google`, {
+//       method: 'GET',
+//       credentials: 'include',
+//    });
+
+//    console.log('Response Headers:', Array.from(res.headers.entries()));
+
+//    if (!res.ok) {
+//       return {
+//          success: false,
+//          data: await res.json(),
+//       };
+//    }
+
+//    return {
+//       success: true,
+//       data: await res.json(),
+//    };
+// }

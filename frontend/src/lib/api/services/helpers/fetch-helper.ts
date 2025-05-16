@@ -15,7 +15,7 @@ export async function fetchProMax({
 }: FetchRequestOptions) {
    try {
       const response = await fetch(
-         `${import.meta.env.VITE_API_URL}${apiEndpoint}`,
+         `${import.meta.env.VITE_API_URL}/${apiEndpoint}`,
          {
             method,
             headers: {

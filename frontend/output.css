@@ -1395,6 +1395,18 @@ html[lang="th"] {
   width: 100vw;
 }
 
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-\[3000px\] {
+  width: 3000px;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
 .min-w-10 {
   min-width: 2.5rem;
 }
@@ -2341,6 +2353,10 @@ html[lang="th"] {
 
 .stroke-\[4px\] {
   stroke-width: 4px;
+}
+
+.stroke-\[1px\] {
+  stroke-width: 1px;
 }
 
 .object-contain {

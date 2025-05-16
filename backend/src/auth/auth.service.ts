@@ -9,14 +9,13 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { AccessTokenPayload, RefreshTokenPayload } from 'src/auth/types';
 import { ConfigService } from '@nestjs/config';
 import {
+    GoogleOAuthPayload,
     RegisterUserDto,
     ResetPasswordDto,
     ResetPasswordRequestDto,
 } from 'freelanceman-common';
 import { EmailService } from 'src/shared/email/email.service';
-import { GoogleUserDto } from 'freelanceman-common';
 import { JwtService } from '@nestjs/jwt';
-import { refreshToken } from 'e2e-tests/test-utils';
 
 @Injectable()
 export class LocalAuthService {
@@ -317,28 +316,35 @@ export class GoogleOAuthService {
         private config: ConfigService,
     ) {}
 
-    async login(dto: GoogleUserDto) {
-        const { email, name, picture } = dto;
+    async login(dto: GoogleOAuthPayload) {
+        console.log('dto', dto)
+
+        const emailValue = dto.emails[0].value
 
         try {
             let user;
 
             user = await this.prisma.user.findFirst({
-                where: { email: email },
+                where: { email: emailValue },
             });
 
             if (!user) {
                 user = await this.prisma.user.create({
                     data: {
-                        email: email,
-                        displayName: name,
-                        avatar: picture,
+                        email: emailValue,
+                        displayName: `${dto.name.givenName} ${dto.name.familyName}`,
                     },
                 });
             }
 
-            const refreshToken = await this.prisma.refreshToken.create({
-                data: {
+            console.log('user', user)
+
+            const refreshToken = await this.prisma.refreshToken.upsert({
+                where: { userId: user.id },
+                update: {
+                    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                },
+                create: {
                     userId: user.id,
                     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                 },
@@ -347,20 +353,21 @@ export class GoogleOAuthService {
             const accessToken = this.jwt.sign(
                 { sub: user.id },
                 {
-                    secret: this.config.get('jwt.accessSecret'),
+                    secret: this.config.get('jwt.accessTokenSecret'),
                     expiresIn: '15m',
                 },
             );
 
             return {
                 accessToken,
-                refreshToken,
+                refreshToken: refreshToken.id,
                 user: {
                     id: user.id,
                     email: user.email,
                 },
             };
         } catch (err) {
+            console.log('err', err)
             throw new InternalServerErrorException(
                 'Failed to login with Google',
             );

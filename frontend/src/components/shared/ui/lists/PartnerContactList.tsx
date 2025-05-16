@@ -5,7 +5,8 @@ import {
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
-import PartnerPagePlaceholder from '@/components/shared/ui/placeholder-ui/PartnerPagePlaceholder';
+import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import PartnerPagePlaceholder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { ListProps } from '@/lib/types/list-props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -68,9 +69,9 @@ export const PartnerContactList: React.FC<
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
-   if (contacts || contacts.items.length === 0) {
+   if (!contacts || contacts.items.length === 0) {
       return (
-         <PartnerPagePlaceholder addFn={handleNewPartner} children="Add New Event" />
+         <TabListPlaceHolder addFn={handleNewPartner} children="Add a new partner contact" />
       );
    }
 

@@ -16,7 +16,6 @@ import {
    UserRoundPen,
 } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { useTheme } from 'next-themes';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
@@ -40,7 +39,7 @@ const { mode, toggle } = useDarkMode();
 
    const handleSignOut = async () => {
       await logOut(accessToken);
-      navigate('/user/login');
+      navigate('/user/welcome');
    };
 
    const { data: userDataPayload, isLoading: userDataIsLoading } =
@@ -82,7 +81,7 @@ const { mode, toggle } = useDarkMode();
                      />
                   ) : (
                      <div className="flex bg-foreground w-full h-full items-center justify-center">
-                        <UserRound className="text-secondary w-7 h-7" />
+                        <UserRound className="text-tertiary w-14 h-14" />
                      </div>
                   )}
                </div>
@@ -94,7 +93,7 @@ const { mode, toggle } = useDarkMode();
                      <p>Appearance</p>
                   </div>
                   <Tabs
-                     className="w-[100px] p-1 bg-tertiary rounded-md text-secondary"
+                     className="w-[100px] p-1 bg-quaternary rounded-md text-secondary"
                      value={mode}
                      onValueChange={toggle}
                   >

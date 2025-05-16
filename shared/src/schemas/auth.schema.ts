@@ -36,4 +36,21 @@ export type ResetPasswordDto = z.infer<typeof resetPasswordSchema>;
 export type ResetPasswordRequestDto = z.infer<
     typeof resetPasswordRequestSchema
 >;
-export type GoogleUserDto = z.infer<typeof googleUserSchema>;
+// export type GoogleUserDto = z.infer<typeof googleUserSchema>;
+
+
+export interface GoogleOAuthPayload {
+  id: string;
+  displayName: string;
+  name: {
+    familyName: string;
+    givenName: string;
+  };
+  emails: {
+    value: string;
+    verified: boolean;
+  }[];
+  photos: {
+    value: string;
+  }[];
+}

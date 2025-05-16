@@ -55,18 +55,7 @@ export class AuthController {
         const refreshToken = req.cookies?.refreshToken;
 
         if (!refreshToken) {
-            const { accessToken, refreshToken } =
-                await this.demoService.resolveNewDemoUser();
-                console.log('refreshToken', refreshToken)
-            req.res?.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                secure: false,
-                sameSite: 'lax',
-                priority: 'high',
-                path: '/',
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-            });
-            return { accessToken };
+            throw new UnauthorizedException('Refresh token is missing');
         }
 
         const refreshResult =
@@ -171,13 +160,17 @@ export class AuthController {
             await this.googleOAuthService.login(dto);
         const redirectUrl = this.configService.get<string>('url.client');
 
-        res.cookie('refreshToken', refreshToken.id, {
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
-        res.redirect(`${redirectUrl}/oauth-success?token=${accessToken}`);
+        res.redirect(`${redirectUrl}/home/projects`);
     }
+
+    @Get('google')
+    @UseGuards(AuthGuard('google'))
+    googleAuth() {}
 }

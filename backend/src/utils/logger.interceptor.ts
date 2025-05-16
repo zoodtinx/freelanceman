@@ -35,6 +35,7 @@ import {
           this.logger.debug(
             `Success Response:
             Status: ${response.statusCode}
+            Cookie Header: ${response.getHeader('set-cookie')}
             Duration: ${Date.now() - now}ms
             Body: ${safeJsonPreview(responseBody)}`
           );

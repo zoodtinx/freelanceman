@@ -19,7 +19,7 @@ export default function AllProjectPage() {
    const { isLoading, isError, refetch } = projectsQueryResult;
 
    if (isLoading) {
-      return <AllProjectPageLoader />;
+      return <AllProjectPageLoader />
    }
 
    if (isError) {

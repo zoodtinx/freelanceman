@@ -5,7 +5,7 @@ import {
    Label,
    TextInputForm,
 } from '@/components/shared/ui/form-field-elements';
-import { register } from '@/lib/api/auth-api';
+import { googleSignIn, register } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
@@ -35,94 +35,97 @@ const RegisterPage: React.FC = () => {
          password: formData.password,
       };
 
-      const {success, data} = await register(payload);
+      const { success, data } = await register(payload);
 
       if (!success) {
-         toast.error('This email is already in use.')
-         return
+         toast.error('This email is already in use.');
+         return;
       }
       setAccessToken(data.accessToken);
-      navigate('/home/projects')
+      navigate('/home/projects');
    };
 
    const handleLogin = () => {
-      navigate('../login')
-   }
+      navigate('../login');
+   };
+
+   const handleGoogleRegister = async () => {
+      window.location.href = 'http://localhost:3000/auth/google';
+   };
 
    return (
-      <div className="flex bg-background w-full h-screen items-center justify-center p-8">
-         <div className="flex flex-col gap-4 grow justify-center items-center w-1/2">
-                     <FreelanceManIcon className="w-40" />
-                     <p className="text-center font-medium text-[30px] leading-tight">
-                        Freelancing,
-                        <br /> Leveled Up
-                     </p>
-                  </div>
-         <div className="flex flex-col p-8 rounded-2xl items-center bg-white h-full w-3/5 justify-center shadow-md">
-            <div className='w-1/2'>
-               <h2 className="text-xl font-medium text-center mb-6">
-                  Create an Account
-               </h2>
-               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
-                  <div>
-                     <Label className="text-primary">Display Name</Label>
-                     <TextInputForm
-                        fieldName="displayName"
-                        formMethods={formMethods}
-                        required={true}
-                     />
-                  </div>
-                  <div>
-                     <Label className="text-primary">Email</Label>
-                     <TextInputForm
-                        fieldName="email"
-                        formMethods={formMethods}
-                        required={true}
-                     />
-                  </div>
-                  <div>
-                     <Label className="text-primary">Password</Label>
-                     <TextInputForm
-                        fieldName="password"
-                        formMethods={formMethods}
-                        required={true}
-                     />
-                  </div>
-                  <div>
-                     <Label className="text-primary">Confirm Password</Label>
-                     <TextInputForm
-                        fieldName="confirmPassword"
-                        formMethods={formMethods}
-                     />
-                  </div>
-                  <div className="py-2">
-                     <Separator className="" />
-                  </div>
-                  <Button
-                     type="submit"
-                     className="w-full py-2 text-foreground h-8 mt-4 focus:outline-none"
-                  >
-                     Register
-                  </Button>
-               </form>
+      <div className="h-full w-full flex flex-col justify-between items-center">
+         <div></div>
+         <div className="w-1/2">
+            <h2 className="text-xl font-medium text-center mb-6">
+               Create an Account
+            </h2>
+            <form
+               onSubmit={handleSubmit(onSubmit)}
+               className="space-y-4 w-full"
+            >
+               <div>
+                  <Label className="text-primary">Display Name</Label>
+                  <TextInputForm
+                     fieldName="displayName"
+                     formMethods={formMethods}
+                     required={true}
+                  />
+               </div>
+               <div>
+                  <Label className="text-primary">Email</Label>
+                  <TextInputForm
+                     fieldName="email"
+                     formMethods={formMethods}
+                     required={true}
+                  />
+               </div>
+               <div>
+                  <Label className="text-primary">Password</Label>
+                  <TextInputForm
+                     fieldName="password"
+                     formMethods={formMethods}
+                     required={true}
+                  />
+               </div>
+               <div>
+                  <Label className="text-primary">Confirm Password</Label>
+                  <TextInputForm
+                     fieldName="confirmPassword"
+                     formMethods={formMethods}
+                  />
+               </div>
+               <div className="py-2">
+                  <Separator className="" />
+               </div>
                <Button
                   type="submit"
-                  variant={'outline'}
-                  className="w-full py-2 h-8 mt-2 focus:outline-none text-primary"
+                  className="w-full py-2 text-foreground h-8 mt-4 focus:outline-none"
                >
-                  Register with Google
+                  Register
                </Button>
-               <div className="mt-4 text-center text-gray-600">
-                  <span>Already have an account?</span>
-                  <a
-                     className="text-button-blue-blue font-semibold cursor-pointer"
-                     onClick={handleLogin}
-                  >
-                     {' '}
-                     Sign in
-                  </a>
-               </div>
+            </form>
+            <Button
+               onClick={handleGoogleRegister}
+               type="submit"
+               variant={'outline'}
+               className="w-full py-2 h-8 mt-2 focus:outline-none text-primary"
+            >
+               Register with Google
+            </Button>
+            <div className="mt-4 text-center text-gray-600">
+               <span>Already have an account?</span>
+               <a
+                  className="text-button-blue-blue font-semibold cursor-pointer"
+                  onClick={handleLogin}
+               >
+                  {' '}
+                  Sign in
+               </a>
             </div>
+         </div>
+         <div className="opacity-70 hover:opacity-100 cursor-pointer">
+            Skip setup, explore demo.
          </div>
       </div>
    );

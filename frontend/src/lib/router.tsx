@@ -14,6 +14,8 @@ import SalesDocumentBuilderPage from '@/components/page-elements/documents/Sales
 import LoginPage from '@/routes/LoginPage';
 import RegisterPage from '@/routes/RegisterPage';
 import RootPage from '@/routes/RootPage';
+import WelcomePage from '@/routes/WelcomePage';
+import AuthPage from '@/routes/AuthPage';
 
 export const router = createBrowserRouter([
    {
@@ -22,7 +24,12 @@ export const router = createBrowserRouter([
       children: [
          {
             path: 'user',
+            element: <AuthPage />,
             children: [
+               {
+                  path: 'welcome',
+                  element: <WelcomePage />,
+               },
                {
                   path: 'login',
                   element: <LoginPage />,

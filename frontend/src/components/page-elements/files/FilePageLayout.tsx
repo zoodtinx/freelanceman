@@ -141,8 +141,9 @@ const FilePageLayout = (): JSX.Element => {
             />
          </div>
          <SharedFileList
-            variant="project-page"
-            filesQueryResult={filesQueryResult}
+            page="file-page"
+            filter={fileFilter}
+            setFilter={setFileFilter}
             setSelectState={setSelectState}
             selectState={selectState}
             placeHolder="Add a file"

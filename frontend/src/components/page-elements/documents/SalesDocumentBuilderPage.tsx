@@ -158,14 +158,6 @@ const SalesDocumentBuilderPage = ({
       setIsApiLoading({ type: 'submit', isLoading: false });
    };
 
-   // const handleDelete = async (e: React.MouseEvent) => {
-   //    e.preventDefault();
-   //    setIsApiLoading({ type: 'delete', isLoading: true });
-   //    await deleteSalesDoc.mutateAsync(salesDocumentData?.id);
-   //    navigate('/home/income');
-   //    setIsApiLoading({ type: 'delete', isLoading: false });
-   // };
-
    const handleDiscard = (e: React.MouseEvent) => {
       e.preventDefault();
       navigate('/home/income');
