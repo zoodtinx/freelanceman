@@ -108,7 +108,7 @@ export class AuthController {
             path: '/',
         });
 
-        req.res.send()
+        return
     }
     
     @Post('register')

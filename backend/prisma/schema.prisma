@@ -130,7 +130,7 @@ model PartnerContact {
 model Project {
   id              String                    @id @default(uuid())
   title           String
-  clientId        String
+  clientId        String?
   budget          Int
   projectStatus   String
   paymentStatus   String
@@ -141,7 +141,7 @@ model Project {
   updatedAt       DateTime                  @updatedAt
   events          Event[]
   files           File[]
-  client          Client                    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client          Client?                    @relation(fields: [clientId], references: [id], onDelete: Cascade)
   user            User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   salesDocuments  SalesDocument[]
   tasks           Task[]
@@ -175,15 +175,15 @@ model Event {
   details    String?
   link       String?
   dueAt      DateTime
-  projectId  String
-  clientId   String
+  projectId  String?
+  clientId   String?
   userId     String
   tags       String[]
   isWithTime Boolean?  @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
-  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  client     Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project    Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client     Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -194,14 +194,14 @@ model Task {
   details    String?
   link       String?
   dueAt      DateTime
-  projectId  String
-  clientId   String
+  projectId  String?
+  clientId   String?
   userId     String
   isWithTime Boolean?  @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
-  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  client     Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project    Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client     Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

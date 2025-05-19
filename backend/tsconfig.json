@@ -23,8 +23,8 @@
         "sourceMap": true,
         "strict": true,
         "strictBindCallApply": false,
-        "strictNullChecks": false,
-        "target": "ES2021"
+        // "strictNullChecks": false,
+        "target": "ES2021",
     },
     "include": [
         "e2e-tests",

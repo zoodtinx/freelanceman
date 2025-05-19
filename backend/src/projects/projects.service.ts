@@ -6,19 +6,30 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
-import { ProjectFilterDto, EditProjectDto } from 'freelanceman-common';
 import { getTimezonedDate } from '@/shared/helper/timezoned-date';
+import { CreateProjectDto, EditProjectDto, ProjectFilterDto } from 'freelanceman-common';
+
 
 @Injectable()
 export class ProjectsService {
     constructor(private prismaService: PrismaService) {}
 
-    async create(userId: string, createProjectDto: any) {
+    async create(userId: string, createProjectDto: CreateProjectDto) {
+        const {clientId, ...projectData} = createProjectDto
         try {
             const result = await this.prismaService.project.create({
                 data: {
-                    ...createProjectDto,
-                    userId,
+                    ...projectData,
+                    user: {
+                        connect: { id: userId },
+                    },
+                    client: {
+                        connect: {
+                            id: clientId
+                                ? clientId
+                                : undefined,
+                        },
+                    },
                 },
             });
             return result;
@@ -64,8 +75,8 @@ export class ProjectsService {
     }
 
     async findMany(userId: string, filter: ProjectFilterDto) {
-        const date = getTimezonedDate()
-        
+        const date = getTimezonedDate();
+
         try {
             const where = {
                 userId,
@@ -123,7 +134,7 @@ export class ProjectsService {
                 }),
             ]);
 
-            console.log('total', total)
+            console.log('total', total);
 
             return { items, total };
         } catch {

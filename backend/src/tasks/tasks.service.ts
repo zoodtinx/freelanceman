@@ -13,25 +13,34 @@ export class TasksService {
     constructor(private prismaService: PrismaService) {}
 
     async create(userId: string, createTaskDto: CreateTaskDto) {
+        const {projectId, ...taskData} = createTaskDto
         try {
-            const project = await this.prismaService.project.findUnique({
-                where: { id: createTaskDto.projectId },
-                select: { clientId: true },
-            });
+            let clientId: any
 
-            if (!project) throw new Error('Project not found');
+            if (projectId) {
+                const project = await this.prismaService.project.findUnique({
+                    where: { id: projectId },
+                    select: { clientId: true },
+                });
+
+                if (!project) throw new Error('Project not found');
+
+                clientId = project.clientId
+            }
 
             const result = await this.prismaService.task.create({
                 data: {
-                    dueAt: createTaskDto.dueAt,
-                    name: createTaskDto.name,
-                    status: createTaskDto.status,
-                    details: createTaskDto.details,
-                    link: createTaskDto.link,
-                    projectId: createTaskDto.projectId,
-                    isWithTime: createTaskDto.isWithTime,
-                    clientId: project.clientId,
-                    userId,
+                    ...taskData,
+                    user: {
+                        connect: {
+                            id: userId
+                        }
+                    },
+                    client: {
+                        connect: {
+                            id: clientId
+                        }
+                    }
                 },
             });
             return result;
@@ -53,14 +62,14 @@ export class TasksService {
         try {
             const where = {
                 userId: userId,
-                name: {
+                name: filter.name ? {
                     contains: filter.name,
                     mode: 'insensitive' as const,
-                  },
+                } : undefined,
                 status: filter.status,
                 dueAt: filter.dueAt,
-                projectId: filter.projectId,
-                clientId: filter.clientId,
+                projectId: filter.projectId ? filter.projectId : undefined,
+                clientId: filter.clientId ? filter.clientId: undefined,
             };
 
             const [total, items] = await Promise.all([

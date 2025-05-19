@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE "Event" ALTER COLUMN "projectId" DROP NOT NULL,
+ALTER COLUMN "clientId" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Project" ALTER COLUMN "clientId" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Task" ALTER COLUMN "projectId" DROP NOT NULL,
+ALTER COLUMN "clientId" DROP NOT NULL;
