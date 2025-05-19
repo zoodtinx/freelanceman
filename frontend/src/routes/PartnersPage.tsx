@@ -41,7 +41,7 @@ const PartnerContactLayout = (): JSX.Element => {
          isOpen: true,
          type: 'partner-contact',
          mode: 'create',
-         entity: 'partner-contact',
+         entity: 'partnerContact',
          openedOn: 'partner-page',
          data: { ...defaultPartnerContactValues },
       });

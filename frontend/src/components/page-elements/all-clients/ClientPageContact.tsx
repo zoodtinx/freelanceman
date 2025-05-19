@@ -66,7 +66,7 @@ export const ContactColumn = (): JSX.Element => {
             addFn={handleNewContact}
             filter={filter}
             setFilter={setFilter}
-            page="all-client-page"
+            page="all-clients-page"
          />
       </div>
    );

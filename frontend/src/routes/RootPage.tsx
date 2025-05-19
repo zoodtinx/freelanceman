@@ -12,7 +12,6 @@ import { Loader2 } from 'lucide-react';
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
    const [isLoading, setIsLoading] = useState(false)
-   console.log('mode', mode)
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
    const { accessToken, setAccessToken } = useAuthStore();

@@ -171,10 +171,10 @@ const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
             <div className="flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer">
                <UsersRound className=" w-5 h-auto" />
                <Link
-                  to={`../../clients/${project.clientId}`}
+                  to={project.clientId && `../../clients/${project.clientId}`}
                   className="text-md font-medium select-none"
                >
-                  {project.client.name}
+                  {project.client?.name ?? 'Freelancing'}
                </Link>
             </div>
             <div className="flex gap-2">

@@ -81,7 +81,7 @@ const { mode, toggle } = useDarkMode();
                      />
                   ) : (
                      <div className="flex bg-foreground w-full h-full items-center justify-center">
-                        <UserRound className="text-tertiary w-14 h-14" />
+                        <UserRound className="text-secondary w-9 h-9" />
                      </div>
                   )}
                </div>

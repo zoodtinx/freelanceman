@@ -23,6 +23,7 @@ import {
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const TaskDialog = ({
    formMethods,
@@ -30,6 +31,8 @@ export const TaskDialog = ({
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
+   //utility hooks
+   const navigate = useNavigate()
    const submitButtonRef = useRef<HTMLButtonElement>(null);
    
    // button loading state
@@ -40,13 +43,13 @@ export const TaskDialog = ({
    console.log('date', formMethods.getValues('dueAt'));
 
    //dialog state
-   const { formDialogState } = useFormDialogStore();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
 
    // api setup
    const { createTask, editTask } = crudApi as CrudApi['task'];
 
    // submit handler
-   const onSubmit = (data: TaskPayload['tasks'][number]) => {
+   const onSubmit = async (data: TaskPayload['tasks'][number]) => {
       if (data.dueAt) {
          const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
@@ -55,7 +58,6 @@ export const TaskDialog = ({
       console.log('data.dueAt', data.dueAt);
 
       if (formDialogState.mode === 'create') {
-         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateTaskDto = {
             name: data.name,
             projectId: data.projectId,
@@ -64,10 +66,17 @@ export const TaskDialog = ({
             link: data.link,
             status: data.status,
          } as CreateTaskDto;
-         createTask.mutate(payload);
-         setIsApiLoading({ isLoading: false, type: 'submit' });
+         await createTask.mutateAsync(payload);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+         if (formDialogState.openedOn === 'global-add-button') {
+            navigate('/home/actions')
+         }
       } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: EditTaskDto = {
             id: data.id,
             name: data.name,
@@ -76,8 +85,13 @@ export const TaskDialog = ({
             link: data.link,
             status: data.status as TaskStatus,
          } as EditTaskDto;
-         editTask.mutate(payload);
-         setIsApiLoading({ isLoading: false, type: 'submit' });
+         await editTask.mutateAsync(payload);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
       }
    };
 
@@ -160,8 +174,7 @@ export const ProjectField = ({
                type="project"
                size="lg"
                placeholder="Select a Project"
-               required={true}
-               errorMessage="Please select a project"
+               enableCancel
             />
          </div>
       );

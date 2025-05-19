@@ -10,9 +10,11 @@ import {
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { SelectWithSearchFormElementProps } from '@/lib/types/form-element.type';
 import { SelectItemContent } from '@/components/shared/ui/select/select.type';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 import { useSelectionQuery } from '@/lib/api/selection-api';
 import { useSearchOption } from '@/components/shared/ui/form-field-elements/useSearchOption';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -24,12 +26,14 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
    required,
    errorMessage,
    type,
+   enableCancel = false,
 }: SelectWithSearchFormElementProps<TFieldValues>): JSX.Element => {
    const {
       control,
       formState: { errors },
       clearErrors,
       watch,
+      resetField,
    } = formMethods;
 
    const { searchTerm, handleSearch } = useSearchOption(type);
@@ -53,6 +57,11 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
                field.onChange(value);
             };
 
+            const handleCancel = (e: React.MouseEvent) => {
+               e.stopPropagation();
+               resetField(fieldName as Path<TFieldValues>);
+            };
+
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
@@ -68,6 +77,10 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
                      handleSearch={handleSearch}
                      size={size}
                      type={type}
+                     cancel={{
+                        enable: enableCancel,
+                        handleCancel: handleCancel,
+                     }}
                   />
                   {errors[fieldName] && (
                      <p className="text-red-500 font-normal animate-shake text-sm">
@@ -92,6 +105,10 @@ type SelectWithSearchProps = Pick<
    handleSearch: (value: string) => void;
    type: 'client' | 'project';
    optionalTriggerUi?: React.ReactNode;
+   cancel?: {
+      enable: boolean;
+      handleCancel: (e: React.MouseEvent) => void;
+   };
 };
 
 export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
@@ -104,8 +121,13 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
    placeholder,
    size,
    isWithIcon = true,
-   optionalTriggerUi
+   optionalTriggerUi,
+   cancel,
+   type
 }) => {
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
    const [isOpen, setIsOpen] = useState(false);
    const [selectedValue, setSelectedValue] = useState<SelectItemContent>({
       value: '',
@@ -131,7 +153,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             label: '',
          });
       }
-   },[selections, value])
+   }, [selections, value]);
 
    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -180,20 +202,47 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
       setIsOpen(true);
    };
 
+   const handleAddSelection = () => {
+      if (type === 'client') {
+         setFormDialogState({
+            entity: 'client',
+            isOpen: true,
+            data: {...defaultClientValue},
+            mode: 'create',
+            type: 'new-client',
+            openedOn: 'global-add-button'
+         })
+      }
+   }
+
    return (
       <Select value={value} open={isOpen}>
          <SelectTrigger
             className={cn(
-               'flex justify-between items-center cursor-pointer font-medium text-base',
+               'flex justify-between items-center cursor-pointer font-medium text-base gap-1 group',
                size === 'lg' && 'text-md',
                className
             )}
             onClick={handleOpen}
          >
-            {optionalTriggerUi ? optionalTriggerUi : <p className="truncate font-normal">
-               {selectedValue.label ? selectedValue.label : placeholder}
-            </p>}
-            {isWithIcon && <ChevronDown className="ml-1 h-4 w-4" />}
+            {optionalTriggerUi ? (
+               optionalTriggerUi
+            ) : (
+               <p className="truncate font-normal">
+                  {selectedValue.label ? selectedValue.label : placeholder}
+               </p>
+            )}
+            {isWithIcon && !value && <ChevronDown className="h-4 w-4" />}
+            {value && cancel?.enable && (
+               <X
+                  onClick={cancel.handleCancel}
+                  className={cn(
+                     'border border-secondary text-secondary h-4 w-4 box-contents rounded-md opacity-100',
+                     // 'group-hover:opacity-100 transition-opacity',
+                     'hover:border-button-red hover:text-button-red'
+                  )}
+               />
+            )}
          </SelectTrigger>
          <SelectContent
             className="bg-foreground overflow-hidden text-sm font-normal w-[300px] shadow-sm"
@@ -211,6 +260,12 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
                   handleSelect={handleValueChange}
                   handleClose={handleClose}
                />
+               <div
+                  onClick={handleAddSelection}
+                  className="text-center w-full py-1 bg-constant text-secondary hover:text-primary transition-colors cursor-pointer"
+               >
+                  + Create a client
+               </div>
             </div>
          </SelectContent>
       </Select>
@@ -244,7 +299,9 @@ const SelectionList: React.FC<SelectionListProps> = ({
                      handleClose();
                   }}
                >
-                  <p className="w-full pr-5 line-clamp-2 text-base">{selection.label}</p>
+                  <p className="w-full pr-5 line-clamp-2 text-base">
+                     {selection.label}
+                  </p>
                </div>
             ))
          ) : (

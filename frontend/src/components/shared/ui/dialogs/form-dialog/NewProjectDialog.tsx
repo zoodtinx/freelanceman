@@ -18,12 +18,17 @@ import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { CreateProjectDto } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
+import { useNavigate } from 'react-router-dom';
 
 export const NewProjectDialog = ({
    crudApi,
    formMethods,
    handleLeftButtonClick
 }: FormDialogProps) => {
+   const navigate = useNavigate()
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
    const { createProject } = crudApi as CrudApi['project'];
    const { formDialogState } = useFormDialogStore();
 
@@ -35,7 +40,7 @@ export const NewProjectDialog = ({
 
    const { handleSubmit } = formMethods;
 
-   const onSubmit = (data: any) => {
+   const onSubmit = async (data: any) => {
       const createProjectPayload: CreateProjectDto = {
          title: data.title,
          clientId: data.clientId,
@@ -43,7 +48,14 @@ export const NewProjectDialog = ({
          paymentStatus: data.paymentStatus,
          budget: Number(data.budget.replace(/,/g, ""))
       };
-      createProject.mutate(createProjectPayload);
+      const project = await createProject.mutateAsync(createProjectPayload);
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+      navigate(`/home/projects/${project.id}`)
    };
 
    return (
@@ -67,8 +79,8 @@ export const NewProjectDialog = ({
                   size="base"
                   errorMessage="Please select a client"
                   className="border-0 p-0 text-md"
+                  enableCancel
                   isWithIcon
-                  required
                />
             </div>
             <div className="flex leading-tight">

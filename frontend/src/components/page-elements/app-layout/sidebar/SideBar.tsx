@@ -3,7 +3,7 @@ import PinnedProjects from './PinnedProjects';
 
 export default function SideBar() {
    return (
-      <nav className="w-full flex flex-col gap-2 justify-between md:w-fit sm:hidden">
+      <nav className="w-full flex flex-col gap-2 justify-between md:w-full sm:hidden">
          <div className="flex flex-col gap-3">
             <ul className="mb-2 flex flex-col bg-quaternary p-2 gap-1 rounded-xl">
                <SideBarTab tab="projects" />

@@ -30,8 +30,13 @@ import { useGetPresignedUrl } from '@/lib/api/file-api';
 import { CreateFileDto } from 'freelanceman-common';
 import { toast } from 'sonner';
 import { CrudApi } from '@/lib/api/api.type';
+import { useNavigate } from 'react-router-dom';
 
 export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
+   // utility hook
+   const navigate = useNavigate()
+
+   // state hook
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'destructive',
@@ -48,8 +53,6 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
    });
 
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-      setIsApiLoading({ isLoading: true, type: 'submit' });
-      console.log('submitted ', data);
 
       let presignedUrl;
 
@@ -58,8 +61,6 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
       const fileName = formMethods.getValues('displayName');
       const file = formMethods.getValues('file');
       const link = formMethods.getValues('link');
-
-      console.log('link', link);
 
       if (mode === 'upload') {
          toast.loading('Uploading file');
@@ -101,8 +102,14 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
          s3Key: mode === 'upload' ? presignedUrl.key : undefined,
          url: mode === 'add-link' ? link : undefined,
       };
-      createFile.mutate(payload);
-      setIsApiLoading({ isLoading: false, type: 'submit' });
+      await createFile.mutateAsync(payload);
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+      navigate('/home/files')
    };
 
    const categoryValue = formMethods.watch('category');
@@ -156,8 +163,6 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
                         fieldName="projectId"
                         formMethods={formMethods}
                         type="project"
-                        required={true}
-                        errorMessage="Please select a project"
                         placeholder="Select a project"
                      />
                   </div>

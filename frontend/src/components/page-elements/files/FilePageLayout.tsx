@@ -140,7 +140,7 @@ const FilePageLayout = (): JSX.Element => {
                onChange={(e) => handleFileFilter('displayName', e.target.value)}
             />
          </div>
-         <div>
+         <div className='flex flex-col grow'>
             <SharedFileList
                page="file-page"
                filter={fileFilter}

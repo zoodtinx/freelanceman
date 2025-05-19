@@ -251,7 +251,7 @@ const ProjectPaymentTab = forwardRef<HTMLDivElement, { project: PaymentDataPaylo
          >
             <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
                <div>
-                  <p className="text-sm text-secondary">{project.client.name}</p>
+                  <p className="text-sm text-secondary">{project.client?.name ?? 'Freelancing'}</p>
                   <p className="text-lg">{project.title}</p>
                </div>
                <div className="flex gap-1">

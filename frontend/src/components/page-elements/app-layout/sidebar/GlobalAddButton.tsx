@@ -16,6 +16,7 @@ import {
 import {
    defaultContactValues,
    defaultEventValues,
+   defaultPartnerContactValues,
    defaultValues,
 } from '@/components/shared/ui/helpers/constants/default-values';
 import { useNavigate } from 'react-router-dom';
@@ -68,6 +69,17 @@ const GlobalAddButton = () => {
          openedOn: 'global-add-button',
       });
    };
+   
+   const handleNewPartnerContact = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'partner-contact',
+         entity: 'partnerContact',
+         mode: 'create',
+         data: {...defaultPartnerContactValues},
+         openedOn: 'global-add-button',
+      });
+   };
 
    const handleNewClient = () => {
       setFormDialogState({
@@ -110,6 +122,7 @@ const GlobalAddButton = () => {
       'separator',
       { Icon: Building2, label: 'Client', action: handleNewClient },
       { Icon: UserRound, label: 'Contact', action: handleNewContact },
+      { Icon: UserRound, label: 'Partner', action: handleNewPartnerContact },
       'separator',
       { Icon: Upload, label: 'File', action: handleNewFile },
       // 'separator',

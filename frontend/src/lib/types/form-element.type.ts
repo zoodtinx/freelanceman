@@ -28,6 +28,7 @@ export interface SelectWithSearchFormElementProps<
    size?: 'sm' | 'base' | 'lg';
    type: 'client' | 'project';
    isWithIcon?: boolean;
+   enableCancel?: boolean;
    // queryHook: () => UseQueryResult<any[], unknown>;
 }
 

@@ -43,7 +43,7 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
          data: {
             ...defaultTaskValue,
             client: {
-               themeColor: project.client.themeColor,
+               themeColor: project.client?.themeColor,
                ...clientData
             },
             clientId: project.clientId,

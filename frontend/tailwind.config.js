@@ -8,7 +8,8 @@ export default {
       'bg-primary',
       'text-secondary',
       {
-        pattern: /bg-theme-(red|green|blue|yellow|mint|teal|orange|purple|pink|turquoise|magenta|olive|maroon|beige|coral|lavender|peach|bronze|taupe|lilac|zinc)/,
+         pattern:
+            /bg-theme-(red|green|blue|yellow|mint|teal|orange|purple|pink|turquoise|magenta|olive|maroon|beige|coral|lavender|peach|bronze|taupe|lilac|zinc)/,
       },
       'bg-button-red',
       'bg-button-green',
@@ -52,9 +53,14 @@ export default {
       'bg-chart-3',
       'bg-chart-4',
       'bg-chart-5',
-    ],
+   ],
    theme: {
       extend: {
+         utilities: {
+            '.writing-vertical-rl': {
+               writingMode: 'vertical-rl',
+            },
+         },
          animation: {
             shake: 'shake 0.3s ease-in-out',
          },
@@ -87,6 +93,7 @@ export default {
                blue: 'var(--freelanceman-general-blue)',
             },
             theme: {
+               base: 'var(--freelanceman-theme-base)',
                red: 'var(--freelanceman-theme-red)',
                green: 'var(--freelanceman-theme-green)',
                blue: 'var(--freelanceman-theme-blue)',

@@ -23,17 +23,16 @@ export class ProjectsService {
                     user: {
                         connect: { id: userId },
                     },
-                    client: {
+                    client: clientId ?  {
                         connect: {
                             id: clientId
-                                ? clientId
-                                : undefined,
                         },
-                    },
+                    } : undefined,
                 },
             });
             return result;
         } catch (error) {
+            console.log('error', error)
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2002') {
                     throw new BadRequestException(

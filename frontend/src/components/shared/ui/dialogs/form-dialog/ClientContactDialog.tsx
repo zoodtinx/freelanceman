@@ -28,6 +28,9 @@ export const ClientContactDialog = ({
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
+   // utility hooks
+   const navigate = useNavigate()
+   
    // button loading state
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
@@ -58,8 +61,8 @@ export const ClientContactDialog = ({
          setFormDialogState((prev) => {
             return { ...prev, isOpen: false };
          });
-         toast.loading('Creating a client contact')
-         const randomId = crypto.randomUUID()
+         toast.loading('Creating a client contact');
+         const randomId = crypto.randomUUID();
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: `avatar_${contactId ? contactId : randomId}`,
             category: 'client-contact',
@@ -81,7 +84,6 @@ export const ClientContactDialog = ({
       }
 
       if (formDialogState.mode === 'create') {
-         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreateClientContactDto = {
             name: data.name,
             companyId: data.companyId,
@@ -89,12 +91,17 @@ export const ClientContactDialog = ({
             phoneNumber: data.phoneNumber,
             email: data.email,
             detail: data.details,
-            avatar: presignedUrl?.key
+            avatar: presignedUrl?.key,
          } as CreateClientContactDto;
-         createClientContact.mutate(payload);
-         setIsApiLoading({ isLoading: false, type: 'submit' });
+         await createClientContact.mutateAsync(payload);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+         navigate(`/home/clients`);
       } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: EditClientContactDto = {
             id: data.id,
             name: data.name,
@@ -102,16 +109,14 @@ export const ClientContactDialog = ({
             phoneNumber: data.phoneNumber,
             email: data.email,
             details: data.details,
-            avatar: presignedUrl?.key
+            avatar: presignedUrl?.key,
          } as EditClientContactDto;
-         editClientContact.mutate(payload);
-         toast.dismiss()
-         setIsApiLoading({ isLoading: false, type: 'submit' });
+         await editClientContact.mutateAsync(payload);
+         toast.dismiss();
       }
    };
 
    //handle going to client
-   const navigate = useNavigate();
    const handleClientClick = () => {
       const clinetId = formDialogState.data.clientId;
       navigate(`/home/clients/${clinetId}`);

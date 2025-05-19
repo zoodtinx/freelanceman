@@ -4,24 +4,33 @@ import {
    TextInputForm,
    DynamicHeightTextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { ApiLoadingState, FormDialogProps } from 'src/lib/types/form-dialog.types';
+import {
+   ApiLoadingState,
+   FormDialogProps,
+} from 'src/lib/types/form-dialog.types';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { CreateClientDto } from 'freelanceman-common';
-import {
-   ColorSelectorForm,
-} from '@/components/shared/ui/form-field-elements/ColorSelector';
+import { ColorSelectorForm } from '@/components/shared/ui/form-field-elements/ColorSelector';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { CrudApi } from '@/lib/api/api.type';
+import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { useNavigate } from 'react-router-dom';
 
 export const NewClientDialog = ({
    crudApi,
    formMethods,
-   handleLeftButtonClick
+   handleLeftButtonClick,
 }: FormDialogProps) => {
+   //utility hooks
+   const navigate = useNavigate()
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
+
    // api setup
    const { createClient } = crudApi as CrudApi['client'];
-   
+
    // button loading state
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
@@ -32,8 +41,7 @@ export const NewClientDialog = ({
    const { handleSubmit } = formMethods;
 
    // submit handler
-   const onSubmit = (data: any) => {
-      setIsApiLoading({ isLoading: true, type: 'submit' });
+   const onSubmit = async (data: any) => {
       const createClientPayload: CreateClientDto = {
          name: data.name,
          themeColor: data.themeColor,
@@ -44,8 +52,14 @@ export const NewClientDialog = ({
          detail: data.detail,
       };
       console.log('createClientPayload', createClientPayload);
-      createClient.mutate(createClientPayload);
-      setIsApiLoading({ isLoading: false, type: 'submit' });
+      const client = await createClient.mutateAsync(createClientPayload);
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
+      navigate(`/home/clients/${client.id}`)
    };
 
    return (
@@ -70,10 +84,12 @@ export const NewClientDialog = ({
                   />
                </div>
             </div>
-            <Separator className='mt-2 mb-1' />
-            <p className='text-md'>
+            <Separator className="mt-2 mb-1" />
+            <p className="text-md">
                Client Details{' '}
-               <span className="text-base text-secondary">Don't worry, you can add it later.</span>
+               <span className="text-base text-secondary">
+                  Don't worry, you can add it later.
+               </span>
             </p>
             <div className="flex leading-tight gap-2">
                <div className="flex flex-col grow">

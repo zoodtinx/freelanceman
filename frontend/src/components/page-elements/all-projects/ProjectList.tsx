@@ -96,10 +96,10 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
 
    return (
       <div
-         className="flex rounded-[15px] h-[40px] relative border overflow-hidden transition-colors group"
+         className="flex rounded-[15px] h-[40px] relative border overflow-hidden transition-colors group bg-constant-tertiary"
          style={{
-            backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
-            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+            backgroundColor: project.client?.themeColor && `var(--freelanceman-theme-${project.client?.themeColor})`,
+            borderColor: project.client?.themeColor && `var(--freelanceman-theme-${project.client?.themeColor})`,
          }}
          onClick={handleProjectNavigation}
       >
@@ -113,7 +113,7 @@ export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
                   className="w-fit text-right mr-8 cursor-pointer hover:opacity-60 transition-opacity"
                   onClick={handleClientNavigation}
                >
-                  {project.client.name}
+                  {project.client?.name}
                </p>
                <p className="w-[140px]">
                   Updated :{' '}

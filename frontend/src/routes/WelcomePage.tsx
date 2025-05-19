@@ -52,6 +52,16 @@ const WelcomePage: React.FC = () => {
                </Button>
             </div>
             <div className="flex items-center gap-2">
+               <p>Get blank app</p>
+               <Button
+                  onClick={() => handleNavigate('login')}
+                  className="w-[150px]"
+                  variant={'outline'}
+               >
+                  Try Demo
+               </Button>
+            </div>
+            <div className="flex items-center gap-2">
                <p>Explore Full feature</p>
                <Button
                   onClick={() => handleNavigate('login')}

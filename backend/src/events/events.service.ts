@@ -51,6 +51,8 @@ export class EventsService {
                 },
             });
 
+            console.log('result', result)
+
             return result;
         } catch (error) {
             if (

@@ -55,14 +55,16 @@ export const ProjectDialog = ({
    };
 
    const handleClientClick = () => {
-      const clinetId = formDialogState.data.clientId;
-      navigate(`/home/clients/${clinetId}`);
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
+      const clientId = formDialogState.data.clientId;
+      if (clientId) {
+         navigate(`/home/clients/${clientId}`);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+      }
    };
 
    return (
@@ -108,7 +110,7 @@ export const ProjectDialog = ({
                      onClick={handleClientClick}
                   >
                      {formMethods.getValues('client')?.name ||
-                        'A certain client'}
+                        'Freelancing'}
                   </p>
                </div>
                <div className="flex leading-tight">

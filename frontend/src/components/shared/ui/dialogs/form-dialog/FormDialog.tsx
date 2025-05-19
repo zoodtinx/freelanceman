@@ -153,6 +153,8 @@ const FormDialog = () => {
    });
    const buttonLoadingState = { isApiLoading, setIsApiLoading };
 
+   console.log('api', crudApi[formDialogState.entity])
+
    //handle discard/delete
    const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();

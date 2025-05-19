@@ -36,15 +36,16 @@ export class TasksService {
                             id: userId
                         }
                     },
-                    client: {
+                    client: clientId ? {
                         connect: {
                             id: clientId
                         }
-                    }
+                    } : undefined
                 },
             });
             return result;
         } catch (error) {
+            console.log('error', error)
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&
                 error.code === 'P2002'

@@ -52,8 +52,13 @@ export const ContactList = ({
 
    if (isLoading) return <ClientContactListLoader />;
    if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (!contacts.items.length)
-      return <ContactListPlaceholder addFn={addFn} />;
+   if (!contacts.items.length) {
+      if (page === 'all-clients-page') {
+         return <ContactListPlaceholder addFn={addFn} />;
+      } else {
+         return <NoDataPlaceHolder addFn={addFn} children='Add a contact'  />
+      }
+   }
 
    const handleLoadMore = () => {
       const curentLength = contacts?.items.length;

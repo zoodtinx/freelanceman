@@ -16,6 +16,7 @@ import {
    ScrollBar,
 } from '@/components/shared/ui/primitives/ScrollArea';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { cn } from '@/lib/helper/utils';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({
    queryResult,
@@ -115,7 +116,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
    const handleClientNavigation = (e: React.MouseEvent) => {
       e.stopPropagation();
-      navigate(`../client/${project.clientId}`);
+      if (project.clientId) {
+         navigate(`../clients/${project.clientId}`);
+      }
    };
 
    return (
@@ -123,10 +126,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          className={`
          relative flex flex-col justify-between rounded-[20px] overflow-hidden group
          h-[205px] leading-tight transition-all border text-constant-primary
-         duration-75 shadow-md max-w-[400px]
+         duration-75 shadow-md max-w-[400px] border-tertiary
          `}
          style={{
-            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+            borderColor: project.client?.themeColor && `var(--freelanceman-theme-${project.client?.themeColor}`,
          }}
          onClick={handleProjectNavigation}
       >
@@ -146,7 +149,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                }}
             >
                <UsersRound className="w-[17px]" />
-               <p>{project.client.name}</p>
+               <p>{project.client?.name ?? 'Freelancing'}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
                {project.title}
@@ -157,7 +160,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             task={project.tasks[0]}
          />
          <div
-            className={`absolute inset-0 transition-opacity bg-theme-${project.client.themeColor}`}
+            className={cn(`absolute inset-0 transition-opacity bg-tertiary`, project.client?.themeColor && `bg-theme-${project.client.themeColor}`)}
          />
          <div
             className={`absolute inset-0 opacity-35 group-hover:opacity-75

@@ -16,6 +16,7 @@ import {
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
+import { useNavigate } from 'react-router-dom';
 
 export const PartnerContactDialog = ({
    formMethods,
@@ -23,6 +24,12 @@ export const PartnerContactDialog = ({
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
+   //utility hooks
+   const navigate = useNavigate();
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
+
    // button loading state
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
@@ -37,9 +44,8 @@ export const PartnerContactDialog = ({
       crudApi as CrudApi['partnerContact'];
 
    // submit handler
-   const onSubmit = (data: PartnerContactPayload) => {
+   const onSubmit = async (data: PartnerContactPayload) => {
       if (formDialogState.mode === 'create') {
-         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: CreatePartnerContactDto = {
             name: data.name,
             companyId: data.companyId,
@@ -49,10 +55,15 @@ export const PartnerContactDialog = ({
             detail: data.detail,
             avatar: data.avatar,
          };
-         createPartnerContact.mutate(payload);
-         setIsApiLoading({ isLoading: false, type: 'submit' });
+         await createPartnerContact.mutateAsync(payload);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+         navigate(`/home/clients/${client.id}`);
       } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'submit' });
          const payload: EditPartnerContactDto = {
             id: data.id,
             name: data.name,
@@ -62,8 +73,13 @@ export const PartnerContactDialog = ({
             detail: data.detail,
             avatar: data.avatar,
          };
-         editPartnerContact.mutate(payload);
-         setIsApiLoading({ isLoading: false, type: 'submit' });
+         await editPartnerContact.mutateAsync(payload);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
       }
    };
 
