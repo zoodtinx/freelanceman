@@ -40,7 +40,7 @@ export class LocalAuthService {
             return bcrypt.compare(input, stored);
         };
 
-        if (!user || !(await passwordsMatch(pass, user.password))) {
+        if (!user || !(await passwordsMatch(pass, user.password!))) {
             throw new UnauthorizedException('Invalid email or password');
         }
 

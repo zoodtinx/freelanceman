@@ -1,5 +1,5 @@
 export default () => ({
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: process.env.PORT || 3000,
     jwt: {
         accessTokenSecret: process.env.JWT_ACCESS_SECRET,
         refreshTokenSecret: process.env.JWT_REFRESH_SECRET,
@@ -17,7 +17,7 @@ export default () => ({
     },
     smtp: {
         host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT, 10),
+        port: process.env.SMTP_PORT,
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
     },

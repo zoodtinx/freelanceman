@@ -6,7 +6,12 @@ export const optionalString = () =>
             (val) => (val === '' ? undefined : val),
             z.string().optional()
         )
-        .nullable();
+
+export const nullableOptionalString = () =>
+    z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().optional().nullable()
+    );
 
 export const optionalNumber = () =>
     z.preprocess(

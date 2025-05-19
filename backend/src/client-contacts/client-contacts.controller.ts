@@ -60,7 +60,6 @@ export class ClientContactsController {
         const userId = req.user.id;
         return this.clientContactsService.update(
             userId,
-            clientId,
             updateClientDto,
         );
     }

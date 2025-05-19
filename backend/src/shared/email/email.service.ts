@@ -25,7 +25,7 @@ export class EmailService {
 
         try {
             await this.resend.emails.send({
-                from: this.config.get<string>('resend.emailAddress'),
+                from: this.config.get<string>('resend.emailAddress')!,
                 to,
                 subject: 'Reset Your Password',
                 html,

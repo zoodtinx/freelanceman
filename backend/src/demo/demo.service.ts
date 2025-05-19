@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
-import mockUserRecords from 'src/shared/database/mocks/mockUser';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { userExcludedFields } from 'src/shared/database/utils/omit-list';
 
@@ -19,8 +17,7 @@ export class DemoService {
         private configService: ConfigService,
     ) {}
 
-    async createDemoUser(): Promise<Partial<User>> {
-        let demoUser: any;
+    async createDemoUser() {
         try {
             const result = await seedDemoUser()
             return result;
@@ -53,7 +50,7 @@ export class DemoService {
     }
 
     async resolveNewDemoUser() {
-        let demoUser: Partial<User>;
+        let demoUser: any
         let newRefreshToken: string;
         let accessToken: string;
 
@@ -86,18 +83,26 @@ export class DemoService {
         }
 
         try {
-            const result = await this.prismaService.refreshToken.findUnique({
+            const token = await this.prismaService.refreshToken.findUnique({
                 where: { id: refreshToken },
             });
 
-            if (result.expiresAt && new Date(result.expiresAt) < new Date()) {
+            if (!token) {
+                return await this.resolveNewDemoUser();
+            }
+
+            if (token.expiresAt && new Date(token.expiresAt) < new Date()) {
                 throw new UnauthorizedException('Refresh token expired');
             }
 
             const user = await this.prismaService.user.findUnique({
-                where: { id: result.userId },
+                where: { id: token.userId },
                 omit: userExcludedFields,
             });
+
+            if (!user) {
+                return await this.resolveNewDemoUser();
+            }
 
             const accessToken = this.jwtService.sign(
                 { sub: user.id, role: user.role },

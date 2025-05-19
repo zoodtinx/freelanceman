@@ -30,36 +30,7 @@ export class SalesDocumentsService {
             const result = await this.prismaService.salesDocument.create({
                 data: {
                     userId,
-                    category: createDto.category,
-                    issuedAt: new Date(createDto.issuedAt),
-                    projectId: createDto.projectId,
-                    freelancerName: createDto.freelancerName,
-                    clientId: createDto.clientId,
-                    clientName: createDto.clientName,
-
-                    title: createDto.title,
-                    number: createDto.number,
-                    currency: createDto.currency,
-                    referenceNumber: createDto.referenceNumber,
-                    projectDescription: createDto.projectDescription,
-
-                    freelancerEmail: createDto.freelancerEmail,
-                    freelancerPhone: createDto.freelancerPhone,
-                    freelancerTaxId: createDto.freelancerTaxId,
-                    freelancerAddress: createDto.freelancerAddress,
-
-                    clientTaxId: createDto.clientTaxId,
-                    clientAddress: createDto.clientAddress,
-                    clientPhone: createDto.clientPhone,
-                    clientOffice: createDto.clientOffice,
-                    clientDetail: createDto.clientDetail,
-
-                    tax: createDto.tax,
-                    discountPercent: createDto.discountPercent,
-                    discountFlat: createDto.discountFlat,
-
-                    note: createDto.note,
-
+                    ...createDto,
                     items: {
                         create: createDto.items.map((item) => ({
                             userId,
@@ -144,7 +115,7 @@ export class SalesDocumentsService {
         try {
             const { items, ...dto } = updateDto;
 
-            if (items.length > 0) {
+            if (items && items.length > 0) {
                 await this.prismaService.salesDocumentItem.deleteMany({
                     where: {
                         parentDocumentId: documentId,
@@ -158,7 +129,7 @@ export class SalesDocumentsService {
                     ...dto,
                     items: items
                         ? {
-                              create: updateDto.items.map((item) => ({
+                              create: items.map((item) => ({
                                   userId,
                                   title: item.title,
                                   rate: item.rate,
@@ -227,7 +198,7 @@ export class SalesDocumentsService {
         const s3Response = await this.s3Service.uploadAndGetSignedUrl({
             userId,
             file: pdfBuffer,
-            fileName: createPdfDto.title,
+            fileName: 'createPdfDto.title',
             category: `sales-document/${createPdfDto.category}`,
             contentType: 'application/pdf',
         });

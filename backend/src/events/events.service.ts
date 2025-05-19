@@ -18,30 +18,41 @@ export class EventsService {
     constructor(private prismaService: PrismaService) {}
 
     async create(userId: string, createEventDto: CreateEventDto) {
+        const { projectId, ...eventData } = createEventDto;
         try {
-            const project = await this.prismaService.project.findUnique({
-                where: { id: createEventDto.projectId },
-                select: { clientId: true },
-            });
+            let clientId: any;
 
-            if (!project) throw new Error('Project not found');
+            if (projectId) {
+                const project = await this.prismaService.project.findUnique({
+                    where: { id: projectId },
+                    select: { clientId: true },
+                });
+
+                if (!project) throw new Error('Project not found');
+
+                clientId = project.clientId;
+            }
 
             const result = await this.prismaService.event.create({
                 data: {
-                    dueAt: createEventDto.dueAt,
-                    name: createEventDto.name,
-                    status: createEventDto.status,
-                    details: createEventDto.details,
-                    link: createEventDto.link,
-                    projectId: createEventDto.projectId,
-                    isWithTime: createEventDto.isWithTime,
-                    clientId: project.clientId,
-                    userId: userId,
+                    ...eventData,
+                    user: {
+                        connect: {
+                            id: userId,
+                        },
+                    },
+                    client: clientId
+                        ? {
+                              connect: {
+                                  id: clientId,
+                              },
+                          }
+                        : undefined,
                 },
             });
+
             return result;
         } catch (error) {
-            console.log('error', error);
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&
                 error.code === 'P2002'
@@ -50,12 +61,13 @@ export class EventsService {
                     'An event with this unique field already exists',
                 );
             }
+
             throw new InternalServerErrorException('Failed to create event');
         }
     }
 
     async findAll(userId: string, filter: EventFilterDto) {
-        const date = getTimezonedDate()
+        const date = getTimezonedDate();
 
         try {
             const where = {
@@ -83,7 +95,9 @@ export class EventsService {
                 this.prismaService.event.findMany({
                     where,
                     take: filter.take ? filter.take : 20,
-                    orderBy: { dueAt: filter.status === 'scheduled' ? 'asc' : 'desc' },
+                    orderBy: {
+                        dueAt: filter.status === 'scheduled' ? 'asc' : 'desc',
+                    },
                     include: {
                         client: {
                             select: { id: true, name: true, themeColor: true },

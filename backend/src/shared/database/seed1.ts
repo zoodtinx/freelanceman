@@ -21,82 +21,82 @@ async function cleanDatabase() {
 }
 
 async function seedUserAndClient() {
-    const user = await prisma.user.findMany({
-        select: {
-            id: true,
-        },
-    });
-    const userId = user[0].id;
-
-    const project = await prisma.project.findFirst({
-        where: {
-            title: 'Brand Identity Redesign for Law Firm',
-        },
-    });
-
-    const projectId = project?.id;
-    const client = await prisma.client.findFirst({
-        where: {
-            name: 'Sullivan & Phanich',
-        },
-    });
-    const clientId = client?.id;
-
-    const seedFileData = getSeedFilesDta(userId, projectId, clientId);
-    const files = await prisma.file.createMany({
-        data: seedFileData,
-    });
-    console.log('Seeded files:', files.count);
-
-    const seedSalesDocumentData = getSeedSalesDocumentData(
-        userId,
-        projectId,
-        clientId,
-    );
-    const seedSalesDocumentFileData = getSeedSalesDocumentFileData(
-        userId,
-        projectId,
-        clientId,
-    );
-
-    const salesDocument = await Promise.all(
-        seedSalesDocumentData.map(
-            async (doc) =>
-                await prisma.salesDocument.create({
-                    data: {
-                        ...doc,
-                        user: { connect: { id: userId } },
-                        project: { connect: { id: projectId } },
-                        client: { connect: { id: clientId } },
-                        // file: {
-                        //     create: {
-                        //         ...seedSalesDocumentFileData,
-                        //         user: { connect: { id: userId } },
-                        //         project: { connect: { id: projectId } },
-                        //         client: { connect: { id: clientId } },
-                        //     },
-                        // },
-                    },
-                }),
-        ),
-    );
-
-    // const salesDocument = await prisma.salesDocument.createMany({
-    //     data: seedSalesDocumentData,
+    // const user = await prisma.user.findMany({
+    //     select: {
+    //         id: true,
+    //     },
     // });
-    console.log('Seeded documents:', salesDocument);
+    // const userId = user[0].id;
 
-    const salesDocuments = await prisma.salesDocument.findMany({
-        select: { id: true },
-    });
+    // const project = await prisma.project.findFirst({
+    //     where: {
+    //         title: 'Brand Identity Redesign for Law Firm',
+    //     },
+    // });
 
-    const seedSalesDocumentDataResult = salesDocuments.forEach(async (item) => {
-        await prisma.salesDocumentItem.createMany({
-            data: getSalesDocumentItemsData(userId, item.id),
-        });
-    });
+    // const projectId = project?.id;
+    // const client = await prisma.client.findFirst({
+    //     where: {
+    //         name: 'Sullivan & Phanich',
+    //     },
+    // });
+    // const clientId = client?.id;
 
-    console.log('Seeded Sales Document Items', seedSalesDocumentDataResult);
+    // const seedFileData = getSeedFilesDta(userId, projectId, clientId);
+    // const files = await prisma.file.createMany({
+    //     data: seedFileData,
+    // });
+    // console.log('Seeded files:', files.count);
+
+    // const seedSalesDocumentData = getSeedSalesDocumentData(
+    //     userId,
+    //     projectId,
+    //     clientId,
+    // );
+    // const seedSalesDocumentFileData = getSeedSalesDocumentFileData(
+    //     userId,
+    //     projectId,
+    //     clientId,
+    // );
+
+    // const salesDocument = await Promise.all(
+    //     seedSalesDocumentData.map(
+    //         async (doc) =>
+    //             await prisma.salesDocument.create({
+    //                 data: {
+    //                     ...doc,
+    //                     user: { connect: { id: userId } },
+    //                     project: { connect: { id: projectId } },
+    //                     client: { connect: { id: clientId } },
+    //                     // file: {
+    //                     //     create: {
+    //                     //         ...seedSalesDocumentFileData,
+    //                     //         user: { connect: { id: userId } },
+    //                     //         project: { connect: { id: projectId } },
+    //                     //         client: { connect: { id: clientId } },
+    //                     //     },
+    //                     // },
+    //                 },
+    //             }),
+    //     ),
+    // );
+
+    // // const salesDocument = await prisma.salesDocument.createMany({
+    // //     data: seedSalesDocumentData,
+    // // });
+    // console.log('Seeded documents:', salesDocument);
+
+    // const salesDocuments = await prisma.salesDocument.findMany({
+    //     select: { id: true },
+    // });
+
+    // const seedSalesDocumentDataResult = salesDocuments.forEach(async (item) => {
+    //     await prisma.salesDocumentItem.createMany({
+    //         data: getSalesDocumentItemsData(userId, item.id),
+    //     });
+    // });
+
+    // console.log('Seeded Sales Document Items', seedSalesDocumentDataResult);
 }
 
 main()

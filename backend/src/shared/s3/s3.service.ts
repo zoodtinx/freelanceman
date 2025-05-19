@@ -17,13 +17,13 @@ export class S3Service {
 
     constructor(private configService: ConfigService) {
         this.s3 = new S3Client({
-            region: this.configService.get('aws.region'),
+            region: this.configService.get('aws.region')!,
             credentials: {
-                accessKeyId: this.configService.get('aws.accessKeyId'),
-                secretAccessKey: this.configService.get('aws.secretAccessKey'),
+                accessKeyId: this.configService.get('aws.accessKeyId')!,
+                secretAccessKey: this.configService.get('aws.secretAccessKey')!,
             },
         });
-        this.bucket = this.configService.get('aws.bucket');
+        this.bucket = this.configService.get('aws.bucket')!;
     }
 
     async getPresignedUrl( userId: string, getPresignedUrlDto: GetPresignedUrlDto) {

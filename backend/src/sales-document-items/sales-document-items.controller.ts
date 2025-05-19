@@ -25,15 +25,15 @@ export class SalesDocumentItemsController {
         private readonly salesDocumentItemsService: SalesDocumentItemsService,
     ) {}
 
-    @Post()
-    create(
-        @Body(new ZodValidationPipe(createSalesDocumentItemSchema))
-        createDto: any,
-        @Req() req: any,
-    ) {
-        const userId = req.user.id;
-        return this.salesDocumentItemsService.create(userId, createDto);
-    }
+    // @Post()
+    // create(
+    //     @Body(new ZodValidationPipe(createSalesDocumentItemSchema))
+    //     createDto: any,
+    //     @Req() req: any,
+    // ) {
+    //     const userId = req.user.id;
+    //     return this.salesDocumentItemsService.create(userId, createDto);
+    // }
 
 
     @Get('all/:documentId')

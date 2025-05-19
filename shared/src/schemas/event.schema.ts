@@ -10,8 +10,7 @@ export type EventStatus = 'scheduled' | 'completed' | 'cancelled';
 export const createEventSchema = z.object({
     name: z.string().min(1),
     status: z.string().min(1),
-    projectId: z.string().min(1),
-    clientId: optionalString(),
+    projectId: optionalString(),
     dueAt: z.string().datetime(),
     details: optionalString(),
     link: optionalString(),

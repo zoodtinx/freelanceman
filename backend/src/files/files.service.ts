@@ -20,55 +20,37 @@ export class FilesService {
         private s3Service: S3Service,
     ) {}
 
-    async create(userId: string, dto: CreateFileDto) {
-        try {
-            const project = await this.prisma.project.findUnique({
-                where: { id: dto.projectId },
-                include: {
-                    client: {
-                        select: {
-                            id: true,
-                        },
-                    },
-                },
-            });
-            return await this.prisma.file.create({
-                data: {
-                    originalName: dto.originalName,
-                    displayName: dto.displayName,
-                    type: dto.type,
-                    category: dto.category,
-                    link: dto.link,
-                    s3Key: dto.s3Key,
-                    size: dto.size,
-                    project: {
-                        connect: {
-                            id: project.id
-                        }
-                    },
-                    client: {
-                        connect: {
-                            id: project.client.id
-                        }
-                    },
-                    user: {
-                        connect: {
-                            id: userId
-                        }
-                    }
-                },
-            });
-        } catch (error) {
-            console.log('error', error)
-            if (
-                error instanceof Prisma.PrismaClientKnownRequestError &&
-                error.code === 'P2002'
-            ) {
-                throw new BadRequestException('Duplicate file');
-            }
-            throw new InternalServerErrorException('Failed to create file');
-        }
-    }
+   async create(userId: string, createFileDto: CreateFileDto) {
+       const { projectId, ...fileData } = createFileDto;
+
+       const project = await this.prisma.project.findUnique({
+           where: { id: projectId },
+           select: {
+               id: true,
+               client: { select: { id: true } },
+           },
+       });
+
+       try {
+           return await this.prisma.file.create({
+               data: {
+                   ...fileData,
+                   project: project?.id ? { connect: { id: project.id } } : undefined,
+                   client: project?.client?.id ? { connect: { id: project.client.id } } : undefined,
+                   user: { connect: { id: userId } },
+               },
+           });
+       } catch (error) {
+           if (
+               error instanceof Prisma.PrismaClientKnownRequestError &&
+               error.code === 'P2002'
+           ) {
+               throw new BadRequestException('Duplicate file');
+           }
+           throw new InternalServerErrorException('Failed to create file');
+       }
+   }
+
 
   async findMany(userId: string, filter: FileFilterDto) {
     try {
@@ -155,13 +137,17 @@ export class FilesService {
 
     async delete(userId: string, fileId: string) {
         try {
-            const result = await this.prisma.file.findUnique({
+            const file = await this.prisma.file.findUnique({
                 where: { id: fileId, userId: userId },
             });
 
-            console.log('result', result)
+            if (!file) {
+                throw new Error
+            }
 
-            await this.s3Service.deleteFile(result.s3Key);
+            if (file.s3Key) {
+                await this.s3Service.deleteFile(file.s3Key);
+            }
 
             return await this.prisma.file.delete({
                 where: { id: fileId, userId },
@@ -194,10 +180,11 @@ export class FilesService {
                 throw new BadRequestException('Some files were not found');
             }
 
-            const s3Keys = files.map(file => file.s3Key);
-            console.log('s3Keys', s3Keys)
+            const s3Keys = files.map(file => file.s3Key).filter(key => key!== null)
 
-            await Promise.all(s3Keys.map(key => this.s3Service.deleteFile(key)));
+            if (s3Keys.length !== 0) {
+                await Promise.all(s3Keys.map(key => this.s3Service.deleteFile(key)));
+            }
 
             return await this.prisma.file.deleteMany({
                 where: {

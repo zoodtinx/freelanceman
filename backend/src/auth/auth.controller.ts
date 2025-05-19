@@ -41,7 +41,7 @@ export class AuthController {
         private tokenService: TokenService,
         private googleOAuthService: GoogleOAuthService,
         private configService: ConfigService,
-        private demoService: DemoService
+        private demoService: DemoService,
     ) {}
 
     @UseGuards(JwtAccessTokenAuthGuard)
@@ -68,7 +68,7 @@ export class AuthController {
             sameSite: 'lax',
             priority: 'high',
             path: '/',
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         req.res?.json({ accessToken: newAccessToken, user });
@@ -89,7 +89,7 @@ export class AuthController {
             priority: 'high',
             domain: 'localhost',
             path: '/',
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         return { accessToken };
@@ -108,27 +108,31 @@ export class AuthController {
             path: '/',
         });
 
-        return
+        return;
     }
-    
+
     @Post('register')
     @UsePipes(new ZodValidationPipe(registerUserSchema))
-    async register(@Body() registerUserDto: RegisterUserDto, @Req() req: Request) {
-        
-        const { accessToken, refreshToken } =
-            await this.localAuthService.register(registerUserDto);
+    async register(
+        @Body() registerUserDto: RegisterUserDto,
+        @Req() req: Request,
+    ) {
+        const result = await this.localAuthService.register(registerUserDto);
 
-        req.res?.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            priority: 'high',
-            domain: 'localhost',
-            path: '/',
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
-        });
-        
-        return { accessToken };
+        if (result) {
+            const { accessToken, refreshToken } = result;
+            req.res?.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                priority: 'high',
+                domain: 'localhost',
+                path: '/',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            });
+
+            return { accessToken };
+        }
     }
 
     @Post('reset-password-request')
@@ -137,8 +141,7 @@ export class AuthController {
         @Body(new ZodValidationPipe(resetPasswordRequestSchema))
         payload: ResetPasswordRequestDto,
     ) {
-        const result =
-            await this.localAuthService.resetPasswordRequest(payload);
+        await this.localAuthService.resetPasswordRequest(payload);
         return { success: true };
     }
 

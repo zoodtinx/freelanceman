@@ -97,7 +97,7 @@ export async function seedDemoUser() {
                 (acc, p) => {
                     acc[p.title] = {
                         projectId: p.id,
-                        clientId: p.clientId,
+                        clientId: p.clientId || '',
                         userId: p.userId,
                     };
                     return acc;

@@ -15,32 +15,32 @@ import {
 export class SalesDocumentItemsService {
     constructor(private prismaService: PrismaService) {}
 
-    async create(userId: string, createDto: CreateSalesDocumentItemDto) {
-        try {
-            const result = await this.prismaService.salesDocumentItem.create({
-                data: {
-                    title: createDto.title,
-                    description: createDto.description,
-                    rate: createDto.rate,
-                    quantity: createDto.quantity,
-                    userId: userId,
-                    parentDocumentId: createDto.description
-                },
-            });
-            return result;
-        } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-                if (error.code === 'P2002') {
-                    throw new BadRequestException(
-                        'A sales document item with this unique field already exists',
-                    );
-                }
-            }
-            throw new InternalServerErrorException(
-                'Failed to create sales document item',
-            );
-        }
-    }
+    // async create(userId: string, createDto: CreateSalesDocumentItemDto) {
+    //     try {
+    //         const result = await this.prismaService.salesDocumentItem.create({
+    //             data: {
+    //                 title: createDto.title,
+    //                 description: createDto.description,
+    //                 rate: createDto.rate,
+    //                 quantity: createDto.quantity,
+    //                 userId: userId,
+    //                 parentDocumentId: createDto.description
+    //             },
+    //         });
+    //         return result;
+    //     } catch (error) {
+    //         if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    //             if (error.code === 'P2002') {
+    //                 throw new BadRequestException(
+    //                     'A sales document item with this unique field already exists',
+    //                 );
+    //             }
+    //         }
+    //         throw new InternalServerErrorException(
+    //             'Failed to create sales document item',
+    //         );
+    //     }
+    // }
 
     async findMany(userId: string, documentId: string) {
         try {
