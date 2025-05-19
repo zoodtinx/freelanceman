@@ -18,7 +18,7 @@ const ActionPageEventListPlaceholder = ({ addFn }: { addFn: () => void }) => {
          onClick={addFn}
          className="flex flex-col w-full h-full grow overflow-hidden pb-2 relative"
       >
-         <div className="z-10 absolute h-full w-full bottom-0 bg-gradient-to-t from-foreground via-foreground to-transparent pointer-events-none" />
+         <div className="z-10 absolute h-full w-full bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none" />
          <div
             className={`flex border-y border-secondary border-dashed h-14 w-full relative group cursor-pointer text-secondary
                         hover:border-primary hover:text-primary transition-colors duration-100`}

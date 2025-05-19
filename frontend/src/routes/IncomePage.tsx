@@ -34,6 +34,7 @@ import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListP
 import IncomePagePlacholder from '@/components/shared/ui/placeholder-ui/IncomePagePlaceholder';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
@@ -42,8 +43,8 @@ const IncomePage: React.FC = () => {
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter) 
 
    return (
-      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col pl-1">
-         <div className="flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4">
+      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col pl-1 relative">
+         <div className="flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4  z-10">
             <StatsBar />
             <FilterBar
                projectFilter={projectFilter}
@@ -209,17 +210,19 @@ const ProjectPaymentTabList = ({
    });
 
    return (
-      <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2">
-         {projectList}
-         {remainingItems && (
-            <div className="flex justify-center pt-3">
-               <LoadMoreButton
-                  loadMoreFn={handleLoadMore}
-                  isLoading={isLoading}
-               />
-            </div>
-         )}
-      </div>
+      <ScrollArea>
+         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2 px-1">
+            {projectList}
+            {remainingItems && (
+               <div className="flex justify-center pt-3 pb-7">
+                  <LoadMoreButton
+                     loadMoreFn={handleLoadMore}
+                     isLoading={isLoading}
+                  />
+               </div>
+            )}
+         </div>
+      </ScrollArea>
    );
 };
 

@@ -17,6 +17,7 @@ import { ListProps } from '@/lib/types/list-props.type';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { EventFilterDto } from 'freelanceman-common';
 import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    addFn,
@@ -95,7 +96,6 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
                eventGroupData={group}
                ref={isLast ? lastItemRef : undefined}
             />
-            <div className="border-[0.5px] border-tertiary" />
          </React.Fragment>
       );
    });
@@ -116,7 +116,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    };
 
    return (
-      <div className="flex flex-col h-0 grow overflow-y-auto">
+      <ScrollArea className="flex flex-col h-0 grow">
          {page !== 'project-page' && <Separator />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
@@ -127,12 +127,12 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
                />
             </div>
          )}
-      </div>
+      </ScrollArea>
    );
 };
 
-const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any }>(
-   ({ eventGroupData }, ref) => {
+const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:number }>(
+   ({ eventGroupData, index }, ref) => {
       const formattedDate = formatDate(eventGroupData.date, 'SHORT');
       const month = formattedDate.split(' ')[0].toUpperCase();
       const date = formattedDate.split(' ')[1];
@@ -154,9 +154,12 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any }>(
       );
 
       return (
-         <div className="flex w-full cursor-default" ref={ref}>
-            <div className="flex flex-col w-14 min-h-14 items-center text-center leading-tight justify-center aspect-square h-full bg-foreground border-r border-r-tertiary relative">
-               <p className="text-md font-normal">{date}</p>
+         <div className={cn("flex w-full cursor-default border-b border-tertiary")} ref={ref}>
+            <div
+               className={`flex flex-col w-14 min-h-14 grow items-center text-center leading-tight justify-start
+                           aspect-square bg-foreground relative border-r border-r-tertiary`}
+            >
+               <p className="text-md font-normal pt-3">{date}</p>
                <p className="text-sm">{month}</p>
                <div
                   className={cn(

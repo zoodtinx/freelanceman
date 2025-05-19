@@ -1102,6 +1102,22 @@ html[lang="th"] {
   height: 100vh;
 }
 
+.h-2\.5 {
+  height: 0.625rem;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.h-60 {
+  height: 15rem;
+}
+
 .max-h-52 {
   max-height: 13rem;
 }
@@ -1407,6 +1423,14 @@ html[lang="th"] {
   width: 3rem;
 }
 
+.w-2\.5 {
+  width: 0.625rem;
+}
+
+.w-48 {
+  width: 12rem;
+}
+
 .min-w-10 {
   min-width: 2.5rem;
 }
@@ -1525,6 +1549,10 @@ html[lang="th"] {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.touch-none {
+  touch-action: none;
 }
 
 .select-none {
@@ -1778,6 +1806,10 @@ html[lang="th"] {
   border-radius: 0.75rem;
 }
 
+.rounded-\[inherit\] {
+  border-radius: inherit;
+}
+
 .rounded-bl-full {
   border-bottom-left-radius: 9999px;
 }
@@ -1847,6 +1879,10 @@ html[lang="th"] {
   border-top-width: 1px;
 }
 
+.border-l {
+  border-left-width: 1px;
+}
+
 .border-dashed {
   border-style: dashed;
 }
@@ -1907,6 +1943,15 @@ html[lang="th"] {
   border-color: transparent;
 }
 
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+}
+
+.border-foreground {
+  border-color: hsl(var(--foreground));
+}
+
 .border-b-secondary {
   border-bottom-color: hsl(var(--secondary));
 }
@@ -1921,6 +1966,14 @@ html[lang="th"] {
 
 .border-r-tertiary {
   border-right-color: hsl(var(--tertiary));
+}
+
+.border-l-transparent {
+  border-left-color: transparent;
+}
+
+.border-t-transparent {
+  border-top-color: transparent;
 }
 
 .\!bg-primary {
@@ -2268,6 +2321,21 @@ html[lang="th"] {
   background-color: rgb(254 240 138 / var(--tw-bg-opacity, 1));
 }
 
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
+.bg-slate-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity, 1));
+}
+
+.bg-fuchsia-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 208 254 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -2319,12 +2387,21 @@ html[lang="th"] {
   --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
+.via-fuchsia-300 {
+  --tw-gradient-to: rgb(240 171 252 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #f0abfc var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
 .to-transparent {
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
 }
 
 .fill-current {
   fill: currentColor;
+}
+
+.fill-primary {
+  fill: hsl(var(--primary));
 }
 
 .stroke-2 {
@@ -2403,6 +2480,10 @@ html[lang="th"] {
 
 .p-\[6px\] {
   padding: 6px;
+}
+
+.p-\[1px\] {
+  padding: 1px;
 }
 
 .\!py-2 {
@@ -2530,6 +2611,11 @@ html[lang="th"] {
   padding-bottom: 8px;
 }
 
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .\!pl-3 {
   padding-left: 0.75rem !important;
 }
@@ -2648,6 +2734,10 @@ html[lang="th"] {
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.pb-7 {
+  padding-bottom: 1.75rem;
 }
 
 .text-left {

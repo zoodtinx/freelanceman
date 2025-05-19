@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { CircleCheck, EllipsisVertical,UsersRound } from 'lucide-react';
+import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
 import {
    ProjectListProps,
    ProjectCardProps,
@@ -7,14 +7,20 @@ import {
 } from '@/components/page-elements/all-projects/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
-import {
-   ApiErrorPlaceHolder,
-} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 import NoProjectPlaceholder from '@/components/shared/ui/placeholder-ui/AllProjectPagePlaceHolder';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
+import {
+   ScrollArea,
+   ScrollBar,
+} from '@/components/shared/ui/primitives/ScrollArea';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
 
-const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult, handleLoadMore }) => {
+const ProjectGrid: React.FC<ProjectListProps> = ({
+   queryResult,
+   handleLoadMore,
+}) => {
    const { data: projects, isLoading, isError, refetch } = queryResult;
 
    const setFormDialogState = useFormDialogStore(
@@ -57,18 +63,27 @@ const ProjectGrid: React.FC<ProjectListProps> = ({ queryResult, handleLoadMore }
    const remainingItems = projects.total - projects.items.length > 0;
 
    const loadMoreProject = () => {
-      const newAmount = projects.total + 16
-      handleLoadMore(newAmount)
-   }
+      const newAmount = projects.total + 16;
+      handleLoadMore(newAmount);
+   };
+
+   const tags = Array.from({ length: 80 }).map(
+      (_, i, a) => `v1.2.0-beta.${a.length - i}`
+   );
 
    return (
       <>
-         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1">
-            {projectCards}
-         </div>
+         <ScrollArea className="h-full">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1">
+               {projectCards}
+            </div>
+         </ScrollArea>
          {remainingItems && (
             <div className="flex justify-center pb-5 pt-1 w-full">
-               <LoadMoreButton loadMoreFn={loadMoreProject} isLoading={isLoading} />
+               <LoadMoreButton
+                  loadMoreFn={loadMoreProject}
+                  isLoading={isLoading}
+               />
             </div>
          )}
       </>

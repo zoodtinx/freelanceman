@@ -17,8 +17,6 @@ import { defaultContactValues } from 'src/components/shared/ui/helpers/constants
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
-import { useFileUrlQuery } from '@/lib/api/file-api';
 import { ContactList } from '@/components/shared/ui/lists/ClientContactList';
 
 export const ContactColumn = (): JSX.Element => {

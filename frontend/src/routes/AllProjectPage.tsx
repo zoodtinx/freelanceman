@@ -43,7 +43,7 @@ export default function AllProjectPage() {
             viewMode={viewMode}
             setViewMode={setViewMode}
          />
-         <div className="flex flex-1 flex-col w-full sm:w-full overflow-y-auto min-h-0 relative h-full">
+         <div className="flex flex-1 flex-col w-full sm:w-full  min-h-0 relative h-full">
             <div className="sm:hidden h-full">
                {viewMode === 'grid' && (
                   <ProjectGrid queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />

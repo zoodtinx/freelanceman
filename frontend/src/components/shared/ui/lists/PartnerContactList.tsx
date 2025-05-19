@@ -7,6 +7,7 @@ import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import PartnerPagePlaceholder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { ListProps } from '@/lib/types/list-props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -104,17 +105,19 @@ export const PartnerContactList: React.FC<
    });
 
    return (
-      <div className="flex flex-col gap-1 overflow-y-scroll  ">
-         {partnerTabs}
-         {remainingItems && (
-            <div className="flex justify-center pt-3">
-               <LoadMoreButton
-                  loadMoreFn={handleLoadMore}
-                  isLoading={isLoading}
-               />
-            </div>
-         )}
-      </div>
+      <ScrollArea className='h-full'>
+         <div className='flex flex-col gap-1'>
+            {partnerTabs}
+            {remainingItems && (
+               <div className="flex justify-center pt-3">
+                  <LoadMoreButton
+                     loadMoreFn={handleLoadMore}
+                     isLoading={isLoading}
+                  />
+               </div>
+            )}
+         </div>
+      </ScrollArea>
    );
 };
 

@@ -140,15 +140,17 @@ const FilePageLayout = (): JSX.Element => {
                onChange={(e) => handleFileFilter('displayName', e.target.value)}
             />
          </div>
-         <SharedFileList
-            page="file-page"
-            filter={fileFilter}
-            setFilter={setFileFilter}
-            setSelectState={setSelectState}
-            selectState={selectState}
-            placeHolder="Add a file"
-            addFn={handleNewFile}
-         />
+         <div>
+            <SharedFileList
+               page="file-page"
+               filter={fileFilter}
+               setFilter={setFileFilter}
+               setSelectState={setSelectState}
+               selectState={selectState}
+               placeHolder="Add a file"
+               addFn={handleNewFile}
+            />
+         </div>
       </div>
    );
 };

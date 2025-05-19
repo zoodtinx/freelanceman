@@ -18,6 +18,7 @@ import { forwardRef, useEffect, useRef } from 'react';
 import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/ClientContactLoader';
 import { cn } from '@/lib/helper/utils';
 import { Plus } from 'lucide-react';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 export const ContactList = ({
    addFn,
@@ -84,7 +85,7 @@ export const ContactList = ({
    const remainingItems = contacts.total - contacts.items.length > 0;
 
    return (
-      <div className="grow overflow-y-auto h-0 pt-1">
+      <ScrollArea className="grow overflow-y-auto h-0 pt-1">
          <div className="flex flex-col gap-1">{contactCards}</div>
          {remainingItems && (
             <div className="flex justify-center pt-3">
@@ -94,7 +95,7 @@ export const ContactList = ({
                />
             </div>
          )}
-      </div>
+      </ScrollArea>
    );
 };
 
@@ -156,7 +157,7 @@ const ContactListPlaceholder = ({ addFn }: { addFn: () => void }) => {
 
    return (
       <div className="flex flex-col pt-1 gap-1 h-full overflow-hidden relative">
-         <div className="z-10 absolute h-full w-full bottom-0 bg-gradient-to-t from-foreground via-foreground to-transparent pointer-events-none" />
+         <div className="z-10 absolute h-full w-full bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none" />
          <div
             onClick={addFn}
             className={`h-[75px] shrink-0 border border-dashed border-secondary flex gap-2 justify-center items-center text-secondary

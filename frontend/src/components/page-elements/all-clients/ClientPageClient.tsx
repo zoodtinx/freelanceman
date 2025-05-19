@@ -15,6 +15,7 @@ import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 const ClientColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -85,7 +86,7 @@ const ClientGrid = ({
    if (isLoading) return <ClientGridLoader />;
    if (isError || !clientsData)
       return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (clientsData.items.length)
+   if (!clientsData.items.length)
       return <ClientGridPlaceHolder addFn={addFn} />
 
    const clientCards = clientsData?.items.map((client) => {
@@ -93,9 +94,11 @@ const ClientGrid = ({
    });
 
    return (
-      <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2">
-         {clientCards}
-      </div>
+      <ScrollArea>
+         <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2">
+            {clientCards}
+         </div>
+      </ScrollArea>
    );
 };
 
@@ -111,7 +114,7 @@ const placeholderElements = [...Array(30)].map((_, i) => (
 const ClientGridPlaceHolder = ({addFn} : {addFn: () => void}) => {
    return (
       <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2 relative h-full">
-         <div className='z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground via-foreground to-transparent pointer-events-none' />
+         <div className='z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none' />
          <div
             onClick={addFn}
             className={`h-[170px] rounded-[20px] border border-dashed border-secondary items-center justify-center flex flex-col text-secondary

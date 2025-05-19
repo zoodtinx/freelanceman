@@ -10,8 +10,6 @@ import { TaskList } from '@/components/shared/ui/lists/TaskList';
 import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
-import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
 
 export default function TaskSection() {
    const setFormDialogState = useFormDialogStore(
@@ -44,7 +42,7 @@ export default function TaskSection() {
                <ToggleGroup
                   type="single"
                   className="pt-1"
-                  value={taskFilter.status}
+                  value={taskFilter.status as any}
                   onValueChange={(value) =>
                      setTaskFilter((prev) => ({
                         ...prev,
@@ -59,12 +57,14 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-         <TaskList
-            addFn={handleNewTask}
-            filter={taskFilter}
-            setFilter={setTaskFilter}
-            page="action-page"
-         />
+            <div className='grow flex flex-col p-3 pt-0'>
+               <TaskList
+                  addFn={handleNewTask}
+                  filter={taskFilter}
+                  setFilter={setTaskFilter}
+                  page="action-page"
+               />
+            </div>
       </div>
    );
 }

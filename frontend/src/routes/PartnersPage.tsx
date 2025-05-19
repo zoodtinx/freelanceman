@@ -7,24 +7,15 @@ import {
    SelectValue,
 } from 'src/components/shared/ui/select/Select';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { BookUser, ChevronDown, User } from 'lucide-react';
-import { usePartnerContactsQuery } from 'src/lib/api/partner-contact-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import {
    PartnerContactFilterDto,
-   PartnerContactListPayload,
    PartnerContactPayload,
 } from 'freelanceman-common';
-import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
-import { UseQueryResult } from '@tanstack/react-query';
-import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
-import {
-   ApiErrorPlaceHolder,
-   NoDataPlaceHolder,
-} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactList';
 
 const PartnerContactLayout = (): JSX.Element => {
@@ -76,12 +67,14 @@ const PartnerContactLayout = (): JSX.Element => {
                value={filter[searchMode] || ''}
             />
          </div>
-         <PartnerContactList
-            filter={filter}
-            setFilter={setFilter}
-            page="partner-page"
-            addFn={handleNewPartner}
-         />
+         <div className='flex flex-col grow overflow-hidden'>
+            <PartnerContactList
+               filter={filter}
+               setFilter={setFilter}
+               page="partner-page"
+               addFn={handleNewPartner}
+            />
+         </div>
       </div>
    );
 };

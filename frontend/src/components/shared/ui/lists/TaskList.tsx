@@ -19,6 +19,7 @@ import { forwardRef } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ListProps } from '@/lib/types/list-props.type';
 import ActionPageTaskListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageTaskListPlaceholder';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    addFn,
@@ -99,7 +100,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    };
 
    return (
-      <div className="flex flex-col h-0 grow gap-1 overflow-y-auto">
+      <ScrollArea className="flex flex-col h-0 grow gap-1 overflow-y-auto">
          {taskListItems}
          {remainingTasks && (
             <div className="flex justify-center pt-3 pb-2">
@@ -109,7 +110,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
                />
             </div>
          )}
-      </div>
+      </ScrollArea>
    );
 };
 
