@@ -175,8 +175,7 @@ export const defaultContactValues: ClientContactPayload = {
 export const defaultPartnerContactValues: PartnerContactPayload = {
    id: '',
    name: '',
-   company: defaultClientValue,
-   companyId: '',
+   company: '',
    role: '',
    phoneNumber: '',
    email: '',

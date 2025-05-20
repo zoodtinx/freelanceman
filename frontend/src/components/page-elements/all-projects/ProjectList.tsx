@@ -1,132 +1,103 @@
-import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import {
    ProjectCardProps,
    ProjectListProps,
 } from '@/components/page-elements/all-projects/props.type';
-import { EllipsisVertical, Plus } from 'lucide-react';
+import { EllipsisVertical, FolderClock, Plus } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
-import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
-import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import {
+   ApiErrorPlaceHolder,
+   LoadingPlaceHolder,
+   NoDataPlaceHolder,
+} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { formatDate } from '@/lib/helper/formatDateTime';
+import { ProjectListPayload, ProjectPayload } from 'freelanceman-common';
+import { cn } from '@/lib/helper/utils';
+import { UseQueryResult } from '@tanstack/react-query';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
-const ProjectList: React.FC<ProjectListProps> = ({ queryResult }) => {
-   const { data: projects, isLoading, isError, error } = queryResult;
+interface ProjectListProps {
+   queryResult: UseQueryResult<ProjectListPayload>;
+   placeHolder?: string;
+   clientId: string;
+   className: string;
+}
+
+export const ProjectList: React.FC<ProjectListProps> = ({
+   queryResult,
+   clientId,
+   placeHolder = 'Add new project to this client',
+   className,
+}) => {
+   const { data: projectsData, isLoading, isError, refetch } = queryResult;
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-
-   if (isLoading) {
-      return <p>Loading</p>;
-   }
-
-   if (isError) {
-      if ((error as any).message === 'Internal Server Error') {
-         <p>Something went wrong on our end. Please try again later.</p>;
-      }
-      if ((error as any).message === 'Network Error') {
-         return (
-            <p>Unable to connect. Please check your internet connection.</p>
-         );
-      }
-   }
 
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-project',
-         mode: 'create',
-         data: { ...defaultNewProjectValue },
-         openedOn: 'global-add-button',
+         data: { ...defaultProject, clientId: clientId },
          entity: 'project',
+         mode: 'create',
+         openedOn: 'client-page',
+         type: 'new-project',
       });
    };
 
-   const amount = Array(15).fill(0)
-   const placeholder = amount.map(() => {
-      return <div
-               className={`border border-primary opacity-15 border-dashed rounded-[15px] h-[40px]`}
-            />
-   })
+   if (isLoading) {
+      return <LoadingPlaceHolder />;
+   }
 
-   if (!projects || projects?.items?.length === 0) {
+   if (isError || !projectsData) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
+   }
+
+   if (!projectsData.items.length) {
       return (
-         <TabListPlaceHolder page='all-project-page' addFn={handleNewProject} children='Start a new project' />
+         <NoDataPlaceHolder addFn={handleNewProject}>
+            {placeHolder}
+         </NoDataPlaceHolder>
       );
    }
 
-   const projectTabs = projects?.items?.map((project) => (
-      <ProjectTab project={project} key={project.id} />
-   ));
-
-   return <div className="flex flex-col gap-1">{projectTabs}</div>;
-};
-
-export const ProjectTab: React.FC<ProjectCardProps> = ({ project }) => {
-   const setFormDialogState = useFormDialogStore(
-      (state) => state.setFormDialogState
-   );
-
-   const navigate = useNavigate();
-
-   const handleProjectNavigation = () => {
-      navigate(`../${project.id}`);
-   };
-
-   const handleClientNavigation = () => {
-      navigate(`../client/${project.clientId}`);
-   };
-
-   const openSettingDialog = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      setFormDialogState({
-         isOpen: true,
-         mode: 'edit',
-         openedOn: 'all-project-page',
-         type: 'project-settings',
-         data: project,
-         entity: 'project',
-      });
-   };
-
-   const formattedDate = format(
-      new Date(project.updatedAt),
-      'dd MMM'
-   ).toUpperCase();
+   const projectListItems = projectsData.items.map((project) => {
+      return <ProjectTab project={project} key={project.id} />;
+   });
 
    return (
-      <div
-         className="flex rounded-[15px] h-[40px] relative border overflow-hidden transition-colors group bg-constant-tertiary"
+      <ScrollArea className="w-full h-full">
+         <div className={cn('flex flex-col gap-1 h-full box-border')}>
+            {projectListItems}
+         </div>
+      </ScrollArea>
+   );
+};
+
+const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
+   const formattedDateModified = formatDate(project.updatedAt, 'LONG');
+
+   return (
+      <Link
+         to={`../../projects/${project.id}`}
          style={{
-            backgroundColor: project.client?.themeColor && `var(--freelanceman-theme-${project.client?.themeColor})`,
-            borderColor: project.client?.themeColor && `var(--freelanceman-theme-${project.client?.themeColor})`,
+            backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
          }}
-         onClick={handleProjectNavigation}
+         className={`flex rounded-[15px] h-[40px] relative transition-colors
+                     hover:border-primary border group overflow-hidden cursor-default`}
       >
-         <div className="z-10 flex items-center pl-3 justify-between w-full text-[#333333]">
-            <p className="font-medium max-w-[700px] text-md truncate cursor-default">
+         <div className="z-10 flex items-center px-3 justify-between w-full text-constant-primary">
+            <p className="font-medium text-md cursor-default line-clamp-1">
                {project.title}
             </p>
-
-            <div className="flex grow items-center justify-end text-base text-constant-primary">
-               <p
-                  className="w-fit text-right mr-8 cursor-pointer hover:opacity-60 transition-opacity"
-                  onClick={handleClientNavigation}
-               >
-                  {project.client?.name}
-               </p>
-               <p className="w-[140px]">
-                  Updated :{' '}
-                  <span className="inline font-semibold">{formattedDate}</span>
-               </p>
-               <EllipsisVertical
-                  className="h-[19px] cursor-pointer pr-1"
-                  onClick={openSettingDialog}
-               />
+            <div className="flex items-center gap-2 text-constant-primary shrink-0 opacity-50">
+               <FolderClock className="w-4 h-4" />
+               <p>{formattedDateModified}</p>
             </div>
          </div>
-         <div className="absolute opacity-25 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white via-transparent to-transparent transition-opacity" />
-      </div>
+         <div className="absolute opacity-30 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white to-transparent transition-opacity"></div>
+      </Link>
    );
 };
 

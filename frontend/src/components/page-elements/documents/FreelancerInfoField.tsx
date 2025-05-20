@@ -9,6 +9,7 @@ import {
 } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/helper/utils';
 
 const FreelancerInfoField = ({
    formMethods,
@@ -17,7 +18,7 @@ const FreelancerInfoField = ({
 }) => {
    const [userData, setUserData] = useState<UserPayload | undefined>();
 
-   const { setValue } = formMethods;
+   const { setValue, formState: {errors} } = formMethods;
 
    useEffect(() => {
       if (userData) {
@@ -29,8 +30,15 @@ const FreelancerInfoField = ({
       }
    }, [userData, setValue]);
 
+   const error = errors.freelancerName
+
    return (
-      <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative ">
+      <fieldset
+         className={cn(
+            'flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative',
+            error && 'border-general-red'
+         )}
+      >
          <div className="flex flex-col gap-2 peer order-2 h-full">
             <div className="flex gap-2">
                <div className="flex-1">
@@ -39,7 +47,7 @@ const FreelancerInfoField = ({
                      fieldName="freelancerName"
                      formMethods={formMethods}
                      className="flex-1"
-                     errorMessage='Please add a freelancer name'
+                     errorMessage="Please add a freelancer name"
                      required
                   />
                </div>

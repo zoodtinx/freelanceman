@@ -4,7 +4,7 @@ import { optionalNumber, optionalString } from './helper/optional';
 
 export const createPartnerContactSchema = z.object({
     name: z.string().min(1),
-    companyId: z.string().transform((val) => (val.trim() === '' ? null : val)),
+    company: optionalString(),
     role: z.string().min(1),
     phoneNumber: optionalString(),
     email: optionalString(),
@@ -14,7 +14,7 @@ export const createPartnerContactSchema = z.object({
 
 export const partnerContactFilterSchema = z.object({
     name: optionalString(),
-    companyName: optionalString(),
+    company: optionalString(),
     role: optionalString(),
     projectId: optionalString(),
     take: optionalNumber()
@@ -28,13 +28,13 @@ export const editPartnerContactSchema = z.object({
     email: optionalString(),
     detail: optionalString(),
     avatar: optionalString(),
+    company: optionalString(),
 });
 
 export const partnerContactPayloadSchema = z.object({
     id: z.string().uuid(),
     userId: z.string(),
     name: z.string().min(1),
-    companyId: z.string(),
     role: z.string().min(1),
     phoneNumber: z.string().min(1),
     email: z.string(),
@@ -42,7 +42,7 @@ export const partnerContactPayloadSchema = z.object({
     avatar: z.string().min(1),
     createdAt: z.string(),
     updatedAt: z.string(),
-    company: partnerCompanySchema,
+    company: z.string(),
 });
 
 export const partnerContactListPayloadSchema = z.object({

@@ -106,7 +106,6 @@ model PartnerCompany {
   detail      String?
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
-  contacts    PartnerContact[]
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -114,7 +113,7 @@ model PartnerContact {
   id          String                    @id @default(uuid())
   userId      String
   name        String
-  companyId   String
+  company     String?
   role        String?
   phoneNumber String?
   email       String?                   
@@ -122,7 +121,6 @@ model PartnerContact {
   avatar      String?
   createdAt   DateTime                  @default(now())
   updatedAt   DateTime                  @updatedAt
-  company     PartnerCompany            @relation(fields: [companyId], references: [id], onDelete: Cascade)
   user        User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   projects    PartnerContactOnProject[]
 }

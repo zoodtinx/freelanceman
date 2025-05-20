@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useProjectsQuery } from '@/lib/api/project-api';
-import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
 import { ProjectFilterDto } from 'freelanceman-common';
 import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
 import { UnexpectedError } from '@/components/shared/ui/placeholder-ui/ErrorUI';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
+import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 
 export default function AllProjectPage() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -17,14 +17,6 @@ export default function AllProjectPage() {
 
    const projectsQueryResult = useProjectsQuery(projectFilter);
    const { isLoading, isError, refetch } = projectsQueryResult;
-
-   if (isLoading) {
-      return <AllProjectPageLoader />
-   }
-
-   if (isError) {
-      return <UnexpectedError onClick={() => refetch()} />;
-   }
 
    const handleLoadMore = (value: number) => {
       setProjectFilter((prev) => {
@@ -43,7 +35,7 @@ export default function AllProjectPage() {
             viewMode={viewMode}
             setViewMode={setViewMode}
          />
-         <div className="flex flex-1 flex-col w-full sm:w-full  min-h-0 relative h-full">
+         <div className="flex flex-1 flex-col sm:w-full  min-h-0 relative h-full">
             <div className="sm:hidden h-full">
                {viewMode === 'grid' && (
                   <ProjectGrid queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
@@ -52,7 +44,7 @@ export default function AllProjectPage() {
                   <ProjectList queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
                )}
             </div>
-            <div className="hidden sm:block">
+            <div className="hidden sm:block w-full h-full">
                <ProjectList queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
             </div>
          </div>

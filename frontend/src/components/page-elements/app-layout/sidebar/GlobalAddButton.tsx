@@ -125,18 +125,20 @@ const GlobalAddButton = () => {
       { Icon: UserRound, label: 'Partner', action: handleNewPartnerContact },
       'separator',
       { Icon: Upload, label: 'File', action: handleNewFile },
-      // 'separator',
-      // { Icon: FileText, label: 'Sales Document', action: handleNewDocument },
    ];
 
    return (
       <Popover open={open} onOpenChange={setOpen}>
          <PopoverTrigger asChild>
-            <div className="rounded-full w-[50px] mb-3 md:mb-0 md:w-[45px] aspect-square flex items-center justify-center text-white bg-primary transition-colors duration-100 cursor-pointer">
+            <div
+               className={`rounded-full w-[50px] mb-3 md:mb-0 md:w-[45px] aspect-square flex items-center justify-center text-white bg-primary transition-colors duration-100 cursor-pointer
+                           sm:w-10 sm:h-10 sm:mb-0
+               `}
+            >
                <Plus className="h-full w-full stroke-[2.5px] text-foreground p-2" />
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none bg-foreground border-tertiary md:ml-4">
+         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none bg-foreground border-tertiary md:ml-4 sm:mr-3">
             {menuItems.map((item, index) =>
                item === 'separator' ? (
                   <Separator key={index} />

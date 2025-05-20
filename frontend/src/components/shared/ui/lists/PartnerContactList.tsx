@@ -6,7 +6,6 @@ import {
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
-import PartnerPagePlaceholder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { ListProps } from '@/lib/types/list-props.type';
@@ -72,7 +71,10 @@ export const PartnerContactList: React.FC<
 
    if (!contacts || contacts.items.length === 0) {
       return (
-         <TabListPlaceHolder addFn={handleNewPartner} children="Add a new partner contact" />
+         <TabListPlaceHolder
+            addFn={handleNewPartner}
+            children="Add a new partner contact"
+         />
       );
    }
 
@@ -105,8 +107,8 @@ export const PartnerContactList: React.FC<
    });
 
    return (
-      <ScrollArea className='h-full'>
-         <div className='flex flex-col gap-1'>
+      <ScrollArea className="h-full">
+         <div className="flex flex-col gap-1">
             {partnerTabs}
             {remainingItems && (
                <div className="flex justify-center pt-3">
@@ -146,28 +148,30 @@ const PartnerTab = forwardRef<
          className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary cursor-default"
          onClick={handleClick}
       >
-         <div className="z-10 flex items-center px-4 justify-between w-full text-primary">
+         <div className="z-10 flex items-center px-4 justify-between w-full text-primary sm:px-2">
             <div className="flex items-center">
-               <p className="w-[190px] transition-opacity leading-tight">
+               <p className="w-[190px] transition-opacity leading-tight sm:hidden">
                   {contact.role}
                </p>
-               <div className="flex justify-center items-center h-9 w-9 rounded-full bg-tertiary mr-3 overflow-hidden object-contain">
-                  {contact.avatar ? (
-                     <img
-                        src={contact.avatar}
-                        alt="Avatar Preview"
-                        className="w-full h-full object-cover"
-                     />
-                  ) : (
-                     <User className="text-secondary" />
-                  )}
+               <div className='flex items-center'>
+                  <div className="flex justify-center items-center h-9 w-9 rounded-full bg-tertiary mr-3 overflow-hidden object-contain">
+                     {contact.avatar ? (
+                        <img
+                           src={contact.avatar}
+                           alt="Avatar Preview"
+                           className="w-full h-full object-cover"
+                        />
+                     ) : (
+                        <User className="text-secondary" />
+                     )}
+                  </div>
+                  <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
+                     {contact.name}
+                  </p>
                </div>
-               <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
-                  {contact.name}
-               </p>
             </div>
-            <p className="w-fit text-right transition-opacity">
-               {contact.company.name}
+            <p className="w-fit text-right transition-opacity sm:hidden">
+               {contact.company}
             </p>
          </div>
       </div>

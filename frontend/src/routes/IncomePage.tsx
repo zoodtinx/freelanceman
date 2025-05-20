@@ -43,7 +43,7 @@ const IncomePage: React.FC = () => {
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter) 
 
    return (
-      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col pl-1 relative">
+      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col relative ">
          <div className="flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4  z-10">
             <StatsBar />
             <FilterBar
@@ -211,7 +211,7 @@ const ProjectPaymentTabList = ({
 
    return (
       <ScrollArea>
-         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2 px-1">
+         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2">
             {projectList}
             {remainingItems && (
                <div className="flex justify-center pt-3 pb-7">
@@ -246,6 +246,7 @@ const ProjectPaymentTab = forwardRef<HTMLDivElement, { project: PaymentDataPaylo
             ref={ref}
             className={cn(
                'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
+               'sm:h-[130px]',
                project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
             )}
          >
@@ -260,7 +261,7 @@ const ProjectPaymentTab = forwardRef<HTMLDivElement, { project: PaymentDataPaylo
                   <DocumentButton type="receipt" project={project} />
                </div>
             </div>
-            <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2">
+            <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2 sm:pr-0">
                <div className="flex text-[22px] pr-1 grow items-center">
                   <p className="text-[22px]">
                      {project.budget.toLocaleString()}
@@ -271,7 +272,7 @@ const ProjectPaymentTab = forwardRef<HTMLDivElement, { project: PaymentDataPaylo
                   selections={paymentStatusSelections}
                   value={project.paymentStatus}
                   handleValueChange={handlePaymentStatusChange}
-                  className="bg-transparent border border-secondary"
+                  className="bg-transparent border border-secondary text-sm"
                />
             </div>
          </div>
@@ -339,6 +340,7 @@ const AddDocumentButton = ({
             'flex gap-1 text-secondary border-tertiary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
             'hover:text-primary hover:border-primary transition-colors duration-75',
             'dark:text-secondary dark:border-secondary dark:hover:text-primary dark:hover:border-primary',
+            'sm:text-sm sm:px-1 sm:pr-2',
             isPaid && 'text-secondary'
          )}
       >
@@ -420,7 +422,8 @@ const EditDocumentButton = ({
          >
             <div
                className={cn(
-                  'flex gap-1 text-constant-primary border-transparent bg-theme-blue border rounded-lg items-center pl-[8px] pr-[10px] py-[2px]'
+                  'flex gap-1 text-constant-primary border-transparent bg-theme-blue border rounded-lg items-center pl-[8px] pr-[10px] py-[2px]',
+                  'sm:text-sm sm:px-1'
                )}
             >
                <FileText className="w-4 h-4" />

@@ -6,11 +6,10 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { SelectWithSearch } from 'src/components/shared/ui/form-field-elements';
 import { useProjectsQuery } from '@/lib/api/project-api';
 import { ProjectPayload, SalesDocumentPayload } from 'freelanceman-common';
-import { Calendar } from 'lucide-react';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
+import { cn } from '@/lib/helper/utils';
 
 const ProjectInfoField = ({
    formMethods,
@@ -20,9 +19,12 @@ const ProjectInfoField = ({
    const [searchTerm, setSearchTerm] = useState({});
    const [selectedProject, setSelectedProject] = useState<string>();
    const [projectData, setProjectData] = useState<ProjectPayload | undefined>();
-   const { data: projectList, isLoading } = useProjectsQuery(searchTerm) 
+   const { data: projectList, isLoading } = useProjectsQuery(searchTerm);
 
-   const { setValue } = formMethods;
+   const {
+      setValue,
+      formState: { errors },
+   } = formMethods;
 
    useEffect(() => {
       if (projectData) {
@@ -33,9 +35,16 @@ const ProjectInfoField = ({
          setValue('selectedProjectClientId', projectData.clientId);
       }
    }, [projectData, setValue]);
-      
+
+   const error = errors.projectTitle;
+
    return (
-      <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
+      <fieldset
+         className={cn(
+            'flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3',
+            error && 'border-general-red'
+         )}
+      >
          <div className="flex flex-col">
             <div className="flex gap-2 peer order-2">
                <div className="peer flex-1">
@@ -51,11 +60,11 @@ const ProjectInfoField = ({
                </div>
                <div className="peer flex-1">
                   <Label className="pb-0">Issue date</Label>
-                  <div className='flex gap-1 items-center'>
+                  <div className="flex gap-1 items-center">
                      <DatePickerForm
                         fieldName="issuedAt"
                         formMethods={formMethods}
-                        className='items-center text-md font-normal'
+                        className="items-center text-md font-normal"
                      />
                   </div>
                </div>
@@ -68,7 +77,12 @@ const ProjectInfoField = ({
             <div className="flex flex-col  peer order-2 gap-2 grow">
                <div>
                   <Label className="pb-0">Project Title</Label>
-                  <TextInputForm fieldName="title" formMethods={formMethods} />
+                  <TextInputForm
+                     fieldName="projectTitle"
+                     required
+                     errorMessage="Please enter a project title"
+                     formMethods={formMethods}
+                  />
                </div>
                <div>
                   <Label className="pb-0">Reference Number</Label>

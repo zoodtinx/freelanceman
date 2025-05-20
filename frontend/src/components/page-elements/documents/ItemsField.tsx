@@ -10,6 +10,7 @@ import {
    SalesDocumentPayload,
 } from 'freelanceman-common';
 import { defaultSalesDocumentItemValue } from '@/components/shared/ui/helpers/constants/default-values';
+import { cn } from '@/lib/helper/utils';
 
 const ItemsField = ({
    formMethods,
@@ -96,8 +97,10 @@ const ItemsField = ({
       );
    });
 
+   const fieldError = errors.items
+
    return (
-      <fieldset className="flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3">
+      <fieldset className={cn("flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3", fieldError && 'border-general-red')}>
          <div className="flex flex-col gap-2 grow overflow-auto">
             <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
                {itemList}

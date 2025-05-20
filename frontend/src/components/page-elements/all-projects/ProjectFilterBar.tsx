@@ -26,7 +26,7 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
 }) => {
    return (
       <div className="flex items-center justify-between select-none bg-quaternary p-2 rounded-full">
-         <div className="flex gap-[6px]">
+         <div className="flex gap-1">
             <ProjectStatusFilterBubble
                projectFilter={projectFilter}
                setProjectFilter={setProjectFilter}
@@ -78,7 +78,7 @@ const ViewModeToggle: React.FC<ViewModeToggleBubble> = ({
    const activeStyle = 'bg-primary text-foreground';
 
    return (
-      <div className="flex items-center border border-primary rounded-full h-[27px]">
+      <div className="flex items-center border border-primary rounded-full h-[27px] sm:hidden">
          <div
             className={`flex items-center grow h-full rounded-tl-full rounded-bl-full px-2 ${
                viewMode === 'grid' ? activeStyle : ''
@@ -121,7 +121,7 @@ const ProjectStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
          selectContents={projectStatus}
          value={projectFilter.projectStatus || ''}
          onValueChange={setProjectStatus}
-         placeholder="Project Status"
+         placeholder="Status"
          className="h-[27px] text-base"
       />
    );
@@ -149,7 +149,7 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
          selectContents={paymentStatus}
          value={projectFilter.paymentStatus || ''}
          onValueChange={setPaymentStatus}
-         placeholder="Payment Status"
+         placeholder="Payment"
          className="h-[27px] text-base"
       />
    );

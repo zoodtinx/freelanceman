@@ -12,6 +12,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { useClientsQuery } from '@/lib/api/client-api';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ClientListPayload } from 'freelanceman-common';
+import { cn } from '@/lib/helper/utils';
 
 const ClientInfoField = ({
    formMethods,
@@ -26,7 +27,7 @@ const ClientInfoField = ({
    ) as UseQueryResult<ClientListPayload>;
    
 
-   const { setValue, watch } = formMethods;
+   const { setValue, formState:{errors} } = formMethods;
 
    useEffect(() => {
       if (clientData) {
@@ -39,8 +40,15 @@ const ClientInfoField = ({
       }
    }, [clientData, setValue]);
 
+   const error = errors.clientName
+
    return (
-      <fieldset className="flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3">
+      <fieldset
+         className={cn(
+            'flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3',
+            error && 'border-general-red'
+         )}
+      >
          <div className="flex flex-col h-full">
             <div className="flex flex-col gap-2 peer order-2 h-full">
                <div className="flex gap-2">
@@ -50,7 +58,7 @@ const ClientInfoField = ({
                         fieldName="clientName"
                         formMethods={formMethods}
                         className="flex-1"
-                        errorMessage='Please add a client name'
+                        errorMessage="Please add a client name"
                         required
                      />
                   </div>

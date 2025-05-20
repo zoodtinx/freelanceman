@@ -106,7 +106,15 @@ export const PartnerContactDialog = ({
                         <TextInputForm
                            formMethods={formMethods}
                            fieldName="role"
-                           placeholder="Describe this contact."
+                           placeholder="Describe this contact"
+                        />
+                     </div>
+                     <div className="flex flex-col leading-5">
+                        <Label className="w-[80px] text-secondary">Company</Label>
+                        <TextInputForm
+                           formMethods={formMethods}
+                           fieldName="company"
+                           placeholder="Freelancer"
                         />
                      </div>
                   </div>

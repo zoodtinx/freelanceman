@@ -52,9 +52,7 @@ const SalesDocumentBuilderPage = ({
       !isEditMode
    );
 
-   
-
-   const isLoading = isDocLoading || isProjectDataLoading
+   const isLoading = isDocLoading || isProjectDataLoading;
 
    const createSalesDoc = useCreateSalesDocument({
       errorCallback: () => {
@@ -101,9 +99,8 @@ const SalesDocumentBuilderPage = ({
          formMethods.reset(salesDocumentData);
       }
 
-
       if (projectData) {
-         console.log('userData.taxId', userData)
+         console.log('projectData.projectTitle', projectData.projectTitle)
          formMethods.reset(defaultCreateSalesDocumentValue);
          formMethods.setValue('currency', userData.currency);
          formMethods.setValue('freelancerName', userData.displayName);
@@ -115,7 +112,7 @@ const SalesDocumentBuilderPage = ({
          formMethods.setValue('issuedAt', new Date().toISOString());
          formMethods.setValue('number', '1');
          formMethods.setValue('projectId', projectData.id);
-         formMethods.setValue('title', projectData.title);
+         formMethods.setValue('projectTitle', projectData.title);
          formMethods.setValue('clientId', projectData.client?.id);
          formMethods.setValue('clientName', projectData.client?.name);
          formMethods.setValue('clientTaxId', projectData.client?.taxId);
@@ -175,8 +172,6 @@ const SalesDocumentBuilderPage = ({
 
    const documentCategory = category ?? getValues('category');
 
-   console.log('dirtyFields', dirtyFields)
-
    return (
       <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-4 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-y-auto">
          {/* Header */}
@@ -201,19 +196,39 @@ const SalesDocumentBuilderPage = ({
          >
             <div className="flex grow gap-3">
                <div className="flex flex-col w-1/2 gap-3">
-                  {isLoading ? <Skeleton className='w-full h-1/3 rounded-xl'/> : <ProjectInfoField formMethods={formMethods} />}
-                  {isLoading ? <Skeleton className='w-full h-1/3 rounded-xl'/> : <FreelancerInfoField formMethods={formMethods} />}
-                  {isLoading ? <Skeleton className='w-full h-1/3 rounded-xl'/> : <ClientInfoField formMethods={formMethods} />} 
+                  {isLoading ? (
+                     <Skeleton className="w-full h-1/3 rounded-xl" />
+                  ) : (
+                     <ProjectInfoField formMethods={formMethods} />
+                  )}
+                  {isLoading ? (
+                     <Skeleton className="w-full h-1/3 rounded-xl" />
+                  ) : (
+                     <FreelancerInfoField formMethods={formMethods} />
+                  )}
+                  {isLoading ? (
+                     <Skeleton className="w-full h-1/3 rounded-xl" />
+                  ) : (
+                     <ClientInfoField formMethods={formMethods} />
+                  )}
                </div>
                <div className="flex flex-col w-1/2 gap-3">
-               {isLoading ? <Skeleton className='w-full h-full rounded-xl'/> : <ItemsField formMethods={formMethods} />}
+                  {isLoading ? (
+                     <Skeleton className="w-full h-full rounded-xl" />
+                  ) : (
+                     <ItemsField formMethods={formMethods} />
+                  )}
                </div>
             </div>
 
             {/* Footer */}
             <footer className="flex justify-between shrink-0">
                <div className="flex gap-2">
-                  <Button onClick={handleDiscard} variant="destructiveOutline" disabled={isLoading}>
+                  <Button
+                     onClick={handleDiscard}
+                     variant="destructiveOutline"
+                     disabled={isLoading}
+                  >
                      {isDirty ? 'Discard Changes' : 'Back'}
                   </Button>
                </div>

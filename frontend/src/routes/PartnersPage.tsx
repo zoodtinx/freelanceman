@@ -147,7 +147,7 @@ const PartnerTab = forwardRef<
                </p>
             </div>
             <p className="w-fit text-right transition-opacity">
-               {contact.company.name}
+               {contact.company}
             </p>
          </div>
       </div>

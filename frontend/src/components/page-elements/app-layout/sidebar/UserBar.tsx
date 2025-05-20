@@ -1,3 +1,4 @@
+import { cn } from '@/lib/helper/utils';
 import { Tabs, TabsTrigger, TabsList } from '@radix-ui/react-tabs';
 import {
    Popover,
@@ -29,9 +30,9 @@ import { useRef } from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 
 export const UserBar = () => {
-const { mode, toggle } = useDarkMode();
+   const { mode, toggle } = useDarkMode();
    const navigate = useNavigate();
-   const popoverRef = useRef<HTMLButtonElement>(null)
+   const popoverRef = useRef<HTMLButtonElement>(null);
    const { accessToken } = useAuthStore();
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -63,14 +64,47 @@ const { mode, toggle } = useDarkMode();
    };
 
    const handleClick = () => {
-      popoverRef.current?.click()
-   }
+      popoverRef.current?.click();
+   };
+
+   const profileMenuItems = [
+      {
+         icon: Settings2,
+         label: 'Edit Profile',
+         onClick: handleEditProfile,
+      },
+      {
+         icon: Info,
+         label: 'View Tips',
+      },
+      {
+         icon: UserRoundPen,
+         label: 'Get Account',
+      },
+      {
+         icon: TimerReset,
+         label: 'Reset Demo',
+      },
+      {
+         icon: LogOut,
+         label: 'Sign Out',
+         onClick: handleSignOut,
+         className: 'text-button-red',
+      },
+   ];
 
    return (
-      <div className="flex flex-col gap-3 items-center" onClick={handleClick}>
+      <div
+         onClick={handleClick}
+         className="flex lg:flex-col md:flex-col sm:grow gap-3 items-center"
+      >
          <Popover>
             <PopoverTrigger asChild>
-               <div className="w-28 h-28 overflow-hidden rounded-full shrink-0 md:w-14 md:h-14 cursor-pointer">
+               <div
+                  className={`w-28 h-28 overflow-hidden rounded-full shrink-0 md:w-14 md:h-14 cursor-pointer
+                              sm:w-10 sm:h-10
+                  `}
+               >
                   {urlIsLoading ? (
                      <Skeleton className="rounded-full w-full h-full" />
                   ) : urlDataPayload?.url ? (
@@ -113,49 +147,33 @@ const { mode, toggle } = useDarkMode();
                      </TabsList>
                   </Tabs>
                </div>
-               <div className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75">
-                  <div
-                     className="flex items-center gap-[5px] pl-1 p-1 w-full"
-                     onClick={handleEditProfile}
-                  >
-                     <Settings2 className="h-4 w-4" />
-                     <p>Edit Profile</p>
-                  </div>
-               </div>
-               <Separator />
-               <div className="flex items-center justify-between hover:bg-background rounded-md transition-colors duration-75">
-                  <div className="flex items-center gap-[5px] pl-1 p-1">
-                     <Info className="h-4 w-4" />
-                     <p>View Tips</p>
-                  </div>
-               </div>
-               <div className="flex items-center justify-between hover:bg-background rounded-md transition-colors duration-75">
-                  <div className="flex items-center gap-[5px] pl-1 p-1">
-                     <UserRoundPen className="h-4 w-4" />
-                     <p>Get Account</p>
-                  </div>
-               </div>
-               <div className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75">
-                  <div className="flex items-center gap-[5px] pl-1 p-1">
-                     <TimerReset className="h-4 w-4" />
-                     <p>Reset Demo</p>
-                  </div>
-               </div>
-               <div
-                  onClick={handleSignOut}
-                  className="flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75 text-button-red"
-               >
-                  <div className="flex items-center gap-[5px] pl-1 p-1">
-                     <LogOut className="h-4 w-4" />
-                     <p>Sign Out</p>
-                  </div>
-               </div>
+               {profileMenuItems.map(
+                  ({ icon: Icon, label, onClick, className }, i) => (
+                     <div key={label}>
+                        {i === 1 && <Separator />}
+                        <div
+                           onClick={onClick}
+                           className={cn(
+                              'flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75',
+                              className
+                           )}
+                        >
+                           <div className="flex items-center gap-[5px] pl-1 p-1 w-full">
+                              <Icon className="h-4 w-4" />
+                              <p>{label}</p>
+                           </div>
+                        </div>
+                     </div>
+                  )
+               )}
             </PopoverContent>
          </Popover>
          {!userDataIsLoading && (
-            <div className="flex flex-col leading-tight md:hidden w-full px-3">
+            <div className="flex flex-col leading-tight md:hidden w-full px-3 sm:px-0 sm:hidden">
                <p>Good morning</p>
-               <p className="text-md font-semibold text-wrap">{userData?.displayName}</p>
+               <p className="text-md font-semibold text-wrap">
+                  {userData?.displayName}
+               </p>
             </div>
          )}
       </div>

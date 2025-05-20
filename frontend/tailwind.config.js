@@ -73,7 +73,7 @@ export default {
             },
          },
          screens: {
-            sm: { min: '390px', max: '833px' }, // iPhone 14 Pro range
+            sm: { max: '833px' }, // iPhone 14 Pro range
             md: { min: '834px', max: '1439px' }, // iPad Pro 11 range
             lg: { min: '1440px' }, // MacBook 16 and above
          },

@@ -72,8 +72,8 @@ export class SalesDocumentsService {
                     category: filter.category
                         ? { contains: filter.category, mode: 'insensitive' }
                         : undefined,
-                    projectId: filter.projectId,
-                    clientId: filter.clientId,
+                    projectId: filter.projectId ? filter.projectId : undefined,
+                    clientId: filter.clientId ? filter.clientId : undefined,
                 },
             });
 

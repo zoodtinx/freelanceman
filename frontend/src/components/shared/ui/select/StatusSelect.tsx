@@ -31,7 +31,7 @@ const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
                   ref={ref}
                   isWithIcon={isWithIcon}
                >
-                  <div className="flex gap-1 items-center text-base">
+                  <div className={"flex gap-1 items-center text-base"}>
                      {showColor && <div className={`w-3 h-3 rounded-full bg-${getStatusColor(value)}`} />}
                      <SelectValue />
                   </div>

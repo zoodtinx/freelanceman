@@ -26,7 +26,6 @@ const ProjectNoteSection: React.FC<{ project: ProjectPayload }> = ({ project }) 
                id: project.id,
                note: newNote,
             });
-            console.log('Note updated:', newNote);
          }, 1000),
       [editProject, project.id]
    );

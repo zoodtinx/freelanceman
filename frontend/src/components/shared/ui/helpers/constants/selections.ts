@@ -25,7 +25,7 @@ export const projectStatusSelections = [
 ];
 
 export const paymentStatusSelections = [
-   { value: 'unpaid', label: 'Not Processed', color: 'bg-gray-200' },
+   { value: 'unpaid', label: 'Pending', color: 'bg-gray-200' },
    { value: 'processing', label: 'Processing', color: 'bg-yellow-200' },
    { value: 'paid', label: 'Paid', color: 'bg-teal-100' },
 ];
