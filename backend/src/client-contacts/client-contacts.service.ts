@@ -71,7 +71,7 @@ export class ClientContactService {
                 this.prismaService.clientContact.count({ where }),
                 this.prismaService.clientContact.findMany({
                     where,
-                    take: filter.take ? filter.take : 15,
+                    take: filter.take ? filter.take : 25,
                     include: {
                         company: true,
                     },

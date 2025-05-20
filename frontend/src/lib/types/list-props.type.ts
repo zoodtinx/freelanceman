@@ -6,4 +6,5 @@ export interface ListProps<T> {
    setFilter: Dispatch<SetStateAction<T>>;
    page?: string;
    loader?: 'skeleton' | 'spinner'
+   className?: string
 }

@@ -57,14 +57,13 @@ export default function TaskSection() {
             </div>
             <AddButton onClick={handleNewTask} />
          </div>
-            <div className='grow flex flex-col p-3 pt-0'>
-               <TaskList
-                  addFn={handleNewTask}
-                  filter={taskFilter}
-                  setFilter={setTaskFilter}
-                  page="action-page"
-               />
-            </div>
+         <TaskList
+            addFn={handleNewTask}
+            filter={taskFilter}
+            setFilter={setTaskFilter}
+            page="action-page"
+            className="px-2"
+         />
       </div>
    );
 }

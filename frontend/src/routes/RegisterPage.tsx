@@ -1,16 +1,13 @@
 import React from 'react';
-import { HamIcon } from 'lucide-react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
    Label,
    TextInputForm,
 } from '@/components/shared/ui/form-field-elements';
-import { googleSignIn, register } from '@/lib/api/auth-api';
+import { register } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import FreelanceManLogo from '@/components/page-elements/app-layout/topbar/Logo';
-import { FreelanceManIcon } from '@/components/shared/icons';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 

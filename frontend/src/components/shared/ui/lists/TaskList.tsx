@@ -18,15 +18,16 @@ import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader
 import { forwardRef } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ListProps } from '@/lib/types/list-props.type';
-import ActionPageTaskListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageTaskListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 
 export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    addFn,
    filter,
    setFilter,
    page,
-   loader = 'skeleton'
+   loader = 'skeleton',
+   className
 }) => {
    const {
       data: tasksData,
@@ -38,7 +39,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    const lastItemRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      if (!tasksData || tasksData?.items?.length <= 20) {
+      if (!tasksData || tasksData?.items?.length <= 30) {
          return;
       }
 
@@ -64,7 +65,9 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
 
    if (!tasksData || tasksData.items.length === 0) {
       if (page === 'action-page') {
-         return <ActionPageTaskListPlaceholder addFn={addFn} />
+         return <div className='w-full h-full px-4'>
+            <TabListPlaceHolder className='h-16' children='Add a new Tas' addFn={addFn} />
+         </div>
       }
       return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
@@ -100,7 +103,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    };
 
    return (
-      <ScrollArea className="flex flex-col h-0 grow gap-1 overflow-y-auto">
+      <ScrollArea className={cn("flex flex-col h-0 grow gap-1 overflow-y-auto", className)}>
          {taskListItems}
          {remainingTasks && (
             <div className="flex justify-center pt-3 pb-2">

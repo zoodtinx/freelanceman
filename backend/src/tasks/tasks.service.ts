@@ -77,7 +77,7 @@ export class TasksService {
                 this.prismaService.task.count({ where }),
                 this.prismaService.task.findMany({
                     where,
-                    take: filter.take ? filter.take : 20,
+                    take: filter.take ? filter.take : 30,
                     orderBy: { dueAt: 'asc' },
                     include: {
                         project: {

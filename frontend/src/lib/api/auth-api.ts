@@ -112,8 +112,29 @@ export async function checkAccess(token: string) {
    };
 }
 
-export async function getDemo() {
+export async function getFullDemo() {
    const res = await fetch(`${import.meta.env.VITE_API_URL}/demo`, {
+      method: 'GET',
+      credentials: 'include',
+   });
+
+   console.log('Response Headers:', Array.from(res.headers.entries()));
+
+   if (!res.ok) {
+      return {
+         success: false,
+         data: await res.json(),
+      };
+   }
+
+   return {
+      success: true,
+      data: await res.json(),
+   };
+}
+
+export async function getBlankDemo() {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/demo/blank`, {
       method: 'GET',
       credentials: 'include',
    });

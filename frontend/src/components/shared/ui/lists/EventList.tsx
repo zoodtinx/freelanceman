@@ -36,7 +36,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    const lastItemRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      if (!eventsData || eventsData?.items.length <= 20) {
+      if (!eventsData || eventsData?.items.length <= 25) {
          return;
       }
 

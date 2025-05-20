@@ -96,7 +96,7 @@ export class EventsService {
                 this.prismaService.event.count({ where }),
                 this.prismaService.event.findMany({
                     where,
-                    take: filter.take ? filter.take : 20,
+                    take: filter.take ? filter.take : 25,
                     orderBy: {
                         dueAt: filter.status === 'scheduled' ? 'asc' : 'desc',
                     },

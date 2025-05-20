@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { seedDemoUser } from '@/shared/database/seed-demo-user-data';
 import {
     Injectable,
@@ -17,12 +18,29 @@ export class DemoService {
         private configService: ConfigService,
     ) {}
 
-    async createDemoUser() {
+    async createFullDemoUser() {
         try {
-            const result = await seedDemoUser()
+            const result = await seedDemoUser();
             return result;
         } catch (error) {
-            console.log('error', error)
+            console.log('error', error);
+            throw new InternalServerErrorException(
+                `Failed to create demo user`,
+            );
+        }
+    }
+
+    async createBlankDemoUser() {
+        try {
+            const result = await this.prismaService.user.create({
+                data: {
+                    displayName: 'Pridi Johansson',
+                    email: `user-${uuidv4()}@freelanceman.com`,
+                },
+            });
+            return result;
+        } catch (error) {
+            console.log('error', error);
             throw new InternalServerErrorException(
                 `Failed to create demo user`,
             );
@@ -40,7 +58,7 @@ export class DemoService {
                 },
                 select: { id: true },
             });
-            console.log('created refresh token')
+            console.log('created refresh token');
         } catch (error) {
             throw new InternalServerErrorException(
                 'Failed to create refresh token',
@@ -50,14 +68,14 @@ export class DemoService {
     }
 
     async resolveNewDemoUser() {
-        let demoUser: any
+        let demoUser: any;
         let newRefreshToken: string;
         let accessToken: string;
 
         try {
-            demoUser = await this.createDemoUser();
+            demoUser = await this.createFullDemoUser();
             newRefreshToken = await this.createRefreshToken(demoUser);
-            console.log('signing access token')
+            console.log('signing access token');
             accessToken = this.jwtService.sign(
                 { sub: demoUser.id, role: demoUser.role },
                 {
@@ -65,9 +83,36 @@ export class DemoService {
                     secret: this.configService.get('jwt.accessTokenSecret'),
                 },
             );
-            console.log('access token signed')
+            console.log('access token signed');
         } catch (error) {
-            console.log('error', error)
+            console.log('error', error);
+            throw new InternalServerErrorException(
+                'Failed to resolve new demo user',
+            );
+        }
+
+        return { user: demoUser, refreshToken: newRefreshToken, accessToken };
+    }
+
+    async resolveBlankDemoUser() {
+        let demoUser: any;
+        let newRefreshToken: string;
+        let accessToken: string;
+
+        try {
+            demoUser = await this.createBlankDemoUser();
+            newRefreshToken = await this.createRefreshToken(demoUser);
+            console.log('signing access token');
+            accessToken = this.jwtService.sign(
+                { sub: demoUser.id, role: demoUser.role },
+                {
+                    expiresIn: '15m',
+                    secret: this.configService.get('jwt.accessTokenSecret'),
+                },
+            );
+            console.log('access token signed');
+        } catch (error) {
+            console.log('error', error);
             throw new InternalServerErrorException(
                 'Failed to resolve new demo user',
             );
@@ -77,7 +122,6 @@ export class DemoService {
     }
 
     async resolveDemoUser(refreshToken?: string) {
-        
         if (!refreshToken) {
             return await this.resolveNewDemoUser();
         }
@@ -122,7 +166,7 @@ export class DemoService {
                 throw error;
             }
 
-            console.log('error', error)
+            console.log('error', error);
             throw new InternalServerErrorException(
                 'Failed to resolve demo user',
             );

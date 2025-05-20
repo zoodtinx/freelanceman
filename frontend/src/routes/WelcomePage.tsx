@@ -1,9 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { FreelanceManIcon } from '@/components/shared/icons';
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { getDemo } from '@/lib/api/auth-api';
+import { getBlankDemo, getFullDemo } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 
 const WelcomePage: React.FC = () => {
@@ -19,8 +18,8 @@ const WelcomePage: React.FC = () => {
       console.log('Google Sign-up triggered');
    };
 
-   const handleGetDemo = async () => {
-      const result = await getDemo();
+   const handleGetFullDemo = async () => {
+      const result = await getFullDemo();
       console.log('result', result);
       if (result.success) {
          setAccessToken(result.data.accessToken);
@@ -29,6 +28,18 @@ const WelcomePage: React.FC = () => {
          alert('Boo');
       }
    };
+
+   const handleGetBlankDemo = async () => {
+      const result = await getBlankDemo();
+      console.log('result', result);
+      if (result.success) {
+         setAccessToken(result.data.accessToken);
+         navigate('/home/projects');
+      } else {
+         alert('Boo');
+      }
+   };
+
 
    const handleNavigate = (page: 'register' | 'login') => {
       navigate(`../${page}`);
@@ -47,18 +58,18 @@ const WelcomePage: React.FC = () => {
          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
                <p>Explore Full feature</p>
-               <Button onClick={handleGetDemo} className="w-[150px]">
+               <Button onClick={handleGetFullDemo} className="w-[150px]">
                   Try Demo
                </Button>
             </div>
             <div className="flex items-center gap-2">
                <p>Get blank app</p>
                <Button
-                  onClick={() => handleNavigate('login')}
+                  onClick={handleGetBlankDemo}
                   className="w-[150px]"
                   variant={'outline'}
                >
-                  Try Demo
+                  Get Blank
                </Button>
             </div>
             <div className="flex items-center gap-2">
