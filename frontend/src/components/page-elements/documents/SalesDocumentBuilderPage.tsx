@@ -27,6 +27,7 @@ import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { useUserQuery } from '@/lib/api/user-api';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -42,6 +43,19 @@ const SalesDocumentBuilderPage = ({
       isLoading: false,
       type: 'delete',
    });
+
+   const [isOnMobile, setIsOnMobile] = useState(
+      document.documentElement.clientWidth < 834
+   );
+
+   useEffect(() => {
+      const handleResize = () => {
+         setIsOnMobile(document.documentElement.clientWidth < 834);
+      };
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+   }, []);
 
    const formMethods = useForm<SalesDocumentPayload>({});
    const { data: salesDocumentData, isLoading: isDocLoading } =
@@ -100,7 +114,7 @@ const SalesDocumentBuilderPage = ({
       }
 
       if (projectData) {
-         console.log('projectData.projectTitle', projectData.projectTitle)
+         console.log('projectData.projectTitle', projectData.projectTitle);
          formMethods.reset(defaultCreateSalesDocumentValue);
          formMethods.setValue('currency', userData.currency);
          formMethods.setValue('freelancerName', userData.displayName);
@@ -173,7 +187,7 @@ const SalesDocumentBuilderPage = ({
    const documentCategory = category ?? getValues('category');
 
    return (
-      <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-4 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-y-auto">
+      <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative">
          {/* Header */}
          <div className="flex justify-between items-center">
             <div className="flex gap-1 items-center">
@@ -189,72 +203,141 @@ const SalesDocumentBuilderPage = ({
             />
          </div>
 
-         {/* Form */}
-         <form
-            className="flex flex-col grow gap-3"
-            onSubmit={handleSubmit(onSubmit)}
-         >
-            <div className="flex grow gap-3">
-               <div className="flex flex-col w-1/2 gap-3">
-                  {isLoading ? (
-                     <Skeleton className="w-full h-1/3 rounded-xl" />
-                  ) : (
-                     <ProjectInfoField formMethods={formMethods} />
-                  )}
-                  {isLoading ? (
-                     <Skeleton className="w-full h-1/3 rounded-xl" />
-                  ) : (
-                     <FreelancerInfoField formMethods={formMethods} />
-                  )}
-                  {isLoading ? (
-                     <Skeleton className="w-full h-1/3 rounded-xl" />
-                  ) : (
-                     <ClientInfoField formMethods={formMethods} />
-                  )}
-               </div>
-               <div className="flex flex-col w-1/2 gap-3">
-                  {isLoading ? (
-                     <Skeleton className="w-full h-full rounded-xl" />
-                  ) : (
-                     <ItemsField formMethods={formMethods} />
-                  )}
-               </div>
-            </div>
-
-            {/* Footer */}
-            <footer className="flex justify-between shrink-0">
-               <div className="flex gap-2">
-                  <Button
-                     onClick={handleDiscard}
-                     variant="destructiveOutline"
-                     disabled={isLoading}
-                  >
-                     {isDirty ? 'Discard Changes' : 'Back'}
-                  </Button>
-               </div>
-
-               <div className="flex gap-2">
-                  <Button
-                     variant={
-                        createPdf.isPending || isDirty || !isEditMode
-                           ? 'ghost'
-                           : 'default'
-                     }
-                     disabled={createPdf.isPending || isDirty || !isEditMode}
-                     className="flex gap-1"
-                     onClick={handleCreatePdf}
-                  >
-                     <FilePlus2 className="w-4 h-4" />
-                     <p>Create PDF</p>
-                  </Button>
-
-                  <SubmitButton
-                     isApiLoading={isApiLoading}
-                     formMethods={formMethods}
-                  />
-               </div>
-            </footer>
-         </form>
+         {isOnMobile && (
+            <ScrollArea className="">
+               <form
+                  className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
+                  onSubmit={handleSubmit(onSubmit)}
+               >
+                  <div className="flex grow gap-3 sm:flex-col">
+                     <div className="flex flex-col w-1/2 gap-3 sm:flex-col sm:w-full">
+                        {isLoading ? (
+                           <Skeleton className="w-full h-1/3 rounded-xl" />
+                        ) : (
+                           <ProjectInfoField formMethods={formMethods} />
+                        )}
+                        {isLoading ? (
+                           <Skeleton className="w-full h-1/3 rounded-xl" />
+                        ) : (
+                           <FreelancerInfoField formMethods={formMethods} />
+                        )}
+                        {isLoading ? (
+                           <Skeleton className="w-full h-1/3 rounded-xl" />
+                        ) : (
+                           <ClientInfoField formMethods={formMethods} />
+                        )}
+                     </div>
+                     <div className="flex flex-col w-1/2 gap-3 sm:w-full">
+                        {isLoading ? (
+                           <Skeleton className="w-full h-full rounded-xl" />
+                        ) : (
+                           <ItemsField formMethods={formMethods} />
+                        )}
+                     </div>
+                  </div>
+                  {/* Footer */}
+                  <footer className="flex justify-between shrink-0">
+                     <div className="flex gap-2">
+                        <Button
+                           onClick={handleDiscard}
+                           variant="destructiveOutline"
+                           disabled={isLoading}
+                        >
+                           {isDirty ? 'Discard Changes' : 'Back'}
+                        </Button>
+                     </div>
+                     <div className="flex gap-2">
+                        <Button
+                           variant={
+                              createPdf.isPending || isDirty || !isEditMode
+                                 ? 'ghost'
+                                 : 'default'
+                           }
+                           disabled={
+                              createPdf.isPending || isDirty || !isEditMode
+                           }
+                           className="flex gap-1"
+                           onClick={handleCreatePdf}
+                        >
+                           <FilePlus2 className="w-4 h-4" />
+                           <p>Create PDF</p>
+                        </Button>
+                        <SubmitButton
+                           isApiLoading={isApiLoading}
+                           formMethods={formMethods}
+                        />
+                     </div>
+                  </footer>
+               </form>
+            </ScrollArea>
+         )}
+         
+         {!isOnMobile && (
+               <form
+                  className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
+                  onSubmit={handleSubmit(onSubmit)}
+               >
+                  <div className="flex grow gap-3 sm:flex-col">
+                     <div className="flex flex-col w-1/2 gap-3 sm:flex-col sm:w-full">
+                        {isLoading ? (
+                           <Skeleton className="w-full h-1/3 rounded-xl" />
+                        ) : (
+                           <ProjectInfoField formMethods={formMethods} />
+                        )}
+                        {isLoading ? (
+                           <Skeleton className="w-full h-1/3 rounded-xl" />
+                        ) : (
+                           <FreelancerInfoField formMethods={formMethods} />
+                        )}
+                        {isLoading ? (
+                           <Skeleton className="w-full h-1/3 rounded-xl" />
+                        ) : (
+                           <ClientInfoField formMethods={formMethods} />
+                        )}
+                     </div>
+                     <div className="flex flex-col w-1/2 gap-3 sm:w-full">
+                        {isLoading ? (
+                           <Skeleton className="w-full h-full rounded-xl" />
+                        ) : (
+                           <ItemsField formMethods={formMethods} />
+                        )}
+                     </div>
+                  </div>
+                  {/* Footer */}
+                  <footer className="flex justify-between shrink-0">
+                     <div className="flex gap-2">
+                        <Button
+                           onClick={handleDiscard}
+                           variant="destructiveOutline"
+                           disabled={isLoading}
+                        >
+                           {isDirty ? 'Discard Changes' : 'Back'}
+                        </Button>
+                     </div>
+                     <div className="flex gap-2">
+                        <Button
+                           variant={
+                              createPdf.isPending || isDirty || !isEditMode
+                                 ? 'ghost'
+                                 : 'default'
+                           }
+                           disabled={
+                              createPdf.isPending || isDirty || !isEditMode
+                           }
+                           className="flex gap-1"
+                           onClick={handleCreatePdf}
+                        >
+                           <FilePlus2 className="w-4 h-4" />
+                           <p>Create PDF</p>
+                        </Button>
+                        <SubmitButton
+                           isApiLoading={isApiLoading}
+                           formMethods={formMethods}
+                        />
+                     </div>
+                  </footer>
+               </form>
+         )}
 
          <SelectorDialog />
       </div>

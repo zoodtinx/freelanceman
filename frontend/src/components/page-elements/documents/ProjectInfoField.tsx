@@ -42,29 +42,32 @@ const ProjectInfoField = ({
       <fieldset
          className={cn(
             'flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3',
+            'sm:w-full',
             error && 'border-general-red'
          )}
       >
          <div className="flex flex-col">
-            <div className="flex gap-2 peer order-2">
-               <div className="peer flex-1">
-                  <Label className="pb-0">Document Number</Label>
-                  <TextInputForm fieldName="number" formMethods={formMethods} />
-               </div>
-               <div className="peer flex-1">
-                  <Label className="pb-0">Currency</Label>
-                  <TextInputForm
-                     fieldName="currency"
-                     formMethods={formMethods}
-                  />
+            <div className="flex flex-wrap gap-2 peer order-2 sm:flex-col">
+               <div className='flex gap-2 sm:order-2'>
+                  <div className="peer flex-1">
+                     <Label className="pb-0">Document Number</Label>
+                     <TextInputForm fieldName="number" formMethods={formMethods} />
+                  </div>
+                  <div className="peer flex-1">
+                     <Label className="pb-0">Currency</Label>
+                     <TextInputForm
+                        fieldName="currency"
+                        formMethods={formMethods}
+                     />
+                  </div>
                </div>
                <div className="peer flex-1">
                   <Label className="pb-0">Issue date</Label>
-                  <div className="flex gap-1 items-center">
+                  <div className="flex gap-1 items-center shrink-0">
                      <DatePickerForm
                         fieldName="issuedAt"
                         formMethods={formMethods}
-                        className="items-center text-md font-normal"
+                        className="items-center text-md font-normal shrink-0"
                      />
                   </div>
                </div>

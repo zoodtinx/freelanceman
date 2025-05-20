@@ -25,9 +25,11 @@ const ClientInfoField = ({
    const { data: clientList, isLoading } = useClientsQuery(
       searchTerm
    ) as UseQueryResult<ClientListPayload>;
-   
 
-   const { setValue, formState:{errors} } = formMethods;
+   const {
+      setValue,
+      formState: { errors },
+   } = formMethods;
 
    useEffect(() => {
       if (clientData) {
@@ -40,7 +42,7 @@ const ClientInfoField = ({
       }
    }, [clientData, setValue]);
 
-   const error = errors.clientName
+   const error = errors.clientName;
 
    return (
       <fieldset
@@ -98,19 +100,9 @@ const ClientInfoField = ({
                   />
                </div>
             </div>
-            {/* <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
+            <div className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-end">
                <h2>Client Info</h2>
-               <SelectWithSearch
-                  type='client'
-                  selections={clientSelection}
-                  placeholder="Select a client"
-                  className="h-6 text-sm px-2 rounded-lg font-medium text-primary border border-primary"
-                  isLoading={isLoading}
-                  value={clientData?.id}
-                  handleSelect={populateClientField}
-                  handleSearch={searchName}
-               />
-            </div> */}
+            </div>
          </div>
       </fieldset>
    );

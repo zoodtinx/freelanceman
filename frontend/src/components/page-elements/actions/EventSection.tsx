@@ -48,7 +48,7 @@ export default function EventSection() {
                >
                   <ToggleGroupItem value="scheduled">Scheduled</ToggleGroupItem>
                   <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
-                  <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
+                  <ToggleGroupItem value="cancelled" className='sm:hidden'>Cancelled</ToggleGroupItem>
                </ToggleGroup>
             </div>
             <AddButton onClick={handleNewEvent} />

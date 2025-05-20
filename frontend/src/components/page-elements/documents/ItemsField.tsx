@@ -100,7 +100,13 @@ const ItemsField = ({
    const fieldError = errors.items
 
    return (
-      <fieldset className={cn("flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3", fieldError && 'border-general-red')}>
+      <fieldset
+         className={cn(
+            'flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3',
+            'sm:h-fit',
+            fieldError && 'border-general-red'
+         )}
+      >
          <div className="flex flex-col gap-2 grow overflow-auto">
             <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
                {itemList}

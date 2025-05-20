@@ -15,7 +15,7 @@ const AdjustmentsField = ({
       <fieldset className="h-2/7 rounded-xl border border-tertiary p-3">
          <div className="flex flex-col">
             <div className="flex flex-col gap-2 peer order-2">
-               <div className="flex gap-2">
+               <div className="flex flex-wrap gap-2">
                   <div className="flex-1">
                      <Label className="pb-0">Discount (%)</Label>
                      <TextInputForm

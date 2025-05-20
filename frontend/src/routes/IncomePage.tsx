@@ -35,6 +35,7 @@ import IncomePagePlacholder from '@/components/shared/ui/placeholder-ui/IncomePa
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
 
 const IncomePage: React.FC = () => {
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
@@ -43,8 +44,13 @@ const IncomePage: React.FC = () => {
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter) 
 
    return (
-      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col relative ">
-         <div className="flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4  z-10">
+      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col relative sm:gap-2">
+         <div
+            className={cn(
+               'flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4  z-10',
+               'sm:flex-col sm:bg-background sm:p-0'
+            )}
+         >
             <StatsBar />
             <FilterBar
                projectFilter={projectFilter}
@@ -76,7 +82,7 @@ const FilterBar = ({
    };
 
    return (
-      <div className="flex gap-1">
+      <div className="flex gap-1 sm:w-full">
          <FilterSelect
             selectContents={[
                { label: 'Due', value: 'unpaid' },
@@ -90,7 +96,7 @@ const FilterBar = ({
             projectFilter={projectFilter as any}
             setProjectFilter={setProjectFilter}
          />
-         <SearchBox className="w-fit" />
+         <SearchBox className="sm:grow" />
       </div>
    );
 };
@@ -99,8 +105,13 @@ const StatsBar = () => {
    const { data: statsData, isLoading } = usePaymentStatsQuery();
 
    return (
-      <div className="flex gap-4">
-         <div className="text-secondary flex gap-2 items-center">
+      <div className="flex gap-3 sm:w-full sm:justify-between sm:px-3 sm:pb-2 items-center">
+         <div
+            className={cn( 
+               'text-secondary flex gap-2 items-center',
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
+            )}
+         >
             Unprocessed:{' '}
             {isLoading ? (
                <Skeleton className="h-5 w-20 rounded-full" />
@@ -110,7 +121,13 @@ const StatsBar = () => {
                </span>
             )}
          </div>
-         <div className="text-secondary flex gap-2 items-center">
+         <Separator orientation='vertical' className='lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary'  />
+         <div
+            className={cn(
+               'text-secondary flex gap-2 items-center',
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
+            )}
+         >
             Processing:{' '}
             {isLoading ? (
                <Skeleton className="h-5 w-20 rounded-full" />
@@ -120,7 +137,13 @@ const StatsBar = () => {
                </span>
             )}
          </div>
-         <div className="text-secondary flex gap-2 items-center">
+         <Separator orientation='vertical' className='lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary'  />
+         <div
+            className={cn(
+               'text-secondary flex gap-2 items-center',
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
+            )}
+         >
             All Amount Due:{' '}
             {isLoading ? (
                <Skeleton className="h-5 w-20 rounded-full" />

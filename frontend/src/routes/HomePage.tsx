@@ -40,7 +40,7 @@ export default function HomePage() {
             className={`flex w-[180px] gap-4 shrink-0 mr-3
                         md:flex-col md:w-[65px] 
                         lg:flex-col 
-                        sm:w-full sm:p-2 sm:px-3 sm:items-center
+                        sm:w-full sm:p-3 sm:items-center
                      `}
          >
             <div className='flex justify-center gap-2 lg:flex-col sm:gap-1'>

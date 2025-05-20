@@ -227,6 +227,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
             <div
                className={cn(
                   'flex px-2 items-center bg-transparent hover:bg-quaternary transition-colors duration-100',
+                  'sm:px-1',
                   isSelected && 'bg-quaternary',
                   page === 'project-page' && 'px-1'
                )}
@@ -239,14 +240,20 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                   checked={isSelected}
                />
                <div className="flex flex-col w-full">
-                  <div className={cn("flex py-[10px] grow gap-2 items-center", page === 'project-page' && 'py-[8px]')}>
+                  <div
+                     className={cn(
+                        'flex py-[10px] grow gap-2 items-center',
+                        'sm:py-2',
+                        page === 'project-page' && 'py-[8px]'
+                     )}
+                  >
                      {getIcon(data.type, 'w-4 h-4 text-secondary shrink-0')}
                      <p className="text-[15px] truncate grow">
                         {data.displayName}
                      </p>
                      <div className="flex">
                         {page !== 'project-page' && (
-                           <p className="text-sm text-secondary w-[150px] line-clamp-1 text-right mr-5">
+                           <p className="text-sm text-secondary w-[150px] line-clamp-1 text-right mr-5 sm:hidden">
                               {data.client?.name || ''}
                            </p>
                         )}

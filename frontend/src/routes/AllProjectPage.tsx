@@ -3,9 +3,6 @@ import { useProjectsQuery } from '@/lib/api/project-api';
 import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
 import { ProjectFilterDto } from 'freelanceman-common';
-import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
-import { UnexpectedError } from '@/components/shared/ui/placeholder-ui/ErrorUI';
-import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 
 export default function AllProjectPage() {
@@ -37,7 +34,7 @@ export default function AllProjectPage() {
          />
          <div className="flex flex-1 flex-col sm:w-full  min-h-0 relative h-full">
             <div className="sm:hidden h-full">
-               {viewMode === 'grid' && (
+            {viewMode === 'grid' && (
                   <ProjectGrid queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
                )}
                {viewMode === 'list' && (
