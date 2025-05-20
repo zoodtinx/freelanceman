@@ -9,17 +9,12 @@ import {
    TextInputForm,
    TextSelectForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { DialogFooter } from '../../primitives/Dialog';
-import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { useState, Dispatch, SetStateAction } from 'react';
+import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'lucide-react';
 import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { FileUploadForm } from '@/components/shared/ui/form-field-elements/FileUploadForm';
-import {
-   DiscardButton,
-   SubmitButton,
-} from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import {
    ApiLoadingState,
    FormDialogProps,
@@ -31,17 +26,26 @@ import { CreateFileDto } from 'freelanceman-common';
 import { toast } from 'sonner';
 import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
+import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 
-export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
+export const NewFileDialog = ({
+   formMethods,
+   crudApi,
+   handleLeftButtonClick,
+}: FormDialogProps) => {
    // utility hook
-   const navigate = useNavigate()
+   const navigate = useNavigate();
 
    // state hook
    const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
       isLoading: false,
       type: 'destructive',
    });
-   const [mode, setMode] = useState<'add-link' | 'upload'>('upload');
+   const [mode, setMode] = useState<'add-link' | 'upload'>('add-link');
+   useEffect(() => {
+      formMethods.reset(defaultFileValues);
+   }, [mode]);
    const { formDialogState, setFormDialogState } = useFormDialogStore();
 
    // api setup
@@ -52,8 +56,9 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
       },
    });
 
-   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+   const { formState } = formMethods;
 
+   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
       let presignedUrl;
 
       const projectId = formMethods.getValues('projectId');
@@ -96,7 +101,6 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
          link: data.link,
          originalName: data.originalName,
          type: data.type,
-         clientId: data.clientId,
          projectId: data.projectId,
          size: data.size,
          s3Key: mode === 'upload' ? presignedUrl.key : undefined,
@@ -106,10 +110,10 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
       setFormDialogState((prev) => {
          return {
             ...prev,
-            isOpen: false
-         }
-      })
-      navigate('/home/files')
+            isOpen: false,
+         };
+      });
+      navigate('/home/files');
    };
 
    const categoryValue = formMethods.watch('category');
@@ -135,8 +139,15 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
                   />
                )}
                {mode === 'add-link' && (
-                  <div className="flex flex-col gap-2 items-center">
+                  <div className="flex flex-col gap-2">
                      <Link className="text-secondary w-6 h-6 my-1" />
+                     {/* <TextInputForm
+                        fieldName="link"
+                        className="w-full "
+                        formMethods={formMethods}
+                        required={true}
+                        errorMessage="Please enter display name"
+                     /> */}
                      <LinkInputForm
                         formMethods={formMethods}
                         required={mode === 'add-link'}
@@ -208,20 +219,11 @@ export const NewFileDialog = ({ formMethods, crudApi }: FormDialogProps) => {
                   </div>
                )}
             </div>
-            <DialogFooter>
-               <div className="flex justify-between p-4 pb-2">
-                  <DiscardButton
-                     formMethods={formMethods}
-                     isApiLoading={isApiLoading}
-                     setIsApiLoading={setIsApiLoading}
-                  />
-                  <SubmitButton
-                     formMethods={formMethods}
-                     isApiLoading={isApiLoading}
-                     setIsApiLoading={setIsApiLoading}
-                  />
-               </div>
-            </DialogFooter>
+            <FormDialogFooter
+               formMethods={formMethods}
+               isApiLoading={isApiLoading}
+               onDiscard={handleLeftButtonClick}
+            />
          </form>
       </div>
    );

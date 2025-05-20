@@ -96,7 +96,7 @@ export const defaultNewProjectValue = {
    contacts: [],
    workingFiles: [],
    assetFiles: [],
-   budget: 0
+   budget: ''
 };
 
 export const defaultClientValue: ClientPayload = {

@@ -12,9 +12,9 @@ export const createSalesDocumentSchema = z.object({
     clientName: z.string().min(1),
     items: z.array(nestedCreateSalesDocumentItemSchema).min(1),
 
-    title: optionalString(),
     number: optionalString(),
     currency: optionalString(),
+    projectTitle: optionalString(),
     referenceNumber: optionalString(),
     projectDescription: optionalString(),
 

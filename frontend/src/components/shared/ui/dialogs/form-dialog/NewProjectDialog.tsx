@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { TextAreaForm, TextInputForm } from 'src/components/shared/ui/form-field-elements';
+import {
+   TextAreaForm,
+   TextInputForm,
+} from 'src/components/shared/ui/form-field-elements';
 import { CircleCheck, Package, Plus, UserRound } from 'lucide-react';
-import { ApiLoadingState, FormDialogProps } from 'src/lib/types/form-dialog.types';
+import {
+   ApiLoadingState,
+   FormDialogProps,
+} from 'src/lib/types/form-dialog.types';
 import useDialogStore from '@/lib/zustand/dialog-store';
 import {
    paymentStatusSelections,
@@ -23,9 +29,9 @@ import { useNavigate } from 'react-router-dom';
 export const NewProjectDialog = ({
    crudApi,
    formMethods,
-   handleLeftButtonClick
+   handleLeftButtonClick,
 }: FormDialogProps) => {
-   const navigate = useNavigate()
+   const navigate = useNavigate();
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -38,24 +44,38 @@ export const NewProjectDialog = ({
       type: 'destructive',
    });
 
-   const { handleSubmit } = formMethods;
+   const { handleSubmit, setError, clearErrors } = formMethods;
 
    const onSubmit = async (data: any) => {
+      const rawBudget = data.budget.replace(/,/g, '');
+      const budget = Number(rawBudget);
+
+      if (
+         isNaN(budget) ||
+         !Number.isInteger(budget) ||
+         /^0\d+/.test(rawBudget)
+      ) {
+         setError('budget', {
+            type: 'manual',
+            message: 'Please enter a number (no leading 0)',
+         });
+      }
+
       const createProjectPayload: CreateProjectDto = {
          title: data.title,
          clientId: data.clientId,
          projectStatus: data.projectStatus,
          paymentStatus: data.paymentStatus,
-         budget: Number(data.budget.replace(/,/g, ""))
+         budget: Number(data.budget.replace(/,/g, '')),
       };
       const project = await createProject.mutateAsync(createProjectPayload);
       setFormDialogState((prev) => {
          return {
             ...prev,
-            isOpen: false
-         }
-      })
-      navigate(`/home/projects/${project.id}`)
+            isOpen: false,
+         };
+      });
+      navigate(`/home/projects/${project.id}`);
    };
 
    return (
@@ -101,10 +121,10 @@ export const NewProjectDialog = ({
                   />
                </div>
             </div>
-            <div className="w-1/2">
-                  <Label>Budget</Label>
-                  <TextInputForm fieldName='budget' formMethods={formMethods} />
-               </div>
+            <div className="w-full">
+               <Label>Budget</Label>
+               <TextInputForm fieldName="budget" formMethods={formMethods} />
+            </div>
             {!haveNote ? (
                <div
                   onClick={() => setHaveNote(true)}

@@ -32,15 +32,14 @@ export const TaskDialog = ({
    handleLeftButtonClick,
 }: FormDialogProps) => {
    //utility hooks
-   const navigate = useNavigate()
+   const navigate = useNavigate();
    const submitButtonRef = useRef<HTMLButtonElement>(null);
-   
+
    // button loading state
    const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
    const { handleSubmit } = formMethods;
-   console.log('date', formMethods.getValues('dueAt'));
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -54,8 +53,6 @@ export const TaskDialog = ({
          const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
       }
-
-      console.log('data.dueAt', data.dueAt);
 
       if (formDialogState.mode === 'create') {
          const payload: CreateTaskDto = {
@@ -74,7 +71,7 @@ export const TaskDialog = ({
             };
          });
          if (formDialogState.openedOn === 'global-add-button') {
-            navigate('/home/actions')
+            navigate('/home/actions');
          }
       } else if (formDialogState.mode === 'edit') {
          const payload: EditTaskDto = {

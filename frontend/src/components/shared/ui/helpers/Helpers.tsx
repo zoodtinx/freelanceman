@@ -377,11 +377,11 @@ export const validateUrl = (inputValue: string) => {
    try {
       const url = new URL(inputValue);
       if (!url.protocol || !url.hostname) {
-         return { error: 'Invalid URL format.' };
+         return false;
       }
-      return { error: '' };
+      return true;
    } catch {
-      return { error: 'Invalid URL format.' };
+      return false;
    }
 };
 

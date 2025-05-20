@@ -13,6 +13,7 @@ import { ProjectFilterDto, ProjectListPayload } from 'freelanceman-common';
 import React, { useState } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 export default function PinnedProjects() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -91,14 +92,15 @@ const PinnedProjectTabs = ({
    }
 
    const pinnedProjects = projects?.items.map((project, i) => {
-      if (i > 3) return
       return <PinnedProjectCard project={project} key={project.id} />;
    });
 
    return (
-      <div className="flex flex-col  gap-2 border border-tertiary p-2 rounded-xl">
-         {pinnedProjects}
-      </div>
+      <ScrollArea className="border border-tertiary rounded-xl h-72">
+         <div className='flex flex-col gap-2 p-2'>
+            {pinnedProjects}
+         </div>
+      </ScrollArea>
    );
 };
 
@@ -129,7 +131,7 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
       <div
          onClick={handleClick}
          className={cn(
-            'p-1 px-2 border border-tertiary border-dashed rounded-lg cursor-pointer relative group',
+            'p-1 px-2 border border-tertiary border-dashed rounded-lg cursor-pointer relative group overflow-visible',
             isActive && 'text-primary bg-tertiary border-secondary',
             !isActive && 'bg-transparent text-secondary border border-tertiary'
          )}

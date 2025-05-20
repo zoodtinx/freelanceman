@@ -20,9 +20,9 @@ export const LinkInputForm = <TFieldValues extends FieldValues>({
    const {
       control,
       formState: { errors },
-      clearErrors,
       watch,
       setError,
+      clearErrors
    } = formMethods;
 
    return (
@@ -34,7 +34,13 @@ export const LinkInputForm = <TFieldValues extends FieldValues>({
          }}
          render={({ field }) => {
             const handleValueChange = (value: string) => {
-               clearErrors(fieldName as Path<TFieldValues>);
+               const isValidUrl = validateUrl(value)
+               if (!isValidUrl) {
+                  setError(fieldName as any, {type:'validate', message: 'Invalid URL format'})
+                  return
+               } else {
+                  clearErrors(fieldName as any)
+               }
                field.onChange(value);
             };
 
@@ -85,7 +91,6 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
          handleValueChange,
          handleDiscardValue,
          className,
-         setError,
          placeholder = 'Add a link',
          onKeyDown,
       },
@@ -108,7 +113,6 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
                setUrl(value);
                setIsButtonMode(true);
             } else {
-               setError('link', 'Invalid URL format');
                setIsButtonMode(false);
             }
          }
@@ -121,28 +125,26 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
             const { error } = validateUrl(inputValue);
 
             if (error) {
-               setError('link');
                setIsButtonMode(false);
                return;
             }
 
             setUrl(inputValue);
             handleValueChange(inputValue);
-            setError('');
             setIsButtonMode(true);
          }
       };
 
-      const handleChange = (e) => {
-         setError('');
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+         const inputValue = e.target.value;
          setIsButtonMode(false);
+         handleValueChange(inputValue);
       };
 
       const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
          e.stopPropagation();
          setIsButtonMode(false);
          handleValueChange('');
-         setError('');
       };
 
       return (
@@ -170,7 +172,7 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
                <input
                   ref={linkInputRef}
                   onBlur={handleBlur}
-                  onChange={(e) => handleChange(e)}
+                  onChange={handleChange}
                   className="flex grow rounded-md py-1 px-2 border border-tertiary transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 bg-transparent"
                   placeholder={placeholder}
                   onKeyDown={(e) => {

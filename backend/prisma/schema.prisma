@@ -235,6 +235,7 @@ model SalesDocument {
   currency           String?             @default("THB")
   projectId          String
   referenceNumber    String?
+  projectTitle String?
   projectDescription String?
   freelancerName     String
   freelancerEmail    String?

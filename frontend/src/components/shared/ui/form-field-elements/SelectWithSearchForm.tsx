@@ -225,6 +225,15 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             )}
             onClick={handleOpen}
          >
+            {value && cancel?.enable && (
+               <X
+                  onClick={cancel.handleCancel}
+                  className={cn(
+                     'border border-secondary text-secondary h-4 w-4 box-contents rounded-md opacity-100',
+                     'hover:border-button-red hover:text-button-red'
+                  )}
+               />
+            )}
             {optionalTriggerUi ? (
                optionalTriggerUi
             ) : (
@@ -233,16 +242,6 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
                </p>
             )}
             {isWithIcon && !value && <ChevronDown className="h-4 w-4" />}
-            {value && cancel?.enable && (
-               <X
-                  onClick={cancel.handleCancel}
-                  className={cn(
-                     'border border-secondary text-secondary h-4 w-4 box-contents rounded-md opacity-100',
-                     // 'group-hover:opacity-100 transition-opacity',
-                     'hover:border-button-red hover:text-button-red'
-                  )}
-               />
-            )}
          </SelectTrigger>
          <SelectContent
             className="bg-foreground overflow-hidden text-sm font-normal w-[300px] shadow-sm"

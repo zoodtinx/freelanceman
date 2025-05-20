@@ -68,15 +68,12 @@ export const SubmitButton = ({
 
    const variant = getVariant();
 
-   const handleClick = () => {};
-
    return (
       <Button
          variant={variant}
          type="submit"
          className={cn('gap-1 items-center', isNoInput && 'cursor-not-allowed')}
          disabled={!isDirty || isSubmitting}
-         onClick={handleClick}
       >
          {isSubmitting ? (
             <LoaderCircle className="w-4 h-4 animate-spin" />

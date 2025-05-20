@@ -26,11 +26,14 @@ export class SalesDocumentsService {
     ) {}
 
     async create(userId: string, createDto: CreateSalesDocumentDto) {
+        const documentTitle = `${createDto.projectTitle} ${createDto.category}`;
+
         try {
             const result = await this.prismaService.salesDocument.create({
                 data: {
                     userId,
                     ...createDto,
+                    title: documentTitle,
                     items: {
                         create: createDto.items.map((item) => ({
                             userId,
@@ -63,7 +66,7 @@ export class SalesDocumentsService {
             const documents = await this.prismaService.salesDocument.findMany({
                 where: {
                     userId,
-                    title: filter.title
+                    projectTitle: filter.title
                         ? { contains: filter.title, mode: 'insensitive' }
                         : undefined,
                     category: filter.category
@@ -188,7 +191,7 @@ export class SalesDocumentsService {
             createPdfDto,
         )) as unknown as Readable;
 
-        console.log('pdfBuffer', 'Hello')
+        console.log('pdfBuffer', 'Hello');
 
         if (createPdfDto.fileKey) {
             console.log('Triggered');
