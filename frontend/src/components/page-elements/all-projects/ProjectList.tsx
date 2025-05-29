@@ -15,12 +15,15 @@ import { ProjectListPayload, ProjectPayload } from 'freelanceman-common';
 import { cn } from '@/lib/helper/utils';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 
 interface ProjectListProps {
    queryResult: UseQueryResult<ProjectListPayload>;
    placeHolder?: string;
    clientId: string;
    className: string;
+   handleLoadMore: () => void;
+   page: 'all-project-page' | 'all-client-page'
 }
 
 export const ProjectList: React.FC<ProjectListProps> = ({
@@ -28,6 +31,8 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    clientId,
    placeHolder = 'Add new project to this client',
    className,
+   handleLoadMore,
+   page
 }) => {
    const { data: projectsData, isLoading, isError, refetch } = queryResult;
    const setFormDialogState = useFormDialogStore(
@@ -54,8 +59,13 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    }
 
    if (!projectsData.items.length) {
+      if (page === 'all-project-page') {
+         return (
+            <TabListPlaceHolder page='all-project-page'>{placeHolder}</TabListPlaceHolder>
+         )
+      }
       return (
-         <NoDataPlaceHolder addFn={handleNewProject}>
+         <NoDataPlaceHolder addFn={handleNewProject} className='w-full h-full'>
             {placeHolder}
          </NoDataPlaceHolder>
       );
@@ -81,8 +91,8 @@ const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
       <Link
          to={`../../projects/${project.id}`}
          style={{
-            backgroundColor: `var(--freelanceman-theme-${project.client.themeColor})`,
-            borderColor: `var(--freelanceman-theme-${project.client.themeColor})`,
+            backgroundColor: `var(--freelanceman-theme-${project.client?.themeColor})`,
+            borderColor: `var(--freelanceman-theme-${project.client?.themeColor})`,
          }}
          className={`flex rounded-[15px] h-[40px] relative transition-colors
                      hover:border-primary border group overflow-hidden cursor-default`}

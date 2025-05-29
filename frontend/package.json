@@ -37,6 +37,7 @@
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
+    "embla-carousel-react": "^8.6.0",
     "freelanceman-common": "file:../shared",
     "i18next": "^23.15.1",
     "i18next-http-backend": "^2.6.1",

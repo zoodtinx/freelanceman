@@ -19,10 +19,10 @@ export default function AllProjectPage() {
       setProjectFilter((prev) => {
          return {
             ...prev,
-            take: value
-         }
-      })
-   }
+            take: value,
+         };
+      });
+   };
 
    return (
       <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative gap-2">
@@ -34,15 +34,26 @@ export default function AllProjectPage() {
          />
          <div className="flex flex-1 flex-col sm:w-full  min-h-0 relative h-full">
             <div className="sm:hidden h-full">
-            {viewMode === 'grid' && (
-                  <ProjectGrid queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
+               {viewMode === 'grid' && (
+                  <ProjectGrid
+                     queryResult={projectsQueryResult}
+                     handleLoadMore={handleLoadMore}
+                  />
                )}
                {viewMode === 'list' && (
-                  <ProjectList queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
+                  <ProjectList
+                     queryResult={projectsQueryResult}
+                     handleLoadMore={handleLoadMore}
+                  />
                )}
             </div>
             <div className="hidden sm:block w-full h-full">
-               <ProjectList queryResult={projectsQueryResult} handleLoadMore={handleLoadMore} />
+               <ProjectList
+                  queryResult={projectsQueryResult}
+                  handleLoadMore={handleLoadMore}
+                  placeHolder="Create a new project"
+                  page='all-project-page'
+               />
             </div>
          </div>
       </div>

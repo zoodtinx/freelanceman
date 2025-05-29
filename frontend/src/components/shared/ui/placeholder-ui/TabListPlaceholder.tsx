@@ -4,12 +4,12 @@ import { Plus } from 'lucide-react';
 const TabListPlaceHolder = ({
    addFn,
    children,
-   page = '',
+   page = 'all-client-page',
    className,
 }: {
    children: string;
    addFn: () => void;
-   page?: string;
+   page?: 'all-project-page' | 'all-client-page'
    className?: string;
 }) => {
    const placeholders = [...Array(20)].map(() => {
@@ -29,7 +29,7 @@ const TabListPlaceHolder = ({
             className={cn(
                'z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none',
                page === 'all-project-page' &&
-                  'bg-gradient-to-t from-background  to-transparent'
+                  'bg-gradient-to-t from-background to-transparent'
             )}
          />
          <div

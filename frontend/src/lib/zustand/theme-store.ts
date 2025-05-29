@@ -18,25 +18,25 @@ const getSystemTheme = (): ThemeMode => {
 export const useDarkMode = create<DarkModeState>((set) => {
    const initialMode = getSystemTheme();
 
-   if (typeof window !== 'undefined') {
-      if (initialMode === 'dark') {
-         document.documentElement.classList.add('dark');
-      } else {
-         document.documentElement.classList.remove('dark');
-      }
+   // if (typeof window !== 'undefined') {
+   //    if (initialMode === 'dark') {
+   //       document.documentElement.classList.add('dark');
+   //    } else {
+   //       document.documentElement.classList.remove('dark');
+   //    }
 
-      window
-         .matchMedia('(prefers-color-scheme: dark)')
-         .addEventListener('change', (e) => {
-            const newMode: ThemeMode = e.matches ? 'dark' : 'light';
-            if (newMode === 'dark') {
-               document.documentElement.classList.add('dark');
-            } else {
-               document.documentElement.classList.remove('dark');
-            }
-            set({ mode: newMode });
-         });
-   }
+   //    window
+   //       .matchMedia('(prefers-color-scheme: dark)')
+   //       .addEventListener('change', (e) => {
+   //          const newMode: ThemeMode = e.matches ? 'dark' : 'light';
+   //          if (newMode === 'dark') {
+   //             document.documentElement.classList.add('dark');
+   //          } else {
+   //             document.documentElement.classList.remove('dark');
+   //          }
+   //          set({ mode: newMode });
+   //       });
+   // }
 
    return {
       mode: initialMode,

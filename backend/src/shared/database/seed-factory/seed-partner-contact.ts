@@ -21,7 +21,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Aiden Somprasert',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Project Manager',
         phoneNumber: '0812345678',
         email: 'aiden.s@momentum.com',
@@ -31,7 +31,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Lena Tan',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Graphic Designer',
         phoneNumber: '0898765432',
         email: 'lena.t@momentum.com',
@@ -41,7 +41,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Thanakorn Wells',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'UX Consultant',
         phoneNumber: '0861112233',
         email: 'thanakorn.w@momentum.com',
@@ -51,7 +51,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Emily Kanchana',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Producer',
         phoneNumber: '0823456789',
         email: 'emily.k@momentum.com',
@@ -61,7 +61,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Krit Riley',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Copywriter',
         phoneNumber: '0876543210',
         email: 'krit.r@momentum.com',
@@ -71,7 +71,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Jasmine Panus',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Retoucher',
         phoneNumber: '0854321987',
         email: 'jasmine.p@momentum.com',
@@ -81,7 +81,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Nico Chatchai',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Animator',
         phoneNumber: '0832145698',
         email: 'nico.c@momentum.com',
@@ -91,7 +91,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'May Lin',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Visual Strategist',
         phoneNumber: '0803214569',
         email: 'may.l@momentum.com',
@@ -101,7 +101,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Tawan Hughes',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Art Director',
         phoneNumber: '0893219876',
         email: 'tawan.h@momentum.com',
@@ -111,7 +111,7 @@ const seedMomentumStudioContacts = (
     {
         userId: userId,
         name: 'Isla Rattanakorn',
-        companyId: companyId['Momentum Studios'],
+        company: 'Momentum Studios',
         role: 'Client Liaison',
         phoneNumber: '0841239876',
         email: 'isla.r@momentum.com',
@@ -122,12 +122,12 @@ const seedMomentumStudioContacts = (
 
 const seedVisionaryTalentAgencyContacts = (
     userId: string,
-    companyId: companyIdObject,
+    company 
 ) => [
     {
         userId: userId,
         name: 'Maya Vorakorn',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Talent Manager',
         phoneNumber: '0812345678',
         email: 'maya.v@visionarytalent.com',
@@ -137,7 +137,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Jonas Reid',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Casting Director',
         phoneNumber: '0898765432',
         email: 'jonas.r@visionarytalent.com',
@@ -147,7 +147,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Suriya Marlowe',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'PR Specialist',
         phoneNumber: '0861112233',
         email: 'suriya.m@visionarytalent.com',
@@ -157,7 +157,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Ella Tanaka',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Creative Director',
         phoneNumber: '0823456789',
         email: 'ella.t@visionarytalent.com',
@@ -167,7 +167,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Kai Rivera',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Marketing Lead',
         phoneNumber: '0876543210',
         email: 'kai.r@visionarytalent.com',
@@ -177,7 +177,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Liam Chantachai',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Talent Scout',
         phoneNumber: '0854321987',
         email: 'liam.c@visionarytalent.com',
@@ -187,7 +187,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Ava Leung',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Event Coordinator',
         phoneNumber: '0832145698',
         email: 'ava.l@visionarytalent.com',
@@ -197,7 +197,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Mick Sycamore',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Head of Operations',
         phoneNumber: '0803214569',
         email: 'mick.s@visionarytalent.com',
@@ -207,7 +207,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Noah Phan',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Business Development',
         phoneNumber: '0893219876',
         email: 'noah.p@visionarytalent.com',
@@ -217,7 +217,7 @@ const seedVisionaryTalentAgencyContacts = (
     {
         userId: userId,
         name: 'Hana Rattanakul',
-        companyId: companyId['Visionary Talent Agency'],
+        company: 'Visionary Talent Agency',
         role: 'Digital Strategist',
         phoneNumber: '0841239876',
         email: 'hana.r@visionarytalent.com',
@@ -228,12 +228,12 @@ const seedVisionaryTalentAgencyContacts = (
 
 const seedEchoMediaGroupContacts = (
     userId: string,
-    companyId: companyIdObject,
+    company 
 ) => [
     {
         userId: userId,
         name: 'Ryuji Kato',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Media Strategist',
         phoneNumber: '0812345678',
         email: 'ryuji.k@echomedia.com',
@@ -243,7 +243,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Siti Amira',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Content Creator',
         phoneNumber: '0898765432',
         email: 'siti.a@echomedia.com',
@@ -253,7 +253,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Takumi Hirata',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Creative Director',
         phoneNumber: '0861112233',
         email: 'takumi.h@echomedia.com',
@@ -263,7 +263,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Indra Puspita',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Marketing Specialist',
         phoneNumber: '0823456789',
         email: 'indra.p@echomedia.com',
@@ -273,7 +273,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Aya Fujimoto',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'PR Manager',
         phoneNumber: '0876543210',
         email: 'aya.f@echomedia.com',
@@ -283,7 +283,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Rafiq Syahran',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'SEO Expert',
         phoneNumber: '0854321987',
         email: 'rafiq.s@echomedia.com',
@@ -293,7 +293,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Haruka Nishida',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Graphic Designer',
         phoneNumber: '0832145698',
         email: 'haruka.n@echomedia.com',
@@ -303,7 +303,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Putri Ayu',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Event Coordinator',
         phoneNumber: '0803214569',
         email: 'putri.a@echomedia.com',
@@ -313,7 +313,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Yuto Takahashi',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Business Development Manager',
         phoneNumber: '0893219876',
         email: 'yuto.t@echomedia.com',
@@ -323,7 +323,7 @@ const seedEchoMediaGroupContacts = (
     {
         userId: userId,
         name: 'Lina Sari',
-        companyId: companyId['Echo Media Group'],
+        company: 'Echo Media Group',
         role: 'Social Media Manager',
         phoneNumber: '0841239876',
         email: 'lina.s@echomedia.com',
@@ -334,12 +334,12 @@ const seedEchoMediaGroupContacts = (
 
 const seedFlickerFilmsContacts = (
     userId: string,
-    companyId: companyIdObject,
+    company 
 ) => [
     {
         userId: userId,
         name: 'Ethan Panya',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Director of Photography',
         phoneNumber: '0812345678',
         email: 'ethan.p@flickerfilms.com',
@@ -349,7 +349,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Lily Nguyen',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Production Designer',
         phoneNumber: '0898765432',
         email: 'lily.n@flickerfilms.com',
@@ -359,7 +359,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Victor Liu',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Sound Engineer',
         phoneNumber: '0861112233',
         email: 'victor.l@flickerfilms.com',
@@ -369,7 +369,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Chloe Jensen',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Editor',
         phoneNumber: '0823456789',
         email: 'chloe.j@flickerfilms.com',
@@ -379,7 +379,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Maxim Santi',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Producer',
         phoneNumber: '0876543210',
         email: 'maxim.s@flickerfilms.com',
@@ -389,7 +389,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Tara Wissakorn',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Casting Agent',
         phoneNumber: '0854321987',
         email: 'tara.w@flickerfilms.com',
@@ -399,7 +399,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Sophie Dhanakorn',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Art Director',
         phoneNumber: '0832145698',
         email: 'sophie.d@flickerfilms.com',
@@ -409,7 +409,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Jackie Thanh',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Script Supervisor',
         phoneNumber: '0803214569',
         email: 'jackie.t@flickerfilms.com',
@@ -419,7 +419,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Ravi Arun',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Camera Operator',
         phoneNumber: '0893219876',
         email: 'ravi.a@flickerfilms.com',
@@ -429,7 +429,7 @@ const seedFlickerFilmsContacts = (
     {
         userId: userId,
         name: 'Ivy Rattanai',
-        companyId: companyId['Flicker Films'],
+        company: 'Flicker Films',
         role: 'Visual Effects Artist',
         phoneNumber: '0841239876',
         email: 'ivy.r@flickerfilms.com',
@@ -440,12 +440,12 @@ const seedFlickerFilmsContacts = (
 
 const seedPulseCreativeContacts = (
     userId: string,
-    companyId: companyIdObject,
+    company 
 ) => [
     {
         userId: userId,
         name: 'Noah Chai',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Creative Director',
         phoneNumber: '0812345678',
         email: 'noah.c@pulsecreative.com',
@@ -455,7 +455,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Amara Srisuk',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Graphic Designer',
         phoneNumber: '0898765432',
         email: 'amara.s@pulsecreative.com',
@@ -465,7 +465,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Ethan Wongsak',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Photographer',
         phoneNumber: '0861112233',
         email: 'ethan.w@pulsecreative.com',
@@ -475,7 +475,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Lara Viroj',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Web Developer',
         phoneNumber: '0823456789',
         email: 'lara.v@pulsecreative.com',
@@ -485,7 +485,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Dylan Raj',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Motion Graphics Artist',
         phoneNumber: '0876543210',
         email: 'dylan.r@pulsecreative.com',
@@ -495,7 +495,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Mei Jing',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Copywriter',
         phoneNumber: '0854321987',
         email: 'mei.j@pulsecreative.com',
@@ -505,7 +505,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Liam Song',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Account Manager',
         phoneNumber: '0832145698',
         email: 'liam.s@pulsecreative.com',
@@ -515,7 +515,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Sophia Phan',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Social Media Manager',
         phoneNumber: '0803214569',
         email: 'sophia.p@pulsecreative.com',
@@ -525,7 +525,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Alex Tan',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'UI/UX Designer',
         phoneNumber: '0893219876',
         email: 'alex.t@pulsecreative.com',
@@ -535,7 +535,7 @@ const seedPulseCreativeContacts = (
     {
         userId: userId,
         name: 'Grace Suthida',
-        companyId: companyId['Pulse Creative'],
+        company: 'Pulse Creative',
         role: 'Event Coordinator',
         phoneNumber: '0841239876',
         email: 'grace.s@pulsecreative.com',
@@ -546,12 +546,12 @@ const seedPulseCreativeContacts = (
 
 const seedZenithTalentContacts = (
     userId: string,
-    companyId: companyIdObject,
+    company 
 ) => [
     {
         userId: userId,
         name: 'Maya Singh',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Talent Manager',
         phoneNumber: '0812345678',
         email: 'maya.s@zenithtalent.com',
@@ -561,7 +561,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Lucas Wong',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Casting Director',
         phoneNumber: '0898765432',
         email: 'lucas.w@zenithtalent.com',
@@ -571,7 +571,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Nina Jirawat',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'PR Manager',
         phoneNumber: '0861112233',
         email: 'nina.j@zenithtalent.com',
@@ -581,7 +581,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Jaxon Charoen',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Creative Director',
         phoneNumber: '0823456789',
         email: 'jaxon.c@zenithtalent.com',
@@ -591,7 +591,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Olivia Narin',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Marketing Specialist',
         phoneNumber: '0876543210',
         email: 'olivia.n@zenithtalent.com',
@@ -601,7 +601,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Ethan Pravit',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Talent Scout',
         phoneNumber: '0854321987',
         email: 'ethan.p@zenithtalent.com',
@@ -611,7 +611,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Ava Han',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Event Coordinator',
         phoneNumber: '0832145698',
         email: 'ava.h@zenithtalent.com',
@@ -621,7 +621,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Samuel Panya',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Operations Manager',
         phoneNumber: '0803214569',
         email: 'samuel.p@zenithtalent.com',
@@ -631,7 +631,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Isabella Pramoj',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Client Relations',
         phoneNumber: '0893219876',
         email: 'isabella.p@zenithtalent.com',
@@ -641,7 +641,7 @@ const seedZenithTalentContacts = (
     {
         userId: userId,
         name: 'Liam Rattanapong',
-        companyId: companyId['Zenith Talent'],
+        company: 'Zenith Talent',
         role: 'Talent Development',
         phoneNumber: '0841239876',
         email: 'liam.r@zenithtalent.com',
@@ -652,12 +652,12 @@ const seedZenithTalentContacts = (
 
 const seedFreelancersContactsData = (
     userId: string,
-    companyId: companyIdObject,
+    company 
 ) => [
     {
         userId: userId,
         name: 'Somchai Jansen',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Web Developer',
         phoneNumber: '0931234567',
         email: 'somchai.j@freelancers.com',
@@ -667,7 +667,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Anaïs Chaiyapat',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'SEO Specialist',
         phoneNumber: '0849876543',
         email: 'anais.c@freelancers.com',
@@ -677,7 +677,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Viktor Sittichai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Graphic Designer',
         phoneNumber: '0881237890',
         email: 'viktor.s@freelancers.com',
@@ -687,7 +687,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Klara Thavisin',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Content Writer',
         phoneNumber: '0865432109',
         email: 'klara.t@freelancers.com',
@@ -697,7 +697,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Stefan Poom',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'App Developer',
         phoneNumber: '0857654321',
         email: 'stefan.p@freelancers.com',
@@ -707,7 +707,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Chirawan Müller',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Translator',
         phoneNumber: '0876543210',
         email: 'chirawan.m@freelancers.com',
@@ -717,7 +717,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Franz Srisakda',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Video Editor',
         phoneNumber: '0901234567',
         email: 'franz.s@freelancers.com',
@@ -727,7 +727,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Charlotte Kittipong',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Social Media Manager',
         phoneNumber: '0945678901',
         email: 'charlotte.k@freelancers.com',
@@ -737,7 +737,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Nicolas Wichai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Photographer',
         phoneNumber: '0854321098',
         email: 'nicolas.w@freelancers.com',
@@ -747,7 +747,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Sasithorn Götz',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'UX/UI Designer',
         phoneNumber: '0898765432',
         email: 'sasithorn.g@freelancers.com',
@@ -757,7 +757,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Leo Suwan',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Backend Developer',
         phoneNumber: '0912345678',
         email: 'leo.s@freelancers.com',
@@ -767,7 +767,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Mélanie Kittichai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Fashion Designer',
         phoneNumber: '0832123456',
         email: 'melanie.k@freelancers.com',
@@ -777,7 +777,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Arvid Kunchai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Game Developer',
         phoneNumber: '0843126789',
         email: 'arvid.k@freelancers.com',
@@ -787,7 +787,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Sophie Pichai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Digital Marketer',
         phoneNumber: '0897654321',
         email: 'sophie.p@freelancers.com',
@@ -797,7 +797,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Florian Supachai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'AI Specialist',
         phoneNumber: '0865432178',
         email: 'florian.s@freelancers.com',
@@ -807,7 +807,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Julia Apichat',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Illustrator',
         phoneNumber: '0876543210',
         email: 'julia.a@freelancers.com',
@@ -817,7 +817,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Jürgen Lertchai',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Video Production',
         phoneNumber: '0857654321',
         email: 'jurgen.l@freelancers.com',
@@ -827,7 +827,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Kittisak Müller',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Web Designer',
         phoneNumber: '0801234567',
         email: 'kittisak.m@freelancers.com',
@@ -837,7 +837,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Ingrid Pairoj',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Marketing Strategist',
         phoneNumber: '0936547890',
         email: 'ingrid.p@freelancers.com',
@@ -847,7 +847,7 @@ const seedFreelancersContactsData = (
     {
         userId: userId,
         name: 'Ethan Phanupong',
-        companyId: companyId['Freelancers'],
+        company: 'Freelancers',
         role: 'Data Analyst',
         phoneNumber: '0896543210',
         email: 'ethan.p@freelancers.com',
