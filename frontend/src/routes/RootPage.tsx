@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import { Loader2 } from 'lucide-react';
+import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
@@ -61,7 +62,7 @@ const RootPage: React.FC = () => {
    if (isLoading) {
       return (
          <div className="w-screen h-screen flex justify-center items-center">
-            <Loader2 className="animate-spin h-14 w-14" />
+            <SvgFreelancemanIcon className="animate-bounce h-24 w-auto" />
          </div>
       );
    }
