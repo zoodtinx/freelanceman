@@ -7,42 +7,51 @@ import {
 } from '@/lib/api/auth-api';
 import React from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
-import { Loader2 } from 'lucide-react';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
+import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
-   const [isLoading, setIsLoading] = useState(false)
+   const [isLoading, setIsLoading] = useState(false);
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
-   const { accessToken, setAccessToken } = useAuthStore();
+   const { accessToken, userData, setUserData, setAccessToken } =
+      useAuthStore();
    const navigate = useNavigate();
+   const setWelcomeDialogState = useWelcomeDialogStore(
+      (state) => state.setWelcomeDialogState
+   );
 
    useEffect(() => {
       const refreshAccess = async () => {
-         setIsLoading(true)
+         setIsLoading(true);
          const result = await apiRefreshAccess();
-         setIsLoading(false)
+         setIsLoading(false);
          if (!result.success) {
             navigate('/user/welcome');
             return;
          }
+         console.log('user', result.data);
          setAccessToken(result.data.accessToken);
+         setUserData(result.data.user);
          const isOnAuthPages =
             pathSections.includes('user') || !pathSections.length;
          if (isOnAuthPages) {
             navigate('/home');
+            if (result.data.user.isFirstTimeVisitor) {
+               setWelcomeDialogState({ isOpen: true, page: 'home' });
+            }
          }
       };
-      
+
       const checkAccess = async () => {
-         setIsLoading(true)
+         setIsLoading(true);
          const result = await apiCheckAccess(accessToken);
-         setIsLoading(false)
+         setIsLoading(false);
          if (!result.success) {
-            setIsLoading(true)
+            setIsLoading(true);
             await refreshAccess();
-            setIsLoading(false)
+            setIsLoading(false);
             return;
          }
          const isOnAuthPages =
@@ -57,7 +66,7 @@ const RootPage: React.FC = () => {
       } else {
          checkAccess();
       }
-   }, [accessToken]);
+   }, [accessToken, userData, setUserData]);
 
    if (isLoading) {
       return (

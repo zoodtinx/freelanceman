@@ -80,7 +80,7 @@ export class AuthController {
     @UsePipes(new ZodValidationPipe(loginUserSchema))
     async login(@Req() req: Request) {
         const loginResult = await this.localAuthService.login(req);
-        const { accessToken, refreshToken } = loginResult;
+        const { accessToken, refreshToken, } = loginResult;
 
         req.res?.cookie('refreshToken', refreshToken, {
             httpOnly: true,

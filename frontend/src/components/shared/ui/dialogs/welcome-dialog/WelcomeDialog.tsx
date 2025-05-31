@@ -77,7 +77,7 @@ export interface CardContentProps {
 
 const CardContent: React.FC<CardContentProps> = ({
    headline,
-   imageUrl,
+   imageUrl, 
    icon: Icon,
    subhead,
    isLastCard,

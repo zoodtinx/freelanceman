@@ -2,6 +2,7 @@ interface AuthApiResponse {
    success: boolean;
    data: {
       accessToken: string
+      user: any
    };
 }
 

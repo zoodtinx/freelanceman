@@ -4,6 +4,7 @@ export const seedUser = () => {
     const emailValue = uuidv4()
     return {
         isDemo: false,
+        isFirstTimeVisotor: true,
         displayName: 'Nattapong Srisuk',
         // email: uuidv4(),
         password: '$2b$10$hashedpasswordexample456xyz',

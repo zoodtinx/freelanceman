@@ -2,10 +2,10 @@ import { UserPayload } from 'freelanceman-common';
 import { create } from 'zustand';
 
 type State = {
-   accessToken: string;
-   setAccessToken: (update: string | ((prev: string) => string)) => void;
-   userData: UserPayload | undefined;
-   setUserData: (update: string | ((prev: UserPayload | undefined) => string)) => void;
+  accessToken: string;
+  setAccessToken: (update: string | ((prev: string) => string)) => void;
+  userData: UserPayload | undefined;
+  setUserData: (update: UserPayload | ((prev: UserPayload | undefined) => UserPayload)) => void;
 };
 
 const useAuthStore = create<State>((set) => ({
@@ -22,7 +22,7 @@ const useAuthStore = create<State>((set) => ({
    
    setUserData: (update) =>
       set((state) => ({
-         accessToken:
+         userData:
             typeof update === 'function' ? update(state.userData) : update,
       })),
 
