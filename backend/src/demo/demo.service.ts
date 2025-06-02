@@ -36,8 +36,15 @@ export class DemoService {
                 data: {
                     displayName: 'Pridi Johansson',
                     email: `user-${uuidv4()}@freelanceman.com`,
+                    visitingStatus: {
+                        create: {},
+                    },
                 },
+                include: {
+                    visitingStatus: true
+                }
             });
+
             return result;
         } catch (error) {
             console.log('error', error);

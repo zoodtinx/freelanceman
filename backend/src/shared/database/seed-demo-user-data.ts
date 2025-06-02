@@ -31,13 +31,16 @@ export async function seedDemoUser() {
                     partnerCompanies: {
                         createMany: { data: seedPartnerCompaniesData },
                     },
+                    visitingStatus: {
+                        create: {},
+                    },
                 },
                 select: {
                     id: true,
                     partnerCompanies: {
                         select: { id: true, name: true },
                     },
-                },
+                }
             });
             console.log('User created');
             console.log('Partner companies created');

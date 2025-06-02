@@ -8,39 +8,53 @@ datasource db {
 }
 
 model User {
-  id                String              @id @default(uuid())
-  isDemo            Boolean             @default(false)
-  isFirstTimeVisitor Boolean            @default(false) 
-  displayName       String
-  email             String              @unique
-  password          String?
-  specialization    String[]
-  bio               String?
-  role              String              @default("user")
-  phoneNumber       String?
-  address           String?
-  avatar            String?
-  pinnedProjects    String[]
-  currency          String?
-  taxId             String?
-  quitting          Boolean             @default(false)
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  authProvider      AuthProvider[]
-  clients           Client[]
-  clientContacts    ClientContact[]
-  events            Event[]
-  files             File[]
-  partnerContacts   PartnerContact[]
-  projects          Project[]
-  refreshTokens     RefreshToken?
-  salesDocuments    SalesDocument[]
-  tasks             Task[]
-  links             Link[]
-  partnerCompanies  PartnerCompany[]
-  salesDocumentItem SalesDocumentItem[]
+  id                 String              @id @default(uuid())
+  isDemo             Boolean             @default(false)
+  isFirstTimeVisitor Boolean             @default(false)
+  displayName        String
+  email              String              @unique
+  password           String?
+  specialization     String[]
+  bio                String?
+  role               String              @default("user")
+  phoneNumber        String?
+  address            String?
+  avatar             String?
+  pinnedProjects     String[]
+  currency           String?
+  taxId              String?
+  quitting           Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  authProvider       AuthProvider[]
+  clients            Client[]
+  clientContacts     ClientContact[]
+  events             Event[]
+  files              File[]
+  partnerContacts    PartnerContact[]
+  projects           Project[]
+  refreshTokens      RefreshToken?
+  salesDocuments     SalesDocument[]
+  tasks              Task[]
+  links              Link[]
+  partnerCompanies   PartnerCompany[]
+  salesDocumentItem  SalesDocumentItem[]
+    visitingStatus     VisitingStatus? 
 }
 
+model VisitingStatus {
+  id                  String  @id @default(uuid())
+  userId              String  @unique
+  homePage            Boolean @default(false)
+  actionsPage         Boolean @default(false)
+  allClientsPage      Boolean @default(false)
+  partnersPage        Boolean @default(false)
+  incomePage          Boolean @default(false)
+  filesPage           Boolean @default(false)
+  projectPage         Boolean @default(false)
+  documentBuilderPage Boolean @default(false)
+  user        User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 model AuthProvider {
   id       String @id @default(uuid())
   userId   String
@@ -49,12 +63,12 @@ model AuthProvider {
 }
 
 model RefreshToken {
-  id        String   @id @default(uuid())
-  userId    String   @unique
+  id        String    @id @default(uuid())
+  userId    String    @unique
   expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime?       @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Client {
@@ -67,7 +81,7 @@ model Client {
   address        String?
   detail         String?
   themeColor     String
-  note            String?
+  note           String?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime?       @updatedAt
   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -85,7 +99,7 @@ model ClientContact {
   name        String
   role        String?
   phoneNumber String?
-  email       String?                  
+  email       String?
   details     String?
   avatar      String?
   companyId   String
@@ -97,17 +111,17 @@ model ClientContact {
 }
 
 model PartnerCompany {
-  id          String           @id @default(uuid())
+  id          String    @id @default(uuid())
   userId      String
   name        String
-  taxId       String?          
-  email       String?          
+  taxId       String?
+  email       String?
   phoneNumber String?
   address     String?
   detail      String?
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime?        @updatedAt
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PartnerContact {
@@ -117,7 +131,7 @@ model PartnerContact {
   company     String?
   role        String?
   phoneNumber String?
-  email       String?                   
+  email       String?
   details     String?
   avatar      String?
   createdAt   DateTime                  @default(now())
@@ -140,7 +154,7 @@ model Project {
   updatedAt       DateTime                  @updatedAt
   events          Event[]
   files           File[]
-  client          Client?                    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client          Client?                   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   user            User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   salesDocuments  SalesDocument[]
   tasks           Task[]
@@ -181,8 +195,8 @@ model Event {
   isWithTime Boolean?  @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
-  project    Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  client     Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project    Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -199,8 +213,8 @@ model Task {
   isWithTime Boolean?  @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
-  project    Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  client     Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project    Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -234,7 +248,7 @@ model SalesDocument {
   currency           String?             @default("THB")
   projectId          String
   referenceNumber    String?
-  projectTitle String?
+  projectTitle       String?
   projectDescription String?
   freelancerName     String
   freelancerEmail    String?

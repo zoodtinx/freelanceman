@@ -269,7 +269,11 @@ export class TokenService {
         const refreshTokenData =
             await this.prismaService.refreshToken.findUnique({
                 where: { id: oldRefreshToken },
-                include: { user: true },
+                include: { user: {
+                    include: {
+                        visitingStatus: true
+                    }
+                } },
             });
 
         if (!refreshTokenData) {
@@ -326,6 +330,9 @@ export class GoogleOAuthService {
 
             user = await this.prisma.user.findFirst({
                 where: { email: emailValue },
+                include: {
+                    visitingStatus: true
+                }
             });
 
             if (!user) {

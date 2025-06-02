@@ -21,6 +21,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:seed": "ts-node --transpile-only src/shared/database/seed1.ts",
+    "prisma:clear": "ts-node --transpile-only src/shared/database/cleanDatabase.ts",
     "test-s3": "ts-node --transpile-only ./scripts/test-s3",
     "test-resend": "ts-node --transpile-only ./scripts/test-resend",
     "get-access-token": "ts-node --transpile-only ./scripts/get-access-token"
