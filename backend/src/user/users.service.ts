@@ -35,4 +35,21 @@ export class UsersService {
             throw new InternalServerErrorException('Failed to update user');
         }
     }
+
+    async setVisited(userId: string, page: string) {
+        try {
+            await this.prismaService.visitingStatus.update({
+                where: {
+                    userId: userId,
+                },
+                data: {
+                    [page]: true,
+                },
+            });
+        } catch (error) {
+            throw new InternalServerErrorException(
+                'Failed to set visited status',
+            );
+        }
+    }
 }

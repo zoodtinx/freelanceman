@@ -87,7 +87,10 @@ const CardContent: React.FC<CardContentProps> = ({
    );
 
    const handleClick = () => {
-      if (isLastCard) setWelcomeDialogState((prev) => {return {...prev, isOpen : false}})
+      if (isLastCard) {
+         // api call to set visit status true
+         setWelcomeDialogState((prev) => {return {...prev, isOpen : false}})
+      }
    }
 
    return (

@@ -28,6 +28,7 @@ import useAuthStore from '@/lib/zustand/auth-store';
 import { logOut } from '@/lib/api/auth-api';
 import { useRef } from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
+import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 export const UserBar = () => {
    const { mode, toggle } = useDarkMode();
@@ -37,6 +38,10 @@ export const UserBar = () => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
+
+   const setWelcomeDialogState = useWelcomeDialogStore(
+         (state) => state.setWelcomeDialogState
+      );
 
    const handleSignOut = async () => {
       await logOut(accessToken);
@@ -51,6 +56,15 @@ export const UserBar = () => {
    );
 
    const userData = userDataPayload as UserPayload;
+
+   const handleOpenWelcomeDialog = () => {
+      setWelcomeDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: true
+         }
+      })
+   }
 
    const handleEditProfile = () => {
       setFormDialogState({
@@ -76,6 +90,7 @@ export const UserBar = () => {
       {
          icon: Info,
          label: 'View Tips',
+         onClick: handleOpenWelcomeDialog
       },
       {
          icon: UserRoundPen,

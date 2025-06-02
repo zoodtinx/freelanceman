@@ -1,25 +1,39 @@
 import { z } from 'zod';
 import { optionalString } from './helper/optional';
 
+export const visitingStatusSchema = z.object({
+  id: z.string().uuid(),
+  userId: z.string().uuid(),
+  homePage: z.boolean().default(false),
+  actionsPage: z.boolean().default(false),
+  allClientsPage: z.boolean().default(false),
+  partnersPage: z.boolean().default(false),
+  incomePage: z.boolean().default(false),
+  filesPage: z.boolean().default(false),
+  projectPage: z.boolean().default(false),
+  documentBuilderPage: z.boolean().default(false),
+});
+
 export const userPayloadSchema = z.object({
   id: z.string().uuid(),
   isDemo: z.boolean().default(false),
-  name: z.string().min(1),
+  isFirstTimeVisitor: z.boolean().default(false),
   displayName: z.string().min(1),
   email: z.string().email(),
   password: optionalString(),
   specialization: z.array(z.string()).min(1),
   bio: optionalString(),
-  taxId: optionalString(),
   role: z.string().default("user"),
   phoneNumber: optionalString(),
   address: optionalString(),
   avatar: optionalString(),
   pinnedProjects: z.array(z.string()).min(0),
   currency: optionalString(),
-  quitting: z.boolean().optional(),
+  taxId: optionalString(),
+  quitting: z.boolean().default(false),
   createdAt: z.string(),
   updatedAt: z.string().optional(),
+  visitingStatus: visitingStatusSchema.optional(),
 });
 
 export const editUserProfileSchema = z.object({

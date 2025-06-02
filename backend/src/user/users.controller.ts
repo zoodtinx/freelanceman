@@ -5,6 +5,7 @@ import {
     Patch,
     UseGuards,
     Req,
+    Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -29,5 +30,11 @@ export class UsersController {
     ) {
         const userId = req.user.id;
         return this.usersService.update(userId, payload);
+    }
+
+    @Get('/visited/:page')
+    setVisited(@Param('page') page: string, @Req() req: any) {
+        const userId = req.user.id;
+        return this.usersService.setVisited(userId, page);
     }
 }
