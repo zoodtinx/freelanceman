@@ -20,4 +20,13 @@ export async function editUser(accessToken: string, payload: any) {
      });
 }
 
+export async function setVisited(accessToken: string, page: string) {
+    return await fetchProMax({
+        accessToken,
+        apiEndpoint: `users/visited/${page}`,
+        method: 'GET',
+        model: 'user',
+     });
+}
+
 export async function deleteUser(accessToken: string, userId: string) {}

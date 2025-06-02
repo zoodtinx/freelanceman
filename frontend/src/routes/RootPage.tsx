@@ -15,12 +15,8 @@ const RootPage: React.FC = () => {
    const [isLoading, setIsLoading] = useState(false);
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
-   const { accessToken, userData, setUserData, setAccessToken } =
-      useAuthStore();
+   const { accessToken, setAccessToken } = useAuthStore();
    const navigate = useNavigate();
-   const setWelcomeDialogState = useWelcomeDialogStore(
-      (state) => state.setWelcomeDialogState
-   );
 
    useEffect(() => {
       const refreshAccess = async () => {
@@ -33,14 +29,10 @@ const RootPage: React.FC = () => {
          }
          console.log('user', result.data);
          setAccessToken(result.data.accessToken);
-         setUserData(result.data.user);
          const isOnAuthPages =
             pathSections.includes('user') || !pathSections.length;
          if (isOnAuthPages) {
             navigate('/home');
-            if (result.data.user.isFirstTimeVisitor) {
-               setWelcomeDialogState({ isOpen: true, page: 'home' });
-            }
          }
       };
 
@@ -66,7 +58,7 @@ const RootPage: React.FC = () => {
       } else {
          checkAccess();
       }
-   }, [accessToken, userData, setUserData]);
+   }, [accessToken]);
 
    if (isLoading) {
       return (

@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { SetStateAction } from 'react';
-import { CardContentProps } from '@/components/shared/ui/dialogs/welcome-dialog/WelcomeDialog';
+import { welcomeDialogContent } from '@/components/shared/ui/dialogs/welcome-dialog/DialogContents';
 
 interface WelcomeDialogState {
    isOpen: boolean;
-   page: string;
+   page: keyof typeof welcomeDialogContent;
 }
 
 type State = {
@@ -14,8 +14,8 @@ type State = {
 
 const useWelcomeDialogStore = create<State>((set) => ({
    welcomeDialogState: {
-      isOpen: true,
-      page: 'home',
+      isOpen: false,
+      page: 'homePage',
    },
    setWelcomeDialogState: (update) =>
       set((state) => ({

@@ -3,7 +3,14 @@ import {
    PopoverTrigger,
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState, forwardRef } from 'react';
+import React, {
+   Dispatch,
+   SetStateAction,
+   useEffect,
+   useRef,
+   useState,
+   forwardRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
@@ -36,12 +43,23 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { useUserQuery } from '@/lib/api/user-api';
+import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 const IncomePage: React.FC = () => {
+   const { data: userData } = useUserQuery();
+   const setWelcomeDialogState = useWelcomeDialogStore(
+      (state) => state.setWelcomeDialogState
+   );
+
+   if (userData?.visitingStatus?.incomePage === false) {
+      setWelcomeDialogState({ isOpen: true, page: 'incomePage' });
+   }
+
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
       paymentStatus: 'unpaid',
    });
-   const paymentDataQueryResult = usePaymentDataQuery(projectFilter) 
+   const paymentDataQueryResult = usePaymentDataQuery(projectFilter);
 
    return (
       <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col relative sm:gap-2">
@@ -107,7 +125,7 @@ const StatsBar = () => {
    return (
       <div className="flex gap-3 sm:w-full sm:justify-between sm:px-3 sm:pb-2 items-center">
          <div
-            className={cn( 
+            className={cn(
                'text-secondary flex gap-2 items-center',
                'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
             )}
@@ -121,7 +139,10 @@ const StatsBar = () => {
                </span>
             )}
          </div>
-         <Separator orientation='vertical' className='lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary'  />
+         <Separator
+            orientation="vertical"
+            className="lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary"
+         />
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
@@ -137,7 +158,10 @@ const StatsBar = () => {
                </span>
             )}
          </div>
-         <Separator orientation='vertical' className='lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary'  />
+         <Separator
+            orientation="vertical"
+            className="lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary"
+         />
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
@@ -188,16 +212,16 @@ const ProjectPaymentTabList = ({
       }
    }, [projectData?.items.length]);
 
-      const handleNewProject = () => {
-         setFormDialogState({
-            isOpen: true,
-            type: 'new-project',
-            mode: 'create',
-            data: {...defaultValues['new-project']},
-            openedOn: 'income-page',
-            entity: 'project',
-         });
-      };
+   const handleNewProject = () => {
+      setFormDialogState({
+         isOpen: true,
+         type: 'new-project',
+         mode: 'create',
+         data: { ...defaultValues['new-project'] },
+         openedOn: 'income-page',
+         entity: 'project',
+      });
+   };
 
    if (isLoading) {
       return <IncomePageLoader />;
@@ -208,7 +232,7 @@ const ProjectPaymentTabList = ({
    }
 
    if (!projectData || projectData.items.length === 0) {
-      return <IncomePagePlacholder addFn={handleNewProject} />
+      return <IncomePagePlacholder addFn={handleNewProject} />;
    }
 
    const handleLoadMore = () => {
@@ -229,7 +253,13 @@ const ProjectPaymentTabList = ({
    const remainingItems = projectData.total - projectData.items.length > 0;
    const projectList = projectData?.items.map((project, i, arr) => {
       const isLast = i === arr.length - 1;
-      return <ProjectPaymentTab key={project.id} project={project} ref={isLast ? lastItemRef : undefined} />;
+      return (
+         <ProjectPaymentTab
+            key={project.id}
+            project={project}
+            ref={isLast ? lastItemRef : undefined}
+         />
+      );
    });
 
    return (
@@ -249,59 +279,62 @@ const ProjectPaymentTabList = ({
    );
 };
 
-const ProjectPaymentTab = forwardRef<HTMLDivElement, { project: PaymentDataPayload }>(
-   ({ project }, ref) => {
-      const editProject = useEditProject({
-         successCallback() {
-            toast.success('Payment status updated');
-         },
-         errorCallback() {
-            toast.error('Error updating payment status');
-         },
-      });
+const ProjectPaymentTab = forwardRef<
+   HTMLDivElement,
+   { project: PaymentDataPayload }
+>(({ project }, ref) => {
+   const editProject = useEditProject({
+      successCallback() {
+         toast.success('Payment status updated');
+      },
+      errorCallback() {
+         toast.error('Error updating payment status');
+      },
+   });
 
-      const handlePaymentStatusChange = (value: string) => {
-         editProject.mutate({ id: project.id, paymentStatus: value });
-      };
+   const handlePaymentStatusChange = (value: string) => {
+      editProject.mutate({ id: project.id, paymentStatus: value });
+   };
 
-      return (
-         <div
-            ref={ref}
-            className={cn(
-               'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
-               'sm:h-[130px]',
-               project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
-            )}
-         >
-            <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
-               <div>
-                  <p className="text-sm text-secondary">{project.client?.name ?? 'Freelancing'}</p>
-                  <p className="text-lg">{project.title}</p>
-               </div>
-               <div className="flex gap-1">
-                  <DocumentButton type="quotation" project={project} />
-                  <DocumentButton type="invoice" project={project} />
-                  <DocumentButton type="receipt" project={project} />
-               </div>
+   return (
+      <div
+         ref={ref}
+         className={cn(
+            'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
+            'sm:h-[130px]',
+            project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
+         )}
+      >
+         <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
+            <div>
+               <p className="text-sm text-secondary">
+                  {project.client?.name ?? 'Freelancing'}
+               </p>
+               <p className="text-lg">{project.title}</p>
             </div>
-            <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2 sm:pr-0">
-               <div className="flex text-[22px] pr-1 grow items-center">
-                  <p className="text-[22px]">
-                     {project.budget.toLocaleString()}
-                     <span className="text-sm">.-</span>
-                  </p>
-               </div>
-               <StatusSelect
-                  selections={paymentStatusSelections}
-                  value={project.paymentStatus}
-                  handleValueChange={handlePaymentStatusChange}
-                  className="bg-transparent border border-secondary text-sm"
-               />
+            <div className="flex gap-1">
+               <DocumentButton type="quotation" project={project} />
+               <DocumentButton type="invoice" project={project} />
+               <DocumentButton type="receipt" project={project} />
             </div>
          </div>
-      );
-   }
-);
+         <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2 sm:pr-0">
+            <div className="flex text-[22px] pr-1 grow items-center">
+               <p className="text-[22px]">
+                  {project.budget.toLocaleString()}
+                  <span className="text-sm">.-</span>
+               </p>
+            </div>
+            <StatusSelect
+               selections={paymentStatusSelections}
+               value={project.paymentStatus}
+               handleValueChange={handlePaymentStatusChange}
+               className="bg-transparent border border-secondary text-sm"
+            />
+         </div>
+      </div>
+   );
+});
 
 ProjectPaymentTab.displayName = 'ProjectPaymentTab';
 
@@ -485,4 +518,3 @@ const EditDocumentButton = ({
 };
 
 export default IncomePage;
-

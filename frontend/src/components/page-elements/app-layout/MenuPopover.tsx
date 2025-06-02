@@ -58,9 +58,10 @@ export const MenuPopover: React.FC = () => {
       },
    ];
 
-   const menus = menuItems.map((item) => {
+   const menus = menuItems.map((item, index) => {
       return (
          <div
+            key={index}
             onClick={item.onClick}
             className={cn(
                'flex justify-center text-secondary items-center aspect-square h-full',

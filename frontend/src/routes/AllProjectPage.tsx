@@ -5,7 +5,7 @@ import { ProjectFilterBar } from '@/components/page-elements/all-projects/Projec
 import { ProjectFilterDto } from 'freelanceman-common';
 import ProjectList from '@/components/page-elements/all-projects/ProjectList';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
-import useAuthStore from '@/lib/zustand/auth-store';
+import { useUserQuery } from '@/lib/api/user-api';
 
 export default function AllProjectPage() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -15,6 +15,7 @@ export default function AllProjectPage() {
    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
    const projectsQueryResult = useProjectsQuery(projectFilter);
+   const { data: userData } = useUserQuery();
    const { isLoading, isError, refetch } = projectsQueryResult;
 
    const handleLoadMore = (value: number) => {
@@ -26,15 +27,12 @@ export default function AllProjectPage() {
       });
    };
 
-   const { userData } = useAuthStore();
    const setWelcomeDialogState = useWelcomeDialogStore(
       (state) => state.setWelcomeDialogState
    );
 
-   if (!userData?.visitingStatus?.homePage) {
-      setWelcomeDialogState((prev) => {
-         return { ...prev, isOpen: true };
-      });
+   if (userData?.visitingStatus?.homePage === false) {
+      setWelcomeDialogState({ isOpen: true, page: 'homePage' });
    }
 
    return (

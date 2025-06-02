@@ -1,4 +1,4 @@
-import { getUser, deleteUser, editUser } from '@/lib/api/services/user-service';
+import { getUser, deleteUser, editUser, setVisited } from '@/lib/api/services/user-service';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
@@ -24,6 +24,17 @@ export const useDeleteUser = (callbacks?: MutationCallbacks) => {
          mutationKey: 'deleteUser',
          invalidationKeys: ['user'],
          mutationFn: deleteUser,
+      },
+      callbacks
+   );
+};
+
+export const useSetVisited = (callbacks?: MutationCallbacks) => {
+   return useAppMutation(
+      {
+         mutationKey: 'setVisited',
+         invalidationKeys: ['user'],
+         mutationFn: setVisited,
       },
       callbacks
    );

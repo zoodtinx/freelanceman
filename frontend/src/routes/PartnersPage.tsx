@@ -17,6 +17,8 @@ import {
 } from 'freelanceman-common';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactList';
+import { useUserQuery } from '@/lib/api/user-api';
+import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 const PartnerContactLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -26,6 +28,15 @@ const PartnerContactLayout = (): JSX.Element => {
    const [filter, setFilter] = useState<PartnerContactFilterDto>({});
    const [searchMode, setSearchMode] =
       useState<keyof PartnerContactFilterDto>('name');
+
+   const { data: userData } = useUserQuery();
+   const setWelcomeDialogState = useWelcomeDialogStore(
+      (state) => state.setWelcomeDialogState
+   );
+
+   if (userData?.visitingStatus?.partnersPage === false) {
+      setWelcomeDialogState({ isOpen: true, page: 'partnersPage' });
+   }
 
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFilter({ [searchMode]: event.target.value });
@@ -67,7 +78,7 @@ const PartnerContactLayout = (): JSX.Element => {
                value={filter[searchMode] || ''}
             />
          </div>
-         <div className='flex flex-col grow overflow-hidden'>
+         <div className="flex flex-col grow overflow-hidden">
             <PartnerContactList
                filter={filter}
                setFilter={setFilter}

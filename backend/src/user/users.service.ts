@@ -14,6 +14,9 @@ export class UsersService {
         try {
             const user = await this.prismaService.user.findUnique({
                 where: { id: userId },
+                include: {
+                    visitingStatus: true
+                }
             });
             if (!user)
                 throw new NotFoundException(`User ID ${userId} not found`);

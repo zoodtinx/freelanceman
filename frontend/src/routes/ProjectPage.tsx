@@ -19,6 +19,8 @@ import {
 } from '@/components/shared/ui/helpers/constants/selections';
 import { toast } from 'sonner';
 import { useRef, useState } from 'react';
+import { useUserQuery } from '@/lib/api/user-api';
+import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 export default function ProjectPage() {
    const { projectId } = useParams();
@@ -26,6 +28,15 @@ export default function ProjectPage() {
       projectId!,
       Boolean(projectId)
    );
+
+   const { data: userData } = useUserQuery();
+   const setWelcomeDialogState = useWelcomeDialogStore(
+      (state) => state.setWelcomeDialogState
+   );
+
+   if (userData?.visitingStatus?.projectPage === false) {
+      setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
+   }
 
    if (!isLoading && !project) {
       return 'No Project';

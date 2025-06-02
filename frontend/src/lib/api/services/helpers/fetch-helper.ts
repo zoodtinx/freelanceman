@@ -31,7 +31,8 @@ export async function fetchProMax({
          handleApiError(response.status, errorData.message);
       }
 
-      return await response.json();
+      const text = await response.text();
+      return text ? JSON.parse(text) : null;
    } catch (error) {
       if (error instanceof TypeError && error.message === 'Failed to fetch') {
          throw new Error('Network Error');
