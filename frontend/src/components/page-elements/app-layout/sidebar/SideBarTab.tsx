@@ -1,8 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { Notes } from '@/components/shared/icons';
-import { Layers, UsersRound, FileText, BookUser, CircleCheck, Folder, Coins, Wallet, CircleDollarSign, Banknote, WalletCards, Wallet2, WalletMinimal, LucideWallet } from 'lucide-react';
+import {
+   Layers,
+   UsersRound,
+   FileText,
+   BookUser,
+   CircleCheck,
+   Folder,
+   Coins,
+   Wallet,
+   CircleDollarSign,
+   Banknote,
+   WalletCards,
+   Wallet2,
+   WalletMinimal,
+   LucideWallet,
+} from 'lucide-react';
 
 type SideBarTabProps = {
    tab: keyof typeof tabConfig;
@@ -15,12 +29,14 @@ const tabConfig = {
    clients: { label: 'Clients', icon: UsersRound },
    partners: { label: 'Partners', icon: BookUser },
    income: { label: 'Income', icon: Wallet },
-   notes: { label: 'Notes', icon: Notes },
 };
 
 const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
    const { pathname } = useLocation();
-   const isActive = pathname === `/home/${tab}` || pathname === `/home/${tab}/` || pathname.includes(`/home/${tab}`);
+   const isActive =
+      pathname === `/home/${tab}` ||
+      pathname === `/home/${tab}/` ||
+      pathname.includes(`/home/${tab}`);
 
    const { label, icon: Icon } = tabConfig[tab];
 

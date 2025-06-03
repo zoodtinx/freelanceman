@@ -7,7 +7,7 @@ import { Toaster } from '@/components/shared/ui/primitives/Toaster';
 import { GreetingDialog } from '@/components/shared/ui/dialogs/welcome-dialog/WelcomeDialog';
 import { UserBar } from '@/components/page-elements/app-layout/sidebar/UserBar';
 import GlobalAddButton from '@/components/page-elements/app-layout/sidebar/GlobalAddButton';
-import { FreelanceManTypo } from '@/components/shared/icons';
+import SvgFreelancemanTypo from '@/components/shared/icons/FreelanceManTypo';
 import { UseQueryResult } from '@tanstack/react-query';
 import { EventListPayload } from 'freelanceman-common';
 import {
@@ -45,7 +45,7 @@ export default function HomePage() {
          >
             <div className='flex justify-center gap-2 lg:flex-col sm:gap-1'>
                <div className="px-3 pt-3 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border">
-                  <FreelanceManTypo className="h-auto w-full sm:h-full sm:w-auto" />
+                  <SvgFreelancemanTypo className="h-auto w-full sm:h-full sm:w-auto" />
                </div>
                <UserBar />
             </div>

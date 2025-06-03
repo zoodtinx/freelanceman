@@ -1,12 +1,12 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { FreelanceManIcon } from '@/components/shared/icons';
+import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
 
 const AuthPage: React.FC = () => {
    return (
       <div className="flex bg-background w-full h-screen items-center justify-center p-8 sm:flex-col sm:gap-8">
          <div className="flex flex-col gap-4 grow justify-center items-center w-1/2 text-primary sm:grow-0">
-            <FreelanceManIcon className="w-40" />
+            <SvgFreelancemanIcon className="w-40" />
             <p className="text-center font-medium text-[30px] leading-tight">
                Gear up,
                <br /> Freelancers

@@ -44,7 +44,7 @@ const DialogContent = React.forwardRef<
       ref
    ) => (
       <DialogPortal>
-         <DialogOverlay className={overlay ? 'opacity-50' : 'opacity-0'} />
+         <DialogOverlay className={overlay ? 'opacity-50 dark:opacity-80' : 'opacity-0'} />
          <DialogPrimitive.Content
             ref={ref}
             className={cn(

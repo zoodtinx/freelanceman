@@ -3,7 +3,6 @@ import Home from '../routes/HomePage';
 import ProjectPage from '@/routes/ProjectPage';
 import ActionPage from '@/routes/ActionPage';
 import AllProjectPage from '@/routes/AllProjectPage';
-import ProjectTasksPage from '@/routes/ProjectTaskPage';
 import PartnersPage from '@/routes/PartnersPage';
 import FilePage from '@/routes/FilePage';
 import QuickNotesPage from '@/routes/QuickNotesPage';
@@ -149,25 +148,6 @@ export const router = createBrowserRouter([
                {
                   path: ':projectId',
                   element: <ProjectPage />,
-                  children: [
-                     {
-                        path: '',
-                        element: <div>Hello</div>,
-                     },
-                     {
-                        path: 'tasks',
-                        element: <ProjectTasksPage />,
-                     },
-                     {
-                        path: 'files',
-                     },
-                     {
-                        path: 'documents',
-                     },
-                     {
-                        path: 'materials',
-                     },
-                  ],
                },
             ],
          },

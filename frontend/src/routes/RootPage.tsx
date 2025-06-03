@@ -27,7 +27,6 @@ const RootPage: React.FC = () => {
             navigate('/user/welcome');
             return;
          }
-         console.log('user', result.data);
          setAccessToken(result.data.accessToken);
          const isOnAuthPages =
             pathSections.includes('user') || !pathSections.length;

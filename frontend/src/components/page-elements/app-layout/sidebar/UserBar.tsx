@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { UserPayload } from 'freelanceman-common';
@@ -29,10 +29,12 @@ import { logOut } from '@/lib/api/auth-api';
 import { useRef } from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
+import { getPageKey } from '@/components/page-elements/app-layout/sidebar/helper';
 
 export const UserBar = () => {
    const { mode, toggle } = useDarkMode();
    const navigate = useNavigate();
+   const location = useLocation();
    const popoverRef = useRef<HTMLButtonElement>(null);
    const { accessToken } = useAuthStore();
    const setFormDialogState = useFormDialogStore(
@@ -56,11 +58,12 @@ export const UserBar = () => {
    );
 
    const userData = userDataPayload as UserPayload;
-
+   
+   const pageKey = getPageKey(location.pathname)
    const handleOpenWelcomeDialog = () => {
       setWelcomeDialogState((prev) => {
          return {
-            ...prev,
+            page: pageKey as any,
             isOpen: true
          }
       })

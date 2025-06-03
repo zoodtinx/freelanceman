@@ -94,7 +94,7 @@ const CardContent: React.FC<CardContentProps> = ({
    return (
       <div className="w-full" onClick={handleClick}>
          <div className="flex flex-col gap-3 items-center">
-            <Icon className="h-[49px] w-auto stroke-[1.3px] text-secondary" />
+            <Icon className="h-[60px] w-auto stroke-[1.3px] text-primary" />
             <div className="flex flex-col gap-1">
                <div className={cn('text-[24px] leading-tight')}>{headline}</div>
                <p

@@ -3,7 +3,7 @@ import {
    PopoverTrigger,
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
-import { Plus } from '@/components/shared/icons';
+import { Plus } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import type {
    ClientContactPayload,

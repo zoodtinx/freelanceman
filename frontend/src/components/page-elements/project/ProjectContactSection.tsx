@@ -3,7 +3,7 @@ import {
    PopoverTrigger,
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
-import { Plus } from '@/components/shared/icons';
+import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { User, BookUser, UsersRound, Loader2 } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
