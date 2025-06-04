@@ -227,12 +227,13 @@ const ProjectPaymentTabList = ({
       return <IncomePageLoader />;
    }
 
-   if (isError) {
-      return <ApiErrorPlaceHolder retryFn={refetch} />;
-   }
-
+   
    if (!projectData || projectData.items.length === 0) {
       return <IncomePagePlacholder addFn={handleNewProject} />;
+   }
+   
+   if (isError && !projectData) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
    const handleLoadMore = () => {

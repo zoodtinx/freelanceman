@@ -56,8 +56,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       }
    }
 
-   if (isError) {
-      
+   if (isError && !eventsData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
@@ -139,6 +138,11 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
 
       const dueAt = new Date(eventGroupData.date);
       const isToday = dueAt.getDate() === new Date().getDate();
+      const isPastDue = new Date() > dueAt;
+      const isScheduled = eventGroupData.events[0].status === 'scheduled'
+      const isCancelled = eventGroupData.events[0].status === 'cancelled'
+
+      console.log('isScheduled', isScheduled)
 
       const events = eventGroupData.events.map(
          (data: EventPayload, index: number) => {
@@ -164,9 +168,9 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
                <div
                   className={cn(
                      'absolute w-full h-full',
-                     isToday
-                        ? 'bg-general-red opacity-5 dark:opacity-20'
-                        : 'bg-general-blue opacity-10'
+                     (isPastDue || isCancelled) && 'bg-background opacity-70',
+                     isScheduled && 'bg-general-blue opacity-10',
+                     isToday && 'bg-general-red opacity-5 dark:opacity-20'
                   )}
                />
             </div>
@@ -230,12 +234,12 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
             </p>
             <EventTags tags={data.tags} />
          </div>
-         <div
+         {data.status === 'scheduled' && <div
             className="h-full absolute flex items-center pr-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={handleCancelEvent}
          >
             <X className="h-4 cursor-pointer text-secondary" />
-         </div>
+         </div>}
       </div>
    );
 };

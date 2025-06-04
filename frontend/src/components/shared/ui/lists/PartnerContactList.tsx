@@ -65,10 +65,6 @@ export const PartnerContactList: React.FC<
       return <PartnerPageTabsLoader />;
    }
 
-   if (isError) {
-      return <ApiErrorPlaceHolder retryFn={refetch} />;
-   }
-
    if (!contacts || contacts.items.length === 0) {
       return (
          <TabListPlaceHolder
@@ -76,6 +72,10 @@ export const PartnerContactList: React.FC<
             children="Add a new partner contact"
          />
       );
+   }
+
+   if (isError && !contacts) {
+      return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
    const remainingItems = contacts?.total - contacts?.items.length > 0;
@@ -138,7 +138,7 @@ const PartnerTab = forwardRef<
          openedOn: 'all-client-page',
          type: 'partner-contact',
          data: contact,
-         entity: 'partner-contact',
+         entity: 'partnerContact',
       });
    };
 

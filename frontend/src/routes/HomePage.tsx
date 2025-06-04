@@ -55,7 +55,7 @@ export default function HomePage() {
             </div>
             <div
                className={cn(
-                  'flex justify-center gap-2 items-end w-full pb-3 shrink-0 grow',
+                  'flex justify-center gap-1 items-end w-full pb-3 shrink-0 grow',
                   'sm:pb-0 sm:w-fit sm:justify-end sm:items-center',
                )}
             >

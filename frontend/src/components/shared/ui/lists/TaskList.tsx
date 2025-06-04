@@ -1,6 +1,10 @@
 import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import { TaskFilterDto, TaskListPayload, TaskPayload } from 'freelanceman-common';
+import {
+   TaskFilterDto,
+   TaskListPayload,
+   TaskPayload,
+} from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useEditTask, useTasksQuery } from '@/lib/api/task-api';
@@ -27,7 +31,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    setFilter,
    page,
    loader = 'skeleton',
-   className
+   className,
 }) => {
    const {
       data: tasksData,
@@ -51,7 +55,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
       }
    }, [tasksData?.items.length]);
 
-    if (isLoading) {
+   if (isLoading) {
       if (loader == 'skeleton') {
          return <TaskListLoader />;
       } else {
@@ -59,15 +63,21 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
       }
    }
 
-   if (isError) {
+   if (isError && !tasksData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
    if (!tasksData || tasksData.items.length === 0) {
       if (page === 'action-page') {
-         return <div className='w-full h-full px-4'>
-            <TabListPlaceHolder className='h-16' children='Add a new Tas' addFn={addFn} />
-         </div>
+         return (
+            <div className="w-full h-full px-4">
+               <TabListPlaceHolder
+                  className="h-16"
+                  children="Add a new Tas"
+                  addFn={addFn}
+               />
+            </div>
+         );
       }
       return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
@@ -103,7 +113,12 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
    };
 
    return (
-      <ScrollArea className={cn("flex flex-col h-0 grow gap-1 overflow-y-auto", className)}>
+      <ScrollArea
+         className={cn(
+            'flex flex-col h-0 grow gap-1 overflow-y-auto',
+            className
+         )}
+      >
          {taskListItems}
          {remainingTasks && (
             <div className="flex justify-center pt-3 pb-2">
@@ -124,12 +139,9 @@ interface TaskListItemProps {
 
 const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
    ({ data, openedOn }, ref) => {
-      const editTasks = useEditTask({
+      const editTask = useEditTask({
          errorCallback() {
-            toast.error('Error cancelling task');
-         },
-         successCallback() {
-            toast.error('Task cancelled');
+            toast.error('Error updating task');
          },
          optimisticUpdate: {
             enable: true,
@@ -137,6 +149,7 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
             type: 'edit',
          },
       });
+
       const setFormDialogState = useFormDialogStore(
          (state) => state.setFormDialogState
       );
@@ -155,29 +168,36 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
          });
       };
 
-      const handleCheck = (checked: CheckedState) => {
-         if (checked) {
-            setTimeout(() => {
-               editTasks.mutate({
+      const handleCheck = async (checked: CheckedState) => {
+         console.log('checked', checked)
+         setTimeout(async () => {
+            try {
+               await editTask.mutateAsync({
                   id: data.id,
-                  status: 'finished',
+                  status: checked ? 'completed' : 'pending',
                });
-            }, 300);
-         } else {
-            setTimeout(() => {
-               editTasks.mutate({
-                  id: data.id,
-                  status: 'pending',
-               });
-            }, 300);
-         }
+               toast.success(
+                  checked ? 'Task completed' : 'Task returned to pending'
+               );
+            } catch {
+               toast.error('Error updating task');
+            }
+         }, checked ? 400 : 0);
       };
 
-      const handleCancelTask = () => {
-         editTasks.mutate({
-            id: data.id,
-            status: 'cancelled',
-         });
+      const handleCancelTask = async () => {
+         try {
+            const cancelled = data.status === 'cancelled';
+            await editTask.mutateAsync({
+               id: data.id,
+               status: cancelled ? 'pending' : 'cancelled',
+            });
+            toast.success(
+               cancelled ? 'Task returned to pending' : 'Task cancelled'
+            );
+         } catch {
+            toast.error('Error updating task');
+         }
       };
 
       const isPastDue = new Date(data.dueAt) < new Date();

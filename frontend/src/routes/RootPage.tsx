@@ -17,6 +17,8 @@ const RootPage: React.FC = () => {
    const pathSections = pathname.split('/').filter(Boolean);
    const { accessToken, setAccessToken } = useAuthStore();
    const navigate = useNavigate();
+   const isOnAuthPages =
+            pathSections.includes('user') || !pathSections.length;
 
    useEffect(() => {
       const refreshAccess = async () => {
@@ -45,8 +47,6 @@ const RootPage: React.FC = () => {
             setIsLoading(false);
             return;
          }
-         const isOnAuthPages =
-            pathSections.includes('user') || !pathSections.length;
          if (isOnAuthPages) {
             navigate('/home');
          }
@@ -59,7 +59,7 @@ const RootPage: React.FC = () => {
       }
    }, [accessToken]);
 
-   if (isLoading) {
+   if (isLoading && isOnAuthPages) {
       return (
          <div className="w-screen h-screen flex justify-center items-center">
             <SvgFreelancemanIcon className="animate-bounce h-24 w-auto" />

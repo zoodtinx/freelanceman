@@ -54,7 +54,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
       return <LoadingPlaceHolder />;
    }
 
-   if (isError || !projectsData) {
+   if (isError && !projectsData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 

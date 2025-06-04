@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
    BookUser,
+   ChevronDown,
    CircleCheck,
    Folder,
    Layers,
@@ -8,79 +9,68 @@ import {
    Wallet,
 } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+} from '@/components/shared/ui/select/Select';
+import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
+
+const iconMap: Record<string, JSX.Element> = {
+   projects: <Layers className="w-full h-full" />,
+   actions: <CircleCheck className="w-full h-full" />,
+   files: <Folder className="w-full h-full" />,
+   clients: <UsersRound className="w-full h-full" />,
+   partners: <BookUser className="w-full h-full" />,
+   income: <Wallet className="w-full h-full" />,
+};
 
 export const MenuPopover: React.FC = () => {
    const navigate = useNavigate();
    const { pathname } = useLocation();
 
-   const handleNavigate = (page: string) => {
-      navigate(`/home/${page}`);
-   };
-
-   const checkIsActive = (tab: string) => {
-      return (
-         pathname === `/home/${tab}` ||
-         pathname === `/home/${tab}/` ||
-         pathname.includes(`/home/${tab}`)
-      );
-   };
-
    const menuItems = [
-      {
-         icon: <Layers />,
-         onClick: () => handleNavigate('projects'),
-         isActive: checkIsActive('projects'),
-      },
-      {
-         icon: <CircleCheck />,
-         onClick: () => handleNavigate('actions'),
-         isActive: checkIsActive('actions'),
-      },
-      {
-         icon: <Folder />,
-         onClick: () => handleNavigate('files'),
-         isActive: checkIsActive('files'),
-      },
-      {
-         icon: <UsersRound />,
-         onClick: () => handleNavigate('clients'),
-         isActive: checkIsActive('clients'),
-      },
-      {
-         icon: <BookUser />,
-         onClick: () => handleNavigate('partners'),
-         isActive: checkIsActive('partners'),
-      },
-      {
-         icon: <Wallet />,
-         onClick: () => handleNavigate('income'),
-         isActive: checkIsActive('income'),
-      },
+      { key: 'projects', label: 'Projects' },
+      { key: 'actions', label: 'Actions' },
+      { key: 'files', label: 'Files' },
+      { key: 'clients', label: 'Clients' },
+      { key: 'partners', label: 'Partners' },
+      { key: 'income', label: 'Income' },
    ];
 
-   const menus = menuItems.map((item, index) => {
-      return (
-         <div
-            key={index}
-            onClick={item.onClick}
-            className={cn(
-               'flex justify-center text-secondary items-center aspect-square h-full',
-               item.isActive && 'text-primary'
-            )}
-         >
-            {item.icon}
-         </div>
-      );
-   });
+   const current =
+      menuItems.find((item) => pathname.startsWith(`/home/${item.key}`))?.key ||
+      'projects';
 
    return (
-      <div
-         className={cn(
-            'flex bg-tertiary h-10 w-fit gap-1 p-1 items-center justify-center rounded-full cursor-pointer',
-            'lg:hidden md:hidden px-3'
-         )}
+      <Select
+         onValueChange={(val) => navigate(`/home/${val}`)}
+         defaultValue={current}
       >
-         {menus}
-      </div>
+         <SelectTrigger
+            className={cn(
+               'bg-foreground h-10 w-fit p-2 gap-2 flex items-center justify-center rounded-full text-primary',
+               'lg:hidden md:hidden'
+            )}
+         >
+            <div className="flex items-center gap-1 px-1">
+               <span>{iconMap[current]}</span>
+               <span className="text-md">{capitalizeFirstChar(current)}</span>
+            </div>
+         </SelectTrigger>
+         <SelectContent>
+            <div className="flex flex-col gap-1">
+               {menuItems.map((item) => (
+                  <SelectItem key={item.key} value={item.key}>
+                     <div className="flex items-center gap-2">
+                        <span>{iconMap[item.key]}</span>
+                        <span className="text-md">{item.label}</span>
+                     </div>
+                  </SelectItem>
+               ))}
+            </div>
+         </SelectContent>
+      </Select>
    );
 };
