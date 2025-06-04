@@ -41,6 +41,11 @@ export class EventsService {
                             id: userId,
                         },
                     },
+                    project: projectId ? {
+                        connect: {
+                            id: projectId
+                        }
+                    } : undefined,
                     client: clientId
                         ? {
                               connect: {
@@ -70,6 +75,8 @@ export class EventsService {
 
     async findAll(userId: string, filter: EventFilterDto) {
         const date = getTimezonedDate();
+
+        console.log('filter.status', filter.status)
 
         try {
             const where = {

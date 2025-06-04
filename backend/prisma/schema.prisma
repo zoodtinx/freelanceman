@@ -220,7 +220,7 @@ model Task {
 
 model File {
   id           String    @id @default(uuid())
-  originalName String
+  originalName String?
   displayName  String
   type         String
   category     String

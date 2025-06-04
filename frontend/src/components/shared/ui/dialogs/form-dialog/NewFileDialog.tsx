@@ -44,7 +44,10 @@ export const NewFileDialog = ({
    });
    const [mode, setMode] = useState<'add-link' | 'upload'>('add-link');
    useEffect(() => {
-      formMethods.reset(defaultFileValues);
+      formMethods.reset({
+         defaultFileValues,
+         projectId: formDialogState.data.projectId,
+      });
    }, [mode]);
    const { formDialogState, setFormDialogState } = useFormDialogStore();
 
@@ -55,8 +58,6 @@ export const NewFileDialog = ({
          toast.error('Unable to edit profile');
       },
    });
-
-   const { formState } = formMethods;
 
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
       let presignedUrl;
@@ -106,6 +107,7 @@ export const NewFileDialog = ({
          s3Key: mode === 'upload' ? presignedUrl.key : undefined,
          url: mode === 'add-link' ? link : undefined,
       };
+      console.log('data.projectId', data.projectId)
       await createFile.mutateAsync(payload);
       setFormDialogState((prev) => {
          return {
@@ -113,7 +115,9 @@ export const NewFileDialog = ({
             isOpen: false,
          };
       });
-      navigate('/home/files');
+      if (formDialogState.openedOn === 'global-add-button') {
+         navigate('/home/files');
+      }
    };
 
    const categoryValue = formMethods.watch('category');

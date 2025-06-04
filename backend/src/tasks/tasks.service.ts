@@ -36,6 +36,11 @@ export class TasksService {
                             id: userId
                         }
                     },
+                    project: projectId ? {
+                        connect: {
+                            id: projectId
+                        }
+                    } : undefined,
                     client: clientId ? {
                         connect: {
                             id: clientId

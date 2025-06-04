@@ -22,7 +22,7 @@ export const fileType = z.enum([
 export const fileCategory = z.enum(['personal', 'document', 'work', 'asset']);
 
 export const createFileSchema = z.object({
-    originalName: z.string(),
+    originalName: optionalString(),
     displayName: z.string(),
     type: z.string(),
     category: z.string(),
