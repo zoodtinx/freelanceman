@@ -58,10 +58,10 @@ export const ProjectList: React.FC<ProjectListProps> = ({
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
-   if (!projectsData.items.length) {
+   if (!projectsData?.items?.length) {
       if (page === 'all-project-page') {
          return (
-            <TabListPlaceHolder page='all-project-page'>{placeHolder}</TabListPlaceHolder>
+            <TabListPlaceHolder addFn={handleNewProject} page='all-project-page'>{placeHolder}</TabListPlaceHolder>
          )
       }
       return (

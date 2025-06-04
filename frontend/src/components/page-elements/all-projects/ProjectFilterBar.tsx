@@ -17,6 +17,10 @@ import {
    ProjectFilterBubble,
    ViewModeToggleBubble,
 } from '@/components/page-elements/all-projects/props.type';
+import {
+   ScrollArea,
+   ScrollBar,
+} from '@/components/shared/ui/primitives/ScrollArea';
 
 export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    projectFilter,
@@ -25,27 +29,30 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    setViewMode,
 }) => {
    return (
-      <div className="flex items-center justify-between select-none bg-quaternary p-2 rounded-full">
-         <div className="flex gap-1">
-            <ProjectStatusFilterBubble
-               projectFilter={projectFilter}
-               setProjectFilter={setProjectFilter}
-            />
-            <PaymentStatusFilterBubble
-               projectFilter={projectFilter}
-               setProjectFilter={setProjectFilter}
-            />
-            <ClientFilterBubble
-               projectFilter={projectFilter}
-               setProjectFilter={setProjectFilter}
-            />
-            <ProjectSearchBox
-               projectFilter={projectFilter}
-               setProjectFilter={setProjectFilter}
-            />
+      <ScrollArea type="scroll" className="select-none">
+         <div className="flex bg-quaternary p-2 rounded-full items-center gap-2 justify-between">
+            <div className="flex gap-1">
+               <ProjectStatusFilterBubble
+                  projectFilter={projectFilter}
+                  setProjectFilter={setProjectFilter}
+               />
+               <PaymentStatusFilterBubble
+                  projectFilter={projectFilter}
+                  setProjectFilter={setProjectFilter}
+               />
+               <ClientFilterBubble
+                  projectFilter={projectFilter}
+                  setProjectFilter={setProjectFilter}
+               />
+               <ProjectSearchBox
+                  projectFilter={projectFilter}
+                  setProjectFilter={setProjectFilter}
+               />
+            </div>
+            <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
          </div>
-         <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
-      </div>
+         <ScrollBar orientation="horizontal" />
+      </ScrollArea>
    );
 };
 
@@ -62,7 +69,7 @@ const ProjectSearchBox: React.FC<ProjectFilterBubble> = ({
 
    return (
       <SearchBox
-         className="rounded-full h-[27px]"
+         className="rounded-full h-[27px] sm:w-44"
          value={projectFilter.title ?? ''}
          onChange={(e) => {
             setSearchTerm(e.target.value);
@@ -158,12 +165,12 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
 export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
    projectFilter,
    setProjectFilter,
+   className
 }) => {
    const [mode, setMode] = useState('base');
 
    const [clientFilter, setClientFilter] = useState<ClientFilterDto>({});
    const { data: clientList, isLoading } = useClientsQuery(clientFilter);
-   
 
    useEffect(() => {
       if (projectFilter.clientId) {
@@ -209,7 +216,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
             handleSearch={handleSearch}
             handleSelect={handleSelect}
             isLoading={isLoading}
-            type='client'
+            type="client"
             value={projectFilter.clientId || ''}
             selections={clientSelection || []}
             className={cn(
@@ -217,7 +224,8 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
                'border-primary rounded-tl-full rounded-bl-full placeholder:text-muted-foreground',
                '[&>span]:line-clamp-1 bg-primary text-foreground',
                mode === 'base' &&
-                  'rounded-tr-full rounded-br-full bg-transparent text-secondary border-secondary'
+                  'rounded-tr-full rounded-br-full bg-transparent text-secondary border-secondary',
+               className,
             )}
             placeholder="Client"
          />

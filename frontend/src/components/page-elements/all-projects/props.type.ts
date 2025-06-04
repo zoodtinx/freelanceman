@@ -21,11 +21,12 @@ export interface ProjectFilterProps {
    setProjectFilter: Dispatch<SetStateAction<ProjectFilterDto>>;
    viewMode: 'grid' | 'list';
    setViewMode: Dispatch<SetStateAction<'grid' | 'list'>>;
+   className?: string
 }
 
 export type ProjectFilterBubble = Pick<
    ProjectFilterProps,
-   'projectFilter' | 'setProjectFilter'
+   'projectFilter' | 'setProjectFilter' | 'className'
 >;
 
 export type ViewModeToggleBubble = Pick<

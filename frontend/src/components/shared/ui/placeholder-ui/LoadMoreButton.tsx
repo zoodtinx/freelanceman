@@ -18,7 +18,7 @@ const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({
       <div
          onClick={loadMoreFn}
          className={`w-fit flex text-center cursor-pointer text-secondary border-secondary rounded-full px-2 pr-3
-                     h-6 items-center justify-center transition-colors gap-1
+                     h-6 items-center justify-center transition-colors gap-1 sm:pb-3
                      hover:border-primary hover:text-primary`}
       >
          <Plus className="w-4 h-4" />

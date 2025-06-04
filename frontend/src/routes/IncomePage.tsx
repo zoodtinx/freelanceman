@@ -42,9 +42,9 @@ import IncomePagePlacholder from '@/components/shared/ui/placeholder-ui/IncomePa
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
 
 const IncomePage: React.FC = () => {
    const { data: userData } = useUserQuery();
@@ -100,7 +100,7 @@ const FilterBar = ({
    };
 
    return (
-      <div className="flex gap-1 sm:w-full">
+      <div className="flex gap-1 sm:w-full sm:px-1">
          <FilterSelect
             selectContents={[
                { label: 'Due', value: 'unpaid' },
@@ -113,6 +113,7 @@ const FilterBar = ({
          <ClientFilterBubble
             projectFilter={projectFilter as any}
             setProjectFilter={setProjectFilter}
+            className='max-w-20'
          />
          <SearchBox className="sm:grow" />
       </div>
@@ -123,59 +124,57 @@ const StatsBar = () => {
    const { data: statsData, isLoading } = usePaymentStatsQuery();
 
    return (
-      <div className="flex gap-3 sm:w-full sm:justify-between sm:px-3 sm:pb-2 items-center">
+      <div className="flex gap-3 sm:w-full sm:justify-between sm:px-2 sm:pb-2 items-center">
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
-               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:flex-1'
             )}
          >
-            Unprocessed:{' '}
-            {isLoading ? (
-               <Skeleton className="h-5 w-20 rounded-full" />
-            ) : (
-               <span className="text-md font-medium text-primary">
-                  {statsData?.unprocessed.toLocaleString()}
-               </span>
-            )}
+            <div>
+               Unprocessed:{' '}
+               {isLoading ? (
+                  <Skeleton className="h-5 w-20 rounded-full" />
+               ) : (
+                  <span className="text-md font-medium text-primary">
+                     {statsData?.unprocessed.toLocaleString()}
+                  </span>
+               )}
+            </div>
          </div>
-         <Separator
-            orientation="vertical"
-            className="lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary"
-         />
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
-               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:flex-1'
             )}
          >
-            Processing:{' '}
-            {isLoading ? (
-               <Skeleton className="h-5 w-20 rounded-full" />
-            ) : (
-               <span className="text-md font-medium text-primary">
-                  {statsData?.processing.toLocaleString()}
-               </span>
-            )}
+            <div>
+               Processing:{' '}
+               {isLoading ? (
+                  <Skeleton className="h-5 w-20 rounded-full" />
+               ) : (
+                  <span className="text-md font-medium text-primary">
+                     {statsData?.processing.toLocaleString()}
+                  </span>
+               )}
+            </div>
          </div>
-         <Separator
-            orientation="vertical"
-            className="lg:h-5 md:h-5 md:bg-secondary lg:bg-secondary"
-         />
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
-               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start'
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:flex-1'
             )}
          >
-            All Amount Due:{' '}
-            {isLoading ? (
-               <Skeleton className="h-5 w-20 rounded-full" />
-            ) : (
-               <span className="text-md font-medium text-primary">
-                  {statsData?.allAmountDue.toLocaleString()}
-               </span>
-            )}
+            <div>
+               All Due:{' '}
+               {isLoading ? (
+                  <Skeleton className="h-5 w-20 rounded-full" />
+               ) : (
+                  <span className="text-md font-medium text-primary">
+                     {statsData?.allAmountDue.toLocaleString()}
+                  </span>
+               )}
+            </div>
          </div>
       </div>
    );
@@ -265,7 +264,7 @@ const ProjectPaymentTabList = ({
 
    return (
       <ScrollArea>
-         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2">
+         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2 sm:px-1">
             {projectList}
             {remainingItems && (
                <div className="flex justify-center pt-3 pb-7">
@@ -302,7 +301,7 @@ const ProjectPaymentTab = forwardRef<
          ref={ref}
          className={cn(
             'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
-            'sm:h-[130px]',
+            'sm:h-[85px] sm:gap-3',
             project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >
@@ -311,17 +310,18 @@ const ProjectPaymentTab = forwardRef<
                <p className="text-sm text-secondary">
                   {project.client?.name ?? 'Freelancing'}
                </p>
-               <p className="text-lg">{project.title}</p>
+               <p className="text-lg sm:text-md sm:line-clamp-2">{project.title}</p>
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-1 sm:hidden">
                <DocumentButton type="quotation" project={project} />
                <DocumentButton type="invoice" project={project} />
                <DocumentButton type="receipt" project={project} />
             </div>
          </div>
+         <Separator orientation='vertical' className='md:hidden lg:hidden xl:hidden' />
          <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2 sm:pr-0">
             <div className="flex text-[22px] pr-1 grow items-center">
-               <p className="text-[22px]">
+               <p className="text-[22px] sm:text-lg">
                   {project.budget.toLocaleString()}
                   <span className="text-sm">.-</span>
                </p>
@@ -397,11 +397,11 @@ const AddDocumentButton = ({
             'flex gap-1 text-secondary border-tertiary border rounded-lg items-center pl-[8px] pr-[10px] py-[2px] cursor-pointer',
             'hover:text-primary hover:border-primary transition-colors duration-75',
             'dark:text-secondary dark:border-secondary dark:hover:text-primary dark:hover:border-primary',
-            'sm:text-sm sm:px-1 sm:pr-2',
+            'sm:text-sm sm:px-1 sm:pr-2 sm:gap-0',
             isPaid && 'text-secondary'
          )}
       >
-         <Plus className="w-4 h-4" />
+         <Plus className="w-4 h-4 sm:hidden" />
          {label}
       </div>
    );
@@ -483,7 +483,7 @@ const EditDocumentButton = ({
                   'sm:text-sm sm:px-1'
                )}
             >
-               <FileText className="w-4 h-4" />
+               <FileText className="w-4 h-4 sm:hidden" />
                {label}
             </div>
          </PopoverTrigger>

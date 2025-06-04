@@ -14,10 +14,11 @@ const AddButton: React.FC<AddButtonProps> = ({ onClick, className }) => {
          onClick={onClick}
          className={cn(
             'h-[33px] w-[33px] p-1 flex justify-center items-center cursor-pointer text-secondary hover:text-primary transition-colors',
+            'sm:h-[20px] sm:w-[20px] sm:p-0 sm:overflow-hidden',
             className
          )}
       >
-         <Plus className="stroke-[2.75px] w-full h-full" />
+         <Plus className="stroke-[2.75px]" />
       </button>
    );
 };

@@ -36,7 +36,7 @@ export default function AllProjectPage() {
    }
 
    return (
-      <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative gap-2">
+      <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative gap-2 sm:w-full">
          <ProjectFilterBar
             projectFilter={projectFilter}
             setProjectFilter={setProjectFilter}
