@@ -8,6 +8,7 @@ import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/Par
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
+import { cn } from '@/lib/helper/utils';
 import { ListProps } from '@/lib/types/list-props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -21,7 +22,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 
 export const PartnerContactList: React.FC<
    ListProps<PartnerContactFilterDto>
-> = ({ addFn, filter, setFilter }) => {
+> = ({ addFn, filter, setFilter, className }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -107,8 +108,8 @@ export const PartnerContactList: React.FC<
    });
 
    return (
-      <ScrollArea className="h-full">
-         <div className="flex flex-col gap-1">
+      <ScrollArea className={cn("h-full", className)}>
+         <div className={cn("flex flex-col gap-1 grow pb-7")}>
             {partnerTabs}
             {remainingItems && (
                <div className="flex justify-center pt-3">
@@ -145,7 +146,9 @@ const PartnerTab = forwardRef<
    return (
       <div
          ref={ref}
-         className="flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary cursor-default"
+         className={cn("flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary cursor-default",
+            'sm:w-full'
+         )}
          onClick={handleClick}
       >
          <div className="z-10 flex items-center px-4 justify-between w-full text-primary sm:px-2">
@@ -165,7 +168,7 @@ const PartnerTab = forwardRef<
                         <User className="text-secondary" />
                      )}
                   </div>
-                  <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default">
+                  <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default sm:w-fit">
                      {contact.name}
                   </p>
                </div>

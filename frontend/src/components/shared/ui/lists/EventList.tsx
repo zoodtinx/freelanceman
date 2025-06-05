@@ -116,7 +116,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    return (
       <ScrollArea className="flex flex-col h-0 grow">
-         {page !== 'project-page' && <Separator />}
+         {page !== 'project-page' && <Separator className='sm:hidden' />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
             <div className="flex justify-center py-3">

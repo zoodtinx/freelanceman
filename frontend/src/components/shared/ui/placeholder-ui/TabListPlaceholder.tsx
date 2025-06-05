@@ -6,11 +6,13 @@ const TabListPlaceHolder = ({
    children,
    page = 'all-client-page',
    className,
+   containerClassName
 }: {
    children: string;
    addFn: () => void;
    page?: 'all-project-page' | 'all-client-page'
    className?: string;
+   containerClassName?: string;
 }) => {
    const placeholders = [...Array(20)].map(() => {
       return (
@@ -24,7 +26,7 @@ const TabListPlaceHolder = ({
    });
 
    return (
-      <div className="flex flex-col gap-1 w-full h-full overflow-hidden relative pt-1 box-border">
+      <div className={cn("flex flex-col gap-1 grow overflow-hidden relative pt-1 box-border", containerClassName)}>
          <div
             className={cn(
                'z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none',

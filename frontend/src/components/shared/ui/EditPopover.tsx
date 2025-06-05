@@ -1,3 +1,4 @@
+import { cn } from '@/lib/helper/utils';
 import { Edit, EllipsisVertical, Trash } from 'lucide-react';
 import React from 'react';
 import {
@@ -10,11 +11,13 @@ import { Separator } from 'src/components/shared/ui/primitives/Separator';
 interface EditPopoverProps {
    deleteFn: () => void;
    editFn: () => void;
+   className?: string;
 }
 
 export const EditPopover: React.FC<EditPopoverProps> = ({
    editFn,
    deleteFn,
+   className
 }): JSX.Element => {
    const handleEdit = (e) => {
       e.stopPropagation();
@@ -29,7 +32,7 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
    return (
       <Popover>
          <PopoverTrigger
-            className="flex items-center"
+            className={cn("flex items-center", className)}
             onClick={(e) => {
                e.stopPropagation();
             }}

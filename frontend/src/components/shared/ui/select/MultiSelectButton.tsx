@@ -83,6 +83,7 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
                'h-[27px]',
                'transition-colors duration-150',
                'border border-secondary hover:border-primary',
+               'sm:hidden',
                {
                   'border-primary text-primary': selectState.enableSelect,
                },

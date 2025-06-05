@@ -75,7 +75,7 @@ export const SharedFileList = ({
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (!filesData.items.length) {
       if (page === 'file-page') {
-         return <TabListPlaceHolder addFn={addFn} children='Add a file' />
+         return <TabListPlaceHolder containerClassName='sm:px-2' addFn={addFn} children='Add a file' />
       } else {
          return <NoDataPlaceHolder addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
       }
@@ -101,7 +101,7 @@ export const SharedFileList = ({
    return (
       <div
          className={cn(
-            'flex flex-col h-0 grow overflow-y-auto pt-1',
+            'flex flex-col h-0 grow overflow-y-auto',
             className
          )}
       >
@@ -227,7 +227,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
             <div
                className={cn(
                   'flex px-2 items-center bg-transparent hover:bg-quaternary transition-colors duration-100',
-                  'sm:px-1',
+                  'sm:px-0',
                   isSelected && 'bg-quaternary',
                   page === 'project-page' && 'px-1'
                )}
@@ -259,7 +259,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                         )}
                         <p
                            className={cn(
-                              'text-sm text-secondary w-[60px] text-right',
+                              'text-sm text-secondary w-[60px] text-right sm:hidden',
                               page === 'project-page' && 'w-[40px]'
                            )}
                         >
@@ -272,6 +272,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                   <EditPopover
                      editFn={handleOpenDialog}
                      deleteFn={handleDeleteFile}
+                     className='sm:hidden'
                   />
                )}
             </div>

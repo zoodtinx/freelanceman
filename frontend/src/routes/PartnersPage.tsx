@@ -19,6 +19,7 @@ import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/cons
 import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactList';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
+import { cn } from '@/lib/helper/utils';
 
 const PartnerContactLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -59,33 +60,46 @@ const PartnerContactLayout = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col grow rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-full gap-[6px] shrink-0 shadow-md relative">
-         <div className="flex justify-between py-2">
-            <div className="flex items-center gap-1">
-               <BookUser className="h-auto w-[28px]" />
-               <p className="text-xl pt-1 leading-none mr-2">
-                  Partner Contacts
-               </p>
+      <div
+         className={cn(
+            'flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
+            'sm:shadow-sm sm:h-1/2'
+         )}
+      >
+         <div
+            className={cn(
+               'flex flex-col w-full justify-between p-4 pb-3',
+               'sm:pt-2 sm:px-2 sm:pb-0 sm:gap-2'
+            )}
+         >
+            <div className="flex justify-between sm:pl-1">
+               <div className="flex items-center gap-1 sm:items-center">
+                  <div className="flex items-end gap-1 sm:items-center">
+                     <BookUser className="w-[28px] h-auto mt-[2px] sm:w-[22px] sm:mt-0" />
+                     <p className="text-xl leading-none mr-2 sm:text-lg">
+                        Partner Contacts
+                     </p>
+                  </div>
+               </div>
+               <AddButton onClick={handleNewPartner} />
             </div>
-            <AddButton onClick={handleNewPartner} />
+            <div className="flex gap-1">
+               <SearchCategory onChange={handleSearchOptionChange} />
+               <SearchBox
+                  placeholder="Search contact"
+                  className="w-full"
+                  onChange={handleSearchValue}
+                  value={filter[searchMode] || ''}
+               />
+            </div>
          </div>
-         <div className="flex gap-1">
-            <SearchCategory onChange={handleSearchOptionChange} />
-            <SearchBox
-               placeholder="Search contact"
-               className=""
-               onChange={handleSearchValue}
-               value={filter[searchMode] || ''}
-            />
-         </div>
-         <div className="flex flex-col grow overflow-hidden">
-            <PartnerContactList
-               filter={filter}
-               setFilter={setFilter}
-               page="partner-page"
-               addFn={handleNewPartner}
-            />
-         </div>
+         <PartnerContactList
+            filter={filter}
+            setFilter={setFilter}
+            page="partner-page"
+            addFn={handleNewPartner}
+            className="px-2 pt-1"
+         />
       </div>
    );
 };

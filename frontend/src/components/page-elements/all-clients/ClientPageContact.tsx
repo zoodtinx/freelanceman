@@ -18,6 +18,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { ContactList } from '@/components/shared/ui/lists/ClientContactList';
+import { cn } from '@/lib/helper/utils';
 
 export const ContactColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -44,29 +45,46 @@ export const ContactColumn = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col w-[335px] rounded-[20px] bg-foreground p-4 pt-2 sm:w-full h-auto gap-[6px] shrink-0 shadow-md">
-         <div className="flex justify-between py-1 pt-2">
-            <div className="flex items-center gap-1">
-               <BookUser className="h-auto w-[28px]" />
-               <p className="text-xl pt-1 leading-none mr-2">Client Contacts</p>
-            </div>
-            <AddButton onClick={handleNewContact} />
-         </div>
-         {isLoading ? (
-            <Skeleton className="h-7 w-[300px] rounded-full shrink-0" />
-         ) : (
-            <SearchBox
-               placeholder="Search client"
-               className="w-[300px]"
-               onChange={handleSearch}
-               value={filter.name || ''}
-            />
+      <div
+         className={cn(
+            'flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
+            'sm:shadow-sm sm:h-1/2'
          )}
+      >
+         <div
+            className={cn(
+               'flex flex-col w-full justify-between p-4 pb-3',
+               'sm:pt-2 sm:px-2 sm:pb-0 sm:gap-2'
+            )}
+         >
+            <div className="flex justify-between sm:pl-1">
+               <div className="flex gap-1 items-center">
+                  <div className="flex items-end gap-1 sm:items-center">
+                     <BookUser className="w-[28px] h-auto mt-[2px] sm:w-[22px] sm:mt-0" />
+                     <p className="text-xl leading-none mr-2 sm:text-lg">
+                        Contacts
+                     </p>
+                  </div>
+               </div>
+               <AddButton onClick={handleNewContact} />
+            </div>
+            {isLoading ? (
+               <Skeleton className="h-7 w-[300px] rounded-full shrink-0" />
+            ) : (
+               <SearchBox
+                  placeholder="Search client"
+                  className="w-full"
+                  onChange={handleSearch}
+                  value={filter.name || ''}
+               />
+            )}
+         </div>
          <ContactList
             addFn={handleNewContact}
             filter={filter}
             setFilter={setFilter}
             page="all-clients-page"
+            className="px-2 pt-1"
          />
       </div>
    );

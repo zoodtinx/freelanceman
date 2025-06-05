@@ -16,6 +16,7 @@ import {
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import { cn } from '@/lib/helper/utils';
 
 const ClientColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -44,24 +45,37 @@ const ClientColumn = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col rounded-[20px] bg-foreground p-4 pt-2 h-full flex-1 shadow-md relative overflow-hidden">
-         <div className="flex justify-between py-2">
-            <div className="flex items-center gap-1">
-               <Building2 className="w-[28px] h-auto" />
-               <p className="text-xl pt-1 leading-none mr-2">Clients</p>
+      <div className={cn("flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden",
+          "sm:shadow-sm sm:h-1/2"
+      )}>
+         <div
+            className={cn(
+               'flex flex-col w-full justify-between p-4 pb-3',
+               'sm:pt-2 sm:px-2 sm:pb-0 sm:gap-2'
+            )}
+         >
+            <div className="flex justify-between sm:pl-1">
+               <div className="flex gap-1 items-center">
+                  <div className="flex items-end gap-1 sm:items-center">
+                     <Building2 className="w-[28px] h-auto mt-[2px] sm:w-[22px] sm:mt-0" />
+                     <p className="text-xl leading-none mr-2 sm:text-lg">
+                        Clients
+                     </p>
+                  </div>
+               </div>
+               <AddButton onClick={handleNewClient} />
             </div>
-            <AddButton onClick={handleNewClient} />
+            {clientsQueryResult.isLoading ? (
+               <Skeleton className="h-7 w-[300px] rounded-full" />
+            ) : (
+               <SearchBox
+                  placeholder="Search client"
+                  className="w-full"
+                  onChange={handleSearch}
+                  value={searchOptions.name || ''}
+               />
+            )}
          </div>
-         {clientsQueryResult.isLoading ? (
-            <Skeleton className="h-7 w-[300px] rounded-full" />
-         ) : (
-            <SearchBox
-               placeholder="Search client"
-               className="w-[300px]"
-               onChange={handleSearch}
-               value={searchOptions.name || ''}
-            />
-         )}
          <ClientGrid
             clientsQueryResult={clientsQueryResult}
             addFn={handleNewClient}
@@ -87,7 +101,7 @@ const ClientGrid = ({
    if (isError || !clientsData)
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (!clientsData.items.length)
-      return <ClientGridPlaceHolder addFn={addFn} />
+      return <ClientGridPlaceHolder addFn={addFn} />;
 
    const clientCards = clientsData?.items.map((client) => {
       return <ClientCard key={client.id} client={client} />;
@@ -95,7 +109,12 @@ const ClientGrid = ({
 
    return (
       <ScrollArea>
-         <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2">
+         <div
+            className={cn(
+               'grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2',
+               'sm:flex sm:flex-col sm:px-2 sm:gap-0 sm:pt-1 sm:pb-8'
+            )}
+         >
             {clientCards}
          </div>
       </ScrollArea>
@@ -105,16 +124,16 @@ const ClientGrid = ({
 export default ClientColumn;
 
 const placeholderElements = [...Array(30)].map((_, i) => (
-  <div
-    key={i}
-    className="h-[170px] opacity-60 rounded-[20px] border border-secondary border-dashed"
-  />
+   <div
+      key={i}
+      className="h-[170px] opacity-60 rounded-[20px] border border-secondary border-dashed"
+   />
 ));
 
-const ClientGridPlaceHolder = ({addFn} : {addFn: () => void}) => {
+const ClientGridPlaceHolder = ({ addFn }: { addFn: () => void }) => {
    return (
       <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2 relative h-full">
-         <div className='z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none' />
+         <div className="z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none" />
          <div
             onClick={addFn}
             className={`h-[170px] rounded-[20px] border border-dashed border-secondary items-center justify-center flex flex-col text-secondary

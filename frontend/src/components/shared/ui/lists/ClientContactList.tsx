@@ -25,6 +25,7 @@ export const ContactList = ({
    filter,
    setFilter,
    page,
+   className
 }: ListProps<ClientContactFilterDto>) => {
    const {
       data: contacts,
@@ -38,7 +39,7 @@ export const ContactList = ({
    const lastItemRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      if (!contacts || contacts?.items.length <= 20) {
+      if (!contacts || contacts?.items.length <= 25) {
          return;
       }
 
@@ -90,7 +91,7 @@ export const ContactList = ({
    const remainingItems = contacts.total - contacts.items.length > 0;
 
    return (
-      <ScrollArea className="grow overflow-y-auto h-0 pt-1">
+      <ScrollArea className={cn("grow overflow-y-auto h-0", className)}>
          <div className="flex flex-col gap-1">{contactCards}</div>
          {remainingItems && (
             <div className="flex justify-center pt-3">
@@ -133,18 +134,19 @@ export const ContactCard = forwardRef<
             `flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[55px] shrink-0
                border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
                cursor-default`,
-            page === 'all-client-page' && 'h-[75px] p-2'
+            page === 'all-client-page' && 'h-[75px] p-2',
+            'sm:h-fit'
          )}
       >
-         <AvatarDisplay page={page} url={data?.url} />
+         <AvatarDisplay page={page} url={data?.url} className='sm:w-8 sm:h-8' />
          <div className="flex flex-col leading-tight">
-            <p className="font-semibold text-md">{contact.name}</p>
+            <p className="font-semibold text-md sm:text-base">{contact.name}</p>
             {page === 'all-client-page' && (
                <p className="font-semibold text-base text-secondary">
                   {contact.company.name}
                </p>
             )}
-            <p className="text-base text-secondary">{contact.role}</p>
+            <p className="text-base text-secondary sm:hidden">{contact.role}</p>
          </div>
       </div>
    );
