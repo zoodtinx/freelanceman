@@ -3,7 +3,7 @@
 export default {
    darkMode: ['class'],
    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-   // content: ['/Users/zoodtinx/freelanceman/frontend/src/test/template.html'],
+   
    safelist: [
       'bg-primary',
       'text-secondary',
@@ -73,9 +73,9 @@ export default {
             },
          },
          screens: {
-            sm: { max: '833px' }, // iPhone 14 Pro range
-            md: { min: '834px', max: '1439px' }, // iPad Pro 11 range
-            lg: { min: '1440px' }, // MacBook 16 and above
+            sm: { max: '767px' }, 
+            md: { min: '768px', max: '1439px' }, 
+            lg: { min: '1440px' }, 
          },
          fontFamily: {
             sans: ['Lexend'],
@@ -198,7 +198,7 @@ export default {
             xl: '25px',
             lg: '19px',
             md: '16px',
-            base: '14px', // Customize the base font size
+            base: '14px', 
             sm: '12px',
          },
          borderOpacity: {

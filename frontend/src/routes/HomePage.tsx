@@ -37,13 +37,13 @@ export default function HomePage() {
                   `}
       >
          <div
-            className={`flex w-[180px] gap-4 shrink-0 mr-3
-                        md:flex-col md:w-[65px] 
+            className={`flex w-[180px] gap-4 shrink-0 mr-2
+                        md:flex-col md:w-fit
                         lg:flex-col 
                         sm:w-full sm:p-3 sm:items-center
                      `}
          >
-            <div className='flex justify-center gap-2 lg:flex-col sm:gap-1'>
+            <div className='flex justify-center gap-2 lg:flex-col sm:gap-1 md:pt-1'>
                <div className="px-3 pt-3 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border">
                   <SvgFreelancemanTypo className="h-auto w-full sm:h-full sm:w-auto" />
                </div>
@@ -55,7 +55,7 @@ export default function HomePage() {
             </div>
             <div
                className={cn(
-                  'flex justify-center gap-1 items-end w-full pb-3 shrink-0 grow',
+                  'flex justify-center gap-1 items-end w-full pb-2 shrink-0 grow',
                   'sm:pb-0 sm:w-fit sm:justify-end sm:items-center',
                )}
             >
@@ -94,7 +94,7 @@ const CountDisplayBar = () => {
       <div
          className={cn(
             'flex cursor-default justify-between text-secondary text-md w-full rounded-xl px-3 py-1 border-2 border-tertiary',
-            'md:flex-col md:py-3 md:pb-2 md:gap-3 sm:hidden'
+            'md:flex-col md:py-3 md:pb-2 md:gap-3 sm:hidden md:hidden'
          )}
       >
          <p className="text-nowrap md:hidden">{formattedDate}</p>

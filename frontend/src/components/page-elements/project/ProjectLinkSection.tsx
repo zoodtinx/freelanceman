@@ -51,7 +51,7 @@ const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
          <div className="w-full border-[0.5px] border-quaternary" />
          <div className="flex flex-col gap-1 w-full p-2 h-full">
             {mode === 'view' && !project.links.length && (
-               <NoDataPlaceHolder addFn={() => setMode('add')}>
+               <NoDataPlaceHolder className='sm:pb-0' addFn={() => setMode('add')}>
                   Add Link
                </NoDataPlaceHolder>
             )}

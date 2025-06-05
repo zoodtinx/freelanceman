@@ -136,7 +136,7 @@ export const ProjectContactSection = ({
                Network Error
             </ApiErrorPlaceHolder>
          ) : !contacts?.items.length ? (
-            <NoDataPlaceHolder addFn={handleAddContact}>
+            <NoDataPlaceHolder className='pb-0' addFn={handleAddContact}>
                Add Partner Contact
             </NoDataPlaceHolder>
          ) : (

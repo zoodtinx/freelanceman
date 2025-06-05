@@ -89,7 +89,7 @@ const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
 
    return (
       <Link
-         to={`../../projects/${project.id}`}
+         to={`/home/projects/${project.id}`}
          style={{
             backgroundColor: `var(--freelanceman-theme-${project.client?.themeColor})`,
             borderColor: `var(--freelanceman-theme-${project.client?.themeColor})`,

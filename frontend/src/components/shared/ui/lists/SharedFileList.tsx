@@ -77,7 +77,7 @@ export const SharedFileList = ({
       if (page === 'file-page') {
          return <TabListPlaceHolder containerClassName='sm:px-2' addFn={addFn} children='Add a file' />
       } else {
-         return <NoDataPlaceHolder addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
+         return <NoDataPlaceHolder className='sm:pb-0' addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
       }
    }
 
