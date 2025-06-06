@@ -106,11 +106,11 @@ const FilePageLayout = (): JSX.Element => {
       <div className="flex flex-col w-full bg-foreground rounded-[20px] sm:w-full h-full shrink-0 overflow-hidden shadow-md">
          <div
             className={cn(
-               'flex flex-col w-full justify-between p-4 pb-3',
+               'flex flex-col w-full justify-between p-2 gap-2 pb-1',
                'sm:pt-2 sm:px-2 sm:pb-0 sm:gap-2'
             )}
          >
-            <div className="flex justify-between sm:pl-1">
+            <div className="flex justify-between pl-1">
                <div className="flex gap-1 items-center">
                   <div className="flex items-end gap-1 sm:items-center">
                      <Folder className="w-[28px] h-auto mt-[2px] sm:w-[22px] sm:mt-0" />

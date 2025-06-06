@@ -94,7 +94,7 @@ export const ContactList = ({
       <ScrollArea className={cn("grow overflow-y-auto h-0", className)}>
          <div className="flex flex-col gap-1">{contactCards}</div>
          {remainingItems && (
-            <div className="flex justify-center pt-3">
+            <div className="flex justify-center pt-2 pb-8">
                <LoadMoreButton
                   loadMoreFn={handleLoadMore}
                   isLoading={isLoading}

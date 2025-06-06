@@ -10,7 +10,7 @@ export const ClientContactLoader: React.FC = () => {
 
 export const ClientContactListLoader = () => {
    return (
-      <div className="flex flex-col w-full gap-1">
+      <div className="flex flex-col w-full gap-1 px-2">
          <ClientContactLoader />
          <ClientContactLoader />
          <ClientContactLoader />

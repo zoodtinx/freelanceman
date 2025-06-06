@@ -42,7 +42,7 @@ export const NewFileDialog = ({
       isLoading: false,
       type: 'destructive',
    });
-   const [mode, setMode] = useState<'add-link' | 'upload'>('add-link');
+   const [mode, setMode] = useState<'add-link' | 'upload'>('upload');
    useEffect(() => {
       formMethods.reset({
          defaultFileValues,
@@ -143,7 +143,7 @@ export const NewFileDialog = ({
                   />
                )}
                {mode === 'add-link' && (
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col items-center gap-2">
                      <Link className="text-secondary w-6 h-6 my-1" />
                      {/* <TextInputForm
                         fieldName="link"

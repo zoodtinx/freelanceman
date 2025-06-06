@@ -68,11 +68,11 @@ const PartnerContactLayout = (): JSX.Element => {
       >
          <div
             className={cn(
-               'flex flex-col w-full justify-between p-4 pb-3',
+               'flex flex-col w-full justify-between p-2 gap-2',
                'sm:pt-2 sm:px-2 sm:pb-0 sm:gap-2'
             )}
          >
-            <div className="flex justify-between sm:pl-1">
+            <div className="flex justify-between pl-1">
                <div className="flex items-center gap-1 sm:items-center">
                   <div className="flex items-end gap-1 sm:items-center">
                      <BookUser className="w-[28px] h-auto mt-[2px] sm:w-[22px] sm:mt-0" />
@@ -83,7 +83,7 @@ const PartnerContactLayout = (): JSX.Element => {
                </div>
                <AddButton onClick={handleNewPartner} />
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-1 lg:w-1/2">
                <SearchCategory onChange={handleSearchOptionChange} />
                <SearchBox
                   placeholder="Search contact"
@@ -98,7 +98,7 @@ const PartnerContactLayout = (): JSX.Element => {
             setFilter={setFilter}
             page="partner-page"
             addFn={handleNewPartner}
-            className="px-2 pt-1"
+            className="px-2"
          />
       </div>
    );
@@ -119,7 +119,7 @@ const SearchCategory = ({
             <SelectGroup>
                <SelectItem value="name">Name</SelectItem>
                <SelectItem value="role">Role</SelectItem>
-               <SelectItem value="companyName">Company</SelectItem>
+               <SelectItem value="company">Company</SelectItem>
             </SelectGroup>
          </SelectContent>
       </Select>

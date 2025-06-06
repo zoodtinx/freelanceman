@@ -119,7 +119,7 @@ export const UserBar = () => {
          <Popover>
             <PopoverTrigger asChild>
                <div
-                  className={`w-28 h-28 overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 cursor-pointer
+                  className={`w-[160px] aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 cursor-pointer
                               sm:w-10 sm:h-10
                   `}
                >

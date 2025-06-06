@@ -40,6 +40,10 @@ export const router = createBrowserRouter([
             ],
          },
          {
+            path: 'welcome',
+            element: <AuthPage />,
+         },
+         {
             path: 'home',
             element: <Home />,
             children: [

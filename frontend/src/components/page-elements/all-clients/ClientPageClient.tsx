@@ -50,11 +50,11 @@ const ClientColumn = (): JSX.Element => {
       )}>
          <div
             className={cn(
-               'flex flex-col w-full justify-between p-4 pb-3',
+               'flex flex-col w-full justify-between p-2 pb-0 gap-2',
                'sm:pt-2 sm:px-2 sm:pb-0 sm:gap-2'
             )}
          >
-            <div className="flex justify-between sm:pl-1">
+            <div className="flex justify-between pl-1">
                <div className="flex gap-1 items-center">
                   <div className="flex items-end gap-1 sm:items-center">
                      <Building2 className="w-[28px] h-auto mt-[2px] sm:w-[22px] sm:mt-0" />
@@ -70,7 +70,7 @@ const ClientColumn = (): JSX.Element => {
             ) : (
                <SearchBox
                   placeholder="Search client"
-                  className="w-full"
+                  className="w-full lg:w-1/2"
                   onChange={handleSearch}
                   value={searchOptions.name || ''}
                />
@@ -111,8 +111,8 @@ const ClientGrid = ({
       <ScrollArea>
          <div
             className={cn(
-               'grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2',
-               'sm:flex sm:flex-col sm:px-2 sm:gap-0 sm:pt-1 sm:pb-8'
+               'grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(5,minmax(0,1fr))] gap-1 w-full pt-[6px] px-2',
+               'sm:flex sm:flex-col sm:gap-0 sm:pt-1 sm:pb-8'
             )}
          >
             {clientCards}

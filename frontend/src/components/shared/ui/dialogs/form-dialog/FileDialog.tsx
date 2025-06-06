@@ -122,15 +122,15 @@ export const FileDialog = ({
             <p>{fileSize}</p>
          </div>
          <div className="flex gap-2 w-full px-5 pb-3">
-            <div className="flex flex-col w-1/2 shrink-0">
+            {formDialogState.data.project && <div className="flex flex-col w-1/2 shrink-0">
                <Label className="pb-0">Project</Label>
                <Link
                   to={`/home/project/${project?.id}`}
                   className="leading-tight"
                >
-                  {formDialogState.data.project.title}
+                  {formDialogState.data.project?.title}
                </Link>
-            </div>
+            </div>}
             <div className="flex flex-col w-1/2 shrink-0">
                <Label className="pb-0">Category</Label>
                <TextSelectForm

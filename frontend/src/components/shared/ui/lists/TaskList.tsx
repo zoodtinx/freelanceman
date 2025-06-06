@@ -121,7 +121,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
       >
          {taskListItems}
          {remainingTasks && (
-            <div className="flex justify-center pt-3 pb-2">
+            <div className="flex justify-center pt-3 pb-8">
                <LoadMoreButton
                   loadMoreFn={handleLoadMore}
                   isLoading={isLoading}

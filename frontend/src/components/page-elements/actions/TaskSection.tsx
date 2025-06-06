@@ -33,7 +33,7 @@ export default function TaskSection() {
 
    return (
       <div className="flex flex-col h-full">
-         <div className={cn('flex w-full justify-between p-4 pb-3', 'sm:p-2 sm:px-2')}>
+         <div className={cn('flex w-full justify-between p-2 pl-3', 'sm:p-2 sm:px-2')}>
             <div className="flex gap-1 items-center">
                <div className="flex items-end gap-1 sm:items-center">
                   <CircleCheck className="w-[28px] h-auto sm:w-[22px]" />

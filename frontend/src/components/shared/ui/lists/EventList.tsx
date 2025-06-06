@@ -119,7 +119,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
          {page !== 'project-page' && <Separator className='sm:hidden' />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
-            <div className="flex justify-center py-3">
+            <div className="flex justify-center pt-3 pb-8">
                <LoadMoreButton
                   loadMoreFn={handleLoadMore}
                   isLoading={isLoading}

@@ -35,7 +35,7 @@ export default function EventSection() {
       <div className="flex flex-col h-full">
          <div
             className={cn(
-               'flex w-full justify-between p-4 pb-3',
+               'flex w-full justify-between p-2 pl-3',
                'sm:p-2 sm:px-2'
             )}
          >

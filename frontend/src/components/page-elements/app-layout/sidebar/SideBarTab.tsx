@@ -45,7 +45,9 @@ const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
          <Link
             to={tab}
             className={clsx(
-               'aspect-square flex w-fit items-center gap-[6px] rounded-lg p-7 text-md cursor-pointer transition-colors duration-75 md:p-[7px]',
+               'flex w-fit items-center gap-[6px] rounded-lg text-md cursor-pointer transition-colors duration-75',
+               'md:p-[7px] md:aspect-square',
+               'lg:p-2 lg:w-full',
                isActive
                   ? 'bg-primary text-foreground dark:bg-foreground dark:text-primary'
                   : 'text-secondary hover:text-primary'

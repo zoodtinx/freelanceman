@@ -46,9 +46,9 @@ const SalesDocumentBuilderPage = ({
       type: 'delete',
    });
 
-   const [isOnMobile, setIsOnMobile] = useState(
-      document.documentElement.clientWidth < 834
-   );
+   // const [isOnMobile, setIsOnMobile] = useState(
+   //    document.documentElement.clientWidth < 834
+   // );
 
    useEffect(() => {
       const handleResize = () => {
@@ -64,7 +64,9 @@ const SalesDocumentBuilderPage = ({
       useSalesDocumentQuery(documentId ?? '', isEditMode);
    const { data: projectData, isLoading: isProjectDataLoading } =
       useProjectQuery(projectId ?? '', !isEditMode);
-   const { data: userData, isLoading: isUserLoading } = useUserQuery(!isEditMode);
+   const { data: userData, isLoading: isUserLoading } = useUserQuery(
+      !isEditMode
+   );
 
    // --- Welcome Dialog ---
    const setWelcomeDialogState = useWelcomeDialogStore(
@@ -201,9 +203,9 @@ const SalesDocumentBuilderPage = ({
    const documentCategory = category ?? getValues('category');
 
    return (
-      <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative">
+      <div className="flex flex-col w-full bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative">
          {/* Header */}
-         <div className="flex justify-between items-center">
+         <div className="flex justify-between items-center h-fit">
             <div className="flex gap-1 items-center">
                <FilePlus2 className="h-6 w-6 mt-1" />
                <div className="flex text-xl pt-1 leading-none mr-2 gap-2">
@@ -217,7 +219,7 @@ const SalesDocumentBuilderPage = ({
             />
          </div>
 
-         {isOnMobile && (
+         {/* {isOnMobile && (
             <ScrollArea className="">
                <form
                   className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
@@ -249,7 +251,6 @@ const SalesDocumentBuilderPage = ({
                         )}
                      </div>
                   </div>
-                  {/* Footer */}
                   <footer className="flex justify-between shrink-0">
                      <div className="flex gap-2">
                         <Button
@@ -284,403 +285,74 @@ const SalesDocumentBuilderPage = ({
                   </footer>
                </form>
             </ScrollArea>
-         )}
-         
-         {!isOnMobile && (
-               <form
-                  className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
-                  onSubmit={handleSubmit(onSubmit)}
-               >
-                  <div className="flex grow gap-3 sm:flex-col">
-                     <div className="flex flex-col w-1/2 gap-3 sm:flex-col sm:w-full">
-                        {isLoading ? (
-                           <Skeleton className="w-full h-1/3 rounded-xl" />
-                        ) : (
-                           <ProjectInfoField formMethods={formMethods} />
-                        )}
-                        {isLoading ? (
-                           <Skeleton className="w-full h-1/3 rounded-xl" />
-                        ) : (
-                           <FreelancerInfoField formMethods={formMethods} />
-                        )}
-                        {isLoading ? (
-                           <Skeleton className="w-full h-1/3 rounded-xl" />
-                        ) : (
-                           <ClientInfoField formMethods={formMethods} />
-                        )}
-                     </div>
-                     <div className="flex flex-col w-1/2 gap-3 sm:w-full">
-                        {isLoading ? (
-                           <Skeleton className="w-full h-full rounded-xl" />
-                        ) : (
-                           <ItemsField formMethods={formMethods} />
-                        )}
-                     </div>
-                  </div>
-                  {/* Footer */}
-                  <footer className="flex justify-between shrink-0">
-                     <div className="flex gap-2">
-                        <Button
-                           onClick={handleDiscard}
-                           variant="destructiveOutline"
-                           disabled={isLoading}
-                        >
-                           {isDirty ? 'Discard Changes' : 'Back'}
-                        </Button>
-                     </div>
-                     <div className="flex gap-2">
-                        <Button
-                           variant={
-                              createPdf.isPending || isDirty || !isEditMode
-                                 ? 'ghost'
-                                 : 'default'
-                           }
-                           disabled={
-                              createPdf.isPending || isDirty || !isEditMode
-                           }
-                           className="flex gap-1"
-                           onClick={handleCreatePdf}
-                        >
-                           <FilePlus2 className="w-4 h-4" />
-                           <p>Create PDF</p>
-                        </Button>
-                        <SubmitButton
-                           isApiLoading={isApiLoading}
-                           formMethods={formMethods}
-                        />
-                     </div>
-                  </footer>
-               </form>
-         )}
+         )} */}
 
+         <form
+            className="flex flex-col grow gap-3 sm:flex-col w-full shrink"
+            onSubmit={handleSubmit(onSubmit)}
+         >
+            <div className="flex flex-1 gap-3 overflow-hidden sm:flex-col">
+               <div className="flex flex-col h-full w-1/2 gap-3 sm:flex-col sm:w-full">
+                  {isLoading ? (
+                     <Skeleton className="w-full h-1/3 rounded-xl" />
+                  ) : (
+                     <ProjectInfoField formMethods={formMethods} />
+                  )}
+                  {isLoading ? (
+                     <Skeleton className="w-full h-1/3 rounded-xl" />
+                  ) : (
+                     <FreelancerInfoField formMethods={formMethods} />
+                  )}
+                  {isLoading ? (
+                     <Skeleton className="w-full h-1/3 rounded-xl" />
+                  ) : (
+                     <ClientInfoField formMethods={formMethods} />
+                  )}
+               </div>
+               <div className="flex flex-col w-1/2 gap-3 sm:w-full">
+                  {isLoading ? (
+                     <Skeleton className="w-full h-full rounded-xl" />
+                  ) : (
+                     <ItemsField formMethods={formMethods} />
+                  )}
+               </div>
+            </div>
+            {/* Footer */}
+            <footer className="flex justify-between shrink-0 h-fit">
+               <div className="flex gap-2">
+                  <Button
+                     onClick={handleDiscard}
+                     variant="destructiveOutline"
+                     disabled={isLoading}
+                  >
+                     {isDirty ? 'Discard Changes' : 'Back'}
+                  </Button>
+               </div>
+               <div className="flex gap-2">
+                  <Button
+                     variant={
+                        createPdf.isPending || isDirty || !isEditMode
+                           ? 'ghost'
+                           : 'default'
+                     }
+                     disabled={createPdf.isPending || isDirty || !isEditMode}
+                     className="flex gap-1"
+                     onClick={handleCreatePdf}
+                  >
+                     <FilePlus2 className="w-4 h-4" />
+                     <p>Create PDF</p>
+                  </Button>
+                  <SubmitButton
+                     isApiLoading={isApiLoading}
+                     formMethods={formMethods}
+                  />
+               </div>
+            </footer>
+         </form>
          <SelectorDialog />
       </div>
    );
 };
-
-
-// const SalesDocumentBuilderPage = ({
-//    category,
-// }: {
-//    category?: 'quotation' | 'invoice' | 'receipt';
-// }) => {
-//    const documentId = useParams()?.id;
-//    const projectId = useParams()?.projectId;
-//    const isEditMode = Boolean(documentId);
-//    const navigate = useNavigate();
-
-//    const [isApiLoading, setIsApiLoading] = useState<any>({
-//       isLoading: false,
-//       type: 'delete',
-//    });
-
-//    const [isOnMobile, setIsOnMobile] = useState(
-//       document.documentElement.clientWidth < 834
-//    );
-
-//    useEffect(() => {
-//       const handleResize = () => {
-//          setIsOnMobile(document.documentElement.clientWidth < 834);
-//       };
-
-//       window.addEventListener('resize', handleResize);
-//       return () => window.removeEventListener('resize', handleResize);
-//    }, []);
-
-//    const formMethods = useForm<SalesDocumentPayload>({});
-//    const { data: salesDocumentData, isLoading: isDocLoading } =
-//       useSalesDocumentQuery(documentId ?? '', isEditMode);
-//    const { data: projectData, isLoading: isProjectDataLoading } =
-//       useProjectQuery(projectId ?? '', !isEditMode);
-//    const { data: userData, isLoading: isUserLoading } = useUserQuery(
-//       !isEditMode
-//    );
-
-//    const setWelcomeDialogState = useWelcomeDialogStore(
-//       (state) => state.setWelcomeDialogState
-//    );
-
-//    if (userData?.visitingStatus?.documentBuilderPage === false) {
-//       setWelcomeDialogState({ isOpen: true, page: 'documentBuilderPage' });
-//    }
-
-//    const isLoading = isDocLoading || isProjectDataLoading;
-
-//    const createSalesDoc = useCreateSalesDocument({
-//       errorCallback: () => {
-//          toast.error(`Error creating ${capitalizeFirstChar(category!)}`);
-//       },
-//       successCallback: () => {
-//          toast.success(`${capitalizeFirstChar(category!)} created`);
-//       },
-//    });
-
-//    const editSalesDoc = useEditSalesDocument({
-//       errorCallback: () => {
-//          toast.error(
-//             `Error editing ${capitalizeFirstChar(salesDocumentData.category)}`
-//          );
-//       },
-//       successCallback: () => {
-//          toast.success(
-//             `Edited ${capitalizeFirstChar(salesDocumentData.category)}`
-//          );
-//       },
-//    });
-
-//    const deleteSalesDoc = useDeleteSalesDocument({
-//       errorCallback: () => {
-//          toast.error(
-//             `Error deleting ${capitalizeFirstChar(salesDocumentData.category)}`
-//          );
-//       },
-//       successCallback: () => {
-//          toast.success(
-//             `${capitalizeFirstChar(salesDocumentData.category)} deleted`
-//          );
-//       },
-//    });
-
-//    const createPdf = useCreatePdf({
-//       errorCallback: () => toast.error(`Error creating PDF`),
-//       successCallback: () => toast.success(`PDF Created`),
-//    });
-
-//    useEffect(() => {
-//       if (salesDocumentData) {
-//          formMethods.reset(salesDocumentData);
-//       }
-
-//       if (projectData) {
-//          console.log('projectData.projectTitle', projectData.projectTitle);
-//          formMethods.reset(defaultCreateSalesDocumentValue);
-//          formMethods.setValue('currency', userData.currency);
-//          formMethods.setValue('freelancerName', userData.displayName);
-//          formMethods.setValue('freelancerTaxId', userData.taxId);
-//          formMethods.setValue('freelancerPhone', userData.phoneNumber);
-//          formMethods.setValue('freelancerEmail', userData.email);
-//          formMethods.setValue('freelancerAddress', userData.address);
-//          formMethods.setValue('category', category!);
-//          formMethods.setValue('issuedAt', new Date().toISOString());
-//          formMethods.setValue('number', '1');
-//          formMethods.setValue('projectId', projectData.id);
-//          formMethods.setValue('projectTitle', projectData.title);
-//          formMethods.setValue('clientId', projectData.client?.id);
-//          formMethods.setValue('clientName', projectData.client?.name);
-//          formMethods.setValue('clientTaxId', projectData.client?.taxId);
-//          formMethods.setValue('clientPhone', projectData.client?.phoneNumber);
-//          formMethods.setValue('clientAddress', projectData.client?.address);
-//       }
-//    }, [salesDocumentData, formMethods, documentId, projectData, userData]);
-
-//    if (isDocLoading || isProjectDataLoading) {
-//       return <div>Loading...</div>;
-//    }
-
-//    const {
-//       handleSubmit,
-//       getValues,
-//       formState: { isDirty, dirtyFields },
-//    } = formMethods;
-
-//    const onSubmit = async (data: SalesDocumentPayload) => {
-//       if (!data.items || data.items?.length === 0) {
-//          formMethods.setError('items', {
-//             type: 'manual',
-//             message: 'At least one item is required',
-//          });
-//          return;
-//       }
-
-//       setIsApiLoading({ type: 'submit', isLoading: true });
-
-//       if (!isEditMode) {
-//          const payload = getCreateSalesDocumentPayload(data);
-//          const result = await createSalesDoc.mutateAsync(payload);
-//          navigate(`/home/income/document/${result.id}`);
-//       } else {
-//          const payload = getEditSalesDocumentPayload(data);
-//          await editSalesDoc.mutateAsync(payload);
-//          window.location.reload();
-//       }
-
-//       setIsApiLoading({ type: 'submit', isLoading: false });
-//    };
-
-//    const handleDiscard = (e: React.MouseEvent) => {
-//       e.preventDefault();
-//       navigate('/home/income');
-//    };
-
-//    const handleCreatePdf = async (e: React.MouseEvent) => {
-//       e.preventDefault();
-//       setIsApiLoading({ type: 'delete', isLoading: true });
-//       toast.loading('Creating PDF (this might take a while)', { id: 'loader' });
-//       const result = await createPdf.mutateAsync(salesDocumentData);
-//       toast.dismiss('loader');
-//       setIsApiLoading({ type: 'delete', isLoading: false });
-//       window.open(result.pdfUrl, '_blank');
-//    };
-
-//    const documentCategory = category ?? getValues('category');
-
-//    return (
-//       <div className="flex flex-col w-full grow bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative">
-//          {/* Header */}
-//          <div className="flex justify-between items-center">
-//             <div className="flex gap-1 items-center">
-//                <FilePlus2 className="h-6 w-6 mt-1" />
-//                <div className="flex text-xl pt-1 leading-none mr-2 gap-2">
-//                   <p>Create</p>
-//                   <p>{documentCategory}</p>
-//                </div>
-//             </div>
-//             <X
-//                className="w-5 h-5 stroke-[3px] transition-opacity opacity-35 hover:opacity-100 cursor-pointer"
-//                onClick={() => navigate('/home/income')}
-//             />
-//          </div>
-
-//          {isOnMobile && (
-//             <ScrollArea className="">
-//                <form
-//                   className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
-//                   onSubmit={handleSubmit(onSubmit)}
-//                >
-//                   <div className="flex grow gap-3 sm:flex-col">
-//                      <div className="flex flex-col w-1/2 gap-3 sm:flex-col sm:w-full">
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-1/3 rounded-xl" />
-//                         ) : (
-//                            <ProjectInfoField formMethods={formMethods} />
-//                         )}
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-1/3 rounded-xl" />
-//                         ) : (
-//                            <FreelancerInfoField formMethods={formMethods} />
-//                         )}
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-1/3 rounded-xl" />
-//                         ) : (
-//                            <ClientInfoField formMethods={formMethods} />
-//                         )}
-//                      </div>
-//                      <div className="flex flex-col w-1/2 gap-3 sm:w-full">
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-full rounded-xl" />
-//                         ) : (
-//                            <ItemsField formMethods={formMethods} />
-//                         )}
-//                      </div>
-//                   </div>
-//                   {/* Footer */}
-//                   <footer className="flex justify-between shrink-0">
-//                      <div className="flex gap-2">
-//                         <Button
-//                            onClick={handleDiscard}
-//                            variant="destructiveOutline"
-//                            disabled={isLoading}
-//                         >
-//                            {isDirty ? 'Discard Changes' : 'Back'}
-//                         </Button>
-//                      </div>
-//                      <div className="flex gap-2">
-//                         <Button
-//                            variant={
-//                               createPdf.isPending || isDirty || !isEditMode
-//                                  ? 'ghost'
-//                                  : 'default'
-//                            }
-//                            disabled={
-//                               createPdf.isPending || isDirty || !isEditMode
-//                            }
-//                            className="flex gap-1"
-//                            onClick={handleCreatePdf}
-//                         >
-//                            <FilePlus2 className="w-4 h-4" />
-//                            <p>Create PDF</p>
-//                         </Button>
-//                         <SubmitButton
-//                            isApiLoading={isApiLoading}
-//                            formMethods={formMethods}
-//                         />
-//                      </div>
-//                   </footer>
-//                </form>
-//             </ScrollArea>
-//          )}
-         
-//          {!isOnMobile && (
-//                <form
-//                   className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
-//                   onSubmit={handleSubmit(onSubmit)}
-//                >
-//                   <div className="flex grow gap-3 sm:flex-col">
-//                      <div className="flex flex-col w-1/2 gap-3 sm:flex-col sm:w-full">
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-1/3 rounded-xl" />
-//                         ) : (
-//                            <ProjectInfoField formMethods={formMethods} />
-//                         )}
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-1/3 rounded-xl" />
-//                         ) : (
-//                            <FreelancerInfoField formMethods={formMethods} />
-//                         )}
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-1/3 rounded-xl" />
-//                         ) : (
-//                            <ClientInfoField formMethods={formMethods} />
-//                         )}
-//                      </div>
-//                      <div className="flex flex-col w-1/2 gap-3 sm:w-full">
-//                         {isLoading ? (
-//                            <Skeleton className="w-full h-full rounded-xl" />
-//                         ) : (
-//                            <ItemsField formMethods={formMethods} />
-//                         )}
-//                      </div>
-//                   </div>
-//                   {/* Footer */}
-//                   <footer className="flex justify-between shrink-0">
-//                      <div className="flex gap-2">
-//                         <Button
-//                            onClick={handleDiscard}
-//                            variant="destructiveOutline"
-//                            disabled={isLoading}
-//                         >
-//                            {isDirty ? 'Discard Changes' : 'Back'}
-//                         </Button>
-//                      </div>
-//                      <div className="flex gap-2">
-//                         <Button
-//                            variant={
-//                               createPdf.isPending || isDirty || !isEditMode
-//                                  ? 'ghost'
-//                                  : 'default'
-//                            }
-//                            disabled={
-//                               createPdf.isPending || isDirty || !isEditMode
-//                            }
-//                            className="flex gap-1"
-//                            onClick={handleCreatePdf}
-//                         >
-//                            <FilePlus2 className="w-4 h-4" />
-//                            <p>Create PDF</p>
-//                         </Button>
-//                         <SubmitButton
-//                            isApiLoading={isApiLoading}
-//                            formMethods={formMethods}
-//                         />
-//                      </div>
-//                   </footer>
-//                </form>
-//          )}
-
-//          <SelectorDialog />
-//       </div>
-//    );
-// };
 
 export const DiscardButton = ({
    onClick,

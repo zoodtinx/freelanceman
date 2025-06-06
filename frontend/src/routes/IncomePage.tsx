@@ -264,7 +264,7 @@ const ProjectPaymentTabList = ({
 
    return (
       <ScrollArea>
-         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2 sm:px-1">
+         <div className="flex flex-col gap-2 w-full h-full grow overflow-y-auto pb-2 px-1">
             {projectList}
             {remainingItems && (
                <div className="flex justify-center pt-3 pb-7">
@@ -301,26 +301,13 @@ const ProjectPaymentTab = forwardRef<
          ref={ref}
          className={cn(
             'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
-            'sm:h-[85px] sm:gap-3',
+            'sm:h-[97px] sm:gap-0 sm:shadow-sm',
             project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >
-         <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
-            <div>
-               <p className="text-sm text-secondary">
-                  {project.client?.name ?? 'Freelancing'}
-               </p>
-               <p className="text-lg sm:text-md sm:line-clamp-2">{project.title}</p>
-            </div>
-            <div className="flex gap-1 sm:hidden">
-               <DocumentButton type="quotation" project={project} />
-               <DocumentButton type="invoice" project={project} />
-               <DocumentButton type="receipt" project={project} />
-            </div>
-         </div>
-         <Separator orientation='vertical' className='md:hidden lg:hidden xl:hidden' />
-         <div className="flex flex-col gap-1 items-end h-full leading-tight pr-2 sm:pr-0">
-            <div className="flex text-[22px] pr-1 grow items-center">
+         <div className="flex flex-col gap-1 items-start h-full leading-tight sm:pr-0 w-[125px]">
+            <div className="flex flex-col text-[22px] pr-1 grow items-start">
+               <p className="text-sm text-secondary">Amount</p>
                <p className="text-[22px] sm:text-lg">
                   {project.budget.toLocaleString()}
                   <span className="text-sm">.-</span>
@@ -332,6 +319,22 @@ const ProjectPaymentTab = forwardRef<
                handleValueChange={handlePaymentStatusChange}
                className="bg-transparent border border-secondary text-sm"
             />
+         </div>
+         <Separator orientation="vertical" className="mr-2 lg:mx-4" />
+         <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
+            <div>
+               <p className="text-sm text-secondary">
+                  {project.client?.name ?? 'Freelancing'}
+               </p>
+               <p className="text-lg sm:text-[15px] sm:line-clamp-3 leading-tight">
+                  {project.title}
+               </p>
+            </div>
+            <div className="flex gap-1 sm:hidden">
+               <DocumentButton type="quotation" project={project} />
+               <DocumentButton type="invoice" project={project} />
+               <DocumentButton type="receipt" project={project} />
+            </div>
          </div>
       </div>
    );

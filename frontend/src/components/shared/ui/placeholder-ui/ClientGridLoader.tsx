@@ -8,7 +8,7 @@ export const ClientGridLoader = () => {
    }));
 
    return (
-      <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2">
+      <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2  px-2">
          {placeholder?.map((placeholder) => (
             <Skeleton
                key={placeholder.id}

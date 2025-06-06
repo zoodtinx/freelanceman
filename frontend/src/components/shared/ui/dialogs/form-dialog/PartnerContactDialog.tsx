@@ -87,7 +87,7 @@ export const PartnerContactDialog = ({
       <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
          <div className="bg-background rounded-2xl text-primary">
             <div className="flex flex-col p-5 pt-5 gap-2">
-               <div className="flex w-full gap-3 justify-between bg-foreground p-2 pl-3 pr-5 pb-3 rounded-xl items-center">
+               <div className="flex w-full gap-3 justify-between bg-foreground p-2 pl-3 sm:pr-5 pr-2 pb-3 rounded-xl items-center">
                   <div className="flex flex-col w-3/5 gap-2">
                      <div className="flex flex-col leading-5">
                         <Label>Name</Label>

@@ -41,7 +41,7 @@ const ProjectInfoField = ({
    return (
       <fieldset
          className={cn(
-            'flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3',
+            'flex flex-1 flex-col grow rounded-xl border border-tertiary p-3 relative gap-3 md:flex-none',
             'sm:w-full',
             error && 'border-general-red'
          )}
@@ -87,14 +87,14 @@ const ProjectInfoField = ({
                      formMethods={formMethods}
                   />
                </div>
-               <div>
+               <div className='md:hidden'>
                   <Label className="pb-0">Reference Number</Label>
                   <TextInputForm
                      fieldName="referenceNumber"
                      formMethods={formMethods}
                   />
                </div>
-               <div className="flex flex-col grow">
+               <div className="flex flex-col grow md:hidden">
                   <Label className="pb-0">Project Details</Label>
                   <TextAreaForm
                      fieldName="projectDescription"
