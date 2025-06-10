@@ -24,7 +24,8 @@
     "prisma:clear": "ts-node --transpile-only src/shared/database/cleanDatabase.ts",
     "test-s3": "ts-node --transpile-only ./scripts/test-s3",
     "test-resend": "ts-node --transpile-only ./scripts/test-resend",
-    "get-access-token": "ts-node --transpile-only ./scripts/get-access-token"
+    "get-access-token": "ts-node --transpile-only ./scripts/get-access-token",
+    "generate-pdf": "ts-node --transpile-only ./scripts/local-generate-pdf"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.775.0",

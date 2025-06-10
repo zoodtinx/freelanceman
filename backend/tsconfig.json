@@ -24,14 +24,16 @@
         "strict": true,
         "strictBindCallApply": false,
         // "strictNullChecks": false,
-        "target": "ES2021",
+        "target": "ES2021"
     },
     "include": [
         "e2e-tests",
         "jest.config.ts",
         "src",
         "test-path.js",
-        "src/sales-documents/helpers/template.html"
+        "src/sales-documents/helpers/template.html",
+        "seed-data/**/*.ts",
+        "scripts/local-generate-pdf.ts"
     ],
     "references": [{ "path": "../shared/tsconfig.json" }]
 }

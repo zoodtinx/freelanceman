@@ -4,21 +4,21 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 
 @Injectable()
 export class DemoCleanupService {
-    private readonly logger = new Logger(DemoCleanupService.name);
-    constructor(private prismaService: PrismaService) {}
+  private readonly logger = new Logger(DemoCleanupService.name);
 
-    @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-    async handleDemoUserCleanup() {
-        const expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() - 1);
+  constructor(private prisma: PrismaService) {}
 
-        const result = await this.prismaService.user.deleteMany({
-            where: {
-                isDemo: true,
-                createdAt: { lt: expiryDate },
-            },
-        });
+  @Cron('*/15 * * * *')
+  async handleDemoUserCleanup() {
+    const expiryDate = new Date(Date.now() - 20 * 60 * 1000); // 20 minutes ago
 
-        this.logger.log(`Deleted ${result.count} expired demo users`);
-    }
+    const result = await this.prisma.user.deleteMany({
+      where: {
+        isDemo: true,
+        createdAt: { lt: expiryDate },
+      },
+    });
+
+    this.logger.log(`Deleted ${result.count} expired demo users`);
+  }
 }
