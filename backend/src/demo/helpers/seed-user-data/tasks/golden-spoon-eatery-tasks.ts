@@ -78,5 +78,20 @@ const generateNewSummerMenuDesignPhotographyTasks = (ids: Ids) => {
 };
 
 export const getGoldenSpoonEateryTasks = (ids: Ids) => {
-    return [...generateNewSummerMenuDesignPhotographyTasks(ids)];
+    const goldenSpoonEateryTaskGenerators: [string, any][] = [
+        ['New Summer Menu Design & Photography', generateNewSummerMenuDesignPhotographyTasks],
+    ];
+
+    return goldenSpoonEateryTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Golden Spoon Eatery. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

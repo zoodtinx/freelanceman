@@ -65,7 +65,7 @@ export const getEvents = (idsMap: IdsMap) => {
     const eventGenerators: [string, any][] = [
         ['Aura Tea Co', events.getAuraTeaCoEvents],
         ['Urban Flow Fitness', events.getUrbanFlowFitnessEvents],
-        ['Byte Nest Tech Solutions', events.getByteNestTechSolutionsEvents],
+        ['ByteNest Tech Solutions', events.getByteNestTechSolutionsEvents],
         ['Golden Spoon Eatery', events.getGoldenSpoonEateryEvents],
         ['Harmony Music Academy', events.getHarmonyMusicAcademyEvents],
         ['Horizon Real Estate Group', events.getHorizonRealEstateGroupEvents],

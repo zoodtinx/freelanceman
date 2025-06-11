@@ -66,7 +66,7 @@ export default function HomePage() {
          <main className="flex flex-col flex-grow min-h-0 relative sm:px-3 sm:pb-3">
             <Outlet />
          </main>
-         <GreetingDialog />
+         {/* <GreetingDialog /> */}
          <FormDialog />
          <SelectorDialog />
          <ConfirmationDialog />

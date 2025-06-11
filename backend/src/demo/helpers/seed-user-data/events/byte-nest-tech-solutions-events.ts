@@ -489,11 +489,41 @@ export const generateWebsitePerformanceAuditOptimizationEvents = (ids: Ids) => {
 };
 
 export const getByteNestTechSolutionsEvents = (ids: Ids) => {
-    return [
-        ...generateEcommercePlatformUiUxRedesignEvents(ids),
-        ...generateInternalCrmSystemApiIntegrationEvents(ids),
-        ...generateProductLaunchVideoExplainerAnimationEvents(ids),
-        ...generateAutomatedDataReportingDashboardEvents(ids),
-        ...generateWebsitePerformanceAuditOptimizationEvents(ids),
+    const byteNestTechSolutionsEventGenerators: [string, any][] = [
+        [
+            'E-commerce Platform UI/UX Redesign',
+            generateEcommercePlatformUiUxRedesignEvents,
+        ],
+        [
+            'Internal CRM System API Integration',
+            generateInternalCrmSystemApiIntegrationEvents,
+        ],
+        [
+            'Product Launch Video & Explainer Animation',
+            generateProductLaunchVideoExplainerAnimationEvents,
+        ],
+        [
+            'Automated Data Reporting Dashboard',
+            generateAutomatedDataReportingDashboardEvents,
+        ],
+        [
+            'Website Performance Audit & Optimization',
+            generateWebsitePerformanceAuditOptimizationEvents,
+        ],
     ];
+
+    return byteNestTechSolutionsEventGenerators.flatMap(
+        ([projectTitle, generateFn]) => {
+            const projectIds = ids[projectTitle];
+
+            if (!projectIds) {
+                console.warn(
+                    `Warning: IDs not found for project: "${projectTitle}" for ByteNest Tech Solutions. No events generated.`,
+                );
+                return [];
+            }
+
+            return generateFn(projectIds);
+        },
+    );
 };

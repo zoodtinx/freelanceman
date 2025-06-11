@@ -88,7 +88,20 @@ export const generateNewSummerMenuDesignPhotographyEvents = (ids: Ids) => {
 };
 
 export const getGoldenSpoonEateryEvents = (ids: Ids) => {
-    return [
-        ...generateNewSummerMenuDesignPhotographyEvents(ids),
+    const goldenSpoonEateryEventGenerators: [string, any][] = [
+        ['New Summer Menu Design & Photography', generateNewSummerMenuDesignPhotographyEvents],
     ];
+
+    return goldenSpoonEateryEventGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Golden Spoon Eatery. No events generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

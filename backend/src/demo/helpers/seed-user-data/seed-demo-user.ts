@@ -53,6 +53,15 @@ export async function seedDemoUser() {
             const seedProjectsData = getProjects(user.id, clientsByName);
             await Promise.all(
                 seedProjectsData.map(async (projectData) => {
+                    const contacts = await tx.clientContact.findMany({
+                        where: {
+                            companyId: projectData.clientId,
+                        },
+                    });
+
+                    console.log('projectData.clientId', projectData.clientId);
+                    console.log('contacts', contacts);
+
                     const { links, ...restOfProjectData } = projectData;
 
                     await tx.project.create({
@@ -60,8 +69,17 @@ export async function seedDemoUser() {
                             ...restOfProjectData,
                             links: {
                                 createMany: {
-                                    data: links
+                                    data: links,
                                 },
+                            },
+                            clientContacts: {
+                                create: contacts.map((contact) => ({
+                                    clientContact: {
+                                        connect: {
+                                            id: contact.id,
+                                        },
+                                    },
+                                })),
                             },
                         },
                     });
@@ -73,15 +91,21 @@ export async function seedDemoUser() {
                 include: { client: true },
             });
             const projectsByTitle = projectsData.reduce((acc, project) => {
-                acc[project.client!.name] = {
+                const clientName = project.client!.name;
+                const projectTitle = project.title;
+
+                if (!acc[clientName]) {
+                    acc[clientName] = {};
+                }
+
+                acc[clientName][projectTitle] = {
                     projectId: project.id,
                     clientId: project.clientId,
                     userId: project.userId,
                 };
+
                 return acc;
             }, {});
-
-            // console.log('sample map', projectsByTitle)
 
             console.log('Begin seeding tasks...');
             const seedTasksData = getTasks(projectsByTitle);
@@ -100,6 +124,6 @@ export async function seedDemoUser() {
         });
         return result;
     } catch (error) {
-        console.log('error', error);
+        // console.log('error', error);
     }
 }

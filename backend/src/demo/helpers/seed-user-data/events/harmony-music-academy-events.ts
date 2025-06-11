@@ -263,9 +263,22 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesEvents = (ids: 
 };
 
 export const getHarmonyMusicAcademyEvents = (ids: Ids) => {
-    return [
-        ...generateAnnualStudentConcertBrandingTicketsEvents(ids),
-        ...generateNewOnlineCourseLandingPageGuitarBasicsEvents(ids),
-        ...generateMusicTheoryBlogContentStrategyFirst5ArticlesEvents(ids),
+    const harmonyMusicAcademyEventGenerators: [string, any][] = [
+        ['Annual Student Concert Branding & Tickets', generateAnnualStudentConcertBrandingTicketsEvents],
+        ['New Online Course Landing Page (Guitar Basics)', generateNewOnlineCourseLandingPageGuitarBasicsEvents],
+        ['Music Theory Blog Content Strategy & First 5 Articles', generateMusicTheoryBlogContentStrategyFirst5ArticlesEvents],
     ];
+
+    return harmonyMusicAcademyEventGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Harmony Music Academy. No events generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

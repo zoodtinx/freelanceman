@@ -88,7 +88,20 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitEvents = (ids: Ids
 };
 
 export const getHorizonRealEstateGroupEvents = (ids: Ids) => {
-    return [
-        ...generateLuxuryCondoDevelopmentDigitalMarketingKitEvents(ids),
+    const horizonRealEstateGroupEventGenerators: [string, any][] = [
+        ['Luxury Condo Development - Digital Marketing Kit', generateLuxuryCondoDevelopmentDigitalMarketingKitEvents],
     ];
+
+    return horizonRealEstateGroupEventGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Horizon Real Estate Group. No events generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

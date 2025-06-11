@@ -161,9 +161,22 @@ const generateMusicTheoryBlogContentStrategyArticlesTasks = (ids: Ids) => {
 
 // Aggregate function for Harmony Music Academy tasks
 export const getHarmonyMusicAcademyTasks = (ids: Ids) => {
-    return [
-        ...generateAnnualStudentConcertBrandingTicketsTasks(ids),
-        ...generateNewOnlineCourseLandingPageTasks(ids),
-        ...generateMusicTheoryBlogContentStrategyArticlesTasks(ids),
+    const harmonyMusicAcademyTaskGenerators: [string, any][] = [
+        ['Annual Student Concert Branding & Tickets', generateAnnualStudentConcertBrandingTicketsTasks],
+        ['New Online Course Landing Page (Guitar Basics)', generateNewOnlineCourseLandingPageTasks],
+        ['Music Theory Blog Content Strategy & First 5 Articles', generateMusicTheoryBlogContentStrategyArticlesTasks],
     ];
+
+    return harmonyMusicAcademyTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Harmony Music Academy. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

@@ -221,10 +221,23 @@ const generateIntroductoryYogaVideoSeriesTasks = (ids: Ids) => {
 };
 
 export const getUrbanFlowFitnessTasks = (ids: Ids) => {
-    return [
-        ...generateSummerChallengeLandingPageAdCreativesTasks(ids),
-        ...generateNewClassScheduleDesignPrintProductionTasks(ids),
-        ...generateMemberLoyaltyProgramBrandingTasks(ids),
-        ...generateIntroductoryYogaVideoSeriesTasks(ids),
+    const urbanFlowFitnessTaskGenerators: [string, any][] = [
+        ['Summer Challenge Landing Page & Ad Creatives', generateSummerChallengeLandingPageAdCreativesTasks],
+        ['New Class Schedule Design & Print Production', generateNewClassScheduleDesignPrintProductionTasks],
+        ['Member Loyalty Program Branding', generateMemberLoyaltyProgramBrandingTasks],
+        ['Introductory Yoga Video Series (3 videos)', generateIntroductoryYogaVideoSeriesTasks],
     ];
+
+    return urbanFlowFitnessTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Urban Flow Fitness. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

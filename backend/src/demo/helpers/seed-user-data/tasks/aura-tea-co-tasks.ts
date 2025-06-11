@@ -1,11 +1,24 @@
 import { getRelativeDate, Ids } from '@/demo/helpers/seed-user-data/level-3';
 
 export const getAuraTeaCoTasks = (ids: Ids) => {
-    return [
-        ...generateBrandStoryVideoForAboutUsPageTasks(ids),
-        ...generateNewTropicalBlissBlendPackagingDesignTasks(ids),
-        ...generateQ3SocialMediaContentEngagementStrategyTasks(ids),
+    const auraTeaCoTaskGenerators: [string, any][] = [
+        ["Brand Story Video for 'About Us' Page", generateBrandStoryVideoForAboutUsPageTasks],
+        ['New Tropical Bliss Blend Packaging Design', generateNewTropicalBlissBlendPackagingDesignTasks],
+        ['Q3 Social Media Content & Engagement Strategy', generateQ3SocialMediaContentEngagementStrategyTasks],
     ];
+
+    return auraTeaCoTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Aura Tea Co. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };
 
 const generateNewTropicalBlissBlendPackagingDesignTasks = (ids: Ids) => {

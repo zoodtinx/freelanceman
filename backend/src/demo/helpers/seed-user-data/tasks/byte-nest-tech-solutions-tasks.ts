@@ -1,13 +1,26 @@
 import { getRelativeDate, Ids } from '@/demo/helpers/seed-user-data/level-3';
 
 export const getByteNestTechSolutionsTasks = (ids: Ids) => {
-    return [
-        ...generateEcommercePlatformUiUxRedesignTasks(ids),
-        ...generateInternalCrmSystemApiIntegrationTasks(ids),
-        ...generateProductLaunchVideoExplainerAnimationTasks(ids),
-        ...generateAutomatedDataReportingDashboardTasks(ids), // New
-        ...generateWebsitePerformanceAuditOptimizationTasks(ids), // New
+    const byteNestTechSolutionsTaskGenerators: [string, any][] = [
+        ['E-commerce Platform UI/UX Redesign', generateEcommercePlatformUiUxRedesignTasks],
+        ['Internal CRM System API Integration', generateInternalCrmSystemApiIntegrationTasks],
+        ['Product Launch Video & Explainer Animation', generateProductLaunchVideoExplainerAnimationTasks],
+        ['Automated Data Reporting Dashboard', generateAutomatedDataReportingDashboardTasks],
+        ['Website Performance Audit & Optimization', generateWebsitePerformanceAuditOptimizationTasks],
     ];
+
+    return byteNestTechSolutionsTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for ByteNest Tech Solutions. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };
 
  const generateEcommercePlatformUiUxRedesignTasks = (ids: Ids) => {

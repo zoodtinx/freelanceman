@@ -213,10 +213,23 @@ const generateNewPackagingDesignForPremiumLineTasks = (ids: Ids) => {
 };
 
 export const getZenithApparelTasks = (ids: Ids) => {
-    return [
-        ...generateAutumnWinter2025LookbookPhotographyDesignTasks(ids),
-        ...generateEcommerceProductPageCopywritingRefreshTasks(ids),
-        ...generateSustainableCollectionLaunchSocialMediaCampaignTasks(ids),
-        ...generateNewPackagingDesignForPremiumLineTasks(ids),
+    const zenithApparelTaskGenerators: [string, any][] = [
+        ['Autumn/Winter 2025 Lookbook Photography & Design', generateAutumnWinter2025LookbookPhotographyDesignTasks],
+        ['E-commerce Product Page Copywriting Refresh', generateEcommerceProductPageCopywritingRefreshTasks],
+        ['Sustainable Collection Launch Social Media Campaign', generateSustainableCollectionLaunchSocialMediaCampaignTasks],
+        ['New Packaging Design for Premium Line', generateNewPackagingDesignForPremiumLineTasks],
     ];
+
+    return zenithApparelTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Zenith Apparel. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

@@ -351,10 +351,23 @@ export const generateIntroductoryYogaVideoSeries3VideosEvents = (ids: Ids) => {
 };
 
 export const getUrbanFlowFitnessEvents = (ids: Ids) => {
-    return [
-        ...generateSummerChallengeLandingPageAdCreativesEvents(ids),
-        ...generateNewClassScheduleDesignPrintProductionEvents(ids),
-        ...generateMemberLoyaltyProgramBrandingEvents(ids),
-        ...generateIntroductoryYogaVideoSeries3VideosEvents(ids),
+    const urbanFlowFitnessEventGenerators: [string, any][] = [
+        ['Summer Challenge Landing Page & Ad Creatives', generateSummerChallengeLandingPageAdCreativesEvents],
+        ['New Class Schedule Design & Print Production', generateNewClassScheduleDesignPrintProductionEvents],
+        ['Member Loyalty Program Branding', generateMemberLoyaltyProgramBrandingEvents],
+        ['Introductory Yoga Video Series (3 videos)', generateIntroductoryYogaVideoSeries3VideosEvents],
     ];
+
+    return urbanFlowFitnessEventGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Urban Flow Fitness. No events generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

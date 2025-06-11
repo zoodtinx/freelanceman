@@ -392,10 +392,37 @@ export const generateNewPackagingDesignForPremiumLineEvents = (ids: Ids) => {
 };
 
 export const getZenithApparelEvents = (ids: Ids) => {
-    return [
-        ...generateAutumnWinter2025LookbookPhotographyDesignEvents(ids),
-        ...generateEcommerceProductPageCopywritingRefreshEvents(ids),
-        ...generateSustainableCollectionLaunchSocialMediaCampaignEvents(ids),
-        ...generateNewPackagingDesignForPremiumLineEvents(ids),
+    const zenithApparelEventGenerators: [string, any][] = [
+        [
+            'Autumn/Winter 2025 Lookbook Photography & Design',
+            generateAutumnWinter2025LookbookPhotographyDesignEvents,
+        ],
+        [
+            'E-commerce Product Page Copywriting Refresh',
+            generateEcommerceProductPageCopywritingRefreshEvents,
+        ],
+        [
+            'Sustainable Collection Launch Social Media Campaign',
+            generateSustainableCollectionLaunchSocialMediaCampaignEvents,
+        ],
+        [
+            'New Packaging Design for Premium Line',
+            generateNewPackagingDesignForPremiumLineEvents,
+        ],
     ];
+
+    return zenithApparelEventGenerators.flatMap(
+        ([projectTitle, generateFn]) => {
+            const projectIds = ids[projectTitle];
+
+            if (!projectIds) {
+                console.warn(
+                    `Warning: IDs not found for project: "${projectTitle}" for Zenith Apparel. No events generated.`,
+                );
+                return [];
+            }
+
+            return generateFn(projectIds);
+        },
+    );
 };

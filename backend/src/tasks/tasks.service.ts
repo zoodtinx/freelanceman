@@ -95,6 +95,8 @@ export class TasksService {
                 }),
             ]);
 
+            console.log('items', items)
+
             return { items, total };
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');

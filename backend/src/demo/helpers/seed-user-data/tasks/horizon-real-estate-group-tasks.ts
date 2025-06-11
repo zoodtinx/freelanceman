@@ -54,8 +54,20 @@ const generateLuxuryCondoDigitalMarketingKitTasks = (ids: Ids) => {
 };
 
 export const getHorizonRealEstateGroupTasks = (ids: Ids) => {
-    return [
-        ...generateLuxuryCondoDigitalMarketingKitTasks(ids),
-        // Add other Horizon Real Estate Group project tasks here as they are created
+    const horizonRealEstateGroupTaskGenerators: [string, any][] = [
+        ['Luxury Condo Development - Digital Marketing Kit', generateLuxuryCondoDigitalMarketingKitTasks],
     ];
+
+    return horizonRealEstateGroupTaskGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Horizon Real Estate Group. No tasks generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };

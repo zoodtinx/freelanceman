@@ -89,7 +89,20 @@ export const generateNewModelX2LaunchCampaignAssetsEvents = (ids: Ids) => {
 };
 
 export const getEcoGlideElectricScootersEvents = (ids: Ids) => {
-    return [
-        ...generateNewModelX2LaunchCampaignAssetsEvents(ids),
+    const ecoGlideElectricScootersEventGenerators: [string, any][] = [
+        ['New Model X-2 Launch Campaign Assets', generateNewModelX2LaunchCampaignAssetsEvents],
     ];
+
+    return ecoGlideElectricScootersEventGenerators.flatMap(([projectTitle, generateFn]) => {
+        const projectIds = ids[projectTitle];
+
+        if (!projectIds) {
+            console.warn(
+                `Warning: IDs not found for project: "${projectTitle}" for Eco-Glide Electric Scooters. No events generated.`,
+            );
+            return [];
+        }
+
+        return generateFn(projectIds);
+    });
 };
