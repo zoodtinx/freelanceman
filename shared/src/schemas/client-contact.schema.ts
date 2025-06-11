@@ -72,3 +72,14 @@ export type ClientContactListPayload = z.infer<typeof clientContactListPayloadSc
 export type CreateClientContactDto = z.infer<typeof createClientContactSchema>;
 export type ClientContactFilterDto = z.infer<typeof clientContactFilterSchema>;
 export type EditClientContactDto = z.infer<typeof editClientContactSchema>;
+
+
+
+
+export interface CreateClientContact {
+    name: string;
+    role: string;
+    phoneNumber: string;
+    email: string;
+    detail: string;
+}

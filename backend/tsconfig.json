@@ -33,6 +33,7 @@
         "test-path.js",
         "src/sales-documents/helpers/template.html",
         "seed-data/**/*.ts",
+        "seed-data-v2/**/*.ts",
         "scripts/local-generate-pdf.ts"
     ],
     "references": [{ "path": "../shared/tsconfig.json" }]

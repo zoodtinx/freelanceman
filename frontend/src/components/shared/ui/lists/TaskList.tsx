@@ -220,7 +220,7 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
                      className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150"
                   />
                )}
-               {data.status === 'finished' && (
+               {data.status === 'completed' && (
                   <Checkbox
                      onCheckedChange={(checked) => handleCheck(checked)}
                      checked={true}

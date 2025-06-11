@@ -78,3 +78,14 @@ export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 export type TaskFilterDto = z.infer<typeof taskFilterSchema>;
 export type EditTaskDto = z.infer<typeof editTaskSchema>;
 export type TaskStatus = z.infer<typeof taskStatusEnum>;
+
+
+
+export interface CreateTask {
+    name: string;
+    status: 'pending' | 'completed',
+    dueAt: string; //use relative date like new Date to iso string with time with z, like if it's pending, add a date time that is greater than today (1-14 days). if completed, add date in the past, majority of the task are pending, completed comes second then inprogress and cancelled
+    details?: string;
+    link?: string; //can be skipped
+    isWithTime?: boolean; //if dueAt is not 00000 in time section, make this true
+}

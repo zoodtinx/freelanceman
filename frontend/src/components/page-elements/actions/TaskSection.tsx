@@ -51,10 +51,7 @@ export default function TaskSection() {
                   }
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
-                  <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
-                  <ToggleGroupItem value="cancelled" className="sm:hidden">
-                     Cancelled
-                  </ToggleGroupItem>
+                  <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
                </ToggleGroup>
             </div>
             <AddButton onClick={handleNewTask} />

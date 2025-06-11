@@ -36,7 +36,6 @@ model User {
   refreshTokens      RefreshToken?
   salesDocuments     SalesDocument[]
   tasks              Task[]
-  links              Link[]
   partnerCompanies   PartnerCompany[]
   salesDocumentItem  SalesDocumentItem[]
     visitingStatus     VisitingStatus? 
@@ -184,7 +183,6 @@ model PartnerContactOnProject {
 model Event {
   id         String    @id @default(uuid())
   name       String
-  status     String
   details    String?
   link       String?
   dueAt      DateTime
@@ -297,10 +295,8 @@ enum SalesDocumentCategory {
 
 model Link {
   id        String  @id @default(uuid())
-  userId    String
   projectId String
   label     String
   url       String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }

@@ -57,9 +57,9 @@ const AuthPage: React.FC = () => {
                </div>
             </div>
          </div>
-         <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-4">
+         <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-6">
             <div className="flex flex-col w-full items-start gap-1 pb-4">
-               <div className='flex w-full gap-1 justify-between'>
+               <div className='flex w-full gap-1 justify-start'>
                   <Gamepad2 className='w-4 h-auto' />
                   <p className="text-base font-medium">Try Demo</p>
                </div>
@@ -80,7 +80,7 @@ const AuthPage: React.FC = () => {
          </div>
          <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl sm:mb-4">
             <div className="flex flex-col w-full items-start gap-1 pb-4">
-               <div className='flex w-full gap-1 justify-between'>
+               <div className='flex w-full gap-1 justify-start'>
                   <KeyRound className='w-4 h-auto' />
                   <p className="text-base font-medium">Get Access</p>
                </div>

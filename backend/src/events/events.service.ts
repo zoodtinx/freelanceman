@@ -85,10 +85,6 @@ export class EventsService {
                     contains: filter.name,
                     mode: 'insensitive' as const,
                 },
-                status:
-                    filter.status === 'cancelled'
-                        ? filter.status
-                        : { not: 'cancelled' },
                 dueAt:
                     filter.status === 'scheduled'
                         ? { gte: date }
@@ -119,7 +115,8 @@ export class EventsService {
             ]);
 
             return { items, total };
-        } catch {
+        } catch (e) {
+            console.log('e', e)
             throw new InternalServerErrorException('Failed to find events');
         }
     }

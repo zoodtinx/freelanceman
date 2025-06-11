@@ -51,7 +51,8 @@ export function GreetingDialog() {
             className={cn(
                'rounded-3xl bg-foreground outline-none max-w-[490px] group cursor-pointer',
                'flex flex-col items-center px-5 py-5 pt-8 select-none',
-               'lg:w-[487px] h-fit'
+               'lg:w-[487px] h-fit',
+               'sm:rounded-2xl sm:w-[360px] sm:h-fit sm:p-3 sm:pt-7'
             )}
          >
             <Carousel className="w-full">
@@ -92,21 +93,22 @@ const CardContent: React.FC<CardContentProps> = ({
    };
 
    return (
-      <div className="w-full" onClick={handleClick}>
+      <div className="flex flex-col items-center w-full" onClick={handleClick}>
          <div className="flex flex-col gap-3 items-center">
-            <Icon className="h-[60px] w-auto stroke-[1.3px] text-primary" />
-            <div className="flex flex-col gap-1">
-               <div className={cn('text-[24px] leading-tight')}>{headline}</div>
+            <Icon className="h-[60px] w-auto stroke-[1.3px] text-primary sm:h-[50px]" />
+            <div className="flex flex-col gap-2">
+               <div className={cn('text-[24px] sm:text-[20px] leading-tight')}>{headline}</div>
                <p
                   className={cn(
-                     'w-[380px] h-[60px] text-center leading-snug text-secondary text-[13px]'
+                     'w-[380px] h-[60px] text-center leading-snug text-secondary text-[13px]',
+                     'sm:w-full sm:leading-tight'
                   )}
                >
                   {subhead}
                </p>
             </div>
          </div>
-         <div className="w-full h-[270px] rounded-xl overflow-hidden flex justify-center items-center">
+         <div className="w-[450px] h-[270px] sm:h-[201px] sm:w-[336px] rounded-xl overflow-hidden flex justify-center items-center">
             <img src={imageUrl} className="object-cover w-full h-full" alt="" />
          </div>
          {/* <div className="w-full py-4 flex justify-center">
