@@ -4,41 +4,90 @@ import { seedUserProfile } from '@/demo/helpers/seed-user-data/base/user';
 import { seedClientsData } from '@/demo/helpers/seed-user-data/base/clients';
 import { getProjects } from '@/demo/helpers/seed-user-data/base/projects';
 import { getClientContacts } from '@/demo/helpers/seed-user-data/contacts/client-contacts';
-import { getEvents, getTasks } from '@/demo/helpers/seed-user-data/level-3';
+import {
+    getEvents,
+    getFiles,
+    getTasks,
+} from '@/demo/helpers/seed-user-data/level-3';
+import { getPartnerContacts } from '@/demo/helpers/seed-user-data/contacts/partner-contacts';
+import { S3Client } from '@aws-sdk/client-s3';
+import { copyS3Directory } from '@/shared/s3/helpers/copy-s3-directroy';
+import { deleteS3Directory } from '@/shared/s3/helpers/delete-s3-dir';
 
 const prisma = new PrismaClient();
 
-export async function seedDemoUser() {
+interface S3Config {
+    accessKeyId: string;
+    secretAccessKey: string;
+    region: string;
+    bucket: string;
+}
+
+export async function seedDemoUser(s3Config: S3Config) {
+    let user: any;
+    let uniqueEmail: string;
+
     try {
+        // 1. Create User (outside transaction)
+        console.log('Begin seeding user profile (outside transaction)...');
+        let existingUser: any;
+        do {
+            uniqueEmail = `${uuidv4()}@freelanceman.com`;
+            existingUser = await prisma.user.findUnique({
+                where: { email: uniqueEmail },
+            });
+        } while (existingUser);
+
+        user = await prisma.user.create({
+            data: {
+                ...seedUserProfile,
+                email: uniqueEmail,
+                visitingStatus: {
+                    create: {},
+                },
+            },
+        });
+        console.log('User created:', user.id);
+
+        // 2. Copy S3 Directory (outside transaction)
+        console.log('Begin files migration from master demo to S3...');
+        await copyS3Directory({
+            sourcePrefix: 'master',
+            destinationPrefix: user.id,
+            ...s3Config,
+        });
+        console.log(`S3 files copied to ${user.id}/`);
+
+        // 3. Perform remaining data seeding in a transaction
         const result = await prisma.$transaction(async (tx) => {
-            console.log('Begin seeding user profile & clients...');
-            let uniqueEmail: string;
-            let existingUser: any;
-            do {
-                uniqueEmail = `${uuidv4()}@freelanceman.com`;
-                existingUser = await prisma.user.findUnique({
-                    where: { email: uniqueEmail },
-                });
-            } while (existingUser);
-            const user = await tx.user.create({
+            console.log('Begin seeding client data within transaction...');
+            await tx.user.update({
+                where: { id: user.id },
                 data: {
-                    ...seedUserProfile,
-                    email: uniqueEmail,
                     clients: {
                         createMany: { data: seedClientsData },
                     },
-                    visitingStatus: {
-                        create: {},
-                    },
+                    avatar: `${user.id}/user/user-avatar.webp`,
                 },
             });
+            console.log('Client data and avatar added.');
+
+            console.log('Begin seeding partner contacts...');
+            const seedPartnerContactsData = getPartnerContacts(user.id);
+            await tx.partnerContact.createMany({
+                data: seedPartnerContactsData,
+            });
+            console.log('Partner contacts seeded.');
 
             console.log('Preparing userId & clientId...');
-            const clientsData = await tx.client.findMany();
+            const clientsData = await tx.client.findMany({
+                where: { userId: user.id },
+            });
             const clientsByName = clientsData.reduce((acc, client) => {
                 acc[client.name] = client.id;
                 return acc;
             }, {});
+            console.log('Client IDs mapped.');
 
             console.log('Begin seeding client contacts...');
             const seedClientContactsData = getClientContacts(
@@ -48,6 +97,7 @@ export async function seedDemoUser() {
             await tx.clientContact.createMany({
                 data: seedClientContactsData,
             });
+            console.log('Client contacts seeded.');
 
             console.log('Begin seeding projects...');
             const seedProjectsData = getProjects(user.id, clientsByName);
@@ -58,9 +108,6 @@ export async function seedDemoUser() {
                             companyId: projectData.clientId,
                         },
                     });
-
-                    console.log('projectData.clientId', projectData.clientId);
-                    console.log('contacts', contacts);
 
                     const { links, ...restOfProjectData } = projectData;
 
@@ -85,9 +132,11 @@ export async function seedDemoUser() {
                     });
                 }),
             );
+            console.log('Projects seeded.');
 
             console.log('Preparing userId, clientId and projectId...');
             const projectsData = await tx.project.findMany({
+                where: { userId: user.id },
                 include: { client: true },
             });
             const projectsByTitle = projectsData.reduce((acc, project) => {
@@ -106,24 +155,57 @@ export async function seedDemoUser() {
 
                 return acc;
             }, {});
+            console.log('Project IDs mapped.');
 
             console.log('Begin seeding tasks...');
             const seedTasksData = getTasks(projectsByTitle);
             await tx.task.createMany({
                 data: seedTasksData,
             });
+            console.log('Tasks seeded.');
 
             console.log('Begin seeding events...');
             const seedEventsData = getEvents(projectsByTitle);
             await tx.event.createMany({
                 data: seedEventsData,
             });
+            console.log('Events seeded.');
 
-            console.log('finished seeding');
+            console.log('Begin seeding files...');
+            const seedFilesData = getFiles(projectsByTitle);
+            await tx.file.createMany({
+                data: seedFilesData,
+            });
+            console.log('Files seeded.');
+
+            console.log('Finished seeding all data related to user.');
             return user;
         });
         return result;
     } catch (error) {
-        // console.log('error', error);
+        console.error('Error during seeding operation:', error);
+        if (user && user.id) {
+            console.log(
+                `Seeding failed. Attempting to clean up S3 data for user: ${user.id}`,
+            );
+            try {
+                await deleteS3Directory({
+                    prefix: user.id,
+                    ...s3Config,
+                });
+                console.log(
+                    `S3 data for user ${user.id} successfully deleted.`,
+                );
+            } catch (s3Error) {
+                console.error(
+                    `Failed to delete S3 data for user ${user.id}:`,
+                    s3Error,
+                );
+            }
+        }
+        // Re-throw the error to ensure the calling function knows about the failure
+        throw error;
+    } finally {
+        await prisma.$disconnect();
     }
 }

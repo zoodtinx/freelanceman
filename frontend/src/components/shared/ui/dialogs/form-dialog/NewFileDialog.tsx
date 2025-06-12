@@ -99,7 +99,7 @@ export const NewFileDialog = ({
       const payload: CreateFileDto = {
          category: data.category,
          displayName: data.displayName,
-         link: data.link,
+         link: mode === 'add-link' ? link : undefined,
          originalName: data.originalName,
          type: data.type,
          projectId: data.projectId,

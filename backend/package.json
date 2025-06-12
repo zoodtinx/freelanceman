@@ -22,10 +22,15 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:seed": "ts-node --transpile-only src/shared/database/seed1.ts",
     "prisma:clear": "ts-node --transpile-only src/shared/database/cleanDatabase.ts",
-    "test-s3": "ts-node --transpile-only ./scripts/test-s3",
+    "s3-test-connection": "ts-node --transpile-only ./scripts/3rd-party-service-check.ts/s3-check.ts",
+    "s3-populate-demo-files": "ts-node --transpile-only ./scripts/populate-s3-bucket/populate-s3-bucket-files.ts",
+    "s3-populate-demo-avatars": "ts-node --transpile-only ./scripts/populate-s3-bucket/populate-s3-bucket-avatars.ts",
     "test-resend": "ts-node --transpile-only ./scripts/test-resend",
     "get-access-token": "ts-node --transpile-only ./scripts/get-access-token",
-    "generate-pdf": "ts-node --transpile-only ./scripts/local-generate-pdf"
+    "generate-pdf": "ts-node --transpile-only ./scripts/local-generate-pdf",
+    "fetch-avatars": "ts-node --transpile-only ./scripts/fetch-avatars",
+    "list-files-with-s3Key": "ts-node --transpile-only ./scripts/list-all-files",
+    "list-avatar-keys": "ts-node --transpile-only ./scripts/list-all-avatars"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.775.0",

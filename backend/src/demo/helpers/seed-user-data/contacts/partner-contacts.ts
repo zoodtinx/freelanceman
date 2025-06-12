@@ -1,4 +1,4 @@
-export const getPartnerContacts = (userId: string) => {
+export const getPartnerContacts = (userId) => {
     return [
         {
             userId: userId,
@@ -8,7 +8,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '081-234-5678',
             email: 'niran.taylor@pixelcraft.com',
             details: 'Specializes in UI/UX design.',
-            avatar: 'https://example.com/avatars/niran.jpg',
+            avatar: `${userId}/partner-contacts/niran-taylor.webp`,
         },
         {
             userId: userId,
@@ -18,7 +18,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '082-345-6789',
             email: 'pimchanok.miller@vividstream.net',
             details: 'Expert in digital content creation.',
-            avatar: 'https://example.com/avatars/pimchanok.jpg',
+            avatar: `${userId}/partner-contacts/pimchanok-miller.webp`,
         },
         {
             userId: userId,
@@ -28,7 +28,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '083-456-7890',
             email: 'akara.davis@synthwave.co',
             details: 'Creates stunning visual effects.',
-            avatar: 'https://example.com/avatars/akara.jpg',
+            avatar: `${userId}/partner-contacts/akara-davis.webp`,
         },
         {
             userId: userId,
@@ -38,7 +38,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '084-567-8901',
             email: 'chayaporn.wilson@dreamforge.org',
             details: 'Develops impactful brand identities.',
-            avatar: 'https://example.com/avatars/chayaporn.jpg',
+            avatar: `${userId}/partner-contacts/chayaporn-wilson.webp`,
         },
         {
             userId: userId,
@@ -48,7 +48,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '085-678-9012',
             email: 'thanawat.brown@echobloom.tv',
             details: 'Experienced in short film production.',
-            avatar: 'https://example.com/avatars/thanawat.jpg',
+            avatar: `${userId}/partner-contacts/thanawat-brown.webp`,
         },
         {
             userId: userId,
@@ -58,7 +58,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '086-789-0123',
             email: 'kanyarat.jones@neonspire.art',
             details: 'Specializes in digital illustrations.',
-            avatar: 'https://example.com/avatars/kanyarat.jpg',
+            avatar: `${userId}/partner-contacts/kanyarat-jones.webp`,
         },
         {
             userId: userId,
@@ -68,7 +68,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '087-890-1234',
             email: 'sopon.garcia@quantumleap.tech',
             details: 'Focuses on user-centric product design.',
-            avatar: 'https://example.com/avatars/sopon.jpg',
+            avatar: `${userId}/partner-contacts/sopon-garcia.webp`,
         },
         {
             userId: userId,
@@ -78,7 +78,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '088-901-2345',
             email: 'napat.rodriguez@auraflow.com',
             details: 'Oversees visual style and images.',
-            avatar: 'https://example.com/avatars/napat.jpg',
+            avatar: `${userId}/partner-contacts/napat-rodriguez.webp`,
         },
         {
             userId: userId,
@@ -88,7 +88,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '089-012-3456',
             email: 'saranya.martinez@stellarglow.co',
             details: 'Manages online presence and campaigns.',
-            avatar: 'https://example.com/avatars/saranya.jpg',
+            avatar: `${userId}/partner-contacts/saranya-martinez.webp`,
         },
         {
             userId: userId,
@@ -98,7 +98,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '090-123-4567',
             email: 'teerawat.hernandez@chronosink.dev',
             details: 'Builds responsive web applications.',
-            avatar: 'https://example.com/avatars/teerawat.jpg',
+            avatar: `${userId}/partner-contacts/teerawat-hernandez.webp`,
         },
         {
             userId: userId,
@@ -108,7 +108,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '091-234-5678',
             email: 'supaporn.lopez@crimsonverse.com',
             details: 'Crafts compelling narratives.',
-            avatar: 'https://example.com/avatars/supaporn.jpg',
+            avatar: `${userId}/partner-contacts/supaporn-lopez.webp`,
         },
         {
             userId: userId,
@@ -118,7 +118,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '092-345-6789',
             email: 'adul.gonzalez@solstice.games',
             details: 'Designs immersive game experiences.',
-            avatar: 'https://example.com/avatars/adul.jpg',
+            avatar: `${userId}/partner-contacts/adul-gonzalez.webp`,
         },
         {
             userId: userId,
@@ -128,7 +128,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '093-456-7890',
             email: 'ploypailin.perez@nebulanest.photo',
             details: 'Captures stunning visual stories.',
-            avatar: 'https://example.com/avatars/ploypailin.jpg',
+            avatar: `${userId}/partner-contacts/ploypailin-perez.webp`,
         },
         {
             userId: userId,
@@ -138,7 +138,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '094-567-8901',
             email: 'chaiyut.sanchez@ignitepulse.audio',
             details: 'Composes and produces original music.',
-            avatar: 'https://example.com/avatars/chaiyut.jpg',
+            avatar: `${userId}/partner-contacts/chaiyut-sanchez.webp`,
         },
         {
             userId: userId,
@@ -148,7 +148,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '095-678-9012',
             email: 'duangporn.rivera@emberecho.fashion',
             details: 'Creates innovative apparel designs.',
-            avatar: 'https://example.com/avatars/duangporn.jpg',
+            avatar: `${userId}/partner-contacts/duangporn-rivera.webp`,
         },
         {
             userId: userId,
@@ -158,7 +158,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '096-789-0123',
             email: 'kittisak.torres@bloompixel.io',
             details: 'Conducts user research for product improvement.',
-            avatar: 'https://example.com/avatars/kittisak.jpg',
+            avatar: `${userId}/partner-contacts/kittisak-torres.webp`,
         },
         {
             userId: userId,
@@ -168,7 +168,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '097-890-1234',
             email: 'sukanya.scott@crystalbyte.ai',
             details: 'Transforms complex data into visual insights.',
-            avatar: 'https://example.com/avatars/sukanya.jpg',
+            avatar: `${userId}/partner-contacts/sukanya-scott.webp`,
         },
         {
             userId: userId,
@@ -178,7 +178,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '098-901-2345',
             email: 'pornchai.green@shadowmeld.art',
             details: 'Develops visual concepts for games and films.',
-            avatar: 'https://example.com/avatars/pornchai.jpg',
+            avatar: `${userId}/partner-contacts/pornchai-green.webp`,
         },
         {
             userId: userId,
@@ -188,7 +188,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '099-012-3456',
             email: 'warunee.adams@zenithcode.dev',
             details: 'Builds tools for creative professionals.',
-            avatar: 'https://example.com/avatars/warunee.jpg',
+            avatar: `${userId}/partner-contacts/warunee-adams.webp`,
         },
         {
             userId: userId,
@@ -198,7 +198,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '080-123-4567',
             email: 'boonrawd.baker@pixelpulse.anim',
             details: 'Brings characters and stories to life.',
-            avatar: 'https://example.com/avatars/boonrawd.jpg',
+            avatar: `${userId}/partner-contacts/boonrawd-baker.webp`,
         },
         {
             userId: userId,
@@ -208,7 +208,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '081-333-4444',
             email: 'somsak.w@example.com',
             details: 'Specializes in logo and branding design.',
-            avatar: 'https://example.com/avatars/somsak.jpg',
+            avatar: `${userId}/partner-contacts/somsak-white.webp`,
         },
         {
             userId: userId,
@@ -218,7 +218,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '082-444-5555',
             email: 'naree.k@example.com',
             details: 'Focuses on responsive and modern web interfaces.',
-            avatar: 'https://example.com/avatars/naree.jpg',
+            avatar: `${userId}/partner-contacts/naree-king.webp`,
         },
         {
             userId: userId,
@@ -228,7 +228,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '083-555-6666',
             email: 'supachai.w@example.com',
             details: 'Known for unique digital art and character design.',
-            avatar: 'https://example.com/avatars/supachai.jpg',
+            avatar: `${userId}/partner-contacts/supachai-wright.webp`,
         },
         {
             userId: userId,
@@ -238,7 +238,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '084-666-7777',
             email: 'malee.h@example.com',
             details: 'Creates engaging articles and blog posts.',
-            avatar: 'https://example.com/avatars/malee.jpg',
+            avatar: `${userId}/partner-contacts/malee-hill.webp`,
         },
         {
             userId: userId,
@@ -249,7 +249,7 @@ export const getPartnerContacts = (userId: string) => {
             email: 'pichai.g@example.com',
             details:
                 'Produces high-quality video content for various platforms.',
-            avatar: 'https://example.com/avatars/pichai.jpg',
+            avatar: `${userId}/partner-contacts/pichai-green.webp`,
         },
         {
             userId: userId,
@@ -259,7 +259,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '086-888-9999',
             email: 'thida.a@example.com',
             details: 'Develops and executes social media campaigns.',
-            avatar: 'https://example.com/avatars/thida.jpg',
+            avatar: `${userId}/partner-contacts/thida-adams.webp`,
         },
         {
             userId: userId,
@@ -269,7 +269,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '087-999-0000',
             email: 'adisak.b@example.com',
             details: 'Specializes in portrait and event photography.',
-            avatar: 'https://example.com/avatars/adisak.jpg',
+            avatar: `${userId}/partner-contacts/adisak-baker.webp`,
         },
         {
             userId: userId,
@@ -279,7 +279,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '088-000-1111',
             email: 'chantana.n@example.com',
             details: 'Designs intuitive and user-friendly interfaces.',
-            avatar: 'https://example.com/avatars/chantana.jpg',
+            avatar: `${userId}/partner-contacts/chantana-nelson.webp`,
         },
         {
             userId: userId,
@@ -289,7 +289,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '089-111-2222',
             email: 'wichai.c@example.com',
             details: 'Creates 2D and 3D animations for various projects.',
-            avatar: 'https://example.com/avatars/wichai.jpg',
+            avatar: `${userId}/partner-contacts/wichai-carter.webp`,
         },
         {
             userId: userId,
@@ -299,7 +299,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '090-222-3333',
             email: 'sarinporn.m@example.com',
             details: 'Provides strategic marketing advice and solutions.',
-            avatar: 'https://example.com/avatars/sarinporn.jpg',
+            avatar: `${userId}/partner-contacts/sarinporn-mitchell.webp`,
         },
         {
             userId: userId,
@@ -309,7 +309,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '091-333-4444',
             email: 'pongsak.p@example.com',
             details: 'Creates and mixes audio for video and games.',
-            avatar: 'https://example.com/avatars/pongsak.jpg',
+            avatar: `${userId}/partner-contacts/pongsak-perez.webp`,
         },
         {
             userId: userId,
@@ -319,7 +319,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '092-444-5555',
             email: 'kanokwan.r@example.com',
             details: 'Ensures clarity, consistency, and accuracy in text.',
-            avatar: 'https://example.com/avatars/kanokwan.jpg',
+            avatar: `${userId}/partner-contacts/kanokwan-roberts.webp`,
         },
         {
             userId: userId,
@@ -329,7 +329,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '093-555-6666',
             email: 'chayanna.t@example.com',
             details: 'Optimizes content for search engine visibility.',
-            avatar: 'https://example.com/avatars/chayanna.jpg',
+            avatar: `${userId}/partner-contacts/chayanna-turner.webp`,
         },
         {
             userId: userId,
@@ -339,7 +339,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '094-666-7777',
             email: 'jirayu.p@example.com',
             details: "Specializes in children's book illustrations.",
-            avatar: 'https://example.com/avatars/jirayu.jpg',
+            avatar: `${userId}/partner-contacts/jirayu-phillips.webp`,
         },
         {
             userId: userId,
@@ -349,7 +349,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '095-777-8888',
             email: 'anchalee.c@example.com',
             details: 'Performs final checks for grammar and spelling errors.',
-            avatar: 'https://example.com/avatars/anchalee.jpg',
+            avatar: `${userId}/partner-contacts/anchalee-campbell.webp`,
         },
         {
             userId: userId,
@@ -359,7 +359,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '096-888-9999',
             email: 'preecha.p@example.com',
             details: 'Creates realistic 3D models for various industries.',
-            avatar: 'https://example.com/avatars/preecha.jpg',
+            avatar: `${userId}/partner-contacts/preecha-parker.webp`,
         },
         {
             userId: userId,
@@ -370,7 +370,7 @@ export const getPartnerContacts = (userId: string) => {
             email: 'yupin.e@example.com',
             details:
                 'Provides professional voice-overs for commercials and narrations.',
-            avatar: 'https://example.com/avatars/yupin.jpg',
+            avatar: `${userId}/partner-contacts/yupin-evans.webp`,
         },
         {
             userId: userId,
@@ -380,7 +380,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '098-000-1111',
             email: 'sarawut.e@example.com',
             details: 'Enhances and manipulates images for various purposes.',
-            avatar: 'https://example.com/avatars/sarawut.jpg',
+            avatar: `${userId}/partner-contacts/sarawut-edwards.webp`,
         },
         {
             userId: userId,
@@ -390,7 +390,7 @@ export const getPartnerContacts = (userId: string) => {
             phoneNumber: '099-111-2222',
             email: 'benjaporn.c@example.com',
             details: 'Develops interactive and engaging online courses.',
-            avatar: 'https://example.com/avatars/benjaporn.jpg',
+            avatar: `${userId}/partner-contacts/benjaporn-collins.webp`,
         },
         {
             userId: userId,
@@ -401,7 +401,7 @@ export const getPartnerContacts = (userId: string) => {
             email: 'anan.s@example.com',
             details:
                 'Manages customer relationships and optimizes sales processes.',
-            avatar: 'https://example.com/avatars/anan.jpg',
+            avatar: `${userId}/partner-contacts/anan-stewart.webp`,
         },
     ];
 };

@@ -10,6 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { userExcludedFields } from 'src/shared/database/utils/omit-list';
+import { S3Service } from '@/shared/s3/s3.service';
 
 @Injectable()
 export class DemoService {
@@ -21,7 +22,14 @@ export class DemoService {
 
     async createFullDemoUser() {
         try {
-            const result = await seedDemoUser();
+            const s3Config = {
+                accessKeyId: this.configService.get('aws.accessKeyId')!,
+                secretAccessKey: this.configService.get('aws.secretAccessKey')!,
+                region: this.configService.get('aws.region')!,
+                bucket: this.configService.get('aws.bucket')!,
+            };
+            
+            const result = await seedDemoUser(s3Config);
             return result;
         } catch (error) {
             console.log('error', error);
@@ -43,8 +51,8 @@ export class DemoService {
                     },
                 },
                 include: {
-                    visitingStatus: true
-                }
+                    visitingStatus: true,
+                },
             });
 
             return result;

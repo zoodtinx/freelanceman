@@ -1,0 +1,171 @@
+import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/level-3';
+
+export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
+    const projectKebabCase = 'new-summer-menu-design-photography';
+
+    return [
+        // Work Category Files (9 files)
+        {
+            originalName: 'menu_design_brief_final.pdf',
+            displayName: 'Summer Menu Design Brief',
+            type: 'document',
+            category: 'work',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/menu_design_brief_final.pdf`,
+            size: getRandomFileSize(300, 600),
+            ...ids,
+        },
+        {
+            originalName: 'menu_layout_concepts_v3.ai',
+            displayName: 'Menu Layout Concepts',
+            type: 'design',
+            category: 'work',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/menu_layout_concepts_v3.ai`,
+            size: getRandomFileSize(4000, 8000),
+            ...ids,
+        },
+        {
+            originalName: 'food_photography_schedule.pdf',
+            displayName: 'Food Photography Schedule',
+            type: 'document',
+            category: 'work',
+            link: 'https://www.calendly.com/',
+            ...ids,
+        },
+        {
+            originalName: 'edited_food_photos_batch1.zip',
+            displayName: 'Edited Food Photos (Batch 1)',
+            type: 'image',
+            category: 'work',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/edited_food_photos_batch1.zip`,
+            size: getRandomFileSize(20000, 40000),
+            ...ids,
+        },
+        {
+            originalName: 'dessert_menu_draft_v1.pdf',
+            displayName: 'Dessert Menu Draft',
+            type: 'design',
+            category: 'work',
+            link: 'https://www.dribbble.com/',
+            ...ids,
+        },
+        {
+            originalName: 'drink_menu_draft_v1.pdf',
+            displayName: 'Drink Menu Draft',
+            type: 'design',
+            category: 'work',
+            link: 'https://www.behance.net/',
+            ...ids,
+        },
+        {
+            originalName: 'final_menu_print_ready.pdf',
+            displayName: 'Final Menu (Print-Ready)',
+            type: 'design',
+            category: 'work',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/final_menu_print_ready.pdf`,
+            size: getRandomFileSize(6000, 12000),
+            ...ids,
+        },
+        {
+            originalName: 'client_feedback_summary_menu.xlsx',
+            displayName: 'Client Feedback Summary',
+            type: 'spreadsheet',
+            category: 'work',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/client_feedback_summary_menu.xlsx`,
+            size: getRandomFileSize(100, 200),
+            ...ids,
+        },
+        {
+            originalName: 'marketing_promo_creatives_menu.zip',
+            displayName: 'Marketing Promo Creatives',
+            type: 'image',
+            category: 'work',
+            link: 'https://www.canva.com/',
+            ...ids,
+        },
+
+        // Asset Category Files (7 files)
+        {
+            originalName: 'restaurant_branding_guide.pdf',
+            displayName: 'Restaurant Branding Guide',
+            type: 'document',
+            category: 'asset',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/restaurant_branding_guide.pdf`,
+            size: getRandomFileSize(500, 1000),
+            ...ids,
+        },
+        {
+            originalName: 'chef_recipe_notes.docx',
+            displayName: 'Chef Recipe Notes',
+            type: 'document',
+            category: 'asset',
+            link: 'https://www.epicurious.com/',
+            ...ids,
+        },
+        {
+            originalName: 'restaurant_interior_photos.zip',
+            displayName: 'Restaurant Interior Photos',
+            type: 'image',
+            category: 'asset',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/restaurant_interior_photos.zip`,
+            size: getRandomFileSize(15000, 30000),
+            ...ids,
+        },
+        {
+            originalName: 'stock_food_photography_sites.txt',
+            displayName: 'Stock Food Photography Sites List',
+            type: 'other',
+            category: 'asset',
+            link: 'https://unsplash.com/',
+            ...ids,
+        },
+        {
+            originalName: 'competitor_menu_examples.pdf',
+            displayName: 'Competitor Menu Examples',
+            type: 'document',
+            category: 'asset',
+            link: 'https://www.yelp.com/',
+            ...ids,
+        },
+        {
+            originalName: 'food_styling_inspiration.zip',
+            displayName: 'Food Styling Inspiration',
+            type: 'image',
+            category: 'asset',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/food_styling_inspiration.zip`,
+            size: getRandomFileSize(10000, 20000),
+            ...ids,
+        },
+        {
+            originalName: 'printer_specifications_menu.pdf',
+            displayName: 'Printer Specifications',
+            type: 'document',
+            category: 'asset',
+            link: 'https://www.vistaprint.com/',
+            ...ids,
+        },
+    ];
+};
+
+export const getGoldenSpoonEateryFiles = (ids: Ids) => {
+    const goldenSpoonEateryFileGenerators: [string, any][] = [
+        [
+            'New Summer Menu Design & Photography',
+            generateNewSummerMenuDesignPhotographyFiles,
+        ],
+    ];
+
+    return goldenSpoonEateryFileGenerators.flatMap(
+        ([projectTitle, generateFn]) => {
+            const projectIds = ids[projectTitle];
+
+            if (!projectIds) {
+                console.warn(
+                    `Warning: IDs not found for project: "${projectTitle}" for Golden Spoon Eatery. No files generated.`,
+                );
+                return [];
+            }
+
+            return generateFn(projectIds);
+        },
+    );
+};
