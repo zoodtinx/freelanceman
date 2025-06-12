@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
 import { Button } from '@/components/shared/ui/primitives/Button';
@@ -10,12 +10,14 @@ import { Gamepad2, KeyRound, Lightbulb, SquarePlay } from 'lucide-react';
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();
    const setAccessToken = useAuthStore((state) => state.setAccessToken);
+   const [isLoading, setIsLoading] = useState(false);
 
    const handleGoogleSignup = () => {
       console.log('Google Sign-up triggered');
    };
 
    const handleGetFullDemo = async () => {
+      setIsLoading(true);
       const result = await getFullDemo();
       console.log('result', result);
       if (result.success) {
@@ -24,6 +26,7 @@ const AuthPage: React.FC = () => {
       } else {
          alert('Boo');
       }
+      setIsLoading(false);
    };
 
    const handleGetBlankDemo = async () => {
@@ -41,6 +44,18 @@ const AuthPage: React.FC = () => {
       navigate(`../${page}`);
    };
 
+   if (isLoading) {
+      return (
+         <div className="w-screen h-screen flex flex-col justify-center items-center bg-background gap-5">
+            <SvgFreelancemanIcon className="animate-bounce h-24 w-auto" />
+            <div className="text-md text-center flex flex-col">
+               <p>Accessing the greatest freelancer ever profile.</p>
+               <p className='text-sm'>This may take a moment.</p>
+            </div>
+         </div>
+      );
+   }
+
    return (
       <div className="flex bg-background w-full h-screen items-center justify-center p-8 flex-col">
          <div className="flex gap-3 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-3">
@@ -53,17 +68,19 @@ const AuthPage: React.FC = () => {
                      This is{' '}
                      <span className="font-semibold">FreelanceMan.</span>
                   </p>
-                  <p className="text-md sm:text-base">Where freelancing meets flow.</p>
+                  <p className="text-md sm:text-base">
+                     Where freelancing meets flow.
+                  </p>
                </div>
             </div>
          </div>
          <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-6">
             <div className="flex flex-col w-full items-start gap-1 pb-4">
-               <div className='flex w-full gap-1 justify-start'>
-                  <Gamepad2 className='w-4 h-auto' />
+               <div className="flex w-full gap-1 justify-start">
+                  <Gamepad2 className="w-4 h-auto" />
                   <p className="text-base font-medium">Try Demo</p>
                </div>
-               <Separator className='bg-tertiary' />
+               <Separator className="bg-tertiary" />
             </div>
             <div className="flex flex-col gap-1">
                <Button onClick={handleGetFullDemo} className="w-full">
@@ -80,11 +97,11 @@ const AuthPage: React.FC = () => {
          </div>
          <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl sm:mb-4">
             <div className="flex flex-col w-full items-start gap-1 pb-4">
-               <div className='flex w-full gap-1 justify-start'>
-                  <KeyRound className='w-4 h-auto' />
+               <div className="flex w-full gap-1 justify-start">
+                  <KeyRound className="w-4 h-auto" />
                   <p className="text-base font-medium">Get Access</p>
                </div>
-               <Separator className='bg-tertiary' />
+               <Separator className="bg-tertiary" />
             </div>
             <div className="flex flex-col gap-[6px]">
                <Button
