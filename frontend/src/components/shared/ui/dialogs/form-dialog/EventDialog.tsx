@@ -110,7 +110,7 @@ export const EventDialog = ({
                   formMethods={formMethods}
                   fieldName="details"
                   placeholder="Describe the task"
-                  className="min-h-14 h-14 max-h-52"
+                  className="min-h-[90px] h-[90px] max-h-52"
                />
             </div>
             <div className="w-full">

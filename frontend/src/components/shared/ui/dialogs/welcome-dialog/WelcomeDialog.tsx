@@ -49,7 +49,7 @@ export function GreetingDialog() {
             overlay={true}
             onClick={handleClick}
             className={cn(
-               'rounded-3xl bg-foreground outline-none max-w-[490px] group cursor-pointer',
+               'rounded-3xl bg-foreground dark:bg-background outline-none max-w-[490px] group cursor-pointer',
                'flex flex-col items-center px-5 py-5 pt-8 select-none',
                'lg:w-[487px] h-fit',
                'sm:rounded-2xl sm:w-[360px] sm:h-fit sm:p-3 sm:pt-7'
@@ -91,6 +91,8 @@ const CardContent: React.FC<CardContentProps> = ({
          });
       }
    };
+
+   console.log('imageUrl', imageUrl)
 
    return (
       <div className="flex flex-col items-center w-full" onClick={handleClick}>

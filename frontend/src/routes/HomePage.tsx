@@ -1,5 +1,5 @@
 import SideBar from '@/components/page-elements/app-layout/sidebar/SideBar';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import FormDialog from 'src/components/shared/ui/dialogs/form-dialog/FormDialog';
 import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import ConfirmationDialog from 'src/components/shared/ui/dialogs/ConfirmationDialog/ConfirmationDialog';
@@ -10,19 +10,7 @@ import GlobalAddButton from '@/components/page-elements/app-layout/sidebar/Globa
 import SvgFreelancemanTypo from '@/components/shared/icons/FreelanceManTypo';
 import { UseQueryResult } from '@tanstack/react-query';
 import { EventListPayload } from 'freelanceman-common';
-import {
-   AlignJustify,
-   BookUser,
-   Calendar,
-   CircleCheck,
-   Folder,
-   Layers,
-   Loader2,
-   SquareMenu,
-   UserRound,
-   UsersRound,
-   Wallet,
-} from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useEventsQuery } from '@/lib/api/event-api';
 import { useTasksQuery } from '@/lib/api/task-api';
 import { cn } from '@/lib/helper/utils';
@@ -43,9 +31,9 @@ export default function HomePage() {
                         sm:w-full sm:p-3 sm:items-center
                      `}
          >
-            <div className='flex justify-center gap-2 lg:flex-col sm:gap-1 md:pt-1'>
-               <div className="px-3 pt-3 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border">
-                  <SvgFreelancemanTypo className="h-auto w-full sm:h-full sm:w-auto" />
+            <div className="flex justify-center gap-3 lg:flex-col sm:gap-1 md:pt-1">
+               <div className="px-3 pt-3 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
+                  <SvgFreelancemanTypo className="h-auto w-[150px] sm:h-full sm:w-auto" />
                </div>
                <UserBar />
             </div>
@@ -56,7 +44,7 @@ export default function HomePage() {
             <div
                className={cn(
                   'flex justify-center gap-1 items-end w-full pb-2 shrink-0 grow',
-                  'sm:pb-0 sm:w-fit sm:justify-end sm:items-center',
+                  'sm:pb-0 sm:w-fit sm:justify-end sm:items-center'
                )}
             >
                <MenuPopover />
@@ -66,7 +54,7 @@ export default function HomePage() {
          <main className="flex flex-col flex-grow min-h-0 relative sm:px-3 sm:pb-3">
             <Outlet />
          </main>
-         {/* <GreetingDialog /> */}
+         <GreetingDialog />
          <FormDialog />
          <SelectorDialog />
          <ConfirmationDialog />
@@ -87,27 +75,17 @@ export default function HomePage() {
 
 const CountDisplayBar = () => {
    const date = new Date().toISOString();
-   const formattedDate = format(date, 'dd MMM').toUpperCase();
+   const formattedDate = format(date, 'E dd MMM yyyy');
    const eventQueryResult = useEventsQuery({ status: 'scheduled' });
    const taskQueryResult = useTasksQuery({ status: 'pending' });
    return (
       <div
          className={cn(
-            'flex cursor-default justify-between text-secondary text-md w-full rounded-xl px-3 py-1 border-2 border-tertiary',
+            'flex cursor-default justify-center text-secondary text-md w-full rounded-xl px-3 py-[2px] border-2 border-tertiary',
             'md:flex-col md:py-3 md:pb-2 md:gap-3 sm:hidden md:hidden'
          )}
       >
          <p className="text-nowrap md:hidden">{formattedDate}</p>
-         <CountDisplay
-            label="Task"
-            icon={CircleCheck}
-            queryResult={taskQueryResult}
-         />
-         <CountDisplay
-            label="Event"
-            icon={Calendar}
-            queryResult={eventQueryResult}
-         />
       </div>
    );
 };

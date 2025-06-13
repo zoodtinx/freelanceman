@@ -21,13 +21,13 @@ import { defaultProject } from '@/components/shared/ui/helpers/constants/default
 import AddButton from '@/components/shared/ui/AddButton';
 
 const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
+   
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
       clientId: clientData?.id,
    });
-   const projectQueryResult = useProjectsQuery(projectFilter);
 
    const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       const searchValue = e.target.value;
@@ -85,23 +85,23 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
             />
          </div>
          <ProjectList
-            projectQueryResult={projectQueryResult}
             clientId={clientData.id}
             className="pt-1"
+            filter={projectFilter}
          />
       </div>
    );
 };
 
 interface ProjectListProps {
-   projectQueryResult: UseQueryResult<ProjectPayload[]>;
    placeHolder?: string;
    clientId: string;
    className: string;
+   filter: ProjectFilterDto
 }
 
 const ProjectList: React.FC<ProjectListProps> = ({
-   projectQueryResult,
+   filter,
    clientId,
    placeHolder = 'Add new project to this client',
    className,
@@ -111,7 +111,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       isLoading,
       isError,
       refetch,
-   } = projectQueryResult;
+   } = useProjectsQuery(filter, Boolean(filter));
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -127,6 +127,8 @@ const ProjectList: React.FC<ProjectListProps> = ({
       });
    };
 
+   console.log('projectsData', projectsData)
+   
    if (isLoading) {
       return <LoadingPlaceHolder />;
    }
@@ -135,7 +137,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
-   if (!projectsData.length) {
+   if (!projectsData.items.length) {
       return (
          <NoDataPlaceHolder addFn={handleNewProject}>
             {placeHolder}
@@ -143,7 +145,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       );
    }
 
-   const projectListItems = projectsData.map((project) => {
+   const projectListItems = projectsData.items.map((project) => {
       return <ProjectTab project={project} key={project.id} />;
    });
 

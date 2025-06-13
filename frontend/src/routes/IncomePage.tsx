@@ -113,7 +113,7 @@ const FilterBar = ({
          <ClientFilterBubble
             projectFilter={projectFilter as any}
             setProjectFilter={setProjectFilter}
-            className='max-w-20'
+            className="max-w-20"
          />
          <SearchBox className="sm:grow" />
       </div>
@@ -226,11 +226,10 @@ const ProjectPaymentTabList = ({
       return <IncomePageLoader />;
    }
 
-   
    if (!projectData || projectData.items.length === 0) {
       return <IncomePagePlacholder addFn={handleNewProject} />;
    }
-   
+
    if (isError && !projectData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
@@ -300,28 +299,44 @@ const ProjectPaymentTab = forwardRef<
       <div
          ref={ref}
          className={cn(
-            'flex w-full bg-foreground rounded-2xl p-3 shadow-md h-[100px] items-center shrink-0',
+            'flex w-full bg-foreground rounded-2xl shadow-md h-[100px] items-center shrink-0',
             'sm:h-[97px] sm:gap-0 sm:shadow-sm',
             project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >
-         <div className="flex flex-col gap-1 items-start h-full leading-tight sm:pr-0 w-[125px]">
-            <div className="flex flex-col text-[22px] pr-1 grow items-start">
-               <p className="text-sm text-secondary">Amount</p>
-               <p className="text-[22px] sm:text-lg">
-                  {project.budget.toLocaleString()}
-                  <span className="text-sm">.-</span>
-               </p>
+         <div className="p-[7px] sm:p-2 h-full">
+            <div
+               className={cn(
+                  'flex flex-col gap-1 items-start h-full leading-tight sm:pr-0 w-[150px]',
+                  'bg-background  rounded-xl p-2 pt-1',
+                  'sm:bg-transparent sm:p-0 sm:pt-0 sm:w-[120px]'
+               )}
+            >
+               <div className="flex flex-col text-[22px] pr-1 grow items-start sm:pl-1">
+                  <p className="text-sm text-secondary">Amount</p>
+                  <p className="text-[20px] sm:text-lg">
+                     {project.budget.toLocaleString()}
+                     <span className="text-sm">.-</span>
+                  </p>
+               </div>
+               <StatusSelect
+                  selections={paymentStatusSelections}
+                  value={project.paymentStatus}
+                  handleValueChange={handlePaymentStatusChange}
+                  className={cn(
+                     'bg-foreground border text-sm py-[4px] w-full',
+                     'dark:border-0',
+                     'sm:bg-background'
+                  )}
+               />
             </div>
-            <StatusSelect
-               selections={paymentStatusSelections}
-               value={project.paymentStatus}
-               handleValueChange={handlePaymentStatusChange}
-               className="bg-transparent border border-secondary text-sm"
+         </div>
+         <div className="h-full py-3 px-2 hidden sm:block">
+            <Separator
+               orientation="vertical"
             />
          </div>
-         <Separator orientation="vertical" className="mr-2 lg:mx-4" />
-         <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full">
+         <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full p-2 pl-1">
             <div>
                <p className="text-sm text-secondary">
                   {project.client?.name ?? 'Freelancing'}

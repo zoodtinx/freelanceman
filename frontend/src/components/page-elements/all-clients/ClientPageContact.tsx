@@ -6,12 +6,11 @@ import {
 import { Plus } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import type {
-   ClientContactPayload,
-   ClientContactFilterDto,
+   ClientContactFilterDto
 } from 'freelanceman-common/src/schemas';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
-import { User, BookUser } from 'lucide-react';
+import { BookUser } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';

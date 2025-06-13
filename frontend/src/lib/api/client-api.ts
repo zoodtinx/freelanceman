@@ -30,7 +30,7 @@ export const useClientsQuery = (
    );
 };
 
-export const useClientQuery = (clientId: string, enabled: boolean) => {
+export const useClientQuery = (clientId: string, enabled?: boolean) => {
    return useAppQuery(['clients', clientId], (token) =>
       getClient(token, clientId), enabled
    );

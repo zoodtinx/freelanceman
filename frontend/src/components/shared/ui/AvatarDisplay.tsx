@@ -29,7 +29,8 @@ export const AvatarDisplay = ({
       <div
          className={cn(
             'relative flex h-full aspect-square bg-foreground border border-secondary rounded-full overflow-hidden',
-            className
+            className,
+            isReady && 'border-0'
          )}
       >
          <div className="absolute inset-0 flex justify-center items-center text-secondary box-border">

@@ -19,9 +19,14 @@ export const useProjectApi = () => {
    };
 };
 
-export const useProjectsQuery = (filter: ProjectFilterDto = {}) => {
-   return useAppQuery(['projects', filter], (token) =>
-      getProjects(token, filter)
+export const useProjectsQuery = (
+   filter: ProjectFilterDto = {},
+   enabled?: boolean
+) => {
+   return useAppQuery(
+      ['projects', filter],
+      (token) => getProjects(token, filter),
+      enabled
    );
 };
 
@@ -54,7 +59,13 @@ export const useEditProject = (callbacks?: MutationCallbacks) => {
    return useAppMutation(
       {
          mutationKey: 'editProject',
-         invalidationKeys: ['projects', 'paymentData', 'paymentStats', 'clientContacts', 'partnerContacts'],
+         invalidationKeys: [
+            'projects',
+            'paymentData',
+            'paymentStats',
+            'clientContacts',
+            'partnerContacts',
+         ],
          mutationFn: editProject,
       },
       callbacks

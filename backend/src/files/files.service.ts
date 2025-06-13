@@ -74,7 +74,7 @@ export class FilesService {
                 this.prisma.file.count({ where }),
                 this.prisma.file.findMany({
                     where,
-                    take: filter.take ? filter.take : 20,
+                    take: filter.take ? filter.take : 30,
                     include: {
                         client: {
                             select: {

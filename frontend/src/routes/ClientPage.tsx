@@ -16,14 +16,18 @@ import { debounce } from 'lodash';
 export default function ClientPage() {
    const { clientId } = useParams();
 
+   console.log('clientId', clientId)
+
    const { data: clientData, isLoading } = useClientQuery(
-      clientId || '',
-      Boolean(clientId)
+      clientId || ''
    );
+
+   console.log('isLoading', isLoading)
+   console.log('clientData', clientData)
 
    return (
       <section className="w-full h-full flex gap-2 sm:flex-col">
-         {isLoading ? (
+         {isLoading || !clientData ? (
             <div className="flex flex-col grow gap-2 h-full">
                <Skeleton className="h-1/2 rounded-2xl" />
                <Skeleton className="h-1/2 rounded-2xl" />
@@ -41,7 +45,7 @@ export default function ClientPage() {
             </div>
          )}
          <div className="flex flex-col w-[350px] gap-2 h-full">
-            {isLoading ? (
+            {isLoading || !clientData ? (
                <Skeleton className="rounded-2xl w-fill h-1/2" />
             ) : (
                <ClientContactSection
@@ -49,7 +53,7 @@ export default function ClientPage() {
                   isLoading={isLoading}
                />
             )}
-            {isLoading ? (
+            {isLoading || !clientData ? (
                <div className="flex flex-col grow gap-2 h-1/2">
                   <Skeleton className="h-1/2 rounded-2xl" />
                   <Skeleton className="h-1/2 rounded-2xl" />

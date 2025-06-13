@@ -23,6 +23,7 @@ import { FileFilterDto, FileListPayload } from 'freelanceman-common';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { forwardRef } from 'react';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 type Variant = 'base' | 'project-page';
 
@@ -59,7 +60,7 @@ export const SharedFileList = ({
    const lastItemRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      if (!filesData || filesData?.items.length <= 20) {
+      if (!filesData || filesData?.items.length <= 30) {
          return;
       }
 
@@ -99,7 +100,7 @@ export const SharedFileList = ({
    };
 
    return (
-      <div
+      <ScrollArea
          className={cn(
             'flex flex-col h-0 grow overflow-y-auto',
             className
@@ -121,14 +122,14 @@ export const SharedFileList = ({
             );
          })}
          {remainingItems && (
-            <div className="flex justify-center pt-3">
+            <div className="flex justify-center pt-3 pb-8">
                <LoadMoreButton
                   loadMoreFn={handleLoadMore}
                   isLoading={isLoading}
                />
             </div>
          )}
-      </div>
+      </ScrollArea>
    );
 };
 

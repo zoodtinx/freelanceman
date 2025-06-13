@@ -13,7 +13,6 @@ import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { UseQueryResult } from '@tanstack/react-query';
 import {
    ApiErrorPlaceHolder,
-   NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { cn } from '@/lib/helper/utils';

@@ -25,11 +25,11 @@ const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
       ref
    ) => {
       return (
-         <div className={cn("bg-foreground w-fit rounded-full py-1 px-2", className)}>
             <Select value={value} onValueChange={handleValueChange}>
                <SelectTrigger
                   ref={ref}
                   isWithIcon={isWithIcon}
+                  className={cn("bg-foreground w-fit rounded-full py-1 px-2", className)}
                >
                   <div className={"flex gap-1 items-center text-base sm:text-sm"}>
                      {showColor && <div className={`w-3 h-3 rounded-full bg-${getStatusColor(value)}`} />}
@@ -44,7 +44,6 @@ const StatusSelect = React.forwardRef<HTMLButtonElement, StandardSelectProps>(
                   ))}
                </SelectContent>
             </Select>
-         </div>
       );
    }
 );

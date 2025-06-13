@@ -6,7 +6,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-123-4567',
         address: '123 Tea Leaf Lane, Serenity City, CA 90210',
         detail: 'Premium organic tea distributor specializing in unique blends.',
-        themeColor: '#8B4513',
+        themeColor: 'peach',
     },
     {
         name: 'Urban Flow Fitness',
@@ -15,7 +15,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-987-6543',
         address: '456 Gym Ave, Metropolis, NY 10001',
         detail: 'Modern fitness center offering diverse classes and personal training.',
-        themeColor: '#00CED1',
+        themeColor: 'olive',
     },
     {
         name: 'ByteNest Tech Solutions',
@@ -24,7 +24,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-222-3333',
         address: '789 Silicon Valley Blvd, Tech City, CA 94043',
         detail: 'Innovative software development and IT consulting firm.',
-        themeColor: '#4169E1',
+        themeColor: 'yellow',
     },
     {
         name: 'Golden Spoon Eatery',
@@ -33,7 +33,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-444-5555',
         address: '101 Gourmet St, Foodie Town, TX 75001',
         detail: 'Fine dining restaurant with a focus on seasonal, locally sourced ingredients.',
-        themeColor: '#DAA520',
+        themeColor: 'mint',
     },
     {
         name: 'Harmony Music Academy',
@@ -42,7 +42,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-666-7777',
         address: '202 Melody Lane, Artville, OR 97201',
         detail: 'Music school offering lessons in various instruments and vocal training.',
-        themeColor: '#EE82EE',
+        themeColor: 'pink',
     },
     {
         name: 'Horizon Real Estate Group',
@@ -51,7 +51,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-888-9999',
         address: '303 Property Rd, Estateville, FL 33101',
         detail: 'Comprehensive real estate services for residential and commercial properties.',
-        themeColor: '#20B2AA',
+        themeColor: 'lilac',
     },
     {
         name: 'Eco-Glide Electric Scooters',
@@ -60,7 +60,7 @@ export const seedClientsData = [
         phoneNumber: '+1-555-111-2222',
         address: '404 Green Mobility Dr, Eco City, WA 98101',
         detail: 'Distributor and rental service for eco-friendly electric scooters.',
-        themeColor: '#32CD32',
+        themeColor: 'bronze',
     },
     {
         name: 'Zenith Apparel',
@@ -69,6 +69,6 @@ export const seedClientsData = [
         phoneNumber: '+1-555-777-8888',
         address: '505 Fashion Blvd, Style City, CA 90012',
         detail: 'Fashion brand offering high-quality, contemporary clothing for all.',
-        themeColor: '#4682B4',
+        themeColor: 'turquoise',
     },
 ];

@@ -1,3 +1,4 @@
+import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 import {
    ApiErrorPlaceHolder,
@@ -7,6 +8,7 @@ import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import { useFileUrlQuery } from '@/lib/api/file-api';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { cn } from '@/lib/helper/utils';
 import { ListProps } from '@/lib/types/list-props.type';
@@ -132,11 +134,13 @@ const PartnerTab = forwardRef<
       (state) => state.setFormDialogState
    );
 
+   const { data } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar));
+
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'all-client-page',
+         openedOn: 'partner-page',
          type: 'partner-contact',
          data: contact,
          entity: 'partnerContact',
@@ -156,18 +160,8 @@ const PartnerTab = forwardRef<
                <p className="w-[190px] transition-opacity leading-tight sm:hidden">
                   {contact.role}
                </p>
-               <div className='flex items-center'>
-                  <div className="flex justify-center items-center h-9 w-9 rounded-full bg-tertiary mr-3 overflow-hidden object-contain">
-                     {contact.avatar ? (
-                        <img
-                           src={contact.avatar}
-                           alt="Avatar Preview"
-                           className="w-full h-full object-cover"
-                        />
-                     ) : (
-                        <User className="text-secondary" />
-                     )}
-                  </div>
+               <div className='flex items-center gap-[11px]'>
+                  <AvatarDisplay page={'partner-page'} url={data?.url} className='sm:w-8 sm:h-8 w-[38px] shrink-0' />
                   <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default sm:w-fit">
                      {contact.name}
                   </p>

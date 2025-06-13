@@ -47,13 +47,13 @@ const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
             className={clsx(
                'flex w-fit items-center gap-[6px] rounded-lg text-md cursor-pointer transition-colors duration-75',
                'md:p-[7px] md:aspect-square',
-               'lg:p-2 lg:w-full',
+               'lg:p-1 lg:pl-2 lg:w-full',
                isActive
                   ? 'bg-primary text-foreground dark:bg-foreground dark:text-primary'
                   : 'text-secondary hover:text-primary'
             )}
          >
-            <Icon className="w-[24px] h-auto md:w-[23px] md:h-[23px]" />
+            <Icon className="w-[20px] h-auto md:w-[23px] md:h-[23px]" />
             <p className="md:hidden">{label}</p>
          </Link>
       </li>

@@ -25,8 +25,7 @@ const projectPageContent = [
       ),
       subhead:
          'Tasks, events, files, contacts, notes and links. All in one clean, simple freelance workflow.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/project-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -41,8 +40,7 @@ const documentbuilderPageContent = [
       ),
       subhead:
          'Create polished documents and export PDFs to share directly with clients. No extra tools required.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/docbuilder-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -57,8 +55,7 @@ const incomePageContent = [
       ),
       subhead:
          'See incoming payments at a glance and spot unpaid clients easily. Stay on top of invoices without the stress.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/income-page-1.jpg?updatedAt=1749714476968`,
    },
    {
       icon: SvgIncomePage2,
@@ -72,8 +69,7 @@ const incomePageContent = [
       ),
       subhead:
          'Generate polished income and payment PDFs right in the app. Skip the templates. Just add your info.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/income-page-2.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -90,8 +86,7 @@ const filePageContent = [
       ),
       subhead:
          'Store project files, briefs, and assets neatly. Upload and search quickly. No more messy folders or lost versions.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/files-page-1.jpg?updatedAt=1749714476968`,
    },
    {
       icon: SvgFilesPage2,
@@ -106,8 +101,7 @@ const filePageContent = [
       ),
       subhead:
          'Add files from your device or drop in a link. Keep everything connected and easy to access.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/files-page-2.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -124,8 +118,7 @@ const partnersPageContent = [
       ),
       subhead:
          'Track collaborators like editors or coders with ease. See how they connect to your projects. Know who did what.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/partner-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -142,8 +135,7 @@ const allClientPageContent = [
       ),
       subhead:
          'View all your contacts in a clean list with company cards. Find people fast, track interactions and see client info.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/allclient-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -160,8 +152,7 @@ const actionPageContent = [
       ),
       subhead:
          'See tasks and events in one view. Add, edit, or check things off fast. From quick notes to big deadlines.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/action-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
@@ -178,8 +169,7 @@ const homePageContent = [
       ),
       subhead:
          'Built for solo freelancers to manage tasks, clients, and documents. Work smarter, skip the clutter.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-1.jpg?updatedAt=1749714476968`,
    },
    {
       icon: SvgHomePage2,
@@ -195,8 +185,7 @@ const homePageContent = [
       ),
       subhead:
          'Built for solo freelancers to manage tasks, clients, and documents. Work smarter, skip the clutter.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508909/file/original-cdc99e039bfff050e5465d47b2dc9c07.png?resize=2048x1279&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-2.jpg?updatedAt=1749714476968`,
    },
    {
       icon: SvgHomePage3,
@@ -210,8 +199,7 @@ const homePageContent = [
       ),
       subhead:
          'Stay productive on any device with a design that adapts to your workflow, wherever you are.',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508633/file/original-d4697c30f104727ac37fe3ba5b314eb9.png?resize=2048x1536&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-3.jpg?updatedAt=1749714476968`,
    },
    {
       icon: SvgHomePage4,
@@ -222,8 +210,7 @@ const homePageContent = [
          </React.Fragment>
       ),
       subhead: 'Built with React, NestJS, Prisma & more View on GitHub',
-      imageUrl:
-         'https://cdn.dribbble.com/userupload/43508908/file/original-6621a7ae9181c659b3e7c0df1299b7c3.png?resize=2048x1280&vertical=center',
+      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-4.jpg?updatedAt=1749714476968`,
    },
 ];
 
