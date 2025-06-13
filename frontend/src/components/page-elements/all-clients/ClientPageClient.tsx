@@ -11,9 +11,7 @@ import { ClientListPayload } from 'freelanceman-common';
 import { ClientGridLoader } from '@/components/shared/ui/placeholder-ui/ClientGridLoader';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { UseQueryResult } from '@tanstack/react-query';
-import {
-   ApiErrorPlaceHolder,
-} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { cn } from '@/lib/helper/utils';
 
@@ -36,17 +34,20 @@ const ClientColumn = (): JSX.Element => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'all-client-page',
-         type: 'new-client',
+         openedOn: 'allClientsPage',
+         type: 'newClient',
          entity: 'client',
          data: { ...defaultClientValue },
       });
    };
 
    return (
-      <div className={cn("flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden",
-          "sm:shadow-sm sm:h-1/2"
-      )}>
+      <div
+         className={cn(
+            'flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
+            'sm:shadow-sm sm:h-1/2'
+         )}
+      >
          <div
             className={cn(
                'flex flex-col w-full justify-between p-2 pb-0 gap-2',

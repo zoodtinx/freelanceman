@@ -12,10 +12,8 @@ import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants
 import NoProjectPlaceholder from '@/components/shared/ui/placeholder-ui/AllProjectPagePlaceHolder';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import {
-   ScrollArea,
-   ScrollBar,
+   ScrollArea
 } from '@/components/shared/ui/primitives/ScrollArea';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { cn } from '@/lib/helper/utils';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({
@@ -31,10 +29,10 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-project',
+         type: 'newProject',
          mode: 'create',
          data: { ...defaultNewProjectValue },
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
          entity: 'project',
       });
    };
@@ -68,10 +66,6 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
       handleLoadMore(newAmount);
    };
 
-   const tags = Array.from({ length: 80 }).map(
-      (_, i, a) => `v1.2.0-beta.${a.length - i}`
-   );
-
    return (
       <>
          <ScrollArea className="h-full">
@@ -103,8 +97,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'all-project-page',
-         type: 'project-settings',
+         openedOn: 'allProjectsPage',
+         type: 'projectSettings',
          entity: 'project',
          data: project,
       });
@@ -181,7 +175,7 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
       e.stopPropagation();
       setFormDialogState({
          isOpen: true,
-         openedOn: 'all-project-page',
+         openedOn: 'allProjectsPage',
          mode: 'edit',
          type: 'task',
          entity: 'task',

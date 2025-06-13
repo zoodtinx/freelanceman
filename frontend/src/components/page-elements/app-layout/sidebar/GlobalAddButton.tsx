@@ -19,7 +19,6 @@ import {
    defaultPartnerContactValues,
    defaultValues,
 } from '@/components/shared/ui/helpers/constants/default-values';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
@@ -27,7 +26,6 @@ const GlobalAddButton = () => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-   const navigate = useNavigate();
    const [open, setOpen] = useState(false);
 
    type MenuItem = {
@@ -44,7 +42,7 @@ const GlobalAddButton = () => {
          entity: 'task',
          mode: 'create',
          data: {...defaultValues['task']},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
       });
    };
 
@@ -55,50 +53,50 @@ const GlobalAddButton = () => {
          entity: 'event',
          mode: 'create',
          data: {...defaultEventValues},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
       });
    };
 
    const handleNewContact = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'client-contact',
+         type: 'clientContact',
          entity: 'clientContact',
          mode: 'create',
          data: {...defaultContactValues},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
       });
    };
    
    const handleNewPartnerContact = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'partner-contact',
+         type: 'partnerContact',
          entity: 'partnerContact',
          mode: 'create',
          data: {...defaultPartnerContactValues},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
       });
    };
 
    const handleNewClient = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-client',
+         type: 'newClient',
          mode: 'create',
          entity: 'client',
          data: {...defaultValues['new-client']},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
       });
    };
 
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-project',
+         type: 'newProject',
          mode: 'create',
          data: {...defaultValues['new-project']},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
          entity: 'project',
       });
    };
@@ -106,11 +104,11 @@ const GlobalAddButton = () => {
    const handleNewFile = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-file',
+         type: 'newFile',
          mode: 'create',
          entity: 'file',
          data: {...defaultValues['file']},
-         openedOn: 'global-add-button',
+         openedOn: 'globalAddButton',
       });
    };
 

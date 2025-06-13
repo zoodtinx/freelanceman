@@ -1,5 +1,5 @@
 import { cn } from '@/lib/helper/utils';
-import React, { Dispatch, forwardRef, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, forwardRef, SetStateAction, useEffect, useRef } from 'react';
 import { CopyCheck, X } from 'lucide-react';
 import { SelectState } from '@/lib/types/list.type';
 
@@ -8,8 +8,8 @@ interface MultiSelectButtonProps {
    setSelectState: Dispatch<SetStateAction<SelectState>>;
    enableMultiSelect: () => void;
    className?: string;
-   onDelete: () => void;
    selectAllFn?: () => void;
+   onDelete: () => void
 }
 
 const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
@@ -20,7 +20,7 @@ const MultiSelectButton = forwardRef<HTMLDivElement, MultiSelectButtonProps>(
          enableMultiSelect,
          className = '',
          selectAllFn,
-         onDelete,
+         onDelete
       },
       ref
    ) => {

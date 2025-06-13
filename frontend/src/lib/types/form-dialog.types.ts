@@ -1,5 +1,3 @@
-import { CrudApi } from '@/lib/api/api.type';
-import { ApiLoadingState } from '@/lib/types/form-element.type';
 import {
    EventPayload,
    FilePayload,
@@ -24,11 +22,7 @@ export interface ApiLoadingState {
 export interface FormDialogProps {
    dialogType: string;
    formMethods: UseFormReturn;
-   buttonLoadingState: {
-      isApiLoading: ApiLoadingState;
-      setIsApiLoading: Dispatch<SetStateAction<ApiLoadingState>>;
-   };
-   crudApi: CrudApi[keyof CrudApi];
+   crudApi: any;
    handleLeftButtonClick: (e: any) => void;
 }
 
@@ -41,21 +35,21 @@ export interface PromptDialogProps {
 export type FormDialogState =
    | {
         isOpen: boolean;
-        entity: 'sales-document-item';
-        type: 'sales-document-item';
+        entity: 'salesDocumentItem';
+        type: 'salesDocumentItem';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: any;
      }
    | {
-      isOpen: boolean;
-      entity: 'task';
-      type: 'task';
-      mode: 'create' | 'edit';
-      openedOn: OpenedOnType;
-      data: TaskPayload;
-   }
- | {
+        isOpen: boolean;
+        entity: 'task';
+        type: 'task';
+        mode: 'create' | 'edit';
+        openedOn: OpenedOnType;
+        data: TaskPayload;
+     }
+   | {
         isOpen: boolean;
         entity: 'event';
         type: 'event';
@@ -74,7 +68,7 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'file';
-        type: 'new-file';
+        type: 'newFile';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: CreateFileDto;
@@ -82,7 +76,7 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'project';
-        type: 'project-settings';
+        type: 'projectSettings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: ProjectPayload;
@@ -90,15 +84,15 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'clientContact';
-        type: 'client-contact';
+        type: 'clientContact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: ClientContactPayload;
      }
    | {
         isOpen: boolean;
-        entity: 'partner-contact';
-        type: 'partner-contact';
+        entity: 'partnerContact';
+        type: 'partnerContact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: PartnerContactPayload;
@@ -106,15 +100,15 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'client';
-        type: 'client-settings';
+        type: 'clientSettings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: ClientContactPayload | EditClientDto;
      }
    | {
         isOpen: boolean;
-        entity: 'sales-document';
-        type: 'sales-document-item';
+        entity: 'salesDocument';
+        type: 'salesDocumentItem';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: any;
@@ -122,7 +116,7 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'user';
-        type: 'user-profile';
+        type: 'userProfile';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: UserPayload;
@@ -130,7 +124,7 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'project';
-        type: 'new-project';
+        type: 'newProject';
         mode: 'create';
         openedOn: OpenedOnType;
         data: CreateProjectDto;
@@ -138,7 +132,7 @@ export type FormDialogState =
    | {
         isOpen: boolean;
         entity: 'client';
-        type: 'new-client';
+        type: 'newClient';
         mode: 'create';
         openedOn: OpenedOnType;
         data: ClientPayload;
@@ -148,27 +142,27 @@ export type FormDialogType =
    | 'task'
    | 'event'
    | 'file'
-   | 'project-settings'
-   | 'client-contact'
-   | 'client-settings'
-   | 'partner-contact'
-   | 'sales-document-item'
-   | 'user-profile'
-   | 'new-project'
-   | 'new-client'
-   | 'new-file';
+   | 'projectSettings'
+   | 'clientContact'
+   | 'clientSettings'
+   | 'partnerContact'
+   | 'salesDocumentItem'
+   | 'userProfile'
+   | 'newProject'
+   | 'newClient'
+   | 'newFile';
 
 export type OpenedOnType =
-   | 'project-page'
-   | 'all-project-page'
-   | 'client-page'
-   | 'partner-page'
-   | 'all-client-page'
-   | 'action-page'
-   | 'file-page'
-   | 'document-page'
-   | 'global-add-button'
-   | 'income-page';
+   | 'projectPage'
+   | 'allProjectsPage'
+   | 'clientPage'
+   | 'partnerPage'
+   | 'allClientsPage'
+   | 'actionPage'
+   | 'filePage'
+   | 'documentPage'
+   | 'globalAddButton'
+   | 'incomePage';
 
 export interface PromptDialogState {
    isOpen: boolean;

@@ -20,7 +20,6 @@ import { useNavigate } from 'react-router-dom';
 
 export const PartnerContactDialog = ({
    formMethods,
-   buttonLoadingState,
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
@@ -29,9 +28,6 @@ export const PartnerContactDialog = ({
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-
-   // button loading state
-   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
    const { handleSubmit } = formMethods;
@@ -48,7 +44,7 @@ export const PartnerContactDialog = ({
       if (formDialogState.mode === 'create') {
          const payload: CreatePartnerContactDto = {
             name: data.name,
-            companyId: data.companyId,
+            company: data.company,
             role: data.role,
             phoneNumber: data.phoneNumber,
             email: data.email,
@@ -62,7 +58,7 @@ export const PartnerContactDialog = ({
                isOpen: false,
             };
          });
-         navigate(`/home/clients/${client.id}`);
+         navigate(`/home/partners`);
       } else if (formDialogState.mode === 'edit') {
          const payload: EditPartnerContactDto = {
             id: data.id,
@@ -153,9 +149,7 @@ export const PartnerContactDialog = ({
                </div>
             </div>
             <FormDialogFooter
-               formDialogState={formDialogState}
                formMethods={formMethods}
-               isApiLoading={isApiLoading}
                onDiscard={handleLeftButtonClick}
             />
          </div>

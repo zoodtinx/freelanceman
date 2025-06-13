@@ -5,7 +5,6 @@ import ActionPage from '@/routes/ActionPage';
 import AllProjectPage from '@/routes/AllProjectPage';
 import PartnersPage from '@/routes/PartnersPage';
 import FilePage from '@/routes/FilePage';
-import QuickNotesPage from '@/routes/QuickNotesPage';
 import AllClientsPage from 'src/routes/AllClientPage';
 import ClientPage from '@/routes/ClientPage';
 import IncomePage from 'src/routes/IncomePage';
@@ -144,10 +143,6 @@ export const router = createBrowserRouter([
                         ],
                      },
                   ],
-               },
-               {
-                  path: 'notes',
-                  element: <QuickNotesPage />,
                },
                {
                   path: ':projectId',

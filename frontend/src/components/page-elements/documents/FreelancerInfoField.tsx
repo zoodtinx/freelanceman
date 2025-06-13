@@ -3,12 +3,8 @@ import {
    TextAreaForm,
    Label,
 } from 'src/components/shared/ui/form-field-elements';
-import {
-   SalesDocumentPayload,
-   UserPayload,
-} from 'freelanceman-common/src/schemas';
+import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
-import { useEffect, useState } from 'react';
 import { cn } from '@/lib/helper/utils';
 
 const FreelancerInfoField = ({
@@ -16,21 +12,11 @@ const FreelancerInfoField = ({
 }: {
    formMethods: UseFormReturn<SalesDocumentPayload>;
 }) => {
-   const [userData, setUserData] = useState<UserPayload | undefined>();
+   const {
+      formState: { errors },
+   } = formMethods;
 
-   const { setValue, formState: {errors} } = formMethods;
-
-   useEffect(() => {
-      if (userData) {
-         setValue('freelancerName', userData.name);
-         setValue('freelancerEmail', userData.email);
-         setValue('freelancerPhone', userData.phoneNumber  ?? '');
-         setValue('freelancerTaxId', userData.taxId  ?? '');
-         setValue('freelancerAddress', userData.address ?? '');
-      }
-   }, [userData, setValue]);
-
-   const error = errors.freelancerName
+   const error = errors.freelancerName;
 
    return (
       <fieldset

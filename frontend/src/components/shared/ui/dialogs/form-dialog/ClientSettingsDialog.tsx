@@ -4,7 +4,7 @@ import {
    DynamicHeightTextInputForm,
    Label,
 } from 'src/components/shared/ui/form-field-elements';
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { ColorSelectorForm } from '@/components/shared/ui/form-field-elements/ColorSelector';
@@ -23,7 +23,7 @@ export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
    const { handleSubmit } = formMethods;
    const clientName = formDialogState.data.name;
 
-   const onSubmit: SubmitHandler<EditClientDto> = (data) => {
+   const onSubmit: SubmitHandler<any> = (data) => {
       console.log('data', data);
       const editClientPayload: EditClientDto = {
          id: data.id,
@@ -51,7 +51,7 @@ export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
          type: 'delete',
          dialogRequested: {
             mode: 'edit',
-            type: 'client-settings',
+            type: 'clientSettings',
          },
       });
    };
@@ -106,7 +106,6 @@ export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            isApiLoading={false}
             onDiscard={handleDeleteButtonClick}
          />
       </form>

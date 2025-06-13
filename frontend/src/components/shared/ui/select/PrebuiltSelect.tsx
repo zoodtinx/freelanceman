@@ -9,14 +9,13 @@ import {
 } from 'src/components/shared/ui/select/Select';
 import { cn } from '@/lib/helper/utils';
 import { X } from 'lucide-react';
-import { getStatusColor } from '@/components/shared/ui/helpers/Helpers';
-import { SelectObject } from '@/lib/types/selector-dialog.types';
+import { FilterSelectObject } from '@/lib/types/selector-dialog.types';
 
 type SelectProps = Omit<
    React.ComponentPropsWithoutRef<typeof Select>,
    'children'
 > & {
-   selectContents: SelectObject[];
+   selectContents: FilterSelectObject[];
    className?: string;
    onValueChange: (value: string) => void;
    value?: string;

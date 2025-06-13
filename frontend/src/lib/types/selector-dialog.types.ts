@@ -8,6 +8,18 @@ export interface SelectObject {
    id: string;
 }
 
+export interface FilterSelectObject {
+   label: string;
+   value: string;
+}
+
+export interface SelectObject {
+   label: string;
+   value: string;
+   detail?: string;
+   id: string;
+}
+
 export interface SelectorDialogState {
    isOpen: boolean;
    type: 'file' | 'contact';

@@ -16,27 +16,21 @@ import {
 } from '@/lib/types/form-dialog.types';
 import {
    CreateTaskDto,
-   TaskPayload,
    TaskStatus,
    EditTaskDto,
+   TaskListPayload,
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
-import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const TaskDialog = ({
    formMethods,
-   buttonLoadingState,
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
    //utility hooks
    const navigate = useNavigate();
-   const submitButtonRef = useRef<HTMLButtonElement>(null);
-
-   // button loading state
-   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
    const { handleSubmit } = formMethods;
@@ -47,10 +41,10 @@ export const TaskDialog = ({
    // api setup
    const { createTask, editTask } = crudApi as CrudApi['task'];
 
-   console.log('id', formMethods.getValues('projectId'))
+   console.log('id', formMethods.getValues('projectId'));
 
    // submit handler
-   const onSubmit = async (data: TaskPayload['tasks'][number]) => {
+   const onSubmit = async (data: TaskListPayload['items'][number]) => {
       if (data.dueAt) {
          const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
@@ -65,7 +59,7 @@ export const TaskDialog = ({
             link: data.link,
             status: data.status,
          } as CreateTaskDto;
-         console.log('payload', payload)
+         console.log('payload', payload);
          await createTask.mutateAsync(payload);
          setFormDialogState((prev) => {
             return {
@@ -73,7 +67,7 @@ export const TaskDialog = ({
                isOpen: false,
             };
          });
-         if (formDialogState.openedOn === 'global-add-button') {
+         if (formDialogState.openedOn === 'globalAddButton') {
             navigate('/home/actions');
          }
       } else if (formDialogState.mode === 'edit') {
@@ -125,7 +119,7 @@ export const TaskDialog = ({
                   />
                </div>
             </div>
-            {formDialogState.openedOn !== 'project-page' && (
+            {formDialogState.openedOn !== 'projectPage' && (
                <ProjectField
                   formMethods={formMethods}
                   formDialogState={formDialogState}
@@ -147,7 +141,6 @@ export const TaskDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            isApiLoading={isApiLoading}
             onDiscard={handleLeftButtonClick}
          />
       </form>
@@ -161,7 +154,7 @@ export const ProjectField = ({
    formMethods: UseFormReturn;
    formDialogState: FormDialogState;
 }) => {
-   const isOnProjectPage = formDialogState.openedOn === 'project-page';
+   const isOnProjectPage = formDialogState.openedOn === 'projectPage';
    const isCreateMode = formDialogState.mode === 'create';
 
    if (isCreateMode && !isOnProjectPage) {

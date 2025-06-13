@@ -2,12 +2,14 @@ import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
-import { useTasksQuery } from '@/lib/api/task-api';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { TaskList } from '@/components/shared/ui/lists/TaskList';
-import { defaultClientValue, defaultTaskValue } from 'src/components/shared/ui/helpers/constants/default-values';
+import {
+   defaultClientValue,
+   defaultTaskValue,
+} from 'src/components/shared/ui/helpers/constants/default-values';
 import { ProjectPayload, TaskFilterDto } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
@@ -18,10 +20,8 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
 
    const [taskFilter, setTaskFilter] = useState<TaskFilterDto>({
       projectId: project.id,
-      status: 'pending'
+      status: 'pending',
    });
-
-   const tasksQueryResult = useTasksQuery(taskFilter);
 
    useEffect(() => {
       if (project?.id) {
@@ -33,18 +33,18 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
    }, [project?.id]);
 
    const handleNewTask = () => {
-      const {themeColor, ...clientData} = defaultClientValue
+      const { themeColor, ...clientData } = defaultClientValue;
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'project-page',
+         openedOn: 'projectPage',
          type: 'task',
          entity: 'task',
          data: {
             ...defaultTaskValue,
             client: {
                themeColor: project.client?.themeColor,
-               ...clientData
+               ...clientData,
             },
             clientId: project.clientId,
             projectId: project.id,
@@ -68,16 +68,15 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
                         setTaskFilter((prev: any) => ({
                            ...prev,
                            status: value,
-                        }))
+                        }));
                      }
-                  }
-                  }
+                  }}
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
                   <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
                   <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
-               <AddButton className='w-7 h-7' onClick={handleNewTask} />
+               <AddButton className="w-7 h-7" onClick={handleNewTask} />
             </div>
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
@@ -86,7 +85,7 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
                addFn={handleNewTask}
                filter={taskFilter}
                setFilter={setTaskFilter}
-               loader='spinner'
+               loader="spinner"
             />
          </div>
       </div>

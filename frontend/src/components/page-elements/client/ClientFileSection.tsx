@@ -2,22 +2,23 @@ import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
 import { FileFilterDto } from 'freelanceman-common/src/schemas';
-import { useFilesQuery, useDeleteFile } from '@/lib/api/file-api';
+import { useFilesQuery } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
-import { useParams } from 'react-router-dom';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 import { Paperclip } from 'lucide-react';
 
-const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const clientId = useParams().clientId || '';
-   const fileSectionRef = useRef<HTMLDivElement | undefined>();
+const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
+   const clientId = clientData.id;
+   const fileSectionRef = useRef<HTMLDivElement | null>(null);
 
    const [selectState, setSelectState] = useState({
       enableSelect: false,
@@ -29,8 +30,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
    });
 
    const filesQueryResult = useFilesQuery(fileFilter);
-
-   const { mutate: deleteFile, isPending } = useDeleteFile();
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
@@ -56,7 +55,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
          return;
       }
       setSelectState((prev) => {
-         const selected = filesQueryResult.data.map((file) => {
+         const selected = filesQueryResult.data.map((file: any) => {
             return file.id;
          });
          return {
@@ -66,7 +65,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
       });
    };
 
-   const handleFileFilter = (type, value: any) => {
+   const handleFileFilter = (type: string, value: any) => {
       if (type === 'type') {
          setFileFilter((prev) => {
             return {
@@ -87,10 +86,10 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
    const handleAddFile = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-file',
+         type: 'newFile',
          mode: 'create',
-         openedOn: 'client-page',
-         data: { ...defaultFileValues},
+         openedOn: 'clientPage',
+         data: { ...defaultFileValues },
          entity: 'file',
       });
    };
@@ -102,7 +101,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
       >
          <div className="flex justify-between items-center px-4 pr-2 h-9">
             <div className="flex gap-1 items-center">
-               <Paperclip className='w-4 h-4' />
+               <Paperclip className="w-4 h-4" />
                <p className="text-md">Files</p>
             </div>
             <AddButton className="w-7 h-7" onClick={handleAddFile} />
@@ -114,7 +113,6 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
                   enableMultiSelect={enableMultiSelect}
                   selectState={selectState}
                   setSelectState={setSelectState}
-                  onDelete={deleteFile}
                   selectAllFn={selectAll}
                   ref={fileSectionRef}
                />
@@ -134,8 +132,10 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({clientData}) => {
             />
          </div>
          <SharedFileList
-            variant="project-page"
-            filesQueryResult={filesQueryResult}
+            variant="projectPage"
+            page="clientPage"
+            setFilter={setFileFilter}
+            filter={fileFilter}
             setSelectState={setSelectState}
             selectState={selectState}
             placeHolder="Add a file"

@@ -1,6 +1,5 @@
 import {
    Select,
-   SelectValue,
    SelectTrigger,
    SelectContent,
    SelectItem,
@@ -82,7 +81,11 @@ export const FilterSelect = ({
             </SelectTrigger>
             <SelectContent className="flex flex-col gap-1">
                {selectContents.map((selection) => (
-                  <SelectItem key={selection.value} value={selection.value} className='py-1 px-2 rounded-md text-base'>
+                  <SelectItem
+                     key={selection.value}
+                     value={selection.value}
+                     className="py-1 px-2 rounded-md text-base"
+                  >
                      {selection.label}
                   </SelectItem>
                ))}

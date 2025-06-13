@@ -22,12 +22,8 @@ import { useGetPresignedUrl } from '@/lib/api/file-api';
 
 export const UserProfileDialog = ({
    formMethods,
-   buttonLoadingState,
    crudApi,
 }: FormDialogProps) => {
-   // button loading state
-   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
-
    // form utilities
    const { handleSubmit, getValues } = formMethods;
    // setValue('avatarFile', '')
@@ -44,7 +40,6 @@ export const UserProfileDialog = ({
    })
 
    const onSubmit: SubmitHandler<UserPayload> = async (data) => {
-      setIsApiLoading({ isLoading: true, type: 'submit' });
 
       const avatarFile = getValues('avatarFile')
       console.log('avatarFile', avatarFile)
@@ -73,7 +68,7 @@ export const UserProfileDialog = ({
       }
 
       const payload: EditUserDto = {
-         name: data.name,
+         name: data.displayName,
          email: data.email,
          phoneNumber: data.phoneNumber,
          address: data.address,
@@ -88,7 +83,6 @@ export const UserProfileDialog = ({
       };
       await editUser.mutateAsync(payload);
       toast.success('Profile updated')
-      setIsApiLoading({ isLoading: false, type: 'submit' });
    };
 
    return (
@@ -169,9 +163,7 @@ export const UserProfileDialog = ({
             <div className="flex justify-between p-4 pb-2">
                <Button variant={'outline'}>Feeling tired ?</Button>
                <SubmitButton
-                  formDialogState={formDialogState}
                   formMethods={formMethods}
-                  isApiLoading={isApiLoading}
                />
             </div>
          </DialogFooter>

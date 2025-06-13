@@ -28,16 +28,20 @@ import { useFileUrlQuery } from '@/lib/api/file-api';
 
 export const FileDialog = ({
    formMethods,
-   buttonLoadingState,
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
    // button loading state
-   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
-   const { handleSubmit, getValues, setValue, watch, formState: {dirtyFields}  } = formMethods;
-   const fileLink = getValues('link')
+   const {
+      handleSubmit,
+      getValues,
+      setValue,
+      watch,
+      formState: { dirtyFields },
+   } = formMethods;
+   const fileLink = getValues('link');
    const s3Key = getValues('s3Key');
 
    //dialog state
@@ -55,7 +59,7 @@ export const FileDialog = ({
       setValue('fileUrl', fileLink);
    }
 
-   console.log('dirtyFields', dirtyFields)
+   console.log('dirtyFields', dirtyFields);
 
    const [copied, setCopied] = useState(false);
 
@@ -72,7 +76,6 @@ export const FileDialog = ({
    };
 
    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-      setIsApiLoading({ isLoading: true, type: 'submit' });
       const editFilePayload: EditFileDto = {
          id: formDialogState.data.id,
          displayName: data.displayName,
@@ -80,16 +83,15 @@ export const FileDialog = ({
          category: data.category,
       };
       editFile.mutate(editFilePayload);
-      toast.success('File updated')
-      setIsApiLoading({ isLoading: false, type: 'submit' });
+      toast.success('File updated');
    };
 
    //ui shorthands
-   const project = formDialogState.data.project
+   const project = formDialogState.data.project;
    const categorySelection = [
-      {label: 'Working File', value: 'work'},
-      {label: 'Project Asset', value: 'asset'}
-   ]
+      { label: 'Working File', value: 'work' },
+      { label: 'Project Asset', value: 'asset' },
+   ];
 
    return (
       <form
@@ -122,15 +124,17 @@ export const FileDialog = ({
             <p>{fileSize}</p>
          </div>
          <div className="flex gap-2 w-full px-5 pb-3">
-            {formDialogState.data.project && <div className="flex flex-col w-1/2 shrink-0">
-               <Label className="pb-0">Project</Label>
-               <Link
-                  to={`/home/project/${project?.id}`}
-                  className="leading-tight"
-               >
-                  {formDialogState.data.project?.title}
-               </Link>
-            </div>}
+            {formDialogState.data.project && (
+               <div className="flex flex-col w-1/2 shrink-0">
+                  <Label className="pb-0">Project</Label>
+                  <Link
+                     to={`/home/project/${project?.id}`}
+                     className="leading-tight"
+                  >
+                     {formDialogState.data.project?.title}
+                  </Link>
+               </div>
+            )}
             <div className="flex flex-col w-1/2 shrink-0">
                <Label className="pb-0">Category</Label>
                <TextSelectForm
@@ -183,7 +187,9 @@ export const FileDialog = ({
                   ) : (
                      <>
                         <Files className="w-5 h-5 shrink-0" />
-                        <p className="truncate mr-3">{fileUrl ? fileUrl.url : getValues('link')}</p>
+                        <p className="truncate mr-3">
+                           {fileUrl ? fileUrl.url : getValues('link')}
+                        </p>
                      </>
                   )}
                   {copied && (
@@ -195,9 +201,7 @@ export const FileDialog = ({
             </div>
          </div>
          <FileDialogFooter
-            formDialogState={formDialogState}
             formMethods={formMethods}
-            isApiLoading={isApiLoading}
             isUrlLoading={isUrlLoading}
             onDiscard={handleLeftButtonClick}
          />
@@ -207,8 +211,6 @@ export const FileDialog = ({
 
 const FileDialogFooter = ({
    onDiscard,
-   isApiLoading,
-   formDialogState,
    formMethods,
    isUrlLoading,
 }: FormDialogFooterProps) => {
@@ -219,15 +221,11 @@ const FileDialogFooter = ({
          <div className="flex justify-between p-4 pb-2">
             <DiscardButton
                onClick={onDiscard}
-               isApiLoading={isApiLoading}
-               formDialogState={formDialogState}
             />
             <div className="flex gap-1">
                <DownloadButton url={url} isLoading={isUrlLoading!} />
                <SubmitButton
-                  formDialogState={formDialogState}
                   formMethods={formMethods}
-                  isApiLoading={isApiLoading}
                />
             </div>
          </div>

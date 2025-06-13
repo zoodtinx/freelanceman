@@ -61,7 +61,7 @@ export const UserBar = () => {
    
    const pageKey = getPageKey(location.pathname)
    const handleOpenWelcomeDialog = () => {
-      setWelcomeDialogState((prev) => {
+      setWelcomeDialogState(() => {
          return {
             page: pageKey as any,
             isOpen: true
@@ -70,14 +70,14 @@ export const UserBar = () => {
    }
 
    const handleEditProfile = () => {
-      setFormDialogState({
-         isOpen: true,
-         mode: 'edit',
-         openedOn: 'global-add-button',
-         type: 'user-profile',
-         data: { ...userData },
-         entity: 'user',
-      });
+    setFormDialogState({
+   isOpen: true,
+   mode: 'edit',
+   openedOn: 'globalAddButton',
+   type: 'userProfile',
+   data: { ...userData },
+   entity: 'user',
+});
    };
 
    const handleClick = () => {

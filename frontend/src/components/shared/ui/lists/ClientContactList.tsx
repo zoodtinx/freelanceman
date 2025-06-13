@@ -119,8 +119,8 @@ export const ContactCard = forwardRef<
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'client-page',
-         type: 'client-contact',
+         openedOn: 'clientPage',
+         type: 'clientContact',
          entity: 'clientContact',
          data: contact,
       });
@@ -134,7 +134,7 @@ export const ContactCard = forwardRef<
             `flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[55px] shrink-0
                border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
                cursor-default`,
-            page === 'all-client-page' && 'h-[75px] p-2',
+            page === 'allClientPage' && 'h-[75px] p-2',
             'sm:h-fit'
          )}
       >

@@ -24,13 +24,10 @@ import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDia
 
 export const ProjectDialog = ({
    formMethods,
-   buttonLoadingState,
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
    const navigate = useNavigate();
-   // button loading state
-   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
    const { handleSubmit } = formMethods;
@@ -42,16 +39,14 @@ export const ProjectDialog = ({
    const { editProject } = crudApi as CrudApi['project'];
 
    const onSubmit = (data: ProjectPayload) => {
-      setIsApiLoading({ isLoading: true, type: 'submit' });
       const editProjectPayload: EditProjectDto = {
          id: formDialogState.data.id,
          title: data.title,
          projectStatus: data.projectStatus as ProjectStatus,
          paymentStatus: data.paymentStatus as PaymentStatus,
-         budget: Number(data.budget)
+         budget: Number(data.budget),
       };
       editProject.mutate(editProjectPayload);
-      setIsApiLoading({ isLoading: false, type: 'submit' });
    };
 
    const handleClientClick = () => {
@@ -97,7 +92,11 @@ export const ProjectDialog = ({
             </div>
             <div className="flex flex-col w-1/2 grow-0">
                <Label>Budget</Label>
-               <TextInputForm number fieldName="budget" formMethods={formMethods} />
+               <TextInputForm
+                  number
+                  fieldName="budget"
+                  formMethods={formMethods}
+               />
             </div>
             <div className="">
                <Separator />
@@ -109,8 +108,7 @@ export const ProjectDialog = ({
                      className="text-md font-semibold leading-tight cursor-pointer"
                      onClick={handleClientClick}
                   >
-                     {formMethods.getValues('client')?.name ||
-                        'Freelancing'}
+                     {formMethods.getValues('client')?.name || 'Freelancing'}
                   </p>
                </div>
                <div className="flex leading-tight">
@@ -142,9 +140,7 @@ export const ProjectDialog = ({
             </div>
          </div>
          <FormDialogFooter
-            formDialogState={formDialogState}
             formMethods={formMethods}
-            isApiLoading={isApiLoading}
             onDiscard={handleLeftButtonClick}
          />
       </form>

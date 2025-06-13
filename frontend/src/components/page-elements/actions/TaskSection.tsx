@@ -24,7 +24,7 @@ export default function TaskSection() {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'action-page',
+         openedOn: 'actionPage',
          entity: 'task',
          type: 'task',
          data: { ...defaultTaskValue },

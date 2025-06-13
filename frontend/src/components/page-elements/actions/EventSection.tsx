@@ -24,7 +24,7 @@ export default function EventSection() {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'action-page',
+         openedOn: 'actionPage',
          type: 'event',
          entity: 'event',
          data: { ...defaultEventValues },

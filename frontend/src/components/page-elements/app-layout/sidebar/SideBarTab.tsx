@@ -3,19 +3,9 @@ import clsx from 'clsx';
 
 import {
    Layers,
-   UsersRound,
-   FileText,
-   BookUser,
+   UsersRound, BookUser,
    CircleCheck,
-   Folder,
-   Coins,
-   Wallet,
-   CircleDollarSign,
-   Banknote,
-   WalletCards,
-   Wallet2,
-   WalletMinimal,
-   LucideWallet,
+   Folder, Wallet
 } from 'lucide-react';
 
 type SideBarTabProps = {

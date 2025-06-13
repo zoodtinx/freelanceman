@@ -1,4 +1,4 @@
-import { Building2, Edit, FolderClock, Plus, Settings } from 'lucide-react';
+import { Building2, FolderClock } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
 import { formatDate } from '@/lib/helper/formatDateTime';
@@ -16,12 +16,10 @@ import {
    LoadingPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
-import { UseQueryResult } from '@tanstack/react-query';
 import { defaultProject } from '@/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
 
 const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
-   
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -42,9 +40,9 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'client-page',
+         openedOn: 'clientPage',
          data: clientData,
-         type: 'client-settings',
+         type: 'clientSettings',
          entity: 'client',
       });
    };
@@ -55,8 +53,8 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
          data: { ...defaultProject, clientId: clientData.id },
          entity: 'project',
          mode: 'create',
-         openedOn: 'client-page',
-         type: 'new-project',
+         openedOn: 'clientPage',
+         type: 'newProject',
       });
    };
 
@@ -67,15 +65,14 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       >
          <div className="flex justify-between">
             <div className="flex items-center h-[40px] justify-between w-full">
-               <div className="flex gap-1 items-center cursor-pointer" onClick={handleClientSettings}>
+               <div
+                  className="flex gap-1 items-center cursor-pointer"
+                  onClick={handleClientSettings}
+               >
                   <Building2 className="w-[28px] h-auto" />
-                  <p className="text-xl leading-none">
-                     {clientData.name}
-                  </p>
+                  <p className="text-xl leading-none">{clientData.name}</p>
                </div>
-               <AddButton
-                  onClick={handleNewProject}
-               />
+               <AddButton onClick={handleNewProject} />
             </div>
          </div>
          <div className="flex justify-between items-center">
@@ -97,7 +94,7 @@ interface ProjectListProps {
    placeHolder?: string;
    clientId: string;
    className: string;
-   filter: ProjectFilterDto
+   filter: ProjectFilterDto;
 }
 
 const ProjectList: React.FC<ProjectListProps> = ({
@@ -122,13 +119,13 @@ const ProjectList: React.FC<ProjectListProps> = ({
          data: { ...defaultProject, clientId: clientId },
          entity: 'project',
          mode: 'create',
-         openedOn: 'client-page',
-         type: 'new-project',
+         openedOn: 'clientPage',
+         type: 'newProject',
       });
    };
 
-   console.log('projectsData', projectsData)
-   
+   console.log('projectsData', projectsData);
+
    if (isLoading) {
       return <LoadingPlaceHolder />;
    }
@@ -145,7 +142,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       );
    }
 
-   const projectListItems = projectsData.items.map((project) => {
+   const projectListItems = projectsData.items.map((project: any) => {
       return <ProjectTab project={project} key={project.id} />;
    });
 

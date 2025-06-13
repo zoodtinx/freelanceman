@@ -5,9 +5,7 @@ import {
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import type {
-   ClientContactFilterDto
-} from 'freelanceman-common/src/schemas';
+import type { ClientContactFilterDto } from 'freelanceman-common/src/schemas';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { BookUser } from 'lucide-react';
@@ -36,8 +34,8 @@ export const ContactColumn = (): JSX.Element => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'all-client-page',
-         type: 'client-contact',
+         openedOn: 'allClientsPage',
+         type: 'clientContact',
          entity: 'clientContact',
          data: { ...defaultContactValues },
       });

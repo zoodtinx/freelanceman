@@ -4,10 +4,8 @@ import {
    Label,
    DatePickerForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { useProjectsQuery } from '@/lib/api/project-api';
-import { ProjectPayload, SalesDocumentPayload } from 'freelanceman-common';
+import { SalesDocumentPayload } from 'freelanceman-common';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { cn } from '@/lib/helper/utils';
 
@@ -16,25 +14,9 @@ const ProjectInfoField = ({
 }: {
    formMethods: UseFormReturn<SalesDocumentPayload>;
 }) => {
-   const [searchTerm, setSearchTerm] = useState({});
-   const [selectedProject, setSelectedProject] = useState<string>();
-   const [projectData, setProjectData] = useState<ProjectPayload | undefined>();
-   const { data: projectList, isLoading } = useProjectsQuery(searchTerm);
-
    const {
-      setValue,
       formState: { errors },
    } = formMethods;
-
-   useEffect(() => {
-      if (projectData) {
-         setValue('projectId', projectData.id);
-         setValue('title', projectData.title);
-         setValue('referenceNumber', projectData.id);
-         setValue('projectDescription', projectData.note || '');
-         setValue('selectedProjectClientId', projectData.clientId);
-      }
-   }, [projectData, setValue]);
 
    const error = errors.projectTitle;
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
-import { useFilesQuery } from '@/lib/api/file-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2 } from 'lucide-react';
@@ -17,8 +16,8 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'project-page',
-         type: 'new-file',
+         openedOn: 'projectPage',
+         type: 'newFile',
          data: {
             ...defaultFileValues,
             projectId: project.id,
@@ -39,8 +38,6 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
       enableSelect: false,
       selectedValues: [] as string[],
    });
-
-   const filesQueryResult = useFilesQuery(fileFilter);
 
    useEffect(() => {
       if (project?.id) {
@@ -112,6 +109,7 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
             />
             <SharedFileList
                page="project-page"
+               variant='projectPage'
                setFilter={setFileFilter}
                filter={fileFilter}
                setSelectState={setSelectState}

@@ -1,9 +1,5 @@
 import { Link } from 'react-router-dom';
-import {
-   ProjectCardProps,
-   ProjectListProps,
-} from '@/components/page-elements/all-projects/props.type';
-import { EllipsisVertical, FolderClock, Plus } from 'lucide-react';
+import { FolderClock } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
    ApiErrorPlaceHolder,
@@ -16,6 +12,7 @@ import { cn } from '@/lib/helper/utils';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 interface ProjectListProps {
    queryResult: UseQueryResult<ProjectListPayload>;
@@ -30,8 +27,6 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    queryResult,
    clientId,
    placeHolder = 'Add new project to this client',
-   className,
-   handleLoadMore,
    page
 }) => {
    const { data: projectsData, isLoading, isError, refetch } = queryResult;
@@ -42,11 +37,11 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         data: { ...defaultProject, clientId: clientId },
+         data: { ...defaultNewProjectValue, clientId: clientId },
          entity: 'project',
          mode: 'create',
-         openedOn: 'client-page',
-         type: 'new-project',
+         openedOn: 'clientPage',
+         type: 'newProject',
       });
    };
 

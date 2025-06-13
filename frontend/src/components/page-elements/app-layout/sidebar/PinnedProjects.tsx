@@ -4,7 +4,7 @@ import {
    useProjectSelectionQuery,
    useProjectsQuery,
 } from '@/lib/api/project-api';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProjectPayload } from 'freelanceman-common/src/schemas';
 import { Minus, Pin, Plus } from 'lucide-react';
 import { toast } from 'sonner';
@@ -91,7 +91,7 @@ const PinnedProjectTabs = ({
       return <></>
    }
 
-   const pinnedProjects = projects?.items.map((project, i) => {
+   const pinnedProjects = projects?.items.map((project) => {
       return <PinnedProjectCard project={project} key={project.id} />;
    });
 

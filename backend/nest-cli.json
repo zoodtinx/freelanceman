@@ -3,6 +3,17 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "sales-documents/helpers/fonts/**/*",
+        "outDir": "dist/src"
+      },
+      {
+        "include": "sales-documents/helpers/output.css",
+        "outDir": "dist/src"
+      }
+    ],
+    "watchAssets": true
   }
 }

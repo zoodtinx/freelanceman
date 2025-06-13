@@ -47,12 +47,6 @@ export const useClientSelectionsQuery = (
    );
 };
 
-// export const useProjectSelectionQuery = (filter: ProjectFilterDto = {}) => {
-//    return useAppQuery(['projectSelections', filter], (token) =>
-//       getProjectSelections(token, filter)
-//    );
-// };
-
 export const useCreateClient = (callbacks?: MutationCallbacks) => {
    return useAppMutation(
       {

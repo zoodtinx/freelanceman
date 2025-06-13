@@ -15,11 +15,10 @@ import { cn } from '@/lib/helper/utils';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useWatch, useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
-   ApiLoadingState,
    FormDialogProps,
-   FormDialogType,
+   FormDialogType
 } from '@/lib/types/form-dialog.types';
 import useCrudApi from '@/lib/api/services/all-api';
 import { CrudApi } from '@/lib/api/api.type';
@@ -49,24 +48,24 @@ const FormDialog = () => {
       setFormDialogState((prev) => {
          return {
             ...prev,
-            isOpen: false
-         }
-      })
-   }
+            isOpen: false,
+         };
+      });
+   };
    const handleConfirmDialogCloseCallback = () => {
       setConfirmationDialogState((prev) => {
          return {
             ...prev,
-            isOpen: false
-         }
-      })
-   }
+            isOpen: false,
+         };
+      });
+   };
    const callbacks = getApiCallBacks({
       entity: formDialogState.entity,
       formMethods: formMethods,
       setFormDialogState: handleFormDialogCloseCallback,
-      setConfirmationDialogState: handleConfirmDialogCloseCallback
-   })
+      setConfirmationDialogState: handleConfirmDialogCloseCallback,
+   });
    const crudApi = useCrudApi(callbacks);
 
    //handle dialog close with unsaved changes
@@ -130,28 +129,21 @@ const FormDialog = () => {
    //handle false dirty fields
    useEffect(() => {
       if (isDirty && Object.keys(dirtyFields).length === 0) {
-        reset(getValues());
+         reset(getValues());
       }
-    }, [isDirty, dirtyFields, reset, getValues]);
+   }, [isDirty, dirtyFields, reset, getValues]);
 
    //dialog color access
    const color = (() => {
       const { type, data } = formDialogState;
-      if (type === 'client-contact' || type === 'partner-contact') {
+      if (type === 'clientContact' || type === 'partnerContact') {
          return (data as any).company?.themeColor;
       }
-      if (type === 'client-settings') {
+      if (type === 'clientSettings') {
          return (data as any)?.themeColor;
       }
       return (data as any).client?.themeColor;
    })();
-
-   //button api laoding state
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'submit',
-   });
-   const buttonLoadingState = { isApiLoading, setIsApiLoading };
 
    //handle discard/delete
    const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -159,7 +151,6 @@ const FormDialog = () => {
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
       } else if (formDialogState.mode === 'edit') {
-         setIsApiLoading({ isLoading: true, type: 'destructive' });
          handleDelete({
             mutateApi: getDeleteFn(formDialogState.entity, crudApi),
             payload: formDialogState.data.id,
@@ -175,7 +166,6 @@ const FormDialog = () => {
                },
             },
          });
-         setIsApiLoading({ isLoading: false, type: 'destructive' });
       }
    };
 
@@ -205,7 +195,6 @@ const FormDialog = () => {
                <FormDialogContent
                   dialogType={formDialogState.type}
                   formMethods={formMethods}
-                  buttonLoadingState={buttonLoadingState}
                   crudApi={crudApi[formDialogState.entity]}
                   handleLeftButtonClick={handleLeftButtonClick}
                />
@@ -270,21 +259,21 @@ const FormDialogContent = (props: FormDialogProps) => {
          return <EventDialog {...props} />;
       case 'file':
          return <FileDialog {...props} />;
-      case 'new-file':
+      case 'newFile':
          return <NewFileDialog {...props} />;
-      case 'project-settings':
+      case 'projectSettings':
          return <ProjectDialog {...props} />;
-      case 'client-contact':
+      case 'clientContact':
          return <ClientContactDialog {...props} />;
-      case 'partner-contact':
+      case 'partnerContact':
          return <PartnerContactDialog {...props} />;
-      case 'user-profile':
+      case 'userProfile':
          return <UserProfileDialog {...props} />;
-      case 'new-project':
+      case 'newProject':
          return <NewProjectDialog {...props} />;
-      case 'new-client':
+      case 'newClient':
          return <NewClientDialog {...props} />;
-      case 'client-settings':
+      case 'clientSettings':
          return <ClientDialog {...props} />;
       case 'base':
          return <></>;
@@ -293,7 +282,7 @@ const FormDialogContent = (props: FormDialogProps) => {
    }
 };
 
-const getDeleteFn = (entity: keyof CrudApi, crudApi: CrudApi) => {
+const getDeleteFn = (entity: keyof CrudApi, crudApi: any) => {
    switch (entity) {
       case 'task':
          return crudApi.task.deleteTask;

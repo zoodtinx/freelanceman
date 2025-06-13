@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
    TextAreaForm,
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { CircleCheck, Package, Plus, UserRound } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import {
-   ApiLoadingState,
-   FormDialogProps,
+   FormDialogProps
 } from 'src/lib/types/form-dialog.types';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import {
    paymentStatusSelections,
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
-import { SelectObject } from '@/lib/types/selector-dialog.types';
 import {
    SelectWithSearchForm,
    DynamicHeightTextInputForm,
@@ -36,15 +33,10 @@ export const NewProjectDialog = ({
       (state) => state.setFormDialogState
    );
    const { createProject } = crudApi as CrudApi['project'];
-   const { formDialogState } = useFormDialogStore();
 
    const [haveNote, setHaveNote] = useState(false);
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'destructive',
-   });
 
-   const { handleSubmit, setError, clearErrors } = formMethods;
+   const { handleSubmit, setError } = formMethods;
 
    const onSubmit = async (data: any) => {
       const rawBudget = data.budget.replace(/,/g, '');
@@ -148,51 +140,8 @@ export const NewProjectDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            isApiLoading={isApiLoading}
             onDiscard={handleLeftButtonClick}
          />
       </form>
    );
-};
-
-const AddButtonGroup = () => {
-   const { formDialogState, setFormDialogState, setSelectorDialogState } =
-      useDialogStore();
-   const [addedAsset, setAddedAsset] = useState<SelectObject[]>([]);
-   const handleAddAsset = () => {
-      setSelectorDialogState({
-         isOpen: true,
-         type: 'file',
-         selected: addedAsset,
-         setSelected: (items: SelectObject[]) => {
-            console.log('triggered');
-            setAddedAsset(items);
-         },
-      });
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const handleAddContact = () => {};
-
-   const buttonConfig = [
-      { icon: Package, label: 'Add Asset', handleClick: handleAddAsset },
-      { icon: UserRound, label: 'Add Contact', handleClick: handleAddContact },
-   ];
-
-   const buttons = buttonConfig.map((data, index) => (
-      <div
-         key={index}
-         className="cursor-default select-none border border-transparent hover:border-primary transition-colors duration-75 flex flex-1 h-[60px] rounded-xl bg-foreground p-2 gap-1"
-         onClick={data.handleClick}
-      >
-         <data.icon className="w-5 h-5" />
-         <p>{data.label}</p>
-      </div>
-   ));
-
-   return <div className="w-full flex gap-[5px]">{buttons}</div>;
 };

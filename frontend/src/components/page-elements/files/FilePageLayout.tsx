@@ -12,7 +12,6 @@ import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/de
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FileFilterDto, FilePayload } from 'freelanceman-common';
 import AddButton from '@/components/shared/ui/AddButton';
-import FileListLoader from '@/components/shared/ui/placeholder-ui/FilePageLoader';
 import { toast } from 'sonner';
 import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
@@ -55,11 +54,11 @@ const FilePageLayout = (): JSX.Element => {
    };
 
    const selectAll = () => {
-      if (!filesData) {
+      if (!filesQueryResult.data) {
          return;
       }
       setSelectState((prev) => {
-         const selected = filesData.map((file: FilePayload) => {
+         const selected = filesQueryResult.data.items.map((file: FilePayload) => {
             return file.id;
          });
          return {
@@ -82,8 +81,8 @@ const FilePageLayout = (): JSX.Element => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'file-page',
-         type: 'new-file',
+         openedOn: 'filePage',
+         type: 'newFile',
          entity: 'file',
          data: { ...defaultFileValues },
       });
@@ -157,7 +156,7 @@ const FilePageLayout = (): JSX.Element => {
             </div>
          </div>
          <SharedFileList
-            page="file-page"
+            page="filePage"
             filter={fileFilter}
             setFilter={setFileFilter}
             setSelectState={setSelectState}
@@ -165,6 +164,7 @@ const FilePageLayout = (): JSX.Element => {
             placeHolder="Add a file"
             addFn={handleNewFile}
             className="px-2"
+            variant='base'
          />
       </div>
    );

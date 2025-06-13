@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
-import { ProjectLinks, ProjectLinksPayload } from 'freelanceman-common/src/schemas';
+import { ProjectLinksPayload } from 'freelanceman-common/src/schemas';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 
 const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({

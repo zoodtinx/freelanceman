@@ -27,7 +27,6 @@ import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { useUserQuery } from '@/lib/api/user-api';
-import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 const SalesDocumentBuilderPage = ({
@@ -46,25 +45,13 @@ const SalesDocumentBuilderPage = ({
       type: 'delete',
    });
 
-   // const [isOnMobile, setIsOnMobile] = useState(
-   //    document.documentElement.clientWidth < 834
-   // );
-
-   useEffect(() => {
-      const handleResize = () => {
-         setIsOnMobile(document.documentElement.clientWidth < 834);
-      };
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-   }, []);
-
    // --- Form and Queries ---
    const formMethods = useForm<SalesDocumentPayload>({});
    const { data: salesDocumentData, isLoading: isDocLoading } =
       useSalesDocumentQuery(documentId ?? '', isEditMode);
    const { data: projectData, isLoading: isProjectDataLoading } =
       useProjectQuery(projectId ?? '', !isEditMode);
-   const { data: userData, isLoading: isUserLoading } = useUserQuery(
+   const { data: userData } = useUserQuery(
       !isEditMode
    );
 
@@ -116,6 +103,8 @@ const SalesDocumentBuilderPage = ({
       },
    });
 
+   console.log('deleteSalesDoc', deleteSalesDoc)
+
    const createPdf = useCreatePdf({
       errorCallback: () => toast.error(`Error creating PDF`),
       successCallback: () => toast.success(`PDF Created`),
@@ -158,7 +147,7 @@ const SalesDocumentBuilderPage = ({
    const {
       handleSubmit,
       getValues,
-      formState: { isDirty, dirtyFields },
+      formState: { isDirty },
    } = formMethods;
 
    const onSubmit = async (data: SalesDocumentPayload) => {
@@ -218,75 +207,6 @@ const SalesDocumentBuilderPage = ({
                onClick={() => navigate('/home/income')}
             />
          </div>
-
-         {/* {isOnMobile && (
-            <ScrollArea className="">
-               <form
-                  className="flex flex-col grow gap-3 sm:flex-col w-full h-full"
-                  onSubmit={handleSubmit(onSubmit)}
-               >
-                  <div className="flex grow gap-3 sm:flex-col">
-                     <div className="flex flex-col w-1/2 gap-3 sm:flex-col sm:w-full">
-                        {isLoading ? (
-                           <Skeleton className="w-full h-1/3 rounded-xl" />
-                        ) : (
-                           <ProjectInfoField formMethods={formMethods} />
-                        )}
-                        {isLoading ? (
-                           <Skeleton className="w-full h-1/3 rounded-xl" />
-                        ) : (
-                           <FreelancerInfoField formMethods={formMethods} />
-                        )}
-                        {isLoading ? (
-                           <Skeleton className="w-full h-1/3 rounded-xl" />
-                        ) : (
-                           <ClientInfoField formMethods={formMethods} />
-                        )}
-                     </div>
-                     <div className="flex flex-col w-1/2 gap-3 sm:w-full">
-                        {isLoading ? (
-                           <Skeleton className="w-full h-full rounded-xl" />
-                        ) : (
-                           <ItemsField formMethods={formMethods} />
-                        )}
-                     </div>
-                  </div>
-                  <footer className="flex justify-between shrink-0">
-                     <div className="flex gap-2">
-                        <Button
-                           onClick={handleDiscard}
-                           variant="destructiveOutline"
-                           disabled={isLoading}
-                        >
-                           {isDirty ? 'Discard Changes' : 'Back'}
-                        </Button>
-                     </div>
-                     <div className="flex gap-2">
-                        <Button
-                           variant={
-                              createPdf.isPending || isDirty || !isEditMode
-                                 ? 'ghost'
-                                 : 'default'
-                           }
-                           disabled={
-                              createPdf.isPending || isDirty || !isEditMode
-                           }
-                           className="flex gap-1"
-                           onClick={handleCreatePdf}
-                        >
-                           <FilePlus2 className="w-4 h-4" />
-                           <p>Create PDF</p>
-                        </Button>
-                        <SubmitButton
-                           isApiLoading={isApiLoading}
-                           formMethods={formMethods}
-                        />
-                     </div>
-                  </footer>
-               </form>
-            </ScrollArea>
-         )} */}
-
          <form
             className="flex flex-col grow gap-3 sm:flex-col w-full shrink"
             onSubmit={handleSubmit(onSubmit)}
@@ -391,7 +311,7 @@ export const SubmitButton = ({
    formMethods: UseFormReturn<any>;
 }) => {
    const {
-      formState: { isDirty, dirtyFields },
+      formState: { isDirty },
    } = formMethods;
 
    const isLoading = isApiLoading?.isLoading;

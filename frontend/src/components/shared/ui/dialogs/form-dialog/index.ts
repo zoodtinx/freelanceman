@@ -3,8 +3,6 @@ export * from "./ClientContactDialog";
 export * from "./EventDialog";
 export * from "./FileDialog";
 export * from "./NewFileDialog";
-export * from "./FileDialogCreateMode";
-export * from "./FileDialogViewMode";
 export * from "./FormButton";
 export * from "./FormDialog";
 export * from "./NewClientDialog";

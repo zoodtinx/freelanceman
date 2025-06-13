@@ -19,8 +19,8 @@ const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'client-page',
-         type: 'client-contact',
+         openedOn: 'clientPage',
+         type: 'clientContact',
          entity: 'clientContact',
          data: { ...defaultContactValues, companyId: clientData.id },
       });

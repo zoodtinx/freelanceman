@@ -3,15 +3,8 @@ import {
    TextAreaForm,
    Label,
 } from 'src/components/shared/ui/form-field-elements';
-import {
-   ClientPayload,
-   SalesDocumentPayload,
-} from 'freelanceman-common/src/schemas';
-import { useEffect, useState } from 'react';
+import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
-import { useClientsQuery } from '@/lib/api/client-api';
-import { UseQueryResult } from '@tanstack/react-query';
-import { ClientListPayload } from 'freelanceman-common';
 import { cn } from '@/lib/helper/utils';
 
 const ClientInfoField = ({
@@ -19,28 +12,9 @@ const ClientInfoField = ({
 }: {
    formMethods: UseFormReturn<SalesDocumentPayload>;
 }) => {
-   // const userData = some logic to fetch user data
-   const [searchTerm, setSearchTerm] = useState({});
-   const [clientData, setClientData] = useState<ClientPayload | undefined>();
-   const { data: clientList, isLoading } = useClientsQuery(
-      searchTerm
-   ) as UseQueryResult<ClientListPayload>;
-
    const {
-      setValue,
       formState: { errors },
    } = formMethods;
-
-   useEffect(() => {
-      if (clientData) {
-         setValue('clientId', clientData.id);
-         setValue('clientName', clientData.name);
-         setValue('clientTaxId', clientData.taxId);
-         setValue('clientAddress', clientData.address);
-         setValue('clientPhone', clientData.phoneNumber);
-         setValue('clientDetail', clientData.detail);
-      }
-   }, [clientData, setValue]);
 
    const error = errors.clientName;
 

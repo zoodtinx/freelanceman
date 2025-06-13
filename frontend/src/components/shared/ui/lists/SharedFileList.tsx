@@ -25,7 +25,7 @@ import { forwardRef } from 'react';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
-type Variant = 'base' | 'project-page';
+type Variant = 'base' | 'projectPage';
 
 interface SharedFileListProps {
    selectState: SelectState;
@@ -37,6 +37,7 @@ interface SharedFileListProps {
    placeHolder?: string;
    className?: string;
    page: string;
+   variant: Variant
 }
 
 export const SharedFileList = ({
@@ -49,6 +50,7 @@ export const SharedFileList = ({
    filter,
    setFilter,
    page,
+   variant
 }: SharedFileListProps) => {
    const {
       data: filesData,
@@ -75,7 +77,7 @@ export const SharedFileList = ({
    if (isLoading) return <LoadingPlaceHolder />;
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (!filesData.items.length) {
-      if (page === 'file-page') {
+      if (page === 'filePage') {
          return <TabListPlaceHolder containerClassName='sm:px-2' addFn={addFn} children='Add a file' />
       } else {
          return <NoDataPlaceHolder className='sm:pb-0' addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
@@ -117,6 +119,7 @@ export const SharedFileList = ({
                   setSelectState={setSelectState}
                   size={size}
                   page={page}
+                  variant={variant}
                   ref={isLast ? lastItemRef : undefined}
                />
             );
@@ -139,6 +142,7 @@ interface SharedFileListItemProps {
    setSelectState?: Dispatch<SetStateAction<SelectState>>;
    size?: 'base' | 'sm' | 'md';
    page: string;
+   variant: Variant
 }
 
 const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(

@@ -1,12 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-   BookUser,
-   ChevronDown,
-   CircleCheck,
+   BookUser, CircleCheck,
    Folder,
    Layers,
    UsersRound,
-   Wallet,
+   Wallet
 } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
 import {

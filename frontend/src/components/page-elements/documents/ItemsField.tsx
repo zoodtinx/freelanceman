@@ -18,15 +18,14 @@ const ItemsField = ({
    formMethods: UseFormReturn<SalesDocumentPayload>;
 }) => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
-      type: 'sales-document-item',
+      type: 'salesDocumentItem',
       mode: 'create',
       isOpen: false,
       data: {},
-      entity: 'sales-document-item',
-      openedOn: 'global-add-button',
+      entity: 'salesDocumentItem',
+      openedOn: 'documentPage',
    });
    const { control, watch, formState: {errors, isSubmitted}, setError, clearErrors } = formMethods;
-   const hasMounted = useRef(false);
    const items = watch('items')
    const fieldArrayMethods = useFieldArray<SalesDocumentPayload>({
       control,
@@ -60,12 +59,14 @@ const ItemsField = ({
    
    let total = adjustedSubtotal * (1 + tax / 100)
 
-   const handleViewItem = (itemData, index) => {
+   const handleViewItem = (itemData: any, index: number) => {
       setDialogState((prev) => {
          return {
             ...prev,
             isOpen: true,
             mode: 'edit',
+            type: 'salesDocumentItem',
+            entity: 'salesDocumentItem',
             data: { ...itemData, index },
          };
       });
@@ -76,6 +77,8 @@ const ItemsField = ({
          return {
             ...prev,
             mode: 'create',
+            type: 'salesDocumentItem',
+            entity: 'salesDocumentItem',
             isOpen: true,
             data: {...defaultSalesDocumentItemValue}
          };

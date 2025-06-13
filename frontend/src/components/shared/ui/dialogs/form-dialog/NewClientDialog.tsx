@@ -1,12 +1,10 @@
-import { useState } from 'react';
 import {
    TextAreaForm,
    TextInputForm,
    DynamicHeightTextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
 import {
-   ApiLoadingState,
-   FormDialogProps,
+   FormDialogProps
 } from 'src/lib/types/form-dialog.types';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
@@ -30,12 +28,6 @@ export const NewClientDialog = ({
 
    // api setup
    const { createClient } = crudApi as CrudApi['client'];
-
-   // button loading state
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'submit',
-   });
 
    // form utilities
    const { handleSubmit } = formMethods;
@@ -129,7 +121,6 @@ export const NewClientDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            isApiLoading={isApiLoading}
             onDiscard={handleLeftButtonClick}
          />
       </form>

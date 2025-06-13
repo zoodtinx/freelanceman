@@ -1,4 +1,3 @@
-import { useEventsQuery } from '@/lib/api/event-api';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
@@ -21,7 +20,7 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
       setFormDialogState({
          isOpen: true,
          mode: 'create',
-         openedOn: 'project-page',
+         openedOn: 'projectPage',
          type: 'event',
          entity: 'event',
          data: { ...defaultEventValues, projectId: project.id },

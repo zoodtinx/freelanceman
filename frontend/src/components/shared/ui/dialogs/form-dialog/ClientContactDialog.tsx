@@ -19,20 +19,15 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { CrudApi } from '@/lib/api/api.type';
 import { useGetPresignedUrl } from '@/lib/api/file-api';
-import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'sonner';
 
 export const ClientContactDialog = ({
    formMethods,
-   buttonLoadingState,
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
    // utility hooks
    const navigate = useNavigate()
-   
-   // button loading state
-   const { isApiLoading, setIsApiLoading } = buttonLoadingState;
 
    // form utilities
    const { handleSubmit, getValues } = formMethods;
@@ -216,9 +211,7 @@ export const ClientContactDialog = ({
                </div>
             </div>
             <FormDialogFooter
-               formDialogState={formDialogState}
                formMethods={formMethods}
-               isApiLoading={isApiLoading}
                onDiscard={handleLeftButtonClick}
             />
          </div>

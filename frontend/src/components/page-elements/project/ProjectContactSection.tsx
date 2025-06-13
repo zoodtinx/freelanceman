@@ -4,18 +4,16 @@ import {
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
 import { Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { User, BookUser, UsersRound, Loader2 } from 'lucide-react';
+import { forwardRef, useState } from 'react';
+import { UsersRound, Loader2 } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
-import useDialogStore from '@/lib/zustand/dialog-store';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
 import {
-   ClientContactFilterDto,
    ClientContactListPayload,
    ClientContactPayload,
    PartnerContactListPayload,
-   ProjectPayload,
+   ProjectPayload
 } from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
@@ -28,31 +26,25 @@ import {
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { UseQueryResult } from '@tanstack/react-query';
+import { useFileUrlQuery } from '@/lib/api/file-api';
 
 export const ProjectContactSection = ({
    project,
 }: {
    project: ProjectPayload;
 }): JSX.Element => {
-   const setFormDialogState = useDialogStore(
-      (state) => state.setFormDialogState
-   );
-
    const setSelectorDialogState = useSelectionDialogStore(
       (state) => state.setSelectorDialogState
    );
 
    const [tab, setTab] = useState<'client' | 'partner'>('client');
-   const [searchOptions, setSearchOptions] = useState<ClientContactFilterDto>({
-      projectId: project.id,
-   });
 
    const {
       data: clientContacts,
       isLoading: clientIsLoading,
       isError: clientIsError,
    } = useClientContactsQuery(
-      searchOptions,
+      {projectId: project.id},
       tab === 'client'
    ) as UseQueryResult<ClientContactListPayload>;
    const {
@@ -60,7 +52,7 @@ export const ProjectContactSection = ({
       isLoading: partnerIsLoading,
       isError: partnerIsError,
    } = usePartnerContactsQuery(
-      searchOptions,
+      {projectId: project.id},
       tab === 'partner'
    ) as UseQueryResult<PartnerContactListPayload>;
 
@@ -70,7 +62,7 @@ export const ProjectContactSection = ({
 
    const handleAddContact = () => {
       const selected = contacts?.items.map(
-         (contact: ClientContactPayload): SelectObject => {
+         (contact: any): SelectObject => {
             const detail = `${contact.role}, ${contact.company.name}`;
             return {
                id: contact.id,
@@ -84,7 +76,7 @@ export const ProjectContactSection = ({
       setSelectorDialogState({
          isOpen: true,
          type: 'contact',
-         selected: selected,
+         selected: selected!,
          projectId: project.id,
          tab: tab,
          mode: contacts?.items.length ? 'view' : 'select',
@@ -142,7 +134,7 @@ export const ProjectContactSection = ({
          ) : (
             <div className="flex flex-col gap-1 h-0 grow overflow-y-auto p-3">
                {contacts?.items.map((contact) => (
-                  <ContactCard key={contact.id} contact={contact as any} />
+                  <ContactCard page='projectPage' key={contact.id} contact={contact as any} />
                ))}
             </div>
          )}
@@ -150,47 +142,52 @@ export const ProjectContactSection = ({
    );
 };
 
-export const ContactCard = ({ contact }: { contact: ClientContactPayload }) => {
+export const ContactCard = forwardRef<
+   HTMLDivElement,
+   { contact: ClientContactPayload; page: string }
+>(({ contact, page }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
+
+   const { data } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar));
+
    const handleClick = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'project-page',
-         type: 'client-contact',
-         data: contact,
+         openedOn: 'clientPage',
+         type: 'clientContact',
          entity: 'clientContact',
+         data: contact,
       });
    };
 
-   let avatar;
-   if (!contact.avatar) {
-      avatar = <User className="w-8 h-8" />;
-   } else {
-      avatar = (
-         <img
-            src={contact.avatar}
-            alt="Contact Avatar"
-            className="w-full h-full object-cover"
-         />
-      );
-   }
-
    return (
       <div
+         ref={ref}
          onClick={handleClick}
-         className="flex w-full h-fit rounded-full bg-quaternary p-2 items-center gap-2 border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary cursor-default"
+         className={cn(
+            `flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[55px] shrink-0
+               border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
+               cursor-default`,
+            page === 'all-client-page' && 'h-[75px] p-2',
+            'sm:h-fit'
+         )}
       >
-         <AvatarDisplay />
-         <div className="flex flex-col leading-tight h-fit">
-            <p className="font-semibold text-md">{contact.name}</p>
-            <p className="text-base text-secondary">{contact.role}</p>
+         <AvatarDisplay page={page} url={data?.url} className='sm:w-8 sm:h-8' />
+         <div className="flex flex-col leading-tight">
+            <p className="font-semibold text-md sm:text-base">{contact.name}</p>
+            {page === 'all-client-page' && (
+               <p className="font-semibold text-base text-secondary">
+                  {contact.company.name}
+               </p>
+            )}
+            <p className="text-base text-secondary sm:hidden">{contact.role}</p>
          </div>
       </div>
    );
-};
+});
 
 export const NewContactButton = ({
    setDialogState,

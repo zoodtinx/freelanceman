@@ -39,27 +39,6 @@ const FileListItem: React.FC<FileListItemProps> = ({
 
    const isSelected = selectState.selectedValues.includes(data.id)
 
-   const handleSelect = () => {
-      if (isSelected) {
-         setSelectState((prev) => {
-            return {
-               enableSelect: true,
-               selectedValues: prev.selectedValues.filter(
-                  (id) => id !== data.id
-               ),
-            };
-         });
-         return;
-      } else if (!isSelected) {
-         setSelectState((prev) => {
-            return {
-               enableSelect: true,
-               selectedValues: [...prev.selectedValues, data.id],
-            };
-         });
-      }
-   };
-
    const handleClick = () => {
       if (selectState.enableSelect) {
          if (isSelected) {
@@ -83,9 +62,10 @@ const FileListItem: React.FC<FileListItemProps> = ({
          setDialogState({
             isOpen: true,
             data: data,
-            id: data.id,
-            mode: 'view',
+            mode: 'edit',
             type: 'file',
+            entity: 'file',
+            openedOn: 'globalAddButton'
          });
       }
    };

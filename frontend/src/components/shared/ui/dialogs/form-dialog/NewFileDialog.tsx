@@ -16,8 +16,7 @@ import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/sel
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { FileUploadForm } from '@/components/shared/ui/form-field-elements/FileUploadForm';
 import {
-   ApiLoadingState,
-   FormDialogProps,
+   FormDialogProps
 } from '@/lib/types/form-dialog.types';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -38,11 +37,7 @@ export const NewFileDialog = ({
    const navigate = useNavigate();
 
    // state hook
-   const [isApiLoading, setIsApiLoading] = useState<ApiLoadingState>({
-      isLoading: false,
-      type: 'destructive',
-   });
-   const [mode, setMode] = useState<'add-link' | 'upload'>('upload');
+   const [mode, setMode] = useState('upload');
    useEffect(() => {
       formMethods.reset({
          defaultFileValues,
@@ -115,7 +110,7 @@ export const NewFileDialog = ({
             isOpen: false,
          };
       });
-      if (formDialogState.openedOn === 'global-add-button') {
+      if (formDialogState.openedOn === 'globalAddButton') {
          navigate('/home/files');
       }
    };
@@ -171,7 +166,7 @@ export const NewFileDialog = ({
                      errorMessage="Please enter display name"
                   />
                </div>
-               {formDialogState.openedOn !== 'project-page' && (
+               {formDialogState.openedOn !== 'projectPage' && (
                   <div className="flex flex-col">
                      <Label>Project</Label>
                      <SelectWithSearchForm
@@ -225,7 +220,6 @@ export const NewFileDialog = ({
             </div>
             <FormDialogFooter
                formMethods={formMethods}
-               isApiLoading={isApiLoading}
                onDiscard={handleLeftButtonClick}
             />
          </form>
