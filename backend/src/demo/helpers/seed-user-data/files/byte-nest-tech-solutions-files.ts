@@ -6,7 +6,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
     return [
         {
             originalName: 'ui_ux_redesign_brief_v1.pdf',
-            displayName: 'UI/UX Redesign Project Brief',
+            name: 'UI/UX Redesign Project Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/ui_ux_redesign_brief_v1.pdf`,
@@ -15,7 +15,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'initial_wireframes_approved.fig',
-            displayName: 'Initial Wireframes (Approved)',
+            name: 'Initial Wireframes (Approved)',
             type: 'design',
             category: 'work',
             link: 'https://www.figma.com/file/bytenest_wireframes_approved',
@@ -23,7 +23,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'high_fidelity_mockups_progress_june15.xd',
-            displayName: 'High-Fidelity Mockups (WIP)',
+            name: 'High-Fidelity Mockups (WIP)',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/high_fidelity_mockups_progress_june15.xd`,
@@ -32,7 +32,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'navigation_motion_prototypes_v1.mp4',
-            displayName: 'Navigation Motion Prototypes',
+            name: 'Navigation Motion Prototypes',
             type: 'video',
             category: 'work',
             link: 'https://vimeo.com/bytenest_motion_prototypes_v1',
@@ -40,7 +40,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'competitor_ui_trends_shopflow.pdf',
-            displayName: 'Competitor UI Trends (ShopFlow)',
+            name: 'Competitor UI Trends (ShopFlow)',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_ui_trends_shopflow.pdf`,
@@ -49,7 +49,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'user_research_findings_summary.pdf',
-            displayName: 'User Research Findings Summary',
+            name: 'User Research Findings Summary',
             type: 'document',
             category: 'asset',
             link: 'https://docs.google.com/document/d/bytenest_user_research',
@@ -57,7 +57,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'existing_ecom_platform_audit.xlsx',
-            displayName: 'Existing Platform Audit',
+            name: 'Existing Platform Audit',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/existing_ecom_platform_audit.xlsx`,
@@ -66,7 +66,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'brand_style_guide_bytenest.pdf',
-            displayName: 'ByteNest Brand Style Guide',
+            name: 'ByteNest Brand Style Guide',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/bytenest_brand_guide.pdf',
@@ -74,7 +74,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_brand_assets_ecommerce.zip',
-            displayName: 'Client Brand Assets',
+            name: 'Client Brand Assets',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_brand_assets_ecommerce.zip`,
@@ -83,7 +83,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'sitemap_and_user_flows_v2.fig',
-            displayName: 'Sitemap & User Flows',
+            name: 'Sitemap & User Flows',
             type: 'design',
             category: 'asset',
             link: 'https://www.figma.com/file/bytenest_sitemap_userflows',
@@ -91,7 +91,7 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'accessibility_checklist.pdf',
-            displayName: 'Accessibility Checklist',
+            name: 'Accessibility Checklist',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/accessibility_checklist.pdf`,
@@ -107,7 +107,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
     return [
         {
             originalName: 'api_integration_project_plan_v1.pdf',
-            displayName: 'API Integration Project Plan',
+            name: 'API Integration Project Plan',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/api_integration_project_plan_v1.pdf`,
@@ -116,7 +116,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'authentication_method_proposal.docx',
-            displayName: 'Authentication Method Proposal',
+            name: 'Authentication Method Proposal',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/authentication_method_proposal.docx`,
@@ -125,7 +125,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'integration_test_cases_suite_1.xlsx',
-            displayName: 'Integration Test Cases (Suite 1)',
+            name: 'Integration Test Cases (Suite 1)',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/integration_test_cases_suite_1.xlsx`,
@@ -134,7 +134,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'development_roadmap_api_integration.pptx',
-            displayName: 'API Integration Development Roadmap',
+            name: 'API Integration Development Roadmap',
             type: 'presentation',
             category: 'work',
             link: 'https://docs.google.com/presentation/d/bytenest_crm_api_roadmap',
@@ -142,7 +142,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'security_audit_report_draft.pdf',
-            displayName: 'Security Audit Report Draft',
+            name: 'Security Audit Report Draft',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/security_audit_report_draft.pdf`,
@@ -151,7 +151,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'deployment_checklist_v1.docx',
-            displayName: 'Deployment Checklist',
+            name: 'Deployment Checklist',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/deployment_checklist_v1.docx`,
@@ -160,7 +160,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'api_integration_code_base_v1.zip',
-            displayName: 'API Integration Codebase (v1)',
+            name: 'API Integration Codebase (v1)',
             type: 'code',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/api_integration_code_base_v1.zip`,
@@ -169,7 +169,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'user_acceptance_testing_results.pdf',
-            displayName: 'User Acceptance Testing Results',
+            name: 'User Acceptance Testing Results',
             type: 'document',
             category: 'work',
             link: 'https://example.com/bytenest_uat_results.pdf',
@@ -177,7 +177,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'performance_testing_summary.pdf',
-            displayName: 'Performance Testing Summary',
+            name: 'Performance Testing Summary',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/performance_testing_summary.pdf`,
@@ -186,7 +186,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'crm_api_documentation_external.pdf',
-            displayName: 'CRM API Documentation',
+            name: 'CRM API Documentation',
             type: 'document',
             category: 'asset',
             link: 'https://developer.bytenestcrm.com/api-docs',
@@ -194,7 +194,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'bytenest_network_architecture.vsdx',
-            displayName: 'ByteNest Network Architecture Diagram',
+            name: 'ByteNest Network Architecture Diagram',
             type: 'design',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/bytenest_network_architecture.vsdx`,
@@ -203,7 +203,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'existing_crm_data_schema.sql',
-            displayName: 'Existing CRM Data Schema',
+            name: 'Existing CRM Data Schema',
             type: 'database',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/existing_crm_data_schema.sql`,
@@ -212,7 +212,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'api_security_best_practices.pdf',
-            displayName: 'API Security Best Practices Guide',
+            name: 'API Security Best Practices Guide',
             type: 'document',
             category: 'asset',
             link: 'https://owasp.org/www-project-api-security',
@@ -220,7 +220,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'internal_team_contact_list.xlsx',
-            displayName: 'Internal Development Team Contacts',
+            name: 'Internal Development Team Contacts',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/internal_team_contact_list.xlsx`,
@@ -229,7 +229,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'api_key_management_policy.pdf',
-            displayName: 'API Key Management Policy',
+            name: 'API Key Management Policy',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/api_key_management_policy.pdf`,
@@ -238,7 +238,7 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
         },
         {
             originalName: 'jira_project_board_link.url',
-            displayName: 'Jira Project Board',
+            name: 'Jira Project Board',
             type: 'project-management',
             category: 'asset',
             link: 'https://bytenest.atlassian.net/jira/software/projects/CRMINTEG/board',
@@ -255,7 +255,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
     return [
         {
             originalName: 'video_project_brief_bytenest.pdf',
-            displayName: 'Product Launch Video Brief',
+            name: 'Product Launch Video Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/video_project_brief_bytenest.pdf`,
@@ -264,7 +264,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'script_draft_explainer_animation_v2.docx',
-            displayName: 'Explainer Animation Script Draft',
+            name: 'Explainer Animation Script Draft',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/script_draft_explainer_animation_v2.docx`,
@@ -273,7 +273,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'storyboard_product_launch_video.pdf',
-            displayName: 'Product Launch Video Storyboard',
+            name: 'Product Launch Video Storyboard',
             type: 'design',
             category: 'work',
             link: 'https://www.figma.com/file/bytenest_video_storyboard',
@@ -281,7 +281,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'animation_style_guide.pdf',
-            displayName: 'Explainer Animation Style Guide',
+            name: 'Explainer Animation Style Guide',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/animation_style_guide.pdf`,
@@ -290,7 +290,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'voice_over_recording_script_final.docx',
-            displayName: 'Voice-Over Recording Script (Final)',
+            name: 'Voice-Over Recording Script (Final)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/voice_over_recording_script_final.docx`,
@@ -299,7 +299,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'initial_video_edit_cut_v1.mp4',
-            displayName: 'Initial Video Edit (Cut 1)',
+            name: 'Initial Video Edit (Cut 1)',
             type: 'video',
             category: 'work',
             link: 'https://vimeo.com/bytenest_product_launch_v1_review',
@@ -307,7 +307,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'client_feedback_form_video.xlsx',
-            displayName: 'Client Feedback Form',
+            name: 'Client Feedback Form',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_feedback_form_video.xlsx`,
@@ -316,7 +316,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'project_hold_notification_email.pdf',
-            displayName: 'Project On-Hold Notification',
+            name: 'Project On-Hold Notification',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/project_hold_notification_email.pdf`,
@@ -325,7 +325,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'q4_2025_restart_timeline_draft.pptx',
-            displayName: 'Q4 2025 Restart Timeline Draft',
+            name: 'Q4 2025 Restart Timeline Draft',
             type: 'presentation',
             category: 'work',
             link: 'https://docs.google.com/presentation/d/bytenest_q4_restart_plan',
@@ -333,7 +333,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'bytenest_product_specs_sheet.pdf',
-            displayName: 'ByteNest Product Specifications',
+            name: 'ByteNest Product Specifications',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/bytenest_product_specs.pdf',
@@ -341,7 +341,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'brand_logo_assets.ai',
-            displayName: 'Brand Logo Assets',
+            name: 'Brand Logo Assets',
             type: 'design',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/brand_logo_assets.ai`,
@@ -350,7 +350,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'stock_footage_library_access.txt',
-            displayName: 'Stock Footage Library Access',
+            name: 'Stock Footage Library Access',
             type: 'other',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/stock_footage_library_access.txt`,
@@ -359,7 +359,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'voice_over_artist_demos.zip',
-            displayName: 'Voice-Over Artist Demos',
+            name: 'Voice-Over Artist Demos',
             type: 'audio',
             category: 'asset',
             link: 'https://soundcloud.com/bytenest_vo_demos',
@@ -367,7 +367,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'background_music_licenses.xlsx',
-            displayName: 'Background Music Licenses',
+            name: 'Background Music Licenses',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/background_music_licenses.xlsx`,
@@ -376,7 +376,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'mr_anan_bytenest_pm_contact.vcf',
-            displayName: 'Mr. Anan (ByteNest PM) Contact',
+            name: 'Mr. Anan (ByteNest PM) Contact',
             type: 'other',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/mr_anan_bytenest_pm_contact.vcf`,
@@ -385,7 +385,7 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
         },
         {
             originalName: 'marketing_channels_brief.pdf',
-            displayName: 'Marketing Channels Brief',
+            name: 'Marketing Channels Brief',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/bytenest_marketing_channels.pdf',
@@ -400,7 +400,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
     return [
         {
             originalName: 'dashboard_requirements_spec_final.pdf',
-            displayName: 'Dashboard Requirements Specification',
+            name: 'Dashboard Requirements Specification',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/dashboard_requirements_spec_final.pdf`,
@@ -409,7 +409,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'dashboard_ui_mockups_approved.fig',
-            displayName: 'Dashboard UI Mockups (Approved)',
+            name: 'Dashboard UI Mockups (Approved)',
             type: 'design',
             category: 'work',
             link: 'https://www.figma.com/file/bytenest_dashboard_ui_approved',
@@ -417,7 +417,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'backend_api_documentation_v3.pdf',
-            displayName: 'Backend API Documentation',
+            name: 'Backend API Documentation',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/backend_api_documentation_v3.pdf`,
@@ -426,7 +426,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'final_dashboard_access_link.url',
-            displayName: 'Final Dashboard Access Link',
+            name: 'Final Dashboard Access Link',
             type: 'other',
             category: 'work',
             link: 'https://dashboard.bytenesttech.com/reports/main',
@@ -434,7 +434,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'training_session_materials_bytenest.pptx',
-            displayName: 'Training Session Presentation',
+            name: 'Training Session Presentation',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/training_session_materials_bytenest.pptx`,
@@ -443,7 +443,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'project_sign_off_document_final.pdf',
-            displayName: 'Project Sign-Off Document',
+            name: 'Project Sign-Off Document',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/project_sign_off_document_final.pdf`,
@@ -452,7 +452,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'user_manual_dashboard_v1.pdf',
-            displayName: 'Dashboard User Manual',
+            name: 'Dashboard User Manual',
             type: 'document',
             category: 'work',
             link: 'https://docs.google.com/document/d/bytenest_dashboard_user_manual',
@@ -460,7 +460,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_testimonial_request_template.docx',
-            displayName: 'Client Testimonial Request',
+            name: 'Client Testimonial Request',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_testimonial_request_template.docx`,
@@ -469,7 +469,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'post_mortem_review_notes_bytenest.pdf',
-            displayName: 'Post-Mortem Review Notes',
+            name: 'Post-Mortem Review Notes',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/post_mortem_review_notes_bytenest.pdf`,
@@ -478,7 +478,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'data_source_connections_diagram.pdf',
-            displayName: 'Data Source Connections Diagram',
+            name: 'Data Source Connections Diagram',
             type: 'design',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/data_source_connections_diagram.pdf`,
@@ -487,7 +487,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'bytenest_data_dictionary.xlsx',
-            displayName: 'ByteNest Data Dictionary',
+            name: 'ByteNest Data Dictionary',
             type: 'spreadsheet',
             category: 'asset',
             link: 'https://docs.google.com/spreadsheets/d/bytenest_data_dictionary',
@@ -495,7 +495,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'database_credentials_secure_vault.url',
-            displayName: 'Database Credentials (Secure Vault)',
+            name: 'Database Credentials (Secure Vault)',
             type: 'other',
             category: 'asset',
             link: 'https://securevault.bytenesttech.com/credentials/dashboard_db',
@@ -503,7 +503,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'existing_reporting_templates.zip',
-            displayName: 'Existing Reporting Templates',
+            name: 'Existing Reporting Templates',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/existing_reporting_templates.zip`,
@@ -512,7 +512,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'power_bi_licensing_info.pdf',
-            displayName: 'Power BI Licensing Information',
+            name: 'Power BI Licensing Information',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/power_bi_licensing_info.pdf`,
@@ -521,7 +521,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'qa_testing_protocols.pdf',
-            displayName: 'QA Testing Protocols',
+            name: 'QA Testing Protocols',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/bytenest_qa_protocols.pdf',
@@ -529,7 +529,7 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_data_privacy_policy.pdf',
-            displayName: 'Client Data Privacy Policy',
+            name: 'Client Data Privacy Policy',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_data_privacy_policy.pdf`,
@@ -545,7 +545,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
     return [
         {
             originalName: 'initial_audit_report_draft.pdf',
-            displayName: 'Initial Website Audit Report Draft',
+            name: 'Initial Website Audit Report Draft',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/initial_audit_report_draft.pdf`,
@@ -554,7 +554,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_meeting_presentation_june17.pptx',
-            displayName: 'Client Meeting Presentation (June 17)',
+            name: 'Client Meeting Presentation (June 17)',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_meeting_presentation_june17.pptx`,
@@ -563,7 +563,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'optimization_recommendations_v1.docx',
-            displayName: 'Optimization Recommendations (Draft)',
+            name: 'Optimization Recommendations (Draft)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/optimization_recommendations_v1.docx`,
@@ -572,7 +572,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'core_web_vitals_analysis.xlsx',
-            displayName: 'Core Web Vitals Analysis Data',
+            name: 'Core Web Vitals Analysis Data',
             type: 'spreadsheet',
             category: 'work',
             link: 'https://docs.google.com/spreadsheets/d/bytenest_cwv_analysis',
@@ -580,7 +580,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'server_response_time_metrics.pdf',
-            displayName: 'Server Response Time Metrics',
+            name: 'Server Response Time Metrics',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/server_response_time_metrics.pdf`,
@@ -589,7 +589,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'action_plan_prioritized_tasks.xlsx',
-            displayName: 'Prioritized Optimization Action Plan',
+            name: 'Prioritized Optimization Action Plan',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/action_plan_prioritized_tasks.xlsx`,
@@ -598,7 +598,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'post_optimization_report_template.pdf',
-            displayName: 'Post-Optimization Report Template',
+            name: 'Post-Optimization Report Template',
             type: 'document',
             category: 'work',
             link: 'https://example.com/bytenest_post_opt_report_template.pdf',
@@ -606,7 +606,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'website_crawl_data_snapshot.zip',
-            displayName: 'Website Crawl Data Snapshot',
+            name: 'Website Crawl Data Snapshot',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/website_crawl_data_snapshot.zip`,
@@ -615,7 +615,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'google_analytics_access_details.txt',
-            displayName: 'Google Analytics Access Details',
+            name: 'Google Analytics Access Details',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/google_analytics_access_details.txt`,
@@ -624,7 +624,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'gtmetrix_lighthouse_reports.zip',
-            displayName: 'GTmetrix & Lighthouse Raw Reports',
+            name: 'GTmetrix & Lighthouse Raw Reports',
             type: 'archive',
             category: 'asset',
             link: 'https://drive.google.com/drive/folders/bytenest_performance_reports',
@@ -632,7 +632,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'bytenest_server_config.conf',
-            displayName: 'ByteNest Server Configuration (Partial)',
+            name: 'ByteNest Server Configuration (Partial)',
             type: 'code',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/bytenest_server_config.conf`,
@@ -641,7 +641,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'competitor_performance_benchmarks.xlsx',
-            displayName: 'Competitor Performance Benchmarks',
+            name: 'Competitor Performance Benchmarks',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_performance_benchmarks.xlsx`,
@@ -650,7 +650,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'cdn_integration_docs.pdf',
-            displayName: 'CDN Integration Documentation',
+            name: 'CDN Integration Documentation',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/cdn_provider_docs.pdf',
@@ -658,7 +658,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'website_codebase_access_details.txt',
-            displayName: 'Website Codebase Access Details',
+            name: 'Website Codebase Access Details',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/website_codebase_access_details.txt`,
@@ -667,7 +667,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'image_optimization_tools_info.pdf',
-            displayName: 'Image Optimization Tools Information',
+            name: 'Image Optimization Tools Information',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/image_optimization_tools_guide.pdf',
@@ -675,7 +675,7 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
         },
         {
             originalName: 'bytenest_marketing_goals_brief.pdf',
-            displayName: 'ByteNest Marketing Goals Brief',
+            name: 'ByteNest Marketing Goals Brief',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/bytenest_marketing_goals_brief.pdf`,

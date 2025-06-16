@@ -12,7 +12,7 @@ export const defaultCreateSalesDocumentValue = {
    clientName: '',
    items: [],
  
-   title: '',
+   name: '',
    number: '',
    currency: '',
    referenceNumber: '',
@@ -50,7 +50,7 @@ export const defaultContact = {
 };
 
 export const defaultSalesDocumentItemValue = {
-   title: '',
+   name: '',
    description: '',
    rate: 1,
    quantity: 1
@@ -84,7 +84,7 @@ export const defaultUserValue = {
 };
 
 export const defaultNewProjectValue = {
-   title: '',
+   name: '',
    clientId: '',
    projectStatus: 'active' as const,
    paymentStatus: 'pending' as const,
@@ -109,11 +109,11 @@ export const defaultClientValue = {
 };
 export const defaultProject = {
    id: '',
-   title: '',
+   name: '',
    client: defaultClientValue,
    clientId: '',
    projectStatus: 'active',
-   paymentStatus: 'unpaid',
+   paymentStatus: 'pending',
    createdAt: new Date().toISOString(),
 };
 
@@ -131,13 +131,14 @@ export const defaultEventValues = {
    updatedAt: new Date().toISOString(),
    userId: '',
    isWithTime: false,
-   project: defaultProject
+   project: defaultProject,
+   client: {}
 };
 
 
 export const defaultFileValues: FilePayload = {
    id: '',
-   displayName: '',
+   name: '',
    originalName: '',
    type: '',
    category: '',
@@ -170,7 +171,7 @@ export const defaultContactValues: ClientContactPayload = {
 export const defaultPartnerContactValues: PartnerContactPayload = {
    id: '',
    name: '',
-   company: '',
+   company: 'Freelancer',
    role: '',
    phoneNumber: '',
    email: '',

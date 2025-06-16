@@ -15,12 +15,17 @@ export class PaymentService {
         const where = {
             userId,
             clientId: filter.clientId,
+            name: filter.name
+                    ? { contains: filter.name, mode: 'insensitive' as const }
+                    : undefined,
             paymentStatus: filter.paymentStatus
                 ? filter.paymentStatus === 'paid'
                     ? 'paid'
                     : { not: 'paid' }
                 : undefined,
         };
+
+        console.log('where', where)
 
         const [total, items] = await Promise.all([
             this.prismaService.project.count({ where }),
@@ -31,7 +36,7 @@ export class PaymentService {
                 client: true,
             },
             orderBy: [
-                { paymentStatus: 'desc' },
+                { paymentStatus: 'asc' },
                 { updatedAt: 'desc' },
             ],
             take: filter.take ? filter.take : 13,
@@ -62,7 +67,7 @@ export class PaymentService {
                 if (project.paymentStatus !== 'paid') {
                     allAmountDue += project.budget;
 
-                    if (project.paymentStatus === 'unpaid') {
+                    if (project.paymentStatus === 'pending') {
                         unprocessed += project.budget;
                     } else if (project.paymentStatus === 'processing') {
                         processing += project.budget;

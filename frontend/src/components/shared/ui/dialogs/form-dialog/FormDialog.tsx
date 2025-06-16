@@ -84,7 +84,7 @@ const FormDialog = () => {
       });
    }, [setFormDialogState, setConfirmationDialogState]);
    const handleEscapeWithChange = useCallback(() => {
-      if (isDirty) {
+      if (isDirty && formDialogState.isOpen) {
          setConfirmationDialogState({
             isOpen: true,
             actions: {
@@ -160,7 +160,7 @@ const FormDialog = () => {
             confirmDialogData: {
                type: 'delete',
                entityName: formDialogState.data.name,
-               additionalMessage: 'This action will also delete all files, tasks, events and notes created under this project',
+               additionalMessage: getAdditionalMessage(formDialogState.entity),
                dialogRequested: {
                   mode: 'edit',
                   type: formDialogState.type,
@@ -169,6 +169,16 @@ const FormDialog = () => {
          });
       }
    };
+
+   const getAdditionalMessage = (entity: string) => {
+      if (entity === 'project') {
+         return 'This action will also delete every files, tasks, events and notes created under this project.'
+      } else if (entity === 'client') {
+         return 'This action will also delete every projects created under this clients. Which also includes every files, tasks, events and notes created under those project.'
+      } else {
+         return undefined
+      }
+   }
 
    return (
       <Dialog
@@ -248,7 +258,6 @@ const FormDialogContent = (props: FormDialogProps) => {
       NewProjectDialog,
       NewClientDialog,
       ProjectDialog,
-      ClientDialog,
       NewFileDialog,
       PartnerContactDialog,
    } = Dialogs;
@@ -275,7 +284,7 @@ const FormDialogContent = (props: FormDialogProps) => {
       case 'newClient':
          return <NewClientDialog {...props} />;
       case 'clientSettings':
-         return <ClientDialog {...props} />;
+         return <NewClientDialog {...props} />;
       case 'base':
          return <></>;
       default:

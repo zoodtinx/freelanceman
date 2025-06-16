@@ -267,23 +267,23 @@ export const getDialogHeaderText = (dialogType: string) => {
          return 'Event';
       case 'file':
          return 'File';
-      case 'new-file':
+      case 'newFile':
          return 'Add File';
-      case 'project-settings':
+      case 'projectSettings':
          return 'Project Settings';
       case 'client-contact':
          return 'Client Contact';
-      case 'partner-contact':
+      case 'partnerContact':
          return 'Partner Contact';
-      case 'sales-document-item':
+      case 'salesDocumentItem':
          return 'Sales Document Item';
-      case 'user-profile':
+      case 'userProfile':
          return 'Profile';
-      case 'new-project':
+      case 'newProject':
          return 'Create New Project';
-      case 'new-client':
+      case 'newClient':
          return 'Create New Client';
-      case 'client-settings':
+      case 'clientSettings':
          return 'Edit Client';
       default:
          return 'Dialog';

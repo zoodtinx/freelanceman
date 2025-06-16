@@ -10,7 +10,6 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { userExcludedFields } from 'src/shared/database/utils/omit-list';
-import { S3Service } from '@/shared/s3/s3.service';
 
 @Injectable()
 export class DemoService {

@@ -15,7 +15,7 @@ export const paymentDataPayloadSchema = z.object({
     clientId: z.string(),
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,
-    paymentStatus: PaymentStatusEnum,
+    paymentStatus: optionalString(),
     links: z.array(z.string().url()),
     note: optionalString(),
     userId: z.string(),
@@ -35,7 +35,8 @@ export const paymentDataListPayloadSchema = z.object({
 export const paymentDataFilterSchema = z.object({
     clientId: optionalString(),
     take: optionalNumber(),
-    paymentStatus: optionalString()
+    paymentStatus: optionalString(),
+    name: optionalString(),
 });
 
 export type PaymentDataPayload = z.infer<typeof paymentDataPayloadSchema>;

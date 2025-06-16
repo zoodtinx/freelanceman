@@ -207,6 +207,7 @@ export const ClientContactDialog = ({
                      formMethods={formMethods}
                      fieldName="details"
                      placeholder="Describe this contact."
+                     className='h-[80px]'
                   />
                </div>
             </div>

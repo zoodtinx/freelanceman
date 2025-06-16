@@ -146,7 +146,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                <p>{project.client?.name ?? 'Freelancing'}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
-               {project.title}
+               {project.name}
             </p>
          </div>
          <QuickTaskBubble

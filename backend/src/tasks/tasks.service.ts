@@ -86,7 +86,7 @@ export class TasksService {
                     orderBy: { dueAt: 'asc' },
                     include: {
                         project: {
-                            select: { id: true, title: true },
+                            select: { id: true, name: true },
                         },
                         client: {
                             select: { id: true, name: true, themeColor: true },

@@ -57,9 +57,8 @@ export const NewClientDialog = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <div className="px-5 pt-3 pb-5 flex flex-col gap-2">
+         <div className="px-4 pt-3 pb-4 flex flex-col gap-2">
             <div className='leading-tight'>
-               <Label>Client name</Label>
                <HeadlineTextInputForm
                   formMethods={formMethods}
                   fieldName="name"
@@ -69,7 +68,7 @@ export const NewClientDialog = ({
                   errorMessage="Please enter client name"
                />
             </div>
-            <div className="flex flex-col grow relative">
+            <div className="flex flex-col grow relative gap-1">
                <Label>Theme Color</Label>
                <div className="relative">
                   <ColorSelectorForm
@@ -81,10 +80,10 @@ export const NewClientDialog = ({
                </div>
             </div>
             <Separator className="mt-2 mb-1" />
-            <div className='flex flex-col gap-2 bg-white p-2 rounded-xl'>
-               <p className="text-md text-secondary">
+            <div className='flex flex-col gap-2 bg-foreground p-2 rounded-xl'>
+               {/* <p className="text-md text-secondary">
                   Client Details
-               </p>
+               </p> */}
                <div className="flex leading-tight gap-2">
                   <div className="flex flex-col grow">
                      <Label>Email</Label>

@@ -9,7 +9,8 @@ export const TextSelectForm = <TFormData extends FieldValues>({
    selection,
    required,
    errorMessage,
-   placeholder
+   placeholder,
+   isWithIcon
 }: SelectFormElementProps<TFormData>): JSX.Element => {
    const {
       control,
@@ -38,6 +39,7 @@ export const TextSelectForm = <TFormData extends FieldValues>({
                      value={field.value}
                      className={className}
                      placeholder={placeholder}
+                     isWithIcon={isWithIcon}
                   />
                   {errors[fieldName] && (
                      <p className="text-red-500 text-sm animate-shake">

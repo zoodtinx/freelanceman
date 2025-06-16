@@ -47,7 +47,7 @@ export const UserBar = () => {
 
    const handleSignOut = async () => {
       await logOut(accessToken);
-      navigate('/user/welcome');
+      navigate('/welcome');
    };
 
    const { data: userDataPayload, isLoading: userDataIsLoading } =

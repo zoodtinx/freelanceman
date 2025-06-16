@@ -43,7 +43,7 @@ export const ProjectDialog = ({
    const onSubmit = (data: ProjectPayload) => {
       const editProjectPayload: EditProjectDto = {
          id: formDialogState.data.id,
-         title: data.title,
+         name: data.name,
          projectStatus: data.projectStatus as ProjectStatus,
          paymentStatus: data.paymentStatus as PaymentStatus,
          budget: Number(data.budget),
@@ -53,13 +53,13 @@ export const ProjectDialog = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit as any)}>
-         <div className="px-5 py-3 flex flex-col gap-3">
+         <div className="px-4 pb-4 pt-3 flex flex-col gap-3">
             <HeadlineTextInputForm
                formMethods={formMethods}
-               fieldName="title"
+               fieldName="name"
                required={true}
                errorMessage="Please name your project"
-               placeholder="Project Title"
+               placeholder="Project title"
             />
             <div className="flex leading-tight">
                <div className="w-1/2">

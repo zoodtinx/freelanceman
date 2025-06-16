@@ -68,10 +68,12 @@ export const PartnerContactList: React.FC<
 
    if (!contacts || contacts.items.length === 0) {
       return (
-         <TabListPlaceHolder
-            addFn={handleNewPartner}
-            children="Add a new partner contact"
-         />
+         <div className='px-2'>
+            <TabListPlaceHolder
+               addFn={handleNewPartner}
+               children="Add a new partner contact"
+            />
+         </div>
       );
    }
 

@@ -58,9 +58,9 @@ export class FilesService {
         try {
             const where = {
                 userId,
-                displayName: filter.displayName
+                name: filter.name
                     ? {
-                          contains: filter.displayName,
+                          contains: filter.name,
                           mode: 'insensitive' as const,
                       }
                     : undefined,
@@ -86,7 +86,7 @@ export class FilesService {
                         project: {
                             select: {
                                 id: true,
-                                title: true,
+                                name: true,
                             },
                         },
                     },

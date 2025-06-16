@@ -27,7 +27,7 @@ export default function EventSection() {
          openedOn: 'actionPage',
          type: 'event',
          entity: 'event',
-         data: { ...defaultEventValues },
+         data: defaultEventValues as any,
       });
    };
 
@@ -52,8 +52,8 @@ export default function EventSection() {
                      setEventFilter((prev) => ({ ...prev, status: value }))
                   }
                >
-                  <ToggleGroupItem value="scheduled">Scheduled</ToggleGroupItem>
-                  <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
+                  <ToggleGroupItem value="scheduled">Upcoming</ToggleGroupItem>
+                  <ToggleGroupItem value="completed">Past</ToggleGroupItem>
                </ToggleGroup>
             </div>
             <AddButton onClick={handleNewEvent} />

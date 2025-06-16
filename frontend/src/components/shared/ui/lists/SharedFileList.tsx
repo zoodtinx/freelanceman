@@ -187,7 +187,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                   deleteFile.mutate(data.id);
                },
             },
-            entityName: data.displayName,
+            entityName: data.name,
             isOpen: true,
             type: 'delete',
          });
@@ -254,7 +254,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                   >
                      {getIcon(data.type, 'w-4 h-4 text-secondary shrink-0')}
                      <p className="text-[15px] truncate grow">
-                        {data.displayName}
+                        {data.name}
                      </p>
                      <div className="flex">
                         {page !== 'project-page' && (

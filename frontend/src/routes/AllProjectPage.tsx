@@ -50,14 +50,17 @@ export default function AllProjectPage() {
                         queryResult={projectsQueryResult}
                         handleLoadMore={handleLoadMore}
                      />
-                     {projectsQueryResult.data && projectsQueryResult.data.items.length <= 20 && <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1 absolute top-0 z-0">
-                        {Array.from({ length: 30 }).map((_, i) => (
-                           <div
-                              key={i}
-                              className="border border-primary opacity-20 border-dashed rounded-[20px] max-w-[400px] h-[205px]"
-                           />
-                        ))}
-                     </div>}
+                     {projectsQueryResult.data &&
+                        projectsQueryResult.data.items.length <= 20 && (
+                           <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1 absolute top-0 z-0 sm:hidden">
+                              {Array.from({ length: 30 }).map((_, i) => (
+                                 <div
+                                    key={i}
+                                    className="border border-primary opacity-20 border-dashed rounded-[20px] max-w-[400px] h-[205px]"
+                                 />
+                              ))}
+                           </div>
+                        )}
                   </div>
                )}
                {viewMode === 'list' && (
@@ -68,14 +71,6 @@ export default function AllProjectPage() {
                         page="allProjectPage"
                         clientId=""
                      />
-                     <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1 absolute top-0">
-                        {Array.from({ length: 20 }).map((_, i) => (
-                           <div
-                              key={i}
-                              className="h-[205px] border rounded-[20px]"
-                           />
-                        ))}
-                     </div>
                   </div>
                )}
             </div>

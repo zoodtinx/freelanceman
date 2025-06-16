@@ -9,7 +9,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         // Work Category Files (9 files)
         {
             originalName: 'lookbook_project_brief_aw2025.pdf',
-            displayName: 'AW25 Lookbook Project Brief',
+            name: 'AW25 Lookbook Project Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/lookbook_project_brief_aw2025.pdf`,
@@ -18,7 +18,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'photography_shot_list_final.xlsx',
-            displayName: 'Photography Shot List (Final)',
+            name: 'Photography Shot List (Final)',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/photography_shot_list_final.xlsx`,
@@ -27,7 +27,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'model_selection_and_casting.pdf',
-            displayName: 'Model Selection & Casting',
+            name: 'Model Selection & Casting',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/model_selection_and_casting.pdf`,
@@ -36,7 +36,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'final_edited_photos_aw2025.zip',
-            displayName: 'Final Edited Photos (AW25)',
+            name: 'Final Edited Photos (AW25)',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/final_edited_photos_aw2025.zip`,
@@ -45,7 +45,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'lookbook_layout_design_v3.indd',
-            displayName: 'Lookbook Layout Design (InDesign)',
+            name: 'Lookbook Layout Design (InDesign)',
             type: 'design',
             category: 'work',
             link: 'https://www.adobe.com/products/indesign.html',
@@ -53,7 +53,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'printer_proofs_feedback_june10.pdf',
-            displayName: 'Printer Proofs Feedback',
+            name: 'Printer Proofs Feedback',
             type: 'document',
             category: 'work',
             link: 'https://www.quadgraphics.com/',
@@ -61,7 +61,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'digital_lookbook_web_version.pdf',
-            displayName: 'Digital Lookbook (Web Version)',
+            name: 'Digital Lookbook (Web Version)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/digital_lookbook_web_version.pdf`,
@@ -70,7 +70,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'behind_the_scenes_video_edit.mp4',
-            displayName: 'Behind-the-Scenes Video Edit',
+            name: 'Behind-the-Scenes Video Edit',
             type: 'video',
             category: 'work',
             link: 'https://player.vimeo.com/',
@@ -78,7 +78,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'campaign_launch_plan_aw2025.pptx',
-            displayName: 'Campaign Launch Plan (AW25)',
+            name: 'Campaign Launch Plan (AW25)',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/campaign_launch_plan_aw2025.pptx`,
@@ -89,7 +89,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         // Asset Category Files (7 files)
         {
             originalName: 'aw2025_collection_sketches.zip',
-            displayName: 'AW2025 Collection Sketches',
+            name: 'AW2025 Collection Sketches',
             type: 'design',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/aw2025_collection_sketches.zip`,
@@ -98,7 +98,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'fabric_swatches_moodboard.pdf',
-            displayName: 'Fabric Swatches Moodboard',
+            name: 'Fabric Swatches Moodboard',
             type: 'design',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/fabric_swatches_moodboard.pdf`,
@@ -107,7 +107,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'studio_rental_agreement.pdf',
-            displayName: 'Studio Rental Agreement',
+            name: 'Studio Rental Agreement',
             type: 'document',
             category: 'asset',
             link: 'https://www.peerspace.com/',
@@ -115,7 +115,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'lighting_equipment_list.xlsx',
-            displayName: 'Lighting Equipment List',
+            name: 'Lighting Equipment List',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/lighting_equipment_list.xlsx`,
@@ -124,7 +124,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'stylist_portfolio_references.pdf',
-            displayName: 'Stylist Portfolio References',
+            name: 'Stylist Portfolio References',
             type: 'document',
             category: 'asset',
             link: 'https://www.models.com/',
@@ -132,7 +132,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'marketing_data_target_audience_aw2025.xlsx',
-            displayName: 'Target Audience Data (AW25)',
+            name: 'Target Audience Data (AW25)',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/marketing_data_target_audience_aw2025.xlsx`,
@@ -141,7 +141,7 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
         },
         {
             originalName: 'brand_identity_guidelines_latest.pdf',
-            displayName: 'Brand Identity Guidelines (Latest)',
+            name: 'Brand Identity Guidelines (Latest)',
             type: 'document',
             category: 'asset',
             link: 'https://www.interbrand.com/',
@@ -159,7 +159,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         // Work Category Files (9 files)
         {
             originalName: 'copywriting_refresh_brief.pdf',
-            displayName: 'Copywriting Refresh Brief',
+            name: 'Copywriting Refresh Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/copywriting_refresh_brief.pdf`,
@@ -168,7 +168,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'product_page_template_copy_v2.docx',
-            displayName: 'Product Page Template Copy (Version 2)',
+            name: 'Product Page Template Copy (Version 2)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/product_page_template_copy_v2.docx`,
@@ -177,7 +177,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'seo_keyword_integration_report.xlsx',
-            displayName: 'SEO Keyword Integration Report',
+            name: 'SEO Keyword Integration Report',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
@@ -186,7 +186,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'cta_testing_framework.pdf',
-            displayName: 'Call-to-Action Testing Framework',
+            name: 'Call-to-Action Testing Framework',
             type: 'document',
             category: 'work',
             link: 'https://optimizely.com/',
@@ -194,7 +194,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'product_description_examples.pdf',
-            displayName: 'Product Description Examples',
+            name: 'Product Description Examples',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/product_description_examples.pdf`,
@@ -203,7 +203,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'ab_test_results_headline_copy.xlsx',
-            displayName: 'A/B Test Results (Headline Copy)',
+            name: 'A/B Test Results (Headline Copy)',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/ab_test_results_headline_copy.xlsx`,
@@ -212,7 +212,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'client_review_notes_copy_refresh.docx',
-            displayName: 'Client Review Notes (Copy Refresh)',
+            name: 'Client Review Notes (Copy Refresh)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_review_notes_copy_refresh.docx`,
@@ -221,7 +221,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'final_product_copy_upload_ready.zip',
-            displayName: 'Final Product Copy (Upload Ready)',
+            name: 'Final Product Copy (Upload Ready)',
             type: 'other',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/final_product_copy_upload_ready.zip`,
@@ -230,7 +230,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'conversion_rate_optimization_report.pptx',
-            displayName: 'Conversion Rate Optimization Report',
+            name: 'Conversion Rate Optimization Report',
             type: 'presentation',
             category: 'work',
             link: 'https://cxl.com/',
@@ -240,7 +240,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         // Asset Category Files (7 files)
         {
             originalName: 'existing_product_data_feed.xlsx',
-            displayName: 'Existing Product Data Feed',
+            name: 'Existing Product Data Feed',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/existing_product_data_feed.xlsx`,
@@ -249,7 +249,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'target_audience_personas.pdf',
-            displayName: 'Target Audience Personas',
+            name: 'Target Audience Personas',
             type: 'document',
             category: 'asset',
             link: 'https://xtensio.com/',
@@ -257,7 +257,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'brand_voice_guidelines.pdf',
-            displayName: 'Brand Voice Guidelines',
+            name: 'Brand Voice Guidelines',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/brand_voice_guidelines.pdf`,
@@ -266,7 +266,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'competitor_product_copy_analysis.pdf',
-            displayName: 'Competitor Product Copy Analysis',
+            name: 'Competitor Product Copy Analysis',
             type: 'document',
             category: 'asset',
             link: 'https://www.shopify.com/',
@@ -274,7 +274,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'customer_reviews_feedback.xlsx',
-            displayName: 'Customer Reviews & Feedback',
+            name: 'Customer Reviews & Feedback',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/customer_reviews_feedback.xlsx`,
@@ -283,7 +283,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'product_imagery_assets.zip',
-            displayName: 'Product Imagery Assets',
+            name: 'Product Imagery Assets',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/product_imagery_assets.zip`,
@@ -292,7 +292,7 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
         },
         {
             originalName: 'ecommerce_platform_api_docs.pdf',
-            displayName: 'E-commerce Platform API Docs',
+            name: 'E-commerce Platform API Docs',
             type: 'document',
             category: 'asset',
             link: 'https://developer.woocommerce.com/',
@@ -311,7 +311,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         // Work Category Files (9 files)
         {
             originalName: 'campaign_brief_sustainable_collection.pdf',
-            displayName: 'Campaign Brief (Sustainable Collection)',
+            name: 'Campaign Brief (Sustainable Collection)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/campaign_brief_sustainable_collection.pdf`,
@@ -320,7 +320,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'social_content_calendar_july_aug.xlsx',
-            displayName: 'Social Content Calendar (July-Aug)',
+            name: 'Social Content Calendar (July-Aug)',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/social_content_calendar_july_aug.xlsx`,
@@ -329,7 +329,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'instagram_story_templates.zip',
-            displayName: 'Instagram Story Templates',
+            name: 'Instagram Story Templates',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/instagram_story_templates.zip`,
@@ -338,7 +338,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'facebook_ad_creatives_set_1.zip',
-            displayName: 'Facebook Ad Creatives (Set 1)',
+            name: 'Facebook Ad Creatives (Set 1)',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/facebook_ad_creatives_set_1.zip`,
@@ -347,7 +347,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'tiktok_video_concepts_final.pdf',
-            displayName: 'TikTok Video Concepts (Final)',
+            name: 'TikTok Video Concepts (Final)',
             type: 'document',
             category: 'work',
             link: 'https://www.tiktok.com/',
@@ -355,7 +355,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'influencer_collaboration_agreements.pdf',
-            displayName: 'Influencer Collaboration Agreements',
+            name: 'Influencer Collaboration Agreements',
             type: 'document',
             category: 'work',
             link: 'https://www.upwork.com/',
@@ -363,7 +363,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'community_engagement_strategy.docx',
-            displayName: 'Community Engagement Strategy',
+            name: 'Community Engagement Strategy',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/community_engagement_strategy.docx`,
@@ -372,7 +372,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'social_media_performance_report_template.xlsx',
-            displayName: 'Social Media Performance Report Template',
+            name: 'Social Media Performance Report Template',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_performance_report_template.xlsx`,
@@ -381,7 +381,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'post_campaign_analysis_presentation.pptx',
-            displayName: 'Post-Campaign Analysis Presentation',
+            name: 'Post-Campaign Analysis Presentation',
             type: 'presentation',
             category: 'work',
             link: 'https://www.slideshare.net/',
@@ -391,7 +391,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         // Asset Category Files (7 files)
         {
             originalName: 'sustainable_collection_product_photos.zip',
-            displayName: 'Sustainable Collection Product Photos',
+            name: 'Sustainable Collection Product Photos',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/sustainable_collection_product_photos.zip`,
@@ -400,7 +400,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'eco_friendly_fabric_certifications.pdf',
-            displayName: 'Eco-Friendly Fabric Certifications',
+            name: 'Eco-Friendly Fabric Certifications',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/eco_friendly_fabric_certifications.pdf`,
@@ -409,7 +409,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'brand_voice_sustainability_guidelines.pdf',
-            displayName: 'Brand Voice (Sustainability Guidelines)',
+            name: 'Brand Voice (Sustainability Guidelines)',
             type: 'document',
             category: 'asset',
             link: 'https://www.patagonia.com/',
@@ -417,7 +417,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'competitor_sustainability_campaigns.pdf',
-            displayName: 'Competitor Sustainability Campaigns',
+            name: 'Competitor Sustainability Campaigns',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_sustainability_campaigns.pdf`,
@@ -426,7 +426,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'stock_nature_videos_clips.zip',
-            displayName: 'Stock Nature Video Clips',
+            name: 'Stock Nature Video Clips',
             type: 'video',
             category: 'asset',
             link: 'https://www.pond5.com/',
@@ -434,7 +434,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'target_audience_insights_eco_conscious.xlsx',
-            displayName: 'Target Audience Insights (Eco-Conscious)',
+            name: 'Target Audience Insights (Eco-Conscious)',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/target_audience_insights_eco_conscious.xlsx`,
@@ -443,7 +443,7 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
         },
         {
             originalName: 'carbon_footprint_report_template.pdf',
-            displayName: 'Carbon Footprint Report Template',
+            name: 'Carbon Footprint Report Template',
             type: 'document',
             category: 'asset',
             link: 'https://www.carbonfootprint.com/',
@@ -459,7 +459,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         // Work Category Files (9 files)
         {
             originalName: 'packaging_design_brief_premium.pdf',
-            displayName: 'Premium Packaging Design Brief',
+            name: 'Premium Packaging Design Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/packaging_design_brief_premium.pdf`,
@@ -468,7 +468,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'concept_sketches_packaging_v2.zip',
-            displayName: 'Concept Sketches (Version 2)',
+            name: 'Concept Sketches (Version 2)',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/concept_sketches_packaging_v2.zip`,
@@ -477,7 +477,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: '3d_packaging_mockups_renderings.zip',
-            displayName: '3D Packaging Mockups & Renderings',
+            name: '3D Packaging Mockups & Renderings',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/3d_packaging_mockups_renderings.zip`,
@@ -486,7 +486,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'material_sourcing_quotations.xlsx',
-            displayName: 'Material Sourcing Quotations',
+            name: 'Material Sourcing Quotations',
             type: 'spreadsheet',
             category: 'work',
             link: 'https://www.alibaba.com/',
@@ -494,7 +494,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_review_feedback_packaging.docx',
-            displayName: 'Client Review & Feedback (Packaging)',
+            name: 'Client Review & Feedback (Packaging)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_review_feedback_packaging.docx`,
@@ -503,7 +503,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'printer_specifications_final.pdf',
-            displayName: 'Printer Specifications (Final)',
+            name: 'Printer Specifications (Final)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/printer_specifications_final.pdf`,
@@ -512,7 +512,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'sustainability_report_packaging.pdf',
-            displayName: 'Sustainability Report (Packaging)',
+            name: 'Sustainability Report (Packaging)',
             type: 'document',
             category: 'work',
             link: 'https://www.epa.gov/',
@@ -520,7 +520,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'packaging_testing_results.pdf',
-            displayName: 'Packaging Testing Results',
+            name: 'Packaging Testing Results',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/packaging_testing_results.pdf`,
@@ -529,7 +529,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'launch_marketing_assets_packaging.zip',
-            displayName: 'Launch Marketing Assets (Packaging)',
+            name: 'Launch Marketing Assets (Packaging)',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/launch_marketing_assets_packaging.zip`,
@@ -540,7 +540,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         // Asset Category Files (7 files)
         {
             originalName: 'premium_line_product_specs.xlsx',
-            displayName: 'Premium Line Product Specifications',
+            name: 'Premium Line Product Specifications',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/premium_line_product_specs.xlsx`,
@@ -549,7 +549,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'brand_identity_guidelines_latest.pdf',
-            displayName: 'Brand Identity Guidelines (Latest)',
+            name: 'Brand Identity Guidelines (Latest)',
             type: 'document',
             category: 'asset',
             link: 'https://www.interbrand.com/',
@@ -557,7 +557,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'competitor_packaging_analysis.pdf',
-            displayName: 'Competitor Packaging Analysis',
+            name: 'Competitor Packaging Analysis',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_packaging_analysis.pdf`,
@@ -566,7 +566,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'material_supplier_contacts.xlsx',
-            displayName: 'Material Supplier Contacts',
+            name: 'Material Supplier Contacts',
             type: 'spreadsheet',
             category: 'asset',
             link: 'https://www.thomasnet.com/',
@@ -574,7 +574,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'luxury_packaging_inspiration.zip',
-            displayName: 'Luxury Packaging Inspiration',
+            name: 'Luxury Packaging Inspiration',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/luxury_packaging_inspiration.zip`,
@@ -583,7 +583,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'legal_compliance_documents.pdf',
-            displayName: 'Legal Compliance Documents',
+            name: 'Legal Compliance Documents',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/legal_compliance_documents.pdf`,
@@ -592,7 +592,7 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
         },
         {
             originalName: 'packaging_machinery_specs.pdf',
-            displayName: 'Packaging Machinery Specifications',
+            name: 'Packaging Machinery Specifications',
             type: 'document',
             category: 'asset',
             link: 'https://www.packagingworld.com/',

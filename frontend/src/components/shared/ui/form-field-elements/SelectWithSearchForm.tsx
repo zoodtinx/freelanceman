@@ -232,7 +232,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
                      optionalTriggerUi
                   ) : (
                      <div className='flex items-center gap-1'>
-                        <p className="text-wrap text-left font-normal">
+                        <p className="text-wrap text-left font-normal line-clamp-1">
                            {selectedValue.label ? selectedValue.label : placeholder}
                         </p>
                         {isWithIcon && !value && <ChevronDown className="h-4 w-4" />}

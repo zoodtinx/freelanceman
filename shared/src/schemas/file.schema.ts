@@ -23,7 +23,7 @@ export const fileCategory = z.enum(['personal', 'document', 'work', 'asset']);
 
 export const createFileSchema = z.object({
     originalName: optionalString(),
-    displayName: z.string(),
+    name: z.string(),
     type: z.string(),
     category: z.string(),
     link: optionalString(),
@@ -35,13 +35,13 @@ export const createFileSchema = z.object({
   
   export const editFileSchema = z.object({
     id: z.string().uuid(),
-    displayName: optionalString(),
+    name: optionalString(),
     type: fileType.optional(),
     category: optionalString(),
   });
 
 export const fileFilterSchema = z.object({
-    displayName: optionalString(),
+    name: optionalString(),
     category: optionalString(),
     type: optionalString(),
     clientId: optionalString(),
@@ -58,7 +58,7 @@ export const getPresignedUrlSchema = z.object({
 export const filePayloadSchema = z.object({
     id: z.string().uuid(),
     originalName: z.string().min(1),
-    displayName: z.string().min(1),
+    name: z.string().min(1),
     type: z.string().min(1),
     category: z.string().min(1),
     link: z.string().min(1),
@@ -81,7 +81,7 @@ export const fileListPayloadSchema = z.object({
 export const fileSchema = z.object({
     id: z.string().uuid(),
     originalName: z.string().min(1),
-    displayName: z.string().min(1),
+    name: z.string().min(1),
     type: z.string().min(1),
     category: z.string().min(1),
     link: z.string().min(1),

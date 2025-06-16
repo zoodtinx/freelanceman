@@ -141,7 +141,7 @@ model PartnerContact {
 
 model Project {
   id              String                    @id @default(uuid())
-  title           String
+  name           String
   clientId        String?
   budget          Int
   projectStatus   String
@@ -219,7 +219,7 @@ model Task {
 model File {
   id           String    @id @default(uuid())
   originalName String?
-  displayName  String
+  name          String
   type         String
   category     String
   link         String?

@@ -74,7 +74,6 @@ export async function copyS3Directory(config: CopyS3DirConfig) {
                     // Add the copy operation promise to the array
                     copyPromises.push(
                         s3Client.send(new CopyObjectCommand(copyParams)).then(() => {
-                            console.log(`Copied '${object.Key}' to '${newKey}'`);
                             copiedCount++;
                         }).catch(error => {
                             // Log error for individual copy operations without stopping the whole process

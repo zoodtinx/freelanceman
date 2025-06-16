@@ -9,7 +9,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         // Work Category Files (9 files)
         {
             originalName: 'marketing_kit_brief_final.pdf',
-            displayName: 'Digital Marketing Kit Brief',
+            name: 'Digital Marketing Kit Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/marketing_kit_brief_final.pdf`,
@@ -18,7 +18,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: '3d_renderings_selection.zip',
-            displayName: '3D Renderings Selection',
+            name: '3D Renderings Selection',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/3d_renderings_selection.zip`,
@@ -27,7 +27,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'social_media_campaign_assets.zip',
-            displayName: 'Social Media Campaign Assets',
+            name: 'Social Media Campaign Assets',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_campaign_assets.zip`,
@@ -36,7 +36,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'website_content_copy_draft.docx',
-            displayName: 'Website Content Copy Draft',
+            name: 'Website Content Copy Draft',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/website_content_copy_draft.docx`,
@@ -45,7 +45,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'email_marketing_templates.zip',
-            displayName: 'Email Marketing Templates',
+            name: 'Email Marketing Templates',
             type: 'design',
             category: 'work',
             link: 'https://mailchimp.com/',
@@ -53,7 +53,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'virtual_tour_video_edit_v1.mp4',
-            displayName: 'Virtual Tour Video (Edit 1)',
+            name: 'Virtual Tour Video (Edit 1)',
             type: 'video',
             category: 'work',
             link: 'https://player.vimeo.com/',
@@ -61,7 +61,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'brochure_design_digital_format.pdf',
-            displayName: 'Digital Brochure Design',
+            name: 'Digital Brochure Design',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/brochure_design_digital_format.pdf`,
@@ -70,7 +70,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'client_presentation_june_10.pptx',
-            displayName: 'Client Presentation (June 10)',
+            name: 'Client Presentation (June 10)',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_presentation_june_10.pptx`,
@@ -79,7 +79,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'marketing_budget_tracking.xlsx',
-            displayName: 'Marketing Budget Tracking',
+            name: 'Marketing Budget Tracking',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/marketing_budget_tracking.xlsx`,
@@ -90,7 +90,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         // Asset Category Files (7 files)
         {
             originalName: 'condo_floor_plans_high_res.zip',
-            displayName: 'High-Res Floor Plans',
+            name: 'High-Res Floor Plans',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/condo_floor_plans_high_res.zip`,
@@ -99,7 +99,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'developer_brand_guidelines.pdf',
-            displayName: 'Developer Brand Guidelines',
+            name: 'Developer Brand Guidelines',
             type: 'document',
             category: 'asset',
             link: 'https://www.branding.com/',
@@ -107,7 +107,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'luxury_lifestyle_stock_photos.zip',
-            displayName: 'Luxury Lifestyle Stock Photos',
+            name: 'Luxury Lifestyle Stock Photos',
             type: 'image',
             category: 'asset',
             link: 'https://www.gettyimages.com/',
@@ -115,7 +115,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'competitor_marketing_analysis.pdf',
-            displayName: 'Competitor Marketing Analysis',
+            name: 'Competitor Marketing Analysis',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_marketing_analysis.pdf`,
@@ -124,7 +124,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'target_audience_demographics.xlsx',
-            displayName: 'Target Audience Demographics',
+            name: 'Target Audience Demographics',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/target_audience_demographics.xlsx`,
@@ -133,7 +133,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'social_media_platform_specs.pdf',
-            displayName: 'Social Media Platform Specs',
+            name: 'Social Media Platform Specs',
             type: 'document',
             category: 'asset',
             link: 'https://www.facebook.com/',
@@ -141,7 +141,7 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
         },
         {
             originalName: 'property_drone_footage_raw.mp4',
-            displayName: 'Raw Drone Footage (Property)',
+            name: 'Raw Drone Footage (Property)',
             type: 'video',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/property_drone_footage_raw.mp4`,

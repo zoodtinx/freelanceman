@@ -93,7 +93,7 @@ const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
       >
          <div className="z-10 flex items-center px-3 justify-between w-full text-constant-primary">
             <p className="font-medium text-md cursor-default line-clamp-1">
-               {project.title}
+               {project.name}
             </p>
             <div className="flex items-center gap-2 text-constant-primary shrink-0 opacity-50">
                <FolderClock className="w-4 h-4" />

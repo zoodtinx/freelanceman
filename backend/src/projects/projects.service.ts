@@ -52,8 +52,8 @@ export class ProjectsService {
                 where: {
                     userId,
                     projectStatus: 'active',
-                    title: filter.title
-                        ? { contains: filter.title, mode: 'insensitive' }
+                    name: filter.name
+                        ? { contains: filter.name, mode: 'insensitive' }
                         : undefined,
                 },
                 include: {
@@ -65,7 +65,7 @@ export class ProjectsService {
                 },
             });
             return projects.map((project) => ({
-                label: project.title,
+                label: project.name,
                 value: project.id,
             }));
         } catch {
@@ -79,8 +79,8 @@ export class ProjectsService {
         try {
             const where = {
                 userId,
-                title: filter.title
-                    ? { contains: filter.title, mode: 'insensitive' as const }
+                name: filter.name
+                    ? { contains: filter.name, mode: 'insensitive' as const }
                     : undefined,
                 projectStatus: filter.projectStatus || undefined,
                 paymentStatus: filter.paymentStatus || undefined,
@@ -119,7 +119,7 @@ export class ProjectsService {
                             take: 1,
                             where: { dueAt: { gte: date } },
                             include: {
-                                project: { select: { id: true, title: true } },
+                                project: { select: { id: true, name: true } },
                                 client: {
                                     select: {
                                         id: true,

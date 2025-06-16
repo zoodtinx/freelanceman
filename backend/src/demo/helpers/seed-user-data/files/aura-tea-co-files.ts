@@ -6,7 +6,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
     return [
         {
             originalName: 'tropical_bliss_concept_01.pdf',
-            displayName: 'Tropical Bliss Packaging Concept 1',
+            name: 'Tropical Bliss Packaging Concept 1',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/tropical_bliss_concept_01.pdf`,
@@ -15,7 +15,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'tropical_bliss_concept_02.pdf',
-            displayName: 'Tropical Bliss Packaging Concept 2',
+            name: 'Tropical Bliss Packaging Concept 2',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/tropical_bliss_concept_02.pdf`,
@@ -24,7 +24,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'tropical_bliss_concept_03.pdf',
-            displayName: 'Tropical Bliss Packaging Concept 3',
+            name: 'Tropical Bliss Packaging Concept 3',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/tropical_bliss_concept_03.pdf`,
@@ -33,7 +33,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_feedback_summary_v1.docx',
-            displayName: 'Client Feedback Summary Document',
+            name: 'Client Feedback Summary Document',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_feedback_summary_v1.docx`,
@@ -42,7 +42,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'revised_packaging_mockup_v1.psd',
-            displayName: 'Revised Packaging Mockup Draft',
+            name: 'Revised Packaging Mockup Draft',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/revised_packaging_mockup_v1.psd`,
@@ -51,7 +51,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'print_ready_packaging_final.ai',
-            displayName: 'Print-Ready Packaging (Final)',
+            name: 'Print-Ready Packaging (Final)',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/print_ready_packaging_final.ai`,
@@ -60,7 +60,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: '3d_packaging_render_presentation.mp4',
-            displayName: '3D Packaging Render Video',
+            name: '3D Packaging Render Video',
             type: 'video',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/3d_packaging_render_presentation.mp4`,
@@ -69,7 +69,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_presentation_concepts.pptx',
-            displayName: 'Client Concepts Presentation',
+            name: 'Client Concepts Presentation',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_presentation_concepts.pptx`,
@@ -78,7 +78,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'project_closure_report_packaging.pdf',
-            displayName: 'Packaging Design Project Report',
+            name: 'Packaging Design Project Report',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/project_closure_report_packaging.pdf`,
@@ -87,7 +87,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'aura_tea_brand_guidelines_v2.pdf',
-            displayName: 'Aura Tea Brand Guidelines',
+            name: 'Aura Tea Brand Guidelines',
             type: 'document',
             category: 'asset',
             link: 'https://example.com/aura-tea-brand-guidelines.pdf',
@@ -95,7 +95,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'aura_tea_logo_vector.ai',
-            displayName: 'Aura Tea Logo (Vector)',
+            name: 'Aura Tea Logo (Vector)',
             type: 'design',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/aura_tea_logo_vector.ai`,
@@ -104,7 +104,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'tropical_fruit_premium_pack.zip',
-            displayName: 'Premium Tropical Fruit Stock Photos',
+            name: 'Premium Tropical Fruit Stock Photos',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/tropical_fruit_premium_pack.zip`,
@@ -113,7 +113,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'competitor_packaging_benchmarks.pdf',
-            displayName: 'Competitor Packaging Benchmark Report',
+            name: 'Competitor Packaging Benchmark Report',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_packaging_benchmarks.pdf`,
@@ -122,7 +122,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'aura_tea_product_specs_2025.xlsx',
-            displayName: 'Aura Tea Product Specifications',
+            name: 'Aura Tea Product Specifications',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/aura_tea_product_specs_2025.xlsx`,
@@ -131,7 +131,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'design_inspiration_board_link.miro',
-            displayName: 'Design Inspiration Moodboard (Miro)',
+            name: 'Design Inspiration Moodboard (Miro)',
             type: 'design',
             category: 'asset',
             link: 'https://miro.com/app/board/example_aura_tea_packaging/',
@@ -139,7 +139,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
         },
         {
             originalName: 'packaging_supplier_quotes_june.pdf',
-            displayName: 'Packaging Supplier Quotes',
+            name: 'Packaging Supplier Quotes',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/packaging_supplier_quotes_june.pdf`,
@@ -157,7 +157,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
     return [
         {
             originalName: 'q3_strategy_document_final.pdf',
-            displayName: 'Q3 Social Media Strategy Document',
+            name: 'Q3 Social Media Strategy Document',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/q3_strategy_document_final.pdf`,
@@ -166,7 +166,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'content_calendar_july_sep_v3.xlsx',
-            displayName: 'Q3 Content Calendar (July-September)',
+            name: 'Q3 Content Calendar (July-September)',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/content_calendar_july_sep_v3.xlsx`,
@@ -175,7 +175,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'engagement_plan_outline.docx',
-            displayName: 'Engagement Plan Outline',
+            name: 'Engagement Plan Outline',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/engagement_plan_outline.docx`,
@@ -184,7 +184,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'graphic_asset_pack_q3_v1.zip',
-            displayName: 'Q3 Graphic Assets (Batch 1)',
+            name: 'Q3 Graphic Assets (Batch 1)',
             type: 'archive',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/graphic_asset_pack_q3_v1.zip`,
@@ -193,7 +193,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'healthy_lifestyle_angles_report.pdf',
-            displayName: 'Healthy Lifestyle Content Angles',
+            name: 'Healthy Lifestyle Content Angles',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/healthy_lifestyle_angles_report.pdf`,
@@ -202,7 +202,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'ugc_guidelines_aura_tea.pdf',
-            displayName: 'User-Generated Content Guidelines',
+            name: 'User-Generated Content Guidelines',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/ugc_guidelines_aura_tea.pdf`,
@@ -211,7 +211,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'social_media_performance_template.xlsx',
-            displayName: 'Social Media Performance Tracking',
+            name: 'Social Media Performance Tracking',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_performance_template.xlsx`,
@@ -220,7 +220,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'q3_launch_presentation_draft.pptx',
-            displayName: 'Q3 Launch Presentation Draft',
+            name: 'Q3 Launch Presentation Draft',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/q3_launch_presentation_draft.pptx`,
@@ -229,7 +229,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'competitor_social_media_analysis.pdf',
-            displayName: 'Competitor Social Media Analysis',
+            name: 'Competitor Social Media Analysis',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_social_media_analysis.pdf`,
@@ -238,7 +238,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'aura_tea_marketing_assets_drive.link',
-            displayName: 'Aura Tea Marketing Assets (Drive)',
+            name: 'Aura Tea Marketing Assets (Drive)',
             type: 'other',
             category: 'asset',
             link: 'https://drive.google.com/drive/folders/aura_tea_marketing_assets_q3',
@@ -246,7 +246,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'stock_video_clips_healthy_living.zip',
-            displayName: 'Stock Video Clips (Healthy Living)',
+            name: 'Stock Video Clips (Healthy Living)',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/stock_video_clips_healthy_living.zip`,
@@ -255,7 +255,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'influencer_research_data.xlsx',
-            displayName: 'Influencer Research Data',
+            name: 'Influencer Research Data',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/influencer_research_data.xlsx`,
@@ -264,7 +264,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'content_creation_brief_templates.docx',
-            displayName: 'Content Creation Brief Templates',
+            name: 'Content Creation Brief Templates',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/content_creation_brief_templates.docx`,
@@ -273,7 +273,7 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
         },
         {
             originalName: 'aura_tea_social_media_accounts.txt',
-            displayName: 'Aura Tea Social Media Account Details',
+            name: 'Aura Tea Social Media Account Details',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/aura_tea_social_media_accounts.txt`,
@@ -289,7 +289,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
     return [
         {
             originalName: 'video_project_brief_aura_tea.pdf',
-            displayName: 'Video Project Brief',
+            name: 'Video Project Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/video_project_brief_aura_tea.pdf`,
@@ -298,7 +298,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'script_draft_1_aura_tea_v3.docx',
-            displayName: 'Script Draft 1 (Final)',
+            name: 'Script Draft 1 (Final)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/script_draft_1_aura_tea_v3.docx`,
@@ -307,7 +307,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'storyboard_concepts_v2.pdf',
-            displayName: 'Storyboard Concepts',
+            name: 'Storyboard Concepts',
             type: 'design',
             category: 'work',
             link: 'https://docs.google.com/presentation/d/auratea_storyboard_v2', // Changed to link
@@ -315,7 +315,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_feedback_summary_video.xlsx',
-            displayName: 'Client Feedback Log',
+            name: 'Client Feedback Log',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_feedback_summary_video.xlsx`,
@@ -324,7 +324,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'chiang_rai_location_scout_report.pdf',
-            displayName: 'Chiang Rai Location Scout Report',
+            name: 'Chiang Rai Location Scout Report',
             type: 'document',
             category: 'work',
             link: 'https://example.com/chiang_rai_scout_report.pdf', // Changed to link
@@ -332,7 +332,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'budget_confirmation_form_video.pdf',
-            displayName: 'Budget Confirmation Form',
+            name: 'Budget Confirmation Form',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/budget_confirmation_form_video.pdf`,
@@ -341,7 +341,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'project_status_update_june_11.pptx',
-            displayName: 'Project Status Update (June 11)',
+            name: 'Project Status Update (June 11)',
             type: 'presentation',
             category: 'work',
             link: 'https://slideshare.net/auratea_project_status_june11', // Changed to link
@@ -349,7 +349,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'aura_tea_about_us_page_copy.docx',
-            displayName: 'About Us Page Copy',
+            name: 'About Us Page Copy',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/aura_tea_about_us_page_copy.docx`,
@@ -358,7 +358,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'brand_archive_photos.zip',
-            displayName: 'Aura Tea Brand Photo Archive',
+            name: 'Aura Tea Brand Photo Archive',
             type: 'archive',
             category: 'asset',
             link: 'https://photos.google.com/share/aura_tea_brand_archive', // Changed to link
@@ -366,7 +366,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'interview_questions_template.docx',
-            displayName: 'Interview Questions Template',
+            name: 'Interview Questions Template',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/interview_questions_template.docx`,
@@ -375,7 +375,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'mr_sakda_contact_details.vcf',
-            displayName: 'Mr. Sakda Contact Card',
+            name: 'Mr. Sakda Contact Card',
             type: 'other',
             category: 'asset',
             link: 'https://contacts.google.com/auratea_sakda', // Changed to link
@@ -383,7 +383,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'video_equipment_rental_list.pdf',
-            displayName: 'Video Equipment Rental List',
+            name: 'Video Equipment Rental List',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/video_equipment_rental_list.pdf`,
@@ -392,7 +392,7 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
         },
         {
             originalName: 'music_licensing_options.xlsx',
-            displayName: 'Music Licensing Options',
+            name: 'Music Licensing Options',
             type: 'spreadsheet',
             category: 'asset',
             link: 'https://docs.google.com/spreadsheets/d/music_licensing_options_aura', // Changed to link

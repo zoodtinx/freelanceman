@@ -7,7 +7,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         // Work Category Files (9 files)
         {
             originalName: 'launch_campaign_brief_model_x2.pdf',
-            displayName: 'Launch Campaign Brief (Model X-2)',
+            name: 'Launch Campaign Brief (Model X-2)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/launch_campaign_brief_model_x2.pdf`,
@@ -16,7 +16,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'digital_ad_creatives_pack_v1.zip',
-            displayName: 'Digital Ad Creatives (Version 1)',
+            name: 'Digital Ad Creatives (Version 1)',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/digital_ad_creatives_pack_v1.zip`,
@@ -25,7 +25,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'social_media_video_ad_15s.mp4',
-            displayName: 'Social Media Video Ad (15s)',
+            name: 'Social Media Video Ad (15s)',
             type: 'video',
             category: 'work',
             link: 'https://player.vimeo.com/',
@@ -33,7 +33,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'press_release_draft_model_x2.docx',
-            displayName: 'Press Release Draft (Model X-2)',
+            name: 'Press Release Draft (Model X-2)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/press_release_draft_model_x2.docx`,
@@ -42,7 +42,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'website_landing_page_mockup.fig',
-            displayName: 'Landing Page Mockup',
+            name: 'Landing Page Mockup',
             type: 'design',
             category: 'work',
             link: 'https://www.figma.com/',
@@ -50,7 +50,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'email_newsletter_campaign_templates.zip',
-            displayName: 'Email Newsletter Templates',
+            name: 'Email Newsletter Templates',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/email_newsletter_campaign_templates.zip`,
@@ -59,7 +59,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'influencer_marketing_outreach_plan.xlsx',
-            displayName: 'Influencer Marketing Outreach Plan',
+            name: 'Influencer Marketing Outreach Plan',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/influencer_marketing_outreach_plan.xlsx`,
@@ -68,7 +68,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'launch_event_invitation_design.pdf',
-            displayName: 'Launch Event Invitation Design',
+            name: 'Launch Event Invitation Design',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/launch_event_invitation_design.pdf`,
@@ -77,7 +77,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'campaign_performance_dashboard_setup.pptx',
-            displayName: 'Campaign Performance Dashboard Setup',
+            name: 'Campaign Performance Dashboard Setup',
             type: 'presentation',
             category: 'work',
             link: 'https://www.tableau.com/',
@@ -87,7 +87,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         // Asset Category Files (7 files)
         {
             originalName: 'model_x2_product_photos_high_res.zip',
-            displayName: 'Model X-2 High-Res Product Photos',
+            name: 'Model X-2 High-Res Product Photos',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/model_x2_product_photos_high_res.zip`,
@@ -96,7 +96,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'company_brand_guidelines_latest.pdf',
-            displayName: 'Company Brand Guidelines (Latest)',
+            name: 'Company Brand Guidelines (Latest)',
             type: 'document',
             category: 'asset',
             link: 'https://www.brandnew.com/',
@@ -104,7 +104,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'competitor_launch_analysis.pdf',
-            displayName: 'Competitor Launch Analysis',
+            name: 'Competitor Launch Analysis',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_launch_analysis.pdf`,
@@ -113,7 +113,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'target_market_research_report.pdf',
-            displayName: 'Target Market Research Report',
+            name: 'Target Market Research Report',
             type: 'document',
             category: 'asset',
             link: 'https://www.statista.com/',
@@ -121,7 +121,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'product_specs_and_features_model_x2.xlsx',
-            displayName: 'Model X-2 Product Specs',
+            name: 'Model X-2 Product Specs',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/product_specs_and_features_model_x2.xlsx`,
@@ -130,7 +130,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'stock_footage_urban_driving.zip',
-            displayName: 'Stock Footage (Urban Driving)',
+            name: 'Stock Footage (Urban Driving)',
             type: 'video',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/stock_footage_urban_driving.zip`,
@@ -139,7 +139,7 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
         },
         {
             originalName: 'media_contact_list_final.xlsx',
-            displayName: 'Media Contact List',
+            name: 'Media Contact List',
             type: 'spreadsheet',
             category: 'asset',
             link: 'https://www.cision.com/',

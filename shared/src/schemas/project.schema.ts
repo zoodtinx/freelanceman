@@ -18,7 +18,7 @@ const linkPayloadSchema = linkSchema.merge(prismaPayloadSchema);
 
 export const projectPayloadSchema = z.object({
     id: z.string().uuid(),
-    title: z.string(),
+    name: z.string(),
     clientId: z.string(),
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,
@@ -45,7 +45,7 @@ export const projectListPayloadSchema = z.object({
 
 export const projectSchema = z.object({
     id: z.string().uuid(),
-    title: z.string(),
+    name: z.string(),
     clientId: z.string(),
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,
@@ -60,7 +60,7 @@ export const projectSchema = z.object({
 });
 
 export const createProjectSchema = z.object({
-    title: z.string().min(1),
+    name: z.string().min(1),
     clientId: optionalString(),
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
@@ -69,7 +69,7 @@ export const createProjectSchema = z.object({
 
 export const editProjectSchema = z.object({
     id: z.string().uuid(),
-    title: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
     projectStatus: ProjectStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
@@ -90,7 +90,7 @@ export const editProjectSchema = z.object({
 });
 
 export const projectFilterSchema = z.object({
-    title: optionalString(),
+    name: optionalString(),
     projectId: optionalString(),
     clientId: optionalString(),
     contactId: optionalString(),
@@ -119,7 +119,7 @@ export type ProjectLinks = z.infer<typeof linkSchema>;
 export type ProjectLinksPayload = ProjectLinks & PrismaPayloadInterface;
 
 // export interface CreateProjectDto {
-//     title: string;
+//     name: string;
 //     budget: number;
 //     projectStatus: "" | "active" | "on-hold" | "completed";
 //     paymentStatus: "" | "unpaid" | "processing" | "paid";
@@ -133,7 +133,7 @@ export type ProjectLinksPayload = ProjectLinks & PrismaPayloadInterface;
 
 const exampleProjectPayload = {
   id: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-  title: "Website Redesign for Aura Tea Co.",
+  name: "Website Redesign for Aura Tea Co.",
   clientId: "client-aura-tea",
   budget: 15000,
   projectStatus: 'active',
@@ -142,7 +142,7 @@ const exampleProjectPayload = {
 };
 
 interface ProjectInterFace {
-    title: string,
+    name: string,
     budget: number, //in Thai baht, so add the approporaite market value
     projectStatus: 'active' | 'on-hold' | 'completed',
     paymentStatus: 'pending' | 'processing' | 'paid',

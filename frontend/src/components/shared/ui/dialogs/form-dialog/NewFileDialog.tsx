@@ -59,7 +59,7 @@ export const NewFileDialog = ({
 
       const projectId = formMethods.getValues('projectId');
       const fileType = formMethods.getValues('type');
-      const fileName = formMethods.getValues('displayName');
+      const fileName = formMethods.getValues('name');
       const file = formMethods.getValues('file');
       const link = formMethods.getValues('link');
 
@@ -93,7 +93,7 @@ export const NewFileDialog = ({
 
       const payload: CreateFileDto = {
          category: data.category,
-         displayName: data.displayName,
+         name: data.name,
          link: mode === 'add-link' ? link : undefined,
          originalName: data.originalName,
          type: data.type,
@@ -160,7 +160,7 @@ export const NewFileDialog = ({
                <div className="flex flex-col">
                   <Label>Diaplay Name</Label>
                   <TextInputForm
-                     fieldName="displayName"
+                     fieldName="name"
                      formMethods={formMethods}
                      required={true}
                      errorMessage="Please enter display name"

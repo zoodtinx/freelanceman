@@ -7,7 +7,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         // Work Category Files (9 files)
         {
             originalName: 'menu_design_brief_final.pdf',
-            displayName: 'Summer Menu Design Brief',
+            name: 'Summer Menu Design Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/menu_design_brief_final.pdf`,
@@ -16,7 +16,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'menu_layout_concepts_v3.ai',
-            displayName: 'Menu Layout Concepts',
+            name: 'Menu Layout Concepts',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/menu_layout_concepts_v3.ai`,
@@ -25,7 +25,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'food_photography_schedule.pdf',
-            displayName: 'Food Photography Schedule',
+            name: 'Food Photography Schedule',
             type: 'document',
             category: 'work',
             link: 'https://www.calendly.com/',
@@ -33,7 +33,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'edited_food_photos_batch1.zip',
-            displayName: 'Edited Food Photos (Batch 1)',
+            name: 'Edited Food Photos (Batch 1)',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/edited_food_photos_batch1.zip`,
@@ -42,7 +42,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'dessert_menu_draft_v1.pdf',
-            displayName: 'Dessert Menu Draft',
+            name: 'Dessert Menu Draft',
             type: 'design',
             category: 'work',
             link: 'https://www.dribbble.com/',
@@ -50,7 +50,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'drink_menu_draft_v1.pdf',
-            displayName: 'Drink Menu Draft',
+            name: 'Drink Menu Draft',
             type: 'design',
             category: 'work',
             link: 'https://www.behance.net/',
@@ -58,7 +58,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'final_menu_print_ready.pdf',
-            displayName: 'Final Menu (Print-Ready)',
+            name: 'Final Menu (Print-Ready)',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/final_menu_print_ready.pdf`,
@@ -67,7 +67,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_feedback_summary_menu.xlsx',
-            displayName: 'Client Feedback Summary',
+            name: 'Client Feedback Summary',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_feedback_summary_menu.xlsx`,
@@ -76,7 +76,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'marketing_promo_creatives_menu.zip',
-            displayName: 'Marketing Promo Creatives',
+            name: 'Marketing Promo Creatives',
             type: 'image',
             category: 'work',
             link: 'https://www.canva.com/',
@@ -86,7 +86,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         // Asset Category Files (7 files)
         {
             originalName: 'restaurant_branding_guide.pdf',
-            displayName: 'Restaurant Branding Guide',
+            name: 'Restaurant Branding Guide',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/restaurant_branding_guide.pdf`,
@@ -95,7 +95,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'chef_recipe_notes.docx',
-            displayName: 'Chef Recipe Notes',
+            name: 'Chef Recipe Notes',
             type: 'document',
             category: 'asset',
             link: 'https://www.epicurious.com/',
@@ -103,7 +103,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'restaurant_interior_photos.zip',
-            displayName: 'Restaurant Interior Photos',
+            name: 'Restaurant Interior Photos',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/restaurant_interior_photos.zip`,
@@ -112,7 +112,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'stock_food_photography_sites.txt',
-            displayName: 'Stock Food Photography Sites List',
+            name: 'Stock Food Photography Sites List',
             type: 'other',
             category: 'asset',
             link: 'https://unsplash.com/',
@@ -120,7 +120,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'competitor_menu_examples.pdf',
-            displayName: 'Competitor Menu Examples',
+            name: 'Competitor Menu Examples',
             type: 'document',
             category: 'asset',
             link: 'https://www.yelp.com/',
@@ -128,7 +128,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'food_styling_inspiration.zip',
-            displayName: 'Food Styling Inspiration',
+            name: 'Food Styling Inspiration',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/food_styling_inspiration.zip`,
@@ -137,7 +137,7 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
         },
         {
             originalName: 'printer_specifications_menu.pdf',
-            displayName: 'Printer Specifications',
+            name: 'Printer Specifications',
             type: 'document',
             category: 'asset',
             link: 'https://www.vistaprint.com/',

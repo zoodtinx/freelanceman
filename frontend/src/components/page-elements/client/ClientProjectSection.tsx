@@ -1,4 +1,4 @@
-import { Building2, FolderClock } from 'lucide-react';
+import { Building2, Edit, EllipsisVertical, FolderClock, Settings } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
 import { formatDate } from '@/lib/helper/formatDateTime';
@@ -50,7 +50,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         data: { ...defaultProject, clientId: clientData.id },
+         data: { ...defaultProject, clientId: clientData.id } as any,
          entity: 'project',
          mode: 'create',
          openedOn: 'clientPage',
@@ -66,11 +66,12 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
          <div className="flex justify-between">
             <div className="flex items-center h-[40px] justify-between w-full">
                <div
-                  className="flex gap-1 items-center cursor-pointer"
+                  className="flex gap-1 items-center cursor-pointer group"
                   onClick={handleClientSettings}
                >
                   <Building2 className="w-[28px] h-auto" />
                   <p className="text-xl leading-none">{clientData.name}</p>
+                  <EllipsisVertical className='w-5 h-5 text-secondary group-hover:text-primary transition-colors'/>
                </div>
                <AddButton onClick={handleNewProject} />
             </div>
@@ -116,7 +117,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         data: { ...defaultProject, clientId: clientId },
+         data: { ...defaultProject, clientId: clientId } as any,
          entity: 'project',
          mode: 'create',
          openedOn: 'clientPage',
@@ -168,7 +169,7 @@ const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
       >
          <div className="z-10 flex items-center px-3 justify-between w-full text-[#333333]">
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
-               {project.title}
+               {project.name}
             </p>
             <div className="flex items-center gap-2 text-freelanceman-darkgrey">
                <FolderClock className="w-4 h-4" />

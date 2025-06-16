@@ -23,7 +23,7 @@ export class PaymentsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(projectFilterSchema)) payload: ProjectFilterDto,
+        @Body(new ZodValidationPipe(paymentDataFilterSchema)) payload: ProjectFilterDto,
         @Req() req: any,
     ) {
         const userId = req.user.id;

@@ -41,7 +41,7 @@ export const generateAuraTeaCoProjects = (userId: string, clientId: string) => {
         {
             userId: userId,
             clientId: clientId, // Injected userId
-            title: 'New Tropical Bliss Blend Packaging Design',
+            name: 'New Tropical Bliss Blend Packaging Design',
             budget: 55000, // THB - for packaging design of a new tea blend (box, pouch, label)
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -57,7 +57,7 @@ export const generateAuraTeaCoProjects = (userId: string, clientId: string) => {
         {
             userId: userId,
             clientId: clientId, // Injected userId
-            title: 'Q3 Social Media Content & Engagement Strategy',
+            name: 'Q3 Social Media Content & Engagement Strategy',
             budget: 40000, // THB - for content calendar, graphic assets, and engagement plan for the quarter
             projectStatus: 'active',
             paymentStatus: 'pending',
@@ -74,7 +74,7 @@ export const generateAuraTeaCoProjects = (userId: string, clientId: string) => {
         {
             userId: userId,
             clientId: clientId, // Injected userId
-            title: "Brand Story Video for 'About Us' Page",
+            name: "Brand Story Video for 'About Us' Page",
             budget: 80000, // THB - for short documentary-style video production (script, shoot, edit)
             projectStatus: 'on-hold',
             paymentStatus: 'pending',
@@ -101,7 +101,7 @@ export const generateByteNestTechProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'E-commerce Platform UI/UX Redesign',
+            name: 'E-commerce Platform UI/UX Redesign',
             budget: 180000,
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -118,7 +118,7 @@ export const generateByteNestTechProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Internal CRM System API Integration',
+            name: 'Internal CRM System API Integration',
             budget: 95000,
             projectStatus: 'active',
             paymentStatus: 'pending',
@@ -134,7 +134,7 @@ export const generateByteNestTechProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Product Launch Video & Explainer Animation',
+            name: 'Product Launch Video & Explainer Animation',
             budget: 120000,
             projectStatus: 'on-hold',
             paymentStatus: 'pending',
@@ -151,7 +151,7 @@ export const generateByteNestTechProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Automated Data Reporting Dashboard',
+            name: 'Automated Data Reporting Dashboard',
             budget: 250000,
             projectStatus: 'completed',
             paymentStatus: 'paid',
@@ -168,7 +168,7 @@ export const generateByteNestTechProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Website Performance Audit & Optimization',
+            name: 'Website Performance Audit & Optimization',
             budget: 60000,
             projectStatus: 'active',
             paymentStatus: 'pending',
@@ -194,7 +194,7 @@ export const generateEcoGlideElectricScootersProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'New Model X-2 Launch Campaign Assets',
+            name: 'New Model X-2 Launch Campaign Assets',
             budget: 70000,
             projectStatus: 'active',
             paymentStatus: 'pending',
@@ -218,7 +218,7 @@ export const generateGoldenSpoonEateryProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'New Summer Menu Design & Photography',
+            name: 'New Summer Menu Design & Photography',
             budget: 35000,
             projectStatus: 'completed',
             paymentStatus: 'paid',
@@ -244,7 +244,7 @@ export const generateHarmonyMusicAcademyProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Annual Student Concert Branding & Tickets',
+            name: 'Annual Student Concert Branding & Tickets',
             budget: 45000,
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -261,7 +261,7 @@ export const generateHarmonyMusicAcademyProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'New Online Course Landing Page (Guitar Basics)',
+            name: 'New Online Course Landing Page (Guitar Basics)',
             budget: 60000,
             projectStatus: 'on-hold',
             paymentStatus: 'pending',
@@ -278,7 +278,7 @@ export const generateHarmonyMusicAcademyProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Music Theory Blog Content Strategy & First 5 Articles',
+            name: 'Music Theory Blog Content Strategy & First 5 Articles',
             budget: 38000,
             projectStatus: 'completed',
             paymentStatus: 'paid',
@@ -304,7 +304,7 @@ export const generateHorizonRealEstateGroupProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Luxury Condo Development - Digital Marketing Kit',
+            name: 'Luxury Condo Development - Digital Marketing Kit',
             budget: 95000,
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -330,7 +330,7 @@ export const generateUrbanFlowFitnessProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Summer Challenge Landing Page & Ad Creatives',
+            name: 'Summer Challenge Landing Page & Ad Creatives',
             budget: 55000,
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -347,7 +347,7 @@ export const generateUrbanFlowFitnessProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'New Class Schedule Design & Print Production',
+            name: 'New Class Schedule Design & Print Production',
             budget: 28000,
             projectStatus: 'completed',
             paymentStatus: 'paid',
@@ -363,7 +363,7 @@ export const generateUrbanFlowFitnessProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Member Loyalty Program Branding',
+            name: 'Member Loyalty Program Branding',
             budget: 42000,
             projectStatus: 'on-hold',
             paymentStatus: 'pending',
@@ -379,7 +379,7 @@ export const generateUrbanFlowFitnessProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Introductory Yoga Video Series (3 videos)',
+            name: 'Introductory Yoga Video Series (3 videos)',
             budget: 85000,
             projectStatus: 'active',
             paymentStatus: 'pending',
@@ -405,7 +405,7 @@ export const generateZenithApparelProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Autumn/Winter 2025 Lookbook Photography & Design',
+            name: 'Autumn/Winter 2025 Lookbook Photography & Design',
             budget: 120000,
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -423,7 +423,7 @@ export const generateZenithApparelProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'E-commerce Product Page Copywriting Refresh',
+            name: 'E-commerce Product Page Copywriting Refresh',
             budget: 45000,
             projectStatus: 'completed',
             paymentStatus: 'paid',
@@ -439,7 +439,7 @@ export const generateZenithApparelProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'Sustainable Collection Launch Social Media Campaign',
+            name: 'Sustainable Collection Launch Social Media Campaign',
             budget: 65000,
             projectStatus: 'active',
             paymentStatus: 'pending',
@@ -457,7 +457,7 @@ export const generateZenithApparelProjects = (
         {
             userId: userId,
             clientId: clientId,
-            title: 'New Packaging Design for Premium Line',
+            name: 'New Packaging Design for Premium Line',
             budget: 80000,
             projectStatus: 'on-hold',
             paymentStatus: 'pending',

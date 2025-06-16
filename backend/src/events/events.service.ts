@@ -108,7 +108,7 @@ export class EventsService {
                             select: { id: true, name: true, themeColor: true },
                         },
                         project: {
-                            select: { id: true, title: true },
+                            select: { id: true, name: true },
                         },
                     },
                 }),

@@ -22,6 +22,9 @@ import { CreateProjectDto } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
+import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
+import { cn } from '@/lib/helper/utils';
 
 export const NewProjectDialog = ({
    crudApi,
@@ -36,7 +39,7 @@ export const NewProjectDialog = ({
 
    const [haveNote, setHaveNote] = useState(false);
 
-   const { handleSubmit, setError } = formMethods;
+   const { handleSubmit, setError, watch } = formMethods;
 
    const onSubmit = async (data: any) => {
       const rawBudget = data.budget.replace(/,/g, '');
@@ -54,7 +57,7 @@ export const NewProjectDialog = ({
       }
 
       const createProjectPayload: CreateProjectDto = {
-         title: data.title,
+         name: data.name,
          clientId: data.clientId,
          projectStatus: data.projectStatus,
          paymentStatus: data.paymentStatus,
@@ -70,16 +73,18 @@ export const NewProjectDialog = ({
       navigate(`/home/projects/${project.id}`);
    };
 
+   console.log('budget', watch('budget'))
+
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <div className="px-5 py-3 flex flex-col gap-3">
-            <DynamicHeightTextInputForm
+         <div className="px-4 pb-4 pt-3 flex flex-col gap-3">
+            <HeadlineTextInputForm
                formMethods={formMethods}
                required={true}
-               errorMessage="Please enter project name"
+               errorMessage="Please enter a project name"
                className="pt-1"
-               fieldName="title"
-               placeholder="Enter project name"
+               fieldName="name"
+               placeholder="Enter a project name"
             />
             <div className="w-full leading-tight">
                <Label>Client</Label>
@@ -115,14 +120,22 @@ export const NewProjectDialog = ({
             </div>
             <div className="w-full">
                <Label>Budget</Label>
-               <TextInputForm fieldName="budget" formMethods={formMethods} />
+               <NumberInputForm
+                  fieldName="budget"
+                  required={true}
+                  errorMessage="Please enter a budget"
+                  formMethods={formMethods}
+               />
             </div>
             {!haveNote ? (
                <div
                   onClick={() => setHaveNote(true)}
-                  className={`border my-1 pl-1 pr-2 w-fit rounded-md flex items-center gap-1 text-secondary border-secondary
-                     hover:border-primary hover:text-primary transition-colors duration-75
-                     `}
+                  className={cn(
+                     'border my-1 pl-1 pr-2 w-fit rounded-md flex items-center gap-1 cursor-pointer',
+                     'text-secondary border-secondary',
+                     'hover:border-primary hover:text-primary',
+                     'transition-colors duration-75'
+                  )}
                >
                   <Plus className="w-4 h-4 stroke-[2.5px]" />
                   <p>Add Notes</p>

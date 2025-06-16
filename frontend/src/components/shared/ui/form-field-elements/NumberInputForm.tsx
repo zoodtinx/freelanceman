@@ -71,7 +71,7 @@ export const NumberInput = ({
    showError,
    errorMessage,
 }: NumberInputProps) => {
-   const [isEditing, setIsEditing] = useState(!value);
+   const [isEditing, setIsEditing] = useState(!value || parseFloat(value) === 0);
    const [display, setDisplay] = useState('');
    const containerRef = useRef<HTMLDivElement>(null);
    const { data: userData } = useUserQuery();

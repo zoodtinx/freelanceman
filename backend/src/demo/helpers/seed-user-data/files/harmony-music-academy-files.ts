@@ -7,7 +7,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         // Work Category Files (9 files)
         {
             originalName: 'concert_branding_brief_final.pdf',
-            displayName: 'Concert Branding Brief',
+            name: 'Concert Branding Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/concert_branding_brief_final.pdf`,
@@ -16,7 +16,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'poster_design_concept_v2.ai',
-            displayName: 'Poster Design Concept',
+            name: 'Poster Design Concept',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/poster_design_concept_v2.ai`,
@@ -25,7 +25,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'ticket_design_mockup_final.pdf',
-            displayName: 'Ticket Design Mockup',
+            name: 'Ticket Design Mockup',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/ticket_design_mockup_final.pdf`,
@@ -34,7 +34,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'social_media_ad_creatives_pack.zip',
-            displayName: 'Social Media Ad Creatives',
+            name: 'Social Media Ad Creatives',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
@@ -43,7 +43,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'program_booklet_layout_draft.pdf',
-            displayName: 'Program Booklet Layout Draft',
+            name: 'Program Booklet Layout Draft',
             type: 'design',
             category: 'work',
             link: 'https://issuu.com/',
@@ -51,7 +51,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'client_feedback_summary_branding.xlsx',
-            displayName: 'Client Feedback Summary',
+            name: 'Client Feedback Summary',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/client_feedback_summary_branding.xlsx`,
@@ -60,7 +60,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'print_specifications_final.pdf',
-            displayName: 'Print Specifications (Final)',
+            name: 'Print Specifications (Final)',
             type: 'document',
             category: 'work',
             link: 'https://www.moo.com/',
@@ -68,7 +68,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'event_day_signage_designs.zip',
-            displayName: 'Event Day Signage Designs',
+            name: 'Event Day Signage Designs',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/event_day_signage_designs.zip`,
@@ -77,7 +77,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'ticket_sales_report_template.xlsx',
-            displayName: 'Ticket Sales Report Template',
+            name: 'Ticket Sales Report Template',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/ticket_sales_report_template.xlsx`,
@@ -88,7 +88,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         // Asset Category Files (7 files)
         {
             originalName: 'school_brand_guidelines.pdf',
-            displayName: 'School Brand Guidelines',
+            name: 'School Brand Guidelines',
             type: 'document',
             category: 'asset',
             link: 'https://www.brandnew.com/',
@@ -96,7 +96,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'student_performance_photos_archive.zip',
-            displayName: 'Student Performance Photo Archive',
+            name: 'Student Performance Photo Archive',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/student_performance_photos_archive.zip`,
@@ -105,7 +105,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'concert_venue_floor_plans.pdf',
-            displayName: 'Concert Venue Floor Plans',
+            name: 'Concert Venue Floor Plans',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/concert_venue_floor_plans.pdf`,
@@ -114,7 +114,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'typography_font_licenses.pdf',
-            displayName: 'Typography Font Licenses',
+            name: 'Typography Font Licenses',
             type: 'document',
             category: 'asset',
             link: 'https://fonts.google.com/',
@@ -122,7 +122,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'past_concert_marketing_materials.zip',
-            displayName: 'Past Concert Marketing Materials',
+            name: 'Past Concert Marketing Materials',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/past_concert_marketing_materials.zip`,
@@ -131,7 +131,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'sponsor_logos_collection.zip',
-            displayName: 'Sponsor Logos Collection',
+            name: 'Sponsor Logos Collection',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/sponsor_logos_collection.zip`,
@@ -140,7 +140,7 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
         },
         {
             originalName: 'ticket_platform_integration_docs.pdf',
-            displayName: 'Ticket Platform Integration Docs',
+            name: 'Ticket Platform Integration Docs',
             type: 'document',
             category: 'asset',
             link: 'https://www.eventbrite.com/',
@@ -158,7 +158,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         // Work Category Files (9 files)
         {
             originalName: 'course_landing_page_brief.pdf',
-            displayName: 'Course Landing Page Brief',
+            name: 'Course Landing Page Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/course_landing_page_brief.pdf`,
@@ -167,7 +167,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'lp_wireframes_mockups_v3.fig',
-            displayName: 'Landing Page Wireframes & Mockups',
+            name: 'Landing Page Wireframes & Mockups',
             type: 'design',
             category: 'work',
             link: 'https://www.figma.com/',
@@ -175,7 +175,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'hero_section_ad_creatives.zip',
-            displayName: 'Hero Section Ad Creatives',
+            name: 'Hero Section Ad Creatives',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/hero_section_ad_creatives.zip`,
@@ -184,7 +184,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'course_curriculum_outline.pdf',
-            displayName: 'Course Curriculum Outline',
+            name: 'Course Curriculum Outline',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/course_curriculum_outline.pdf`,
@@ -193,7 +193,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'instructor_introduction_video_edit.mp4',
-            displayName: 'Instructor Intro Video Edit',
+            name: 'Instructor Intro Video Edit',
             type: 'video',
             category: 'work',
             link: 'https://www.youtube.com/',
@@ -201,7 +201,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'testimonial_collection_plan.xlsx',
-            displayName: 'Testimonial Collection Plan',
+            name: 'Testimonial Collection Plan',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/testimonial_collection_plan.xlsx`,
@@ -210,7 +210,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'call_to_action_buttons_designs.ai',
-            displayName: 'Call to Action Button Designs',
+            name: 'Call to Action Button Designs',
             type: 'design',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/call_to_action_buttons_designs.ai`,
@@ -219,7 +219,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'ab_testing_strategy_lp.pdf',
-            displayName: 'A/B Testing Strategy (Landing Page)',
+            name: 'A/B Testing Strategy (Landing Page)',
             type: 'document',
             category: 'work',
             link: 'https://vwo.com/',
@@ -227,7 +227,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'course_launch_marketing_plan_draft.pptx',
-            displayName: 'Course Launch Marketing Plan Draft',
+            name: 'Course Launch Marketing Plan Draft',
             type: 'presentation',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/course_launch_marketing_plan_draft.pptx`,
@@ -238,7 +238,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         // Asset Category Files (7 files)
         {
             originalName: 'guitar_basics_course_modules.zip',
-            displayName: 'Guitar Basics Course Modules (Raw)',
+            name: 'Guitar Basics Course Modules (Raw)',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/guitar_basics_course_modules.zip`,
@@ -247,7 +247,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'urbanflow_academy_brand_assets.zip',
-            displayName: 'UrbanFlow Academy Brand Assets',
+            name: 'UrbanFlow Academy Brand Assets',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/urbanflow_academy_brand_assets.zip`,
@@ -256,7 +256,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'stock_music_for_videos.zip',
-            displayName: 'Stock Music for Videos',
+            name: 'Stock Music for Videos',
             type: 'audio',
             category: 'asset',
             link: 'https://www.bensound.com/',
@@ -264,7 +264,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'competitor_course_analysis.pdf',
-            displayName: 'Competitor Course Analysis',
+            name: 'Competitor Course Analysis',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/competitor_course_analysis.pdf`,
@@ -273,7 +273,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'instructor_photoshoot_selection.zip',
-            displayName: 'Instructor Photoshoot Selection',
+            name: 'Instructor Photoshoot Selection',
             type: 'image',
             category: 'asset',
             link: 'https://www.pexels.com/',
@@ -281,7 +281,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'email_list_segmentation_strategy.xlsx',
-            displayName: 'Email List Segmentation Strategy',
+            name: 'Email List Segmentation Strategy',
             type: 'spreadsheet',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/email_list_segmentation_strategy.xlsx`,
@@ -290,7 +290,7 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
         },
         {
             originalName: 'video_hosting_platform_details.txt',
-            displayName: 'Video Hosting Platform Details',
+            name: 'Video Hosting Platform Details',
             type: 'other',
             category: 'asset',
             link: 'https://www.vimeo.com/',
@@ -309,7 +309,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         // Work Category Files (9 files)
         {
             originalName: 'blog_content_strategy_brief.pdf',
-            displayName: 'Blog Content Strategy Brief',
+            name: 'Blog Content Strategy Brief',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/blog_content_strategy_brief.pdf`,
@@ -318,7 +318,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'keyword_research_and_seo_plan.xlsx',
-            displayName: 'Keyword Research & SEO Plan',
+            name: 'Keyword Research & SEO Plan',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/keyword_research_and_seo_plan.xlsx`,
@@ -327,7 +327,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'article_1_introduction_to_scales_draft.docx',
-            displayName: 'Article 1: Intro to Scales (Draft)',
+            name: 'Article 1: Intro to Scales (Draft)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/article_1_introduction_to_scales_draft.docx`,
@@ -336,7 +336,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'article_2_chords_and_progressions_outline.pdf',
-            displayName: 'Article 2: Chords & Progressions (Outline)',
+            name: 'Article 2: Chords & Progressions (Outline)',
             type: 'document',
             category: 'work',
             link: 'https://www.thefretboard.com/',
@@ -344,7 +344,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'article_3_rhythm_and_meter_concepts.docx',
-            displayName: 'Article 3: Rhythm & Meter Concepts',
+            name: 'Article 3: Rhythm & Meter Concepts',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/article_3_rhythm_and_meter_concepts.docx`,
@@ -353,7 +353,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'article_4_intervals_and_harmony_draft.docx',
-            displayName: 'Article 4: Intervals & Harmony (Draft)',
+            name: 'Article 4: Intervals & Harmony (Draft)',
             type: 'document',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/article_4_intervals_and_harmony_draft.docx`,
@@ -362,7 +362,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'article_5_basic_ear_training_exercises.pdf',
-            displayName: 'Article 5: Basic Ear Training Exercises',
+            name: 'Article 5: Basic Ear Training Exercises',
             type: 'document',
             category: 'work',
             link: 'https://www.teoria.com/',
@@ -370,7 +370,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'content_calendar_q3_draft.xlsx',
-            displayName: 'Q3 Content Calendar Draft',
+            name: 'Q3 Content Calendar Draft',
             type: 'spreadsheet',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/content_calendar_q3_draft.xlsx`,
@@ -379,7 +379,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'blog_post_image_assets.zip',
-            displayName: 'Blog Post Image Assets',
+            name: 'Blog Post Image Assets',
             type: 'image',
             category: 'work',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/blog_post_image_assets.zip`,
@@ -390,7 +390,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         // Asset Category Files (7 files)
         {
             originalName: 'urbanflow_academy_style_guide.pdf',
-            displayName: 'UrbanFlow Academy Style Guide',
+            name: 'UrbanFlow Academy Style Guide',
             type: 'document',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/urbanflow_academy_style_guide.pdf`,
@@ -399,7 +399,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'music_notation_symbols_pack.zip',
-            displayName: 'Music Notation Symbols Pack',
+            name: 'Music Notation Symbols Pack',
             type: 'archive',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/music_notation_symbols_pack.zip`,
@@ -408,7 +408,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'competitor_blog_analysis.pdf',
-            displayName: 'Competitor Blog Analysis',
+            name: 'Competitor Blog Analysis',
             type: 'document',
             category: 'asset',
             link: 'https://www.musicradar.com/',
@@ -416,7 +416,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'royalty_free_music_samples.zip',
-            displayName: 'Royalty-Free Music Samples',
+            name: 'Royalty-Free Music Samples',
             type: 'audio',
             category: 'asset',
             link: 'https://www.zapsplat.com/',
@@ -424,7 +424,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'google_analytics_access.txt',
-            displayName: 'Google Analytics Access Details',
+            name: 'Google Analytics Access Details',
             type: 'other',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/google_analytics_access.txt`,
@@ -433,7 +433,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'stock_illustration_sites_list.txt',
-            displayName: 'Stock Illustration Sites List',
+            name: 'Stock Illustration Sites List',
             type: 'other',
             category: 'asset',
             link: 'https://www.freepik.com/',
@@ -441,7 +441,7 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
         },
         {
             originalName: 'instructor_bio_and_photo.zip',
-            displayName: 'Instructor Bio and Photo',
+            name: 'Instructor Bio and Photo',
             type: 'image',
             category: 'asset',
             s3Key: `${ids.userId}/projects/${projectKebabCase}/instructor_bio_and_photo.zip`,

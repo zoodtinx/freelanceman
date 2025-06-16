@@ -123,7 +123,11 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
          {isEditing ? (
             <Textarea
                rows={2}
-               className="w-full resize-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg font-medium p-1 pr-8 leading-snug placeholder:text-secondary bg-transparent mt-1"
+               className={cn(
+                  'w-full resize-none focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  'text-lg font-medium p-1 px-2 leading-snug placeholder:text-secondary',
+                  'bg-transparent border-tertiary mt-1 rounded-[9px] placeholder:font-normal'
+               )}
                placeholder={placeholder}
                value={value}
                onChange={onChange}

@@ -25,6 +25,7 @@ import {
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { toast } from 'sonner';
 import { useFileUrlQuery } from '@/lib/api/file-api';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 
 export const FileDialog = ({
    formMethods,
@@ -78,7 +79,7 @@ export const FileDialog = ({
    const onSubmit: SubmitHandler<FieldValues> = (data) => {
       const editFilePayload: EditFileDto = {
          id: formDialogState.data.id,
-         displayName: data.displayName,
+         name: data.name,
          type: data.type,
          category: data.category,
       };
@@ -98,32 +99,37 @@ export const FileDialog = ({
          onSubmit={handleSubmit(onSubmit)}
          className="bg-background rounded-2xl text-primary flex flex-col"
       >
-         <div className="flex gap-1 items-start px-5 pt-4 pb-1 w-full">
-            <FileIconByExtension
-               fileType={watch('type')}
-               className="h-6 w-6 text-secondary"
-            />
-            <DynamicHeightTextInputForm
-               formMethods={formMethods}
-               fieldName="displayName"
-               required={true}
-               errorMessage="Please name your file"
-               placeholder="File Name"
-               className="w-full"
-            />
+         <div className='pt-4 pb-2 px-4'>
+            <div className='p-2 px-3 bg-foreground rounded-[9px] shadow-sm'>
+               <HeadlineTextInputForm
+                     formMethods={formMethods}
+                     fieldName="name"
+                     required={true}
+                     errorMessage="Please name your file"
+                     placeholder="File Name"
+                     className="w-full"
+                  />
+               <div className="flex gap-3">
+                  <div className='flex gap-1 items-center'>
+                     <FileIconByExtension
+                        fileType={watch('type')}
+                        className="h-4 w-4 text-secondary"
+                     />
+                     <TextSelectForm
+                        fieldName="type"
+                        formMethods={formMethods}
+                        selection={fileTypeSelections}
+                        required={true}
+                        errorMessage="File type must be specified"
+                        placeholder="Select file type"
+                        isWithIcon={false}
+                     />
+                  </div>
+                  <p>{fileSize}</p>
+               </div>
+            </div>
          </div>
-         <div className="flex px-5 pb-2 gap-2">
-            <TextSelectForm
-               fieldName="type"
-               formMethods={formMethods}
-               selection={fileTypeSelections}
-               required={true}
-               errorMessage="File type must be specified"
-               placeholder="Select file type"
-            />
-            <p>{fileSize}</p>
-         </div>
-         <div className="flex gap-2 w-full px-5 pb-3">
+         <div className="flex gap-2 w-full px-5 pb-2">
             {formDialogState.data.project && (
                <div className="flex flex-col w-1/2 shrink-0">
                   <Label className="pb-0">Project</Label>
@@ -131,7 +137,7 @@ export const FileDialog = ({
                      to={`/home/project/${project?.id}`}
                      className="leading-tight"
                   >
-                     {formDialogState.data.project?.title}
+                     {formDialogState.data.project?.name}
                   </Link>
                </div>
             )}
@@ -144,34 +150,10 @@ export const FileDialog = ({
                />
             </div>
          </div>
-         <div className="px-5 pb-3">
+         {/* <div className="px-5 pb-3">
             <Separator />
-         </div>
-         {category?.includes('project') && (
-            <div className="flex px-5 pb-2 w-full">
-               <div className="flex flex-col leading-5 w-1/2">
-                  <Label className="pb-0">Project</Label>
-                  <Link to={`../${getValues('projectId')}`}>
-                     <p>{getValues('project')}</p>
-                  </Link>
-               </div>
-               <div className="flex flex-col leading-5 w-1/2">
-                  <Label className="pb-0">Client</Label>
-                  <Link to={`../clients/${getValues('clientId')}`}>
-                     <p>{getValues('client')}</p>
-                  </Link>
-               </div>
-            </div>
-         )}
-         {category === 'client-file' && (
-            <div className="flex flex-col leading-5 w-1/2">
-               <Label className="pb-0">Client</Label>
-               <Link to={`../clients/${getValues('clientId')}`}>
-                  <p>{getValues('client')}</p>
-               </Link>
-            </div>
-         )}
-         <div className="flex gap-2 px-5 pb-2 w-full">
+         </div> */}
+         <div className="flex gap-2 px-5 pb-3 w-full">
             <div className="flex shrink-0 flex-col leading-5 w-1/2">
                <Label className="pb-0">Date Created</Label>
                <p>{dateCreated}</p>

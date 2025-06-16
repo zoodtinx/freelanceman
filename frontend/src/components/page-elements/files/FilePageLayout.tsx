@@ -151,7 +151,7 @@ const FilePageLayout = (): JSX.Element => {
                      hidden: selectState.enableSelect,
                   })}
                   onChange={(e) =>
-                     handleFileFilter('displayName', e.target.value)
+                     handleFileFilter('name', e.target.value)
                   }
                />
             </div>

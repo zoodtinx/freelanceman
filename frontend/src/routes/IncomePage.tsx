@@ -57,7 +57,7 @@ const IncomePage: React.FC = () => {
    }
 
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
-      paymentStatus: 'pending',
+      paymentStatus: 'due',
    });
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter);
 
@@ -99,11 +99,20 @@ const FilterBar = ({
       });
    };
 
+   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setProjectFilter((prev: any) => {
+         return {
+            ...prev,
+            name: e.target.value!,
+         };
+      });
+   }
+
    return (
       <div className="flex gap-1 sm:w-full sm:px-1">
          <FilterSelect
             selectContents={[
-               { label: 'Due', value: 'unpaid' },
+               { label: 'Due', value: 'due' },
                { label: 'Paid', value: 'paid' },
             ]}
             onValueChange={handleStatusValueChange}
@@ -115,7 +124,7 @@ const FilterBar = ({
             setProjectFilter={setProjectFilter}
             className="max-w-20"
          />
-         <SearchBox className="sm:grow" />
+         <SearchBox className="sm:grow" onChange={(e) => handleSearch(e)} />
       </div>
    );
 };
@@ -132,7 +141,7 @@ const StatsBar = () => {
             )}
          >
             <div>
-               Unprocessed:{' '}
+               Unprocessed:{' '}<br className='hidden sm:block'/>
                {isLoading ? (
                   <Skeleton className="h-5 w-20 rounded-full" />
                ) : (
@@ -149,7 +158,7 @@ const StatsBar = () => {
             )}
          >
             <div>
-               Processing:{' '}
+               Processing:{' '}<br className='hidden sm:block'/>
                {isLoading ? (
                   <Skeleton className="h-5 w-20 rounded-full" />
                ) : (
@@ -166,7 +175,7 @@ const StatsBar = () => {
             )}
          >
             <div>
-               All Due:{' '}
+               All Due:{' '}<br className='hidden sm:block'/>
                {isLoading ? (
                   <Skeleton className="h-5 w-20 rounded-full" />
                ) : (
@@ -346,7 +355,7 @@ const ProjectPaymentTab = forwardRef<
                   )}
                />
             </div>
-            <EllipsisVertical className='absolute top-3 right-3 text-secondary w-4 h-4 hover:text-primary cursor-pointer' onClick={handleBudgetSetting}/>
+            <EllipsisVertical className='absolute top-3 right-3 text-secondary w-4 h-4 hover:text-primary cursor-pointer sm:hidden' onClick={handleBudgetSetting}/>
          </div>
          <div className="h-full py-3 px-2 hidden sm:block">
             <Separator
@@ -359,7 +368,7 @@ const ProjectPaymentTab = forwardRef<
                   {project.client?.name ?? 'Freelancing'}
                </p>
                <p className="text-lg sm:text-[15px] sm:line-clamp-3 leading-tight">
-                  {project.title}
+                  {project.name}
                </p>
             </div>
             <div className="flex gap-1 sm:hidden">

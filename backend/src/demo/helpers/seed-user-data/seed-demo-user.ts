@@ -10,7 +10,6 @@ import {
     getTasks,
 } from '@/demo/helpers/seed-user-data/level-3';
 import { getPartnerContacts } from '@/demo/helpers/seed-user-data/contacts/partner-contacts';
-import { S3Client } from '@aws-sdk/client-s3';
 import { copyS3Directory } from '@/shared/s3/helpers/copy-s3-directroy';
 import { deleteS3Directory } from '@/shared/s3/helpers/delete-s3-dir';
 
@@ -141,7 +140,7 @@ export async function seedDemoUser(s3Config: S3Config) {
             });
             const projectsByTitle = projectsData.reduce((acc, project) => {
                 const clientName = project.client!.name;
-                const projectTitle = project.title;
+                const projectTitle = project.name;
 
                 if (!acc[clientName]) {
                     acc[clientName] = {};

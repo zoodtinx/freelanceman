@@ -17,7 +17,7 @@ export const DiscardButton = ({
    const isEditMode = formDialogState.mode === 'edit';
 
    return (
-      <Button variant={'destructiveOutline'} className="gap-1" onClick={onClick}>
+      <Button variant={'destructiveOutline'} className="gap-1 outline-none focus:outline-none" onClick={onClick}>
          <Trash2 className="w-4 h-4" />
          {isEditMode ? deleteText : discardText}
       </Button>
@@ -51,7 +51,7 @@ export const SubmitButton = ({
       <Button
          variant={variant}
          type="submit"
-         className={cn('gap-1 items-center', isNoInput && 'cursor-not-allowed')}
+         className={cn('gap-1 items-center outline-none focus:outline-none', isNoInput && 'cursor-not-allowed')}
          disabled={!isDirty}
       >
          {isEditMode ? (
