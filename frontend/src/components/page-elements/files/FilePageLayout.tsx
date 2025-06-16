@@ -43,6 +43,7 @@ const FilePageLayout = (): JSX.Element => {
       },
    });
 
+
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
          return;

@@ -1,8 +1,7 @@
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 import {
-   ApiErrorPlaceHolder,
-   NoDataPlaceHolder,
+   ApiErrorPlaceHolder
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
@@ -19,12 +18,11 @@ import {
    PartnerContactListPayload,
    PartnerContactPayload,
 } from 'freelanceman-common';
-import { User } from 'lucide-react';
 import React, { forwardRef, useEffect, useRef } from 'react';
 
 export const PartnerContactList: React.FC<
    ListProps<PartnerContactFilterDto>
-> = ({ addFn, filter, setFilter, className }) => {
+> = ({  filter, setFilter, className }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -56,10 +54,10 @@ export const PartnerContactList: React.FC<
    const handleNewPartner = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'partner-contact',
+         type: 'partnerContact',
          mode: 'create',
-         entity: 'partner-contact',
-         openedOn: 'partner-page',
+         entity: 'partnerContact',
+         openedOn: 'partnerPage',
          data: { ...defaultPartnerContactValues },
       });
    };
@@ -140,8 +138,8 @@ const PartnerTab = forwardRef<
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'partner-page',
-         type: 'partner-contact',
+         openedOn: 'partnerPage',
+         type: 'partnerContact',
          data: contact,
          entity: 'partnerContact',
       });

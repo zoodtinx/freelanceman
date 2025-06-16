@@ -1,11 +1,6 @@
 import {
-   ClientContactPayload,
-   ClientPayload,
-   EventPayload,
-   FilePayload,
-   PartnerContactPayload,
-   ProjectPayload,
-   TaskPayload,
+   ClientContactPayload, FilePayload,
+   PartnerContactPayload, TaskPayload
 } from 'freelanceman-common';
 
 export const defaultCreateSalesDocumentValue = {
@@ -99,7 +94,7 @@ export const defaultNewProjectValue = {
    budget: 0
 };
 
-export const defaultClientValue: ClientPayload = {
+export const defaultClientValue = {
    name: '',
    id: '',
    taxId: '',
@@ -112,7 +107,7 @@ export const defaultClientValue: ClientPayload = {
    detail: '',
    themeColor: '',
 };
-export const defaultProject: ProjectPayload = {
+export const defaultProject = {
    id: '',
    title: '',
    client: defaultClientValue,
@@ -122,7 +117,7 @@ export const defaultProject: ProjectPayload = {
    createdAt: new Date().toISOString(),
 };
 
-export const defaultEventValues: EventPayload = {
+export const defaultEventValues = {
    name: '',
    details: '',
    status: 'scheduled',
@@ -149,7 +144,7 @@ export const defaultFileValues: FilePayload = {
    link: '',
    size: 0,
    client: defaultClientValue,
-   project: defaultProject,
+   project: defaultProject as any,
    s3Key: '',
    userId: '',
    clientId: '',
@@ -193,7 +188,7 @@ export const defaultTaskValue: TaskPayload = {
    details: '',
    link: '',
    dueAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split("T")[0],
-   project: defaultProject,
+   project: defaultProject as any,
    projectId: '',
    client: defaultClientValue,
    clientId: '',
@@ -201,6 +196,7 @@ export const defaultTaskValue: TaskPayload = {
    createdAt: '',
    updatedAt: '',
    isWithTime: false,
+   tags: []
 };
 
 export const defaultValues = {

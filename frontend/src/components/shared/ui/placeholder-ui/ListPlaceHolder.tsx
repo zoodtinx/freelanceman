@@ -1,6 +1,6 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
-import { CirclePlus, Loader2, Plus, Square, SquareX } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 
 export const ApiErrorPlaceHolder = ({
    children = 'Network Error',

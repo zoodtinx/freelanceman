@@ -94,6 +94,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
             <EventGroup
                eventGroupData={group}
                ref={isLast ? lastItemRef : undefined}
+               index={i}
             />
          </React.Fragment>
       );
@@ -131,7 +132,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 };
 
 const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:number }>(
-   ({ eventGroupData, index }, ref) => {
+   ({ eventGroupData }, ref) => {
       const formattedDate = formatDate(eventGroupData.date, 'SHORT');
       const month = formattedDate.split(' ')[0].toUpperCase();
       const date = formattedDate.split(' ')[1];
@@ -207,7 +208,7 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'action-page',
+         openedOn: 'actionPage',
          type: 'event',
          entity: 'event',
          data: data,

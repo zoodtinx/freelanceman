@@ -102,7 +102,7 @@ export const ColorSelectorPopover = ({
    );
 };
 
-const ThemeColorGroup = ({ setColor }) => {
+const ThemeColorGroup = ({ setColor }: any) => {
    const colors = [
       'red',
       'orange',

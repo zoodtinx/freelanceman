@@ -3,7 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../primitives/Popover';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { setHours, setMinutes, format } from 'date-fns';
 import { FormElementProps } from '@/lib/types/form-element.type';
-import { CalendarIcon, Clock, XIcon } from 'lucide-react';
+import { Clock, XIcon } from 'lucide-react';
 
 export const TimePickerForm = <TFieldValues extends FieldValues>({
    formMethods,

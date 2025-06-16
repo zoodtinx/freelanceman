@@ -9,10 +9,7 @@ import AllClientsPage from 'src/routes/AllClientPage';
 import ClientPage from '@/routes/ClientPage';
 import IncomePage from 'src/routes/IncomePage';
 import SalesDocumentBuilderPage from '@/components/page-elements/documents/SalesDocumentBuilderPage';
-import LoginPage from '@/routes/LoginPage';
-import RegisterPage from '@/routes/RegisterPage';
 import RootPage from '@/routes/RootPage';
-import WelcomePage from '@/routes/WelcomePage';
 import AuthPage from '@/routes/AuthPage';
 
 export const router = createBrowserRouter([
@@ -20,24 +17,6 @@ export const router = createBrowserRouter([
       path: '/',
       element: <RootPage />,
       children: [
-         {
-            path: 'user',
-            element: <AuthPage />,
-            children: [
-               {
-                  path: 'welcome',
-                  element: <WelcomePage />,
-               },
-               {
-                  path: 'login',
-                  element: <LoginPage />,
-               },
-               {
-                  path: 'register',
-                  element: <RegisterPage />,
-               },
-            ],
-         },
          {
             path: 'welcome',
             element: <AuthPage />,

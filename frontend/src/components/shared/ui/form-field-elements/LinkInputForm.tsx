@@ -89,12 +89,10 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
       {
          value,
          handleValueChange,
-         handleDiscardValue,
          className,
          placeholder = 'Add a link',
          onKeyDown,
       },
-      ref
    ) => {
       const [isButtonMode, setIsButtonMode] = useState(false);
       const [url, setUrl] = useState('');

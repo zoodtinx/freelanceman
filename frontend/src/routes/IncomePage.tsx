@@ -40,7 +40,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import IncomePagePlacholder from '@/components/shared/ui/placeholder-ui/IncomePagePlaceholder';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { defaultValues } from '@/components/shared/ui/helpers/constants/default-values';
+import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
@@ -214,10 +214,10 @@ const ProjectPaymentTabList = ({
    const handleNewProject = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'new-project',
+         type: 'newProject',
          mode: 'create',
-         data: { ...defaultValues['new-project'] },
-         openedOn: 'income-page',
+         data: { ...defaultNewProjectValue },
+         openedOn: 'incomePage',
          entity: 'project',
       });
    };

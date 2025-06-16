@@ -37,7 +37,6 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
       },
       ref
    ) => {
-      
       return (
          <Select value={value} onValueChange={onValueChange} {...props}>
             <SelectTrigger
@@ -46,7 +45,7 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                isWithIcon={isWithIcon}
             >
                <div
-                  className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit bg-${color}`}
+                  className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit`}
                >
                   <SelectValue placeholder={placeholder} />
                </div>
@@ -63,7 +62,6 @@ const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
    }
 );
 
-
 StandardSelect.displayName = 'StandardSelect';
 
 const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
@@ -75,7 +73,6 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
          value,
          placeholder = 'Select a value',
          isWithIcon = true,
-         ...props
       },
       ref
    ) => {
@@ -83,8 +80,8 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
          (selection) => selection.value === value
       ) || {
          label: '',
-         value: ''
-      }
+         value: '',
+      };
       const [mode, setMode] = useState('base');
       const [selectedValue, setSelectedValue] = useState(initialValue);
 

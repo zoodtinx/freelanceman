@@ -9,7 +9,8 @@
     "lint": "eslint . --fix",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "check-ts-error": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.2",
@@ -82,10 +83,11 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.1",
+    "eslint": "^9.28.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "eslint-plugin-storybook": "^0.11.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "glob": "^9.3.5",
     "globals": "^15.9.0",
     "postcss": "^8.4.47",

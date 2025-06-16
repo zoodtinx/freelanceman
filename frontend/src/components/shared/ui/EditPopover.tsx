@@ -6,7 +6,6 @@ import {
    PopoverTrigger,
    PopoverContent,
 } from 'src/components/shared/ui/primitives/Popover';
-import { Separator } from 'src/components/shared/ui/primitives/Separator';
 
 interface EditPopoverProps {
    deleteFn: () => void;
@@ -19,12 +18,12 @@ export const EditPopover: React.FC<EditPopoverProps> = ({
    deleteFn,
    className
 }): JSX.Element => {
-   const handleEdit = (e) => {
+   const handleEdit = (e: React.MouseEvent) => {
       e.stopPropagation();
       editFn();
    };
 
-   const handleDelete = (e) => {
+   const handleDelete = (e:React.MouseEvent) => {
       e.stopPropagation();
       deleteFn();
    };

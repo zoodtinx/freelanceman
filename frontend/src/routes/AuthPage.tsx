@@ -5,16 +5,12 @@ import { Button } from '@/components/shared/ui/primitives/Button';
 import { getBlankDemo, getFullDemo } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { Gamepad2, KeyRound, Lightbulb, SquarePlay } from 'lucide-react';
+import { Gamepad2, KeyRound } from 'lucide-react';
 
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();
    const setAccessToken = useAuthStore((state) => state.setAccessToken);
    const [isLoading, setIsLoading] = useState(false);
-
-   const handleGoogleSignup = () => {
-      console.log('Google Sign-up triggered');
-   };
 
    const handleGetFullDemo = async () => {
       setIsLoading(true);
@@ -38,10 +34,6 @@ const AuthPage: React.FC = () => {
       } else {
          alert('Boo');
       }
-   };
-
-   const handleNavigate = (page: 'register' | 'login') => {
-      navigate(`../${page}`);
    };
 
    if (isLoading) {

@@ -51,10 +51,10 @@ const PartnerContactLayout = (): JSX.Element => {
    const handleNewPartner = () => {
       setFormDialogState({
          isOpen: true,
-         type: 'partner-contact',
+         type: 'partnerContact',
          mode: 'create',
          entity: 'partnerContact',
-         openedOn: 'partner-page',
+         openedOn: 'partnerPage',
          data: { ...defaultPartnerContactValues },
       });
    };
@@ -138,10 +138,10 @@ const PartnerTab = forwardRef<
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'all-client-page',
-         type: 'partner-contact',
+         openedOn: 'allClientsPage',
+         type: 'partnerContact',
          data: contact,
-         entity: 'partner-contact',
+         entity: 'partnerContact',
       });
    };
 

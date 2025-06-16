@@ -3,7 +3,6 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { Calendar } from '@/components/shared/ui/primitives/Calendar';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
-import { formatDate } from '@/lib/helper/formatDateTime';
 import { useEffect, useState } from 'react';
 import { FormElementProps } from '@/lib/types/form-element.type';
 import { useRef } from 'react';
@@ -13,7 +12,6 @@ export const DatePickerForm = <TFieldValues extends FieldValues>({
    formMethods,
    fieldName,
    className,
-   placeholder,
 }: FormElementProps<TFieldValues>) => {
    const { control } = formMethods;
    const [isOpen, setIsOpen] = useState(false);

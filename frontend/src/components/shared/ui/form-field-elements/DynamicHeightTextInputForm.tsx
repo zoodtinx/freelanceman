@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/helper/utils';
 import { Pencil } from 'lucide-react';
 import { Controller, FieldValues, Path } from 'react-hook-form';
-import { DynamicHeightTextInputFormElementProps, FormElementProps } from '@/lib/types/form-element.type';
+import { DynamicHeightTextInputFormElementProps } from '@/lib/types/form-element.type';
 
 export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
    formMethods,

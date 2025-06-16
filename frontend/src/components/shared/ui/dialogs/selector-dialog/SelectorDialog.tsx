@@ -7,7 +7,6 @@ import {
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import { Plus } from 'lucide-react';
-import FileSelector from '@/components/shared/ui/dialogs/selector-dialog/FileSelector';
 import ContactSelector from '@/components/shared/ui/dialogs/selector-dialog/ContactSelector';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 
@@ -29,8 +28,6 @@ const SelectorDialog = () => {
 
    const Selector = () => {
       switch (type) {
-         case 'file':
-            return <FileSelector />;
          case 'contact':
             return <ContactSelector />;
          default:

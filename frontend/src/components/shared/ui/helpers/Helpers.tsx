@@ -6,9 +6,7 @@ import {
    Code,
    Layout,
    Table,
-   FileStack,
-   Sliders,
-   Music,
+   FileStack, Music,
    Archive,
    Film,
    Briefcase,
@@ -16,16 +14,14 @@ import {
    Monitor,
    CircleCheck,
    Calendar,
-   UsersRound,
-   Coins,
-   Plus,
+   UsersRound, Plus,
    Settings,
    Folder,
    BookUser,
    CircleDollarSign,
    UserRound,
    PencilRuler,
-   Building2,
+   Building2
 } from 'lucide-react';
 
 export const capitalizeFirstChar = (str: string): string => {
@@ -174,7 +170,7 @@ export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({
    }
 };
 
-export const formatCategory = (fileCategory: FileCategory) => {
+export const formatCategory = (fileCategory: any) => {
    if (!fileCategory) return '';
 
    switch (fileCategory) {
@@ -377,16 +373,16 @@ export const validateUrl = (inputValue: string) => {
    try {
       const url = new URL(inputValue);
       if (!url.protocol || !url.hostname) {
-         return false;
+         return { error: false };
       }
-      return true;
+      return { error: true };;
    } catch {
-      return false;
+      return { error: false };;
    }
 };
 
-export const getFileTypeFromMimeType = (mime: string): FileType => {
-   const mimeMap: Record<string, FileType> = {
+export const getFileTypeFromMimeType = (mime: string) => {
+   const mimeMap: Record<string, string> = {
       'image/jpeg': 'image',
       'image/png': 'image',
       'image/gif': 'image',

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useClientQuery, useEditClient } from '@/lib/api/client-api';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { Book, Edit, Star, StickyNote } from 'lucide-react';
+import { Book, Edit, StickyNote } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Label } from '@/components/shared/ui/form-field-elements';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
@@ -136,9 +136,9 @@ const ClientInfoSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       setFormDialogState({
          isOpen: true,
          mode: 'edit',
-         openedOn: 'client-page',
+         openedOn: 'clientPage',
          data: clientData,
-         type: 'client-settings',
+         type: 'clientSettings',
          entity: 'client',
       });
    };

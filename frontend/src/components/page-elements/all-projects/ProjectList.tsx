@@ -18,9 +18,8 @@ interface ProjectListProps {
    queryResult: UseQueryResult<ProjectListPayload>;
    placeHolder?: string;
    clientId: string;
-   className: string;
-   handleLoadMore: () => void;
-   page: 'all-project-page' | 'all-client-page'
+   handleLoadMore: (value: number) => void;
+   page: 'allProjectPage' | 'allClientPage'
 }
 
 export const ProjectList: React.FC<ProjectListProps> = ({
@@ -54,9 +53,9 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    }
 
    if (!projectsData?.items?.length) {
-      if (page === 'all-project-page') {
+      if (page === 'allProjectPage') {
          return (
-            <TabListPlaceHolder addFn={handleNewProject} page='all-project-page'>{placeHolder}</TabListPlaceHolder>
+            <TabListPlaceHolder addFn={handleNewProject} page='allProjectPage'>{placeHolder}</TabListPlaceHolder>
          )
       }
       return (

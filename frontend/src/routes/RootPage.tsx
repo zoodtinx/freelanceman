@@ -8,10 +8,10 @@ import {
 import React from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
-import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
+   console.log('mode', mode)
    const [isLoading, setIsLoading] = useState(false);
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
@@ -26,7 +26,7 @@ const RootPage: React.FC = () => {
          const result = await apiRefreshAccess();
          setIsLoading(false);
          if (!result.success) {
-            navigate('/user/welcome');
+            navigate('/welcome');
             return;
          }
          setAccessToken(result.data.accessToken);

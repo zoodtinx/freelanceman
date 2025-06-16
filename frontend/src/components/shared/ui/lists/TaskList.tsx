@@ -2,8 +2,7 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import {
    TaskFilterDto,
-   TaskListPayload,
-   TaskPayload,
+   TaskListPayload
 } from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -134,7 +133,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
 
 interface TaskListItemProps {
    data: TaskListPayload['items'][number];
-   openedOn: 'action-page' | 'project-page';
+   openedOn: 'actionPage' | 'projectPage';
 }
 
 const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(

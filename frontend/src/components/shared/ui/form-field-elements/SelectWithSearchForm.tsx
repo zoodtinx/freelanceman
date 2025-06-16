@@ -207,10 +207,10 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
          setFormDialogState({
             entity: 'client',
             isOpen: true,
-            data: {...defaultClientValue},
+            data: {...defaultClientValue} as any,
             mode: 'create',
-            type: 'new-client',
-            openedOn: 'global-add-button'
+            type: 'newClient',
+            openedOn: 'globalAddButton'
          })
       }
    }

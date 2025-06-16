@@ -10,7 +10,7 @@ export const AvatarInputForm = ({ formMethods }: InputProps) => {
       setValue,
       getValues,
       register,
-      formState: { errors, dirtyFields },
+      formState: { errors },
    } = formMethods;
    const avatarFileKey = getValues('avatar');
    const [avatarImage, setAvatarImage] = useState(avatarFileKey);

@@ -1,8 +1,3 @@
-import {
-   Tabs,
-   TabsList,
-   TabsTrigger,
-} from 'src/components/shared/ui/primitives/Tabs';
 import { DialogFooter } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
 import {
@@ -15,14 +10,12 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { debounce } from 'lodash';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
-import { ClientContactFilterDto, ClientContactListPayload, ClientFilterDto, PartnerCompany, PartnerContactListPayload } from 'freelanceman-common';
+import { ClientContactFilterDto, ClientContactListPayload, PartnerContactListPayload } from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { CheckSquare2, Loader2, Plus } from 'lucide-react';
 import { useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
-import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
-import { useClientSelectionsQuery, useClientsQuery } from '@/lib/api/client-api';
 import { CompanyFilterBubble } from '@/components/shared/ui/select/CompanyFilterBubble';
 import { UseQueryResult } from '@tanstack/react-query';
 
@@ -32,9 +25,7 @@ const ContactSelector = () => {
 
    const [tab, setTab] = useState<'client' | 'partner'>('client');
    const [mode, setMode] = useState<'select' | 'view'>('select');
-   const [selectedClientContact, setSelectedClientContact] = useState()
    const [selected, setSelected] = useState<SelectObject[]>([]);
-   const [companyFilter, setCompanyFilter] = useState<ClientFilterDto | PartnerCompany>({})
    const [contactFilter, setContactFilter] = useState<ClientContactFilterDto>({});
    
    useEffect(() => {
@@ -42,16 +33,6 @@ const ContactSelector = () => {
       setTab(selectorDialogState.tab)
       setSelected(selectorDialogState.selected)
    },[selectorDialogState])
-
-   const { data: clientData, isLoading: clientIsLoading } = useClientSelectionsQuery(
-      companyFilter,
-      selectorDialogState.tab === 'client'
-   )
-   
-   const { data: partnerData, isLoading: partnerIsLoading } = useClientsQuery(
-      companyFilter,
-      selectorDialogState.tab === 'partner'
-   );
 
    const clientQueryResult = useClientContactsQuery(
       contactFilter,
@@ -205,33 +186,6 @@ const ContactSelector = () => {
             </div>
          </DialogFooter>
       </>
-   );
-};
-
-const ContactCategoryFilter = ({
-   currentTab,
-   onTabChange,
-}: {
-   currentTab: 'client' | 'partner';
-   onTabChange: (value: any) => void;
-}) => {
-   return (
-      <Tabs className="w-1/2" value={currentTab} onValueChange={onTabChange}>
-         <TabsList className="bg-foreground w-full flex h-full rounded-full">
-            <TabsTrigger
-               value="client"
-               className="w-1/2 text-base rounded-full"
-            >
-               Client
-            </TabsTrigger>
-            <TabsTrigger
-               value="partner"
-               className="w-1/2 text-base rounded-full"
-            >
-               Partner
-            </TabsTrigger>
-         </TabsList>
-      </Tabs>
    );
 };
 

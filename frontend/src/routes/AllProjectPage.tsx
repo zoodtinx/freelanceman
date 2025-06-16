@@ -16,7 +16,6 @@ export default function AllProjectPage() {
 
    const projectsQueryResult = useProjectsQuery(projectFilter);
    const { data: userData } = useUserQuery();
-   const { isLoading, isError, refetch } = projectsQueryResult;
 
    const handleLoadMore = (value: number) => {
       setProjectFilter((prev) => {
@@ -55,6 +54,8 @@ export default function AllProjectPage() {
                   <ProjectList
                      queryResult={projectsQueryResult}
                      handleLoadMore={handleLoadMore}
+                     page="allProjectPage"
+                  clientId=''
                   />
                )}
             </div>
@@ -63,7 +64,8 @@ export default function AllProjectPage() {
                   queryResult={projectsQueryResult}
                   handleLoadMore={handleLoadMore}
                   placeHolder="Create a new project"
-                  page="all-project-page"
+                  page="allProjectPage"
+                  clientId=''
                />
             </div>
          </div>

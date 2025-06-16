@@ -1,8 +1,8 @@
 import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form';
 import React, { useState, useRef } from 'react';
-import { Plus, Upload, X } from 'lucide-react';
-import { FormElementProps, SelectFormElementProps } from '@/lib/types/form-element.type';
-import { FileIconByExtension, FileIconByMimeType, getFileTypeFromMimeType } from '@/components/shared/ui/helpers/Helpers';
+import { Upload, X } from 'lucide-react';
+import { FormElementProps } from '@/lib/types/form-element.type';
+import { FileIconByMimeType, getFileTypeFromMimeType } from '@/components/shared/ui/helpers/Helpers';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { toast } from 'sonner';
 
@@ -15,7 +15,6 @@ export const FileUploadForm = <TFormData extends FieldValues>({
 }: FormElementProps<TFormData>): JSX.Element => {
    const {
       control,
-      setValue,
       reset,
       formState: { errors },
    } = formMethods;

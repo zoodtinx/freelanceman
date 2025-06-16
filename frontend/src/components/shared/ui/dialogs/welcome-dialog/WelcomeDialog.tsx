@@ -13,7 +13,7 @@ import { Button } from 'src/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
 import React, { ReactNode, useRef } from 'react';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
-import { useSetVisited, useUserQuery } from '@/lib/api/user-api';
+import { useSetVisited } from '@/lib/api/user-api';
 import { welcomeDialogContent } from '@/components/shared/ui/dialogs/welcome-dialog/DialogContents';
 
 export function GreetingDialog() {

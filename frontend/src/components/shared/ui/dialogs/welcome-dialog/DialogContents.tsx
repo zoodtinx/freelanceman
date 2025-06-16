@@ -1,5 +1,4 @@
 import React from 'react';
-import { FireExtinguisher, SatelliteDish, FileSpreadsheet } from 'lucide-react';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
 import SvgHomePage2 from '@/components/shared/icons/welcome-card-icons/HomePage2';
 import SvgHomePage3 from '@/components/shared/icons/welcome-card-icons/HomePage3';
