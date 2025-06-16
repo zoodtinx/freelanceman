@@ -21,6 +21,8 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { CrudApi } from '@/lib/api/api.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
+import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
 
 export const ProjectDialog = ({
    formMethods,
@@ -65,7 +67,7 @@ export const ProjectDialog = ({
    return (
       <form onSubmit={handleSubmit(onSubmit as any)}>
          <div className="px-5 py-3 flex flex-col gap-3">
-            <DynamicHeightTextInputForm
+            <HeadlineTextInputForm
                formMethods={formMethods}
                fieldName="title"
                required={true}
@@ -92,8 +94,7 @@ export const ProjectDialog = ({
             </div>
             <div className="flex flex-col w-1/2 grow-0">
                <Label>Budget</Label>
-               <TextInputForm
-                  number
+               <NumberInputForm
                   fieldName="budget"
                   formMethods={formMethods}
                />
@@ -105,8 +106,7 @@ export const ProjectDialog = ({
                <div className="w-full">
                   <Label className="pb-0">Client</Label>
                   <p
-                     className="text-md font-semibold leading-tight cursor-pointer"
-                     onClick={handleClientClick}
+                     className="text-md font-semibold leading-tight"
                   >
                      {formMethods.getValues('client')?.name || 'Freelancing'}
                   </p>

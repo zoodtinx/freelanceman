@@ -87,7 +87,7 @@ export const defaultNewProjectValue = {
    title: '',
    clientId: '',
    projectStatus: 'active' as const,
-   paymentStatus: 'unpaid' as const,
+   paymentStatus: 'pending' as const,
    contacts: [],
    workingFiles: [],
    assetFiles: [],

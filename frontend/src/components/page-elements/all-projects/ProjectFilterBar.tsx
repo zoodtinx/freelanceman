@@ -139,7 +139,7 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    setProjectFilter,
 }) => {
    const paymentStatus = [
-      { value: 'not-processed', label: 'Not Processed' },
+      { value: 'pending', label: 'Pending' },
       { value: 'processing', label: 'Processing' },
       { value: 'paid', label: 'Paid' },
    ];

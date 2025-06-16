@@ -57,7 +57,7 @@ const IncomePage: React.FC = () => {
    }
 
    const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
-      paymentStatus: 'unpaid',
+      paymentStatus: 'pending',
    });
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter);
 

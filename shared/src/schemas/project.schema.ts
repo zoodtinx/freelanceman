@@ -4,10 +4,10 @@ import { optionalNumber, optionalString } from './helper/optional';
 import { PrismaPayloadInterface, prismaPayloadSchema } from './helper/payload-template';
 
 export const ProjectStatusEnum = z.enum(['active', 'on-hold', 'completed', '']);
-export const PaymentStatusEnum = z.enum(['unpaid', 'processing', 'paid', '']);
+export const PaymentStatusEnum = z.enum(['pending', 'processing', 'paid', '']);
 
 export type ProjectStatus = 'active' | 'on-hold' | 'completed';
-export type PaymentStatus = 'unpaid' | 'processing' | 'paid';
+export type PaymentStatus = 'pending' | 'processing' | 'paid';
 
 const linkSchema = z.object({
     label: z.string(),

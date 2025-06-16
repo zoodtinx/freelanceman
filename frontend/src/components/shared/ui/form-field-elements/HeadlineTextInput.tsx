@@ -1,0 +1,152 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import { cn } from '@/lib/helper/utils';
+import { Textarea } from '@/components/shared/ui/primitives/Textarea';
+import { Pencil } from 'lucide-react';
+
+interface HeadlineTextInputFormProps<TFieldValues extends FieldValues> {
+   formMethods: UseFormReturn<TFieldValues>;
+   className?: string;
+   fieldName: string;
+   placeholder?: string;
+   required?: boolean;
+   errorMessage?: string;
+   isWithIcon?: boolean;
+}
+
+export const HeadlineTextInputForm = <TFieldValues extends FieldValues>({
+   formMethods,
+   className,
+   fieldName,
+   placeholder,
+   required,
+   errorMessage,
+   isWithIcon = true,
+}: HeadlineTextInputFormProps<TFieldValues>): JSX.Element => {
+   const {
+      control,
+      formState: { errors },
+      clearErrors,
+      watch,
+   } = formMethods;
+
+   return (
+      <Controller
+         name={fieldName as Path<TFieldValues>}
+         control={control}
+         rules={{
+            required: required
+               ? errorMessage || 'This field is required'
+               : false,
+         }}
+         render={({ field }) => {
+            const handleChange = (
+               e: React.ChangeEvent<HTMLTextAreaElement>
+            ) => {
+               clearErrors(fieldName as Path<TFieldValues>);
+               field.onChange(e);
+            };
+
+            const value = watch(fieldName as Path<TFieldValues>);
+
+            return (
+               <div className="w-full">
+                  <HeadlineTextInput
+                     value={value as string}
+                     onChange={handleChange}
+                     placeholder={placeholder}
+                     className={className}
+                     isWithIcon={isWithIcon}
+                  />
+                  {errors[fieldName] && (
+                     <p className="text-red-500 font-normal animate-shake text-sm">
+                        {errors[fieldName]?.message as string}
+                     </p>
+                  )}
+               </div>
+            );
+         }}
+      />
+   );
+};
+
+interface HeadlineTextInputProps {
+   className?: string;
+   placeholder?: string;
+   value: string;
+   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+   isWithIcon?: boolean;
+}
+
+const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
+   className,
+   placeholder = 'Headline',
+   value,
+   onChange,
+   isWithIcon = true,
+}) => {
+   const [isEditing, setIsEditing] = useState(value === '');
+   const wrapperRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      if (!isEditing && value === '') {
+         setIsEditing(true);
+      }
+   }, [value, isEditing]);
+
+   useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+         if (
+            wrapperRef.current &&
+            !wrapperRef.current.contains(event.target as Node)
+         ) {
+            if (value.trim() !== '') setIsEditing(false);
+         }
+      };
+
+      if (isEditing) {
+         document.addEventListener('mousedown', handleClickOutside);
+      } else {
+         document.removeEventListener('mousedown', handleClickOutside);
+      }
+
+      return () => {
+         document.removeEventListener('mousedown', handleClickOutside);
+      };
+   }, [isEditing, value]);
+
+   return (
+      <div
+         ref={wrapperRef}
+         className={cn('w-full relative flex items-center text-', className)}
+      >
+         {isEditing ? (
+            <Textarea
+               rows={2}
+               className="w-full resize-none rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg font-medium p-1 pr-8 leading-snug"
+               placeholder={placeholder}
+               value={value}
+               onChange={onChange}
+               autoFocus
+            />
+         ) : (
+            <div className="flex gap-1 relative group w-full">
+               <p
+                  className="grow text-lg font-medium cursor-text"
+                  onClick={() => setIsEditing(true)}
+                  tabIndex={0}
+                  role="textbox"
+                  aria-label={placeholder}
+               >
+                  {value || placeholder}
+               </p>
+               {isWithIcon && <div className='pt-1 transition-opacity opacity-100 group-hover:opacity-100'>
+                 <Pencil className="shrink-0 w-4 h-4 text-secondary" />
+               </div>}
+            </div>
+         )}
+      </div>
+   );
+};
+
+export default HeadlineTextInputForm;
