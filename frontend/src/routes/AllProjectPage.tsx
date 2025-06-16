@@ -54,7 +54,7 @@ export default function AllProjectPage() {
                         {Array.from({ length: 30 }).map((_, i) => (
                            <div
                               key={i}
-                              className="border border-tertiary border-dashed rounded-[20px] max-w-[400px] h-[205px]"
+                              className="border border-primary opacity-20 border-dashed rounded-[20px] max-w-[400px] h-[205px]"
                            />
                         ))}
                      </div>}

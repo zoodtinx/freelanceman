@@ -5,7 +5,6 @@ import {
    Label,
 } from 'src/components/shared/ui/form-field-elements';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
-import { cn } from '@/lib/helper/utils';
 import {
    TextAreaForm,
    TextInputForm,
@@ -20,13 +19,15 @@ import { useGetPresignedUrl } from '@/lib/api/file-api';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsInputForm';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { SelectForm } from '@/components/shared/ui/form-field-elements/SelectForm';
+import { currencySelections } from '@/components/shared/ui/helpers/constants/selections';
 
 export const UserProfileDialog = ({
    formMethods,
    crudApi,
 }: FormDialogProps) => {
    // form utilities
-   const { handleSubmit, getValues } = formMethods;
+   const { handleSubmit, getValues, formState: {dirtyFields} } = formMethods;
    // setValue('avatarFile', '')
 
    //dialog state
@@ -40,13 +41,15 @@ export const UserProfileDialog = ({
       },
    });
 
+   console.log('dirtyFields.avatar', dirtyFields.avatar)
+
    const onSubmit: SubmitHandler<UserPayload> = async (data) => {
       const avatarFile = getValues('avatarFile');
       console.log('avatarFile', avatarFile);
 
       let presignedUrl;
 
-      if (avatarFile instanceof File) {
+      if (avatarFile && avatarFile instanceof File) {
          toast.loading('Uploading avatar...');
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: `avatar_${crypto.randomUUID()}`,
@@ -157,10 +160,14 @@ export const UserProfileDialog = ({
                   />
                </div>
             </div>
-            <Separator/>
-            <div className='flex w-full justify-between'>
+            <Separator />
+            <div className="flex w-full justify-between">
                <Label>Currency</Label>
-               <SelectForm/>
+               <SelectForm
+                  fieldName="currency"
+                  formMethods={formMethods}
+                  selection={currencySelections}
+               />
             </div>
          </div>
 
