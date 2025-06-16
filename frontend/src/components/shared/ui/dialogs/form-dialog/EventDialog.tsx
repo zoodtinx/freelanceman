@@ -83,7 +83,7 @@ export const EventDialog = ({
                   />
                </div> */}
                <div className="w-1/2">
-                  <Label className="pb-0">Due Date</Label>
+                  <Label className="pb-1">Due Date</Label>
                   <DateTimePickerForm
                      formMethods={formMethods}
                      fieldName="dueAt"

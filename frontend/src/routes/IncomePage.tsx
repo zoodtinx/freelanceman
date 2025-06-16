@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
-import { Download, Edit, FileText, Loader, Plus, Trash } from 'lucide-react';
+import { Download, Edit, EllipsisVertical, FileText, Loader, Plus, Trash } from 'lucide-react';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
@@ -295,16 +295,32 @@ const ProjectPaymentTab = forwardRef<
       editProject.mutate({ id: project.id, paymentStatus: value });
    };
 
+   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState)
+
+   const handleBudgetSetting = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: true,
+            data: project as any,
+            mode: 'edit',
+            openedOn: 'incomePage',
+            entity: 'project',
+            type: 'projectSettings',
+         };
+      });
+   };
+
    return (
       <div
          ref={ref}
          className={cn(
-            'flex w-full bg-foreground rounded-2xl shadow-md h-[100px] items-center shrink-0',
+            'flex w-full bg-foreground rounded-2xl shadow-md h-[100px] items-center shrink-0 relative',
             'sm:h-[97px] sm:gap-0 sm:shadow-sm',
             project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >
-         <div className="p-[7px] sm:p-2 h-full">
+         <div className="p-[7px] sm:p-2 h-full relative">
             <div
                className={cn(
                   'flex flex-col gap-1 items-start h-full leading-tight sm:pr-0 w-[150px]',
@@ -330,6 +346,7 @@ const ProjectPaymentTab = forwardRef<
                   )}
                />
             </div>
+            <EllipsisVertical className='absolute top-3 right-3 text-secondary w-4 h-4 hover:text-primary cursor-pointer' onClick={handleBudgetSetting}/>
          </div>
          <div className="h-full py-3 px-2 hidden sm:block">
             <Separator

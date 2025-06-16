@@ -42,6 +42,12 @@ export interface SubmitButtonProps {
    formMethods: UseFormReturn;
 }
 
+export interface SubmissionButtonProps {
+   formMethods: UseFormReturn;
+   editModeText?: string;
+   createModeText?: string;
+}
+
 export interface DestructiveButtonProps {
    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
    deleteText?: string;

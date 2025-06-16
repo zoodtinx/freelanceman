@@ -14,15 +14,15 @@ import {
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
 import {
-   DynamicHeightTextInputForm,
    Label,
-   StatusSelectForm,
-   TextInputForm,
+   StatusSelectForm
 } from 'src/components/shared/ui/form-field-elements';
 import { CrudApi } from '@/lib/api/api.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
+import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
+import { DiscardButton, SubmissionButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 
 export const ProjectDialog = ({
    formMethods,
@@ -49,19 +49,6 @@ export const ProjectDialog = ({
          budget: Number(data.budget),
       };
       editProject.mutate(editProjectPayload);
-   };
-
-   const handleClientClick = () => {
-      const clientId = formDialogState.data.clientId;
-      if (clientId) {
-         navigate(`/home/clients/${clientId}`);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-      }
    };
 
    return (
@@ -92,24 +79,24 @@ export const ProjectDialog = ({
                   />
                </div>
             </div>
-            <div className="flex flex-col w-1/2 grow-0">
-               <Label>Budget</Label>
-               <NumberInputForm
-                  fieldName="budget"
-                  formMethods={formMethods}
-               />
-            </div>
             <div className="">
                <Separator />
             </div>
             <div className="flex flex-col gap-2">
-               <div className="w-full">
-                  <Label className="pb-0">Client</Label>
-                  <p
-                     className="text-md font-semibold leading-tight"
-                  >
-                     {formMethods.getValues('client')?.name || 'Freelancing'}
-                  </p>
+               <div className="flex">
+                  <div className="flex flex-col w-1/2 grow-0 leading-tight">
+                     <Label>Budget</Label>
+                     <NumberInputForm
+                        fieldName="budget"
+                        formMethods={formMethods}
+                     />
+                  </div>
+                  <div className="w-1/2">
+                     <Label className="pb-0">Client</Label>
+                     <p className="text-md font-semibold leading-tight">
+                        {formMethods.getValues('client')?.name || 'Freelancing'}
+                     </p>
+                  </div>
                </div>
                <div className="flex leading-tight">
                   <div className="w-1/2">
@@ -144,5 +131,16 @@ export const ProjectDialog = ({
             onDiscard={handleLeftButtonClick}
          />
       </form>
+   );
+};
+
+const ProjectDialogFooter = () => {
+   return (
+      <DialogFooter>
+         <div className="flex justify-between p-4 pb-2">
+            <DiscardButton onClick={onDiscard} />
+            <SubmissionButton formMethods={formMethods}  />
+         </div>
+      </DialogFooter>
    );
 };

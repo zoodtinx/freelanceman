@@ -146,7 +146,7 @@ const FormDialog = () => {
    })();
 
    //handle discard/delete
-   const handleLeftButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleDestructiveButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (formDialogState.mode === 'create') {
          handleEscapeWithChange();
@@ -160,6 +160,7 @@ const FormDialog = () => {
             confirmDialogData: {
                type: 'delete',
                entityName: formDialogState.data.name,
+               additionalMessage: 'This action will also delete all files, tasks, events and notes created under this project',
                dialogRequested: {
                   mode: 'edit',
                   type: formDialogState.type,
@@ -196,7 +197,7 @@ const FormDialog = () => {
                   dialogType={formDialogState.type}
                   formMethods={formMethods}
                   crudApi={crudApi[formDialogState.entity]}
-                  handleLeftButtonClick={handleLeftButtonClick}
+                  handleLeftButtonClick={handleDestructiveButtonClick}
                />
                <MutationErrorField formMethods={formMethods} />
             </div>
