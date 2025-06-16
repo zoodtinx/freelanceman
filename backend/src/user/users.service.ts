@@ -35,6 +35,7 @@ export class UsersService {
             });
             return await this.findOne(userId);
         } catch (error) {
+            console.log('error', error)
             throw new InternalServerErrorException('Failed to update user');
         }
     }

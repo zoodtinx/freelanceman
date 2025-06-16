@@ -4,11 +4,9 @@ import {
    AvatarInputForm,
    Label,
 } from 'src/components/shared/ui/form-field-elements';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
 import { cn } from '@/lib/helper/utils';
 import {
-   DynamicHeightTextInputForm,
    TextAreaForm,
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
@@ -19,6 +17,9 @@ import { EditUserDto, UserPayload } from 'freelanceman-common';
 import { CrudApi } from '@/lib/api/api.type';
 import { toast } from 'sonner';
 import { useGetPresignedUrl } from '@/lib/api/file-api';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
+import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsInputForm';
+import { Separator } from '@/components/shared/ui/primitives/Separator';
 
 export const UserProfileDialog = ({
    formMethods,
@@ -35,40 +36,42 @@ export const UserProfileDialog = ({
    const { editUser } = crudApi as CrudApi['user'];
    const getPresignedUrl = useGetPresignedUrl({
       errorCallback() {
-          toast.error('Unable to edit profile')
+         toast.error('Unable to edit profile');
       },
-   })
+   });
 
    const onSubmit: SubmitHandler<UserPayload> = async (data) => {
+      const avatarFile = getValues('avatarFile');
+      console.log('avatarFile', avatarFile);
 
-      const avatarFile = getValues('avatarFile')
-      console.log('avatarFile', avatarFile)
-
-      let presignedUrl
+      let presignedUrl;
 
       if (avatarFile instanceof File) {
+         toast.loading('Uploading avatar...');
          presignedUrl = await getPresignedUrl.mutateAsync({
-            fileName: 'avatar',
+            fileName: `avatar_${crypto.randomUUID()}`,
             category: 'user',
             contentType: avatarFile.type,
-         })
-   
+         });
+
          const uploadResponse = await fetch(presignedUrl.url, {
             method: 'PUT',
             body: avatarFile,
             headers: {
                'Content-Type': 'image/jpeg',
-            }
+            },
          });
-   
-          if (!uploadResponse.ok) {
-            toast.error('Error saving changes')
-            return
-          }
+
+         if (!uploadResponse.ok) {
+            toast.error('Error saving avatar');
+            return;
+         }
+         toast.dismiss();
       }
 
+      toast.loading('Updating your profile...');
+
       const payload: EditUserDto = {
-         name: data.displayName,
          email: data.email,
          phoneNumber: data.phoneNumber,
          address: data.address,
@@ -79,10 +82,12 @@ export const UserProfileDialog = ({
          quitting: data.quitting,
          pinnedProjects: data.pinnedProjects,
          specialization: data.specialization,
-         avatar: presignedUrl?.key
+         avatar: presignedUrl?.key,
       };
+
       await editUser.mutateAsync(payload);
-      toast.success('Profile updated')
+      toast.dismiss();
+      toast.success('Profile updated');
    };
 
    return (
@@ -95,39 +100,40 @@ export const UserProfileDialog = ({
             dialogState={formDialogState}
             fieldName="avatar"
          />
-         <DynamicHeightTextInputForm
-            formMethods={formMethods}
-            fieldName="displayName"
-            required={true}
-            errorMessage="Please enter your name."
-            placeholder="What's youe name?"
-            isWithIcon={false}
-            className="pt-1 text-center"
-         />
-         <SpecializationBubble
-            data={formMethods.getValues('specialization')}
-            className="mt-2 mb-4"
-         />
+         <div className="w-2/3 mt-2">
+            <HeadlineTextInputForm
+               formMethods={formMethods}
+               fieldName="displayName"
+               required={true}
+               errorMessage="Please enter your name."
+               isWithIcon={false}
+               className="pt-1 text-center"
+            />
+         </div>
+         <div className="w-full justify-center">
+            <TagsInputForm
+               fieldName="specialization"
+               formMethods={formMethods}
+               className="mt-2 w-full justify-center px-5"
+            />
+         </div>
 
-         <div className="flex flex-col px-5 pb-5 w-full">
-            <div className="">
-               <Label className="text-secondary">Bio</Label>
-               <TextAreaForm
-                  formMethods={formMethods}
-                  fieldName="bio"
-                  placeholder="Introduce yourself."
-                  className="h-20"
-               />
-            </div>
-            <Separator className="my-4" />
-            <div className="flex flex-col gap-3">
+         <div className="flex flex-col px-4 pb-4 w-full mt-3 gap-3">
+            <div className="flex flex-col gap-3 bg-foreground p-2 rounded-xl mt-3">
+               {/* <div className="">
+                  <Label className="text-secondary">Bio</Label>
+                  <TextAreaForm
+                     formMethods={formMethods}
+                     fieldName="bio"
+                     className="h-20 resize-none"
+                  />
+               </div> */}
                <div className="flex gap-2">
                   <div className="w-1/2">
                      <Label>Tax ID</Label>
                      <TextInputForm
                         formMethods={formMethods}
                         fieldName="taxId"
-                        placeholder="Introduce yourself."
                      />
                   </div>
                   <div className="w-1/2">
@@ -135,62 +141,35 @@ export const UserProfileDialog = ({
                      <TextInputForm
                         formMethods={formMethods}
                         fieldName="phoneNumber"
-                        placeholder="Introduce yourself."
                      />
                   </div>
                </div>
                <div>
                   <Label>Email</Label>
-                  <TextInputForm
-                     formMethods={formMethods}
-                     fieldName="email"
-                     placeholder="Enter Email"
-                  />
+                  <TextInputForm formMethods={formMethods} fieldName="email" />
                </div>
                <div className="">
                   <Label>Address</Label>
                   <TextAreaForm
                      formMethods={formMethods}
                      fieldName="address"
-                     placeholder="Introduce yourself."
-                     className="h-14"
+                     className="h-[70px] resize-none"
                   />
                </div>
+            </div>
+            <Separator/>
+            <div className='flex w-full justify-between'>
+               <Label>Currency</Label>
+               <SelectForm/>
             </div>
          </div>
 
          <DialogFooter className="w-full">
             <div className="flex justify-between p-4 pb-2">
                <Button variant={'outline'}>Feeling tired ?</Button>
-               <SubmitButton
-                  formMethods={formMethods}
-               />
+               <SubmitButton formMethods={formMethods} />
             </div>
          </DialogFooter>
       </form>
    );
-};
-
-const SpecializationBubble = ({
-   data,
-   className,
-}: {
-   data: string[];
-   className?: string;
-}) => {
-   const bubbles = data.map((text) => {
-      return (
-         <div
-            key={text}
-            className={cn(
-               'flex items-center px-3 text-base rounded-full border border-primary',
-               className
-            )}
-         >
-            {text}
-         </div>
-      );
-   });
-
-   return <div className="flex gap-1">{bubbles}</div>;
 };

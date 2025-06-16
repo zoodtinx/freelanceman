@@ -123,16 +123,21 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
          {isEditing ? (
             <Textarea
                rows={2}
-               className="w-full resize-none rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg font-medium p-1 pr-8 leading-snug"
+               className="w-full resize-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg font-medium p-1 pr-8 leading-snug placeholder:text-secondary bg-transparent mt-1"
                placeholder={placeholder}
                value={value}
                onChange={onChange}
                autoFocus
+               onFocus={(e) => {
+                  const val = e.currentTarget.value;
+                  e.currentTarget.selectionStart = val.length;
+                  e.currentTarget.selectionEnd = val.length;
+               }}
             />
          ) : (
             <div className="flex gap-1 relative group w-full">
                <p
-                  className="grow text-lg font-medium cursor-text"
+                  className="grow text-lg font-medium cursor-text focus:outline-none focus:ring-0 focus:shadow-none"
                   onClick={() => setIsEditing(true)}
                   tabIndex={0}
                   role="textbox"
@@ -140,9 +145,11 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
                >
                   {value || placeholder}
                </p>
-               {isWithIcon && <div className='pt-1 transition-opacity opacity-100 group-hover:opacity-100'>
-                 <Pencil className="shrink-0 w-4 h-4 text-secondary" />
-               </div>}
+               {isWithIcon && (
+                  <div className="pt-1 transition-opacity opacity-100 group-hover:opacity-100">
+                     <Pencil className="shrink-0 w-4 h-4 text-secondary" />
+                  </div>
+               )}
             </div>
          )}
       </div>

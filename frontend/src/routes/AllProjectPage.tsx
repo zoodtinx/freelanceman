@@ -45,18 +45,38 @@ export default function AllProjectPage() {
          <div className="flex flex-1 flex-col sm:w-full  min-h-0 relative h-full">
             <div className="sm:hidden h-full">
                {viewMode === 'grid' && (
-                  <ProjectGrid
-                     queryResult={projectsQueryResult}
-                     handleLoadMore={handleLoadMore}
-                  />
+                  <div className="relative w-full h-full">
+                     <ProjectGrid
+                        queryResult={projectsQueryResult}
+                        handleLoadMore={handleLoadMore}
+                     />
+                     {projectsQueryResult.data && projectsQueryResult.data.items.length <= 20 && <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1 absolute top-0 z-0">
+                        {Array.from({ length: 30 }).map((_, i) => (
+                           <div
+                              key={i}
+                              className="border border-tertiary border-dashed rounded-[20px] max-w-[400px] h-[205px]"
+                           />
+                        ))}
+                     </div>}
+                  </div>
                )}
                {viewMode === 'list' && (
-                  <ProjectList
-                     queryResult={projectsQueryResult}
-                     handleLoadMore={handleLoadMore}
-                     page="allProjectPage"
-                  clientId=''
-                  />
+                  <div className="relative w-full">
+                     <ProjectList
+                        queryResult={projectsQueryResult}
+                        handleLoadMore={handleLoadMore}
+                        page="allProjectPage"
+                        clientId=""
+                     />
+                     <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1 absolute top-0">
+                        {Array.from({ length: 20 }).map((_, i) => (
+                           <div
+                              key={i}
+                              className="h-[205px] border rounded-[20px]"
+                           />
+                        ))}
+                     </div>
+                  </div>
                )}
             </div>
             <div className="hidden sm:block w-full h-full">
@@ -65,7 +85,7 @@ export default function AllProjectPage() {
                   handleLoadMore={handleLoadMore}
                   placeHolder="Create a new project"
                   page="allProjectPage"
-                  clientId=''
+                  clientId=""
                />
             </div>
          </div>

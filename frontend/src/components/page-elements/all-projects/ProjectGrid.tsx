@@ -68,7 +68,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
 
    return (
       <>
-         <ScrollArea className="h-full">
+         <ScrollArea className="h-full z-10">
             <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1">
                {projectCards}
             </div>

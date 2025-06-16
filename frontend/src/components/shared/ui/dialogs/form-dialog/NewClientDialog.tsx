@@ -14,6 +14,7 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { CrudApi } from '@/lib/api/api.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 
 export const NewClientDialog = ({
    crudApi,
@@ -57,14 +58,17 @@ export const NewClientDialog = ({
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className="px-5 pt-3 pb-5 flex flex-col gap-2">
-            <DynamicHeightTextInputForm
-               formMethods={formMethods}
-               fieldName="name"
-               className="pt-1"
-               placeholder="Enter client's name"
-               required={true}
-               errorMessage="Please enter client name"
-            />
+            <div className='leading-tight'>
+               <Label>Client name</Label>
+               <HeadlineTextInputForm
+                  formMethods={formMethods}
+                  fieldName="name"
+                  className="pt-1"
+                  placeholder="Enter client's name"
+                  required={true}
+                  errorMessage="Please enter client name"
+               />
+            </div>
             <div className="flex flex-col grow relative">
                <Label>Theme Color</Label>
                <div className="relative">
@@ -77,46 +81,44 @@ export const NewClientDialog = ({
                </div>
             </div>
             <Separator className="mt-2 mb-1" />
-            <p className="text-md">
-               Client Details{' '}
-               <span className="text-base text-secondary">
-                  Don't worry, you can add it later.
-               </span>
-            </p>
-            <div className="flex leading-tight gap-2">
+            <div className='flex flex-col gap-2 bg-white p-2 rounded-xl'>
+               <p className="text-md text-secondary">
+                  Client Details
+               </p>
+               <div className="flex leading-tight gap-2">
+                  <div className="flex flex-col grow">
+                     <Label>Email</Label>
+                     <TextInputForm
+                        fieldName="email"
+                        className="bg-transparent"
+                        formMethods={formMethods}
+                     />
+                  </div>
+                  <div className="flex flex-col w-2/5">
+                     <Label>Phone Number</Label>
+                     <TextInputForm
+                        fieldName="phoneNumber"
+                        className="bg-transparent"
+                        formMethods={formMethods}
+                     />
+                  </div>
+               </div>
                <div className="flex flex-col grow">
-                  <Label>Email</Label>
+                  <Label>Tax ID</Label>
                   <TextInputForm
-                     fieldName="email"
+                     fieldName="taxId"
                      className="bg-transparent"
                      formMethods={formMethods}
                   />
                </div>
-               <div className="flex flex-col w-2/5">
-                  <Label>Phone Number</Label>
-                  <TextInputForm
-                     fieldName="phoneNumber"
-                     className="bg-transparent"
+               <div className="flex flex-col grow">
+                  <Label>Address</Label>
+                  <TextAreaForm
+                     fieldName="address"
+                     className="bg-transparent "
                      formMethods={formMethods}
                   />
                </div>
-            </div>
-            <div className="flex flex-col grow">
-               <Label>Tax ID</Label>
-               <TextInputForm
-                  fieldName="taxId"
-                  className="bg-transparent"
-                  formMethods={formMethods}
-               />
-            </div>
-            <div className="flex flex-col grow">
-               <Label>Address</Label>
-               <TextAreaForm
-                  fieldName="address"
-                  className="bg-transparent "
-                  formMethods={formMethods}
-                  placeholder="Don't worry, you can add it later."
-               />
             </div>
          </div>
          <FormDialogFooter

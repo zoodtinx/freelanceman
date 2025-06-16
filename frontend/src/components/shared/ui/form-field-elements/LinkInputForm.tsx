@@ -6,9 +6,6 @@ import { FormElementProps } from '@/lib/types/form-element.type';
 import { validateUrl } from '@/components/shared/ui/helpers/Helpers';
 import { cn } from '@/lib/helper/utils';
 
-// type LinkInPutFormProps<TFieldValues extends FieldValues> =
-//    React.InputHTMLAttributes<HTMLInputElement> & FormElementProps<TFieldValues>;
-
 export const LinkInputForm = <TFieldValues extends FieldValues>({
    formMethods,
    className,

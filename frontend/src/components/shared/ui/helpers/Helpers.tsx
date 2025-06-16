@@ -365,21 +365,16 @@ export const getStatusColor = (status: string = '') => {
    }
 };
 
-export const validateUrl = (inputValue: string) => {
-   if (!inputValue.trim()) {
-      return { error: 'URL cannot be empty.' };
-   }
-
+export const validateUrl = (url: string): { error: boolean } => {
    try {
-      const url = new URL(inputValue);
-      if (!url.protocol || !url.hostname) {
-         return { error: false };
-      }
-      return { error: true };;
+      const parsed = new URL(url);
+      const isValidProtocol = parsed.protocol === 'http:' || parsed.protocol === 'https:';
+      return { error: !isValidProtocol };
    } catch {
-      return { error: false };;
+      return { error: true };
    }
 };
+
 
 export const getFileTypeFromMimeType = (mime: string) => {
    const mimeMap: Record<string, string> = {

@@ -1,7 +1,6 @@
 import { FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import {
    DateTimePickerForm,
-   DynamicHeightTextInputForm,
    LinkInputForm,
    SelectWithSearchForm,
    StatusSelectForm,
@@ -23,6 +22,7 @@ import {
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 
 export const TaskDialog = ({
    formMethods,
@@ -91,8 +91,8 @@ export const TaskDialog = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
-         <div className="px-5 py-3 flex flex-col gap-3">
-            <DynamicHeightTextInputForm
+         <div className="px-4 pt-3 pb-4 flex flex-col gap-3">
+            <HeadlineTextInputForm
                formMethods={formMethods}
                fieldName="name"
                required={true}
@@ -159,7 +159,7 @@ export const ProjectField = ({
 
    if (isCreateMode && !isOnProjectPage) {
       return (
-         <div className="grow leading-tight">
+         <div className="w-full leading-tight">
             <Label>Project</Label>
             <SelectWithSearchForm
                formMethods={formMethods}

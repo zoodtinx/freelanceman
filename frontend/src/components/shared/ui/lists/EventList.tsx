@@ -18,6 +18,7 @@ import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { EventFilterDto } from 'freelanceman-common';
 import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import { format } from 'date-fns';
 
 export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    addFn,
@@ -69,7 +70,8 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    const groupedEvents = eventsData.items.reduce(
       (acc: any, event: EventPayload) => {
-         const date = formatDate(event.dueAt, 'SHORT');
+         const date = format(event.dueAt, 'dd MMM yy');
+
          if (!acc[date]) {
             acc[date] = [];
          }
@@ -138,12 +140,11 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
       const date = formattedDate.split(' ')[1];
 
       const dueAt = new Date(eventGroupData.date);
+      console.log('eventGroupData.date', eventGroupData.date)
       const isToday = dueAt.getDate() === new Date().getDate();
       const isPastDue = new Date() > dueAt;
-      const isScheduled = eventGroupData.events[0].status === 'scheduled'
-      const isCancelled = eventGroupData.events[0].status === 'cancelled'
+      const isScheduled = new Date() < dueAt;
 
-      console.log('isScheduled', isScheduled)
 
       const events = eventGroupData.events.map(
          (data: EventPayload, index: number) => {
@@ -169,7 +170,7 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
                <div
                   className={cn(
                      'absolute w-full h-full',
-                     (isPastDue || isCancelled) && 'bg-background opacity-70',
+                     isPastDue && 'bg-background opacity-70',
                      isScheduled && 'bg-general-blue opacity-10',
                      isToday && 'bg-general-red opacity-5 dark:opacity-20'
                   )}

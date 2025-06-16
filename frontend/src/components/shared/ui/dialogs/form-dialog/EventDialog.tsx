@@ -16,6 +16,8 @@ import { CreateEventDto, EditEventDto, EventStatus } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
 import { formatDueAt } from '@/components/shared/ui/helpers/Helpers';
+import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
+import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsInputForm';
 
 export const EventDialog = ({
    formMethods,
@@ -62,8 +64,8 @@ export const EventDialog = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
-         <div className="px-5 py-3 flex flex-col gap-3">
-            <DynamicHeightTextInputForm
+         <div className="px-4 pt-3 pb-4 flex flex-col gap-3">
+            <HeadlineTextInputForm
                formMethods={formMethods}
                fieldName="name"
                required={true}
@@ -72,14 +74,14 @@ export const EventDialog = ({
             />
             {/* <TagField /> */}
             <div className="flex leading-tight">
-               <div className="w-1/2">
+               {/* <div className="w-1/2">
                   <Label>Status</Label>
                   <StatusSelectForm
                      formMethods={formMethods}
                      selection={eventStatusSelections}
                      fieldName="status"
                   />
-               </div>
+               </div> */}
                <div className="w-1/2">
                   <Label className="pb-0">Due Date</Label>
                   <DateTimePickerForm
@@ -96,6 +98,13 @@ export const EventDialog = ({
                   formDialogState={formDialogState}
                />
             )}
+            <div className="w-full">
+               <Label>Tags</Label>
+               <TagsInputForm
+               fieldName='tags'
+               formMethods={formMethods}
+               />
+            </div>
             <div className="w-full">
                <Label>Details</Label>
                <TextAreaForm

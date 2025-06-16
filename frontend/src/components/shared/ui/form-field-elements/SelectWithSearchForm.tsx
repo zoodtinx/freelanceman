@@ -65,7 +65,7 @@ export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
             const value = watch(fieldName as Path<TFieldValues>);
 
             return (
-               <div>
+               <div className='w-full'>
                   <SelectWithSearch
                      value={value}
                      handleSelect={handleSelect}
@@ -213,44 +213,53 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             openedOn: 'globalAddButton'
          })
       }
+      setIsOpen(false)
    }
 
    return (
       <Select value={value} open={isOpen}>
          <SelectTrigger
             className={cn(
-               'flex justify-between items-center cursor-pointer font-medium text-base gap-1 group',
+               'group w-full',
                size === 'lg' && 'text-md',
                className
             )}
             onClick={handleOpen}
          >
-            {value && cancel?.enable && (
-               <X
-                  onClick={cancel.handleCancel}
-                  className={cn(
-                     'border border-secondary text-secondary h-4 w-4 box-contents rounded-md opacity-100',
-                     'hover:border-button-red hover:text-button-red'
+            <div className="flex items-center gap-1 w-full">
+               <div className=' flex gap-2 justify-between w-full'>
+                  {optionalTriggerUi ? (
+                     optionalTriggerUi
+                  ) : (
+                     <div className='flex items-center gap-1'>
+                        <p className="text-wrap text-left font-normal">
+                           {selectedValue.label ? selectedValue.label : placeholder}
+                        </p>
+                        {isWithIcon && !value && <ChevronDown className="h-4 w-4" />}
+                     </div>
                   )}
-               />
-            )}
-            {optionalTriggerUi ? (
-               optionalTriggerUi
-            ) : (
-               <p className="truncate font-normal">
-                  {selectedValue.label ? selectedValue.label : placeholder}
-               </p>
-            )}
-            {isWithIcon && !value && <ChevronDown className="h-4 w-4" />}
+                  {value && cancel?.enable && (
+                     <div className='pt-1'>
+                        <X
+                           onClick={cancel.handleCancel}
+                           className={cn(
+                              'border border-secondary text-secondary h-4 w-4 box-contents rounded-md opacity-100',
+                              'hover:border-button-red hover:text-button-red'
+                           )}
+                        />
+                     </div>
+                  )}
+               </div>
+            </div>
          </SelectTrigger>
          <SelectContent
-            className="bg-foreground overflow-hidden text-sm font-normal w-[300px] shadow-sm"
+            className="overflow-visible text-sm font-normal shadow-sm flex w-fit bg-transparent border-0"
             ref={selectRef}
          >
-            <div className="w-full max-h-[250px] bg-foreground rounded-md border-0 flex flex-col gap-1">
+            <div className="max-h-[250px] w-[300px] bg-foreground border-0 flex flex-col p-2 pb-0 rounded-xl shadow-md">
                <SearchBox
                   onChange={handleInputChange}
-                  className="w-full bg-background rounded-md"
+                  className="w-full bg-background rounded-md mb-1"
                   placeholder="Search..."
                />
                <SelectionList
@@ -261,9 +270,9 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
                />
                <div
                   onClick={handleAddSelection}
-                  className="text-center w-full py-1 bg-constant text-secondary hover:text-primary transition-colors cursor-pointer"
+                  className="text-center py-1 pb-2 w-full bg-constant text-secondary hover:text-primary transition-colors cursor-pointer"
                >
-                  + Create a client
+                  + Create new
                </div>
             </div>
          </SelectContent>

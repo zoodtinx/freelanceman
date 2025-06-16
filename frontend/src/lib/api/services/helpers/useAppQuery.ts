@@ -27,7 +27,7 @@ export const useAppQuery = (
       const tryRefresh = async () => {
          const result = await apiRefreshAccess();
          if (!result.success) {
-            navigate('/user/login');
+            navigate('/welcome');
             return false;
          }
          setAccessToken(result.data.accessToken);

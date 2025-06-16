@@ -26,7 +26,7 @@ export const createFileSchema = z.object({
     displayName: z.string(),
     type: z.string(),
     category: z.string(),
-    link: z.string(),
+    link: optionalString(),
     s3Key: optionalString(),
     url: optionalString(),
     projectId: optionalString(),

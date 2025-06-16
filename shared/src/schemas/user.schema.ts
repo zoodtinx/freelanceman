@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { optionalString } from './helper/optional';
+import { optionalString, nullableOptionalString } from './helper/optional';
 
 export const visitingStatusSchema = z.object({
   id: z.string().uuid(),
@@ -41,10 +41,10 @@ export const editUserProfileSchema = z.object({
   displayName: optionalString(),
   email: optionalString(),
   specialization: z.array(z.string()).optional(),
-  bio: optionalString(),
-  taxId: optionalString(),
-  phoneNumber: optionalString(),
-  address: optionalString(),
+  bio: nullableOptionalString(),
+  taxId: nullableOptionalString(),
+  phoneNumber: nullableOptionalString(),
+  address: nullableOptionalString(),
   avatar: optionalString(),
   pinnedProjects: z.array(z.string()).optional(),
   currency: optionalString(),

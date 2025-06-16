@@ -168,7 +168,7 @@ export const UserBar = () => {
                {profileMenuItems.map(
                   ({ icon: Icon, label, onClick, className }, i) => (
                      <div key={label}>
-                        {i === 1 && <Separator />}
+                        {i === 1 && <Separator className='mb-1' />}
                         <div
                            onClick={onClick}
                            className={cn(
