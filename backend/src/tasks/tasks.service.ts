@@ -13,7 +13,8 @@ export class TasksService {
     constructor(private prismaService: PrismaService) {}
 
     async create(userId: string, createTaskDto: CreateTaskDto) {
-        const {projectId, ...taskData} = createTaskDto
+        const {projectId, clientId, ...taskData} = createTaskDto
+        console.log('clientId', clientId)
         try {
             let clientId: any
 

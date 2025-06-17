@@ -10,9 +10,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { EventsModule } from './events/events.module';
 import { ClientContactsModule } from './client-contacts/client-contacts.module';
 import { PartnerContactsModule } from './partner-contacts/partner-contacts.module';
-import { PartnerCompanyModule } from './partner-companies/partner-companies.module';
 import { SalesDocumentsModule } from './sales-documents/sales-documents.module';
-import { SalesDocumentItemsModule } from './sales-document-items/sales-document-items.module';
 import { FilesModule } from './files/files.module';
 import { CronJobsModule } from 'src/jobs/cron-job.module';
 import { S3Module } from 'src/shared/s3/s3.module';
@@ -32,16 +30,14 @@ import { UsersModule } from '@/user/users.module';
         EventsModule,
         FilesModule,
         MailModule,
-        PartnerCompanyModule,
         PartnerContactsModule,
         PaymentModule,
         PrismaModule,
         ProjectsModule,
         S3Module,
-        SalesDocumentItemsModule,
         SalesDocumentsModule,
         TasksModule,
-        UsersModule
+        UsersModule,
     ],
     providers: [AppService],
     controllers: [AppController],

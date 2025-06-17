@@ -7,15 +7,15 @@ import {
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { formatDate } from '@/lib/helper/formatDateTime';
-import { ProjectListPayload, ProjectPayload } from 'freelanceman-common';
 import { cn } from '@/lib/helper/utils';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
+import { ProjectFindManyItem, ProjectFindManyResponse } from 'freelanceman-common';
 
 interface ProjectListProps {
-   queryResult: UseQueryResult<ProjectListPayload>;
+   queryResult: UseQueryResult<ProjectFindManyResponse>;
    placeHolder?: string;
    clientId: string;
    handleLoadMore: (value: number) => void;
@@ -78,7 +78,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    );
 };
 
-const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
+const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({ project }) => {
    const formattedDateModified = formatDate(project.updatedAt, 'LONG');
 
    return (

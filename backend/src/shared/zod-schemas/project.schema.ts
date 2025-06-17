@@ -14,8 +14,8 @@ export const projectSchema = z.object({
    note: z.string().optional(),
    userId: z.string(),
    pinned: z.boolean().default(false),
-   createdAt: z.date(),
-   updatedAt: z.date(),
+   createdAt: z.string(),
+   updatedAt: z.string(),
 });
 
 export const createProjectSchema = z.object({

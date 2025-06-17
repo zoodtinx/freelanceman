@@ -1,9 +1,9 @@
 import { BookUser, History } from 'lucide-react';
-import type { ClientPayload } from 'freelanceman-common/src/schemas';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/helper/utils';
+import { ClientFindManyItem } from 'freelanceman-common';
 
-const ClientCard = ({ client }: { client: ClientPayload }): JSX.Element => {
+const ClientCard = ({ client }: { client: ClientFindManyItem }): JSX.Element => {
    const navigate = useNavigate();
 
    const projectWording = client.projects.length < 2 ? 'project' : 'projects';

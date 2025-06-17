@@ -9,7 +9,6 @@ import { Prisma } from '@prisma/client';
 import {
     SalesDocumentFilterDto,
     EditSalesDocumentDto,
-    CreateSalesDocumentDto,
     CreatePdfDto,
 } from 'freelanceman-common';
 import { S3Service } from 'src/shared/s3/s3.service';
@@ -26,14 +25,15 @@ export class SalesDocumentsService {
         private fileService: FilesService,
     ) {}
 
-    async create(userId: string, createDto: CreateSalesDocumentDto) {
+    async create(mainUserId: string, createDto: CreatePdfDto) {
+        const { userId, ...dto } = createDto;
         const documentTitle = `${createDto.projectTitle} ${createDto.category}`;
 
         try {
             const result = await this.prismaService.salesDocument.create({
                 data: {
-                    userId,
-                    ...createDto,
+                    userId: mainUserId,
+                    ...dto,
                     title: documentTitle,
                     items: {
                         create: createDto.items.map((item) => ({

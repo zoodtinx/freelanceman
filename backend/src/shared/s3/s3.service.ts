@@ -7,7 +7,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GetPresignedUrlDto } from 'freelanceman-common';
+import { S3GetPresignedUrlDto } from 'freelanceman-common';
 import { Readable } from 'stream';
 
 @Injectable()
@@ -26,15 +26,18 @@ export class S3Service {
         this.bucket = this.configService.get('aws.bucket')!;
     }
 
-    async getPresignedUrl( userId: string, getPresignedUrlDto: GetPresignedUrlDto) {
+    async getPresignedUrl(
+        userId: string,
+        getPresignedUrlDto: S3GetPresignedUrlDto,
+    ) {
         const { fileName, category, contentType } = getPresignedUrlDto;
-        
+
         const formattedFilename = fileName
             .toLowerCase()
             .trim()
-            .replace(/[^a-z0-9.]+/g, '-') 
+            .replace(/[^a-z0-9.]+/g, '-')
             .replace(/(^-|-$)/g, '');
-        
+
         try {
             const command = new PutObjectCommand({
                 Bucket: this.bucket,
@@ -45,7 +48,7 @@ export class S3Service {
             const url = await getSignedUrl(this.s3, command, {
                 expiresIn: 3600,
             });
-            return {url, key: `${userId}/${category}/${formattedFilename}`};
+            return { url, key: `${userId}/${category}/${formattedFilename}` };
         } catch (error) {
             console.log('error', error);
             throw new InternalServerErrorException(

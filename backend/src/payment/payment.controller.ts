@@ -2,14 +2,16 @@ import {
     Controller,
     Get,
     Post,
-    Body, Param, UseGuards,
+    Body,
+    Param,
+    UseGuards,
     HttpCode,
-    Req
+    Req,
 } from '@nestjs/common';
 import { PaymentService } from 'src/payment/payment.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { paymentDataFilterSchema, ProjectFilterDto } from 'freelanceman-common';
+import { ProjectFilterDto, projectFilterSchema } from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('payment')
@@ -19,7 +21,8 @@ export class PaymentsController {
     @Post('search')
     @HttpCode(200)
     findMany(
-        @Body(new ZodValidationPipe(paymentDataFilterSchema)) payload: ProjectFilterDto,
+        @Body(new ZodValidationPipe(projectFilterSchema))
+        payload: ProjectFilterDto,
         @Req() req: any,
     ) {
         const userId = req.user.id;

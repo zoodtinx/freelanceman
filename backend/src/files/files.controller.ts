@@ -12,16 +12,16 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import {
-    createFileSchema,
-    getPresignedUrlSchema,
-    fileFilterSchema,
-    editFileSchema,
-    GetPresignedUrlDto,
-} from 'freelanceman-common';
 import { FilesService } from 'src/files/files.service';
 import { S3Service } from '@/shared/s3/s3.service';
 import { z } from 'zod';
+import {
+    createFileSchema,
+    editFileSchema,
+    fileFilterSchema,
+    S3GetPresignedUrlDto,
+    s3GetPresignedUrlDtoSchema,
+} from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('files')
@@ -93,8 +93,8 @@ export class FilesController {
     @Post('presign')
     @HttpCode(200)
     getPresignedUrl(
-        @Body(new ZodValidationPipe(getPresignedUrlSchema))
-        payload: GetPresignedUrlDto,
+        @Body(new ZodValidationPipe(s3GetPresignedUrlDtoSchema))
+        payload: S3GetPresignedUrlDto,
         @Req() req: any,
     ) {
         const userId = req.user.id;

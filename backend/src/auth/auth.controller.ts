@@ -11,10 +11,7 @@ import {
     UsePipes,
 } from '@nestjs/common';
 import { Request as ExpressRequest, Request, Response } from 'express';
-import {
-    JwtAccessTokenAuthGuard,
-    LocalAuthGuard,
-} from 'src/auth/auth.guard';
+import { JwtAccessTokenAuthGuard, LocalAuthGuard } from 'src/auth/auth.guard';
 import {
     GoogleOAuthService,
     LocalAuthService,
@@ -22,13 +19,12 @@ import {
 } from 'src/auth/auth.service';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
 import {
-    loginUserSchema,
+    loginDtoSchema,
     RegisterUserDto,
-    registerUserSchema,
+    registerUserDtoSchema,
     ResetPasswordDto,
+    resetPasswordDtoSchema,
     ResetPasswordRequestDto,
-    resetPasswordRequestSchema,
-    resetPasswordSchema,
 } from 'freelanceman-common';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
@@ -77,10 +73,10 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
     @HttpCode(200)
-    @UsePipes(new ZodValidationPipe(loginUserSchema))
+    @UsePipes(new ZodValidationPipe(loginDtoSchema))
     async login(@Req() req: Request) {
         const loginResult = await this.localAuthService.login(req);
-        const { accessToken, refreshToken, } = loginResult;
+        const { accessToken, refreshToken } = loginResult;
 
         req.res?.cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -112,7 +108,7 @@ export class AuthController {
     }
 
     @Post('register')
-    @UsePipes(new ZodValidationPipe(registerUserSchema))
+    @UsePipes(new ZodValidationPipe(registerUserDtoSchema))
     async register(
         @Body() registerUserDto: RegisterUserDto,
         @Req() req: Request,
@@ -138,7 +134,7 @@ export class AuthController {
     @Post('reset-password-request')
     @HttpCode(200)
     async resetPasswordRequest(
-        @Body(new ZodValidationPipe(resetPasswordRequestSchema))
+        @Body(new ZodValidationPipe(resetPasswordDtoSchema))
         payload: ResetPasswordRequestDto,
     ) {
         await this.localAuthService.resetPasswordRequest(payload);
@@ -148,10 +144,10 @@ export class AuthController {
     @Post('reset-password')
     @HttpCode(200)
     async resetPassword(
-        @Body(new ZodValidationPipe(resetPasswordSchema))
+        @Body(new ZodValidationPipe(resetPasswordDtoSchema))
         payload: ResetPasswordDto,
     ) {
-        const result = await this.localAuthService.resetPassword(payload);
+        await this.localAuthService.resetPassword(payload);
         return { success: true };
     }
 
@@ -159,8 +155,7 @@ export class AuthController {
     @Get('google/callback')
     async googleCallback(@Req() req: any, @Res() res: Response) {
         const dto = req.user;
-        const { accessToken, refreshToken, user } =
-            await this.googleOAuthService.login(dto);
+        const { refreshToken } = await this.googleOAuthService.login(dto);
         const redirectUrl = this.configService.get<string>('url.client');
 
         res.cookie('refreshToken', refreshToken, {

@@ -1,11 +1,11 @@
 import puppeteer from 'puppeteer';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { CreatePdfDto } from 'freelanceman-common';
 import { getTimezonedDateFromISOString } from '../../shared/helper/timezoned-date';
+import { CreatePdfDto, CreateSalesDocumentDto } from 'freelanceman-common';
 
 export async function generatePDF(
-    data: CreatePdfDto,
+    data: CreateSalesDocumentDto,
     outputPath: string,
 ): Promise<void> {
     const browser = await puppeteer.launch();
@@ -61,7 +61,7 @@ export async function generatePDF(
     await browser.close();
 }
 
-function getHtml(data: CreatePdfDto) {
+function getHtml(data: CreateSalesDocumentDto) {
     const date = getTimezonedDateFromISOString(data.issuedAt);
 
     const currency = data.currency ?? 'THB';

@@ -6,7 +6,7 @@ import { useClientsQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
 import {
    ClientFilterDto,
-   ClientPayload,
+   ClientFindManyItem,
    PaymentStatus,
    ProjectFilterDto,
    ProjectStatus,
@@ -180,7 +180,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
       }
    }, [projectFilter.clientId]);
 
-   const clientSelection = clientList?.items.map((client: ClientPayload) => {
+   const clientSelection = clientList?.items.map((client: ClientFindManyItem) => {
       return {
          value: client.id,
          label: client.name,

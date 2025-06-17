@@ -10,7 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { editUserProfileSchema } from 'freelanceman-common';
+import { editUserSchema } from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('users')
@@ -26,7 +26,7 @@ export class UsersController {
     @Patch()
     update(
         @Req() req: any,
-        @Body(new ZodValidationPipe(editUserProfileSchema)) payload: any,
+        @Body(new ZodValidationPipe(editUserSchema)) payload: any,
     ) {
         const userId = req.user.id;
         return this.usersService.update(userId, payload);

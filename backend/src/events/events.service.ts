@@ -5,13 +5,13 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { Prisma } from '@prisma/client';
+import { getTimezonedDate } from '@/shared/helper/timezoned-date';
 import {
     CreateEventDto,
     EditEventDto,
     EventFilterDto,
 } from 'freelanceman-common';
-import { Prisma } from '@prisma/client';
-import { getTimezonedDate } from '@/shared/helper/timezoned-date';
 
 @Injectable()
 export class EventsService {
@@ -41,11 +41,13 @@ export class EventsService {
                             id: userId,
                         },
                     },
-                    project: projectId ? {
-                        connect: {
-                            id: projectId
-                        }
-                    } : undefined,
+                    project: projectId
+                        ? {
+                              connect: {
+                                  id: projectId,
+                              },
+                          }
+                        : undefined,
                     client: clientId
                         ? {
                               connect: {
@@ -56,7 +58,7 @@ export class EventsService {
                 },
             });
 
-            console.log('result', result)
+            console.log('result', result);
 
             return result;
         } catch (error) {
@@ -76,7 +78,7 @@ export class EventsService {
     async findAll(userId: string, filter: EventFilterDto) {
         const date = getTimezonedDate();
 
-        console.log('filter.status', filter.status)
+        console.log('filter.status', filter.status);
 
         try {
             const where = {
@@ -116,7 +118,7 @@ export class EventsService {
 
             return { items, total };
         } catch (e) {
-            console.log('e', e)
+            console.log('e', e);
             throw new InternalServerErrorException('Failed to find events');
         }
     }

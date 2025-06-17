@@ -7,7 +7,6 @@ import { useClientsQuery } from '@/lib/api/client-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
-import { ClientListPayload } from 'freelanceman-common';
 import { ClientGridLoader } from '@/components/shared/ui/placeholder-ui/ClientGridLoader';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -15,6 +14,7 @@ import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListP
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { cn } from '@/lib/helper/utils';
 import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
+import { ClientFindManyResponse } from 'freelanceman-common';
 
 const ClientColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -25,7 +25,7 @@ const ClientColumn = (): JSX.Element => {
 
    const clientsQueryResult = useClientsQuery(
       searchOptions
-   ) as UseQueryResult<ClientListPayload>;
+   ) as UseQueryResult<ClientFindManyResponse>;
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions((prev) => ({ ...prev, name: event.target.value }));
@@ -89,7 +89,7 @@ const ClientGrid = ({
    clientsQueryResult,
    addFn,
 }: {
-   clientsQueryResult: UseQueryResult<ClientListPayload>;
+   clientsQueryResult: UseQueryResult<ClientFindManyResponse>;
    addFn: () => void;
 }) => {
    const {
