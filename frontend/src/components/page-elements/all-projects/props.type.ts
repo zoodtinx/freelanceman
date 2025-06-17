@@ -1,19 +1,19 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import { ProjectListPayload } from 'freelanceman-common';
+import { ProjectFindManyResponse } from 'freelanceman-common';
 import {
-   ProjectPayload,
+   ProjectFindManyItem,
    ProjectFilterDto,
-   TaskPayload,
+   TaskFindOneResponse,
 } from 'freelanceman-common';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ProjectListProps {
-   queryResult: UseQueryResult<ProjectListPayload>;
+   queryResult: UseQueryResult<ProjectFindManyResponse>;
    handleLoadMore: (value: number) => void;
 }
 
 export interface ProjectCardProps {
-   project: ProjectPayload;
+   project: ProjectFindManyItem;
 }
 
 export interface ProjectFilterProps {
@@ -35,6 +35,6 @@ export type ViewModeToggleBubble = Pick<
 >;
 
 export interface QuickTaskBubbleProps {
-   task: TaskPayload;
+   task: TaskFindOneResponse;
    projectStatus: string;
 }

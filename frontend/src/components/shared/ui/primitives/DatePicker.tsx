@@ -11,7 +11,6 @@ const DatePicker = <TFieldValues extends FieldValues>({
 }: InputProps<TFieldValues>): JSX.Element => {
    const {
       control,
-      formState: { errors },
    } = formMethods;
 
    return (

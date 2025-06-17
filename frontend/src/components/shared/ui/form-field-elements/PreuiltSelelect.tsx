@@ -20,7 +20,6 @@ type SelectProps = {
   isWithIcon?: boolean;
   defaultValue?: string;
 };
-
 const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
    (
       {

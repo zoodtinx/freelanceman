@@ -1,6 +1,5 @@
 import {
    refreshAccess as apiRefreshAccess,
-   checkAccess as apiCheckAccess,
 } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { QueryKey, useQuery, keepPreviousData } from '@tanstack/react-query';

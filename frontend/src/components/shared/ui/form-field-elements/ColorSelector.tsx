@@ -7,7 +7,6 @@ import {
 import { getColorName } from '@/components/shared/ui/helpers/Helpers';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
-import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
 export const ColorSelectorForm = <TFormData extends FieldValues>({
    formMethods,
@@ -61,8 +60,6 @@ export const ColorSelectorPopover = ({
    onChange: (val: string) => void;
 }) => {
    const [isOpen, setIsOpen] = useState(false);
-
-   const {setFormDialogState, formDialogState} = useFormDialogStore()
 
    const handleSelectColor = (selectedColor: string) => {
       onChange(selectedColor);

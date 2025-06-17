@@ -7,7 +7,7 @@ import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSe
 import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSection';
 import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
 import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
-import { ProjectPayload } from 'freelanceman-common';
+import { ProjectFindOneResponse } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
@@ -149,7 +149,7 @@ export default function ProjectPage() {
    );
 }
 
-const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
+const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
    const [projectStatus, setprojectStatus] = useState(project.projectStatus);
    const [paymentStatus, setPaymentStatus] = useState(project.paymentStatus);
 
@@ -222,7 +222,7 @@ const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
             <div className="flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden">
                <UsersRound className=" w-5 h-auto" />
                <Link
-                  to={project.clientId && `../../clients/${project.clientId}`}
+                  to={project.clientId ? `../../clients/${project.clientId}` : ''}
                   className="text-md font-medium select-none"
                >
                   {project.client?.name ?? 'Freelancing'}

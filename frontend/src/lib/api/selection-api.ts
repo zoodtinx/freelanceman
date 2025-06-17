@@ -1,5 +1,5 @@
-import { useClientSelectionsQuery, useClientsQuery } from "@/lib/api/client-api"
-import { useProjectSelectionQuery, useProjectsQuery } from "@/lib/api/project-api";
+import { useClientSelectionsQuery } from "@/lib/api/client-api"
+import { useProjectSelectionQuery } from "@/lib/api/project-api";
 
 type Type = 'client' | 'project'
 

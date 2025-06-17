@@ -105,7 +105,6 @@ export type ProjectSelectionsList = z.infer<typeof projectSelectionsListSchema>;
 
 export const projectFindManyItemSchema = projectCoreSchema.extend({
     client: clientCoreSchema,
-
     tasks: z.array(taskCoreSchema),
 });
 export type ProjectFindManyItem = z.infer<typeof projectFindManyItemSchema>;
@@ -122,7 +121,7 @@ export type ProjectFindManyResponse = z.infer<
 export const projectFindOneResponseSchema = projectCoreSchema.extend({
     client: clientCoreSchema,
     links: z.array(linkSchema),
-
+    tasks: z.array(taskCoreSchema),
     clientContacts: z.array(
         z.object({
             clientContact: clientContactCoreSchema,

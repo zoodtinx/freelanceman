@@ -1,15 +1,10 @@
 import { z } from 'zod';
-import { optionalString, optionalNumber } from './helper/optional';
 import { clientCoreSchema } from './clients.schema';
 import {
     projectCoreSchema,
     projectFilterSchema
 } from './projects.schema';
-
-export const salesDocumentMinimalSchema = z.object({
-    id: z.string().uuid(),
-});
-export type SalesDocumentMinimal = z.infer<typeof salesDocumentMinimalSchema>;
+import { salesDocumentCoreSchema } from './sales-documents.schema';
 
 export const paymentFilterDtoSchema = projectFilterSchema.extend({
     paymentStatus: z
@@ -20,7 +15,7 @@ export const paymentFilterDtoSchema = projectFilterSchema.extend({
 export type PaymentFilterDto = z.infer<typeof paymentFilterDtoSchema>;
 
 export const paymentDataItemSchema = projectCoreSchema.extend({
-    salesDocuments: z.array(salesDocumentMinimalSchema),
+    salesDocuments: z.array(salesDocumentCoreSchema),
     client: clientCoreSchema.nullable(),
 });
 export type PaymentDataItem = z.infer<typeof paymentDataItemSchema>;

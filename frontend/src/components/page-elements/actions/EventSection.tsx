@@ -27,7 +27,7 @@ export default function EventSection() {
          openedOn: 'actionPage',
          type: 'event',
          entity: 'event',
-         data: defaultEventValues as any,
+         data: defaultEventValues,
       });
    };
 
@@ -47,7 +47,7 @@ export default function EventSection() {
                <ToggleGroup
                   type="single"
                   className="pt-1 sm:pt-0"
-                  value={eventFilter.status as any}
+                  value={eventFilter.status}
                   onValueChange={(value: any) =>
                      setEventFilter((prev) => ({ ...prev, status: value }))
                   }

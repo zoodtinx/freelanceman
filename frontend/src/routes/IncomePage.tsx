@@ -30,17 +30,12 @@ import {
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
-import {
-   PaymentDataPayload,
-   SalesDocumentPayload,
-} from 'freelanceman-common/src/schemas';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 import { useFileUrlQuery } from '@/lib/api/file-api';
 import { toast } from 'sonner';
 import { useEditProject } from '@/lib/api/project-api';
-import { PaymentDataFilter, PaymentDataListPayload } from 'freelanceman-common';
 import { useDeleteSalesDocument } from '@/lib/api/sales-document-api';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
@@ -53,6 +48,7 @@ import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
+import { GetPaymentDataResponse, PaymentDataItem, PaymentFilterDto, SalesDocumentFindOneResponse } from 'freelanceman-common';
 
 const IncomePage: React.FC = () => {
    const { data: userData } = useUserQuery();
@@ -64,7 +60,7 @@ const IncomePage: React.FC = () => {
       setWelcomeDialogState({ isOpen: true, page: 'incomePage' });
    }
 
-   const [projectFilter, setProjectFilter] = useState<PaymentDataFilter>({
+   const [projectFilter, setProjectFilter] = useState<PaymentFilterDto>({
       paymentStatus: 'due',
    });
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter);
@@ -95,7 +91,7 @@ const FilterBar = ({
    projectFilter,
    setProjectFilter,
 }: {
-   projectFilter: PaymentDataFilter;
+   projectFilter: PaymentFilterDto;
    setProjectFilter: any;
 }) => {
    const handleStatusValueChange = (value: string) => {
@@ -201,8 +197,8 @@ const ProjectPaymentTabList = ({
    paymentDataQueryResult,
    setFilter,
 }: {
-   paymentDataQueryResult: UseQueryResult<PaymentDataListPayload>;
-   setFilter: Dispatch<SetStateAction<PaymentDataFilter>>;
+   paymentDataQueryResult: UseQueryResult<GetPaymentDataResponse>;
+   setFilter: Dispatch<SetStateAction<PaymentFilterDto>>;
 }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -297,7 +293,7 @@ const ProjectPaymentTabList = ({
 
 const ProjectPaymentTab = forwardRef<
    HTMLDivElement,
-   { project: PaymentDataPayload }
+   { project: PaymentDataItem }
 >(({ project }, ref) => {
    const editProject = useEditProject({
       successCallback() {
@@ -399,7 +395,7 @@ const DocumentButton = ({
    project,
 }: {
    type: 'quotation' | 'invoice' | 'receipt';
-   project: PaymentDataPayload;
+   project: PaymentDataItem;
 }) => {
    const haveDocument = project.salesDocuments?.some(
       (doc) => doc.category === type
@@ -412,7 +408,7 @@ const DocumentButton = ({
    if (haveDocument) {
       return (
          <EditDocumentButton
-            salesDocumentData={salesDocumentData as SalesDocumentPayload}
+            salesDocumentData={salesDocumentData as SalesDocumentFindOneResponse}
          />
       );
    } else {
@@ -425,7 +421,7 @@ const AddDocumentButton = ({
    project,
 }: {
    type: string;
-   project: PaymentDataPayload;
+   project: PaymentDataItem;
 }) => {
    const navigate = useNavigate();
    const label = type.charAt(0).toUpperCase() + type.slice(1);
@@ -465,7 +461,7 @@ const AddDocumentButton = ({
 const EditDocumentButton = ({
    salesDocumentData,
 }: {
-   salesDocumentData: SalesDocumentPayload;
+   salesDocumentData: SalesDocumentFindOneResponse;
 }) => {
    const [fetch, setFetch] = useState(false);
    const { data: payload, isLoading } = useFileUrlQuery(

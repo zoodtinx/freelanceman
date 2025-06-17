@@ -1,6 +1,7 @@
-import { ClientPayload } from "freelanceman-common/src/schemas";
+import { ClientFindOneResponse } from "freelanceman-common";
+
 
 export interface ClientSectionProps {
-   clientData: ClientPayload;
+   clientData: ClientFindOneResponse;
    isLoading: boolean
 }

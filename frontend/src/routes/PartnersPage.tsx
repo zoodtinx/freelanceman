@@ -13,7 +13,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import {
    PartnerContactFilterDto,
-   PartnerContactPayload,
+   PartnerContactFindManyItem,
 } from 'freelanceman-common';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactList';
@@ -128,7 +128,7 @@ const SearchCategory = ({
 
 const PartnerTab = forwardRef<
    HTMLDivElement,
-   { contact: PartnerContactPayload }
+   { contact: PartnerContactFindManyItem }
 >(({ contact }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState

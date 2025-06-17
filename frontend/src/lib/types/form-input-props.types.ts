@@ -30,7 +30,7 @@ interface Selection {
 }
 
 export interface ProjectSelectProps {
-   formMethods: UseFormReturn<TaskFormData | EventFormData>;
+   formMethods: UseFormReturn;
    dialogState?: FormDialogState;
 }
 

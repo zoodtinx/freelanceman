@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { optionalString, nullableOptionalString } from './helper/optional';
+import { optionalString } from './helper/optional';
 
 export const UserRoleEnum = z.enum(['user', 'admin']);
 export const UserCurrencyEnum = z.enum(['THB', 'USD', 'EUR']);

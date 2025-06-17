@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { optionalString, optionalNumber } from './helper/optional';
+import { optionalString } from './helper/optional';
 
 export const SalesDocumentCategoryEnum = z.enum([
     'quotation',

@@ -27,8 +27,7 @@ export async function fetchProMax({
       );
 
       if (!response.ok) {
-         const errorData = await response.json();
-         handleApiError(response.status, errorData.message);
+         handleApiError(response.status);
       }
 
       const text = await response.text();
@@ -43,7 +42,7 @@ export async function fetchProMax({
    }
 }
 
-export function handleApiError(statusCode: number, message: string) {
+export function handleApiError(statusCode: number) {
    console.log('statusCode', statusCode);
 
    switch (statusCode) {

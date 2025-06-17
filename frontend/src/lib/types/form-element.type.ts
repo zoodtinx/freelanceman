@@ -1,5 +1,4 @@
 import { SelectItemContent } from '@/components/shared/ui/select/select.type';
-import { FormDialogState } from '@/lib/types/form-dialog.types';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface FormElementProps<

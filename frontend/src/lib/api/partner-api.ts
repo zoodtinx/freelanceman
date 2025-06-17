@@ -1,4 +1,4 @@
-import { PartnerCompanyFilterDto } from 'freelanceman-common';
+
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import {
    getPartnerCompanies,
@@ -6,7 +6,7 @@ import {
 } from '@/lib/api/services/partner-company-service';
 
 export const usePartnerCompaniesQuery = (
-   filter: PartnerCompanyFilterDto = {},
+   filter: {} = {},
    enabled?: boolean
 ) => {
    return useAppQuery(
@@ -17,7 +17,7 @@ export const usePartnerCompaniesQuery = (
 };
 
 export const usePartnerCompaniesSelectionQuery = (
-   filter: PartnerCompanyFilterDto = {},
+   filter: {} = {},
    enabled?: boolean
 ) => {
    return useAppQuery(

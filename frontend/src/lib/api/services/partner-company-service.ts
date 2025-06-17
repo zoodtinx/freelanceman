@@ -1,9 +1,6 @@
 import { fetchProMax } from '@/lib/api/services/helpers/fetch-helper';
-import {
-   PartnerCompanyFilterDto,
-} from 'freelanceman-common';
 
-export async function getPartnerCompanies(accessToken: string, filter: PartnerCompanyFilterDto) {
+export async function getPartnerCompanies(accessToken: string, filter: {}) {
    return await fetchProMax({
       accessToken,
       apiEndpoint: 'partner-companies/search',
@@ -13,7 +10,7 @@ export async function getPartnerCompanies(accessToken: string, filter: PartnerCo
    });
 }
 
-export async function getPartnerCompanySelections(accessToken: string, filter: PartnerCompanyFilterDto) {
+export async function getPartnerCompanySelections(accessToken: string, filter: {}) {
    return await fetchProMax({
       accessToken,
       apiEndpoint: 'partner-companies/selections',

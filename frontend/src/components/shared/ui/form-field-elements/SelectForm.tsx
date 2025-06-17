@@ -12,10 +12,7 @@ import {
 
 export const SelectForm = <TFieldValues extends FieldValues>({
    formMethods,
-   className,
    fieldName,
-   placeholder,
-   isWithIcon,
    required,
    errorMessage,
    selection,

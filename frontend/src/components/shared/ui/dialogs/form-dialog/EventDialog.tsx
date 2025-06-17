@@ -35,14 +35,14 @@ export const EventDialog = ({
 
    // submit handler
    const onSubmit = (data: EventFindManyItem) => {
-      const formattedDueAt = formatDueAt(data.dueAt ?? '');
+      const formattedDueAt = formatDueAt(data.dueAt! ?? '');
 
       if (formDialogState.mode === 'create') {
          const payload: CreateEventDto = {
             name: data.name,
             projectId: data.projectId,
             details: data.details,
-            dueAt: formattedDueAt,
+            dueAt: formattedDueAt!,
             link: data.link,
             isWithTime: data.isWithTime,
             tags: data.tags,

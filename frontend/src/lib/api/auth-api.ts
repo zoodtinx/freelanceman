@@ -11,10 +11,6 @@ interface registerUserRequestPayload {
    password: string;
 }
 
-interface RegisterUserResponsePayload {
-   accessToken: string;
-   user: any;
-}
 
 export async function register(
    payload: registerUserRequestPayload

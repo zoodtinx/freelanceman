@@ -29,4 +29,4 @@ export async function setVisited(accessToken: string, page: string) {
      });
 }
 
-export async function deleteUser(accessToken: string, userId: string) {}
+export async function deleteUser() {}

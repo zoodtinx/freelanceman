@@ -1,8 +1,12 @@
 import { create } from 'zustand';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { SetStateAction } from 'react';
-import { SelectObject, SelectorDialogState } from '@/lib/types/selector-dialog.types';
+import {
+   SelectObject,
+   SelectorDialogState,
+} from '@/lib/types/selector-dialog.types';
 import { ConfirmationDialogState } from '@/lib/types/confirmation-dialog.type';
+import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 type State = {
    formDialogState: FormDialogState;
@@ -25,9 +29,10 @@ const useDialogStore = create<State>((set) => ({
    formDialogState: {
       isOpen: false,
       mode: 'create',
-      type: 'new-client',
-      openedOn: 'global-add-button',
-      data: {},
+      type: 'newClient',
+      openedOn: 'globalAddButton',
+      data: defaultClientValue,
+      entity: 'client',
    },
 
    setFormDialogState: (update) =>
@@ -42,8 +47,10 @@ const useDialogStore = create<State>((set) => ({
       isOpen: false,
       selected: [],
       type: 'file',
-      setSelected: () => {},
       option: {},
+      mode: 'select',
+      projectId: '',
+      tab: 'client',
    },
 
    setSelectorDialogState: (update) =>
@@ -60,9 +67,14 @@ const useDialogStore = create<State>((set) => ({
          primary: () => {},
          secondary: () => {},
       },
-      message: () => {},
-      openedFrom: 'file',
-      type: 'confirm',
+      entityName: '',
+      type: 'delete' as const,
+      additionalMessage: '',
+      appearance: {
+         overlay: false,
+         size: 'sm',
+      },
+      dialogRequested: { mode: 'create', type: 'task' },
    },
 
    setConfirmationDialogState: (update) =>
@@ -72,6 +84,11 @@ const useDialogStore = create<State>((set) => ({
                ? update(state.confirmationDialogState)
                : update,
       })),
+
+   selectedTask: [],
+   selectedFile: [],
+   selectedContact: [],
+   selectedDraft: [],
 }));
 
 export default useDialogStore;

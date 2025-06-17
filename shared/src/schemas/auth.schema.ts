@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { optionalString } from './helper/optional';
 import { userCoreSchema } from './users.schema';
 
 export const accessTokenPayloadSchema = z.object({
