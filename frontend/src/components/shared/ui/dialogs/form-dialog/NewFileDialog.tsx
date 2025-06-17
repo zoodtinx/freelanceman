@@ -42,6 +42,7 @@ export const NewFileDialog = ({
       formMethods.reset({
          defaultFileValues,
          projectId: formDialogState.data.projectId,
+         category: formDialogState.data.category
       });
    }, [mode]);
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -53,6 +54,9 @@ export const NewFileDialog = ({
          toast.error('Unable to edit profile');
       },
    });
+
+   const category = formMethods.getValues('category');
+   console.log('category', category)
 
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
       let presignedUrl;

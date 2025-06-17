@@ -105,11 +105,11 @@ const ContactSelector = () => {
       <>
          {mode === 'select' && (
             <div className="flex flex-wrap gap-1 px-3 pt-3">
-               <CompanyFilterBubble
+               {selectorDialogState.tab === 'client' && <CompanyFilterBubble
                   entity={tab === 'client' ? 'client' : 'partner'}
                   setFilter={handleSelectCompany}
                   value={contactFilter.companyId}
-               />
+               />}
                <SearchBox
                   className="h-5 p-3 px-2 grow w-0 min-w-10"
                   onChange={handleSearch}
@@ -237,7 +237,7 @@ const ContactSelectorList: React.FC<SelectionListProps> = ({
       return <p className="p-2">No contact</p>;
 
    return contactData.items.map((contact) => {
-      const detail = `${contact.role}, ${contact.company.name}`;
+      const detail = `${contact.role}, ${contact.company.name ?? contact.company}`;
       const contactData = {
          id: contact.id,
          value: contact.name,

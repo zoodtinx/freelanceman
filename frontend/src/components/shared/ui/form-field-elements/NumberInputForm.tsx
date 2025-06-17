@@ -7,10 +7,9 @@ import { Input } from '@/components/shared/ui/primitives/Input';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Loader2 } from 'lucide-react';
 
-type NumberInputFormProps<TFieldValues extends FieldValues> = Omit<
-   React.InputHTMLAttributes<HTMLInputElement>,
-   'type'
-> &
+type NumberInputFormProps<TFieldValues extends FieldValues> = {
+   mode?: 'budget' | 'plain';
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> &
    FormElementProps<TFieldValues>;
 
 export const NumberInputForm = <TFieldValues extends FieldValues>({
@@ -21,6 +20,7 @@ export const NumberInputForm = <TFieldValues extends FieldValues>({
    errorMessage,
    placeholder,
    onKeyDown,
+   mode = 'budget',
 }: NumberInputFormProps<TFieldValues>) => {
    const {
       control,
@@ -38,15 +38,21 @@ export const NumberInputForm = <TFieldValues extends FieldValues>({
             validate: (v) => !isNaN(Number(v)) || 'Invalid number',
          }}
          render={({ field }) => (
-            <NumberInput
-               value={field.value}
-               onChange={field.onChange}
-               placeholder={placeholder}
-               className={className}
-               onKeyDown={onKeyDown}
-               showError={!!errors[fieldName]}
-               errorMessage={errors[fieldName]?.message as string}
-            />
+            <>
+               <NumberInput
+                  mode={mode}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder={placeholder}
+                  className={className}
+                  onKeyDown={onKeyDown}
+               />
+               {errors[fieldName] && (
+                  <p className="text-red-500 text-sm animate-shake">
+                     {errors[fieldName]?.message as string}
+                  </p>
+               )}
+            </>
          )}
       />
    );
@@ -58,8 +64,7 @@ interface NumberInputProps {
    placeholder?: string;
    className?: string;
    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-   showError?: boolean;
-   errorMessage?: string;
+   mode?: 'budget' | 'plain';
 }
 
 export const NumberInput = ({
@@ -68,10 +73,11 @@ export const NumberInput = ({
    placeholder,
    className,
    onKeyDown,
-   showError,
-   errorMessage,
+   mode,
 }: NumberInputProps) => {
-   const [isEditing, setIsEditing] = useState(!value || parseFloat(value) === 0);
+   const [isEditing, setIsEditing] = useState(
+      !value || parseFloat(value) === 0
+   );
    const [display, setDisplay] = useState('');
    const containerRef = useRef<HTMLDivElement>(null);
    const { data: userData } = useUserQuery();
@@ -111,7 +117,7 @@ export const NumberInput = ({
 
    return (
       <div ref={containerRef} className="flex flex-col">
-         {isEditing ? (
+         {isEditing || mode === 'plain' ? (
             <Input
                inputMode="decimal"
                className={className}
@@ -122,7 +128,7 @@ export const NumberInput = ({
                onChange={handleChange}
                value={display}
                placeholder={placeholder}
-               autoFocus
+               autoFocus={mode !== 'plain'}
             />
          ) : (
             <div
@@ -140,11 +146,6 @@ export const NumberInput = ({
                   )}
                </p>
             </div>
-         )}
-         {showError && (
-            <p className="text-red-500 font-normal animate-shake text-sm pt-1">
-               {errorMessage}
-            </p>
          )}
       </div>
    );

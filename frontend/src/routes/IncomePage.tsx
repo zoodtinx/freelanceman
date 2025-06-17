@@ -15,7 +15,15 @@ import { useNavigate } from 'react-router-dom';
 import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
-import { Download, Edit, EllipsisVertical, FileText, Loader, Plus, Trash } from 'lucide-react';
+import {
+   Download,
+   Edit,
+   EllipsisVertical,
+   FileText,
+   Loader,
+   Plus,
+   Trash,
+} from 'lucide-react';
 import {
    usePaymentDataQuery,
    usePaymentStatsQuery,
@@ -106,7 +114,7 @@ const FilterBar = ({
             name: e.target.value!,
          };
       });
-   }
+   };
 
    return (
       <div className="flex gap-1 sm:w-full sm:px-1">
@@ -141,7 +149,7 @@ const StatsBar = () => {
             )}
          >
             <div>
-               Unprocessed:{' '}<br className='hidden sm:block'/>
+               Unprocessed: <br className="hidden sm:block" />
                {isLoading ? (
                   <Skeleton className="h-5 w-20 rounded-full" />
                ) : (
@@ -158,7 +166,7 @@ const StatsBar = () => {
             )}
          >
             <div>
-               Processing:{' '}<br className='hidden sm:block'/>
+               Processing: <br className="hidden sm:block" />
                {isLoading ? (
                   <Skeleton className="h-5 w-20 rounded-full" />
                ) : (
@@ -175,7 +183,7 @@ const StatsBar = () => {
             )}
          >
             <div>
-               All Due:{' '}<br className='hidden sm:block'/>
+               All Due: <br className="hidden sm:block" />
                {isLoading ? (
                   <Skeleton className="h-5 w-20 rounded-full" />
                ) : (
@@ -304,7 +312,9 @@ const ProjectPaymentTab = forwardRef<
       editProject.mutate({ id: project.id, paymentStatus: value });
    };
 
-   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState)
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
 
    const handleBudgetSetting = () => {
       setFormDialogState((prev) => {
@@ -346,7 +356,7 @@ const ProjectPaymentTab = forwardRef<
                </div>
                <StatusSelect
                   selections={paymentStatusSelections}
-                  value={project.paymentStatus}
+                  value={project.paymentStatus!}
                   handleValueChange={handlePaymentStatusChange}
                   className={cn(
                      'bg-foreground border text-sm py-[4px] w-full',
@@ -355,12 +365,13 @@ const ProjectPaymentTab = forwardRef<
                   )}
                />
             </div>
-            <EllipsisVertical className='absolute top-3 right-3 text-secondary w-4 h-4 hover:text-primary cursor-pointer sm:hidden' onClick={handleBudgetSetting}/>
+            <EllipsisVertical
+               className="absolute top-3 right-3 text-secondary w-4 h-4 hover:text-primary cursor-pointer sm:hidden"
+               onClick={handleBudgetSetting}
+            />
          </div>
          <div className="h-full py-3 px-2 hidden sm:block">
-            <Separator
-               orientation="vertical"
-            />
+            <Separator orientation="vertical" />
          </div>
          <div className="flex flex-col gap-2 w-0 grow leading-snug justify-between h-full p-2 pl-1">
             <div>
@@ -458,7 +469,7 @@ const EditDocumentButton = ({
 }) => {
    const [fetch, setFetch] = useState(false);
    const { data: payload, isLoading } = useFileUrlQuery(
-      salesDocumentData.fileKey ?? '',
+      salesDocumentData.s3Key ?? '',
       fetch
    );
 
@@ -516,14 +527,15 @@ const EditDocumentButton = ({
             className="flex items-center"
             onClick={(e) => {
                e.stopPropagation();
-               if (salesDocumentData.fileKey) {
+               if (salesDocumentData.s3Key) {
                   setFetch(true);
                }
             }}
          >
             <div
                className={cn(
-                  'flex gap-1 text-constant-primary border-transparent bg-theme-blue border rounded-lg items-center pl-[8px] pr-[10px] py-[2px]',
+                  'flex gap-1 text-primary border-transparent bg-background border rounded-lg items-center pl-[8px] pr-[10px] py-[2px]',
+                  // 'hover:border-primary transition-colors',
                   'sm:text-sm sm:px-1'
                )}
             >
@@ -531,7 +543,7 @@ const EditDocumentButton = ({
                {label}
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[120px] cursor-default select-none bg-foreground gap-0">
+         <PopoverContent className="w-[120px] cursor-default select-none bg-foreground gap-0 shadow-md">
             <button
                className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background"
                onClick={handleEdit}
@@ -539,24 +551,29 @@ const EditDocumentButton = ({
                <Edit className="h-4 w-4" />
                Edit
             </button>
-            {!salesDocumentData.fileKey ? null : isLoading ? (
-               <Loader className="animate-spin" />
-            ) : (
-               <button
-                  onClick={handleDownload}
-                  className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background"
-               >
-                  <Download className="h-4 w-4" />
-                  Download
-               </button>
-            )}
             <button
-               className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background"
+               className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background text-button-red"
                onClick={handleDelete}
             >
                <Trash className="h-4 w-4" />
                Delete
             </button>
+            {!salesDocumentData.s3Key ? null : isLoading ? (
+               <Loader className="animate-spin" />
+            ) : (
+               <>
+                  <div className="py-1">
+                     <Separator />
+                  </div>
+                  <button
+                     onClick={handleDownload}
+                     className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background "
+                  >
+                     <Download className="h-4 w-4" />
+                     Download
+                  </button>
+               </>
+            )}
          </PopoverContent>
       </Popover>
    );

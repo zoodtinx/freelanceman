@@ -96,7 +96,7 @@ const PinnedProjectTabs = ({
    });
 
    return (
-      <ScrollArea className="border border-tertiary rounded-xl h-72">
+      <ScrollArea className="border border-tertiary rounded-xl max-h-72">
          <div className='flex flex-col gap-2 p-2'>
             {pinnedProjects}
          </div>
@@ -145,7 +145,7 @@ const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
          </button>
          <p className="line-clamp-2">
             <span></span>
-            {project.title}
+            {project.name}
          </p>
       </div>
    );

@@ -1,6 +1,7 @@
 import * as tasks from '@/demo/helpers/seed-user-data/tasks';
 import * as events from '@/demo/helpers/seed-user-data/events';
 import * as files from '@/demo/helpers/seed-user-data/files';
+import { generateAuraTeaCoSalesDoc, generateByteNestQuotation, getAuraTeaCoSalesDoc, getByteNestSalesDoc } from '@/demo/helpers/seed-user-data/sales-document/sales-document';
 
 export const getRelativeDate = (
     daysToAdd: number,
@@ -107,6 +108,24 @@ export const getFiles = (idsMap: IdsMap) => {
 
         if (!ids) {
             console.warn(`Warning: IDs not found for client: "${clientName}". No files generated for this client.`);
+            return [];
+        }
+
+        return generateFn(ids);
+    });
+};
+
+export const getSalesDocs = (idsMap: IdsMap) => {
+     const salesDocGenerators: [string, any][] = [
+        ['Aura Tea Co', getAuraTeaCoSalesDoc],
+        ['ByteNest Tech Solutions', getByteNestSalesDoc],
+    ];
+
+    return salesDocGenerators.flatMap(([clientName, generateFn]) => {
+        const ids = idsMap[clientName];
+
+        if (!ids) {
+            console.warn(`Warning: IDs not found for client: "${clientName}". No sales doc generated for this client.`);
             return [];
         }
 

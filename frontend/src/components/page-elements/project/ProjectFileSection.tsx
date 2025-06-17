@@ -12,7 +12,17 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-   const handleNewFile = () => {
+
+   const [tab, setTab] = useState('work');
+
+   const [fileFilter, setFileFilter] = useState<FileFilterDto>({
+      projectId: project.id,
+      category: 'work',
+   });
+
+   console.log('fileFilter.category!', fileFilter.category!)
+
+    const handleNewFile = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
@@ -26,13 +36,6 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
          entity: 'file',
       });
    };
-
-   const [tab, setTab] = useState('work');
-
-   const [fileFilter, setFileFilter] = useState<FileFilterDto>({
-      projectId: project.id,
-      category: 'work',
-   });
 
    const [selectState, setSelectState] = useState({
       enableSelect: false,
@@ -62,7 +65,7 @@ const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
       setFileFilter((prev) => {
          return {
             ...prev,
-            displayName: value,
+            name: value,
          };
       });
    };

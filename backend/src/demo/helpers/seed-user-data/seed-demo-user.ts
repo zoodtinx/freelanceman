@@ -7,6 +7,7 @@ import { getClientContacts } from '@/demo/helpers/seed-user-data/contacts/client
 import {
     getEvents,
     getFiles,
+    getSalesDocs,
     getTasks,
 } from '@/demo/helpers/seed-user-data/level-3';
 import { getPartnerContacts } from '@/demo/helpers/seed-user-data/contacts/partner-contacts';
@@ -176,6 +177,26 @@ export async function seedDemoUser(s3Config: S3Config) {
                 data: seedFilesData,
             });
             console.log('Files seeded.');
+            
+            console.log('Begin seeding sales doc...');
+            const seedSalesDocData = getSalesDocs(projectsByTitle);
+            await Promise.all(
+                seedSalesDocData.map(async (salesDoc) => {
+                    const { items, ...rest } = salesDoc;
+                    console.log('items', items)
+                    await tx.salesDocument.create({
+                        data: {
+                            items: {
+                                createMany: {
+                                    data: items
+                                },
+                            },
+                            ...rest,
+                        },
+                    });
+                }),
+            );
+            console.log('Sales doc seeded.');
 
             console.log('Finished seeding all data related to user.');
             return user;

@@ -26,7 +26,7 @@ const generateNewTropicalBlissBlendPackagingDesignTasks = (ids: Ids) => {
         {
             name: 'Source high-resolution tropical fruit imagery',
             status: 'pending',
-            dueAt: getRelativeDate(3, false),
+            dueAt: getRelativeDate(-3, false),
             details:
                 'Identify and download high-quality, vibrant images of tropical fruits for various packaging elements. Prioritize clarity and color saturation. Check licensed stock photo sites first.',
             link: 'https://www.istockphoto.com/photos/tropical-fruit',
@@ -142,7 +142,7 @@ const generateQ3SocialMediaContentEngagementStrategyTasks = (ids: Ids) => {
         {
             name: 'Draft captions for July Week 1 posts',
             status: 'pending',
-            dueAt: getRelativeDate(7, true), // 7 days from now, with time
+            dueAt: getRelativeDate(-7, true), // 7 days from now, with time
             details:
                 'Write compelling and concise captions for the first batch of July posts, including relevant calls to action and hashtags.',
             isWithTime: true,

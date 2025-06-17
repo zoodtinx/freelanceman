@@ -94,6 +94,8 @@ export const FileDialog = ({
       { label: 'Project Asset', value: 'asset' },
    ];
 
+   const color = formDialogState.data.client?.themeColor ? `theme-${formDialogState.data.client?.themeColor}` : 'foreground'
+
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}

@@ -49,7 +49,7 @@ const AdjustmentsField = ({
                   <TextAreaForm
                      fieldName="note"
                      formMethods={formMethods}
-                     className="resize-none"
+                     className="resize-none h-24"
                   />
                </div>
             </div>

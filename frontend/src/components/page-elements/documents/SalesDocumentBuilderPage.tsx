@@ -15,7 +15,6 @@ import {
    useSalesDocumentQuery,
 } from 'src/lib/api/sales-document-api';
 import { FilePlus2, LoaderCircle, X } from 'lucide-react';
-import SelectorDialog from 'src/components/shared/ui/dialogs/selector-dialog/SelectorDialog';
 import { toast } from 'sonner';
 import { cn } from '@/lib/helper/utils';
 import {
@@ -129,7 +128,7 @@ const SalesDocumentBuilderPage = ({
          formMethods.setValue('issuedAt', new Date().toISOString());
          formMethods.setValue('number', '1');
          formMethods.setValue('projectId', projectData.id);
-         formMethods.setValue('projectTitle', projectData.title);
+         formMethods.setValue('projectTitle', projectData.name);
          formMethods.setValue('clientId', projectData.client?.id);
          formMethods.setValue('clientName', projectData.client?.name);
          formMethods.setValue('clientTaxId', projectData.client?.taxId);
@@ -269,7 +268,6 @@ const SalesDocumentBuilderPage = ({
                </div>
             </footer>
          </form>
-         <SelectorDialog />
       </div>
    );
 };

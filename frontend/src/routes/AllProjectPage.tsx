@@ -50,8 +50,8 @@ export default function AllProjectPage() {
                         queryResult={projectsQueryResult}
                         handleLoadMore={handleLoadMore}
                      />
-                     {projectsQueryResult.data &&
-                        projectsQueryResult.data.items.length <= 20 && (
+                     {projectsQueryResult.data?.total !== 0 &&
+                        projectsQueryResult.data?.total <= 20 && (
                            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1 absolute top-0 z-0 sm:hidden">
                               {Array.from({ length: 30 }).map((_, i) => (
                                  <div

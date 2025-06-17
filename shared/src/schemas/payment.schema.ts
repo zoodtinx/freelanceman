@@ -11,7 +11,7 @@ import { optionalNumber, optionalString } from './helper/optional';
 
 export const paymentDataPayloadSchema = z.object({
     id: z.string().uuid(),
-    title: z.string(),
+    name: z.string(),
     clientId: z.string(),
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,

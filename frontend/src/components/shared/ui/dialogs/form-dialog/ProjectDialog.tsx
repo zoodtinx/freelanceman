@@ -89,6 +89,7 @@ export const ProjectDialog = ({
                      <NumberInputForm
                         fieldName="budget"
                         formMethods={formMethods}
+                        className='mr-2'
                      />
                   </div>
                   <div className="w-1/2">

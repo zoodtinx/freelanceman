@@ -39,8 +39,12 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
 
    if (isLoading) return <AllProjectPageLoader />;
    if (isError && !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (!projects?.items?.length)
-      return <NoProjectPlaceholder addFn={handleNewProject} />;
+   if (projects?.total === 0) {
+      if (projects.unfilteredTotal === 0) {
+         return <NoProjectPlaceholder addFn={handleNewProject} />;
+      }
+      return 'No data match';
+   }
 
    const placeholdersNeeded = Math.max(0, 4 - projects.items.length);
 

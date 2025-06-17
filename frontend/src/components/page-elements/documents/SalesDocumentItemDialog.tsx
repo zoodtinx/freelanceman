@@ -2,6 +2,8 @@ import {
    Dialog,
    DialogContent,
    DialogFooter,
+   DialogHeader,
+   DialogTitle,
    DialogTrigger,
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
@@ -14,6 +16,9 @@ import {
    Label,
    TextInputForm,
 } from '@/components/shared/ui/form-field-elements';
+import { cn } from '@/lib/helper/utils';
+import { Plus } from 'lucide-react';
+import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
 
 const SalesDocumentItemDialog = ({
    dialogState,
@@ -59,6 +64,7 @@ const SalesDocumentItemDialog = ({
       const data = getValues()
       const rate = Number(data.rate);
       const quantity = Number(data.quantity);
+      const itemName = data.title
    
       clearErrors(['rate', 'quantity']);
    
@@ -74,6 +80,11 @@ const SalesDocumentItemDialog = ({
          hasError = true;
       }
    
+      if (!itemName) {
+         setError('title', { type: 'manual', message: 'Please specify the item.' });
+         hasError = true;
+      }
+
       if (hasError) return;
    
       if (dialogState.mode === 'create') {
@@ -91,7 +102,16 @@ const SalesDocumentItemDialog = ({
                Edit Profile
             </Button>
          </DialogTrigger>
-         <DialogContent className="sm:max-w-[425px]  flex flex-col focus:outline-none bg-freelanceman-darkgrey">
+         <DialogContent 
+          className={cn(
+                        'sm:max-w-[425px] flex flex-col focus:outline-none bg-constant-primary text-white',
+                     )}
+         >
+            <DialogHeader className="py-1 bg-transparent">
+               <DialogTitle className="flex text-base w-full text-center items-center gap-1">
+                     <Plus className='w-[14px] h-[15px]'/> Add an Item
+                     </DialogTitle>
+            </DialogHeader>
             <form
                className="bg-background rounded-2xl text-primary"
             >
@@ -120,9 +140,10 @@ const SalesDocumentItemDialog = ({
                      <Label className="text-secondary peer-focus:text-primary w-full text-sm">
                         Rate
                      </Label>
-                     <TextInputForm
+                     <NumberInputForm
                         formMethods={formMethods}
                         fieldName="rate"
+                        mode='plain'
                         errorMessage="Please add rate"
                         required
                      />
@@ -131,9 +152,10 @@ const SalesDocumentItemDialog = ({
                      <Label className="text-secondary peer-focus:text-primary w-full text-sm">
                         Quantity
                      </Label>
-                     <TextInputForm
+                     <NumberInputForm
                         formMethods={formMethods}
                         fieldName="quantity"
+                        mode='plain'
                         errorMessage="Please add quantity"
                         required
                      />

@@ -220,7 +220,7 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
       <Select value={value} open={isOpen}>
          <SelectTrigger
             className={cn(
-               'group w-full',
+               'group w-fit',
                size === 'lg' && 'text-md',
                className
             )}

@@ -42,6 +42,7 @@ export const generateAuraTeaCoProjects = (userId: string, clientId: string) => {
             userId: userId,
             clientId: clientId, // Injected userId
             name: 'New Tropical Bliss Blend Packaging Design',
+            pinned: true,
             budget: 55000, // THB - for packaging design of a new tea blend (box, pouch, label)
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -305,6 +306,7 @@ export const generateHorizonRealEstateGroupProjects = (
             userId: userId,
             clientId: clientId,
             name: 'Luxury Condo Development - Digital Marketing Kit',
+            pinned: true,
             budget: 95000,
             projectStatus: 'active',
             paymentStatus: 'processing',
@@ -406,6 +408,7 @@ export const generateZenithApparelProjects = (
             userId: userId,
             clientId: clientId,
             name: 'Autumn/Winter 2025 Lookbook Photography & Design',
+            pinned: true,
             budget: 120000,
             projectStatus: 'active',
             paymentStatus: 'processing',

@@ -37,7 +37,7 @@ export class PaymentService {
             },
             orderBy: [
                 { paymentStatus: 'asc' },
-                { updatedAt: 'desc' },
+                { name: 'asc' },
             ],
             take: filter.take ? filter.take : 13,
             }),

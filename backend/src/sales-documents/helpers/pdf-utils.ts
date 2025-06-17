@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import { readFileSync } from 'fs';
-import { join, resolve, basename } from 'path';
+import { join } from 'path';
 import { Buffer } from 'buffer';
 import { CreatePdfDto } from 'freelanceman-common';
 import { getTimezonedDateFromISOString } from '@/shared/helper/timezoned-date';
@@ -89,14 +89,14 @@ function getHtml(data: CreatePdfDto) {
             <p>${item.title}</p>
             ${
                 item.description
-                    ? `<p class="text-[11px] text-gray-400">${item.description}</p>`
+                    ? `<p class="text-[11px] text-gray-400">${item.description.toLocaleString()}</p>`
                     : ''
             }
           </td>
-          <td class="border-b px-2 py-1 text-right">${item.quantity}</td>
-          <td class="border-b px-2 py-1 text-right">${item.rate}</td>
+          <td class="border-b px-2 py-1 text-right">${item.quantity.toLocaleString()}</td>
+          <td class="border-b px-2 py-1 text-right">${item.rate.toLocaleString()}</td>
           <td class="border-b px-2 py-1 text-right">${
-              item.quantity * item.rate
+              (item.quantity * item.rate).toLocaleString()
           }</td>
         </tr>
       `,
@@ -244,15 +244,15 @@ function getHtml(data: CreatePdfDto) {
             </div>
             ${Number(discountFormatted) !== 0 ? `<div class="flex">
               <p class="text-[11px]">Discount:</p>
-              <p class="w-[120px] justify-between text-right">${discountFormatted} <span class="text-[11px]">${currency}</span></p>
+              <p class="w-[120px] justify-between text-right">${discountFormatted.toLocaleString()} <span class="text-[11px]">${currency}</span></p>
             </div>` : ''}
             ${Number(discountFormatted) !== 0 ? `<div class="flex">
               <p class="text-[11px]">Tax:</p>
-              <p class="w-[120px] justify-between text-right">${taxFormatted} <span class="text-[11px]">${currency}</span></p>
+              <p class="w-[120px] justify-between text-right">${taxFormatted.toLocaleString()} <span class="text-[11px]">${currency}</span></p>
             </div>` : ''}
             <div class="flex">
               <p class="text-[11px]">Total:</p>
-              <p class="w-[120px] justify-between text-right">${totalFormatted} <span class="text-[11px]">${currency}</span></p>
+              <p class="w-[120px] justify-between text-right">${totalFormatted.toLocaleString()} <span class="text-[11px]">${currency}</span></p>
             </div>
           </div>
         </div>

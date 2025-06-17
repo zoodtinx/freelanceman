@@ -2,18 +2,14 @@ import {
     Controller,
     Get,
     Post,
-    Body,
-    Patch,
-    Param,
-    Delete,
-    UseGuards,
+    Body, Param, UseGuards,
     HttpCode,
-    Req,
+    Req
 } from '@nestjs/common';
 import { PaymentService } from 'src/payment/payment.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ZodValidationPipe } from 'src/shared/pipes/zod-validation.pipe';
-import { paymentDataFilterSchema, ProjectFilterDto, projectFilterSchema } from 'freelanceman-common';
+import { paymentDataFilterSchema, ProjectFilterDto } from 'freelanceman-common';
 
 @UseGuards(AuthGuard('jwt-access'))
 @Controller('payment')

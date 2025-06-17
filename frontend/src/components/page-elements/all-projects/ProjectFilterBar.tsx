@@ -63,14 +63,14 @@ const ProjectSearchBox: React.FC<ProjectFilterBubble> = ({
    const setSearchTerm = (value: string) => {
       setProjectFilter((prev: ProjectFilterDto) => ({
          ...prev,
-         title: value,
+         name: value,
       }));
    };
 
    return (
       <SearchBox
          className="rounded-full h-[27px] sm:w-44"
-         value={projectFilter.title ?? ''}
+         value={projectFilter.name ?? ''}
          onChange={(e) => {
             setSearchTerm(e.target.value);
          }}

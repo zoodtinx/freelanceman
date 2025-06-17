@@ -140,8 +140,12 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
       const date = formattedDate.split(' ')[1];
 
       const dueAt = new Date(eventGroupData.date);
-      console.log('eventGroupData.date', eventGroupData.date)
-      const isToday = dueAt.getDate() === new Date().getDate();
+      console.log('eventGroupData.date', eventGroupData.date);
+      const today = new Date();
+      const isToday =
+         dueAt.getDate() === today.getDate() &&
+         dueAt.getMonth() === today.getMonth() &&
+         dueAt.getFullYear() === today.getFullYear();
       const isPastDue = new Date() > dueAt;
       const isScheduled = new Date() < dueAt;
 

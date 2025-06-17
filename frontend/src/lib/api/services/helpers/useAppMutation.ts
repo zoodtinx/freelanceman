@@ -52,7 +52,7 @@ export const useAppMutation = <T>(
             queryClient.setQueryData([mutationKey], context.previousData);
          }
          if (err.message === 'Unauthorized') {
-            navigate('/login');
+            navigate('/welcome');
          } else {
             errorCallback && errorCallback(err);
          }

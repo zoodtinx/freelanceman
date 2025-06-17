@@ -101,7 +101,8 @@ export class ProjectsService {
                     : undefined,
             };
 
-            const [total, items] = await Promise.all([
+            const [unfilteredTotal, total, items] = await Promise.all([
+                this.prismaService.project.count(),
                 this.prismaService.project.count({ where }),
                 this.prismaService.project.findMany({
                     where,
@@ -135,7 +136,7 @@ export class ProjectsService {
 
             console.log('total', total);
 
-            return { items, total };
+            return { items, total, unfilteredTotal };
         } catch {
             throw new InternalServerErrorException('Failed to find projects');
         }
@@ -220,7 +221,6 @@ export class ProjectsService {
                               create: links.map((link) => ({
                                   label: link.label,
                                   url: link.url,
-                                  user: { connect: { id: userId } },
                               })),
                           }
                         : undefined,

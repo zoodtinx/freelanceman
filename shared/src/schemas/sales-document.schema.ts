@@ -30,8 +30,8 @@ export const createSalesDocumentSchema = z.object({
     clientDetail: nullableOptionalString(),
 
     tax: z.number().optional(),
-    discountPercent: z.number().optional(),
-    discountFlat: z.number().optional(),
+    discountPercent: z.number().optional().nullable(),
+    discountFlat: z.number().optional().nullable(),
 
     note: nullableOptionalString(),
 });
@@ -67,8 +67,8 @@ export const editSalesDocumentSchema = z.object({
     discount: z.number().optional(),
     tax: z.number().optional(),
     total: z.number().optional(),
-    discountPercent: z.number().optional(),
-    discountFlat: z.number().optional(),
+    discountPercent: z.number().optional().nullable(),
+    discountFlat: z.number().optional().nullable(),
     note: nullableOptionalString(),
     items: z.array(createSalesDocumentItemSchema).optional(),
 });
@@ -101,20 +101,20 @@ export const salesDocumentPayloadSchema = z.object({
     discount: z.number().optional(),
     tax: z.number(),
     total: z.number(),
-    discountPercent: z.number().optional(),
-    discountFlat: z.number().optional(),
+    discountPercent: z.number().optional().nullable(),
+    discountFlat: z.number().optional().nullable(),
     note: nullableOptionalString(),
     generatedFileId: nullableOptionalString(),
     createdAt: z.string(),
     updatedAt: z.string(),
-    fileKey: z.string(),
+    s3Key: z.string(),
     items: z.array(salesDocumentItemSchema),
 });
 
 export const createPdfSchema = z
     .object({
         id: z.string().uuid(),
-        fileKey: nullableOptionalString(),
+        s3Key: nullableOptionalString(),
     })
     .merge(createSalesDocumentSchema);
 

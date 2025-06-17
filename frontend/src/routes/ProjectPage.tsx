@@ -181,9 +181,9 @@ const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
             isOpen: true,
             mode: 'edit',
             data: project,
-            type: 'project-settings',
+            type: 'projectSettings',
             entity: 'project',
-            openedOn: 'project-page',
+            openedOn: 'projectPage',
          };
       });
    };
@@ -211,7 +211,7 @@ const ProjectHeader = ({ project }: { project: ProjectPayload }) => {
       <>
          <div className="flex justify-between items-start">
             <p className="text-[1.6em] sm:text-lg sm:leading-snug">
-               {project.title}
+               {project.name}
             </p>
             <Settings
                onClick={handleOpenDialog}

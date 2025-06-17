@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';
 import SalesDocumentItemDialog from '@/components/page-elements/documents/SalesDocumentItemDialog';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import AdjustmentsField from '@/components/page-elements/documents/AdjustmentsField';
 import {
-   EditSalesDocumentItemDto,
    SalesDocumentItemDto,
    SalesDocumentPayload,
 } from 'freelanceman-common';
@@ -25,8 +24,14 @@ const ItemsField = ({
       entity: 'salesDocumentItem',
       openedOn: 'documentPage',
    });
-   const { control, watch, formState: {errors, isSubmitted}, setError, clearErrors } = formMethods;
-   const items = watch('items')
+   const {
+      control,
+      watch,
+      formState: { errors, isSubmitted },
+      setError,
+      clearErrors,
+   } = formMethods;
+   const items = watch('items');
    const fieldArrayMethods = useFieldArray<SalesDocumentPayload>({
       control,
       name: 'items',
@@ -34,30 +39,33 @@ const ItemsField = ({
 
    useEffect(() => {
       if (!isSubmitted) return;
-  
-      if (!items || items.length === 0) {
-        setError('items', { type: 'manual', message: 'At least one item is required' });
-      } else {
-        clearErrors('items');
-      }
-    }, [items, isSubmitted, setError, clearErrors]);
 
+      if (!items || items.length === 0) {
+         setError('items', {
+            type: 'manual',
+            message: 'At least one item is required',
+         });
+      } else {
+         clearErrors('items');
+      }
+   }, [items, isSubmitted, setError, clearErrors]);
 
    const { remove, fields } = fieldArrayMethods;
    const adjustmentPercent = watch('discountPercent') ?? 0;
    const adjustmentFlat = watch('discountFlat') ?? 0;
    const tax = watch('tax') ?? 0;
-   
-   let subtotal = 0
+
+   let subtotal = 0;
    if (items) {
-     items.forEach((item) => {
-       subtotal += item.rate * item.quantity
-     })
+      items.forEach((item) => {
+         subtotal += item.rate * item.quantity;
+      });
    }
-   
-   let adjustedSubtotal = subtotal * (1 - adjustmentPercent / 100) - adjustmentFlat
-   
-   let total = adjustedSubtotal * (1 + tax / 100)
+
+   let adjustedSubtotal =
+      subtotal * (1 - adjustmentPercent / 100) - adjustmentFlat;
+
+   let total = adjustedSubtotal * (1 + tax / 100);
 
    const handleViewItem = (itemData: any, index: number) => {
       setDialogState((prev) => {
@@ -80,7 +88,7 @@ const ItemsField = ({
             type: 'salesDocumentItem',
             entity: 'salesDocumentItem',
             isOpen: true,
-            data: {...defaultSalesDocumentItemValue}
+            data: { ...defaultSalesDocumentItemValue },
          };
       });
    };
@@ -100,7 +108,7 @@ const ItemsField = ({
       );
    });
 
-   const fieldError = errors.items
+   const fieldError = errors.items;
 
    return (
       <fieldset
@@ -165,41 +173,42 @@ const ItemBar = ({
    const amount = item.rate * item.quantity;
 
    return (
-      <div className="flex flex-col gap-2 peer w-full cursor-pointer">
-         <div className="flex h-fit bg-freelanceman-green rounded-md">
-            <div
-               className="flex h-fit bg-foreground justify-between rounded-md border border-tertiary items-start grow px-2 py-2"
-               onClick={() => handleEdit(item)}
-            >
-               <div className="leading-snug mr-2">
-                  <p className="line-clamp-2">{item.title}</p>
-                  <p className="text-sm text-secondary line-clamp-1">
-                     {item.description}
-                  </p>
+      <div className="flex h-fit w-full rounded-[9px] border border-tertiary overflow-hidden">
+         <div
+            className="flex h-fit justify-between items-start grow pl-2 py-2"
+            onClick={() => handleEdit(item)}
+         >
+            <div className="leading-snug pr-4">
+               <p className="line-clamp-2">{item.title}</p>
+               <p className="text-sm text-secondary line-clamp-1">
+                  {item.description}
+               </p>
+            </div>
+            <div className="leading-snug flex w-[215px] shrink-0">
+               <div className="text-center w-1/3">
+                  <p className="text-sm text-secondary">Rate</p>
+                  <p>{item.rate.toLocaleString()}</p>
+                  <p className="text-sm">{currency}</p>
                </div>
-               <div className="leading-snug flex w-[230px] shrink-0">
-                  <div className="text-center w-1/3">
-                     <p className="text-sm text-secondary">Rate</p>
-                     <p>{item.rate.toLocaleString()}</p>
-                     <p className="text-sm">{currency}</p>
-                  </div>
-                  <div className="text-center w-1/3">
-                     <p className="text-sm text-secondary">Quantity</p>
-                     <p>{item.quantity}</p>
-                  </div>
-                  <div className="text-center w-1/3">
-                     <p className="text-sm text-secondary">Amount</p>
-                     <p>{amount.toLocaleString()}</p>
-                     <p className="text-sm">{currency}</p>
-                  </div>
+               <div className="text-center w-1/3">
+                  <p className="text-sm text-secondary">Quantity</p>
+                  <p>{item.quantity}</p>
+               </div>
+               <div className="text-center w-1/3">
+                  <p className="text-sm text-secondary">Amount</p>
+                  <p>{amount.toLocaleString()}</p>
+                  <p className="text-sm">{currency}</p>
                </div>
             </div>
-            <div className="flex items-center justify-center shrink-0 ml-2 mr-1">
-               <X
-                  className="w-[15px] h-[15px] stroke-[3px] text-freelanceman-darkgrey cursor-pointer text-secondary hover:text-general-red"
-                  onClick={() => handleDelete(index)}
-               />
-            </div>
+         </div>
+         <div
+            className="flex items-center justify-center shrink-0 h-full bg-button-red px-[1px] cursor-pointer opacity-25 hover:opacity-100 transition-opacity"
+            onClick={(e) => {
+               e.stopPropagation();
+               handleDelete(index);
+            }}
+         >
+            <X className="w-[12px] h-[12px] stroke-[3px] text-freelanceman-darkgrey cursor-pointer text-white" />
          </div>
       </div>
    );

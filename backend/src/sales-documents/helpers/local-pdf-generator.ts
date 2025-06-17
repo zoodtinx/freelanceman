@@ -79,10 +79,10 @@ function getHtml(data: CreatePdfDto) {
                     : ''
             }
           </td>
-          <td class="border-b px-2 py-1 text-right">${item.quantity}</td>
-          <td class="border-b px-2 py-1 text-right">${item.rate}</td>
+          <td class="border-b px-2 py-1 text-right">${item.quantity.toLocaleString()}</td>
+          <td class="border-b px-2 py-1 text-right">${item.rate.toLocaleString()}</td>
           <td class="border-b px-2 py-1 text-right">${
-              item.quantity * item.rate
+              (item.quantity * item.rate).toLocaleString()
           }</td>
         </tr>
       `,

@@ -266,7 +266,7 @@ model SalesDocument {
   discountFlat       Float?
   total              Float?
   note               String?
-  fileKey            String?
+  s3Key            String?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   client             Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
@@ -300,3 +300,8 @@ model Link {
   url       String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
+
+
+
+
+

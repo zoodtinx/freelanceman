@@ -16,6 +16,7 @@ import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
 import { Readable } from 'stream';
 import { generatePDFBuffer } from '@/sales-documents/helpers/pdf-utils';
+import { toKebabCase } from '@/sales-documents/helpers/text-processors';
 
 @Injectable()
 export class SalesDocumentsService {
@@ -161,12 +162,12 @@ export class SalesDocumentsService {
             const result = await this.prismaService.salesDocument.delete({
                 where: { id: documentId, userId },
                 select: {
-                    fileKey: true,
+                    s3Key: true,
                 },
             });
 
-            if (result.fileKey) {
-                await this.s3Service.deleteFile(result.fileKey);
+            if (result.s3Key) {
+                await this.s3Service.deleteFile(result.s3Key);
             }
 
             return result;
@@ -187,21 +188,24 @@ export class SalesDocumentsService {
 
     async createPdf(userId: string, createPdfDto: CreatePdfDto) {
         console.log('createPdfDto', createPdfDto);
+
+        const fileName = `${toKebabCase(createPdfDto.category)}-${toKebabCase(createPdfDto.projectTitle!)}`;
+
         const pdfBuffer = (await generatePDFBuffer(
             createPdfDto,
         )) as unknown as Readable;
 
         console.log('pdfBuffer', 'Hello');
 
-        if (createPdfDto.fileKey) {
+        if (createPdfDto.s3Key) {
             console.log('Triggered');
-            await this.s3Service.deleteFile(createPdfDto.fileKey);
+            await this.s3Service.deleteFile(createPdfDto.s3Key);
         }
 
         const s3Response = await this.s3Service.uploadAndGetSignedUrl({
             userId,
             file: pdfBuffer,
-            fileName: 'createPdfDto.title',
+            fileName: fileName,
             category: `sales-document/${createPdfDto.category}`,
             contentType: 'application/pdf',
         });
@@ -211,7 +215,7 @@ export class SalesDocumentsService {
                 id: createPdfDto.id,
             },
             data: {
-                fileKey: s3Response.key,
+                s3Key: s3Response.key,
             },
         });
 

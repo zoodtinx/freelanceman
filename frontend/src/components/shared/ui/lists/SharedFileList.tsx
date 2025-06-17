@@ -78,7 +78,7 @@ export const SharedFileList = ({
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (!filesData.items.length) {
       if (page === 'filePage') {
-         return <TabListPlaceHolder containerClassName='sm:px-2' addFn={addFn} children='Add a file' />
+         return <TabListPlaceHolder containerClassName='px-2' addFn={addFn} children='Add a file' />
       } else {
          return <NoDataPlaceHolder className='sm:pb-0' addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
       }
