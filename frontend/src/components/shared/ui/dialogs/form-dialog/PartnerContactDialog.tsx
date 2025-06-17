@@ -12,7 +12,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
    CreatePartnerContactDto,
    EditPartnerContactDto,
-   PartnerContactPayload,
+   PartnerContactFindManyItem,
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
@@ -40,7 +40,7 @@ export const PartnerContactDialog = ({
       crudApi as CrudApi['partnerContact'];
 
    // submit handler
-   const onSubmit = async (data: PartnerContactPayload) => {
+   const onSubmit = async (data: PartnerContactFindManyItem) => {
       if (formDialogState.mode === 'create') {
          const payload: CreatePartnerContactDto = {
             name: data.name,
@@ -48,7 +48,6 @@ export const PartnerContactDialog = ({
             role: data.role,
             phoneNumber: data.phoneNumber,
             email: data.email,
-            detail: data.detail,
             avatar: data.avatar,
          };
          await createPartnerContact.mutateAsync(payload);
@@ -66,7 +65,6 @@ export const PartnerContactDialog = ({
             role: data.role,
             phoneNumber: data.phoneNumber,
             email: data.email,
-            detail: data.detail,
             avatar: data.avatar,
          };
          await editPartnerContact.mutateAsync(payload);

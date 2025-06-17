@@ -1,7 +1,6 @@
 import {
    TextAreaForm,
-   TextInputForm,
-   DynamicHeightTextInputForm,
+   TextInputForm
 } from 'src/components/shared/ui/form-field-elements';
 import {
    FormDialogProps

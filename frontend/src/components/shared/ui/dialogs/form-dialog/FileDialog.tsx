@@ -8,12 +8,10 @@ import { Button } from '../../primitives/Button';
 import { formatBytes } from '@/lib/helper/formatFile';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import {
-   DynamicHeightTextInputForm,
    Label,
    TextSelectForm,
 } from 'src/components/shared/ui/form-field-elements';
 import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/selections';
-import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { CrudApi } from '@/lib/api/api.type';
 import { FormDialogFooterProps } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
@@ -65,7 +63,6 @@ export const FileDialog = ({
    const [copied, setCopied] = useState(false);
 
    const fileSize = formatBytes(watch('size'));
-   const category = getValues('category');
    const dateCreated = formatDate(getValues('createdAt'), 'SEMIFULL');
 
    const handleCopy = () => {
@@ -78,7 +75,7 @@ export const FileDialog = ({
 
    const onSubmit: SubmitHandler<FieldValues> = (data) => {
       const editFilePayload: EditFileDto = {
-         id: formDialogState.data.id,
+         id: data.id,
          name: data.name,
          type: data.type,
          category: data.category,
@@ -94,25 +91,23 @@ export const FileDialog = ({
       { label: 'Project Asset', value: 'asset' },
    ];
 
-   const color = formDialogState.data.client?.themeColor ? `theme-${formDialogState.data.client?.themeColor}` : 'foreground'
-
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
          className="bg-background rounded-2xl text-primary flex flex-col"
       >
-         <div className='pt-4 pb-2 px-4'>
-            <div className='p-2 px-3 bg-foreground rounded-[9px] shadow-sm'>
+         <div className="pt-4 pb-2 px-4">
+            <div className="p-2 px-3 bg-foreground rounded-[9px] shadow-sm">
                <HeadlineTextInputForm
-                     formMethods={formMethods}
-                     fieldName="name"
-                     required={true}
-                     errorMessage="Please name your file"
-                     placeholder="File Name"
-                     className="w-full"
-                  />
+                  formMethods={formMethods}
+                  fieldName="name"
+                  required={true}
+                  errorMessage="Please name your file"
+                  placeholder="File Name"
+                  className="w-full"
+               />
                <div className="flex gap-3">
-                  <div className='flex gap-1 items-center'>
+                  <div className="flex gap-1 items-center">
                      <FileIconByExtension
                         fileType={watch('type')}
                         className="h-4 w-4 text-secondary"
@@ -203,14 +198,10 @@ const FileDialogFooter = ({
    return (
       <DialogFooter>
          <div className="flex justify-between p-4 pb-2">
-            <DiscardButton
-               onClick={onDiscard}
-            />
+            <DiscardButton onClick={onDiscard} />
             <div className="flex gap-1">
                <DownloadButton url={url} isLoading={isUrlLoading!} />
-               <SubmitButton
-                  formMethods={formMethods}
-               />
+               <SubmitButton formMethods={formMethods} />
             </div>
          </div>
       </DialogFooter>

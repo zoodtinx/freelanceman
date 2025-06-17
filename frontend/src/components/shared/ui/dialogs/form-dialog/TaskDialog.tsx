@@ -17,7 +17,7 @@ import {
    CreateTaskDto,
    TaskStatus,
    EditTaskDto,
-   TaskListPayload,
+   TaskFindManyItem,
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
@@ -44,7 +44,7 @@ export const TaskDialog = ({
    console.log('id', formMethods.getValues('projectId'));
 
    // submit handler
-   const onSubmit = async (data: TaskListPayload['items'][number]) => {
+   const onSubmit = async (data: TaskFindManyItem) => {
       if (data.dueAt) {
          const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;

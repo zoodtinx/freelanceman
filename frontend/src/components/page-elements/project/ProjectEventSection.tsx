@@ -7,10 +7,10 @@ import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
-import { EventFilterDto, ProjectPayload } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { EventFilterDto, ProjectFindOneResponse } from 'freelanceman-common';
 
-const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
+const ProjectEventSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    project,
 }) => {
    const setFormDialogState = useFormDialogStore(
@@ -54,7 +54,7 @@ const ProjectEventSection: React.FC<{ project: ProjectPayload }> = ({
                   value={eventFilter.status as any}
                   onValueChange={(value) => {
                      if (value) {
-                        setEventFilter((prev) => ({ ...prev, status: value }));
+                        setEventFilter((prev) => ({ ...prev, status: value as any }));
                      }
                   }}
                >

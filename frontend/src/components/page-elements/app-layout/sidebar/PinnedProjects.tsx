@@ -5,15 +5,14 @@ import {
    useProjectsQuery,
 } from '@/lib/api/project-api';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ProjectPayload } from 'freelanceman-common/src/schemas';
 import { Minus, Pin, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
-import { ProjectFilterDto, ProjectListPayload } from 'freelanceman-common';
 import React, { useState } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import { ProjectFilterDto, ProjectFindManyItem, ProjectFindManyResponse } from 'freelanceman-common';
 
 export default function PinnedProjects() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
@@ -70,7 +69,7 @@ export default function PinnedProjects() {
 const PinnedProjectTabs = ({
    projectQueryResult,
 }: {
-   projectQueryResult: UseQueryResult<ProjectListPayload>;
+   projectQueryResult: UseQueryResult<ProjectFindManyResponse>;
 }) => {
    const { data: projects, isLoading, isError } = projectQueryResult;
 
@@ -104,7 +103,7 @@ const PinnedProjectTabs = ({
    );
 };
 
-const PinnedProjectCard = ({ project }: { project: ProjectPayload }) => {
+const PinnedProjectCard = ({ project }: { project: ProjectFindManyItem }) => {
    const { projectId } = useParams();
    const navigate = useNavigate();
    const isActive = projectId === project.id;

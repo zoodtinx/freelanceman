@@ -12,7 +12,7 @@ import {
 import { SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { EditUserDto, UserPayload } from 'freelanceman-common';
+import { EditUserDto, UserFindOneResponse } from 'freelanceman-common';
 import { CrudApi } from '@/lib/api/api.type';
 import { toast } from 'sonner';
 import { useGetPresignedUrl } from '@/lib/api/file-api';
@@ -43,7 +43,7 @@ export const UserProfileDialog = ({
 
    console.log('dirtyFields.avatar', dirtyFields.avatar)
 
-   const onSubmit: SubmitHandler<UserPayload> = async (data) => {
+   const onSubmit: SubmitHandler<UserFindOneResponse> = async (data) => {
       const avatarFile = getValues('avatarFile');
       console.log('avatarFile', avatarFile);
 
@@ -75,6 +75,7 @@ export const UserProfileDialog = ({
       toast.loading('Updating your profile...');
 
       const payload: EditUserDto = {
+         id: data.id,
          email: data.email,
          phoneNumber: data.phoneNumber,
          address: data.address,

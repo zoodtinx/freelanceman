@@ -4,11 +4,11 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { cn } from '@/lib/helper/utils';
 import { Paperclip, Package2 } from 'lucide-react';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
-import { FileFilterDto, ProjectPayload } from 'freelanceman-common';
+import { FileFilterDto, ProjectFindOneResponse } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 
-const ProjectFileSection = ({ project }: { project: ProjectPayload }) => {
+const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );

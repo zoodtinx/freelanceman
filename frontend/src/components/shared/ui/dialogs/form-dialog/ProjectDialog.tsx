@@ -5,10 +5,9 @@ import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import {
    EditProjectDto,
    PaymentStatus,
-   ProjectPayload,
+   ProjectFindManyItem,
    ProjectStatus,
 } from 'freelanceman-common';
-import { useNavigate } from 'react-router-dom';
 import {
    paymentStatusSelections,
    projectStatusSelections,
@@ -21,26 +20,23 @@ import { CrudApi } from '@/lib/api/api.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
-import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
-import { DiscardButton, SubmissionButton, SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 
 export const ProjectDialog = ({
    formMethods,
    crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
-   const navigate = useNavigate();
 
    // form utilities
    const { handleSubmit } = formMethods;
 
    //dialog state
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const { formDialogState } = useFormDialogStore();
 
    // api setup
    const { editProject } = crudApi as CrudApi['project'];
 
-   const onSubmit = (data: ProjectPayload) => {
+   const onSubmit = (data: ProjectFindManyItem) => {
       const editProjectPayload: EditProjectDto = {
          id: formDialogState.data.id,
          name: data.name,
@@ -132,16 +128,5 @@ export const ProjectDialog = ({
             onDiscard={handleLeftButtonClick}
          />
       </form>
-   );
-};
-
-const ProjectDialogFooter = () => {
-   return (
-      <DialogFooter>
-         <div className="flex justify-between p-4 pb-2">
-            <DiscardButton onClick={onDiscard} />
-            <SubmissionButton formMethods={formMethods}  />
-         </div>
-      </DialogFooter>
    );
 };

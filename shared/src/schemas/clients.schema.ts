@@ -37,6 +37,7 @@ export const createClientSchema = z.object({
 export type CreateClientDto = z.infer<typeof createClientSchema>;
 
 export const editClientSchema = z.object({
+    id: z.string(),
     name: z.string().min(1),
     taxId: optionalString(),
     email: optionalString(),

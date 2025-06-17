@@ -4,17 +4,14 @@ import { X, Plus } from 'lucide-react';
 import SalesDocumentItemDialog from '@/components/page-elements/documents/SalesDocumentItemDialog';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import AdjustmentsField from '@/components/page-elements/documents/AdjustmentsField';
-import {
-   SalesDocumentItemDto,
-   SalesDocumentPayload,
-} from 'freelanceman-common';
 import { defaultSalesDocumentItemValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { cn } from '@/lib/helper/utils';
+import { SalesDocumentFindOneResponse, SalesDocumentItemCore } from 'freelanceman-common';
 
 const ItemsField = ({
    formMethods,
 }: {
-   formMethods: UseFormReturn<SalesDocumentPayload>;
+   formMethods: UseFormReturn<SalesDocumentFindOneResponse>;
 }) => {
    const [dialogState, setDialogState] = useState<FormDialogState>({
       type: 'salesDocumentItem',
@@ -32,7 +29,7 @@ const ItemsField = ({
       clearErrors,
    } = formMethods;
    const items = watch('items');
-   const fieldArrayMethods = useFieldArray<SalesDocumentPayload>({
+   const fieldArrayMethods = useFieldArray<SalesDocumentFindOneResponse>({
       control,
       name: 'items',
    });
@@ -103,7 +100,7 @@ const ItemsField = ({
             index={index}
             handleEdit={() => handleViewItem(field, index)}
             handleDelete={remove}
-            currency={currency}
+            currency={currency!}
          />
       );
    });
@@ -164,7 +161,7 @@ const ItemBar = ({
    handleDelete,
    currency,
 }: {
-   item: SalesDocumentItemDto;
+   item: SalesDocumentItemCore;
    index: number;
    handleEdit: (itemData: any) => void;
    handleDelete: (index: number) => void;

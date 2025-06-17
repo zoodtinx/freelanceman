@@ -14,8 +14,9 @@ export const getCreateSalesDocumentPayload = (
       clientId: data.clientId,
       clientName: data.clientName,
       items: data.items,
+      
 
-      title: data.title,
+      projectTitle: data.projectTitle,
       number: data.number,
       currency: data.currency,
       referenceNumber: data.referenceNumber,

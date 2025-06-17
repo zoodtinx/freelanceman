@@ -1,42 +1,46 @@
 import {
-   ClientContactPayload, FilePayload,
-   PartnerContactPayload, TaskPayload
+   CreateClientDto,
+   CreateEventDto,
+   CreateFileDto,
+   CreateProjectDto,
+   CreateSalesDocumentDto,
+   CreateTaskDto,
 } from 'freelanceman-common';
 
-export const defaultCreateSalesDocumentValue = {
-   category: '',
+export const defaultCreateSalesDocumentValue: CreateSalesDocumentDto = {
+   category: 'invoice',
    issuedAt: '',
    projectId: '',
+   projectTitle: '',
    freelancerName: '',
    clientId: '',
    clientName: '',
    items: [],
- 
-   name: '',
+
    number: '',
    currency: '',
    referenceNumber: '',
    projectDescription: '',
- 
+
    freelancerEmail: '',
    freelancerPhone: '',
    freelancerTaxId: '',
    freelancerAddress: '',
- 
+
    clientTaxId: '',
    clientAddress: '',
    clientPhone: '',
    clientOffice: '',
    clientDetail: '',
- 
+
    tax: 0,
    discountPercent: 0,
    discountFlat: 0,
    total: 0,
-   customAdjustment: 0,
- 
+
+   discount: 0,
    note: '',
- };
+};
 
 export const defaultContact = {
    id: '',
@@ -53,8 +57,8 @@ export const defaultSalesDocumentItemValue = {
    name: '',
    description: '',
    rate: 1,
-   quantity: 1
-}
+   quantity: 1,
+};
 
 export const defaultUserValue = {
    id: '',
@@ -83,24 +87,17 @@ export const defaultUserValue = {
    },
 };
 
-export const defaultNewProjectValue = {
+export const defaultNewProjectValue: CreateProjectDto = {
    name: '',
    clientId: '',
    projectStatus: 'active' as const,
    paymentStatus: 'pending' as const,
-   contacts: [],
-   workingFiles: [],
-   assetFiles: [],
-   budget: 0
+   budget: 0,
 };
 
-export const defaultClientValue = {
+export const defaultClientValue: CreateClientDto = {
    name: '',
-   id: '',
    taxId: '',
-   createdAt: new Date().toISOString(),
-   updatedAt: new Date().toISOString(),
-   userId: '',
    email: '',
    phoneNumber: '',
    address: '',
@@ -117,43 +114,30 @@ export const defaultProject = {
    createdAt: new Date().toISOString(),
 };
 
-export const defaultEventValues = {
+export const defaultEventValues: CreateEventDto = {
    name: '',
    details: '',
-   status: 'scheduled',
-   dueAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split("T")[0],
+   dueAt: new Date(new Date().setDate(new Date().getDate() + 1))
+      .toISOString()
+      .split('T')[0],
    projectId: '',
-   clientId: '',
    link: '',
-   id: '',
    tags: [],
-   createdAt: new Date().toISOString(),
-   updatedAt: new Date().toISOString(),
-   userId: '',
    isWithTime: false,
-   project: defaultProject,
-   client: {}
 };
 
-
-export const defaultFileValues: FilePayload = {
-   id: '',
+export const defaultFileValues: CreateFileDto = {
    name: '',
    originalName: '',
-   type: '',
-   category: '',
+   type: 'archive',
+   category: 'asset',
    link: '',
    size: 0,
-   client: defaultClientValue,
-   project: defaultProject as any,
    s3Key: '',
-   userId: '',
-   clientId: '',
    projectId: '',
-   createdAt: new Date().toISOString(),
 };
 
-export const defaultContactValues: ClientContactPayload = {
+export const defaultContactValues = {
    id: '',
    name: '',
    companyId: '',
@@ -168,7 +152,7 @@ export const defaultContactValues: ClientContactPayload = {
    userId: '',
 };
 
-export const defaultPartnerContactValues: PartnerContactPayload = {
+export const defaultPartnerContactValues = {
    id: '',
    name: '',
    company: 'Freelancer',
@@ -182,22 +166,17 @@ export const defaultPartnerContactValues: PartnerContactPayload = {
    avatar: '',
 };
 
-export const defaultTaskValue: TaskPayload = {
-   id: '',
+export const defaultTaskValue: CreateTaskDto = {
    name: '',
    status: 'pending',
    details: '',
    link: '',
-   dueAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split("T")[0],
-   project: defaultProject as any,
+   dueAt: new Date(new Date().setDate(new Date().getDate() + 1))
+      .toISOString()
+      .split('T')[0],
    projectId: '',
-   client: defaultClientValue,
    clientId: '',
-   userId: '',
-   createdAt: '',
-   updatedAt: '',
    isWithTime: false,
-   tags: []
 };
 
 export const defaultValues = {

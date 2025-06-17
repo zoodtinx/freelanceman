@@ -7,8 +7,8 @@ import {
 import { UseQueryResult } from '@tanstack/react-query';
 import {
    ClientContactFilterDto,
-   ClientContactListPayload,
-   ClientContactPayload,
+   ClientContactFindManyItem,
+   ClientContactFindManyResponse,
 } from 'freelanceman-common';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { ListProps } from '@/lib/types/list-props.type';
@@ -35,7 +35,7 @@ export const ContactList = ({
       refetch,
    } = useClientContactsQuery(
       filter
-   ) as UseQueryResult<ClientContactListPayload>;
+   ) as UseQueryResult<ClientContactFindManyResponse>;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -111,13 +111,13 @@ export const ContactList = ({
 
 export const ContactCard = forwardRef<
    HTMLDivElement,
-   { contact: ClientContactPayload; page: string }
+   { contact: ClientContactFindManyItem; page: string }
 >(({ contact, page }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const { data } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar));
+   const { data } = useFileUrlQuery(contact.avatar ?? '', Boolean(contact.avatar));
 
    const handleClick = () => {
       setFormDialogState({
@@ -147,7 +147,7 @@ export const ContactCard = forwardRef<
             <p className="font-semibold text-md sm:text-base">{contact.name}</p>
             {page === 'all-client-page' && (
                <p className="font-semibold text-base text-secondary">
-                  {contact.company.name}
+                  {contact.company?.name}
                </p>
             )}
             <p className="text-base text-secondary sm:hidden">{contact.role}</p>

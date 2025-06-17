@@ -98,6 +98,7 @@ export const createSalesDocumentSchema = z.object({
 export type CreateSalesDocumentDto = z.infer<typeof createSalesDocumentSchema>;
 
 export const editSalesDocumentSchema = z.object({
+    id: z.string(),
     title: optionalString().optional(),
     category: SalesDocumentCategoryEnum.optional(),
     number: optionalString().optional(),

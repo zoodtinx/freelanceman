@@ -3,13 +3,13 @@ import {
    TextAreaForm,
    TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
+import { SalesDocumentFindOneResponse } from 'freelanceman-common';
 
 const AdjustmentsField = ({
    formMethods,
 }: {
-   formMethods: UseFormReturn<SalesDocumentPayload>;
+   formMethods: UseFormReturn<SalesDocumentFindOneResponse>;
 }) => {
    return (
       <fieldset className="h-2/7 rounded-xl border border-tertiary p-3">

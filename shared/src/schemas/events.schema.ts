@@ -13,14 +13,14 @@ export const eventCoreSchema = z.object({
     name: z.string(),
     details: optionalString().optional(),
     link: optionalString().optional(),
-    dueAt: z.date(),
+    dueAt: optionalString(),
     projectId: optionalString(),
     clientId: optionalString(),
     userId: z.string().uuid(),
     tags: z.array(z.string()),
     isWithTime: z.boolean().optional(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: optionalString(),
+    updatedAt: optionalString(),
 });
 export type EventCore = z.infer<typeof eventCoreSchema>;
 
@@ -28,7 +28,7 @@ export const createEventSchema = z.object({
     name: z.string().min(1),
     details: optionalString().optional(),
     link: optionalString().optional(),
-    dueAt: z.date(),
+    dueAt: optionalString(),
     projectId: optionalString(),
     tags: z.array(z.string()).default([]),
     isWithTime: z.boolean().optional(),
@@ -36,10 +36,11 @@ export const createEventSchema = z.object({
 export type CreateEventDto = z.infer<typeof createEventSchema>;
 
 export const editEventSchema = z.object({
+    id: z.string(),
     name: z.string().min(1).optional(),
     details: optionalString().optional(),
     link: optionalString().optional(),
-    dueAt: z.date().optional(),
+    dueAt: optionalString().optional(),
     projectId: optionalString(),
     clientId: optionalString(),
     tags: z.array(z.string()).optional(),
@@ -52,7 +53,7 @@ export const eventFilterSchema = z.object({
     status: EventStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
-    dueAt: z.date().optional(),
+    dueAt: optionalString().optional(),
     projectId: optionalString(),
     clientId: optionalString(),
     take: optionalNumber(),

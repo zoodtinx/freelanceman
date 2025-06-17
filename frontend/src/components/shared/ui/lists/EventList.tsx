@@ -1,16 +1,14 @@
 import React, { useRef, forwardRef, useEffect } from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
-import type { EventPayload } from 'freelanceman-common/src/schemas';
+import type { EventFindManyItem } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { X } from 'lucide-react';
-import { useEditEvent, useEventsQuery } from '@/lib/api/event-api';
+import { useEventsQuery } from '@/lib/api/event-api';
 import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
    LoadingPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { cn } from '@/lib/helper/utils';
-import { toast } from 'sonner';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
 import { ListProps } from '@/lib/types/list-props.type';
@@ -69,8 +67,8 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    }
 
    const groupedEvents = eventsData.items.reduce(
-      (acc: any, event: EventPayload) => {
-         const date = format(event.dueAt, 'dd MMM yy');
+      (acc: any, event: EventFindManyItem) => {
+         const date = format(event.dueAt ?? '', 'dd MMM yy');
 
          if (!acc[date]) {
             acc[date] = [];
@@ -78,7 +76,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
          acc[date].push(event as any);
          return acc;
       },
-      {} as Record<string, EventPayload[]>
+      {} as Record<string, EventFindManyItem[]>
    );
 
    const processedEvents = Object.keys(groupedEvents).map((date) => ({
@@ -151,7 +149,7 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
 
 
       const events = eventGroupData.events.map(
-         (data: EventPayload, index: number) => {
+         (data: EventFindManyItem, index: number) => {
             return (
                <React.Fragment key={data.id}>
                   <EventListItem data={data} />
@@ -188,26 +186,12 @@ const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:numbe
 
 EventGroup.displayName = 'EventGroup';
 
-const EventListItem = ({ data }: { data: EventPayload }) => {
+const EventListItem = ({ data }: { data: EventFindManyItem }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-
-   const editEvents = useEditEvent({
-      errorCallback() {
-         toast.error('Error cancelling an event');
-      },
-      successCallback() {
-         toast.success('Event cancelled');
-      },
-      optimisticUpdate: {
-         enable: true,
-         key: ['events'],
-         type: 'edit',
-      },
-   });
-
-   const formattedTime = formatTime(data.dueAt);
+   
+   const formattedTime = formatTime(data.dueAt ?? '');
 
    const handleOpenDialog = () => {
       setFormDialogState({
@@ -217,14 +201,6 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
          type: 'event',
          entity: 'event',
          data: data,
-      });
-   };
-
-   const handleCancelEvent = (e: React.MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-      editEvents.mutate({
-         id: data.id,
-         status: 'cancelled',
       });
    };
 
@@ -240,12 +216,6 @@ const EventListItem = ({ data }: { data: EventPayload }) => {
             </p>
             <EventTags tags={data.tags} />
          </div>
-         {data.status === 'scheduled' && <div
-            className="h-full absolute flex items-center pr-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={handleCancelEvent}
-         >
-            <X className="h-4 cursor-pointer text-secondary" />
-         </div>}
       </div>
    );
 };

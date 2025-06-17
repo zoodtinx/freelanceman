@@ -1,15 +1,15 @@
 import {
-   EventPayload,
-   FilePayload,
-   TaskPayload,
+   ClientFindManyItem,
+   CreateClientContactDto,
+   CreateClientDto,
+   CreateEventDto,
    CreateFileDto,
-   ProjectPayload,
-   ClientContactPayload,
-   PartnerContactPayload,
-   UserPayload,
+   CreatePartnerContactDto,
    CreateProjectDto,
-   ClientPayload,
-   EditClientDto,
+   CreateTaskDto,
+   FileFindManyItem,
+   ProjectFindManyItem,
+   UserFindOneResponse,
 } from 'freelanceman-common';
 import { Dispatch, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
@@ -47,7 +47,7 @@ export type FormDialogState =
         type: 'task';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: TaskPayload;
+        data: CreateTaskDto;
      }
    | {
         isOpen: boolean;
@@ -55,7 +55,7 @@ export type FormDialogState =
         type: 'event';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: EventPayload;
+        data: CreateEventDto;
      }
    | {
         isOpen: boolean;
@@ -63,7 +63,7 @@ export type FormDialogState =
         type: 'file';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: FilePayload;
+        data: FileFindManyItem;
      }
    | {
         isOpen: boolean;
@@ -79,7 +79,7 @@ export type FormDialogState =
         type: 'projectSettings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: ProjectPayload;
+        data: ProjectFindManyItem;
      }
    | {
         isOpen: boolean;
@@ -87,7 +87,7 @@ export type FormDialogState =
         type: 'clientContact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: ClientContactPayload;
+        data: CreateClientContactDto;
      }
    | {
         isOpen: boolean;
@@ -95,7 +95,7 @@ export type FormDialogState =
         type: 'partnerContact';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: PartnerContactPayload;
+        data: CreatePartnerContactDto;
      }
    | {
         isOpen: boolean;
@@ -103,12 +103,12 @@ export type FormDialogState =
         type: 'clientSettings';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: ClientContactPayload | EditClientDto;
+        data: ClientFindManyItem;
      }
    | {
         isOpen: boolean;
         entity: 'salesDocument';
-        type: 'salesDocumentItem';
+        type: 'salesDocument';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
         data: any;
@@ -119,7 +119,7 @@ export type FormDialogState =
         type: 'userProfile';
         mode: 'create' | 'edit';
         openedOn: OpenedOnType;
-        data: UserPayload;
+        data: UserFindOneResponse;
      }
    | {
         isOpen: boolean;
@@ -135,22 +135,23 @@ export type FormDialogState =
         type: 'newClient';
         mode: 'create';
         openedOn: OpenedOnType;
-        data: ClientPayload;
+        data: CreateClientDto;
      };
 
 export type FormDialogType =
    | 'task'
    | 'event'
    | 'file'
+   | 'newFile'
    | 'projectSettings'
    | 'clientContact'
    | 'clientSettings'
    | 'partnerContact'
    | 'salesDocumentItem'
+   | 'salesDocument'
    | 'userProfile'
    | 'newProject'
-   | 'newClient'
-   | 'newFile';
+   | 'newClient';
 
 export type OpenedOnType =
    | 'projectPage'

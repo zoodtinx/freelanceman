@@ -10,10 +10,10 @@ import {
    defaultClientValue,
    defaultTaskValue,
 } from 'src/components/shared/ui/helpers/constants/default-values';
-import { ProjectPayload, TaskFilterDto } from 'freelanceman-common';
+import { ClientFindManyItem, ProjectFindOneResponse, TaskFilterDto } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 
-const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
+const ProjectTaskSection = ({ project }: { project: ProjectFindOneResponse }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -33,7 +33,8 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
    }, [project?.id]);
 
    const handleNewTask = () => {
-      const { themeColor, ...clientData } = defaultClientValue;
+      const { themeColor, ...clientData } =
+         defaultClientValue as ClientFindManyItem;
       setFormDialogState({
          isOpen: true,
          mode: 'create',
@@ -46,7 +47,7 @@ const ProjectTaskSection = ({ project }: { project: ProjectPayload }) => {
                themeColor: project.client?.themeColor,
                ...clientData,
             },
-            clientId: project.clientId,
+            clientId: project.clientId ?? '',
             projectId: project.id,
          },
       });

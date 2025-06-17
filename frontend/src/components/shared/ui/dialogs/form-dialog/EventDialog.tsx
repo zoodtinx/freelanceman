@@ -1,18 +1,18 @@
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import {
    DateTimePickerForm,
-   DynamicHeightTextInputForm,
    LinkInputForm,
-   StatusSelectForm,
    TextAreaForm,
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from 'src/lib/types/form-dialog.types';
-import { eventStatusSelections } from '../../helpers/constants/selections';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { ProjectField } from '@/components/shared/ui/dialogs/form-dialog/TaskDialog';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
-import { EventPayload } from 'freelanceman-common/src/schemas';
-import { CreateEventDto, EditEventDto, EventStatus } from 'freelanceman-common';
+import {
+   CreateEventDto,
+   EditEventDto,
+   EventFindManyItem,
+} from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { CrudApi } from '@/lib/api/api.type';
 import { formatDueAt } from '@/components/shared/ui/helpers/Helpers';
@@ -34,8 +34,8 @@ export const EventDialog = ({
    const { createEvent, editEvent } = crudApi as CrudApi['event'];
 
    // submit handler
-   const onSubmit = (data: EventPayload) => {
-      const formattedDueAt = formatDueAt(data.dueAt);
+   const onSubmit = (data: EventFindManyItem) => {
+      const formattedDueAt = formatDueAt(data.dueAt ?? '');
 
       if (formDialogState.mode === 'create') {
          const payload: CreateEventDto = {
@@ -44,9 +44,9 @@ export const EventDialog = ({
             details: data.details,
             dueAt: formattedDueAt,
             link: data.link,
-            status: data.status,
             isWithTime: data.isWithTime,
-         } as CreateEventDto;
+            tags: data.tags,
+         };
          createEvent.mutate(payload);
       } else if (formDialogState.mode === 'edit') {
          const payload: EditEventDto = {
@@ -55,9 +55,8 @@ export const EventDialog = ({
             details: data.details,
             dueAt: formattedDueAt,
             link: data.link,
-            status: data.status as EventStatus,
             isWithTime: data.isWithTime,
-         } as EditEventDto;
+         };
          editEvent.mutate(payload);
       }
    };
@@ -100,10 +99,7 @@ export const EventDialog = ({
             )}
             <div className="w-full">
                <Label>Tags</Label>
-               <TagsInputForm
-               fieldName='tags'
-               formMethods={formMethods}
-               />
+               <TagsInputForm fieldName="tags" formMethods={formMethods} />
             </div>
             <div className="w-full">
                <Label>Details</Label>

@@ -1,11 +1,10 @@
-import { Building2, Edit, EllipsisVertical, FolderClock, Settings } from 'lucide-react';
+import { Building2, EllipsisVertical, FolderClock } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useState } from 'react';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { Link } from 'react-router-dom';
 import { useProjectsQuery } from '@/lib/api/project-api';
 import {
-   ProjectPayload,
    ProjectFilterDto,
 } from 'freelanceman-common/src/schemas';
 import { cn } from '@/lib/helper/utils';
@@ -18,6 +17,7 @@ import {
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { defaultProject } from '@/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
+import { ProjectFindManyItem } from 'freelanceman-common';
 
 const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    const setFormDialogState = useFormDialogStore(
@@ -154,7 +154,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
    );
 };
 
-const ProjectTab: React.FC<{ project: ProjectPayload }> = ({ project }) => {
+const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({ project }) => {
    const formattedDateModified = formatDate(project.updatedAt, 'LONG');
 
    return (

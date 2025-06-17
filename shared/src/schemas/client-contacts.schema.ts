@@ -29,7 +29,7 @@ export const createClientContactSchema = z.object({
 export type CreateClientContactDto = z.infer<typeof createClientContactSchema>;
 
 export const editClientContactSchema = z.object({
-    id: z.string().uuid(),
+    id: z.string(),
     name: z.string().min(1).optional(),
     role: optionalString().optional(),
     phoneNumber: optionalString().optional(),

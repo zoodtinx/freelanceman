@@ -21,7 +21,6 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/lib/api/user-api';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
-import { UserPayload } from 'freelanceman-common';
 import { useFileUrlQuery } from '@/lib/api/file-api';
 import { UseQueryResult } from '@tanstack/react-query';
 import useAuthStore from '@/lib/zustand/auth-store';
@@ -30,6 +29,7 @@ import { useRef } from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { getPageKey } from '@/components/page-elements/app-layout/sidebar/helper';
+import { UserFindOneResponse } from 'freelanceman-common';
 
 export const UserBar = () => {
    const { mode, toggle } = useDarkMode();
@@ -51,13 +51,13 @@ export const UserBar = () => {
    };
 
    const { data: userDataPayload, isLoading: userDataIsLoading } =
-      useUserQuery() as UseQueryResult<UserPayload>;
+      useUserQuery() as UseQueryResult<UserFindOneResponse>;
    const { data: urlDataPayload, isLoading: urlIsLoading } = useFileUrlQuery(
       userDataPayload?.avatar ?? '',
       Boolean(userDataPayload?.avatar)
    );
 
-   const userData = userDataPayload as UserPayload;
+   const userData = userDataPayload as UserFindOneResponse;
    
    const pageKey = getPageKey(location.pathname)
    const handleOpenWelcomeDialog = () => {

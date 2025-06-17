@@ -2,7 +2,7 @@ import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
 import { FileFilterDto } from 'freelanceman-common/src/schemas';
-import { useFilesQuery } from '@/lib/api/file-api';
+import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
@@ -12,6 +12,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 import { Paperclip } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    const setFormDialogState = useFormDialogStore(
@@ -30,6 +31,19 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    });
 
    const filesQueryResult = useFilesQuery(fileFilter);
+   const deleteManyFiles = useDeleteManyFile({
+      errorCallback() {
+         toast.error('Error deleting files');
+      },
+      successCallback() {
+         toast.success('Files deleted');
+      },
+      optimisticUpdate: {
+         enable: true,
+         key: ['files'],
+         type: 'delete',
+      },
+   });
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
@@ -94,6 +108,19 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       });
    };
 
+   const handleDeleteMultipleFiles = async () => {
+      toast.loading('Deleting files');
+      setSelectState((prev) => {
+         return {
+            ...prev,
+            enableSelect: false,
+         };
+      });
+      await deleteManyFiles.mutateAsync(selectState.selectedValues);
+      toast.dismiss();
+      toast.success('Files deleted');
+   };
+
    return (
       <div
          className="flex flex-col w-full bg-foreground rounded-[20px] sm:w-full shrink-0 overflow-hidden h-1/2 shadow-md"
@@ -115,6 +142,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                   setSelectState={setSelectState}
                   selectAllFn={selectAll}
                   ref={fileSectionRef}
+                  onDelete={handleDeleteMultipleFiles}
                />
             </div>
             <FilterSelect

@@ -7,11 +7,9 @@ import {
    DialogTrigger,
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
 import { UseFieldArrayReturn, useForm } from 'react-hook-form';
-import { Input } from '@/components/shared/ui/primitives/Input';
-import { SalesDocumentItemDto } from 'freelanceman-common';
 import {
    Label,
    TextInputForm,
@@ -19,6 +17,7 @@ import {
 import { cn } from '@/lib/helper/utils';
 import { Plus } from 'lucide-react';
 import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
+import { SalesDocumentItemCore } from 'freelanceman-common';
 
 const SalesDocumentItemDialog = ({
    dialogState,
@@ -29,10 +28,10 @@ const SalesDocumentItemDialog = ({
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    fieldArrayMethods: UseFieldArrayReturn<any>;
 }) => {
-   const { fields, append, remove, update } = fieldArrayMethods;
+   const { append, remove, update } = fieldArrayMethods;
 
-   const formMethods = useForm<SalesDocumentItemDto>();
-   const { reset, setError, clearErrors, handleSubmit, getValues } = formMethods;
+   const formMethods = useForm<SalesDocumentItemCore>();
+   const { reset, setError, clearErrors, getValues } = formMethods;
 
    useEffect(() => {
       reset(dialogState.data)

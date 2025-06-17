@@ -2,7 +2,8 @@ import { Checkbox } from '@/components/shared/ui/primitives/CheckBox';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import {
    TaskFilterDto,
-   TaskListPayload
+   TaskFindManyItem,
+   TaskFindManyResponse,
 } from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -37,7 +38,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
       isLoading,
       isError,
       refetch,
-   } = useTasksQuery(filter) as UseQueryResult<TaskListPayload>;
+   } = useTasksQuery(filter) as UseQueryResult<TaskFindManyResponse>;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -132,7 +133,7 @@ export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
 };
 
 interface TaskListItemProps {
-   data: TaskListPayload['items'][number];
+   data: TaskFindManyItem;
    openedOn: 'actionPage' | 'projectPage';
 }
 
@@ -154,7 +155,7 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
       );
 
       const formattedDate = formatDate(data.dueAt, 'LONG');
-      const formattedTime = formatTime(data.dueAt);
+      const formattedTime = formatTime(data.dueAt ?? '');
 
       const handleOpenDialog = () => {
          setFormDialogState({
@@ -163,7 +164,7 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
             openedOn: openedOn,
             type: 'task',
             entity: 'task',
-            data: { ...data },
+            data: data,
          });
       };
 
@@ -184,22 +185,8 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
          }, checked ? 400 : 0);
       };
 
-      const handleCancelTask = async () => {
-         try {
-            const cancelled = data.status === 'cancelled';
-            await editTask.mutateAsync({
-               id: data.id,
-               status: cancelled ? 'pending' : 'cancelled',
-            });
-            toast.success(
-               cancelled ? 'Task returned to pending' : 'Task cancelled'
-            );
-         } catch {
-            toast.error('Error updating task');
-         }
-      };
 
-      const isPastDue = new Date(data.dueAt) < new Date();
+      const isPastDue = new Date(data.dueAt ?? '') < new Date();
 
       return (
          <div
@@ -208,12 +195,6 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
          >
             <div className="w-[24px] flex items-start pt-1">
                {data.status === 'pending' && (
-                  <Checkbox
-                     onCheckedChange={(checked) => handleCheck(checked)}
-                     className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150"
-                  />
-               )}
-               {data.status === 'cancelled' && (
                   <Checkbox
                      onCheckedChange={(checked) => handleCheck(checked)}
                      className="h-[16px] w-[16px] shadow-none rounded-full opacity-100 mr-2 transition-all duration-150"
@@ -244,7 +225,6 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
             <div className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity">
                <X
                   className="h-4 cursor-pointer text-secondary"
-                  onClick={handleCancelTask}
                />
             </div>
          </div>

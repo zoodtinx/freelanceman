@@ -30,6 +30,7 @@ export type CreatePartnerContactDto = z.infer<
 >;
 
 export const editPartnerContactSchema = z.object({
+    id: z.string(),
     name: z.string().min(1).optional(),
     company: optionalString().optional(),
     role: optionalString().optional(),

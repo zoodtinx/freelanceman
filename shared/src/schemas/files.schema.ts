@@ -36,8 +36,8 @@ export const fileCoreSchema = z.object({
     clientId: z.string().uuid().nullable(),
     userId: z.string().uuid(),
     size: z.number().int().optional(),
-    createdAt: z.date(),
-    updatedAt: z.date().nullable(),
+    createdAt: optionalString(),
+    updatedAt: optionalString()
 });
 export type FileCore = z.infer<typeof fileCoreSchema>;
 
@@ -55,6 +55,7 @@ export const createFileSchema = z.object({
 export type CreateFileDto = z.infer<typeof createFileSchema>;
 
 export const editFileSchema = z.object({
+    id: z.string(),
     originalName: optionalString().optional(),
     name: z.string().min(1).optional(),
     type: fileType.optional(),

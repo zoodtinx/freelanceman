@@ -9,12 +9,6 @@ import { UsersRound, Loader2 } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
-import {
-   ClientContactListPayload,
-   ClientContactPayload,
-   PartnerContactListPayload,
-   ProjectPayload
-} from 'freelanceman-common';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -27,11 +21,12 @@ import {
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { UseQueryResult } from '@tanstack/react-query';
 import { useFileUrlQuery } from '@/lib/api/file-api';
+import { ClientContactFindManyItem, ClientContactFindManyResponse, PartnerContactFindManyResponse, ProjectFindOneResponse } from 'freelanceman-common';
 
 export const ProjectContactSection = ({
    project,
 }: {
-   project: ProjectPayload;
+   project: ProjectFindOneResponse;
 }): JSX.Element => {
    const setSelectorDialogState = useSelectionDialogStore(
       (state) => state.setSelectorDialogState
@@ -46,7 +41,7 @@ export const ProjectContactSection = ({
    } = useClientContactsQuery(
       {projectId: project.id},
       tab === 'client'
-   ) as UseQueryResult<ClientContactListPayload>;
+   ) as UseQueryResult<ClientContactFindManyResponse>;
    const {
       data: partnerContacts,
       isLoading: partnerIsLoading,
@@ -54,7 +49,7 @@ export const ProjectContactSection = ({
    } = usePartnerContactsQuery(
       {projectId: project.id},
       tab === 'partner'
-   ) as UseQueryResult<PartnerContactListPayload>;
+   ) as UseQueryResult<PartnerContactFindManyResponse>;
 
    const contacts = tab === 'client' ? clientContacts : partnerContacts;
    const isLoading = tab === 'client' ? clientIsLoading : partnerIsLoading;
@@ -144,13 +139,16 @@ export const ProjectContactSection = ({
 
 export const ContactCard = forwardRef<
    HTMLDivElement,
-   { contact: ClientContactPayload; page: string }
+   { contact: ClientContactFindManyItem; page: string }
 >(({ contact, page }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const { data } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar));
+   const { data } = useFileUrlQuery(
+      contact.avatar || '',
+      Boolean(contact.avatar)
+   );
 
    const handleClick = () => {
       setFormDialogState({
@@ -180,7 +178,7 @@ export const ContactCard = forwardRef<
             <p className="font-semibold text-md sm:text-base">{contact.name}</p>
             {page === 'all-client-page' && (
                <p className="font-semibold text-base text-secondary">
-                  {contact.company.name}
+                  {contact.company?.name}
                </p>
             )}
             <p className="text-base text-secondary sm:hidden">{contact.role}</p>

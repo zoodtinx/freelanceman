@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
-   TextAreaForm,
-   TextInputForm,
+   TextAreaForm
 } from 'src/components/shared/ui/form-field-elements';
 import { Plus } from 'lucide-react';
 import {
@@ -12,9 +11,7 @@ import {
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
 import {
-   SelectWithSearchForm,
-   DynamicHeightTextInputForm,
-   StatusSelectForm,
+   SelectWithSearchForm, StatusSelectForm
 } from 'src/components/shared/ui/form-field-elements';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';

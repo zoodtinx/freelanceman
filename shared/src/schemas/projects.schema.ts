@@ -41,6 +41,7 @@ export const createProjectSchema = z.object({
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 
 export const editProjectSchema = z.object({
+    id: z.string().uuid(),
     name: z.string().min(1).optional(),
     projectStatus: ProjectStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val

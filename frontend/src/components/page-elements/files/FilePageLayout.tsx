@@ -10,7 +10,7 @@ import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton
 import { cn } from '@/lib/helper/utils';
 import { defaultFileValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { FileFilterDto, FilePayload } from 'freelanceman-common';
+import { FileFilterDto, FileFindManyItem } from 'freelanceman-common';
 import AddButton from '@/components/shared/ui/AddButton';
 import { toast } from 'sonner';
 import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
@@ -59,7 +59,7 @@ const FilePageLayout = (): JSX.Element => {
          return;
       }
       setSelectState((prev) => {
-         const selected = filesQueryResult.data.items.map((file: FilePayload) => {
+         const selected = filesQueryResult.data.items.map((file: FileFindManyItem) => {
             return file.id;
          });
          return {

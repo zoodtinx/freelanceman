@@ -5,14 +5,14 @@ import {
    DatePickerForm,
 } from 'src/components/shared/ui/form-field-elements';
 import { UseFormReturn } from 'react-hook-form';
-import { SalesDocumentPayload } from 'freelanceman-common';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { cn } from '@/lib/helper/utils';
+import { SalesDocumentFindOneResponse } from 'freelanceman-common';
 
 const ProjectInfoField = ({
    formMethods,
 }: {
-   formMethods: UseFormReturn<SalesDocumentPayload>;
+   formMethods: UseFormReturn<SalesDocumentFindOneResponse>;
 }) => {
    const {
       formState: { errors },

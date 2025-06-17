@@ -3,14 +3,14 @@ import {
    TextAreaForm,
    Label,
 } from 'src/components/shared/ui/form-field-elements';
-import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import { UseFormReturn } from 'react-hook-form';
 import { cn } from '@/lib/helper/utils';
+import { SalesDocumentFindOneResponse } from 'freelanceman-common';
 
 const FreelancerInfoField = ({
    formMethods,
 }: {
-   formMethods: UseFormReturn<SalesDocumentPayload>;
+   formMethods: UseFormReturn<SalesDocumentFindOneResponse>;
 }) => {
    const {
       formState: { errors },

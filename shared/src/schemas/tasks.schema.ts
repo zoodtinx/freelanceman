@@ -17,9 +17,9 @@ export const taskCoreSchema = z.object({
     status: TaskStatusEnum,
     details: optionalString().optional(),
     link: optionalString().optional(),
-    dueAt: z.date(),
-    projectId: z.string().uuid().nullable(),
-    clientId: z.string().uuid().nullable(),
+    dueAt: optionalString(),
+    projectId: optionalString(),
+    clientId: optionalString(),
     userId: z.string().uuid(),
     isWithTime: z.boolean().optional(),
     createdAt: z.date(),
@@ -32,21 +32,23 @@ export const createTaskSchema = z.object({
     status: TaskStatusEnum,
     details: optionalString().optional(),
     link: optionalString().optional(),
-    dueAt: z.date(),
+    dueAt: optionalString(),
     projectId: z.string().uuid().optional(),
     clientId: z.string().uuid().optional(),
     isWithTime: z.boolean().optional(),
+    client: z.lazy(() => clientCoreSchema).optional().nullable(),
 });
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
 export const editTaskSchema = z.object({
+    id: z.string(),
     name: z.string().min(1).optional(),
     status: TaskStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
     details: optionalString().optional(),
     link: optionalString().optional(),
-    dueAt: z.date().optional(),
+    dueAt: optionalString(),
     projectId: z.string().uuid().optional(),
     clientId: z.string().uuid().optional(),
     isWithTime: z.boolean().optional(),
@@ -58,7 +60,7 @@ export const taskFilterSchema = z.object({
     status: TaskStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
-    dueAt: z.date().optional(),
+    dueAt: optionalString(),
     projectId: optionalString(),
     clientId: optionalString(),
     take: optionalNumber(),

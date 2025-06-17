@@ -1,5 +1,4 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
-import { SalesDocumentPayload } from 'freelanceman-common/src/schemas';
 import React, { useEffect, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import ProjectInfoField from '@/components/page-elements/documents/ProjectInfoField';
@@ -27,6 +26,7 @@ import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
+import { SalesDocumentFindOneResponse } from 'freelanceman-common';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -45,7 +45,7 @@ const SalesDocumentBuilderPage = ({
    });
 
    // --- Form and Queries ---
-   const formMethods = useForm<SalesDocumentPayload>({});
+   const formMethods = useForm<SalesDocumentFindOneResponse>({});
    const { data: salesDocumentData, isLoading: isDocLoading } =
       useSalesDocumentQuery(documentId ?? '', isEditMode);
    const { data: projectData, isLoading: isProjectDataLoading } =
@@ -149,7 +149,7 @@ const SalesDocumentBuilderPage = ({
       formState: { isDirty },
    } = formMethods;
 
-   const onSubmit = async (data: SalesDocumentPayload) => {
+   const onSubmit = async (data: SalesDocumentFindOneResponse) => {
       if (!data.items || data.items?.length === 0) {
          formMethods.setError('items', {
             type: 'manual',

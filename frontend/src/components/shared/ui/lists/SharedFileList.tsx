@@ -9,7 +9,6 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { getIcon } from '@/components/shared/ui/helpers/Helpers';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { FilePayload } from 'freelanceman-common/src/schemas';
 import { toast } from 'sonner';
 import { useDeleteFile, useFilesQuery } from '@/lib/api/file-api';
 import {
@@ -19,7 +18,7 @@ import {
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { EditPopover } from '@/components/shared/ui/EditPopover';
 import { UseQueryResult } from '@tanstack/react-query';
-import { FileFilterDto, FileListPayload } from 'freelanceman-common';
+import { FileFilterDto, FileFindManyItem, FileFindManyResponse } from 'freelanceman-common';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { forwardRef } from 'react';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
@@ -58,7 +57,7 @@ export const SharedFileList = ({
       isLoading,
       isError,
       refetch,
-   } = useFilesQuery(filter) as UseQueryResult<FileListPayload>;
+   } = useFilesQuery(filter) as UseQueryResult<FileFindManyResponse>;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -156,7 +155,7 @@ export const SharedFileList = ({
 };
 
 interface SharedFileListItemProps {
-   data: FilePayload;
+   data: FileFindManyItem;
    selectState: SelectState;
    setSelectState?: Dispatch<SetStateAction<SelectState>>;
    size?: 'base' | 'sm' | 'md';

@@ -16,8 +16,8 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { UseQueryResult } from '@tanstack/react-query';
 import {
    PartnerContactFilterDto,
-   PartnerContactListPayload,
-   PartnerContactPayload,
+   PartnerContactFindManyItem,
+   PartnerContactFindManyResponse,
 } from 'freelanceman-common';
 import React, { forwardRef, useEffect, useRef } from 'react';
 
@@ -35,7 +35,7 @@ export const PartnerContactList: React.FC<
       refetch,
    } = usePartnerContactsQuery(
       filter
-   ) as UseQueryResult<PartnerContactListPayload>;
+   ) as UseQueryResult<PartnerContactFindManyResponse>;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -134,13 +134,13 @@ export const PartnerContactList: React.FC<
 
 const PartnerTab = forwardRef<
    HTMLDivElement,
-   { contact: PartnerContactPayload }
+   { contact: PartnerContactFindManyItem }
 >(({ contact }, ref) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const { data } = useFileUrlQuery(contact.avatar, Boolean(contact.avatar));
+   const { data } = useFileUrlQuery(contact.avatar ?? '', Boolean(contact.avatar));
 
    const handleClick = () => {
       setFormDialogState({

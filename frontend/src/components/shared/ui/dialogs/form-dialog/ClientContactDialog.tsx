@@ -12,7 +12,7 @@ import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import {
-   ClientContactPayload,
+   ClientContactFindManyItem,
    CreateClientContactDto,
    EditClientContactDto,
 } from 'freelanceman-common';
@@ -45,7 +45,7 @@ export const ClientContactDialog = ({
    });
 
    // submit handler
-   const onSubmit = async (data: ClientContactPayload) => {
+   const onSubmit = async (data: ClientContactFindManyItem) => {
       const avatarFile = getValues('avatarFile');
       const contactId = getValues('id')
       console.log('avatarFile', avatarFile);

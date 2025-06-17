@@ -2,41 +2,43 @@ import { ExternalLink, LinkIcon, XIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
-import { ProjectPayload } from 'freelanceman-common';
-import { Label, TextInputForm } from '@/components/shared/ui/form-field-elements';
+import { ProjectFindOneResponse, ProjectLink } from 'freelanceman-common';
+import {
+   Label,
+   TextInputForm,
+} from '@/components/shared/ui/form-field-elements';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/shared/ui/primitives/Button';
 import { useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
-import { ProjectLinksPayload } from 'freelanceman-common/src/schemas';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 
-const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
+const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    project,
 }) => {
    const [mode, setMode] = useState<'view' | 'add'>('view');
 
    const editProject = useEditProject({
-    errorCallback() {
-       toast.error('Error removing a link');
-    },
-    successCallback() {
-       toast.success('Link removed');
-    },
-    optimisticUpdate: {
-       enable: true,
-       key: ['project', project.id],
-       type: 'edit',
-    },
- });
+      errorCallback() {
+         toast.error('Error removing a link');
+      },
+      successCallback() {
+         toast.success('Link removed');
+      },
+      optimisticUpdate: {
+         enable: true,
+         key: ['project', project.id],
+         type: 'edit',
+      },
+   });
 
    const handleDeleteLink = (index: number) => {
-    const updatedLinks = [...(project.links || [])];
-    updatedLinks.splice(index, 1);
-    editProject.mutate({
-      id: project.id,
-      links: updatedLinks,
-    });
+      const updatedLinks = [...(project.links || [])];
+      updatedLinks.splice(index, 1);
+      editProject.mutate({
+         id: project.id,
+         links: updatedLinks,
+      });
    };
 
    return (
@@ -51,7 +53,10 @@ const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
          <div className="w-full border-[0.5px] border-quaternary" />
          <div className="flex flex-col gap-1 w-full p-2 h-full">
             {mode === 'view' && !project.links.length && (
-               <NoDataPlaceHolder className='sm:pb-0' addFn={() => setMode('add')}>
+               <NoDataPlaceHolder
+                  className="sm:pb-0"
+                  addFn={() => setMode('add')}
+               >
                   Add Link
                </NoDataPlaceHolder>
             )}
@@ -66,7 +71,7 @@ const ProjectLinkSection: React.FC<{ project: ProjectPayload }> = ({
 
 interface NewLinkFieldProps {
    setMode: (mode: 'view' | 'add') => void;
-   project: ProjectPayload
+   project: ProjectFindOneResponse;
 }
 
 const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
@@ -102,11 +107,11 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
    };
 
    const submitLink = (data: any) => {
-    console.log({
-      id: project.id,
-      links: project.links ? [...project.links, data] : [data],
-   })  
-    const url = data.url;
+      console.log({
+         id: project.id,
+         links: project.links ? [...project.links, data] : [data],
+      });
+      const url = data.url;
       if (!isValidUrl(url)) {
          setError('url', {
             message: 'Invalid URL',
@@ -117,7 +122,7 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
          id: project.id,
          links: project.links ? [...project.links, data] : [data],
       });
-      setMode('view')
+      setMode('view');
    };
 
    const handleDiscard = (e: React.MouseEvent) => {
@@ -168,15 +173,14 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
 };
 
 const LinkItems: React.FC<{
-   links: ProjectLinksPayload[];
+   links: ProjectLink[];
    onDelete: (index: number) => void;
 }> = ({ links, onDelete }) => {
-
    return (
       <div className="flex flex-col gap-1 overflow-hidden">
          {links.map((link, index) => (
             <button
-               key={link.id}
+               key={index}
                className="flex bg-background p-1 rounded-lg px-2 items-center gap-2"
             >
                <Link
@@ -185,7 +189,7 @@ const LinkItems: React.FC<{
                   rel="noopener noreferrer"
                   className="flex gap-1 text-left grow truncate text-sm"
                >
-                  <ExternalLink className='w-4 h-4 text-secondary' />
+                  <ExternalLink className="w-4 h-4 text-secondary" />
                   {link.label}
                </Link>
                <XIcon

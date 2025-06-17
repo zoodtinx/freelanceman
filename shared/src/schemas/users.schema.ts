@@ -41,6 +41,7 @@ export const userCoreSchema = z.object({
 export type UserCore = z.infer<typeof userCoreSchema>;
 
 export const editUserSchema = z.object({
+    id: z.string(),
     displayName: z.string().optional(),
     email: z.string().email().optional(),
     password: optionalString().optional(),
