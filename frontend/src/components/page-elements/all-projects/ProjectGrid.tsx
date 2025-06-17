@@ -15,6 +15,7 @@ import {
    ScrollArea
 } from '@/components/shared/ui/primitives/ScrollArea';
 import { cn } from '@/lib/helper/utils';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 const ProjectGrid: React.FC<ProjectListProps> = ({
    queryResult,
@@ -38,12 +39,12 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    };
 
    if (isLoading) return <AllProjectPageLoader />;
-   if (isError && !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
+   if (isError || !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (projects?.total === 0) {
       if (projects.unfilteredTotal === 0) {
          return <NoProjectPlaceholder addFn={handleNewProject} />;
       }
-      return 'No data match';
+      return <SearchNotFoundPlaceholder>No project matched your search.</SearchNotFoundPlaceholder>;
    }
 
    const placeholdersNeeded = Math.max(0, 4 - projects.items.length);

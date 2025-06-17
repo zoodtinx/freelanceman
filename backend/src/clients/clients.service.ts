@@ -52,7 +52,8 @@ export class ClientsService {
                     : undefined,
             };
 
-            const [total, items] = await Promise.all([
+            const [unfilteredTotal,total, items] = await Promise.all([
+                this.prismaService.client.count(),
                 this.prismaService.client.count({ where }),
                 this.prismaService.client.findMany({
                     where,
@@ -63,7 +64,7 @@ export class ClientsService {
                 }),
             ]);
 
-            return { items, total };
+            return { items, total,unfilteredTotal };
         } catch {
             throw new InternalServerErrorException('Failed to find client');
         }

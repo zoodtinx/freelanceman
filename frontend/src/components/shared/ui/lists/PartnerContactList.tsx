@@ -5,6 +5,7 @@ import {
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { useFileUrlQuery } from '@/lib/api/file-api';
@@ -66,8 +67,9 @@ export const PartnerContactList: React.FC<
       return <PartnerPageTabsLoader />;
    }
 
-   if (!contacts || contacts.items.length === 0) {
-      return (
+   if (contacts?.total === 0) {
+      if (contacts.unfilteredTotal === 0) {
+          return (
          <div className='px-2'>
             <TabListPlaceHolder
                addFn={handleNewPartner}
@@ -75,11 +77,15 @@ export const PartnerContactList: React.FC<
             />
          </div>
       );
+      }
+      return <SearchNotFoundPlaceholder>No partner matched your search.</SearchNotFoundPlaceholder>;
    }
 
-   if (isError && !contacts) {
+   if (isError || !contacts) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
+
+   
 
    const remainingItems = contacts?.total - contacts?.items.length > 0;
    const handleLoadMore = () => {

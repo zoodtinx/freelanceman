@@ -19,6 +19,7 @@ import { ClientContactListLoader } from '@/components/shared/ui/placeholder-ui/C
 import { cn } from '@/lib/helper/utils';
 import { Plus } from 'lucide-react';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 export const ContactList = ({
    addFn,
@@ -52,13 +53,16 @@ export const ContactList = ({
    }, [contacts?.items.length]);
 
    if (isLoading) return <ClientContactListLoader />;
-   if (isError && !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (!contacts?.items?.length) {
-      if (page === 'all-clients-page') {
+   if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
+   if (contacts?.total === 0) {
+      if (contacts.unfilteredTotal === 0) {
+         if (page === 'all-clients-page') {
          return <ContactListPlaceholder addFn={addFn} />;
       } else {
          return <NoDataPlaceHolder addFn={addFn} children='Add a contact'  />
       }
+      }
+      return <SearchNotFoundPlaceholder>No contact matched your search.</SearchNotFoundPlaceholder>;
    }
 
    const handleLoadMore = () => {

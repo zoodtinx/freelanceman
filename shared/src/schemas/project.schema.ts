@@ -118,33 +118,3 @@ export type ProjectListPayload = z.infer<typeof projectListPayloadSchema>;
 export type ProjectLinks = z.infer<typeof linkSchema>;
 export type ProjectLinksPayload = ProjectLinks & PrismaPayloadInterface;
 
-// export interface CreateProjectDto {
-//     name: string;
-//     budget: number;
-//     projectStatus: "" | "active" | "on-hold" | "completed";
-//     paymentStatus: "" | "unpaid" | "processing" | "paid";
-//     clientId?: string | null | undefined;
-// }
-
-
-
-
-
-
-const exampleProjectPayload = {
-  id: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-  name: "Website Redesign for Aura Tea Co.",
-  clientId: "client-aura-tea",
-  budget: 15000,
-  projectStatus: 'active',
-  paymentStatus: 'pending',
-  note: "Focus on elegant, organic aesthetics and mobile responsiveness.",
-};
-
-interface ProjectInterFace {
-    name: string,
-    budget: number, //in Thai baht, so add the approporaite market value
-    projectStatus: 'active' | 'on-hold' | 'completed',
-    paymentStatus: 'pending' | 'processing' | 'paid',
-    note: string //simulate a quick reminder note, client's comment, some idea, link short or long sentence of multiple entry separate by new line 
-}

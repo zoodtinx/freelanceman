@@ -70,7 +70,8 @@ export class FilesService {
                 projectId: filter.projectId,
             };
 
-            const [total, items] = await Promise.all([
+            const [unfilteredTotal, total, items] = await Promise.all([
+                this.prisma.file.count(),
                 this.prisma.file.count({ where }),
                 this.prisma.file.findMany({
                     where,
@@ -96,7 +97,7 @@ export class FilesService {
                 }),
             ]);
 
-            return { items, total };
+            return { items, total,unfilteredTotal };
         } catch {
             throw new InternalServerErrorException('Failed to find files');
         }

@@ -24,6 +24,7 @@ import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton
 import { forwardRef } from 'react';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 type Variant = 'base' | 'projectPage';
 
@@ -76,13 +77,31 @@ export const SharedFileList = ({
 
    if (isLoading) return <LoadingPlaceHolder />;
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
-   if (!filesData.items.length) {
-      if (page === 'filePage') {
-         return <TabListPlaceHolder containerClassName='px-2' addFn={addFn} children='Add a file' />
-      } else {
-         return <NoDataPlaceHolder className='sm:pb-0' addFn={addFn}>{placeHolder}</NoDataPlaceHolder>;
+   if (filesData?.total === 0) {
+      if (filesData.unfilteredTotal === 0) {
+         if (page === 'filePage') {
+            return (
+               <TabListPlaceHolder
+                  containerClassName="px-2"
+                  addFn={addFn}
+                  children="Add a file"
+               />
+            );
+         } else {
+            return (
+               <NoDataPlaceHolder className="sm:pb-0" addFn={addFn}>
+                  {placeHolder}
+               </NoDataPlaceHolder>
+            );
+         }
       }
+      return (
+         <SearchNotFoundPlaceholder>
+            No file matched your search.
+         </SearchNotFoundPlaceholder>
+      );
    }
+   
 
    const remainingItems = filesData.total - filesData.items.length > 0;
    const handleLoadMore = () => {

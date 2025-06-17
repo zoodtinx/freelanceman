@@ -72,7 +72,8 @@ export class PartnerContactService {
                     : undefined,
             };
 
-            const [total, items] = await Promise.all([
+            const [unfilteredTotal,total, items] = await Promise.all([
+                this.prismaService.partnerContact.count(),
                 this.prismaService.partnerContact.count({ where }),
                 this.prismaService.partnerContact.findMany({
                     where,
@@ -81,7 +82,7 @@ export class PartnerContactService {
                 }),
             ]);
 
-            return { items, total };
+            return {unfilteredTotal, items, total };
         } catch {
             throw new InternalServerErrorException(
                 'Failed to search partner contacts',

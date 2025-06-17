@@ -14,6 +14,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { cn } from '@/lib/helper/utils';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 const ClientColumn = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -100,6 +101,22 @@ const ClientGrid = ({
    if (isLoading) return <ClientGridLoader />;
    if (isError || !clientsData)
       return <ApiErrorPlaceHolder retryFn={refetch} />;
+
+   if (clientsData?.total === 0) {
+      if (clientsData.unfilteredTotal === 0) {
+         return <div className='p-2'>
+            <ClientGridPlaceHolder addFn={addFn} />;
+         </div>
+      }
+      return (
+         <SearchNotFoundPlaceholder>
+            No client matched your search.
+         </SearchNotFoundPlaceholder>
+      );
+   }
+
+
+
    if (!clientsData.items.length)
       return <ClientGridPlaceHolder addFn={addFn} />;
 
