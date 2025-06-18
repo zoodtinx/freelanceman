@@ -42,71 +42,89 @@ const AuthPage: React.FC = () => {
             <SvgFreelancemanIcon className="animate-bounce h-24 w-auto" />
             <div className="text-md text-center flex flex-col">
                <p>Accessing the greatest freelancer ever profile.</p>
-               <p className='text-sm'>This may take a moment.</p>
+               <p className="text-sm">This may take a moment.</p>
             </div>
          </div>
       );
    }
 
+   const PlaceholderBox = () => (
+      <div className="border border-primary opacity-10 border-dashed rounded-[20px] max-w-[400px] h-[205px]"></div>
+   );
+
+   const placeholders = [...Array(80)].map(() => <PlaceholderBox />);
+
+   
+
    return (
-      <div className="flex bg-background w-full h-screen items-center justify-center p-8 flex-col">
-         <div className="flex gap-3 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-3">
-            <div className="flex flex-col justify-center items-center w-1/2 text-primary gap-2">
-               <SvgFreelancemanIcon className="w-[120px] sm:w-[90px] shrink-0" />
+      <div className="flex bg-background w-full h-screen items-center justify-center flex-col relative overflow-hidden p-4">
+         <div className="flex flex-col items-center z-10">
+            <div className="flex gap-3 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-3">
+               <div className="flex flex-col justify-center items-center w-1/2 text-primary gap-2">
+                  <SvgFreelancemanIcon className="w-[120px] sm:w-[90px] shrink-0" />
+               </div>
+               <div className="flex flex-col items-center gap-4">
+                  <div className="flex flex-col items-center">
+                     <p className="text-[30px] sm:text-[28px]">
+                        This is{' '}
+                        <span className="font-semibold">FreelanceMan</span>
+                     </p>
+                     <div className='text-center'>
+                        <p className="text-md sm:text-base">
+                           Workflow solution for messy freelancers.<br/>
+                           (Which is probably everybody)
+                        </p>
+                     </div>
+                  </div>
+               </div>
             </div>
-            <div className="flex flex-col items-center gap-4">
-               <div className="flex flex-col items-center">
-                  <p className="text-[30px] sm:text-[28px]">
-                     This is{' '}
-                     <span className="font-semibold">FreelanceMan.</span>
-                  </p>
-                  <p className="text-md sm:text-base">
-                     Where freelancing meets flow.
-                  </p>
+            <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-6">
+               <div className="flex flex-col w-full items-start gap-1 pb-4">
+                  <div className="flex w-full gap-1 justify-start">
+                     <Gamepad2 className="w-4 h-auto" />
+                     <p className="text-base font-medium">Try Demo</p>
+                  </div>
+                  <Separator className="bg-tertiary" />
+               </div>
+               <div className="flex flex-col gap-1">
+                  <Button onClick={handleGetFullDemo} className="w-full">
+                     With Sample Projects
+                  </Button>
+                  <Button
+                     onClick={handleGetBlankDemo}
+                     className="w-full"
+                     variant="outline"
+                  >
+                     Clean Slate
+                  </Button>
+               </div>
+            </div>
+            <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl sm:mb-4">
+               <div className="flex flex-col w-full items-start gap-1 pb-4">
+                  <div className="flex w-full gap-1 justify-start">
+                     <KeyRound className="w-4 h-auto" />
+                     <p className="text-base font-medium">Get Access</p>
+                  </div>
+                  <Separator className="bg-tertiary" />
+               </div>
+               <div className="flex flex-col gap-[6px]">
+                  <Button
+                     onClick={handleGetBlankDemo}
+                     className="w-full"
+                     variant="outline"
+                  >
+                     Sign In with Google
+                  </Button>
                </div>
             </div>
          </div>
-         <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-6">
-            <div className="flex flex-col w-full items-start gap-1 pb-4">
-               <div className="flex w-full gap-1 justify-start">
-                  <Gamepad2 className="w-4 h-auto" />
-                  <p className="text-base font-medium">Try Demo</p>
-               </div>
-               <Separator className="bg-tertiary" />
-            </div>
-            <div className="flex flex-col gap-1">
-               <Button onClick={handleGetFullDemo} className="w-full">
-                  With Sample Projects
-               </Button>
-               <Button
-                  onClick={handleGetBlankDemo}
-                  className="w-full"
-                  variant="outline"
-               >
-                  Clean Slate
-               </Button>
-            </div>
-         </div>
-         <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl sm:mb-4">
-            <div className="flex flex-col w-full items-start gap-1 pb-4">
-               <div className="flex w-full gap-1 justify-start">
-                  <KeyRound className="w-4 h-auto" />
-                  <p className="text-base font-medium">Get Access</p>
-               </div>
-               <Separator className="bg-tertiary" />
-            </div>
-            <div className="flex flex-col gap-[6px]">
-               <Button
-                  onClick={handleGetBlankDemo}
-                  className="w-full"
-                  variant="outline"
-               >
-                  Sign In with Google
-               </Button>
-            </div>
+         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] absolute gap-4 w-[calc(100vw+100px)] 5-[calc(100vw+100px)]">
+            {placeholders}
          </div>
       </div>
    );
 };
 
 export default AuthPage;
+
+export const notUsed = () => console.log('never used');

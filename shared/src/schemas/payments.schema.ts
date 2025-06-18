@@ -6,12 +6,15 @@ import {
 } from './projects.schema';
 import { salesDocumentCoreSchema } from './sales-documents.schema';
 
-export const paymentFilterDtoSchema = projectFilterSchema.extend({
-    paymentStatus: z
-        .enum(['paid', 'due', ''])
-        .optional()
-        .transform((val) => (val === '' ? undefined : val)),
-}).partial();
+const baseProjectFilterSchema = projectFilterSchema.omit({ paymentStatus: true });
+export const paymentFilterDtoSchema = baseProjectFilterSchema
+    .extend({
+        paymentStatus: z
+            .enum(['paid', 'due', ''])
+            .optional()
+            .transform((val) => (val === '' ? undefined : val)),
+    })
+    .partial();
 export type PaymentFilterDto = z.infer<typeof paymentFilterDtoSchema>;
 
 export const paymentDataItemSchema = projectCoreSchema.extend({

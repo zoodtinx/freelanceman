@@ -62,12 +62,12 @@ const RootPage: React.FC = () => {
    if (isLoading && isOnAuthPages) {
       return (
          <div className="w-screen h-screen flex justify-center items-center">
-            <SvgFreelancemanIcon className="animate-bounce h-24 w-auto" />
+            <SvgFreelancemanIcon className="animate-bounce h-24 w-auto text-constant-primary" />
          </div>
       );
    }
 
-   return <Outlet />;
+   return <Outlet/>;
 };
 
 export default RootPage;
