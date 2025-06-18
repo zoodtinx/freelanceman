@@ -126,5 +126,3 @@ const AuthPage: React.FC = () => {
 };
 
 export default AuthPage;
-
-export const notUsed = () => console.log('never used');

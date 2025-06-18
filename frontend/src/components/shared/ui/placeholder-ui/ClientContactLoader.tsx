@@ -21,5 +21,3 @@ export const ClientContactListLoader = () => {
       </div>
    )
 }
-
-export default ClientContactLoader;

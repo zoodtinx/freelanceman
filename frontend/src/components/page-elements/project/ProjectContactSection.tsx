@@ -1,13 +1,6 @@
-import {
-   Popover,
-   PopoverTrigger,
-   PopoverContent,
-} from 'src/components/shared/ui/primitives/Popover';
-import { Plus } from 'lucide-react';
 import { forwardRef, useState } from 'react';
 import { UsersRound, Loader2 } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
-import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
 import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { SelectObject } from '@/lib/types/selector-dialog.types';
@@ -186,45 +179,3 @@ export const ContactCard = forwardRef<
       </div>
    );
 });
-
-export const NewContactButton = ({
-   setDialogState,
-}: {
-   setDialogState: (dialogState: object) => void;
-}) => {
-   const dialogState = {
-      isOpen: true,
-      id: '',
-      mode: 'create',
-      data: defaultContact,
-   };
-   const handleClick = (type: string) => {
-      if (type === 'client') {
-         setDialogState({
-            ...dialogState,
-            type: 'clientContact',
-         });
-      } else if (type === 'partner') {
-         setDialogState({
-            ...dialogState,
-            type: 'partnerContact',
-         });
-      }
-   };
-
-   return (
-      <Popover>
-         <PopoverTrigger>
-            <div className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer">
-               <Plus className="aspect-square h-[20px]" />
-            </div>
-         </PopoverTrigger>
-         <PopoverContent className="w-fit cursor-default">
-            <p onClick={() => handleClick('client')}>Client contact</p>
-            <p onClick={() => handleClick('partner')}>Partner contact</p>
-         </PopoverContent>
-      </Popover>
-   );
-};
-
-export default ProjectContactSection;

@@ -60,33 +60,6 @@ export const defaultSalesDocumentItemValue = {
    quantity: 1,
 };
 
-export const defaultUserValue = {
-   id: '',
-   name: '',
-   email: '',
-   passwordHash: '',
-   role: 'freelancer',
-   avatarUrl: '',
-   createdAt: new Date(),
-   updatedAt: new Date(),
-   bio: '',
-   contacts: [],
-   projects: [],
-   settings: {
-      theme: 'light',
-      notifications: {
-         email: false,
-         push: false,
-      },
-   },
-   paymentDetails: {
-      accountHolderName: '',
-      accountNumber: '',
-      bankName: '',
-      swiftCode: '',
-   },
-};
-
 export const defaultNewProjectValue: CreateProjectDto = {
    name: '',
    clientId: '',
@@ -188,7 +161,6 @@ export const defaultValues = {
    'client-contact': defaultContact,
    'partner-contact': defaultPartnerContactValues,
    'sales-document-item': {},
-   'user-profile': defaultUserValue,
    'new-project': defaultNewProjectValue,
    'new-client': defaultClientValue,
    'client-settings': defaultClientValue,

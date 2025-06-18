@@ -11,25 +11,13 @@ import {
    ProjectFindManyItem,
    UserFindOneResponse,
 } from 'freelanceman-common';
-import { Dispatch, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-
-export interface ApiLoadingState {
-   isLoading: boolean;
-   type: 'submit' | 'destructive';
-}
 
 export interface FormDialogProps {
    dialogType: string;
    formMethods: UseFormReturn;
    crudApi: any;
    handleLeftButtonClick: (e: any) => void;
-}
-
-export interface PromptDialogProps {
-   promptDialogState: PromptDialogState;
-   setPromptDialogState: Dispatch<SetStateAction<PromptDialogState>>;
-   setDialogState: Dispatch<SetStateAction<FormDialogState>>;
 }
 
 export type FormDialogState =
@@ -164,11 +152,3 @@ export type OpenedOnType =
    | 'documentPage'
    | 'globalAddButton'
    | 'incomePage';
-
-export interface PromptDialogState {
-   isOpen: boolean;
-   data: {
-      label: string;
-      action: () => void;
-   };
-}

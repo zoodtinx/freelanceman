@@ -14,4 +14,4 @@ export interface MutationCallbacks {
    };
 }
 
-export type UpdaterType = 'create' | 'edit' | 'delete';
+type UpdaterType = 'create' | 'edit' | 'delete';

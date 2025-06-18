@@ -42,7 +42,7 @@ export async function fetchProMax({
    }
 }
 
-export function handleApiError(statusCode: number) {
+function handleApiError(statusCode: number) {
    console.log('statusCode', statusCode);
 
    switch (statusCode) {

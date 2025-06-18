@@ -10,14 +10,6 @@ import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { PartnerContactFilterDto } from 'freelanceman-common';
 
-export const usePartnerContactApi = () => {
-   return {
-      createPartnerContact: useCreatePartnerContact(),
-      deletePartnerContact: useDeletePartnerContact(),
-      editPartnerContact: useEditPartnerContact(),
-   };
-};
-
 export const usePartnerContactsQuery = (
    filter: PartnerContactFilterDto,
    enabled?: boolean

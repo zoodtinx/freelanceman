@@ -36,12 +36,6 @@ export interface SelectionListProps {
    queryResult: UseQueryResult
 }
 
-export interface FileSelectionItemProps {
-   file: File;
-   selected: SelectObject[];
-   setSelected: Dispatch<SetStateAction<SelectObject[]>>;
-}
-
 export interface SelectedListProps {
    selected: SelectObject[];
    setSelected: Dispatch<SetStateAction<SelectObject[]>>;

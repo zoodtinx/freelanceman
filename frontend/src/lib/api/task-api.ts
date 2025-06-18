@@ -10,14 +10,6 @@ import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 
-export const useTaskApi = () => {
-   return {
-      createTask: useCreateTask(),
-      deleteTask: useDeleteTask(),
-      editTask: useEditTask(),
-   };
-};
-
 export const useTasksQuery = (filter: TaskFilterDto = {}) => {
    return useAppQuery(['tasks', filter], (token) => getTasks(token, filter));
 };

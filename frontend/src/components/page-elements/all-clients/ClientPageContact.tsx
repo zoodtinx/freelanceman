@@ -1,12 +1,5 @@
-import {
-   Popover,
-   PopoverTrigger,
-   PopoverContent,
-} from 'src/components/shared/ui/primitives/Popover';
-import { Plus } from 'lucide-react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import type { ClientContactFilterDto } from 'freelanceman-common/src/schemas';
-import { defaultContact } from 'src/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import { BookUser } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
@@ -87,44 +80,5 @@ export const ContactColumn = (): JSX.Element => {
    );
 };
 
-export const NewContactButton = ({
-   setDialogState,
-}: {
-   setDialogState: (dialogState: object) => void;
-}) => {
-   const dialogState = {
-      isOpen: true,
-      id: '',
-      mode: 'create',
-      data: defaultContact,
-   };
-   const handleClick = (type: string) => {
-      if (type === 'client') {
-         setDialogState({
-            ...dialogState,
-            type: 'clientContact',
-         });
-      } else if (type === 'partner') {
-         setDialogState({
-            ...dialogState,
-            type: 'partnerContact',
-         });
-      }
-   };
-
-   return (
-      <Popover>
-         <PopoverTrigger>
-            <button className="hover:bg-tertiary rounded-xl transition-colors h-[40px] w-[40px] flex justify-center items-center cursor-pointer">
-               <Plus className="aspect-square h-[20px]" />
-            </button>
-         </PopoverTrigger>
-         <PopoverContent className="w-fit cursor-default">
-            <p onClick={() => handleClick('client')}>Client contact</p>
-            <p onClick={() => handleClick('partner')}>Partner contact</p>
-         </PopoverContent>
-      </Popover>
-   );
-};
 
 export default ContactColumn;

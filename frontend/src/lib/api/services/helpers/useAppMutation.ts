@@ -6,7 +6,7 @@ import useAuthStore from '@/lib/zustand/auth-store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-export const optimisticUpdaters = {
+const optimisticUpdaters = {
    create: (old: any = [], payload: any) => [
       ...old,
       { ...payload, id: 'temp-id' },

@@ -11,14 +11,6 @@ import type { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 
-export const useProjectApi = () => {
-   return {
-      createProject: useCreateProject(),
-      deleteProject: useDeleteProject(),
-      editProject: useEditProject(),
-   };
-};
-
 export const useProjectsQuery = (
    filter: ProjectFilterDto = {},
    enabled?: boolean

@@ -13,14 +13,6 @@ import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { FileFilterDto } from 'freelanceman-common';
 
-export const useFileApi = () => {
-   return {
-      uploadFile: useCreateFile(),
-      deleteFile: useDeleteFile(),
-      editFile: useEditFile(),
-   };
-};
-
 export const useFilesQuery = (filter: FileFilterDto = {}) => {
    return useAppQuery(['files', filter], (token) => getFiles(token, filter));
 };
@@ -90,4 +82,4 @@ export const useGetPresignedUrl = (callbacks?: MutationCallbacks) => {
       },
       callbacks
    );
-}
+};

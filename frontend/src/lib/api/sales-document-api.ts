@@ -9,14 +9,6 @@ import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 
-export const useSalesDocumentApi = () => {
-   return {
-      createSalesDocument: useCreateSalesDocument(),
-      deleteSalesDocument: useDeleteSalesDocument(),
-      editSalesDocument: useEditSalesDocument(),
-   };
-};
-
 export const useSalesDocumentQuery = (
    salesDocumentId: string,
    enabled?: boolean
@@ -27,13 +19,6 @@ export const useSalesDocumentQuery = (
       enabled
    );
 };
-
-export const usePdfLinkQuery = (fileKey: string) => {
-  return useAppQuery(
-    ['pdfLink', fileKey],
-    (token) => getSalesDocument(token, fileKey),
- );
-}
 
 export const useCreateSalesDocument = (callbacks?: MutationCallbacks) => {
    return useAppMutation(

@@ -10,14 +10,6 @@ import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { ClientContactFilterDto } from 'freelanceman-common';
 
-export const useClientContactApi = () => {
-   return {
-      createClientContact: useCreateClientContact(),
-      deleteClientContact: useDeleteClientContact(),
-      editClientContact: useEditClientContact(),
-   };
-};
-
 export const useClientContactsQuery = (
    filter: ClientContactFilterDto,
    enabled?: boolean

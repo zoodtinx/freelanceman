@@ -11,14 +11,6 @@ import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
 
-export const useClientApi = () => {
-   return {
-      createClient: useCreateClient(),
-      deleteClient: useDeleteClient(),
-      editClient: useEditClient(),
-   };
-};
-
 export const useClientsQuery = (
    filter: ClientFilterDto = {},
    enabled?: boolean

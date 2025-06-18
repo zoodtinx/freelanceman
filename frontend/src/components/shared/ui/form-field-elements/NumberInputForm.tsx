@@ -67,7 +67,7 @@ interface NumberInputProps {
    mode?: 'budget' | 'plain';
 }
 
-export const NumberInput = ({
+const NumberInput = ({
    value,
    onChange,
    placeholder,

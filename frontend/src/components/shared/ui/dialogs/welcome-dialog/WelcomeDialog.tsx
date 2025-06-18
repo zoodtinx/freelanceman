@@ -64,7 +64,7 @@ export function GreetingDialog() {
    );
 }
 
-export interface CardContentProps {
+interface CardContentProps {
    icon: any;
    headline: ReactNode;
    subhead: string;

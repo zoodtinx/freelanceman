@@ -14,7 +14,6 @@ export const getCreateSalesDocumentPayload = (
       clientId: data.clientId,
       clientName: data.clientName,
       items: data.items,
-      
 
       projectTitle: data.projectTitle,
       number: data.number,
@@ -79,17 +78,6 @@ export const getEditSalesDocumentPayload = (
    };
 };
 
-export function kebabToSentenceCase(str: string): string {
-   return str
-      .split('-')
-      .map((word, i) => (i === 0 ? capitalize(word) : word))
-      .join('  ');
-}
-
-function capitalize(word: string) {
-   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-}
-
 export function camelToSentenceCase(input: string): string {
    return input
       .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -102,8 +90,4 @@ export function camelToLowerCase(input: string): string {
       .replace(/([A-Z])/g, ' $1')
       .toLowerCase()
       .trim();
-}
-
-export function kebabToLowerCase(str: string): string {
-   return str.split('-').join(' ');
 }

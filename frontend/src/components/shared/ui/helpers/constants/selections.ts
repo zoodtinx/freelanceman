@@ -1,8 +1,4 @@
-export const DocumentDraftSelections = [
-   { value: 'quotation', label: 'Quotation'},
-   { value: 'invoice', label: 'Invoice'},
-   { value: 'receipt', label: 'Receipt'},
-]
+
 
 export const taskStatusSelections = [
    { value: 'pending', label: 'Pending', color: 'bg-yellow-100' },
@@ -11,12 +7,6 @@ export const taskStatusSelections = [
    { value: 'cancelled', label: 'Cancelled', color: 'bg-red-200' },
 ];
 
-export const eventStatusSelections = [
-   { value: 'scheduled', label: 'Scheduled', color: 'bg-yellow-100' },
-   { value: 'inProgress', label: 'In Progress', color: 'bg-emerald-200' },
-   { value: 'completed', label: 'Completed', color: 'bg-blue-100' },
-   { value: 'cancelled', label: 'Cancelled', color: 'bg-red-200' },
-];
 
 export const projectStatusSelections = [
    { value: 'active', label: 'Active', color: 'status-active' },
@@ -33,14 +23,6 @@ export const paymentStatusSelections = [
 export const fileCategorySelections = [
    { value: 'work', label: 'Working Files' },
    { value: 'asset', label: 'Project Assets' },
-];
-
-export const clientPageFileCategorySelections = [
-   { value: 'project-document', label: 'Project Document' },
-   { value: 'project-assets', label: 'Project Assets' },
-   { value: 'project-file', label: 'Working File' },
-   { value: 'client-file', label: 'Client File' },
-   { value: 'personal', label: 'Personal' },
 ];
 
 export const fileTypeSelections = [

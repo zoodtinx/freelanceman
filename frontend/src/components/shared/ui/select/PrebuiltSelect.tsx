@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
-   Select,
-   SelectValue,
-   SelectTrigger,
+   Select, SelectTrigger,
    SelectContent,
-   SelectItem,
+   SelectItem
 } from 'src/components/shared/ui/select/Select';
 import { cn } from '@/lib/helper/utils';
 import { X } from 'lucide-react';
@@ -20,47 +18,6 @@ type SelectProps = {
   isWithIcon?: boolean;
   defaultValue?: string;
 };
-
-const StandardSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
-   (
-      {
-         className,
-         selectContents,
-         onValueChange,
-         value,
-         placeholder = 'Select a value',
-         isWithIcon = true,
-         defaultValue,
-         ...props
-      },
-      ref
-   ) => {
-      return (
-         <Select value={value} onValueChange={onValueChange} {...props}>
-            <SelectTrigger
-               className={className}
-               ref={ref}
-               isWithIcon={isWithIcon}
-            >
-               <div
-                  className={`p-1 pl-3 pr-4 rounded-full flex items-center gap-1 w-fit`}
-               >
-                  <SelectValue placeholder={placeholder} />
-               </div>
-            </SelectTrigger>
-            <SelectContent className="flex flex-col gap-1 max-h-[250px] overflow-y-auto">
-               {selectContents.map((selection) => (
-                  <SelectItem key={selection.value} value={selection.value}>
-                     {selection.label}
-                  </SelectItem>
-               ))}
-            </SelectContent>
-         </Select>
-      );
-   }
-);
-
-StandardSelect.displayName = 'StandardSelect';
 
 const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
    (
@@ -153,4 +110,4 @@ const FilterSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
 
 FilterSelect.displayName = 'FilterSelect';
 
-export { StandardSelect, FilterSelect };
+export { FilterSelect };

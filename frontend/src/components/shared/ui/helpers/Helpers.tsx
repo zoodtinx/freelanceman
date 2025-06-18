@@ -170,63 +170,6 @@ export const FileIconByExtension: React.FC<FileIconByExtensionProps> = ({
    }
 };
 
-export const formatCategory = (fileCategory: any) => {
-   if (!fileCategory) return '';
-
-   switch (fileCategory) {
-      case 'project-document':
-         return 'Project Document';
-      case 'project-asset':
-         return 'Project Asset';
-      case 'project-file':
-         return 'Project File';
-      case 'client-file':
-         return 'Client File';
-      case 'client-document':
-         return 'Client Document';
-      case 'personal-file':
-         return 'Personal File';
-      case 'personal-document':
-         return 'Personal Document';
-      default:
-         return '';
-   }
-};
-
-export const formatProjectStatus = (
-   projectStatus: 'active' | 'on-hold' | 'completed' | ''
-) => {
-   if (!projectStatus) return '';
-
-   switch (projectStatus) {
-      case 'active':
-         return 'Active';
-      case 'on-hold':
-         return 'On Hold';
-      case 'completed':
-         return 'Completed';
-      default:
-         return '';
-   }
-};
-
-export const formatPaymentStatus = (
-   paymentStatus: 'unpaid' | 'processing' | 'paid' | ''
-) => {
-   if (!paymentStatus) return '';
-
-   switch (paymentStatus) {
-      case 'unpaid':
-         return 'Unpaid';
-      case 'processing':
-         return 'Processing';
-      case 'paid':
-         return 'Paid';
-      default:
-         return '';
-   }
-};
-
 export const DialogTitleIcon = ({ dialogType }: { dialogType: string }) => {
    const className = 'w-[14px] h-[15px]';
    switch (dialogType) {

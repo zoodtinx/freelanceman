@@ -10,14 +10,6 @@ import { EventFilterDto } from 'freelanceman-common';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
 
-export const useEventApi = () => {
-   return {
-      createEvent: useCreateEvent(),
-      deleteEvent: useDeleteEvent(),
-      editEvent: useEditEvent(),
-   };
-};
-
 export const useEventsQuery = (filter: EventFilterDto = {}) => {
    return useAppQuery(['events', filter], (token) => getEvents(token, filter));
 };
