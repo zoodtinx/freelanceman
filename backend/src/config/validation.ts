@@ -8,7 +8,7 @@ export const validationSchema = Joi.object({
   JWT_ACCESS_EXPIRES_IN: Joi.string().required(),
   JWT_REFRESH_EXPIRES_IN: Joi.string().required(),
 
-  DATABASE_URL: Joi.string().uri().required(),
+  DATABASE_URL: Joi.string().required(),
 
   AWS_REGION: Joi.string().required(),
   AWS_ACCESS_KEY_ID: Joi.string().required(),
@@ -22,8 +22,8 @@ export const validationSchema = Joi.object({
 
   GOOGLE_CLIENT_ID: Joi.string().required(),
   GOOGLE_CLIENT_SECRET: Joi.string().required(),
-  GOOGLE_REDIRECT_URI: Joi.string().uri().required(),
+  GOOGLE_REDIRECT_URI: Joi.string().required(),
 
-  CLIENT_URL: Joi.string().uri().required(),
-  BACKEND_URL: Joi.string().uri().required(),
+  CLIENT_URL: Joi.string().required(),
+  BACKEND_URL: Joi.string().required(),
 });
