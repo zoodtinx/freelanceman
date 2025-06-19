@@ -101,37 +101,35 @@ export async function seedDemoUser(s3Config: S3Config) {
 
             console.log('Begin seeding projects...');
             const seedProjectsData = getProjects(user.id, clientsByName);
-            await Promise.all(
-                seedProjectsData.map(async (projectData) => {
-                    const contacts = await tx.clientContact.findMany({
-                        where: {
-                            companyId: projectData.clientId,
-                        },
-                    });
+            for (const projectData of seedProjectsData) {
+                const contacts = await tx.clientContact.findMany({
+                    where: {
+                        companyId: projectData.clientId,
+                    },
+                });
 
-                    const { links, ...restOfProjectData } = projectData;
+                const { links, ...restOfProjectData } = projectData;
 
-                    await tx.project.create({
-                        data: {
-                            ...restOfProjectData,
-                            links: {
-                                createMany: {
-                                    data: links,
-                                },
+                await tx.project.create({
+                    data: {
+                        ...restOfProjectData,
+                        links: {
+                            createMany: {
+                                data: links,
                             },
-                            clientContacts: {
-                                create: contacts.map((contact) => ({
-                                    clientContact: {
-                                        connect: {
-                                            id: contact.id,
-                                        },
+                        },
+                        clientContacts: {
+                            create: contacts.map((contact) => ({
+                                clientContact: {
+                                    connect: {
+                                        id: contact.id,
                                     },
-                                })),
-                            },
+                                },
+                            })),
                         },
-                    });
-                }),
-            );
+                    },
+                });
+            }
             console.log('Projects seeded.');
 
             console.log('Preparing userId, clientId and projectId...');
@@ -177,25 +175,23 @@ export async function seedDemoUser(s3Config: S3Config) {
                 data: seedFilesData,
             });
             console.log('Files seeded.');
-            
+
             console.log('Begin seeding sales doc...');
             const seedSalesDocData = getSalesDocs(projectsByTitle);
-            await Promise.all(
-                seedSalesDocData.map(async (salesDoc) => {
-                    const { items, ...rest } = salesDoc;
-                    console.log('items', items)
-                    await tx.salesDocument.create({
-                        data: {
-                            items: {
-                                createMany: {
-                                    data: items
-                                },
+            for (const salesDoc of seedSalesDocData) {
+                const { items, ...rest } = salesDoc;
+                console.log('items', items);
+                await tx.salesDocument.create({
+                    data: {
+                        items: {
+                            createMany: {
+                                data: items,
                             },
-                            ...rest,
                         },
-                    });
-                }),
-            );
+                        ...rest,
+                    },
+                });
+            }
             console.log('Sales doc seeded.');
 
             console.log('Finished seeding all data related to user.');
