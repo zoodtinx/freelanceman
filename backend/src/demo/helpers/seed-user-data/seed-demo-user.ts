@@ -108,7 +108,8 @@ export async function seedDemoUser(s3Config: S3Config) {
                 },
             });
 
-            for (const projectData of seedProjectsData) {
+            // Using Promise.all for project creation
+            await Promise.all(seedProjectsData.map(async (projectData) => {
                 const contacts = allContacts.filter(
                     (contact) => contact.companyId === projectData.clientId,
                 );
@@ -134,7 +135,7 @@ export async function seedDemoUser(s3Config: S3Config) {
                         },
                     },
                 });
-            }
+            }));
             console.log('Projects seeded.');
 
             console.log('Preparing userId, clientId and projectId...');
@@ -183,9 +184,9 @@ export async function seedDemoUser(s3Config: S3Config) {
 
             console.log('Begin seeding sales doc...');
             const seedSalesDocData = getSalesDocs(projectsByTitle);
-            for (const salesDoc of seedSalesDocData) {
+            // Using Promise.all for sales document creation
+            await Promise.all(seedSalesDocData.map(async (salesDoc) => {
                 const { items, ...rest } = salesDoc;
-                console.log('items', items);
                 await tx.salesDocument.create({
                     data: {
                         items: {
@@ -196,7 +197,7 @@ export async function seedDemoUser(s3Config: S3Config) {
                         ...rest,
                     },
                 });
-            }
+            }));
             console.log('Sales doc seeded.');
 
             console.log('Finished seeding all data related to user.');
