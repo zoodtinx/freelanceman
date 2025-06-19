@@ -7,6 +7,7 @@ import { getClientContacts } from '@/demo/helpers/seed-user-data/contacts/client
 import {
     getEvents,
     getFiles,
+    getLinks,
     getSalesDocs,
     getTasks,
 } from '@/demo/helpers/seed-user-data/level-3';
@@ -107,33 +108,28 @@ export async function seedDemoUser(s3Config: S3Config) {
             },
         });
 
-        for (const projectData of seedProjectsData) {
-            const contacts = allContacts.filter(
-                (contact) => contact.companyId === projectData.clientId,
-            );
+        await Promise.all(
+            seedProjectsData.map(async (projectData) => {
+                const contacts = allContacts.filter(
+                    (contact) => contact.companyId === projectData.clientId,
+                );
 
-            const { links, ...restOfProjectData } = projectData;
+                const project = await prisma.project.create({
+                    data: projectData,
+                });
 
-            await prisma.project.create({
-                data: {
-                    ...restOfProjectData,
-                    links: {
-                        createMany: {
-                            data: links,
-                        },
-                    },
-                    clientContacts: {
-                        create: contacts.map((contact) => ({
-                            clientContact: {
-                                connect: {
-                                    id: contact.id,
-                                },
-                            },
-                        })),
-                    },
-                },
-            });
-        }
+                const clientContactsOnProject = contacts.map((contact) => {
+                    return {
+                        clientContactId: contact.id,
+                        projectId: project.id,
+                    };
+                });
+
+                await prisma.clientContactOnProject.createMany({
+                    data: clientContactsOnProject,
+                });
+            }),
+        );
         console.log('Projects seeded.');
 
         console.log('Preparing userId, clientId and projectId...');
@@ -159,6 +155,14 @@ export async function seedDemoUser(s3Config: S3Config) {
         }, {});
         console.log('Project IDs mapped.');
 
+        console.log('Begin seeding links...');
+        const seedLinksData = getLinks(projectsByTitle);
+
+        await prisma.link.createMany({
+            data: seedLinksData,
+        });
+        console.log('Links seeded.');
+
         console.log('Begin seeding tasks...');
         const seedTasksData = getTasks(projectsByTitle);
         await prisma.task.createMany({
@@ -182,19 +186,25 @@ export async function seedDemoUser(s3Config: S3Config) {
 
         console.log('Begin seeding sales doc...');
         const seedSalesDocData = getSalesDocs(projectsByTitle);
-        for (const salesDoc of seedSalesDocData) {
-            const { items, ...rest } = salesDoc;
-            await prisma.salesDocument.create({
-                data: {
-                    items: {
-                        createMany: {
-                            data: items,
-                        },
+        await Promise.all(
+            seedSalesDocData.map(async ({ items, ...salesDocData }) => {
+                const salesDoc = await prisma.salesDocument.create({
+                    data: salesDocData,
+                });
+                const salesDocItemDataWithParentId = items.map(
+                    (item: any) => {
+                        return {
+                            ...item,
+                            parentDocumentId: salesDoc.id,
+                        };
                     },
-                    ...rest,
-                },
-            });
-        }
+                );
+                console.log('salesDocItemDataWithParentId', salesDocItemDataWithParentId)
+                await prisma.salesDocumentItem.createMany({
+                    data: salesDocItemDataWithParentId,
+                });
+            }),
+        );
         console.log('Sales doc seeded.');
 
         console.log('Finished seeding all data related to user.');

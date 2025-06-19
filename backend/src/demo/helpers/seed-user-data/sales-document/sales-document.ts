@@ -135,7 +135,7 @@ export function generateAuraTeaCoSalesDoc(ids: Ids) {
             .padStart(4, '0')}`,
         issuedAt: quotationIssuedAt,
         referenceNumber: `${projectId}-Q`,
-        s3Key: `${projectId}/projects/brand-story-video-for-about-us-page/documents/quotation-aura-tea-co-new-packaging-design.pdf`,
+        s3Key: `${userId}/projects/brand-story-video-for-about-us-page/documents/quotation-aura-tea-co-new-packaging-design.pdf`,
         note: 'This quotation is valid for 30 days from the issue date. Prices are subject to change after this period. Production schedule to be confirmed upon project commencement.',
     };
 
@@ -150,7 +150,7 @@ export function generateAuraTeaCoSalesDoc(ids: Ids) {
             .padStart(4, '0')}`,
         issuedAt: invoiceIssuedAt,
         referenceNumber: `${projectId}-I`,
-        s3Key: `${projectId}/projects/brand-story-video-for-about-us-page/documents/invoice-aura-tea-co-new-packaging-design.pdf`,
+        s3Key: `${userId}/projects/brand-story-video-for-about-us-page/documents/invoice-aura-tea-co-new-packaging-design.pdf`,
         note: 'Please remit payment within 30 days. Thank you for your business!',
     };
 
@@ -165,7 +165,7 @@ export function generateAuraTeaCoSalesDoc(ids: Ids) {
             .padStart(4, '0')}`,
         issuedAt: receiptIssuedAt,
         referenceNumber: `${projectId}-R`,
-        s3Key: `${projectId}/projects/brand-story-video-for-about-us-page/documents/receipt-aura-tea-co-new-packaging-design.pdf`,
+        s3Key: `${userId}/projects/brand-story-video-for-about-us-page/documents/receipt-aura-tea-co-new-packaging-design.pdf`,
         note: 'Payment received in full. Thank you for your business!',
     };
 
