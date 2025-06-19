@@ -28,7 +28,6 @@ export async function seedDemoUser(s3Config: S3Config) {
     let uniqueEmail: string;
 
     try {
-        // 1. Create User (outside transaction)
         console.log('Begin seeding user profile (outside transaction)...');
         let existingUser: any;
         do {
@@ -49,7 +48,6 @@ export async function seedDemoUser(s3Config: S3Config) {
         });
         console.log('User created:', user.id);
 
-        // 2. Copy S3 Directory (outside transaction)
         console.log('Begin files migration from master demo to S3...');
         await copyS3Directory({
             sourcePrefix: 'master',
@@ -58,7 +56,6 @@ export async function seedDemoUser(s3Config: S3Config) {
         });
         console.log(`S3 files copied to ${user.id}/`);
 
-        // 3. Perform remaining data seeding in a transaction
         const result = await prisma.$transaction(async (tx) => {
             console.log('Begin seeding client data within transaction...');
             await tx.user.update({
@@ -101,12 +98,20 @@ export async function seedDemoUser(s3Config: S3Config) {
 
             console.log('Begin seeding projects...');
             const seedProjectsData = getProjects(user.id, clientsByName);
+
+            const allClientIds = [
+                ...new Set(seedProjectsData.map((p) => p.clientId)),
+            ];
+            const allContacts = await tx.clientContact.findMany({
+                where: {
+                    companyId: { in: allClientIds },
+                },
+            });
+
             for (const projectData of seedProjectsData) {
-                const contacts = await tx.clientContact.findMany({
-                    where: {
-                        companyId: projectData.clientId,
-                    },
-                });
+                const contacts = allContacts.filter(
+                    (contact) => contact.companyId === projectData.clientId,
+                );
 
                 const { links, ...restOfProjectData } = projectData;
 
@@ -219,7 +224,6 @@ export async function seedDemoUser(s3Config: S3Config) {
                 );
             }
         }
-        // Re-throw the error to ensure the calling function knows about the failure
         throw error;
     } finally {
         await prisma.$disconnect();
