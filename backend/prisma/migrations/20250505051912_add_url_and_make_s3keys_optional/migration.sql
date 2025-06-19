@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "File" ADD COLUMN     "url" TEXT,
-ALTER COLUMN "s3Key" DROP NOT NULL;

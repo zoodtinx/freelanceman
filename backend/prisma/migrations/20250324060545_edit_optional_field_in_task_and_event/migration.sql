@@ -1,7 +1,0 @@
--- AlterTable
-ALTER TABLE "Event" ALTER COLUMN "details" DROP NOT NULL,
-ALTER COLUMN "link" DROP NOT NULL;
-
--- AlterTable
-ALTER TABLE "Task" ALTER COLUMN "details" DROP NOT NULL,
-ALTER COLUMN "link" DROP NOT NULL;
