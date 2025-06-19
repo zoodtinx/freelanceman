@@ -97,39 +97,50 @@ export async function seedDemoUser(s3Config: S3Config) {
         console.log('Client contacts seeded.');
 
         console.log('Begin seeding projects...');
+
         const seedProjectsData = getProjects(user.id, clientsByName);
 
         const allClientIds = [
             ...new Set(seedProjectsData.map((p) => p.clientId)),
         ];
+
         const allContacts = await prisma.clientContact.findMany({
             where: {
                 companyId: { in: allClientIds },
             },
         });
 
-        await Promise.all(
-            seedProjectsData.map(async (projectData) => {
-                const contacts = allContacts.filter(
-                    (contact) => contact.companyId === projectData.clientId,
-                );
+        const contactsByCompanyId = new Map<string, typeof allContacts>();
 
-                const project = await prisma.project.create({
-                    data: projectData,
-                });
+        for (const contact of allContacts) {
+            if (!contactsByCompanyId.has(contact.companyId)) {
+                contactsByCompanyId.set(contact.companyId, []);
+            }
+            contactsByCompanyId.get(contact.companyId)!.push(contact);
+        }
 
-                const clientContactsOnProject = contacts.map((contact) => {
-                    return {
-                        clientContactId: contact.id,
-                        projectId: project.id,
-                    };
-                });
+        const projectPromises = seedProjectsData.map(async (projectData) => {
+            const contacts =
+                contactsByCompanyId.get(projectData.clientId) || [];
+
+            const project = await prisma.project.create({
+                data: projectData,
+            });
+
+            if (contacts.length > 0) {
+                const clientContactsOnProject = contacts.map((contact) => ({
+                    clientContactId: contact.id,
+                    projectId: project.id,
+                }));
 
                 await prisma.clientContactOnProject.createMany({
                     data: clientContactsOnProject,
                 });
-            }),
-        );
+            }
+        });
+
+        await Promise.all(projectPromises);
+
         console.log('Projects seeded.');
 
         console.log('Preparing userId, clientId and projectId...');
@@ -191,15 +202,16 @@ export async function seedDemoUser(s3Config: S3Config) {
                 const salesDoc = await prisma.salesDocument.create({
                     data: salesDocData,
                 });
-                const salesDocItemDataWithParentId = items.map(
-                    (item: any) => {
-                        return {
-                            ...item,
-                            parentDocumentId: salesDoc.id,
-                        };
-                    },
+                const salesDocItemDataWithParentId = items.map((item: any) => {
+                    return {
+                        ...item,
+                        parentDocumentId: salesDoc.id,
+                    };
+                });
+                console.log(
+                    'salesDocItemDataWithParentId',
+                    salesDocItemDataWithParentId,
                 );
-                console.log('salesDocItemDataWithParentId', salesDocItemDataWithParentId)
                 await prisma.salesDocumentItem.createMany({
                     data: salesDocItemDataWithParentId,
                 });
