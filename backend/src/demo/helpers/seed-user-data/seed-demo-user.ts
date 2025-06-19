@@ -119,27 +119,41 @@ export async function seedDemoUser(s3Config: S3Config) {
             contactsByCompanyId.get(contact.companyId)!.push(contact);
         }
 
-        const projectPromises = seedProjectsData.map(async (projectData) => {
-            const contacts =
-                contactsByCompanyId.get(projectData.clientId) || [];
-
-            const project = await prisma.project.create({
-                data: projectData,
-            });
-
-            if (contacts.length > 0) {
-                const clientContactsOnProject = contacts.map((contact) => ({
-                    clientContactId: contact.id,
-                    projectId: project.id,
-                }));
-
-                await prisma.clientContactOnProject.createMany({
-                    data: clientContactsOnProject,
-                });
-            }
+        await prisma.project.createMany({
+            data: seedProjectsData,
         });
 
-        await Promise.all(projectPromises);
+        const createdProjects = await prisma.project.findMany({
+            where: {
+                userId: user.id,
+                name: { in: seedProjectsData.map((p) => p.name) },
+            },
+            select: {
+                id: true,
+                clientId: true,
+            },
+        });
+
+        const clientContactOnProjectData: {
+            clientContactId: string;
+            projectId: string;
+        }[] = [];
+
+        for (const project of createdProjects) {
+            const contacts = contactsByCompanyId.get(project.clientId!) || [];
+            for (const contact of contacts) {
+                clientContactOnProjectData.push({
+                    clientContactId: contact.id,
+                    projectId: project.id,
+                });
+            }
+        }
+
+        if (clientContactOnProjectData.length > 0) {
+            await prisma.clientContactOnProject.createMany({
+                data: clientContactOnProjectData,
+            });
+        }
 
         console.log('Projects seeded.');
 
