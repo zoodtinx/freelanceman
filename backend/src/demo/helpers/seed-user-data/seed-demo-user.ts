@@ -30,14 +30,7 @@ export async function seedDemoUser(s3Config: S3Config) {
 
     try {
         console.log('Begin seeding user profile (outside transaction)...');
-        let existingUser: any;
-        do {
-            uniqueEmail = `${uuidv4()}@freelanceman.com`;
-            existingUser = await prisma.user.findUnique({
-                where: { email: uniqueEmail },
-            });
-        } while (existingUser);
-
+        uniqueEmail = `${uuidv4()}@freelanceman.com`;
         user = await prisma.user.create({
             data: {
                 ...seedUserProfile,
