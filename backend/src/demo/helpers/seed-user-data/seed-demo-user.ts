@@ -56,154 +56,149 @@ export async function seedDemoUser(s3Config: S3Config) {
         });
         console.log(`S3 files copied to ${user.id}/`);
 
-        const result = await prisma.$transaction(async (tx) => {
-            console.log('Begin seeding client data within transaction...');
-            await tx.user.update({
-                where: { id: user.id },
-                data: {
-                    clients: {
-                        createMany: { data: seedClientsData },
-                    },
-                    avatar: `${user.id}/user/user-avatar.webp`,
+        console.log('Begin seeding client data...');
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                clients: {
+                    createMany: { data: seedClientsData },
                 },
-            });
-            console.log('Client data and avatar added.');
-
-            console.log('Begin seeding partner contacts...');
-            const seedPartnerContactsData = getPartnerContacts(user.id);
-            await tx.partnerContact.createMany({
-                data: seedPartnerContactsData,
-            });
-            console.log('Partner contacts seeded.');
-
-            console.log('Preparing userId & clientId...');
-            const clientsData = await tx.client.findMany({
-                where: { userId: user.id },
-            });
-            const clientsByName = clientsData.reduce((acc, client) => {
-                acc[client.name] = client.id;
-                return acc;
-            }, {});
-            console.log('Client IDs mapped.');
-
-            console.log('Begin seeding client contacts...');
-            const seedClientContactsData = getClientContacts(
-                user.id,
-                clientsByName,
-            );
-            await tx.clientContact.createMany({
-                data: seedClientContactsData,
-            });
-            console.log('Client contacts seeded.');
-
-            console.log('Begin seeding projects...');
-            const seedProjectsData = getProjects(user.id, clientsByName);
-
-            const allClientIds = [
-                ...new Set(seedProjectsData.map((p) => p.clientId)),
-            ];
-            const allContacts = await tx.clientContact.findMany({
-                where: {
-                    companyId: { in: allClientIds },
-                },
-            });
-
-            // Using Promise.all for project creation
-            await Promise.all(seedProjectsData.map(async (projectData) => {
-                const contacts = allContacts.filter(
-                    (contact) => contact.companyId === projectData.clientId,
-                );
-
-                const { links, ...restOfProjectData } = projectData;
-
-                await tx.project.create({
-                    data: {
-                        ...restOfProjectData,
-                        links: {
-                            createMany: {
-                                data: links,
-                            },
-                        },
-                        clientContacts: {
-                            create: contacts.map((contact) => ({
-                                clientContact: {
-                                    connect: {
-                                        id: contact.id,
-                                    },
-                                },
-                            })),
-                        },
-                    },
-                });
-            }));
-            console.log('Projects seeded.');
-
-            console.log('Preparing userId, clientId and projectId...');
-            const projectsData = await tx.project.findMany({
-                where: { userId: user.id },
-                include: { client: true },
-            });
-            const projectsByTitle = projectsData.reduce((acc, project) => {
-                const clientName = project.client!.name;
-                const projectTitle = project.name;
-
-                if (!acc[clientName]) {
-                    acc[clientName] = {};
-                }
-
-                acc[clientName][projectTitle] = {
-                    projectId: project.id,
-                    clientId: project.clientId,
-                    userId: project.userId,
-                };
-
-                return acc;
-            }, {});
-            console.log('Project IDs mapped.');
-
-            console.log('Begin seeding tasks...');
-            const seedTasksData = getTasks(projectsByTitle);
-            await tx.task.createMany({
-                data: seedTasksData,
-            });
-            console.log('Tasks seeded.');
-
-            console.log('Begin seeding events...');
-            const seedEventsData = getEvents(projectsByTitle);
-            await tx.event.createMany({
-                data: seedEventsData,
-            });
-            console.log('Events seeded.');
-
-            console.log('Begin seeding files...');
-            const seedFilesData = getFiles(projectsByTitle);
-            await tx.file.createMany({
-                data: seedFilesData,
-            });
-            console.log('Files seeded.');
-
-            console.log('Begin seeding sales doc...');
-            const seedSalesDocData = getSalesDocs(projectsByTitle);
-            // Using Promise.all for sales document creation
-            await Promise.all(seedSalesDocData.map(async (salesDoc) => {
-                const { items, ...rest } = salesDoc;
-                await tx.salesDocument.create({
-                    data: {
-                        items: {
-                            createMany: {
-                                data: items,
-                            },
-                        },
-                        ...rest,
-                    },
-                });
-            }));
-            console.log('Sales doc seeded.');
-
-            console.log('Finished seeding all data related to user.');
-            return user;
+                avatar: `${user.id}/user/user-avatar.webp`,
+            },
         });
-        return result;
+        console.log('Client data and avatar added.');
+
+        console.log('Begin seeding partner contacts...');
+        const seedPartnerContactsData = getPartnerContacts(user.id);
+        await prisma.partnerContact.createMany({
+            data: seedPartnerContactsData,
+        });
+        console.log('Partner contacts seeded.');
+
+        console.log('Preparing userId & clientId...');
+        const clientsData = await prisma.client.findMany({
+            where: { userId: user.id },
+        });
+        const clientsByName = clientsData.reduce((acc, client) => {
+            acc[client.name] = client.id;
+            return acc;
+        }, {});
+        console.log('Client IDs mapped.');
+
+        console.log('Begin seeding client contacts...');
+        const seedClientContactsData = getClientContacts(
+            user.id,
+            clientsByName,
+        );
+        await prisma.clientContact.createMany({
+            data: seedClientContactsData,
+        });
+        console.log('Client contacts seeded.');
+
+        console.log('Begin seeding projects...');
+        const seedProjectsData = getProjects(user.id, clientsByName);
+
+        const allClientIds = [
+            ...new Set(seedProjectsData.map((p) => p.clientId)),
+        ];
+        const allContacts = await prisma.clientContact.findMany({
+            where: {
+                companyId: { in: allClientIds },
+            },
+        });
+
+        for (const projectData of seedProjectsData) {
+            const contacts = allContacts.filter(
+                (contact) => contact.companyId === projectData.clientId,
+            );
+
+            const { links, ...restOfProjectData } = projectData;
+
+            await prisma.project.create({
+                data: {
+                    ...restOfProjectData,
+                    links: {
+                        createMany: {
+                            data: links,
+                        },
+                    },
+                    clientContacts: {
+                        create: contacts.map((contact) => ({
+                            clientContact: {
+                                connect: {
+                                    id: contact.id,
+                                },
+                            },
+                        })),
+                    },
+                },
+            });
+        }
+        console.log('Projects seeded.');
+
+        console.log('Preparing userId, clientId and projectId...');
+        const projectsData = await prisma.project.findMany({
+            where: { userId: user.id },
+            include: { client: true },
+        });
+        const projectsByTitle = projectsData.reduce((acc, project) => {
+            const clientName = project.client!.name;
+            const projectTitle = project.name;
+
+            if (!acc[clientName]) {
+                acc[clientName] = {};
+            }
+
+            acc[clientName][projectTitle] = {
+                projectId: project.id,
+                clientId: project.clientId,
+                userId: project.userId,
+            };
+
+            return acc;
+        }, {});
+        console.log('Project IDs mapped.');
+
+        console.log('Begin seeding tasks...');
+        const seedTasksData = getTasks(projectsByTitle);
+        await prisma.task.createMany({
+            data: seedTasksData,
+        });
+        console.log('Tasks seeded.');
+
+        console.log('Begin seeding events...');
+        const seedEventsData = getEvents(projectsByTitle);
+        await prisma.event.createMany({
+            data: seedEventsData,
+        });
+        console.log('Events seeded.');
+
+        console.log('Begin seeding files...');
+        const seedFilesData = getFiles(projectsByTitle);
+        await prisma.file.createMany({
+            data: seedFilesData,
+        });
+        console.log('Files seeded.');
+
+        console.log('Begin seeding sales doc...');
+        const seedSalesDocData = getSalesDocs(projectsByTitle);
+        for (const salesDoc of seedSalesDocData) {
+            const { items, ...rest } = salesDoc;
+            await prisma.salesDocument.create({
+                data: {
+                    items: {
+                        createMany: {
+                            data: items,
+                        },
+                    },
+                    ...rest,
+                },
+            });
+        }
+        console.log('Sales doc seeded.');
+
+        console.log('Finished seeding all data related to user.');
+        return user;
     } catch (error) {
         console.error('Error during seeding operation:', error);
         if (user && user.id) {
