@@ -211,26 +211,22 @@ export async function seedDemoUser(s3Config: S3Config) {
 
         console.log('Begin seeding sales doc...');
         const seedSalesDocData = getSalesDocs(projectsByTitle);
-        await Promise.all(
-            seedSalesDocData.map(async ({ items, ...salesDocData }) => {
-                const salesDoc = await prisma.salesDocument.create({
-                    data: salesDocData,
-                });
-                const salesDocItemDataWithParentId = items.map((item: any) => {
-                    return {
-                        ...item,
-                        parentDocumentId: salesDoc.id,
-                    };
-                });
-                console.log(
-                    'salesDocItemDataWithParentId',
-                    salesDocItemDataWithParentId,
-                );
+        for (const { items, ...salesDocData } of seedSalesDocData) {
+            const salesDoc = await prisma.salesDocument.create({
+                data: salesDocData,
+            });
+
+            if (items.length > 0) {
+                const salesDocItems = items.map((item: any) => ({
+                    ...item,
+                    parentDocumentId: salesDoc.id,
+                }));
+
                 await prisma.salesDocumentItem.createMany({
-                    data: salesDocItemDataWithParentId,
+                    data: salesDocItems,
                 });
-            }),
-        );
+            }
+        }
         console.log('Sales doc seeded.');
 
         console.log('Finished seeding all data related to user.');
