@@ -97,11 +97,14 @@ export class EventsService {
                 clientId: filter.clientId,
             };
 
-            const [total, items] = await Promise.all([
+            const [unfilteredTotal, total, items] = await Promise.all([
+                this.prismaService.event.count({
+                    where: { userId }, 
+                }),
                 this.prismaService.event.count({ where }),
                 this.prismaService.event.findMany({
                     where,
-                    take: filter.take ? filter.take : 25,
+                    take: filter.take ?? 25,
                     orderBy: {
                         dueAt: filter.status === 'scheduled' ? 'asc' : 'desc',
                     },
@@ -116,7 +119,7 @@ export class EventsService {
                 }),
             ]);
 
-            return { items, total };
+            return { items, total, unfilteredTotal };
         } catch (e) {
             console.log('e', e);
             throw new InternalServerErrorException('Failed to find events');

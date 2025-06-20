@@ -71,8 +71,8 @@ export class PartnerContactService {
                     : undefined,
             };
 
-            const [unfilteredTotal,total, items] = await Promise.all([
-                this.prismaService.partnerContact.count(),
+            const [unfilteredTotal, total, items] = await Promise.all([
+                this.prismaService.partnerContact.count({ where: { userId } }),
                 this.prismaService.partnerContact.count({ where }),
                 this.prismaService.partnerContact.findMany({
                     where,

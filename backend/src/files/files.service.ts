@@ -71,7 +71,7 @@ export class FilesService {
             };
 
             const [unfilteredTotal, total, items] = await Promise.all([
-                this.prisma.file.count(),
+                this.prisma.file.count({where: {userId}}),
                 this.prisma.file.count({ where }),
                 this.prisma.file.findMany({
                     where,

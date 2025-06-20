@@ -53,7 +53,7 @@ export class ClientsService {
             };
 
             const [unfilteredTotal,total, items] = await Promise.all([
-                this.prismaService.client.count(),
+                this.prismaService.client.count({where: {userId}}),
                 this.prismaService.client.count({ where }),
                 this.prismaService.client.findMany({
                     where,

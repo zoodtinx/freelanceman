@@ -142,8 +142,6 @@ export class ProjectsService {
                 }),
             ]);
 
-            console.log('total', total);
-
             return { items, total, unfilteredTotal };
         } catch {
             throw new InternalServerErrorException('Failed to find projects');

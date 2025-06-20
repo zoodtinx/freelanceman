@@ -14,10 +14,10 @@ export class TasksService {
     constructor(private prismaService: PrismaService) {}
 
     async create(userId: string, createTaskDto: CreateTaskDto) {
-        const {projectId, clientId, ...taskData} = createTaskDto
-        console.log('clientId', clientId)
+        const { projectId, clientId, ...taskData } = createTaskDto;
+        console.log('clientId', clientId);
         try {
-            let clientId: any
+            let clientId: any;
 
             if (projectId) {
                 const project = await this.prismaService.project.findUnique({
@@ -27,7 +27,7 @@ export class TasksService {
 
                 if (!project) throw new Error('Project not found');
 
-                clientId = project.clientId
+                clientId = project.clientId;
             }
 
             const result = await this.prismaService.task.create({
@@ -35,24 +35,28 @@ export class TasksService {
                     ...taskData,
                     user: {
                         connect: {
-                            id: userId
-                        }
+                            id: userId,
+                        },
                     },
-                    project: projectId ? {
-                        connect: {
-                            id: projectId
-                        }
-                    } : undefined,
-                    client: clientId ? {
-                        connect: {
-                            id: clientId
-                        }
-                    } : undefined
+                    project: projectId
+                        ? {
+                              connect: {
+                                  id: projectId,
+                              },
+                          }
+                        : undefined,
+                    client: clientId
+                        ? {
+                              connect: {
+                                  id: clientId,
+                              },
+                          }
+                        : undefined,
                 },
             });
             return result;
         } catch (error) {
-            console.log('error', error)
+            console.log('error', error);
             if (
                 error instanceof Prisma.PrismaClientKnownRequestError &&
                 error.code === 'P2002'
@@ -70,26 +74,27 @@ export class TasksService {
         try {
             const where = {
                 userId: userId,
-                name: filter.name ? {
-                    contains: filter.name,
-                    mode: 'insensitive' as const,
-                } : undefined,
+                name: filter.name
+                    ? {
+                          contains: filter.name,
+                          mode: 'insensitive' as const,
+                      }
+                    : undefined,
                 status: filter.status,
                 dueAt: filter.dueAt,
                 projectId: filter.projectId ? filter.projectId : undefined,
-                clientId: filter.clientId ? filter.clientId: undefined,
+                clientId: filter.clientId ? filter.clientId : undefined,
             };
 
-            const [total, items] = await Promise.all([
+            const [unfilteredTotal, total, items] = await Promise.all([
+                this.prismaService.task.count({ where: { userId } }),
                 this.prismaService.task.count({ where }),
                 this.prismaService.task.findMany({
                     where,
-                    take: filter.take ? filter.take : 30,
+                    take: filter.take ?? 30,
                     orderBy: { dueAt: 'asc' },
                     include: {
-                        project: {
-                            select: { id: true, name: true },
-                        },
+                        project: { select: { id: true, name: true } },
                         client: {
                             select: { id: true, name: true, themeColor: true },
                         },
@@ -97,7 +102,7 @@ export class TasksService {
                 }),
             ]);
 
-            return { items, total };
+            return { items, total, unfilteredTotal };
         } catch {
             throw new InternalServerErrorException('Failed to find tasks');
         }
@@ -119,13 +124,13 @@ export class TasksService {
     }
 
     async update(userId: string, taskId: string, editTaskDto: EditTaskDto) {
-        const cleanDto = removeUndefined(editTaskDto)
+        const cleanDto = removeUndefined(editTaskDto);
         try {
             await this.prismaService.task.update({
                 where: { id: taskId, userId },
                 data: cleanDto,
             });
-            return await this.findOne(userId, taskId)
+            return await this.findOne(userId, taskId);
         } catch (error) {
             throw new InternalServerErrorException('Failed to update task');
         }
