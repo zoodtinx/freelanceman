@@ -7,4 +7,5 @@ export interface ListProps<T> {
    page?: string;
    loader?: 'skeleton' | 'spinner'
    className?: string
+   setIsFetching?: (value: boolean) => void
 }

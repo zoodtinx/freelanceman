@@ -13,6 +13,7 @@ import { EventFilterDto, ProjectFindOneResponse } from 'freelanceman-common';
 const ProjectEventSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    project,
 }) => {
+   const [isFetching, setIsFetching] = useState(false)
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -73,6 +74,7 @@ const ProjectEventSection: React.FC<{ project: ProjectFindOneResponse }> = ({
                setFilter={setEventFilter}
                loader='spinner'
                page='project-page'
+               setIsFetching={setIsFetching}
             />
          </div>
       </div>

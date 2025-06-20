@@ -12,23 +12,12 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
-   console.log('mode', mode)
    const [isLoading, setIsLoading] = useState(false);
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
    const { accessToken, setAccessToken } = useAuthStore();
    const navigate = useNavigate();
-   const isOnAuthPages =
-            pathSections.includes('user') || !pathSections.length;
-
-
-
-const allKeys = useQueryClient()
-  .getQueryCache()        // grab cache
-  .getAll()               // every Query instance
-  .map(q => q.queryKey);  // pluck keys
-
-  console.log('allKeys', allKeys)
+   const isOnAuthPages = pathSections.includes('user') || !pathSections.length;
 
    useEffect(() => {
       const refreshAccess = async () => {
@@ -77,7 +66,7 @@ const allKeys = useQueryClient()
       );
    }
 
-   return <Outlet/>;
+   return <Outlet />;
 };
 
 export default RootPage;

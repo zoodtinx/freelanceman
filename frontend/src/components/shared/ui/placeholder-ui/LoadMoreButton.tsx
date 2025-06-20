@@ -11,7 +11,12 @@ const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({
    loadMoreFn,
 }) => {
    if (isLoading) {
-      return <Loader2 className="animate-spin h-6 w-6" />;
+      return (
+         <div className="h-6 flex items-center gap-1">
+            <Loader2 className="animate-spin h-5 w-5" />
+            {/* <p>Loading</p> */}
+         </div>
+      );
    }
 
    return (

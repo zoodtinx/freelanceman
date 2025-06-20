@@ -5,7 +5,6 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useDeleteEvent, useEventsQuery } from '@/lib/api/event-api';
 import {
    ApiErrorPlaceHolder,
-   NoDataPlaceHolder,
    LoadingPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { cn } from '@/lib/helper/utils';
@@ -17,7 +16,7 @@ import { EventFilterDto } from 'freelanceman-common';
 import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { format } from 'date-fns';
-import { Trash } from 'lucide-react';
+import { Loader2, Trash } from 'lucide-react';
 import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 export const EventList: React.FC<ListProps<EventFilterDto>> = ({
@@ -26,18 +25,28 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    setFilter,
    loader = 'skeleton',
    page,
+   setIsFetching
 }) => {
    const {
       data: eventsData,
       isLoading,
       isError,
       refetch,
+      isFetching
    } = useEventsQuery(filter);
+
+   useEffect(() => {
+      if (isFetching === true) {
+         setIsFetching(true)
+      } else  {
+         setIsFetching(false)
+      }
+   }, [isFetching])
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      if (!eventsData || eventsData?.items.length <= 25) {
+      if (!eventsData || eventsData?.items.length - 5 <= 25) {
          return;
       }
 
@@ -72,7 +81,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       return <SearchNotFoundPlaceholder>No project matched your search.</SearchNotFoundPlaceholder>;
    }
 
-   const groupedEvents = eventsData.items.reduce(
+   const groupedEvents = eventsData?.items?.reduce(
       (acc: any, event: EventFindManyItem) => {
          const date = format(event.dueAt ?? '', 'dd MMM yy');
 
@@ -85,7 +94,11 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       {} as Record<string, EventFindManyItem[]>
    );
 
-   const processedEvents = Object.keys(groupedEvents).map((date) => ({
+   if (!groupedEvents) {   //temporary workaround to fix null conversion to object
+      return
+   }
+
+   const processedEvents = Object.keys(groupedEvents)?.map((date) => ({
       date,
       events: groupedEvents[date],
    }));
@@ -123,13 +136,19 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    return (
       <ScrollArea className="flex flex-col h-0 grow">
+         {/* {isFetching && (
+            <div className="flex items-center justify-center w-full h-full absolute z-10">
+               <Loader2 className="animate-spin z-20" />
+               <div className='w-full h-full bg-white dark:bg-black absolute opacity-30' />
+            </div>
+         )} */}
          {page !== 'project-page' && <Separator className="sm:hidden" />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
             <div className="flex justify-center pt-3 pb-8">
                <LoadMoreButton
                   loadMoreFn={handleLoadMore}
-                  isLoading={isLoading}
+                  isLoading={isFetching}
                />
             </div>
          )}
@@ -146,7 +165,6 @@ const EventGroup = forwardRef<
    const date = formattedDate.split(' ')[1];
 
    const dueAt = new Date(eventGroupData.date);
-   console.log('eventGroupData.date', eventGroupData.date);
    const today = new Date();
    const isToday =
       dueAt.getDate() === today.getDate() &&

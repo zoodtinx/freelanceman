@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Loader2 } from 'lucide-react';
 import { defaultEventValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import { EventList } from '@/components/shared/ui/lists/EventList';
 import {
@@ -12,6 +12,7 @@ import { EventFilterDto } from 'freelanceman-common';
 import { cn } from '@/lib/helper/utils';
 
 export default function EventSection() {
+   const [isFetching, setIsFetching] = useState(false);
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -41,6 +42,11 @@ export default function EventSection() {
          >
             <div className="flex gap-1 items-center">
                <div className="flex items-end gap-1 sm:items-center">
+                  {/* {isFetching ? (
+                     <Loader2 className="w-[28px] h-auto sm:w-[22px] animate-spin" />
+                  ) : (
+                     <Calendar className="w-[28px] h-auto sm:w-[22px]" />
+                  )} */}
                   <Calendar className="w-[28px] h-auto sm:w-[22px]" />
                   <p className="text-xl leading-none mr-2 sm:text-lg">Events</p>
                </div>
@@ -56,7 +62,13 @@ export default function EventSection() {
                   <ToggleGroupItem value="completed">Past</ToggleGroupItem>
                </ToggleGroup>
             </div>
-            <AddButton onClick={handleNewEvent} />
+            {isFetching ? (
+               <div className="h-[33px] w-[33px] p-1">
+                  <Loader2 className="w-full h-full sm:w-[22px] animate-spin" />
+               </div>
+            ) : (
+               <AddButton onClick={handleNewEvent} />
+            )}
          </div>
          <EventList
             filter={eventFilter}
@@ -64,6 +76,7 @@ export default function EventSection() {
             addFn={handleNewEvent}
             page="action-page"
             className="px-2"
+            setIsFetching={setIsFetching}
          />
       </div>
    );

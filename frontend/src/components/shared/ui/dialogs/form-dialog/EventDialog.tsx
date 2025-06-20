@@ -18,6 +18,7 @@ import { CrudApi } from '@/lib/api/api.type';
 import { formatDueAt } from '@/components/shared/ui/helpers/Helpers';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsInputForm';
+import { useCreateEvent } from '@/lib/api/event-api';
 
 export const EventDialog = ({
    formMethods,
@@ -28,10 +29,14 @@ export const EventDialog = ({
    const { handleSubmit } = formMethods;
 
    //dialog state
-   const { formDialogState } = useFormDialogStore();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
 
    // api setup
-   const { createEvent, editEvent } = crudApi as CrudApi['event'];
+   const { editEvent } = crudApi as CrudApi['event'];
+
+   const createEvent = useCreateEvent({
+      enableOptimisticUpdate: true,
+   });
 
    // submit handler
    const onSubmit = (data: EventFindManyItem) => {
@@ -48,6 +53,12 @@ export const EventDialog = ({
             tags: data.tags,
          };
          createEvent.mutate(payload);
+         setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
       } else if (formDialogState.mode === 'edit') {
          const payload: EditEventDto = {
             id: data.id,
