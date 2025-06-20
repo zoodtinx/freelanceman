@@ -49,9 +49,17 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    if (isLoading) {
       if (loader == 'skeleton') {
-         return <EventListLoader />;
+         return (
+            <div className="px-2">
+               <EventListLoader />
+            </div>
+         );
       } else {
-         return <LoadingPlaceHolder />;
+         return (
+            <div className="px-2">
+               <LoadingPlaceHolder />
+            </div>
+         );
       }
    }
 
@@ -61,7 +69,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    if (!eventsData || eventsData.items.length === 0) {
       if (page === 'action-page') {
-         return <ActionPageEventListPlaceholder addFn={addFn} />
+         return <ActionPageEventListPlaceholder addFn={addFn} />;
       }
       return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
    }
@@ -117,7 +125,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    return (
       <ScrollArea className="flex flex-col h-0 grow">
-         {page !== 'project-page' && <Separator className='sm:hidden' />}
+         {page !== 'project-page' && <Separator className="sm:hidden" />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
             <div className="flex justify-center pt-3 pb-8">
@@ -131,58 +139,61 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    );
 };
 
-const EventGroup = forwardRef<HTMLDivElement, { eventGroupData: any, index:number }>(
-   ({ eventGroupData }, ref) => {
-      const formattedDate = formatDate(eventGroupData.date, 'SHORT');
-      const month = formattedDate.split(' ')[0].toUpperCase();
-      const date = formattedDate.split(' ')[1];
+const EventGroup = forwardRef<
+   HTMLDivElement,
+   { eventGroupData: any; index: number }
+>(({ eventGroupData }, ref) => {
+   const formattedDate = formatDate(eventGroupData.date, 'SHORT');
+   const month = formattedDate.split(' ')[0].toUpperCase();
+   const date = formattedDate.split(' ')[1];
 
-      const dueAt = new Date(eventGroupData.date);
-      console.log('eventGroupData.date', eventGroupData.date);
-      const today = new Date();
-      const isToday =
-         dueAt.getDate() === today.getDate() &&
-         dueAt.getMonth() === today.getMonth() &&
-         dueAt.getFullYear() === today.getFullYear();
-      const isPastDue = new Date() > dueAt;
-      const isScheduled = new Date() < dueAt;
+   const dueAt = new Date(eventGroupData.date);
+   console.log('eventGroupData.date', eventGroupData.date);
+   const today = new Date();
+   const isToday =
+      dueAt.getDate() === today.getDate() &&
+      dueAt.getMonth() === today.getMonth() &&
+      dueAt.getFullYear() === today.getFullYear();
+   const isPastDue = new Date() > dueAt;
+   const isScheduled = new Date() < dueAt;
 
+   const events = eventGroupData.events.map(
+      (data: EventFindManyItem, index: number) => {
+         return (
+            <React.Fragment key={data.id}>
+               <EventListItem data={data} />
+               {index !== eventGroupData.events.length - 1 && (
+                  <div className="border-[0.5px] border-tertiary border-dotted" />
+               )}
+            </React.Fragment>
+         );
+      }
+   );
 
-      const events = eventGroupData.events.map(
-         (data: EventFindManyItem, index: number) => {
-            return (
-               <React.Fragment key={data.id}>
-                  <EventListItem data={data} />
-                  {index !== eventGroupData.events.length - 1 && (
-                     <div className="border-[0.5px] border-tertiary border-dotted" />
-                  )}
-               </React.Fragment>
-            );
-         }
-      );
-
-      return (
-         <div className={cn("flex w-full cursor-default border-b border-tertiary")} ref={ref}>
-            <div
-               className={`flex flex-col w-14 min-h-14 grow items-center text-center leading-tight justify-start
+   return (
+      <div
+         className={cn('flex w-full cursor-default border-b border-tertiary')}
+         ref={ref}
+      >
+         <div
+            className={`flex flex-col w-14 min-h-14 grow items-center text-center leading-tight justify-start
                            aspect-square bg-foreground relative border-r border-r-tertiary`}
-            >
-               <p className="text-md font-normal pt-3">{date}</p>
-               <p className="text-sm">{month}</p>
-               <div
-                  className={cn(
-                     'absolute w-full h-full',
-                     isPastDue && 'bg-background opacity-70',
-                     isScheduled && 'bg-general-blue opacity-10',
-                     isToday && 'bg-general-red opacity-5 dark:opacity-20'
-                  )}
-               />
-            </div>
-            <div className="flex flex-col w-full">{events}</div>
+         >
+            <p className="text-md font-normal pt-3">{date}</p>
+            <p className="text-sm">{month}</p>
+            <div
+               className={cn(
+                  'absolute w-full h-full',
+                  isPastDue && 'bg-background opacity-70',
+                  isScheduled && 'bg-general-blue opacity-10',
+                  isToday && 'bg-general-red opacity-5 dark:opacity-20'
+               )}
+            />
          </div>
-      );
-   }
-);
+         <div className="flex flex-col w-full">{events}</div>
+      </div>
+   );
+});
 
 EventGroup.displayName = 'EventGroup';
 
@@ -190,7 +201,7 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-   
+
    const formattedTime = formatTime(data.dueAt ?? '');
 
    const handleOpenDialog = () => {

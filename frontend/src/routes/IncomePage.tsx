@@ -405,6 +405,8 @@ const DocumentButton = ({
       (doc) => doc.category === type
    );
 
+   if (salesDocumentData?.s3Key) {console.log('salesDocumentData', salesDocumentData?.s3Key)}
+
    if (haveDocument) {
       return (
          <EditDocumentButton

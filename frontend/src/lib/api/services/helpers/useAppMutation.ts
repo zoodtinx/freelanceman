@@ -1,3 +1,4 @@
+import { refreshAccess as apiRefreshAccess } from '@/lib/api/auth-api';
 import {
    MutationCallbacks,
    MutationHandler,
@@ -47,12 +48,17 @@ export const useAppMutation = <T>(
       onSuccess: () => {
          successCallback && successCallback();
       },
-      onError: (err: Error, _payload, context: any) => {
+      onError: async (err: Error, _payload, context: any) => {
          if (optimisticUpdate?.enable && context?.previousData) {
             queryClient.setQueryData([mutationKey], context.previousData);
          }
          if (err.message === 'Unauthorized') {
-            navigate('/welcome');
+            const result = await apiRefreshAccess();
+            if (!result.success) {
+               navigate('/welcome');
+               return false;
+            }
+            return;
          } else {
             errorCallback && errorCallback(err);
          }

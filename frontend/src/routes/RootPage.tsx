@@ -20,6 +20,7 @@ const RootPage: React.FC = () => {
    const isOnAuthPages =
             pathSections.includes('user') || !pathSections.length;
 
+
    useEffect(() => {
       const refreshAccess = async () => {
          setIsLoading(true);

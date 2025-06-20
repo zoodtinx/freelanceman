@@ -107,12 +107,15 @@ export class ClientContactService {
     }
 
     async update(userId: string, editClientContactDto: EditClientContactDto) {
-        const {id, ...contactData} = editClientContactDto
+        const { id, ...rest } = editClientContactDto;
+        const data = Object.fromEntries(
+            Object.entries(rest).filter(([, v]) => v !== undefined),
+        );
         try {
             await this.prismaService.clientContact.update({
                 where: { id, userId },
                 data: {
-                    ...contactData
+                    ...data,
                 },
             });
             return this.findOne(userId, id);

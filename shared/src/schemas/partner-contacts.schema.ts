@@ -1,89 +1,93 @@
 import { z } from 'zod';
-import { optionalString, optionalNumber } from './helper/optional';
+import {
+  nullableStringField,
+  optionalNumberField,
+  optionalStringField,
+} from './helper/crudPreprocessor';
 
 export const partnerContactCoreSchema = z.object({
-    id: z.string().uuid(),
-    userId: z.string().uuid(),
-    name: z.string(),
-    company: optionalString().optional(),
-    role: optionalString().optional(),
-    phoneNumber: optionalString().optional(),
-    email: optionalString().optional(),
-    details: optionalString().optional(),
-    avatar: optionalString().optional(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+  id: z.string(),
+  userId: z.string(),
+  name: z.string(),
+  company: nullableStringField(),
+  role: nullableStringField(),
+  phoneNumber: nullableStringField(),
+  email: nullableStringField(),
+  details: nullableStringField(),
+  avatar: nullableStringField(),
+  createdAt: nullableStringField(),
+  updatedAt: nullableStringField(),
 });
 export type PartnerContactCore = z.infer<typeof partnerContactCoreSchema>;
 
 export const createPartnerContactSchema = z.object({
-    name: z.string().min(1),
-    company: optionalString().optional(),
-    role: optionalString().optional(),
-    phoneNumber: optionalString().optional(),
-    email: optionalString().optional(),
-    detail: optionalString().optional(),
-    avatar: optionalString().optional(),
+  name: z.string().min(1),
+  company: nullableStringField(),
+  role: nullableStringField(),
+  phoneNumber: nullableStringField(),
+  email: nullableStringField(),
+  details: nullableStringField(),
+  avatar: nullableStringField(),
 });
 export type CreatePartnerContactDto = z.infer<
-    typeof createPartnerContactSchema
+  typeof createPartnerContactSchema
 >;
 
 export const editPartnerContactSchema = z.object({
-    id: z.string(),
-    name: z.string().min(1).optional(),
-    company: optionalString().optional(),
-    role: optionalString().optional(),
-    phoneNumber: optionalString().optional(),
-    email: optionalString().optional(),
-    detail: optionalString().optional(),
-    avatar: optionalString().optional(),
+  id: z.string(),
+  name: optionalStringField(),
+  company: nullableStringField(),
+  role: nullableStringField(),
+  phoneNumber: nullableStringField(),
+  email: nullableStringField(),
+  details: nullableStringField(),
+  avatar: nullableStringField(),
 });
 export type EditPartnerContactDto = z.infer<typeof editPartnerContactSchema>;
 
 export const partnerContactFilterSchema = z.object({
-    name: optionalString(),
-    role: optionalString(),
-    company: optionalString(),
-    projectId: optionalString(),
-    take: optionalNumber(),
+  name: optionalStringField(),
+  role: optionalStringField(),
+  company: optionalStringField(),
+  projectId: optionalStringField(),
+  take: optionalNumberField(),
 });
 export type PartnerContactFilterDto = z.infer<
-    typeof partnerContactFilterSchema
+  typeof partnerContactFilterSchema
 >;
 
 export const createPartnerContactResponseSchema = partnerContactCoreSchema;
 export type CreatePartnerContactResponse = z.infer<
-    typeof createPartnerContactResponseSchema
+  typeof createPartnerContactResponseSchema
 >;
 
 export const partnerContactFindManyItemSchema = partnerContactCoreSchema;
 export type PartnerContactFindManyItem = z.infer<
-    typeof partnerContactFindManyItemSchema
+  typeof partnerContactFindManyItemSchema
 >;
 
 export const partnerContactFindManyResponseSchema = z.object({
-    items: z.array(partnerContactFindManyItemSchema),
-    total: z.number(),
-    unfilteredTotal: z.number(),
+  items: z.array(partnerContactFindManyItemSchema),
+  total: z.number(),
+  unfilteredTotal: z.number(),
 });
 export type PartnerContactFindManyResponse = z.infer<
-    typeof partnerContactFindManyResponseSchema
+  typeof partnerContactFindManyResponseSchema
 >;
 
 export const partnerContactFindOneResponseSchema = partnerContactCoreSchema;
 export type PartnerContactFindOneResponse = z.infer<
-    typeof partnerContactFindOneResponseSchema
+  typeof partnerContactFindOneResponseSchema
 >;
 
 export const updatePartnerContactResponseSchema = partnerContactCoreSchema;
 export type UpdatePartnerContactResponse = z.infer<
-    typeof updatePartnerContactResponseSchema
+  typeof updatePartnerContactResponseSchema
 >;
 
 export const removePartnerContactResponseSchema = z.object({
-    success: z.boolean(),
+  success: z.boolean(),
 });
 export type RemovePartnerContactResponse = z.infer<
-    typeof removePartnerContactResponseSchema
+  typeof removePartnerContactResponseSchema
 >;

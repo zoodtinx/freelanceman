@@ -92,8 +92,6 @@ const CardContent: React.FC<CardContentProps> = ({
       }
    };
 
-   console.log('imageUrl', imageUrl)
-
    return (
       <div className="flex flex-col items-center w-full" onClick={handleClick}>
          <div className="flex flex-col gap-3 items-center">

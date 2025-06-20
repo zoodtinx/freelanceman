@@ -18,7 +18,6 @@ export const useAppQuery = (
       queryKey,
       queryFn: () => queryFn(accessToken),
       enabled: Boolean(accessToken) && enabled,
-      placeholderData: keepPreviousData,
       retry: 0,
    });
 

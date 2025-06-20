@@ -1,53 +1,57 @@
 import { z } from 'zod';
-import { optionalString } from './helper/optional';
 import { clientCoreSchema } from './clients.schema';
+import {
+    nullableStringField,
+    optionalNumberField,
+    optionalStringField,
+} from './helper/crudPreprocessor';
 
 export const clientContactCoreSchema = z.object({
-    id: z.string().uuid(),
-    userId: z.string().uuid(),
+    id: z.string(),
+    userId: z.string(),
     name: z.string(),
-    role: optionalString().optional(),
-    phoneNumber: optionalString().optional(),
-    email: optionalString().optional(),
-    details: optionalString().optional(),
-    avatar: optionalString().optional(),
-    companyId: z.string().uuid(),
-    createdAt: z.date(),
-    updatedAt: z.date().nullable(),
+    role: nullableStringField(),
+    phoneNumber: nullableStringField(),
+    email: nullableStringField(),
+    details: nullableStringField(),
+    avatar: nullableStringField(),
+    companyId: z.string(),
+    createdAt: nullableStringField(),
+    updatedAt: nullableStringField(),
 });
 export type ClientContactCore = z.infer<typeof clientContactCoreSchema>;
 
 export const createClientContactSchema = z.object({
-    name: z.string().min(1),
-    role: optionalString().optional(),
-    phoneNumber: optionalString().optional(),
-    email: optionalString().optional(),
-    details: optionalString().optional(),
-    avatar: optionalString().optional(),
-    companyId: z.string().uuid(),
+    name: z.string().min(1), // not allow empty string
+    role: nullableStringField(),
+    phoneNumber: nullableStringField(),
+    email: nullableStringField(),
+    details: nullableStringField(),
+    avatar: nullableStringField(),
+    companyId: z.string(),
 });
 export type CreateClientContactDto = z.infer<typeof createClientContactSchema>;
 
 export const editClientContactSchema = z.object({
     id: z.string(),
-    name: z.string().min(1).optional(),
-    role: optionalString().optional(),
-    phoneNumber: optionalString().optional(),
-    email: optionalString().optional(),
-    details: optionalString().optional(),
-    avatar: optionalString().optional(),
-    companyId: z.string().uuid().optional(),
+    name: nullableStringField(),
+    role: nullableStringField(),
+    phoneNumber: nullableStringField(),
+    email: nullableStringField(),
+    details: nullableStringField(),
+    avatar: nullableStringField(),
+    companyId: optionalStringField(),
 });
 export type EditClientContactDto = z.infer<typeof editClientContactSchema>;
 
 export const clientContactFilterSchema = z.object({
-    id: optionalString(),
-    name: optionalString(),
-    companyId: optionalString(),
-    email: optionalString(),
-    phoneNumber: optionalString(),
-    projectId: optionalString(),
-    take: z.number().int().optional(),
+    id: optionalStringField(),
+    name: optionalStringField(),
+    companyId: optionalStringField(),
+    email: optionalStringField(),
+    phoneNumber: optionalStringField(),
+    projectId: optionalStringField(),
+    take: optionalNumberField(),
 });
 export type ClientContactFilterDto = z.infer<typeof clientContactFilterSchema>;
 

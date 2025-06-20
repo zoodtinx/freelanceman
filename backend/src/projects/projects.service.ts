@@ -7,15 +7,18 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Prisma } from '@prisma/client';
 import { getTimezonedDate } from '@/shared/helper/timezoned-date';
-import { CreateProjectDto, EditProjectDto, ProjectFilterDto } from 'freelanceman-common';
-
+import {
+    CreateProjectDto,
+    EditProjectDto,
+    ProjectFilterDto,
+} from 'freelanceman-common';
 
 @Injectable()
 export class ProjectsService {
     constructor(private prismaService: PrismaService) {}
 
     async create(userId: string, createProjectDto: CreateProjectDto) {
-        const {clientId, ...projectData} = createProjectDto
+        const { clientId, ...projectData } = createProjectDto;
         try {
             const result = await this.prismaService.project.create({
                 data: {
@@ -23,16 +26,18 @@ export class ProjectsService {
                     user: {
                         connect: { id: userId },
                     },
-                    client: clientId ?  {
-                        connect: {
-                            id: clientId
-                        },
-                    } : undefined,
+                    client: clientId
+                        ? {
+                              connect: {
+                                  id: clientId,
+                              },
+                          }
+                        : undefined,
                 },
             });
             return result;
         } catch (error) {
-            console.log('error', error)
+            console.log('error', error);
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2002') {
                     throw new BadRequestException(
@@ -46,7 +51,6 @@ export class ProjectsService {
     }
 
     async findSelections(userId: string, filter: ProjectFilterDto) {
-        console.log('trigged');
         try {
             const projects = await this.prismaService.project.findMany({
                 where: {
@@ -102,7 +106,11 @@ export class ProjectsService {
             };
 
             const [unfilteredTotal, total, items] = await Promise.all([
-                this.prismaService.project.count(),
+                this.prismaService.project.count({
+                    where: {
+                        userId: userId,
+                    },
+                }),
                 this.prismaService.project.count({ where }),
                 this.prismaService.project.findMany({
                     where,
@@ -184,11 +192,14 @@ export class ProjectsService {
                 });
             }
 
+            const filteredDto = Object.fromEntries(
+                Object.entries(dto).filter(([_, v]) => v !== undefined),
+            );
+
             const result = await this.prismaService.project.update({
                 where: { id: projectId, userId },
                 data: {
-                    ...dto,
-                    note: dto.note,
+                    ...filteredDto,
                     partnerContacts:
                         contacts?.contactType === 'partner'
                             ? {

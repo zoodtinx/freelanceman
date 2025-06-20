@@ -141,10 +141,13 @@ export class EventsService {
     }
 
     async update(userId: string, eventId: string, editEventDto: EditEventDto) {
+        const data = Object.fromEntries(
+            Object.entries(editEventDto).filter(([, v]) => v !== undefined),
+        );
         try {
             await this.prismaService.event.update({
                 where: { id: eventId, userId },
-                data: editEventDto,
+                data,
             });
             return await this.findOne(userId, eventId);
         } catch (error) {

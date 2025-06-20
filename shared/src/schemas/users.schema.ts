@@ -1,12 +1,11 @@
 import { z } from 'zod';
-import { optionalString } from './helper/optional';
+import { nullableStringField, optionalStringField } from './helper/crudPreprocessor';
 
 export const UserRoleEnum = z.enum(['user', 'admin']);
-export const UserCurrencyEnum = z.enum(['THB', 'USD', 'EUR']);
 
 export const visitingStatusCoreSchema = z.object({
-    id: z.string().uuid(),
-    userId: z.string().uuid(),
+    id: z.string(),
+    userId: z.string(),
     homePage: z.boolean(),
     actionsPage: z.boolean(),
     allClientsPage: z.boolean(),
@@ -19,41 +18,40 @@ export const visitingStatusCoreSchema = z.object({
 export type VisitingStatusCore = z.infer<typeof visitingStatusCoreSchema>;
 
 export const userCoreSchema = z.object({
-    id: z.string().uuid(),
+    id: z.string(),
     isDemo: z.boolean(),
     isFirstTimeVisitor: z.boolean(),
     displayName: z.string(),
     email: z.string().email(),
-    password: optionalString().optional(),
+    password: nullableStringField(),
     specialization: z.array(z.string()),
-    bio: optionalString().optional(),
+    bio: nullableStringField(),
     role: UserRoleEnum,
-    phoneNumber: optionalString().optional(),
-    address: optionalString().optional(),
-    avatar: optionalString().optional(),
+    phoneNumber: nullableStringField(),
+    address: nullableStringField(),
+    avatar: nullableStringField(),
     pinnedProjects: z.array(z.string()),
-    currency: UserCurrencyEnum,
-    taxId: optionalString().optional(),
+    currency: z.string(),
+    taxId: nullableStringField(),
     quitting: z.boolean(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: nullableStringField(),
+    updatedAt: nullableStringField(),
 });
 export type UserCore = z.infer<typeof userCoreSchema>;
 
 export const editUserSchema = z.object({
     id: z.string(),
-    displayName: z.string().optional(),
-    email: z.string().email().optional(),
-    password: optionalString().optional(),
+    displayName: optionalStringField(),
+    email: optionalStringField(),
     specialization: z.array(z.string()).optional(),
-    bio: optionalString().optional(),
+    bio: nullableStringField(),
     role: UserRoleEnum.optional(),
-    phoneNumber: optionalString().optional(),
-    address: optionalString().optional(),
-    avatar: optionalString().optional(),
+    phoneNumber: nullableStringField(),
+    address: nullableStringField(),
+    avatar: nullableStringField(),
     pinnedProjects: z.array(z.string()).optional(),
-    currency: UserCurrencyEnum.optional(),
-    taxId: optionalString().optional(),
+    currency: optionalStringField(),
+    taxId: nullableStringField(),
     quitting: z.boolean().optional(),
 });
 export type EditUserDto = z.infer<typeof editUserSchema>;

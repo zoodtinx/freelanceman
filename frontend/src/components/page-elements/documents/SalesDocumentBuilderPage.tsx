@@ -69,6 +69,7 @@ const SalesDocumentBuilderPage = ({
    // --- Mutations ---
    const createSalesDoc = useCreateSalesDocument({
       errorCallback: () => {
+         toast.dismiss()
          toast.error(`Error creating ${capitalizeFirstChar(category!)}`);
       },
       successCallback: () => {
@@ -102,10 +103,11 @@ const SalesDocumentBuilderPage = ({
       },
    });
 
-   console.log('deleteSalesDoc', deleteSalesDoc)
-
    const createPdf = useCreatePdf({
-      errorCallback: () => toast.error(`Error creating PDF`),
+      errorCallback: () => {
+         toast.dismiss();
+         toast.error(`Error creating PDF`);
+      },
       successCallback: () => toast.success(`PDF Created`),
    });
 
@@ -181,9 +183,9 @@ const SalesDocumentBuilderPage = ({
    const handleCreatePdf = async (e: React.MouseEvent) => {
       e.preventDefault();
       setIsApiLoading({ type: 'delete', isLoading: true });
-      toast.loading('Creating PDF (this might take a while)', { id: 'loader' });
+      toast.loading('Creating PDF (this might take a while)');
       const result = await createPdf.mutateAsync(salesDocumentData);
-      toast.dismiss('loader');
+      toast.dismiss();
       setIsApiLoading({ type: 'delete', isLoading: false });
       window.open(result.pdfUrl, '_blank');
    };

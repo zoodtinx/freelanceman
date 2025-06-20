@@ -57,7 +57,9 @@ export const ContactList = ({
    if (contacts?.total === 0) {
       if (contacts.unfilteredTotal === 0) {
          if (page === 'all-clients-page') {
-         return <ContactListPlaceholder addFn={addFn} />;
+         return <div className='px-2'>
+            <ContactListPlaceholder addFn={addFn} />
+         </div>;
       } else {
          return <NoDataPlaceHolder addFn={addFn} children='Add a contact'  />
       }

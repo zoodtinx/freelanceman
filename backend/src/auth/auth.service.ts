@@ -81,7 +81,6 @@ export class LocalAuthService {
                 },
             });
 
-            console.log('result', user);
             const accessToken = this.jwtService.sign(
                 {
                     sub: user.id,
@@ -95,23 +94,25 @@ export class LocalAuthService {
                 },
             );
 
-            const refreshTokenRecord = await this.prismaService.refreshToken.upsert(
-            {
-                where: { userId: user.id },
-                update: {
-                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-                },
-                create: {
-                    userId: user.id,
-                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-                },
-            },
-        );
+            const refreshTokenRecord =
+                await this.prismaService.refreshToken.upsert({
+                    where: { userId: user.id },
+                    update: {
+                        expiresAt: new Date(
+                            Date.now() + 30 * 24 * 60 * 60 * 1000,
+                        ),
+                    },
+                    create: {
+                        userId: user.id,
+                        expiresAt: new Date(
+                            Date.now() + 30 * 24 * 60 * 60 * 1000,
+                        ),
+                    },
+                });
 
             return { accessToken, refreshToken: refreshTokenRecord };
         } catch (error) {
             await this.prismaService.user.delete({ where: { id: user?.id } });
-            console.log('error', error);
         }
     }
 
@@ -137,7 +138,7 @@ export class LocalAuthService {
                 },
                 create: {
                     userId: user.id,
-                    expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
                 },
             },
         );
@@ -160,7 +161,6 @@ export class LocalAuthService {
                 },
             });
         } catch (error) {
-            console.log('error', error)
             throw new InternalServerErrorException('Failed to log out');
         }
     }
@@ -205,8 +205,6 @@ export class LocalAuthService {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-
-            console.log('hashedPassword', hashedPassword);
 
             await this.prismaService.user.update({
                 where: { email },
@@ -265,15 +263,16 @@ export class TokenService {
     }
 
     async refreshAccessToken(oldRefreshToken: any) {
-        console.log('oldRefreshToken', oldRefreshToken);
         const refreshTokenData =
             await this.prismaService.refreshToken.findUnique({
                 where: { id: oldRefreshToken },
-                include: { user: {
-                    include: {
-                        visitingStatus: true
-                    }
-                } },
+                include: {
+                    user: {
+                        include: {
+                            visitingStatus: true,
+                        },
+                    },
+                },
             });
 
         if (!refreshTokenData) {
@@ -301,9 +300,12 @@ export class TokenService {
         // });
 
         const newAccessToken = this.jwtService.sign(
-            { sub: user.id, role: user.role },
             {
-                expiresIn: '15m',
+                sub: user.id,
+                role: user.role,
+            },
+            {
+                expiresIn: this.configService.get('jwt.accessTokenExpiresIn'),
                 secret: this.configService.get('jwt.accessTokenSecret'),
             },
         );
@@ -321,9 +323,7 @@ export class GoogleOAuthService {
     ) {}
 
     async login(dto: GoogleOAuthPayload) {
-        console.log('dto', dto)
-
-        const emailValue = dto.emails[0].value
+        const emailValue = dto.emails[0].value;
 
         try {
             let user;
@@ -331,8 +331,8 @@ export class GoogleOAuthService {
             user = await this.prisma.user.findFirst({
                 where: { email: emailValue },
                 include: {
-                    visitingStatus: true
-                }
+                    visitingStatus: true,
+                },
             });
 
             if (!user) {
@@ -344,24 +344,25 @@ export class GoogleOAuthService {
                 });
             }
 
-            console.log('user', user)
-
             const refreshToken = await this.prisma.refreshToken.upsert({
                 where: { userId: user.id },
                 update: {
-                    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
                 },
                 create: {
                     userId: user.id,
-                    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
                 },
             });
 
             const accessToken = this.jwt.sign(
-                { sub: user.id },
                 {
+                    sub: user.id,
+                    role: user.role,
+                },
+                {
+                    expiresIn: this.config.get('jwt.accessTokenExpiresIn'),
                     secret: this.config.get('jwt.accessTokenSecret'),
-                    expiresIn: '15m',
                 },
             );
 
@@ -374,7 +375,6 @@ export class GoogleOAuthService {
                 },
             };
         } catch (err) {
-            console.log('err', err)
             throw new InternalServerErrorException(
                 'Failed to login with Google',
             );

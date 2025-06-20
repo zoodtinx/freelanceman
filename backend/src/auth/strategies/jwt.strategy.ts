@@ -26,7 +26,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
 
     async validate(req: Request, payload: any) {
         if (!payload?.sub) {
-            console.error('JWT authentication failed');
             throw new UnauthorizedException('Invalid token payload');
         }
         return { id: payload.sub, role: payload.role };

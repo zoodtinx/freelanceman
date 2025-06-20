@@ -1,59 +1,64 @@
 import { z } from 'zod';
-import { optionalNumber, optionalString } from './helper/optional';
-import { projectCoreSchema } from './projects.schema';
-import { taskCoreSchema } from './tasks.schema';
-import { eventCoreSchema } from './events.schema';
+import {
+    nullableStringField,
+    optionalNumberField,
+    optionalStringField,
+} from './helper/crudPreprocessor';
+
 import { userCoreSchema } from './users.schema';
 import { clientContactCoreSchema } from './client-contacts.schema';
 import { fileCoreSchema } from './files.schema';
+import { taskCoreSchema } from './tasks.schema';
+import { eventCoreSchema } from './events.schema';
+import { projectCoreSchema } from './projects.schema';
 import { salesDocumentCoreSchema } from './sales-documents.schema';
 
 export const clientCoreSchema = z.object({
-    id: z.string().uuid(),
-    userId: z.string().uuid(),
+    id: z.string(),
+    userId: z.string(),
     name: z.string(),
-    taxId: optionalString(),
-    email: optionalString(),
-    phoneNumber: optionalString(),
-    address: optionalString(),
-    detail: optionalString(),
+    taxId: nullableStringField(),
+    email: nullableStringField(),
+    phoneNumber: nullableStringField(),
+    address: nullableStringField(),
+    detail: nullableStringField(),
     themeColor: z.string(),
-    note: optionalString(),
-    createdAt: z.date(),
-    updatedAt: z.date().nullable(),
+    note: nullableStringField(),
+    createdAt: nullableStringField(),
+    updatedAt: nullableStringField(),
 });
 export type ClientCore = z.infer<typeof clientCoreSchema>;
 
 export const createClientSchema = z.object({
     name: z.string().min(1),
-    taxId: optionalString(),
-    email: optionalString(),
-    phoneNumber: optionalString(),
-    address: optionalString(),
-    detail: optionalString(),
+    taxId: nullableStringField(),
+    email: nullableStringField(),
+    phoneNumber: nullableStringField(),
+    address: nullableStringField(),
+    detail: nullableStringField(),
     themeColor: z.string().min(1),
-    note: optionalString(),
+    note: nullableStringField(),
 });
 export type CreateClientDto = z.infer<typeof createClientSchema>;
 
 export const editClientSchema = z.object({
     id: z.string(),
     name: z.string().min(1),
-    taxId: optionalString(),
-    email: optionalString(),
-    phoneNumber: optionalString(),
-    address: optionalString(),
-    detail: optionalString(),
+    taxId: nullableStringField(),
+    email: nullableStringField(),
+    phoneNumber: nullableStringField(),
+    address: nullableStringField(),
+    detail: nullableStringField(),
     themeColor: z.string().min(1),
-    note: optionalString(),
+    note: nullableStringField(),
 });
 export type EditClientDto = z.infer<typeof editClientSchema>;
 
 export const clientFilterSchema = z.object({
-    name: optionalString(),
-    email: optionalString(),
-    phoneNumber: optionalString(),
-    take: optionalNumber(),
+    name: optionalStringField(),
+    email: optionalStringField(),
+    phoneNumber: optionalStringField(),
+    take: optionalNumberField(),
 });
 export type ClientFilterDto = z.infer<typeof clientFilterSchema>;
 
@@ -65,7 +70,7 @@ export type UpdateClientResponse = z.infer<typeof updateClientResponseSchema>;
 
 export const clientSelectionSchema = z.object({
     label: z.string(),
-    value: z.string().uuid(),
+    value: z.string(),
 });
 export type ClientSelection = z.infer<typeof clientSelectionSchema>;
 

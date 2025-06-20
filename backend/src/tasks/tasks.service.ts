@@ -7,6 +7,7 @@ import {
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { CreateTaskDto, EditTaskDto, TaskFilterDto } from 'freelanceman-common';
 import { Prisma } from '@prisma/client';
+import { removeUndefined } from '@/helpers/remove-undefined';
 
 @Injectable()
 export class TasksService {
@@ -117,13 +118,14 @@ export class TasksService {
         }
     }
 
-    async update(userId: string, taskId: string, EditTaskDto: EditTaskDto) {
+    async update(userId: string, taskId: string, editTaskDto: EditTaskDto) {
+        const cleanDto = removeUndefined(editTaskDto)
         try {
             await this.prismaService.task.update({
                 where: { id: taskId, userId },
-                data: EditTaskDto,
+                data: cleanDto,
             });
-            return await this.findOne(userId, taskId);
+            return await this.findOne(userId, taskId)
         } catch (error) {
             throw new InternalServerErrorException('Failed to update task');
         }

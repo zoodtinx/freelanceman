@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { EditUserDto } from 'freelanceman-common';
+import { removeUndefined } from '@/helpers/remove-undefined';
 
 @Injectable()
 export class UsersService {
@@ -28,10 +29,11 @@ export class UsersService {
     }
 
     async update(userId: string, editUserDto: EditUserDto) {
+        const cleanDto = removeUndefined(editUserDto)
         try {
             await this.prismaService.user.update({
                 where: { id: userId },
-                data: editUserDto,
+                data: cleanDto,
             });
             return await this.findOne(userId);
         } catch (error) {

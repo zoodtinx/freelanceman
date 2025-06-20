@@ -41,8 +41,6 @@ export const TaskDialog = ({
    // api setup
    const { createTask, editTask } = crudApi as CrudApi['task'];
 
-   console.log('id', formMethods.getValues('projectId'));
-
    // submit handler
    const onSubmit = async (data: TaskFindManyItem) => {
       if (data.dueAt) {
@@ -59,7 +57,6 @@ export const TaskDialog = ({
             link: data.link,
             status: data.status,
          } as CreateTaskDto;
-         console.log('payload', payload);
          await createTask.mutateAsync(payload);
          setFormDialogState((prev) => {
             return {

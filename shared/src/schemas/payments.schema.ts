@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { clientCoreSchema } from './clients.schema';
-import {
-    projectCoreSchema,
-    projectFilterSchema
-} from './projects.schema';
+import { projectCoreSchema, projectFilterSchema } from './projects.schema';
 import { salesDocumentCoreSchema } from './sales-documents.schema';
 
-const baseProjectFilterSchema = projectFilterSchema.omit({ paymentStatus: true });
+const baseProjectFilterSchema = projectFilterSchema.omit({
+    paymentStatus: true,
+});
+
 export const paymentFilterDtoSchema = baseProjectFilterSchema
     .extend({
         paymentStatus: z

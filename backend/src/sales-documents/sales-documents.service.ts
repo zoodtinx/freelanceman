@@ -10,6 +10,7 @@ import {
     SalesDocumentFilterDto,
     EditSalesDocumentDto,
     CreatePdfDto,
+    CreateSalesDocumentDto,
 } from 'freelanceman-common';
 import { S3Service } from 'src/shared/s3/s3.service';
 import { FilesService } from 'src/files/files.service';
@@ -25,15 +26,14 @@ export class SalesDocumentsService {
         private fileService: FilesService,
     ) {}
 
-    async create(mainUserId: string, createDto: CreatePdfDto) {
-        const { userId, ...dto } = createDto;
+    async create(userId: string, createDto: CreateSalesDocumentDto) {
         const documentTitle = `${createDto.projectTitle} ${createDto.category}`;
 
         try {
             const result = await this.prismaService.salesDocument.create({
                 data: {
-                    userId: mainUserId,
-                    ...dto,
+                    userId: userId,
+                    ...createDto,
                     title: documentTitle,
                     items: {
                         create: createDto.items.map((item) => ({
@@ -121,16 +121,19 @@ export class SalesDocumentsService {
 
             if (items && items.length > 0) {
                 await this.prismaService.salesDocumentItem.deleteMany({
-                    where: {
-                        parentDocumentId: documentId,
-                    },
+                    where: { parentDocumentId: documentId },
                 });
             }
+
+            // Remove undefined from dto
+            const cleanDto = Object.fromEntries(
+                Object.entries(dto).filter(([_, v]) => v !== undefined),
+            );
 
             const result = await this.prismaService.salesDocument.update({
                 where: { id: documentId, userId },
                 data: {
-                    ...dto,
+                    ...cleanDto,
                     items: items
                         ? {
                               create: items.map((item) => ({
@@ -144,6 +147,7 @@ export class SalesDocumentsService {
                         : undefined,
                 },
             });
+
             return result;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {

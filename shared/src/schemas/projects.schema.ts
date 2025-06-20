@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { optionalString, optionalNumber } from './helper/optional';
+import {
+    nullableStringField,
+    nullableUuidField,
+    optionalNumberField,
+    optionalStringField,
+} from './helper/crudPreprocessor';
 import { clientCoreSchema } from './clients.schema';
 import { taskCoreSchema } from './tasks.schema';
 import { clientContactCoreSchema } from './client-contacts.schema';
@@ -17,23 +22,23 @@ const linkSchema = z.object({
 export type ProjectLink = z.infer<typeof linkSchema>;
 
 export const projectCoreSchema = z.object({
-    id: z.string().uuid(),
+    id: z.string(),
     name: z.string(),
-    clientId: z.string().uuid().nullable(),
+    clientId: nullableUuidField(),
     budget: z.number().int(),
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
-    note: optionalString().optional(),
-    userId: z.string().uuid(),
+    note: nullableStringField(),
+    userId: z.string(),
     pinned: z.boolean(),
-    createdAt: z.string(),
-   updatedAt: z.string(),
+    createdAt: nullableStringField(),
+    updatedAt: nullableStringField(),
 });
 export type ProjectCore = z.infer<typeof projectCoreSchema>;
 
 export const createProjectSchema = z.object({
     name: z.string().min(1),
-    clientId: optionalString(),
+    clientId: nullableUuidField(),
     projectStatus: ProjectStatusEnum,
     paymentStatus: PaymentStatusEnum,
     budget: z.number().int().nonnegative(),
@@ -41,8 +46,8 @@ export const createProjectSchema = z.object({
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 
 export const editProjectSchema = z.object({
-    id: z.string().uuid(),
-    name: z.string().min(1).optional(),
+    id: z.string(),
+    name: nullableStringField().optional(),
     projectStatus: ProjectStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
@@ -53,28 +58,28 @@ export const editProjectSchema = z.object({
     contacts: z
         .object({
             contactType: z.enum(['client', 'partner']),
-            contacts: z.array(z.string().uuid()),
+            contacts: z.array(z.string()),
         })
         .optional(),
 
-    workingFiles: z.array(z.string().uuid()).optional(),
-    assetFiles: z.array(z.string().uuid()).optional(),
+    workingFiles: z.array(z.string()).optional(),
+    assetFiles: z.array(z.string()).optional(),
     links: z.array(linkSchema).optional().nullable(),
-    note: optionalString().optional(),
-    clientId: optionalString().optional(),
+    note: nullableStringField(),
+    clientId: optionalStringField(),
     budget: z.number().int().nonnegative().optional(),
     pinned: z.boolean().optional(),
 });
 export type EditProjectDto = z.infer<typeof editProjectSchema>;
 
 export const projectFilterSchema = z.object({
-    name: optionalString(),
-    projectId: optionalString(),
-    clientId: optionalString(),
-    contactId: optionalString(),
-    partnerId: optionalString(),
-    eventId: optionalString(),
-    taskId: optionalString(),
+    name: optionalStringField(),
+    projectId: optionalStringField(),
+    clientId: optionalStringField(),
+    contactId: optionalStringField(),
+    partnerId: optionalStringField(),
+    eventId: optionalStringField(),
+    taskId: optionalStringField(),
     projectStatus: ProjectStatusEnum.optional().transform((val) =>
         val === '' ? undefined : val
     ),
@@ -82,7 +87,7 @@ export const projectFilterSchema = z.object({
         val === '' ? undefined : val
     ),
     pinned: z.boolean().optional(),
-    take: optionalNumber(),
+    take: optionalNumberField(),
 });
 export type ProjectFilterDto = z.infer<typeof projectFilterSchema>;
 
@@ -91,7 +96,7 @@ export type CreateProjectResponse = z.infer<typeof createProjectResponseSchema>;
 
 export const projectSelectionSchema = z.object({
     label: z.string(),
-    value: z.string().uuid(),
+    value: z.string(),
 
     client: z
         .object({

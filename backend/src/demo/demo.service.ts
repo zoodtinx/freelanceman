@@ -67,6 +67,13 @@ export class DemoService {
         let refreshToken;
 
         try {
+            console.log('user.id', user.id)
+            const userInDb = await this.prismaService.user.findUnique({
+                where: {
+                    id: user.id
+                }
+            })
+            console.log('userInDb', userInDb)
             refreshToken = await this.prismaService.refreshToken.create({
                 data: {
                     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -76,6 +83,7 @@ export class DemoService {
             });
             console.log('created refresh token');
         } catch (error) {
+            console.log('error', error)
             throw new InternalServerErrorException(
                 'Failed to create refresh token',
             );

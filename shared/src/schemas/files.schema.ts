@@ -1,5 +1,11 @@
 import { z } from 'zod';
-import { optionalString, optionalNumber } from './helper/optional';
+import {
+    nullableStringField,
+    nullableNumberField,
+    nullableUuidField,
+    optionalNumberField,
+    optionalStringField,
+} from './helper/crudPreprocessor';
 import { clientCoreSchema } from './clients.schema';
 import { projectCoreSchema } from './projects.schema';
 
@@ -24,58 +30,58 @@ export const fileCategory = z.enum(['work', 'asset']);
 export type FileCategory = z.infer<typeof fileCategory>;
 
 export const fileCoreSchema = z.object({
-    id: z.string().uuid(),
-    originalName: optionalString().optional(),
+    id: z.string(),
+    originalName: nullableStringField(),
     name: z.string(),
     type: fileType,
     category: fileCategory,
-    link: optionalString().optional(),
-    s3Key: optionalString().optional(),
-    url: optionalString().optional(),
-    projectId: z.string().uuid().nullable(),
-    clientId: z.string().uuid().nullable(),
-    userId: z.string().uuid(),
-    size: z.number().int().optional(),
-    createdAt: optionalString(),
-    updatedAt: optionalString()
+    link: nullableStringField(),
+    s3Key: nullableStringField(),
+    url: nullableStringField(),
+    projectId: nullableUuidField(),
+    clientId: nullableUuidField(),
+    userId: z.string(),
+    size: nullableNumberField(),
+    createdAt: nullableStringField(),
+    updatedAt: nullableStringField(),
 });
 export type FileCore = z.infer<typeof fileCoreSchema>;
 
 export const createFileSchema = z.object({
-    originalName: optionalString().optional(),
+    originalName: nullableStringField(),
     name: z.string().min(1),
     type: fileType,
     category: fileCategory,
-    link: optionalString().optional(),
-    s3Key: optionalString().optional(),
-    url: optionalString().optional(),
-    projectId: z.string().uuid().optional(),
-    size: z.number().int().optional(),
+    link: nullableStringField(),
+    s3Key: nullableStringField(),
+    url: nullableStringField(),
+    projectId: nullableUuidField(),
+    size: nullableNumberField(),
 });
 export type CreateFileDto = z.infer<typeof createFileSchema>;
 
 export const editFileSchema = z.object({
     id: z.string(),
-    originalName: optionalString().optional(),
-    name: z.string().min(1).optional(),
-    type: fileType.optional(),
-    category: fileCategory.optional(),
-    link: optionalString().optional(),
-    s3Key: optionalString().optional(),
-    url: optionalString().optional(),
-    projectId: z.string().uuid().optional(),
-    clientId: z.string().uuid().optional(),
-    size: z.number().int().optional(),
+    originalName: nullableStringField(),
+    name: z.string().min(1),
+    type: fileType,
+    category: fileCategory,
+    link: nullableStringField(),
+    s3Key: nullableStringField(),
+    url: nullableStringField(),
+    projectId: nullableUuidField(),
+    clientId: nullableUuidField(),
+    size: nullableNumberField(),
 });
 export type EditFileDto = z.infer<typeof editFileSchema>;
 
 export const fileFilterSchema = z.object({
-    name: optionalString(),
-    type: fileType.optional(),
-    category: fileCategory.optional(),
-    clientId: optionalString(),
-    projectId: optionalString(),
-    take: optionalNumber(),
+    name: optionalStringField(),
+    type: fileType,
+    category: fileCategory,
+    clientId: optionalStringField(),
+    projectId: optionalStringField(),
+    take: optionalNumberField(),
 });
 export type FileFilterDto = z.infer<typeof fileFilterSchema>;
 
@@ -83,8 +89,8 @@ export const createFileResponseSchema = fileCoreSchema;
 export type CreateFileResponse = z.infer<typeof createFileResponseSchema>;
 
 export const fileFindManyItemSchema = fileCoreSchema.extend({
-    client: z.lazy(() => clientCoreSchema).nullable(),
-    project: z.lazy(() => projectCoreSchema).nullable(),
+    client: clientCoreSchema,
+    project: projectCoreSchema,
 });
 export type FileFindManyItem = z.infer<typeof fileFindManyItemSchema>;
 

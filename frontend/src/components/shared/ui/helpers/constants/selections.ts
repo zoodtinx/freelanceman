@@ -2,9 +2,7 @@
 
 export const taskStatusSelections = [
    { value: 'pending', label: 'Pending', color: 'bg-yellow-100' },
-   { value: 'inProgress', label: 'In Progress', color: 'bg-emerald-200' },
    { value: 'completed', label: 'Completed', color: 'bg-blue-100' },
-   { value: 'cancelled', label: 'Cancelled', color: 'bg-red-200' },
 ];
 
 

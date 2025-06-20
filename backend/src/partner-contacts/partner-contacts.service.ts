@@ -25,7 +25,6 @@ export class PartnerContactService {
                     role: dto.role,
                     phoneNumber: dto.phoneNumber,
                     email: dto.email,
-                    details: dto.detail ?? '',
                     avatar: dto.avatar ?? '',
                     userId,
                 },
@@ -118,7 +117,6 @@ export class PartnerContactService {
                     role: dto.role,
                     phoneNumber: dto.phoneNumber,
                     email: dto.email,
-                    details: dto.detail,
                     avatar: dto.avatar,
                 },
             });
