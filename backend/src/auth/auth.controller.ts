@@ -29,6 +29,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { DemoService } from '@/demo/demo.service';
+import { setRefreshTokenCookie, clearRefreshTokenCookie } from '@/auth/helper';
 
 @Controller('auth')
 export class AuthController {
@@ -49,23 +50,16 @@ export class AuthController {
     @Get('refresh')
     async refreshAccessToken(@Req() req: ExpressRequest) {
         const refreshToken = req.cookies?.refreshToken;
+        const isProd = this.configService.get<string>('env') === 'production';
 
         if (!refreshToken) {
             throw new UnauthorizedException('Refresh token is missing');
         }
 
-        const refreshResult =
+        const { newAccessToken, newRefreshToken, user } =
             await this.tokenService.refreshAccessToken(refreshToken);
-        const { newAccessToken, newRefreshToken, user } = refreshResult;
 
-        req.res?.cookie('refreshToken', newRefreshToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            priority: 'high',
-            path: '/',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        setRefreshTokenCookie(req.res!, newRefreshToken, isProd);
 
         req.res?.json({ accessToken: newAccessToken, user });
     }
@@ -75,18 +69,11 @@ export class AuthController {
     @HttpCode(200)
     @UsePipes(new ZodValidationPipe(loginDtoSchema))
     async login(@Req() req: Request) {
-        const loginResult = await this.localAuthService.login(req);
-        const { accessToken, refreshToken } = loginResult;
+        const { accessToken, refreshToken } =
+            await this.localAuthService.login(req);
+        const isProd = this.configService.get<string>('env') === 'production';
 
-        req.res?.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            priority: 'high',
-            domain: 'localhost',
-            path: '/',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        setRefreshTokenCookie(req.res!, refreshToken, isProd);
 
         return { accessToken };
     }
@@ -94,40 +81,22 @@ export class AuthController {
     @UseGuards(AuthGuard('jwt-access'))
     @Get('logout')
     async logOut(@Req() req: Request) {
+        const isProd = this.configService.get<string>('env') === 'production';
+
         await this.localAuthService.logOut(req);
 
-        req.res?.clearCookie('refreshToken', {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            domain: 'localhost',
-            path: '/',
-        });
-
-        return;
+        clearRefreshTokenCookie(req.res!, isProd);
     }
 
     @Post('register')
     @UsePipes(new ZodValidationPipe(registerUserDtoSchema))
-    async register(
-        @Body() registerUserDto: RegisterUserDto,
-        @Req() req: Request,
-    ) {
-        const result = await this.localAuthService.register(registerUserDto);
-
+    async register(@Body() dto: RegisterUserDto, @Req() req: Request) {
+        const result = await this.localAuthService.register(dto);
         if (result) {
-            const { accessToken, refreshToken } = result;
-            req.res?.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                secure: false,
-                sameSite: 'lax',
-                priority: 'high',
-                domain: 'localhost',
-                path: '/',
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-            });
-
-            return { accessToken };
+            const isProd =
+                this.configService.get<string>('env') === 'production';
+            setRefreshTokenCookie(req.res!, result.refreshToken.id, isProd);
+            return { accessToken: result.accessToken };
         }
     }
 
@@ -154,16 +123,11 @@ export class AuthController {
     @UseGuards(AuthGuard('google'))
     @Get('google/callback')
     async googleCallback(@Req() req: any, @Res() res: Response) {
-        const dto = req.user;
-        const { refreshToken } = await this.googleOAuthService.login(dto);
+        const { refreshToken } = await this.googleOAuthService.login(req.user);
+        const isProd = this.configService.get<string>('env') === 'production';
         const redirectUrl = this.configService.get<string>('url.client');
 
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
+        setRefreshTokenCookie(res, refreshToken, isProd);
 
         res.redirect(`${redirectUrl}/home/projects`);
     }

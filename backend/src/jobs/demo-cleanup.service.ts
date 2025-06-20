@@ -20,7 +20,7 @@ export class DemoCleanupService {
     @Cron('*/15 * * * *')
     async handleDemoUserCleanup() {
         try {
-            const expiryDate = new Date(Date.now() - 20 * 60 * 1000); // 20 minutes ago
+            const expiryDate = new Date(Date.now() - 30 * 60 * 1000); // 30 minutes ago
 
             const s3Config = {
                 accessKeyId: this.configService.get('aws.accessKeyId')!,
