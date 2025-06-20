@@ -37,15 +37,11 @@ export default function ProjectPage() {
       setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
    }
 
-   if (!isLoading && !project) {
-      return 'No Project';
-   }
-
    return (
       <div className="flex grow w-full sm:flex-col overflow-y-auto lg:p-1 md:p-1 lg:pb-2 md:pb-2 gap-2 sm:gap-0">
          <div className="flex flex-col grow gap-2 w-2/3 sm:w-full">
             {isLoading || !project ? (
-               <Skeleton className="flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center" />
+               <Skeleton className="flex flex-col rounded-[13px] px-4 py-3 w-full relative  h-[85px] justify-center shrink-0" />
             ) : (
                <div
                   className={cn(
@@ -57,9 +53,9 @@ export default function ProjectPage() {
                </div>
             )}
 
-            <div className="flex gap-2 grow sm:flex-col h-[65%]">
+            <div className="flex gap-2 sm:flex-col h-[65%] shrink-0 grow-0">
                {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 h-full" />
+                  <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
                ) : (
                   <div
                      className={cn(
@@ -72,7 +68,7 @@ export default function ProjectPage() {
                )}
 
                {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/2 h-full" />
+                  <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
                ) : (
                   <div
                      className={cn(
@@ -85,13 +81,13 @@ export default function ProjectPage() {
                )}
             </div>
 
-            <div className="flex gap-2 grow sm:flex-col h-[35%]">
+            <div className="flex gap-2 sm:flex-col h-[35%] grow-0 w-full">
                {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-1/3 h-full" />
+                  <Skeleton className="flex rounded-[13px] relative shadow-md w-[35%] h-full shrink-0" />
                ) : (
                   <div
                      className={cn(
-                        'flex rounded-[13px] bg-foreground relative shadow-md w-[35%]',
+                        'flex rounded-[13px] bg-foreground relative shadow-md w-[35%] shrink-0',
                         'sm:w-full sm:min-h-[130px] sm:shadow-sm'
                      )}
                   >
@@ -100,7 +96,7 @@ export default function ProjectPage() {
                )}
 
                {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] bg-foreground relative shadow-md w-2/3 h-full" />
+                  <Skeleton className="flex rounded-[13px] relative shadow-md w-[65%] h-full" />
                ) : (
                   <div
                      className={cn(
@@ -116,12 +112,12 @@ export default function ProjectPage() {
 
          <div
             className={cn(
-               'w-[340px] flex flex-col rounded-[13px] gap-2',
+               'w-[340px] flex flex-col rounded-[13px] gap-2 bg-',
                'sm:w-full sm:shadow-sm sm:mt-2 sm:pb-4'
             )}
          >
             {isLoading || !project ? (
-               <Skeleton className="flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md" />
+               <Skeleton className="flex flex-col rounded-[13px] h-2/5 relative overflow-hidden" />
             ) : (
                <div
                   className={cn(
@@ -133,7 +129,7 @@ export default function ProjectPage() {
                </div>
             )}
             {isLoading || !project ? (
-               <Skeleton className="flex flex-col rounded-[13px] bg-foreground grow relative shadow-md" />
+               <Skeleton className="flex flex-col rounded-[13px] grow relative" />
             ) : (
                <div
                   className={cn(

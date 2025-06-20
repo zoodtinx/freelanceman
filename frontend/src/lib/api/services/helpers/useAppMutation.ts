@@ -39,7 +39,7 @@ export const useAppMutation = <T>(
 
          const previousData = queryClient.getQueryData(optimisticUpdate.key);
 
-         queryClient.setQueryData([optimisticUpdate.key], (old: any) =>
+         queryClient.setQueryData(optimisticUpdate.key, (old: any) =>
             optimisticUpdaters[optimisticUpdate.type](old, payload)
          );
 

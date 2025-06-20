@@ -15,6 +15,7 @@ import React, { ReactNode, useRef } from 'react';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { useSetVisited } from '@/lib/api/user-api';
 import { welcomeDialogContent } from '@/components/shared/ui/dialogs/welcome-dialog/DialogContents';
+import { X } from 'lucide-react';
 
 export function GreetingDialog() {
    const { welcomeDialogState } =
@@ -55,7 +56,7 @@ export function GreetingDialog() {
                'sm:rounded-2xl sm:w-[360px] sm:h-fit sm:p-3 sm:pt-7'
             )}
          >
-            <Carousel className="w-full">
+            <Carousel className="w-full" opts={{duration: 13}}>
                <CarouselContent>{carouselItems}</CarouselContent>
                <CarouselNext ref={nextButtonRef} className="hidden" />
             </Carousel>

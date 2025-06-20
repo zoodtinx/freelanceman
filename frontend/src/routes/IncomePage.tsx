@@ -19,10 +19,9 @@ import {
    Download,
    Edit,
    EllipsisVertical,
-   FileText,
-   Loader,
+   FileText, Loader2,
    Plus,
-   Trash,
+   Trash
 } from 'lucide-react';
 import {
    usePaymentDataQuery,
@@ -30,7 +29,6 @@ import {
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
-import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 import { useFileUrlQuery } from '@/lib/api/file-api';
@@ -49,6 +47,7 @@ import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { GetPaymentDataResponse, PaymentDataItem, PaymentFilterDto, SalesDocumentFindOneResponse } from 'freelanceman-common';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 const IncomePage: React.FC = () => {
    const { data: userData } = useUserQuery();
@@ -66,7 +65,7 @@ const IncomePage: React.FC = () => {
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter);
 
    return (
-      <section className="flex flex-col gap-2 w-full overflow-hidden sm:flex-col relative sm:gap-2">
+      <section className="flex flex-col gap-2 h-full w-full overflow-hidden sm:flex-col relative sm:gap-2">
          <div
             className={cn(
                'flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4  z-10',
@@ -79,10 +78,10 @@ const IncomePage: React.FC = () => {
                setProjectFilter={setProjectFilter}
             />
          </div>
-         <ProjectPaymentTabList
-            paymentDataQueryResult={paymentDataQueryResult}
-            setFilter={setProjectFilter}
-         />
+            <ProjectPaymentTabList
+               paymentDataQueryResult={paymentDataQueryResult}
+               setFilter={setProjectFilter}
+            />
       </section>
    );
 };
@@ -137,7 +136,7 @@ const StatsBar = () => {
    const { data: statsData, isLoading } = usePaymentStatsQuery();
 
    return (
-      <div className="flex gap-3 sm:w-full sm:justify-between sm:px-2 sm:pb-2 items-center">
+      <div className="flex grow gap-3 sm:w-full sm:justify-between sm:px-2 sm:pb-2 items-center">
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
@@ -147,7 +146,7 @@ const StatsBar = () => {
             <div>
                Unprocessed: <br className="hidden sm:block" />
                {isLoading ? (
-                  <Skeleton className="h-5 w-20 rounded-full" />
+                  <span className='invisible'>1,000,000</span>
                ) : (
                   <span className="text-md font-medium text-primary">
                      {statsData?.unprocessed.toLocaleString()}
@@ -164,7 +163,7 @@ const StatsBar = () => {
             <div>
                Processing: <br className="hidden sm:block" />
                {isLoading ? (
-                  <Skeleton className="h-5 w-20 rounded-full" />
+                  <span className='invisible'>1,000,000</span>
                ) : (
                   <span className="text-md font-medium text-primary">
                      {statsData?.processing.toLocaleString()}
@@ -181,7 +180,7 @@ const StatsBar = () => {
             <div>
                All Due: <br className="hidden sm:block" />
                {isLoading ? (
-                  <Skeleton className="h-5 w-20 rounded-full" />
+                  <span className='invisible'>1,000,000</span>
                ) : (
                   <span className="text-md font-medium text-primary">
                      {statsData?.allAmountDue.toLocaleString()}
@@ -239,12 +238,21 @@ const ProjectPaymentTabList = ({
       return <IncomePageLoader />;
    }
 
-   if (!projectData || projectData.items.length === 0) {
-      return <IncomePagePlacholder addFn={handleNewProject} />;
-   }
-
    if (isError && !projectData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
+   }
+
+   if (projectData?.total === 0) {
+      if (projectData.unfilteredTotal === 0) {
+         return <IncomePagePlacholder addFn={handleNewProject} />;
+      }
+      return (
+         <div className='h-full flex justify-center items-center'>
+            <SearchNotFoundPlaceholder>
+               No project matched your search.
+            </SearchNotFoundPlaceholder>
+         </div>
+      );
    }
 
    const handleLoadMore = () => {
@@ -262,7 +270,7 @@ const ProjectPaymentTabList = ({
       });
    };
 
-   const remainingItems = projectData.total - projectData.items.length > 0;
+   const remainingItems = projectData?.total - projectData?.items.length > 0;
    const projectList = projectData?.items.map((project, i, arr) => {
       const isLast = i === arr.length - 1;
       return (
@@ -557,7 +565,15 @@ const EditDocumentButton = ({
                Delete
             </button>
             {!salesDocumentData.s3Key ? null : isLoading ? (
-               <Loader className="animate-spin" />
+               <>
+               <div className="py-1">
+                     <Separator />
+                  </div>
+               <div className="flex gap-1 items-center p-1 rounded-md text-secondary">
+                  <Loader2 className="animate-spin h-4 w-4" />
+                  <p className=''>Loading</p>
+               </div>
+               </>
             ) : (
                <>
                   <div className="py-1">

@@ -5,7 +5,7 @@ import { Controller, FieldValues, Path } from 'react-hook-form';
 import { FormElementProps } from '@/lib/types/form-element.type';
 import { Input } from '@/components/shared/ui/primitives/Input';
 import { useUserQuery } from '@/lib/api/user-api';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Pencil } from 'lucide-react';
 
 type NumberInputFormProps<TFieldValues extends FieldValues> = {
    mode?: 'budget' | 'plain';
@@ -145,6 +145,7 @@ const NumberInput = ({
                      userData.currency
                   )}
                </p>
+               <Pencil className='w-[14px] h-auto text-secondary'/>
             </div>
          )}
       </div>

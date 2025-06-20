@@ -77,8 +77,8 @@ export type EditFileDto = z.infer<typeof editFileSchema>;
 
 export const fileFilterSchema = z.object({
     name: optionalStringField(),
-    type: fileType,
-    category: fileCategory,
+    type: optionalStringField(),
+    category: optionalStringField(),
     clientId: optionalStringField(),
     projectId: optionalStringField(),
     take: optionalNumberField(),

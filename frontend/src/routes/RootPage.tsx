@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
+import { useQueryClient } from '@tanstack/react-query';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
@@ -20,6 +21,14 @@ const RootPage: React.FC = () => {
    const isOnAuthPages =
             pathSections.includes('user') || !pathSections.length;
 
+
+
+const allKeys = useQueryClient()
+  .getQueryCache()        // grab cache
+  .getAll()               // every Query instance
+  .map(q => q.queryKey);  // pluck keys
+
+  console.log('allKeys', allKeys)
 
    useEffect(() => {
       const refreshAccess = async () => {

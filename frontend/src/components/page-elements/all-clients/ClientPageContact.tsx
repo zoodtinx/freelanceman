@@ -58,16 +58,12 @@ export const ContactColumn = (): JSX.Element => {
                </div>
                <AddButton onClick={handleNewContact} />
             </div>
-            {isLoading ? (
-               <Skeleton className="h-7 w-[300px] rounded-full shrink-0" />
-            ) : (
-               <SearchBox
-                  placeholder="Search client"
-                  className="w-full"
-                  onChange={handleSearch}
-                  value={filter.name || ''}
-               />
-            )}
+            <SearchBox
+               placeholder="Search client"
+               className="w-full"
+               onChange={handleSearch}
+               value={filter.name || ''}
+            />
          </div>
          <ContactList
             addFn={handleNewContact}
@@ -79,6 +75,5 @@ export const ContactColumn = (): JSX.Element => {
       </div>
    );
 };
-
 
 export default ContactColumn;

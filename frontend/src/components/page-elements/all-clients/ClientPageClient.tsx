@@ -66,16 +66,12 @@ const ClientColumn = (): JSX.Element => {
                </div>
                <AddButton onClick={handleNewClient} />
             </div>
-            {clientsQueryResult.isLoading ? (
-               <Skeleton className="h-7 w-[300px] rounded-full" />
-            ) : (
-               <SearchBox
-                  placeholder="Search client"
-                  className="w-full lg:w-1/2"
-                  onChange={handleSearch}
-                  value={searchOptions.name || ''}
-               />
-            )}
+            <SearchBox
+               placeholder="Search client"
+               className="w-full lg:w-1/2"
+               onChange={handleSearch}
+               value={searchOptions.name || ''}
+            />
          </div>
          <ClientGrid
             clientsQueryResult={clientsQueryResult}
@@ -104,9 +100,11 @@ const ClientGrid = ({
 
    if (clientsData?.total === 0) {
       if (clientsData.unfilteredTotal === 0) {
-         return <div className='p-2'>
-            <ClientGridPlaceHolder addFn={addFn} />;
-         </div>
+         return (
+            <div className="p-2">
+               <ClientGridPlaceHolder addFn={addFn} />;
+            </div>
+         );
       }
       return (
          <SearchNotFoundPlaceholder>
@@ -114,8 +112,6 @@ const ClientGrid = ({
          </SearchNotFoundPlaceholder>
       );
    }
-
-
 
    if (!clientsData.items.length)
       return <ClientGridPlaceHolder addFn={addFn} />;

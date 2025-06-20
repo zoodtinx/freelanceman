@@ -48,6 +48,13 @@ export const TaskDialog = ({
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
       }
 
+      setFormDialogState((prev) => {
+            return {
+               ...prev,
+               isOpen: false,
+            };
+         });
+
       if (formDialogState.mode === 'create') {
          const payload: CreateTaskDto = {
             name: data.name,
@@ -58,12 +65,6 @@ export const TaskDialog = ({
             status: data.status,
          } as CreateTaskDto;
          await createTask.mutateAsync(payload);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
          if (formDialogState.openedOn === 'globalAddButton') {
             navigate('/home/actions');
          }
@@ -77,12 +78,6 @@ export const TaskDialog = ({
             status: data.status as TaskStatus,
          } as EditTaskDto;
          await editTask.mutateAsync(payload);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
       }
    };
 

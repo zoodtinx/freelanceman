@@ -13,16 +13,9 @@ export const PartnerPageFilterLoader: React.FC = () => {
 export const PartnerPageTabsLoader = () => {
    return (
       <div className="w-full flex flex-col gap-1">
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
-         <Skeleton className="rounded-[15px] h-[50px]" />
+        {Array.from({ length: 30 }).map((_, i) => (
+          <Skeleton key={i} className="rounded-[15px] h-[50px]" />
+        ))}
       </div>
    );
 }

@@ -8,6 +8,7 @@ import {
 import {
    Eclipse,
    Info,
+   Loader2,
    LogOut,
    Moon,
    Settings2,
@@ -25,7 +26,7 @@ import { useFileUrlQuery } from '@/lib/api/file-api';
 import { UseQueryResult } from '@tanstack/react-query';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { logOut } from '@/lib/api/auth-api';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { getPageKey } from '@/components/page-elements/app-layout/sidebar/helper';
@@ -41,12 +42,16 @@ export const UserBar = () => {
       (state) => state.setFormDialogState
    );
 
+   const [isLoading, setIsLoading] = useState(false);
+
    const setWelcomeDialogState = useWelcomeDialogStore(
          (state) => state.setWelcomeDialogState
       );
 
    const handleSignOut = async () => {
+      setIsLoading(true)
       await logOut(accessToken);
+      setIsLoading(false)
       navigate('/welcome');
    };
 
@@ -84,27 +89,33 @@ export const UserBar = () => {
       popoverRef.current?.click();
    };
 
+   const iconClassName = 'h-4 w-4'
+
    const profileMenuItems = [
       {
-         icon: Settings2,
+         icon: <Settings2 className={iconClassName} />,
          label: 'Edit Profile',
          onClick: handleEditProfile,
       },
       {
-         icon: Info,
+         icon: <Info className={iconClassName} />,
          label: 'View Tips',
-         onClick: handleOpenWelcomeDialog
+         onClick: handleOpenWelcomeDialog,
       },
       {
-         icon: UserRoundPen,
+         icon: <UserRoundPen className={iconClassName} />,
          label: 'Get Account',
       },
       {
-         icon: TimerReset,
+         icon: <TimerReset className={iconClassName} />,
          label: 'Reset Demo',
       },
       {
-         icon: LogOut,
+         icon: isLoading ? (
+            <Loader2 className={cn(`animate-spin`, iconClassName)} />
+         ) : (
+            <LogOut className={iconClassName} />
+         ),
          label: 'Sign Out',
          onClick: handleSignOut,
          className: 'text-button-red',
@@ -177,7 +188,7 @@ export const UserBar = () => {
                            )}
                         >
                            <div className="flex items-center gap-[5px] pl-1 p-1 w-full">
-                              <Icon className="h-4 w-4" />
+                              {Icon}
                               <p>{label}</p>
                            </div>
                         </div>

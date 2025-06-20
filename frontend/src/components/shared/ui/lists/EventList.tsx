@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useEffect } from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { EventFindManyItem } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useEventsQuery } from '@/lib/api/event-api';
+import { useDeleteEvent, useEventsQuery } from '@/lib/api/event-api';
 import {
    ApiErrorPlaceHolder,
    NoDataPlaceHolder,
@@ -17,6 +17,8 @@ import { EventFilterDto } from 'freelanceman-common';
 import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { format } from 'date-fns';
+import { Trash } from 'lucide-react';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 export const EventList: React.FC<ListProps<EventFilterDto>> = ({
    addFn,
@@ -55,11 +57,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
             </div>
          );
       } else {
-         return (
-            <div className="px-2">
-               <LoadingPlaceHolder />
-            </div>
-         );
+         return <LoadingPlaceHolder />;
       }
    }
 
@@ -67,11 +65,11 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
-   if (!eventsData || eventsData.items.length === 0) {
-      if (page === 'action-page') {
+   if (eventsData?.total === 0) {
+      if (eventsData.unfilteredTotal === 0) {
          return <ActionPageEventListPlaceholder addFn={addFn} />;
       }
-      return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
+      return <SearchNotFoundPlaceholder>No project matched your search.</SearchNotFoundPlaceholder>;
    }
 
    const groupedEvents = eventsData.items.reduce(
@@ -204,6 +202,8 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
 
    const formattedTime = formatTime(data.dueAt ?? '');
 
+   const deleteEvent = useDeleteEvent();
+
    const handleOpenDialog = () => {
       setFormDialogState({
          isOpen: true,
@@ -211,8 +211,12 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
          openedOn: 'actionPage',
          type: 'event',
          entity: 'event',
-         data: data,
+         data: data as any,
       });
+   };
+
+   const handleDelete = () => {
+      deleteEvent.mutate(data.id);
    };
 
    return (
@@ -226,6 +230,12 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
                {formattedTime ? formattedTime : 'All day'}
             </p>
             <EventTags tags={data.tags} />
+         </div>
+         <div
+            className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={handleDelete}
+         >
+            <Trash className="h-4 cursor-pointer text-secondary hover:text-primary" />
          </div>
       </div>
    );

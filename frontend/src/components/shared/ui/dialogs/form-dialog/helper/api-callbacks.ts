@@ -1,13 +1,19 @@
-import { camelToLowerCase, camelToSentenceCase } from '@/components/page-elements/documents/helper';
+import {
+   camelToLowerCase,
+   camelToSentenceCase,
+} from '@/components/page-elements/documents/helper';
 import { UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 
-
 interface Option {
-   formMethods: UseFormReturn,
-   entity: string,
-   setFormDialogState: () => void
-   setConfirmationDialogState: () => void
+   formMethods: UseFormReturn;
+   entity: string;
+   setFormDialogState: () => void;
+   setConfirmationDialogState: () => void;
+   optimisticUpdate?: {
+      enable: boolean;
+      key: string[];
+   };
 }
 
 export const getApiCallBacks = ({
@@ -15,6 +21,7 @@ export const getApiCallBacks = ({
    formMethods,
    setFormDialogState,
    setConfirmationDialogState,
+   optimisticUpdate,
 }: Option) => {
    const entitySentenceCase = camelToSentenceCase(entity);
    const entityLowerCase = camelToLowerCase(entity);
@@ -36,6 +43,10 @@ export const getApiCallBacks = ({
             setConfirmationDialogState();
             toast.success(`${entitySentenceCase} created`);
          },
+         optimisticUpdate : optimisticUpdate && {
+            ...optimisticUpdate,
+            type: 'create' as const
+         }
       },
       editCallbacks: {
          errorCallback: (err: Error) => {
@@ -51,6 +62,10 @@ export const getApiCallBacks = ({
             setConfirmationDialogState();
             toast.success(`${entitySentenceCase} updated`);
          },
+         optimisticUpdate : optimisticUpdate && {
+            ...optimisticUpdate,
+            type: 'edit' as const
+         },
       },
       deleteCallbacks: {
          errorCallback: (err: Error) => {
@@ -65,6 +80,10 @@ export const getApiCallBacks = ({
             setFormDialogState();
             setConfirmationDialogState();
             toast.success(`${entitySentenceCase} deleted`);
+         },
+         optimisticUpdate : optimisticUpdate && {
+            ...optimisticUpdate,
+            type: 'delete' as const
          },
       },
    };

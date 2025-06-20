@@ -7,8 +7,8 @@ import {
 } from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useEditTask, useTasksQuery } from '@/lib/api/task-api';
-import { X } from 'lucide-react';
+import { useDeleteTask, useEditTask, useTasksQuery } from '@/lib/api/task-api';
+import { Trash, Trash2, X } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
 import {
    ApiErrorPlaceHolder,
@@ -150,6 +150,8 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
          },
       });
 
+      const deleteTask = useDeleteTask()
+
       const setFormDialogState = useFormDialogStore(
          (state) => state.setFormDialogState
       );
@@ -169,7 +171,6 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
       };
 
       const handleCheck = async (checked: CheckedState) => {
-         console.log('checked', checked)
          setTimeout(async () => {
             try {
                await editTask.mutateAsync({
@@ -183,6 +184,10 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
                toast.error('Error updating task');
             }
          }, checked ? 400 : 0);
+      };
+
+      const handleDelete = () => {
+         deleteTask.mutate(data.id)
       };
 
 
@@ -222,10 +227,11 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
                {formattedTime && <p className="w-[60px]">{formattedTime}</p>}
                <p className="w-fit">{formattedDate}</p>
             </div>
-            <div className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity">
-               <X
-                  className="h-4 cursor-pointer text-secondary"
-               />
+            <div
+               className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
+               onClick={handleDelete}
+            >
+               <Trash className="h-4 cursor-pointer text-secondary hover:text-primary" />
             </div>
          </div>
       );

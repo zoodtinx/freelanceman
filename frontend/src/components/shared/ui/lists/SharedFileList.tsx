@@ -24,6 +24,7 @@ import { forwardRef } from 'react';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
+import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 
 type Variant = 'base' | 'projectPage';
 
@@ -74,7 +75,13 @@ export const SharedFileList = ({
       }
    }, [filesData?.items.length]);
 
-   if (isLoading) return <LoadingPlaceHolder />;
+   if (isLoading) {
+      if (page === 'filePage') {
+         return <div className='px-2'><PartnerPageTabsLoader /></div>
+      } else {
+         return <LoadingPlaceHolder />};
+      }
+      
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (filesData?.total === 0) {
       if (filesData.unfilteredTotal === 0) {
@@ -283,7 +290,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                         <p
                            className={cn(
                               'text-sm text-secondary w-[60px] text-right sm:hidden',
-                              page === 'project-page' && 'w-[40px]'
+                              page === 'project-page' && 'hidden'
                            )}
                         >
                            {dateUploaded}
@@ -291,13 +298,6 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                      </div>
                   </div>
                </div>
-               {page !== 'project-page' && (
-                  <EditPopover
-                     editFn={handleOpenDialog}
-                     deleteFn={handleDeleteFile}
-                     className='sm:hidden'
-                  />
-               )}
             </div>
             <Separator className="bg-quaternary h-[1px]" />
          </div>

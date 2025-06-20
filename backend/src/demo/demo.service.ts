@@ -42,7 +42,7 @@ export class DemoService {
         try {
             const result = await this.prismaService.user.create({
                 data: {
-                    displayName: 'Pridi Johansson',
+                    displayName: 'New User',
                     isDemo: true,
                     email: `user-${uuidv4()}@freelanceman.com`,
                     visitingStatus: {

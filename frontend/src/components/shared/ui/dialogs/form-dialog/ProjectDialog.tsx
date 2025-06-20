@@ -31,7 +31,7 @@ export const ProjectDialog = ({
    const { handleSubmit } = formMethods;
 
    //dialog state
-   const { formDialogState } = useFormDialogStore();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
 
    // api setup
    const { editProject } = crudApi as CrudApi['project'];
@@ -45,6 +45,12 @@ export const ProjectDialog = ({
          budget: Number(data.budget),
       };
       editProject.mutate(editProjectPayload);
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false
+         }
+      })
    };
 
    return (
@@ -85,7 +91,7 @@ export const ProjectDialog = ({
                      <NumberInputForm
                         fieldName="budget"
                         formMethods={formMethods}
-                        className='mr-2'
+                        className='mr-4'
                      />
                   </div>
                   <div className="w-1/2">

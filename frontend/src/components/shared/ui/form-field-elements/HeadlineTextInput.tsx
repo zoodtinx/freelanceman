@@ -94,27 +94,6 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
       }
    }, [value, isEditing]);
 
-   useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-         if (
-            wrapperRef.current &&
-            !wrapperRef.current.contains(event.target as Node)
-         ) {
-            if (value.trim() !== '') setIsEditing(false);
-         }
-      };
-
-      if (isEditing) {
-         document.addEventListener('mousedown', handleClickOutside);
-      } else {
-         document.removeEventListener('mousedown', handleClickOutside);
-      }
-
-      return () => {
-         document.removeEventListener('mousedown', handleClickOutside);
-      };
-   }, [isEditing, value]);
-
    return (
       <div
          ref={wrapperRef}
@@ -139,7 +118,7 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
                }}
             />
          ) : (
-            <div className="flex gap-1 relative group w-full">
+            <div className="flex gap-1 relative group w-full items-center">
                <p
                   className="grow text-lg font-medium cursor-text focus:outline-none focus:ring-0 focus:shadow-none"
                   onClick={() => setIsEditing(true)}
@@ -150,8 +129,8 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
                   {value || placeholder}
                </p>
                {isWithIcon && (
-                  <div className="pt-1 transition-opacity opacity-100 group-hover:opacity-100">
-                     <Pencil className="shrink-0 w-4 h-4 text-secondary" />
+                  <div className="transition-opacity opacity-100 group-hover:opacity-100">
+                     <Pencil className="shrink-0 w-[14px] h-auto text-secondary" />
                   </div>
                )}
             </div>

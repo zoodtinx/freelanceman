@@ -64,18 +64,18 @@ export const PartnerContactList: React.FC<
    };
 
    if (isLoading) {
-      return <PartnerPageTabsLoader />;
+      return <div className='px-2'><PartnerPageTabsLoader /></div>
    }
 
    if (contacts?.total === 0) {
       if (contacts.unfilteredTotal === 0) {
           return (
-         <div className='px-2'>
-            <TabListPlaceHolder
-               addFn={handleNewPartner}
-               children="Add a new partner contact"
-            />
-         </div>
+            <div className='px-2'>
+               <TabListPlaceHolder
+                  addFn={handleNewPartner}
+                  children="Add a new partner contact"
+               />
+            </div>
       );
       }
       return <SearchNotFoundPlaceholder>No partner matched your search.</SearchNotFoundPlaceholder>;

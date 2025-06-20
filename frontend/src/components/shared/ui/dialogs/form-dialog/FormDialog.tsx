@@ -24,6 +24,7 @@ import useCrudApi from '@/lib/api/services/all-api';
 import { CrudApi } from '@/lib/api/api.type';
 import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
 import { getApiCallBacks } from '@/components/shared/ui/dialogs/form-dialog/helper/api-callbacks';
+import { getOptimisticUpdateKeys } from '@/components/shared/ui/dialogs/form-dialog/helper/getOptimisticUpdateKeys';
 
 const FormDialog = () => {
    //dialog hooks setup
@@ -65,6 +66,10 @@ const FormDialog = () => {
       formMethods: formMethods,
       setFormDialogState: handleFormDialogCloseCallback,
       setConfirmationDialogState: handleConfirmDialogCloseCallback,
+      optimisticUpdate: {
+         enable: true,
+         key: getOptimisticUpdateKeys(formDialogState.entity)
+      }
    });
    const crudApi = useCrudApi(callbacks);
 

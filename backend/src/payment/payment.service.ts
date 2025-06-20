@@ -27,7 +27,10 @@ export class PaymentService {
 
         console.log('where', where)
 
-        const [total, items] = await Promise.all([
+        const [unfilteredTotal, total, items] = await Promise.all([
+            this.prismaService.project.count({
+                    where: { userId }, 
+                }),
             this.prismaService.project.count({ where }),
             this.prismaService.project.findMany({
             where,
@@ -43,7 +46,7 @@ export class PaymentService {
             }),
         ]);
 
-        return {total, items};
+        return {unfilteredTotal, total, items};
     } catch {
         throw new InternalServerErrorException('Failed to fetch payment data');
     }
