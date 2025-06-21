@@ -22,17 +22,20 @@ import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader
 import { forwardRef } from 'react';
 import { ListProps } from '@/lib/types/list-props.type';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
-import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
+import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 export const TaskList: React.FC<
    ListProps<TaskFindManyResponse, TaskFilterDto>
-> = ({ addFn, setFilter, loader = 'skeleton', page, queryResult, className }) => {
-   const {
-      data: tasksData,
-      isLoading,
-      isError,
-      refetch,
-   } = queryResult
+> = ({
+   addFn,
+   setFilter,
+   loader = 'skeleton',
+   page,
+   queryResult,
+   className,
+}) => {
+   const { data: tasksData, isLoading, isError, refetch } = queryResult;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -51,29 +54,32 @@ export const TaskList: React.FC<
 
    if (isLoading) {
       if (loader == 'skeleton') {
-         return <TaskListLoader />;
+         return (
+            <div className="px-2">
+               <TaskListLoader />
+            </div>
+         );
       } else {
          return <LoadingPlaceHolder />;
       }
    }
 
-   if (isError && !tasksData) {
+   if (isError || !tasksData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
-   if (!tasksData || tasksData.items.length === 0) {
-      if (page === 'action-page') {
-         return (
-            <div className="w-full h-full px-4">
-               <TabListPlaceHolder
-                  className="h-16"
-                  children="Add a new Tas"
-                  addFn={addFn}
-               />
-            </div>
-         );
+   if (tasksData?.total === 0) {
+      if (page === 'projectPage') {
+         return <NoDataPlaceHolder addFn={addFn}>Add a task</NoDataPlaceHolder>
       }
-      return <NoDataPlaceHolder addFn={addFn} children="Add New Event" />;
+      if (tasksData.unfilteredTotal === 0) {
+         return <ActionPageEventListPlaceholder addFn={addFn} />;
+      }
+      return (
+         <SearchNotFoundPlaceholder>
+            No task matched your search.
+         </SearchNotFoundPlaceholder>
+      );
    }
 
    const taskListItems = tasksData.items.map((taskData, index, arr) => {
@@ -162,11 +168,8 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
                      id: data.id,
                      status: checked ? 'completed' : 'pending',
                   });
-                  toast.success(
-                     checked ? 'Task completed' : 'Task returned to pending'
-                  );
                } catch {
-                  toast.error('Error updating task');
+                  toast.error('Something went wrong. Please try again.');
                }
             },
             checked ? 400 : 0

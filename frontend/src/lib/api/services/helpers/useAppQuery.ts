@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export const useAppQuery = (
    queryKey: QueryKey,
    queryFn: (token: string) => Promise<any>,
-   enabled: boolean = true
+   enabled: boolean = true,
 ) => {
    const { accessToken, setAccessToken } = useAuthStore();
    const navigate = useNavigate();

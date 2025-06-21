@@ -85,12 +85,9 @@ export const TaskDialog = ({ formMethods }: FormDialogProps) => {
       }
    };
 
-   const handleDestructiveButton = (e: React.MouseEvent) => {
-      e.preventDefault();
+   const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
          deleteTask.mutate(formDialogState.data.id);
-      } else if (formDialogState.mode === 'create') {
-         closeDialog();
       }
       closeDialog();
    };

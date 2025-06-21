@@ -10,7 +10,7 @@ import { TaskStatus, TaskFilterDto } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { cn } from '@/lib/helper/utils';
-import { useTaskQuery, useTasksQuery } from '@/lib/api/task-api';
+import { useTasksQuery } from '@/lib/api/task-api';
 
 export default function TaskSection() {
    const setFormDialogState = useFormDialogStore(
@@ -57,9 +57,8 @@ export default function TaskSection() {
                      setTaskFilter((prev) => ({
                         ...prev,
                         status: value as TaskStatus,
-                     }))
-                  }
-                  }
+                     }));
+                  }}
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
                   <ToggleGroupItem value="completed">Completed</ToggleGroupItem>

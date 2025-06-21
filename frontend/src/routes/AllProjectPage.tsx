@@ -41,6 +41,7 @@ export default function AllProjectPage() {
             setProjectFilter={setProjectFilter}
             viewMode={viewMode}
             setViewMode={setViewMode}
+            isFetching={projectsQueryResult.isFetching}
          />
          <div className="flex flex-1 flex-col sm:w-full  min-h-0 relative h-full">
             <div className="sm:hidden h-full">

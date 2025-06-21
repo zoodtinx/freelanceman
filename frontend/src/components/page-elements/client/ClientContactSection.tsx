@@ -41,7 +41,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                addFn={handleNewContact}
                filter={filter}
                setFilter={setFilter}
-               page="client-page"
+               page="clientPage"
             />
          </div>
       </div>

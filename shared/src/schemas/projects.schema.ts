@@ -44,6 +44,9 @@ export const createProjectSchema = z.object({
     budget: z.number().int().nonnegative(),
 });
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
+export type CreateProjectDtoWithOptimisticUpdate = CreateProjectDto & {
+  updatedAt: string; 
+};
 
 export const editProjectSchema = z.object({
     id: z.string(),

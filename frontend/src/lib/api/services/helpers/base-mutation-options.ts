@@ -7,7 +7,7 @@ interface Config {
    queryClient: QueryClient;
    navigate: NavigateFunction;
    options?: UseApiOptions;
-   queryKey: any[];
+   queryKey: string[];
 }
 
 export const getBaseMutationOptions = ({
@@ -42,6 +42,8 @@ export const getBaseMutationOptions = ({
       }
    },
    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKey });
+      queryKey.forEach((key) => {
+         queryClient.invalidateQueries({ queryKey: [key] });
+      })
    },
 });

@@ -115,6 +115,7 @@ module.exports = {
                taupe: 'var(--freelanceman-theme-taupe)',
                lilac: 'var(--freelanceman-theme-lilac)',
                zinc: 'var(--freelanceman-theme-zinc)',
+               grey: 'var(--freelanceman-theme-grey)',
             },
             button: {
                red: 'var(--freelanceman-button-red)',

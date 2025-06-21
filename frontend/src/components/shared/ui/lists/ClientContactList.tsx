@@ -2,6 +2,7 @@ import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
    ApiErrorPlaceHolder,
+   LoadingPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -26,7 +27,7 @@ export const ContactList = ({
    filter,
    setFilter,
    page,
-   className
+   className,
 }: ListProps<ClientContactFilterDto>) => {
    const {
       data: contacts,
@@ -52,19 +53,35 @@ export const ContactList = ({
       }
    }, [contacts?.items.length]);
 
-   if (isLoading) return <ClientContactListLoader />;
+   if (isLoading) {
+      if (page === 'allClientsPage') {
+         return (
+            <div className="p-1">
+               <ClientContactListLoader />
+            </div>
+         );
+      } else {
+         return <LoadingPlaceHolder />;
+      }
+   }
    if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (contacts?.total === 0) {
-      if (contacts.unfilteredTotal === 0) {
-         if (page === 'all-clients-page') {
-         return <div className='px-2'>
-            <ContactListPlaceholder addFn={addFn} />
-         </div>;
-      } else {
-         return <NoDataPlaceHolder addFn={addFn} children='Add a contact'  />
+      if (contacts.unfilteredTotal === 0 || page === 'clientPage') {
+         if (page === 'allClientPage') {
+            return (
+               <div className="px-2">
+                  <ContactListPlaceholder addFn={addFn} />
+               </div>
+            );
+         } else {
+            return <NoDataPlaceHolder addFn={addFn} children="Add a contact" />;
+         }
       }
-      }
-      return <SearchNotFoundPlaceholder>No contact matched your search.</SearchNotFoundPlaceholder>;
+      return (
+         <SearchNotFoundPlaceholder>
+            No contact matched your search.
+         </SearchNotFoundPlaceholder>
+      );
    }
 
    const handleLoadMore = () => {
@@ -97,7 +114,7 @@ export const ContactList = ({
    const remainingItems = contacts.total - contacts.items.length > 0;
 
    return (
-      <ScrollArea className={cn("grow overflow-y-auto h-0", className)}>
+      <ScrollArea className={cn('grow overflow-y-auto h-0', className)}>
          <div className="flex flex-col gap-1">{contactCards}</div>
          {remainingItems && (
             <div className="flex justify-center pt-2 pb-8">
@@ -119,7 +136,10 @@ export const ContactCard = forwardRef<
       (state) => state.setFormDialogState
    );
 
-   const { data } = useFileUrlQuery(contact.avatar ?? '', Boolean(contact.avatar));
+   const { data } = useFileUrlQuery(
+      contact.avatar ?? '',
+      Boolean(contact.avatar)
+   );
 
    const handleClick = () => {
       setFormDialogState({
@@ -140,14 +160,14 @@ export const ContactCard = forwardRef<
             `flex w-full rounded-full bg-quaternary p-1 items-center gap-2 h-[55px] shrink-0
                border-[1.5px] border-transparent transition-colors duration-75 hover:border-primary 
                cursor-default`,
-            page === 'allClientPage' && 'h-[75px] p-2',
+            page === 'allClientsPage' && 'h-[75px] p-2',
             'sm:h-fit'
          )}
       >
-         <AvatarDisplay page={page} url={data?.url} className='sm:w-8 sm:h-8' />
+         <AvatarDisplay page={page} url={data?.url} className="sm:w-8 sm:h-8" />
          <div className="flex flex-col leading-tight">
             <p className="font-semibold text-md sm:text-base">{contact.name}</p>
-            {page === 'all-client-page' && (
+            {page === 'allClientsPage' && (
                <p className="font-semibold text-base text-secondary">
                   {contact.company?.name}
                </p>
@@ -159,7 +179,6 @@ export const ContactCard = forwardRef<
 });
 
 ContactCard.displayName = 'ContactCard';
-
 
 const ContactListPlaceholder = ({ addFn }: { addFn: () => void }) => {
    const placeholders = [...Array(25)].map(() => {

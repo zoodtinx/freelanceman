@@ -21,7 +21,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    queryResult,
    handleLoadMore,
 }) => {
-   const { data: projects, isLoading, isError, refetch } = queryResult;
+   const { data: projects, isLoading, isFetching, isError, refetch } = queryResult;
 
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -37,6 +37,8 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
          entity: 'project',
       });
    };
+
+   console.log('isLoading', isLoading)
 
    if (isLoading) return <AllProjectPageLoader />;
    if (isError || !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
@@ -82,7 +84,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
             <div className="flex justify-center pb-5 pt-1 w-full">
                <LoadMoreButton
                   loadMoreFn={loadMoreProject}
-                  isLoading={isLoading}
+                  isLoading={isFetching}
                />
             </div>
          )}
@@ -124,12 +126,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <div
          className={`
          relative flex flex-col justify-between rounded-[20px] overflow-hidden group
-         h-[205px] leading-tight transition-all border text-constant-primary
-         duration-75 shadow-md max-w-[400px] border-tertiary
+         h-[205px] leading-tight transition-all text-constant-primary
+         duration-75 shadow-md max-w-[400px]
          `}
-         style={{
-            borderColor: project.client?.themeColor && `var(--freelanceman-theme-${project.client?.themeColor}`,
-         }}
          onClick={handleProjectNavigation}
       >
          <EllipsisVertical
@@ -140,9 +139,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
          />
          <div className="z-10 p-3 px-4">
             <div
-               className={`
+               className={cn(`
                   flex items-center gap-[5px] w-fit cursor-pointer opacity-30
-                  hover:opacity-100 transition-opacity duration-100`}
+                  hover:opacity-100 transition-opacity duration-100`,
+               !project.clientId && 'cursor-default')}
                onClick={(e) => {
                   handleClientNavigation(e);
                }}
@@ -159,10 +159,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             task={project.tasks[0]}
          />
          <div
-            className={cn(`absolute inset-0 transition-opacity bg-tertiary`, project.client?.themeColor && `bg-theme-${project.client.themeColor}`)}
+            className={cn(
+               `absolute inset-0 transition-opacity`,
+               project.client?.themeColor ?
+                  `bg-theme-${project.client.themeColor}` : `bg-theme-grey`
+            )}
          />
          <div
-            className={`absolute inset-0 opacity-35 group-hover:opacity-75
+            className={`absolute inset-0 opacity-30 group-hover:opacity-60
             bg-gradient-to-b from-white to-transparent transition-opacity`}
          />
       </div>
@@ -207,11 +211,11 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
          <div
             className={`
                flex gap-1 pl-1 pr-2 m-3 items-center bg-foreground dark:bg-background
-               rounded-full h-[30px] z-10 cursor-pointer text-primary
+               rounded-full h-[28px] z-10 cursor-pointer text-primary
             `}
             onClick={handleClick}
          >
-            <CircleCheck className="h-[20px] w-auto" />
+            <CircleCheck className="h-[20px] w-auto shrink-0" />
             <p className="truncate">{task.name}</p>
          </div>
       );

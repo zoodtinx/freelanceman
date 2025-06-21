@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { useClientSelectionsQuery } from '@/lib/api/client-api';
+import { useClientSelectionQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
 import { ClientFilterDto } from 'freelanceman-common';
 import { SelectWithSearch } from '@/components/shared/ui/form-field-elements';
@@ -21,7 +21,7 @@ export const CompanyFilterBubble: React.FC<CompanyFilterBubble> = ({
 
    const [companyFilter, setCompanyFilter] = useState<ClientFilterDto>({});
    const { data: clientSelections, isLoading: clientIsLoading } =
-      useClientSelectionsQuery(companyFilter, entity === 'client');
+      useClientSelectionQuery(companyFilter);
    const { data: partnerSelections, isLoading: partnerIsLoading } =
       usePartnerCompaniesSelectionQuery(companyFilter, entity === 'partner');
 

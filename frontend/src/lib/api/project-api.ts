@@ -1,76 +1,105 @@
 import {
-   getProjects,
-   getProject,
-   editProject,
-   deleteProject,
    createProject,
+   deleteProject,
+   editProject,
+   getProject,
+   getProjects,
    getProjectSelections,
-} from '@/lib/api/services/project-service';
-import { ProjectFilterDto } from 'freelanceman-common';
-import type { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
+} from './services/project-service';
+import { UseApiOptions } from '@/lib/api/services/helpers/api.type';
+import { ProjectFilterDto, ProjectFindManyResponse } from 'freelanceman-common';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
-import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '@/lib/zustand/auth-store';
+import {
+   CreateProjectDtoWithOptimisticUpdate,
+   EditProjectDto,
+} from 'freelanceman-common/src/schemas';
+import { getBaseMutationOptions } from '@/lib/api/services/helpers/base-mutation-options';
+import { defaultApiOptions } from '@/lib/api/services/helpers/default-option';
+
+export const useProjectSelectionQuery = (
+   filter: ProjectFilterDto = {},
+   enable?: boolean
+) => {
+   return useAppQuery(
+      ['projectSelections', filter],
+      (token) => getProjectSelections(token, filter),
+      enable
+   );
+};
 
 export const useProjectsQuery = (
    filter: ProjectFilterDto = {},
-   enabled?: boolean
+   enable?: boolean
 ) => {
    return useAppQuery(
       ['projects', filter],
       (token) => getProjects(token, filter),
-      enabled
+      enable,
    );
 };
 
-export const useProjectSelectionQuery = (filter: ProjectFilterDto = {}) => {
-   return useAppQuery(['projectSelections', filter], (token) =>
-      getProjectSelections(token, filter)
-   );
-};
-
-export const useProjectQuery = (projectId: string, enabled?: boolean) => {
+export const useProjectQuery = (projectId: string, enable?: boolean) => {
    return useAppQuery(
-      ['projects', projectId],
+      ['project', projectId],
       (token) => getProject(token, projectId),
-      enabled
+      enable
    );
 };
 
-export const useCreateProject = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-      {
-         mutationKey: 'createProject',
-         invalidationKeys: ['projects'],
-         mutationFn: createProject,
-      },
-      callbacks
-   );
+export const useCreateProject = (
+   options: UseApiOptions = defaultApiOptions
+) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (payload: CreateProjectDtoWithOptimisticUpdate) =>
+         createProject(accessToken, payload),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: [['projects']],
+      }),
+   });
 };
 
-export const useEditProject = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-      {
-         mutationKey: 'editProject',
-         invalidationKeys: [
-            'projects',
-            'paymentData',
-            'paymentStats',
-            'clientContacts',
-            'partnerContacts',
-         ],
-         mutationFn: editProject,
-      },
-      callbacks
-   );
+export const useEditProject = (options: UseApiOptions = defaultApiOptions) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (payload: EditProjectDto) =>
+         editProject(accessToken, payload),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: [['projects'], ['project']],
+      }),
+   });
 };
 
-export const useDeleteProject = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-      {
-         mutationKey: 'deleteProject',
-         invalidationKeys: ['projects'],
-         mutationFn: deleteProject,
-      },
-      callbacks
-   );
+export const useDeleteProject = (
+   options: UseApiOptions = defaultApiOptions
+) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (deletedProjectId: string) =>
+         deleteProject(accessToken, deletedProjectId),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: [['projects']],
+      }),
+   });
 };

@@ -2,7 +2,7 @@ import {
    ToggleGroup,
    ToggleGroupItem,
 } from '@/components/shared/ui/primitives/ToggleGroup';
-import { CircleCheck } from 'lucide-react';
+import { CircleCheck, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AddButton from '@/components/shared/ui/AddButton';
 import { TaskList } from '@/components/shared/ui/lists/TaskList';
@@ -10,10 +10,20 @@ import {
    defaultClientValue,
    defaultTaskValue,
 } from 'src/components/shared/ui/helpers/constants/default-values';
-import { ClientFindManyItem, ProjectFindOneResponse, TaskFilterDto } from 'freelanceman-common';
+import {
+   ClientFindManyItem,
+   ProjectFindOneResponse,
+   TaskFilterDto,
+   TaskStatus,
+} from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { useTasksQuery } from '@/lib/api/task-api';
 
-const ProjectTaskSection = ({ project }: { project: ProjectFindOneResponse }) => {
+const ProjectTaskSection = ({
+   project,
+}: {
+   project: ProjectFindOneResponse;
+}) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -22,6 +32,9 @@ const ProjectTaskSection = ({ project }: { project: ProjectFindOneResponse }) =>
       projectId: project.id,
       status: 'pending',
    });
+
+   const tasksQueryResult = useTasksQuery(taskFilter);
+   const { isFetching } = tasksQueryResult;
 
    useEffect(() => {
       if (project?.id) {
@@ -32,7 +45,7 @@ const ProjectTaskSection = ({ project }: { project: ProjectFindOneResponse }) =>
       }
    }, [project?.id]);
 
-   const handleNewTask = () => {
+   const handleNewEvent = () => {
       const { themeColor, ...clientData } =
          defaultClientValue as ClientFindManyItem;
       setFormDialogState({
@@ -65,28 +78,34 @@ const ProjectTaskSection = ({ project }: { project: ProjectFindOneResponse }) =>
                   type="single"
                   value={taskFilter.status!}
                   onValueChange={(value) => {
-                     if (value) {
-                        setTaskFilter((prev: any) => ({
-                           ...prev,
-                           status: value,
-                        }));
-                     }
+                     if (value === taskFilter.status || !value) return;
+                     setTaskFilter((prev) => ({
+                        ...prev,
+                        status: value as TaskStatus,
+                     }));
                   }}
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
                   <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
-                  <ToggleGroupItem value="cancelled">Cancelled</ToggleGroupItem>
                </ToggleGroup>
-               <AddButton className="w-7 h-7" onClick={handleNewTask} />
+               {isFetching ? (
+                  <div className="h-[33px] w-[33px] p-1">
+                     <Loader2 className="w-full h-full sm:w-[22px] animate-spin" />
+                  </div>
+               ) : (
+                  <AddButton onClick={handleNewEvent} />
+               )}
             </div>
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          <div className="flex flex-col grow px-2 pt-2">
             <TaskList
-               addFn={handleNewTask}
+               addFn={handleNewEvent}
                filter={taskFilter}
                setFilter={setTaskFilter}
                loader="spinner"
+               queryResult={tasksQueryResult}
+               page="projectPage"
             />
          </div>
       </div>

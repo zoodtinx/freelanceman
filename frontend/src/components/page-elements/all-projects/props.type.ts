@@ -22,6 +22,7 @@ export interface ProjectFilterProps {
    viewMode: 'grid' | 'list';
    setViewMode: Dispatch<SetStateAction<'grid' | 'list'>>;
    className?: string
+   isFetching: boolean
 }
 
 export type ProjectFilterBubble = Pick<

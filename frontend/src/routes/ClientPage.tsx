@@ -16,7 +16,7 @@ import { debounce } from 'lodash';
 export default function ClientPage() {
    const { clientId } = useParams();
 
-   console.log('clientId', clientId)
+   
 
    const { data: clientData, isLoading } = useClientQuery(
       clientId || ''

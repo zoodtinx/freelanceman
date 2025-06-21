@@ -73,6 +73,9 @@ export class ClientContactService {
                 this.prismaService.clientContact.findMany({
                     where,
                     take: filter.take ? filter.take : 25,
+                    orderBy: {
+                        name: 'asc'
+                    },
                     include: {
                         company: true,
                     },

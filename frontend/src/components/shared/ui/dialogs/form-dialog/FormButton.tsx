@@ -17,17 +17,25 @@ export const DiscardButton = ({
    const isEditMode = formDialogState.mode === 'edit';
 
    return (
-      <Button variant={'destructiveOutline'} className="gap-1 outline-none focus:outline-none" onClick={onClick}>
-         {isEditMode ? <Trash2 className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+      <Button
+         variant={'destructiveOutline'}
+         className="gap-1 outline-none focus:outline-none"
+         onClick={(e) => {
+            e.preventDefault();
+            onClick(e);
+         }}
+      >
+         {isEditMode ? (
+            <Trash2 className="w-4 h-4" />
+         ) : (
+            <ArrowLeft className="w-4 h-4" />
+         )}
          {isEditMode ? deleteText : discardText}
       </Button>
    );
 };
 
-export const SubmitButton = ({
-   formMethods,
-   entity
-}: SubmitButtonProps) => {
+export const SubmitButton = ({ formMethods, entity }: SubmitButtonProps) => {
    const {
       formState: { isDirty },
    } = formMethods;
@@ -42,7 +50,7 @@ export const SubmitButton = ({
       if (!isDirty) {
          return 'ghost';
       } else {
-         return 'submit'
+         return 'submit';
       }
    };
 
@@ -52,7 +60,10 @@ export const SubmitButton = ({
       <Button
          variant={variant}
          type="submit"
-         className={cn('gap-1 items-center outline-none focus:outline-none', isNoInput && 'cursor-not-allowed')}
+         className={cn(
+            'gap-1 items-center outline-none focus:outline-none',
+            isNoInput && 'cursor-not-allowed'
+         )}
          disabled={!isDirty}
       >
          {isEditMode ? (

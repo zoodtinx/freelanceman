@@ -84,7 +84,7 @@ export const SharedFileList = ({
       
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (filesData?.total === 0) {
-      if (filesData.unfilteredTotal === 0) {
+      if (filesData.unfilteredTotal === 0 || page === 'clientPage') {
          if (page === 'filePage') {
             return (
                <TabListPlaceHolder

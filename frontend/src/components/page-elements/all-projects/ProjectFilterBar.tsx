@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { LayoutGrid, List, X } from 'lucide-react';
+import { LayoutGrid, List, Loader2, X } from 'lucide-react';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 import { useClientsQuery } from '@/lib/api/client-api';
 import { cn } from '@/lib/helper/utils';
@@ -27,6 +27,7 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
    setProjectFilter,
    viewMode,
    setViewMode,
+   isFetching
 }) => {
    return (
       <ScrollArea type="scroll" className="select-none">
@@ -48,6 +49,7 @@ export const ProjectFilterBar: React.FC<ProjectFilterProps> = ({
                   projectFilter={projectFilter}
                   setProjectFilter={setProjectFilter}
                />
+               {isFetching && <Loader2 className='animate-spin text-primary w-[24px] h-auto'/>}
             </div>
             <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
          </div>

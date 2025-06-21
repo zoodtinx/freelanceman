@@ -69,7 +69,7 @@ export const ContactColumn = (): JSX.Element => {
             addFn={handleNewContact}
             filter={filter}
             setFilter={setFilter}
-            page="all-clients-page"
+            page="allClientsPage"
             className="px-2 pt-1"
          />
       </div>

@@ -6,6 +6,7 @@ import { useDeleteEvent } from '@/lib/api/event-api';
 import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
+   NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { cn } from '@/lib/helper/utils';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
@@ -62,12 +63,17 @@ export const EventList: React.FC<
    }
 
    if (eventsData?.total === 0) {
+      if (page === 'projectPage') {
+         return (
+            <NoDataPlaceHolder addFn={addFn}>Add an event</NoDataPlaceHolder>
+         );
+      }
       if (eventsData.unfilteredTotal === 0) {
          return <ActionPageEventListPlaceholder addFn={addFn} />;
       }
       return (
          <SearchNotFoundPlaceholder>
-            No project matched your search.
+            No event matched your search.
          </SearchNotFoundPlaceholder>
       );
    }
@@ -220,7 +226,7 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
    };
 
    const handleDelete = (e: React.MouseEvent) => {
-      e.stopPropagation()
+      e.stopPropagation();
       deleteEvent.mutate(data.id);
    };
 

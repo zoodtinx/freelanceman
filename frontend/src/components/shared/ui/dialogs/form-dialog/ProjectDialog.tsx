@@ -14,29 +14,38 @@ import {
 } from '@/components/shared/ui/helpers/constants/selections';
 import {
    Label,
-   StatusSelectForm
+   StatusSelectForm,
 } from 'src/components/shared/ui/form-field-elements';
-import { CrudApi } from '@/lib/api/api.type';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
+import {
+   useDeleteProject,
+   useEditProject
+} from '@/lib/api/project-api';
+import { toast } from 'sonner';
 
 export const ProjectDialog = ({
    formMethods,
-   crudApi,
-   handleLeftButtonClick,
 }: FormDialogProps) => {
-
    // form utilities
    const { handleSubmit } = formMethods;
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
-   // api setup
-   const { editProject } = crudApi as CrudApi['project'];
+   const editProject = useEditProject();
+   const deleteProject = useDeleteProject();
 
-   const onSubmit = (data: ProjectFindManyItem) => {
+   const onSubmit = async (data: ProjectFindManyItem) => {
       const editProjectPayload: EditProjectDto = {
          id: formDialogState.data.id,
          name: data.name,
@@ -44,13 +53,17 @@ export const ProjectDialog = ({
          paymentStatus: data.paymentStatus as PaymentStatus,
          budget: Number(data.budget),
       };
-      editProject.mutate(editProjectPayload);
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false
-         }
-      })
+      closeDialog();
+      toast.loading('Updating a project.')
+      await editProject.mutateAsync(editProjectPayload);
+      toast.dismiss()
+   };
+
+   const handleDestructiveButton = () => {
+      if (formDialogState.mode === 'edit') {
+         deleteProject.mutate(formDialogState.data.id);
+      }
+      closeDialog();
    };
 
    return (
@@ -91,7 +104,7 @@ export const ProjectDialog = ({
                      <NumberInputForm
                         fieldName="budget"
                         formMethods={formMethods}
-                        className='mr-4'
+                        className="mr-4"
                      />
                   </div>
                   <div className="w-1/2">
@@ -131,7 +144,8 @@ export const ProjectDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            onDiscard={handleLeftButtonClick}
+            onDiscard={handleDestructiveButton}
+            entity="Project"
          />
       </form>
    );

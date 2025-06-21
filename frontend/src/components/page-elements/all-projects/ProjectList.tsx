@@ -117,7 +117,7 @@ const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({
             borderColor: `var(--freelanceman-theme-${project.client?.themeColor})`,
          }}
          className={`flex rounded-[15px] h-[40px] relative transition-colors
-                     hover:border-primary border group overflow-hidden cursor-default`}
+                     hover:border-primary  group overflow-hidden cursor-default`}
       >
          <div className="z-10 flex items-center px-3 justify-between w-full text-constant-primary">
             <p className="font-medium text-md cursor-default line-clamp-1">

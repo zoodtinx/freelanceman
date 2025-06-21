@@ -1,46 +1,52 @@
 import { useState } from 'react';
-import {
-   TextAreaForm
-} from 'src/components/shared/ui/form-field-elements';
+import { TextAreaForm } from 'src/components/shared/ui/form-field-elements';
 import { Plus } from 'lucide-react';
-import {
-   FormDialogProps
-} from 'src/lib/types/form-dialog.types';
+import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import {
    paymentStatusSelections,
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
 import {
-   SelectWithSearchForm, StatusSelectForm
+   SelectWithSearchForm,
+   StatusSelectForm,
 } from 'src/components/shared/ui/form-field-elements';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
-import { CreateProjectDto } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
 import { cn } from '@/lib/helper/utils';
+import { useCreateProject } from '@/lib/api/project-api';
+import { CreateProjectDtoWithOptimisticUpdate } from 'freelanceman-common/src/schemas';
+import { toast } from 'sonner';
 
-export const NewProjectDialog = ({
-   crudApi,
-   formMethods,
-   handleLeftButtonClick,
-}: FormDialogProps) => {
+export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
    const navigate = useNavigate();
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-   const { createProject } = crudApi as CrudApi['project'];
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
+
+   const createProject = useCreateProject({
+      enableOptimisticUpdate: false
+   });
 
    const [haveNote, setHaveNote] = useState(false);
 
    const { handleSubmit, setError, watch } = formMethods;
 
    const onSubmit = async (data: any) => {
-      const rawBudget = data.budget.replace(/,/g, '');
+      const rawBudget = String(data.budget).replace(/,/g, '');
       const budget = Number(rawBudget);
+
 
       if (
          isNaN(budget) ||
@@ -53,24 +59,30 @@ export const NewProjectDialog = ({
          });
       }
 
-      const createProjectPayload: CreateProjectDto = {
+      const createProjectPayload: CreateProjectDtoWithOptimisticUpdate = {
          name: data.name,
          clientId: data.clientId,
          projectStatus: data.projectStatus,
          paymentStatus: data.paymentStatus,
-         budget: Number(data.budget.replace(/,/g, '')),
+         budget: budget,
+         updatedAt: new Date().toISOString(),
       };
-      const project = await createProject.mutateAsync(createProjectPayload);
       setFormDialogState((prev) => {
          return {
             ...prev,
             isOpen: false,
          };
       });
+      toast.loading('Preparing a new project.')
+      const project = await createProject.mutateAsync(createProjectPayload);
+      toast.dismiss()
       navigate(`/home/projects/${project.id}`);
    };
 
-   console.log('budget', watch('budget'))
+   const handleDestructiveButton = (e: React.MouseEvent) => {
+      e.preventDefault();
+      closeDialog();
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -150,7 +162,8 @@ export const NewProjectDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            onDiscard={handleLeftButtonClick}
+            onDiscard={handleDestructiveButton}
+            entity="Project"
          />
       </form>
    );

@@ -11,14 +11,24 @@ import { ColorSelectorForm } from '@/components/shared/ui/form-field-elements/Co
 import { EditClientDto } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
-import { CrudApi } from '@/lib/api/api.type';
+import { useEditClient } from '@/lib/api/client-api';
 
-export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
+export const ClientDialog = ({ formMethods }: FormDialogProps) => {
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const { editClient } = crudApi as CrudApi['client'];
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
+
+
+   const editClient = useEditClient()
 
    const { handleSubmit } = formMethods;
    const clientName = formDialogState.data.name;
@@ -35,6 +45,7 @@ export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
          themeColor: data.themeColor,
       };
       editClient.mutate(editClientPayload);
+      closeDialog()
    };
 
    const handleDeleteButtonClick = (e: React.MouseEvent) => {
@@ -107,6 +118,7 @@ export const ClientDialog = ({ formMethods, crudApi }: FormDialogProps) => {
          <FormDialogFooter
             formMethods={formMethods}
             onDiscard={handleDeleteButtonClick}
+            entity='Client'
          />
       </form>
    );
