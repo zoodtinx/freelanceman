@@ -14,28 +14,53 @@ import {
    EventFindManyItem,
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import { CrudApi } from '@/lib/api/api.type';
 import { formatDueAt } from '@/components/shared/ui/helpers/Helpers';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsInputForm';
-import { useCreateEvent } from '@/lib/api/event-api';
+import {
+   useCreateEvent,
+   useDeleteEvent,
+   useEditEvent,
+} from '@/lib/api/event-api';
+import { toast } from 'sonner';
+import React from 'react';
 
 export const EventDialog = ({
    formMethods,
-   crudApi,
-   handleLeftButtonClick,
 }: FormDialogProps) => {
    // form utilities
    const { handleSubmit } = formMethods;
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
-
-   // api setup
-   const { editEvent } = crudApi as CrudApi['event'];
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    const createEvent = useCreateEvent({
       enableOptimisticUpdate: true,
+      errorCallbacks() {
+         toast.error('Error creating an event.');
+      },
+   });
+
+   const editEvent = useEditEvent({
+      enableOptimisticUpdate: true,
+      errorCallbacks() {
+         toast.error('Error editing an event.');
+      },
+   });
+
+   const deleteEvent = useDeleteEvent({
+      enableOptimisticUpdate: true,
+      errorCallbacks() {
+         toast.error('Error deleting an event.');
+      },
    });
 
    // submit handler
@@ -53,12 +78,6 @@ export const EventDialog = ({
             tags: data.tags,
          };
          createEvent.mutate(payload);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
       } else if (formDialogState.mode === 'edit') {
          const payload: EditEventDto = {
             id: data.id,
@@ -70,6 +89,16 @@ export const EventDialog = ({
          };
          editEvent.mutate(payload);
       }
+
+      closeDialog()
+   };
+
+   const handleDestructiveButton = (e: React.MouseEvent) => {
+      e.preventDefault()
+      if (formDialogState.mode === 'edit') {
+         deleteEvent.mutate(formDialogState.data.id);
+      }
+      closeDialog()
    };
 
    return (
@@ -82,16 +111,7 @@ export const EventDialog = ({
                errorMessage="Please name your task"
                placeholder="What do you need to do?"
             />
-            {/* <TagField /> */}
             <div className="flex leading-tight">
-               {/* <div className="w-1/2">
-                  <Label>Status</Label>
-                  <StatusSelectForm
-                     formMethods={formMethods}
-                     selection={eventStatusSelections}
-                     fieldName="status"
-                  />
-               </div> */}
                <div className="w-1/2">
                   <Label className="pb-1">Due Date</Label>
                   <DateTimePickerForm
@@ -128,7 +148,8 @@ export const EventDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            onDiscard={handleLeftButtonClick}
+            onDiscard={handleDestructiveButton}
+            entity='Event'
          />
       </form>
    );

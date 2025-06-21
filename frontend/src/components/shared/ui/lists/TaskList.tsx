@@ -7,8 +7,8 @@ import {
 } from 'freelanceman-common';
 import { CheckedState } from '@radix-ui/react-checkbox';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useDeleteTask, useEditTask, useTasksQuery } from '@/lib/api/task-api';
-import { Trash, Trash2, X } from 'lucide-react';
+import { useDeleteTask, useEditTask } from '@/lib/api/task-api';
+import { Trash } from 'lucide-react';
 import { cn } from '@/lib/helper/utils';
 import {
    ApiErrorPlaceHolder,
@@ -20,30 +20,24 @@ import { useEffect, useRef } from 'react';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import TaskListLoader from '@/components/shared/ui/placeholder-ui/TaskListLoader';
 import { forwardRef } from 'react';
-import { UseQueryResult } from '@tanstack/react-query';
 import { ListProps } from '@/lib/types/list-props.type';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 
-export const TaskList: React.FC<ListProps<TaskFilterDto>> = ({
-   addFn,
-   filter,
-   setFilter,
-   page,
-   loader = 'skeleton',
-   className,
-}) => {
+export const TaskList: React.FC<
+   ListProps<TaskFindManyResponse, TaskFilterDto>
+> = ({ addFn, setFilter, loader = 'skeleton', page, queryResult, className }) => {
    const {
       data: tasksData,
       isLoading,
       isError,
       refetch,
-   } = useTasksQuery(filter) as UseQueryResult<TaskFindManyResponse>;
+   } = queryResult
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      if (!tasksData || tasksData?.items?.length <= 30) {
+      if (!tasksData || tasksData?.items?.length - 5 <= 30) {
          return;
       }
 
@@ -139,18 +133,8 @@ interface TaskListItemProps {
 
 const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
    ({ data, openedOn }, ref) => {
-      const editTask = useEditTask({
-         errorCallback() {
-            toast.error('Error updating task');
-         },
-         optimisticUpdate: {
-            enable: true,
-            key: ['tasks'],
-            type: 'edit',
-         },
-      });
-
-      const deleteTask = useDeleteTask()
+      const editTask = useEditTask();
+      const deleteTask = useDeleteTask();
 
       const setFormDialogState = useFormDialogStore(
          (state) => state.setFormDialogState
@@ -171,25 +155,27 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
       };
 
       const handleCheck = async (checked: CheckedState) => {
-         setTimeout(async () => {
-            try {
-               await editTask.mutateAsync({
-                  id: data.id,
-                  status: checked ? 'completed' : 'pending',
-               });
-               toast.success(
-                  checked ? 'Task completed' : 'Task returned to pending'
-               );
-            } catch {
-               toast.error('Error updating task');
-            }
-         }, checked ? 400 : 0);
+         setTimeout(
+            async () => {
+               try {
+                  await editTask.mutateAsync({
+                     id: data.id,
+                     status: checked ? 'completed' : 'pending',
+                  });
+                  toast.success(
+                     checked ? 'Task completed' : 'Task returned to pending'
+                  );
+               } catch {
+                  toast.error('Error updating task');
+               }
+            },
+            checked ? 400 : 0
+         );
       };
 
       const handleDelete = () => {
-         deleteTask.mutate(data.id)
+         deleteTask.mutate(data.id);
       };
-
 
       const isPastDue = new Date(data.dueAt ?? '') < new Date();
 

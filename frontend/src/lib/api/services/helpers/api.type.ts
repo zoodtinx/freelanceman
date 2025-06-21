@@ -15,3 +15,10 @@ export interface MutationCallbacks {
 }
 
 type UpdaterType = 'create' | 'edit' | 'delete';
+
+
+export interface UseApiOptions {
+   successCallbacks?: () => void;
+   errorCallbacks?: () => void;
+   enableOptimisticUpdate?: boolean;
+}

@@ -10,8 +10,8 @@ export interface FormElementProps<
    errorMessage?: string;
    placeholder?: string;
    className?: string;
-   number?: boolean
-   isWithTime?: boolean
+   number?: boolean;
+   isWithTime?: boolean;
 }
 
 export interface SelectFormElementProps<
@@ -39,6 +39,7 @@ export interface DynamicHeightTextInputFormElementProps<
 
 export interface SubmitButtonProps {
    formMethods: UseFormReturn;
+   entity: string;
 }
 
 export interface SubmissionButtonProps {

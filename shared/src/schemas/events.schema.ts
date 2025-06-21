@@ -34,20 +34,20 @@ export const createEventSchema = z.object({
   link: nullableStringField(),
   dueAt: z.string(),
   projectId: nullableUuidField(),
-  tags: z.array(z.string()).default([]),
+  tags: z.array(z.string()).default([]).optional(),
   isWithTime: z.boolean().optional(),
 });
 export type CreateEventDto = z.infer<typeof createEventSchema>;
 
 export const editEventSchema = z.object({
     id: z.string(),
-    name: nullableStringField(),
+    name: optionalStringField(),
     details: nullableStringField(),
     link: nullableStringField(),
     dueAt: nullableStringField(),
     projectId: nullableUuidField(),
     clientId: nullableUuidField(),
-    tags: z.array(z.string()),
+    tags: z.array(z.string()).default([]).optional(),
     isWithTime: z.boolean(),
 });
 export type EditEventDto = z.infer<typeof editEventSchema>;
@@ -76,6 +76,7 @@ export type EventFindManyItem = z.infer<typeof eventFindManyItemSchema>;
 export const eventFindManyResponseSchema = z.object({
   items: z.array(eventFindManyItemSchema),
   total: z.number(),
+  unfilteredTotal: z.number(),
 });
 export type EventFindManyResponse = z.infer<typeof eventFindManyResponseSchema>;
 

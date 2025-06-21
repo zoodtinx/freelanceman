@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useEffect } from 'react';
 import { formatDate, formatTime } from '@/lib/helper/formatDateTime';
 import type { EventFindManyItem } from 'freelanceman-common/src/schemas';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useDeleteEvent, useEventsQuery } from '@/lib/api/event-api';
+import { useDeleteEvent } from '@/lib/api/event-api';
 import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
@@ -12,36 +12,23 @@ import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton
 import EventListLoader from '@/components/shared/ui/placeholder-ui/EventListLoader';
 import { ListProps } from '@/lib/types/list-props.type';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { EventFilterDto } from 'freelanceman-common';
+import { EventFilterDto, EventFindManyResponse } from 'freelanceman-common';
 import ActionPageEventListPlaceholder from '@/components/shared/ui/placeholder-ui/ActionPageEventListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { format } from 'date-fns';
-import { Loader2, Trash } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
-export const EventList: React.FC<ListProps<EventFilterDto>> = ({
-   addFn,
-   filter,
-   setFilter,
-   loader = 'skeleton',
-   page,
-   setIsFetching
-}) => {
+export const EventList: React.FC<
+   ListProps<EventFindManyResponse, EventFilterDto>
+> = ({ addFn, setFilter, loader = 'skeleton', page, queryResult }) => {
    const {
       data: eventsData,
       isLoading,
       isError,
       refetch,
-      isFetching
-   } = useEventsQuery(filter);
-
-   useEffect(() => {
-      if (isFetching === true) {
-         setIsFetching(true)
-      } else  {
-         setIsFetching(false)
-      }
-   }, [isFetching])
+      isFetching,
+   } = queryResult;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +57,7 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       }
    }
 
-   if (isError && !eventsData) {
+   if (isError || !eventsData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
@@ -78,7 +65,11 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       if (eventsData.unfilteredTotal === 0) {
          return <ActionPageEventListPlaceholder addFn={addFn} />;
       }
-      return <SearchNotFoundPlaceholder>No project matched your search.</SearchNotFoundPlaceholder>;
+      return (
+         <SearchNotFoundPlaceholder>
+            No project matched your search.
+         </SearchNotFoundPlaceholder>
+      );
    }
 
    const groupedEvents = eventsData?.items?.reduce(
@@ -94,8 +85,9 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
       {} as Record<string, EventFindManyItem[]>
    );
 
-   if (!groupedEvents) {   //temporary workaround to fix null conversion to object
-      return
+   if (!groupedEvents) {
+      //temporary workaround to fix null conversion to object
+      return;
    }
 
    const processedEvents = Object.keys(groupedEvents)?.map((date) => ({
@@ -136,12 +128,6 @@ export const EventList: React.FC<ListProps<EventFilterDto>> = ({
 
    return (
       <ScrollArea className="flex flex-col h-0 grow">
-         {/* {isFetching && (
-            <div className="flex items-center justify-center w-full h-full absolute z-10">
-               <Loader2 className="animate-spin z-20" />
-               <div className='w-full h-full bg-white dark:bg-black absolute opacity-30' />
-            </div>
-         )} */}
          {page !== 'project-page' && <Separator className="sm:hidden" />}
          <div className="flex flex-col">{eventGroups}</div>
          {remainingItems && (
@@ -233,7 +219,8 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
       });
    };
 
-   const handleDelete = () => {
+   const handleDelete = (e: React.MouseEvent) => {
+      e.stopPropagation()
       deleteEvent.mutate(data.id);
    };
 

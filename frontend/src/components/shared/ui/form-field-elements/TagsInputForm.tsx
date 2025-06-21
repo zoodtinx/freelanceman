@@ -71,8 +71,6 @@ export const TagsInput = ({
    const [isAdding, setIsAdding] = useState(false);
    const [input, setInput] = useState('');
 
-   console.log('color', color)
-
    useEffect(() => {
       if (!isAdding) return;
 

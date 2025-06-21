@@ -1,11 +1,13 @@
+import { UseQueryResult } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 
-export interface ListProps<T> {
+
+export interface ListProps<Response, Filter> {
    addFn: () => void;
-   filter: T;
-   setFilter: Dispatch<SetStateAction<T>>;
+   filter: Filter;
+   setFilter: Dispatch<SetStateAction<Filter>>;
    page?: string;
-   loader?: 'skeleton' | 'spinner'
-   className?: string
-   setIsFetching?: (value: boolean) => void
+   loader?: 'skeleton' | 'spinner';
+   className?: string;
+   queryResult: UseQueryResult<Response>;
 }

@@ -1,4 +1,3 @@
-// components/FormDialogFooter.tsx
 import {
    DiscardButton,
    SubmitButton,
@@ -9,22 +8,19 @@ import { UseFormReturn } from 'react-hook-form';
 export interface FormDialogFooterProps {
    onDiscard: (e: React.MouseEvent<HTMLButtonElement>) => void;
    formMethods: UseFormReturn;
-   isUrlLoading?: boolean
-};
+   entity: string;
+}
 
 export default function FormDialogFooter({
    onDiscard,
    formMethods,
+   entity,
 }: FormDialogFooterProps) {
    return (
       <DialogFooter>
          <div className="flex justify-between p-4 pb-2">
-            <DiscardButton
-               onClick={onDiscard}
-            />
-            <SubmitButton
-               formMethods={formMethods}
-            />
+            <DiscardButton onClick={onDiscard} />
+            <SubmitButton formMethods={formMethods} entity={entity} />
          </div>
       </DialogFooter>
    );

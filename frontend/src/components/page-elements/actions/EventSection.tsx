@@ -10,9 +10,9 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import { EventFilterDto } from 'freelanceman-common';
 import { cn } from '@/lib/helper/utils';
+import { useEventsQuery } from '@/lib/api/event-api';
 
 export default function EventSection() {
-   const [isFetching, setIsFetching] = useState(false);
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -20,6 +20,9 @@ export default function EventSection() {
    const [eventFilter, setEventFilter] = useState<EventFilterDto>({
       status: 'scheduled',
    });
+
+   const eventsQueryResult = useEventsQuery(eventFilter);
+   const { isFetching } = eventsQueryResult;
 
    const handleNewEvent = () => {
       setFormDialogState({
@@ -42,11 +45,6 @@ export default function EventSection() {
          >
             <div className="flex gap-1 items-center">
                <div className="flex items-end gap-1 sm:items-center">
-                  {/* {isFetching ? (
-                     <Loader2 className="w-[28px] h-auto sm:w-[22px] animate-spin" />
-                  ) : (
-                     <Calendar className="w-[28px] h-auto sm:w-[22px]" />
-                  )} */}
                   <Calendar className="w-[28px] h-auto sm:w-[22px]" />
                   <p className="text-xl leading-none mr-2 sm:text-lg">Events</p>
                </div>
@@ -54,9 +52,10 @@ export default function EventSection() {
                   type="single"
                   className="pt-1 sm:pt-0"
                   value={eventFilter.status}
-                  onValueChange={(value: any) =>
-                     setEventFilter((prev) => ({ ...prev, status: value }))
-                  }
+                  onValueChange={(value: any) => {
+                     if (value === eventFilter.status || !value) return;
+                     setEventFilter((prev) => ({ ...prev, status: value }));
+                  }}
                >
                   <ToggleGroupItem value="scheduled">Upcoming</ToggleGroupItem>
                   <ToggleGroupItem value="completed">Past</ToggleGroupItem>
@@ -76,7 +75,7 @@ export default function EventSection() {
             addFn={handleNewEvent}
             page="action-page"
             className="px-2"
-            setIsFetching={setIsFetching}
+            queryResult={eventsQueryResult}
          />
       </div>
    );

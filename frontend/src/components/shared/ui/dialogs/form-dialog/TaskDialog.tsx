@@ -13,22 +13,15 @@ import {
    FormDialogProps,
    FormDialogState,
 } from '@/lib/types/form-dialog.types';
-import {
-   CreateTaskDto,
-   TaskStatus,
-   EditTaskDto,
-   TaskFindManyItem,
-} from 'freelanceman-common';
+import { TaskStatus, EditTaskDto, TaskFindManyItem } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
+import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';
+import { CreateTaskDtoWithOptimisticUpdate } from 'freelanceman-common/src/schemas';
+import React from 'react';
 
-export const TaskDialog = ({
-   formMethods,
-   crudApi,
-   handleLeftButtonClick,
-}: FormDialogProps) => {
+export const TaskDialog = ({ formMethods }: FormDialogProps) => {
    //utility hooks
    const navigate = useNavigate();
 
@@ -37,9 +30,18 @@ export const TaskDialog = ({
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
-   // api setup
-   const { createTask, editTask } = crudApi as CrudApi['task'];
+   const createTask = useCreateTask();
+   const editTask = useEditTask();
+   const deleteTask = useDeleteTask();
 
    // submit handler
    const onSubmit = async (data: TaskFindManyItem) => {
@@ -49,25 +51,27 @@ export const TaskDialog = ({
       }
 
       setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
 
       if (formDialogState.mode === 'create') {
-         const payload: CreateTaskDto = {
+         const payload: CreateTaskDtoWithOptimisticUpdate = {
             name: data.name,
             projectId: data.projectId,
             details: data.details,
             dueAt: data.dueAt,
             link: data.link,
             status: data.status,
-         } as CreateTaskDto;
-         await createTask.mutateAsync(payload);
+            updatedAt: new Date().toISOString(),
+         };
+         createTask.mutate(payload);
          if (formDialogState.openedOn === 'globalAddButton') {
             navigate('/home/actions');
          }
+         closeDialog();
       } else if (formDialogState.mode === 'edit') {
          const payload: EditTaskDto = {
             id: data.id,
@@ -79,6 +83,16 @@ export const TaskDialog = ({
          } as EditTaskDto;
          await editTask.mutateAsync(payload);
       }
+   };
+
+   const handleDestructiveButton = (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (formDialogState.mode === 'edit') {
+         deleteTask.mutate(formDialogState.data.id);
+      } else if (formDialogState.mode === 'create') {
+         closeDialog();
+      }
+      closeDialog();
    };
 
    return (
@@ -133,7 +147,8 @@ export const TaskDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            onDiscard={handleLeftButtonClick}
+            onDiscard={handleDestructiveButton}
+            entity="Task"
          />
       </form>
    );

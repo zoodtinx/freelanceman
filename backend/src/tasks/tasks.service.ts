@@ -92,7 +92,11 @@ export class TasksService {
                 this.prismaService.task.findMany({
                     where,
                     take: filter.take ?? 30,
-                    orderBy: { dueAt: 'asc' },
+                    orderBy: [
+                        { dueAt: 'asc' },
+                        { updatedAt: 'asc' },
+                        { name: 'asc' },
+                    ],
                     include: {
                         project: { select: { id: true, name: true } },
                         client: {

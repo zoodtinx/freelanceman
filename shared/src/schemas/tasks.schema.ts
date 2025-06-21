@@ -49,6 +49,9 @@ export const createTaskSchema = z.object({
         .nullable(),
 });
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
+export type CreateTaskDtoWithOptimisticUpdate = CreateTaskDto & {
+  updatedAt: string; 
+};
 
 export const editTaskSchema = z.object({
     id: z.string(),
@@ -87,6 +90,7 @@ export type TaskFindManyItem = z.infer<typeof taskFindManyItemSchema>;
 export const taskFindManyResponseSchema = z.object({
     items: z.array(taskFindManyItemSchema),
     total: z.number(),
+    unfilteredTotal: z.number(),
 });
 export type TaskFindManyResponse = z.infer<typeof taskFindManyResponseSchema>;
 

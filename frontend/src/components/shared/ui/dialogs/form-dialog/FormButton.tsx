@@ -1,5 +1,5 @@
 import { Button } from '../../primitives/Button';
-import { CircleCheck, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, CircleCheck, Plus, Trash2 } from 'lucide-react';
 import {
    DestructiveButtonProps,
    SubmissionButtonProps,
@@ -18,7 +18,7 @@ export const DiscardButton = ({
 
    return (
       <Button variant={'destructiveOutline'} className="gap-1 outline-none focus:outline-none" onClick={onClick}>
-         <Trash2 className="w-4 h-4" />
+         {isEditMode ? <Trash2 className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
          {isEditMode ? deleteText : discardText}
       </Button>
    );
@@ -26,6 +26,7 @@ export const DiscardButton = ({
 
 export const SubmitButton = ({
    formMethods,
+   entity
 }: SubmitButtonProps) => {
    const {
       formState: { isDirty },
@@ -59,7 +60,7 @@ export const SubmitButton = ({
          ) : (
             <Plus className="w-5 h-5" />
          )}
-         {isEditMode ? 'Save Changes' : 'Add'}
+         {isEditMode ? 'Save Changes' : `Add ${entity}`}
       </Button>
    );
 };
