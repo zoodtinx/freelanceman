@@ -49,7 +49,7 @@ export const NoDataPlaceHolder = ({
 
 export const LoadingPlaceHolder = () => {
    return (
-      <div className="flex justify-center items-center grow">
+      <div className="flex justify-center items-center grow w-full h-full">
          <Loader2 className="animate-spin text-primary" />
       </div>
    );

@@ -10,7 +10,7 @@ import ClientPage from '@/routes/ClientPage';
 import IncomePage from 'src/routes/IncomePage';
 import SalesDocumentBuilderPage from '@/components/page-elements/documents/SalesDocumentBuilderPage';
 import RootPage from '@/routes/RootPage';
-import AuthPage from '@/routes/AuthPage';
+import AuthPage from '@/routes/WelcomePage';
 
 export const router = createBrowserRouter([
    {

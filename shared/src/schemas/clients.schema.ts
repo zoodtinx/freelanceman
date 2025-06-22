@@ -43,13 +43,13 @@ export type CreateClientDto = z.infer<typeof createClientSchema>;
 
 export const editClientSchema = z.object({
     id: z.string(),
-    name: z.string().min(1),
+    name: optionalStringField(),
     taxId: nullableStringField(),
     email: nullableStringField(),
     phoneNumber: nullableStringField(),
     address: nullableStringField(),
     detail: nullableStringField(),
-    themeColor: z.string().min(1),
+    themeColor: optionalStringField(),
     note: nullableStringField(),
 });
 export type EditClientDto = z.infer<typeof editClientSchema>;

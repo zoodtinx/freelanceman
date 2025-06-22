@@ -123,7 +123,10 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
 
    return (
       <div
-         className="flex flex-col w-full bg-foreground rounded-[20px] sm:w-full shrink-0 overflow-hidden h-1/2 shadow-md"
+         className={cn(
+            'flex flex-col w-full bg-foreground rounded-[20px] shrink-0 overflow-hidden h-1/2 shadow-md',
+            'sm:w-full sm:h-[420px]'
+         )}
          ref={fileSectionRef}
       >
          <div className="flex justify-between items-center px-4 pr-2 h-9">
@@ -157,7 +160,9 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                   hidden: selectState.enableSelect,
                })}
             />
-            {filesQueryResult.isFetching && <Loader2 className='text-primary animate-spin'/>}
+            {filesQueryResult.isFetching && (
+               <Loader2 className="text-primary animate-spin" />
+            )}
          </div>
          <SharedFileList
             variant="projectPage"

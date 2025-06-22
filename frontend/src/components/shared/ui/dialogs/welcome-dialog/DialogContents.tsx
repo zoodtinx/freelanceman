@@ -15,6 +15,8 @@ import SvgProjectPage1 from '@/components/shared/icons/welcome-card-icons/Projec
 
 const projectPageContent = [
    {
+      page: 'project',
+      order: 1,
       icon: SvgProjectPage1,
       headline: (
          <React.Fragment>
@@ -23,13 +25,17 @@ const projectPageContent = [
          </React.Fragment>
       ),
       subhead:
-         'Tasks, events, files, contacts, notes and links. All in one clean, simple freelance workflow.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/project-page-1.jpg?updatedAt=1749714476968`,
+         'Tasks, events, files, contacts, notes and links. All in one place that never lost.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/project-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const documentbuilderPageContent = [
    {
+      page: 'documentbuilder',
+      order: 1,
       icon: SvgDocumentGenerationPage1,
       headline: (
          <React.Fragment>
@@ -39,12 +45,16 @@ const documentbuilderPageContent = [
       ),
       subhead:
          'Create polished documents and export PDFs to share directly with clients. No extra tools required.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/docbuilder-page-1.jpg?updatedAt=1749714476968`,
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/docbuilder-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const incomePageContent = [
    {
+      page: 'income',
+      order: 1,
       icon: SvgIncomePage1,
       headline: (
          <React.Fragment>
@@ -53,10 +63,14 @@ const incomePageContent = [
          </React.Fragment>
       ),
       subhead:
-         'See incoming payments at a glance and spot unpaid clients easily. Stay on top of invoices without the stress.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/income-page-1.jpg?updatedAt=1749714476968`,
+         'Notice incoming payments at a glance and spot unpaid clients easily. Stay on top of finance without the stress.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/income-page-1.jpg?updatedAt=1749714476968`,
    },
    {
+      page: 'income',
+      order: 2,
       icon: SvgIncomePage2,
       headline: (
          <React.Fragment>
@@ -67,13 +81,17 @@ const incomePageContent = [
          </React.Fragment>
       ),
       subhead:
-         'Generate polished income and payment PDFs right in the app. Skip the templates. Just add your info.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/income-page-2.jpg?updatedAt=1749714476968`,
+         'Generate polished sales document PDFs right in the app. Skip the templates. Just add your info.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/income-page-2.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const filePageContent = [
    {
+      page: 'files',
+      order: 1,
       icon: SvgFilesPage1,
       headline: (
          <React.Fragment>
@@ -85,9 +103,13 @@ const filePageContent = [
       ),
       subhead:
          'Store project files, briefs, and assets neatly. Upload and search quickly. No more messy folders or lost versions.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/files-page-1.jpg?updatedAt=1749714476968`,
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/files-page-1.jpg?updatedAt=1749714476968`,
    },
    {
+      page: 'files',
+      order: 2,
       icon: SvgFilesPage2,
       headline: (
          <React.Fragment>
@@ -100,12 +122,16 @@ const filePageContent = [
       ),
       subhead:
          'Add files from your device or drop in a link. Keep everything connected and easy to access.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/files-page-2.jpg?updatedAt=1749714476968`,
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/files-page-2.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const partnersPageContent = [
    {
+      page: 'partners',
+      order: 1,
       icon: SvgPartnersPage1,
       headline: (
          <React.Fragment>
@@ -116,13 +142,17 @@ const partnersPageContent = [
          </React.Fragment>
       ),
       subhead:
-         'Track collaborators like editors or coders with ease. See how they connect to your projects. Know who did what.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/partner-page-1.jpg?updatedAt=1749714476968`,
+         'Track collaborators with ease. See how they connect to your projects. Know who did what.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/partner-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const allClientPageContent = [
    {
+      page: 'clients',
+      order: 1,
       icon: SvgAllClientPage1,
       headline: (
          <React.Fragment>
@@ -134,12 +164,16 @@ const allClientPageContent = [
       ),
       subhead:
          'View all your contacts in a clean list with company cards. Find people fast, track interactions and see client info.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/allclient-page-1.jpg?updatedAt=1749714476968`,
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/allclient-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const actionPageContent = [
    {
+      page: 'actions',
+      order: 1,
       icon: SvgActionsPage1,
       headline: (
          <React.Fragment>
@@ -151,12 +185,16 @@ const actionPageContent = [
       ),
       subhead:
          'See tasks and events in one view. Add, edit, or check things off fast. From quick notes to big deadlines.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/action-page-1.jpg?updatedAt=1749714476968`,
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/action-page-1.jpg?updatedAt=1749714476968`,
    },
 ];
 
 const homePageContent = [
    {
+      page: 'home',
+      order: 1,
       icon: SvgFreelancemanIcon,
       headline: (
          <React.Fragment>
@@ -167,40 +205,48 @@ const homePageContent = [
          </React.Fragment>
       ),
       subhead:
-         'Built for solo freelancers to manage tasks, clients, and documents. Work smarter, skip the clutter.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-1.jpg?updatedAt=1749714476968`,
+         "Built by freelancers, for freelancers. Because nobody else really gets what it's like to be your own entire company.",
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/home-page-1.jpg?updatedAt=1749714476968`,
    },
    {
+      page: 'home',
+      order: 2,
       icon: SvgHomePage2,
       headline: (
          <React.Fragment>
             <p className="text-center">Freelancing is Chaotic,</p>
             <p className="text-center">
                <span className="font-semibold">We made it simple.</span>
-               {/* {' '}
-               makes it simple. */}
             </p>
          </React.Fragment>
       ),
       subhead:
-         'Built for solo freelancers to manage tasks, clients, and documents. Work smarter, skip the clutter.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-2.jpg?updatedAt=1749714476968`,
+         'Juggle clients, nail deadlines, find your files. All in one place. No more digital disasters.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/home-page-2.jpg?updatedAt=1749714476968`,
    },
    {
+      page: 'home',
+      order: 3,
       icon: SvgHomePage3,
       headline: (
          <React.Fragment>
-            <p className="text-center">Made for Every Screen</p>
-            <p className="text-center">
-               with <span className="font-semibold">Responsive Design</span>
-            </p>
+            <p className="font-semibold text-center">Responsive Design</p>
+            <p className="text-center">Works on Every Devices</p>
          </React.Fragment>
       ),
       subhead:
-         'Stay productive on any device with a design that adapts to your workflow, wherever you are.',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-3.jpg?updatedAt=1749714476968`,
+         'Start on your laptop, finish on your phone, check in from your tablet. And maybe edit from your smart fridge.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/home-page-3.jpg?updatedAt=1749714476968`,
    },
    {
+      page: 'home',
+      order: 4,
       icon: SvgHomePage4,
       headline: (
          <React.Fragment>
@@ -208,8 +254,10 @@ const homePageContent = [
             <p className="text-center font-semibold">See Every Line of Code</p>
          </React.Fragment>
       ),
-      subhead: 'Built with React, NestJS, Prisma & more View on GitHub',
-      imageUrl: `${import.meta.env.VITE_IMAGE_URL_ENDPOINT}/home-page-4.jpg?updatedAt=1749714476968`,
+      subhead: 'View the live production repo powering this app.',
+      imageUrl: `${
+         import.meta.env.VITE_IMAGE_URL_ENDPOINT
+      }/home-page-4.jpg?updatedAt=1749714476968`,
    },
 ];
 

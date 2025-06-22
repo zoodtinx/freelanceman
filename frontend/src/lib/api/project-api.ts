@@ -7,7 +7,7 @@ import {
    getProjectSelections,
 } from './services/project-service';
 import { UseApiOptions } from '@/lib/api/services/helpers/api.type';
-import { ProjectFilterDto, ProjectFindManyResponse } from 'freelanceman-common';
+import { ProjectFilterDto } from 'freelanceman-common';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

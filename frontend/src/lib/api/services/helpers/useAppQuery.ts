@@ -37,7 +37,7 @@ export const useAppQuery = (
 
       const handleUnauthorized = async () => {
          const refreshed = await tryRefresh();
-         if (!refreshed) return;
+         if (!refreshed) {navigate('/welcome')};
       };
 
       if (

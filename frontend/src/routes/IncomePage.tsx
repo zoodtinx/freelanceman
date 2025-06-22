@@ -72,19 +72,29 @@ const IncomePage: React.FC = () => {
                'sm:flex-col sm:bg-background sm:p-0'
             )}
          >
-            <div className='flex items-center gap-3'>
-               {paymentDataQueryResult.isFetching ? <Loader2 className='text-primary animate-spin' /> : <StatsBar />}
+            <div className="flex items-center gap-3 sm:w-full">
+               {paymentDataQueryResult.isFetching ? (
+                  <div
+                     className={cn(
+                        'flex items-center justify-center sm:h-[47px] sm:w-full',
+                     )}
+                  >
+                     <Loader2 className="text-primary animate-spin" />
+                  </div>
+               ) : (
+                  <StatsBar />
+               )}
             </div>
-            
+
             <FilterBar
                projectFilter={projectFilter}
                setProjectFilter={setProjectFilter}
             />
          </div>
-            <ProjectPaymentTabList
-               paymentDataQueryResult={paymentDataQueryResult}
-               setFilter={setProjectFilter}
-            />
+         <ProjectPaymentTabList
+            paymentDataQueryResult={paymentDataQueryResult}
+            setFilter={setProjectFilter}
+         />
       </section>
    );
 };
@@ -139,17 +149,22 @@ const StatsBar = () => {
    const { data: statsData, isLoading } = usePaymentStatsQuery();
 
    return (
-      <div className="flex grow gap-3 sm:w-full sm:justify-between sm:px-2 sm:pb-2 items-center">
+      <div
+         className={cn(
+            'flex grow gap-3 items-center',
+            'sm:w-full sm:justify-between sm:px-2 sm:h-[47px] sm:items-start'
+         )}
+      >
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
-               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:flex-1'
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:w-1/3'
             )}
          >
             <div>
                Unprocessed: <br className="hidden sm:block" />
                {isLoading ? (
-                  <span className='invisible'>1,000,000</span>
+                  <span className="invisible">1,000,000</span>
                ) : (
                   <span className="text-md font-medium text-primary">
                      {statsData?.unprocessed.toLocaleString()}
@@ -160,13 +175,13 @@ const StatsBar = () => {
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
-               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:flex-1'
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:w-1/3'
             )}
          >
             <div>
                Processing: <br className="hidden sm:block" />
                {isLoading ? (
-                  <span className='invisible'>1,000,000</span>
+                  <span className="invisible">1,000,000</span>
                ) : (
                   <span className="text-md font-medium text-primary">
                      {statsData?.processing.toLocaleString()}
@@ -177,13 +192,13 @@ const StatsBar = () => {
          <div
             className={cn(
                'text-secondary flex gap-2 items-center',
-               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:flex-1'
+               'sm:flex-col sm:gap-0 sm:leading-snug sm:h-fit sm:items-start sm:w-1/3'
             )}
          >
             <div>
                All Due: <br className="hidden sm:block" />
                {isLoading ? (
-                  <span className='invisible'>1,000,000</span>
+                  <span className="invisible">1,000,000</span>
                ) : (
                   <span className="text-md font-medium text-primary">
                      {statsData?.allAmountDue.toLocaleString()}

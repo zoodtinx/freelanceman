@@ -118,7 +118,7 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
                }}
             />
          ) : (
-            <div className="flex gap-1 relative group w-full items-center">
+            <div className="flex gap-1 relative group w-full ">
                <p
                   className="grow text-lg font-medium cursor-text focus:outline-none focus:ring-0 focus:shadow-none"
                   onClick={() => setIsEditing(true)}
@@ -129,7 +129,7 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
                   {value || placeholder}
                </p>
                {isWithIcon && (
-                  <div className="transition-opacity opacity-100 group-hover:opacity-100">
+                  <div className="transition-opacity opacity-100 group-hover:opacity-100 pt-1">
                      <Pencil className="shrink-0 w-[14px] h-auto text-secondary" />
                   </div>
                )}

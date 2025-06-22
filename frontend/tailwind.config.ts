@@ -63,8 +63,12 @@ module.exports = {
          },
          animation: {
             shake: 'shake 0.3s ease-in-out',
+            blink: 'fadeInOut 2.5s ease-in-out infinite',
          },
          keyframes: {
+            blink: {
+          '50%': { opacity: '0' },
+        },
             shake: {
                '0%, 100%': { transform: 'translateX(0)' },
                '25%': { transform: 'translateX(-2px)' },

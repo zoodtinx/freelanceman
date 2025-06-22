@@ -38,8 +38,20 @@ export default function ProjectPage() {
    }
 
    return (
-      <div className="flex grow w-full sm:flex-col overflow-y-auto lg:p-1 md:p-1 lg:pb-2 md:pb-2 gap-2 sm:gap-0">
-         <div className="flex flex-col grow gap-2 w-2/3 sm:w-full">
+      <div
+         className={cn(
+            'flex grow w-full overflow-y-auto gap-2',
+            'lg:p-1 lg:pb-2',
+            'md:pb-2 md:p-1',
+            'sm:flex-col sm:gap-0'
+         )}
+      >
+         <div
+            className={cn(
+               'flex flex-col grow gap-2 w-2/3',
+               'sm:w-full sm:gap-2'
+            )}
+         >
             {isLoading || !project ? (
                <Skeleton className="flex flex-col rounded-[13px] px-4 py-3 w-full relative  h-[85px] justify-center shrink-0" />
             ) : (
@@ -53,7 +65,12 @@ export default function ProjectPage() {
                </div>
             )}
 
-            <div className="flex gap-2 sm:flex-col h-[65%] shrink-0 grow-0">
+            <div
+               className={cn(
+                  'flex gap-2 h-[65%] shrink-0 grow-0',
+                  'sm:flex-col sm:h-auto'
+               )}
+            >
                {isLoading || !project ? (
                   <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
                ) : (
@@ -81,14 +98,19 @@ export default function ProjectPage() {
                )}
             </div>
 
-            <div className="flex gap-2 sm:flex-col h-[35%] grow-0 w-full">
+            <div
+               className={cn(
+                  'flex gap-2 h-[35%] grow-0 w-full',
+                  'sm:flex-col sm:h-auto'
+               )}
+            >
                {isLoading || !project ? (
                   <Skeleton className="flex rounded-[13px] relative shadow-md w-[35%] h-full shrink-0" />
                ) : (
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-[35%] shrink-0',
-                        'sm:w-full sm:min-h-[130px] sm:shadow-sm'
+                        'sm:w-full sm:h-[300px] sm:shadow-sm h-full'
                      )}
                   >
                      <ProjectLinkSection project={project} />
@@ -100,8 +122,8 @@ export default function ProjectPage() {
                ) : (
                   <div
                      className={cn(
-                        'flex rounded-[13px] bg-foreground relative shadow-md w-[65%]',
-                        'sm:w-full sm:min-h-[200px] sm:shadow-sm'
+                        'flex rounded-[13px] bg-foreground relative shadow-md w-[65%] h-full',
+                        'sm:w-full sm:h-[300px] sm:shadow-sm'
                      )}
                   >
                      <ProjectNoteSection project={project} />
@@ -122,7 +144,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md',
-                     'sm:w-full sm:min-h-[130px] sm:shadow-sm'
+                     'sm:w-full sm:h-[300px] sm:shadow-sm'
                   )}
                >
                   <ProjectContactSection project={project} />
@@ -134,7 +156,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col rounded-[13px] bg-foreground grow relative overflow-hidden shadow-md',
-                     'sm:w-full sm:shadow-sm sm:min-h-[180px]'
+                     'sm:w-full sm:shadow-sm sm:h-[420px]'
                   )}
                >
                   <ProjectFileSection project={project} />
@@ -153,20 +175,13 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
       (state) => state.setFormDialogState
    );
 
-   const editProject = useEditProject({
-      errorCallback() {
-         toast.error('Unable to update the project');
-      },
-      successCallback() {
-         toast.success('Project updated');
-      },
-   });
+   const editProject = useEditProject();
 
    const handleEditProject = () => {
       editProject.mutate({
          id: project.id,
-         projectStatus: projectStatus,
-         paymentStatus: paymentStatus,
+         projectStatus: projectStatus as any,
+         paymentStatus: paymentStatus as any,
       });
    };
 
@@ -215,8 +230,8 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
             />
          </div>
          <div className="flex justify-between">
-            <div className="flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden">
-               <UsersRound className=" w-5 h-auto" />
+            <div className={`flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden`}>
+               <UsersRound className="w-5 h-auto" />
                <Link
                   to={project.clientId ? `../../clients/${project.clientId}` : ''}
                   className="text-md font-medium select-none"
@@ -229,8 +244,8 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
                   className="flex items-center border border-tertiary cursor-pointer rounded-full pl-3"
                   onClick={handleProjectSelectGroupClick}
                >
-                  <Briefcase className="w-4 h-4 mr-1" />
-                  <p className="sm:text-sm">Status:</p>
+                  <Briefcase className="w-4 h-4 mr-1 sm:mr-0" />
+                  <p className="sm:hidden">Status:</p>
                   <StatusSelect
                      selections={projectStatusSelections}
                      value={projectStatus}
@@ -244,8 +259,8 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
                   className="flex items-center border border-tertiary cursor-pointer rounded-full pl-3 flex-1"
                   onClick={handlePaymentSelectGroupClick}
                >
-                  <Wallet className="w-4 h-4 mr-1" />
-                  <p className="sm:text-sm">Payment:</p>
+                  <Wallet className="w-4 h-4 mr-1 sm:mr-0" />
+                  <p className="sm:hidden">Payment:</p>
                   <StatusSelect
                      selections={paymentStatusSelections}
                      value={paymentStatus}

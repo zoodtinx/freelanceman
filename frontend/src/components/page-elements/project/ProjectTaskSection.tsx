@@ -86,7 +86,7 @@ const ProjectTaskSection = ({
                   }}
                >
                   <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
-                  <ToggleGroupItem value="finished">Completed</ToggleGroupItem>
+                  <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
                </ToggleGroup>
                {isFetching ? (
                   <div className="h-[33px] w-[33px] p-1">

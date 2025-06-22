@@ -12,28 +12,30 @@ import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPla
 import { toast } from 'sonner';
 import { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
+import { cn } from '@/lib/helper/utils';
 
 export default function ClientPage() {
    const { clientId } = useParams();
 
-   
+   const { data: clientData, isLoading } = useClientQuery(clientId || '');
 
-   const { data: clientData, isLoading } = useClientQuery(
-      clientId || ''
-   );
-
-   console.log('isLoading', isLoading)
-   console.log('clientData', clientData)
+   console.log('isLoading', isLoading);
+   console.log('clientData', clientData);
 
    return (
-      <section className="w-full h-full flex gap-2 sm:flex-col">
+      <section
+         className={cn(
+            'w-full h-full flex gap-2',
+            'sm:flex-col sm:overflow-y-auto sm:h-fit'
+         )}
+      >
          {isLoading || !clientData ? (
             <div className="flex flex-col grow gap-2 h-full">
                <Skeleton className="h-1/2 rounded-2xl" />
                <Skeleton className="h-1/2 rounded-2xl" />
             </div>
          ) : (
-            <div className="flex flex-col grow gap-2 h-full">
+            <div className="flex flex-col grow gap-2 h-full sm:h-auto">
                <ClientProjectSection
                   clientData={clientData}
                   isLoading={isLoading}
@@ -44,9 +46,9 @@ export default function ClientPage() {
                />
             </div>
          )}
-         <div className="flex flex-col w-[350px] gap-2 h-full">
+         <div className="flex flex-col w-[350px] gap-2 h-full sm:w-full sm:h-auto">
             {isLoading || !clientData ? (
-               <Skeleton className="rounded-2xl w-fill h-1/2" />
+               <Skeleton className="rounded-2xl w-fill h-1/2 sm:h-auto" />
             ) : (
                <ClientContactSection
                   clientData={clientData}
@@ -59,7 +61,7 @@ export default function ClientPage() {
                   <Skeleton className="h-1/2 rounded-2xl" />
                </div>
             ) : (
-               <div className="flex flex-col gap-2 h-1/2">
+               <div className="flex flex-col gap-2 h-1/2 sm:h-auto">
                   <ClientInfoSection
                      clientData={clientData}
                      isLoading={isLoading}
@@ -75,40 +77,36 @@ export default function ClientPage() {
    );
 }
 
-const ClientNoteSection: React.FC<ClientSectionProps> = ({clientData}) => {
+const ClientNoteSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    const [note, setNote] = useState(clientData.note);
-   
-      const editProject = useEditClient({
-         errorCallback() {
-            toast.error('Error adding note');
-         },
-         optimisticUpdate: {
-            enable: true,
-            key: ['client', clientData.id],
-            type: 'edit',
-         },
-      });
-   
-      const debouncedUpdateNote = useMemo(
-         () =>
-            debounce((newNote: string) => {
-               editProject.mutate({
-                  id: clientData.id,
-                  note: newNote,
-               });
-               console.log('Note updated:', newNote);
-            }, 1000),
-         [editProject, clientData.id]
-      );
-   
-      const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-         const newNote = e.target.value;
-         setNote(newNote);
-         debouncedUpdateNote(newNote); 
-      };
-   
+
+   const editProject = useEditClient();
+
+   const debouncedUpdateNote = useMemo(
+      () =>
+         debounce((newNote: string) => {
+            editProject.mutate({
+               id: clientData.id,
+               note: newNote,
+            });
+            console.log('Note updated:', newNote);
+         }, 1000),
+      [editProject, clientData.id]
+   );
+
+   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newNote = e.target.value;
+      setNote(newNote);
+      debouncedUpdateNote(newNote);
+   };
+
    return (
-      <div className="flex flex-col flex-1 h-1/2 bg-foreground rounded-[20px] shrink-0 shadow-md">
+      <div
+         className={cn(
+            'flex flex-col flex-1 h-1/2 bg-foreground rounded-[20px] shrink-0 shadow-md',
+            'sm:h-[300px] sm:flex-auto'
+         )}
+      >
          <div className="flex items-center justify-between h-9 gap-1 px-4">
             <div className="flex items-center gap-1">
                <StickyNote className="w-4 h-4" />
@@ -118,8 +116,8 @@ const ClientNoteSection: React.FC<ClientSectionProps> = ({clientData}) => {
          <div className="w-full border-[0.5px] border-tertiary" />
          <textarea
             className="flex text-primary font-normal border-0 grow px-4 py-3 resize-none focus:outline-none focus:ring-0 focus:border-transparent bg-transparent placeholder:text-secondary"
-            placeholder='Add note for quick reminder or more.'
-            value={note}
+            placeholder="Add note for quick reminder or more."
+            value={note as any}
             onChange={handleChange}
          />
       </div>
@@ -143,7 +141,11 @@ const ClientInfoSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       });
    };
 
-   const hasNoInfo = !clientData.address && !clientData.phoneNumber && !clientData.taxId && !clientData.email
+   const hasNoInfo =
+      !clientData.address &&
+      !clientData.phoneNumber &&
+      !clientData.taxId &&
+      !clientData.email;
 
    return (
       <div className="flex flex-col h-fit bg-foreground rounded-[20px] shrink-0 shadow-md">
@@ -159,7 +161,7 @@ const ClientInfoSection: React.FC<ClientSectionProps> = ({ clientData }) => {
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
          {hasNoInfo ? (
-            <NoDataPlaceHolder className='h-32' addFn={handleClientSettings}>
+            <NoDataPlaceHolder className="h-32" addFn={handleClientSettings}>
                Add client info
             </NoDataPlaceHolder>
          ) : (

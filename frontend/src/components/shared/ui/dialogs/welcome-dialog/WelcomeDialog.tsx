@@ -15,7 +15,6 @@ import React, { ReactNode, useRef } from 'react';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { useSetVisited } from '@/lib/api/user-api';
 import { welcomeDialogContent } from '@/components/shared/ui/dialogs/welcome-dialog/DialogContents';
-import { X } from 'lucide-react';
 
 export function GreetingDialog() {
    const { welcomeDialogState } =
@@ -51,12 +50,12 @@ export function GreetingDialog() {
             onClick={handleClick}
             className={cn(
                'rounded-3xl bg-foreground dark:bg-background outline-none max-w-[490px] group cursor-pointer',
-               'flex flex-col items-center px-5 py-5 pt-8 select-none',
+               'flex flex-col items-center px-4 py-5 pt-8 select-none',
                'lg:w-[487px] h-fit',
                'sm:rounded-2xl sm:w-[360px] sm:h-fit sm:p-3 sm:pt-7'
             )}
          >
-            <Carousel className="w-full" opts={{duration: 13}}>
+            <Carousel className='w-full' opts={{duration: 13}}>
                <CarouselContent>{carouselItems}</CarouselContent>
                <CarouselNext ref={nextButtonRef} className="hidden" />
             </Carousel>
@@ -71,6 +70,8 @@ interface CardContentProps {
    subhead: string;
    imageUrl: string;
    isLastCard: boolean;
+   page: string;
+   order: number
 }
 
 const CardContent: React.FC<CardContentProps> = ({
@@ -79,6 +80,8 @@ const CardContent: React.FC<CardContentProps> = ({
    icon: Icon,
    subhead,
    isLastCard,
+   order,
+   page
 }) => {
    const { welcomeDialogState, setWelcomeDialogState } =
       useWelcomeDialogStore();
@@ -93,32 +96,39 @@ const CardContent: React.FC<CardContentProps> = ({
       }
    };
 
+   const isLastHomePageCard = page === 'home' && order === 4
+
+   const handleRepoClick = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      window.open('https://www.pinterest.com/search/pins/?q=welcome%20page&rs=typed', '_blank', 'noopener,noreferrer');
+   }
+
    return (
       <div className="flex flex-col items-center w-full" onClick={handleClick}>
          <div className="flex flex-col gap-3 items-center">
             <Icon className="h-[60px] w-auto stroke-[1.3px] text-primary sm:h-[50px]" />
             <div className="flex flex-col gap-2">
-               <div className={cn('text-[24px] sm:text-[20px] leading-tight')}>{headline}</div>
+               <div className={cn('text-[24px] sm:text-[20px] leading-tight')}>
+                  {headline}
+               </div>
                <p
                   className={cn(
-                     'w-[380px] h-[60px] text-center leading-snug text-secondary text-[13px]',
+                     'w-[380px] h-[60px] text-center leading-snug text-secondary text-[13px] flex flex-col',
                      'sm:w-full sm:leading-tight'
                   )}
                >
                   {subhead}
+                  {isLastHomePageCard && (
+                     <span className="text-primary font-semibold underline cursor-pointer" onClick={handleRepoClick}>
+                        Github Repo
+                     </span>
+                  )}
                </p>
             </div>
          </div>
          <div className="w-[450px] h-[270px] sm:h-[201px] sm:w-[336px] rounded-xl overflow-hidden flex justify-center items-center">
             <img src={imageUrl} className="object-cover w-full h-full" alt="" />
          </div>
-         {/* <div className="w-full py-4 flex justify-center">
-            {isLastCard ? (
-               <CircleX className="text-secondary group-hover:text-primary transition-colors" />
-            ) : (
-               <CircleChevronRight className="text-secondary group-hover:text-primary transition-colors" />
-            )}
-         </div> */}
       </div>
    );
 };

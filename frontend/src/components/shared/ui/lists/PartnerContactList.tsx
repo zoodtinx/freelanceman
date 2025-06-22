@@ -114,7 +114,7 @@ export const PartnerContactList: React.FC<
    });
 
    return (
-      <ScrollArea className={cn("h-full", className)}>
+      <ScrollArea className={cn("h-full sm:pt-1", className)}>
          <div className={cn("flex flex-col gap-1 grow pb-7")}>
             {partnerTabs}
             {remainingItems && (
@@ -154,8 +154,9 @@ const PartnerTab = forwardRef<
    return (
       <div
          ref={ref}
-         className={cn("flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary cursor-default",
-            'sm:w-full'
+         className={cn(
+            'flex rounded-[15px] h-[50px] shrink-0 relative border-2 border-transparent hover:border-primary transition-colors bg-quaternary cursor-default',
+            'sm:w-full sm:h-[45px]'
          )}
          onClick={handleClick}
       >
@@ -164,8 +165,12 @@ const PartnerTab = forwardRef<
                <p className="w-[190px] transition-opacity leading-tight sm:hidden">
                   {contact.role}
                </p>
-               <div className='flex items-center gap-[11px]'>
-                  <AvatarDisplay page={'partner-page'} url={data?.url} className='sm:w-8 sm:h-8 w-[38px] shrink-0' />
+               <div className="flex items-center gap-[11px]">
+                  <AvatarDisplay
+                     page={'partner-page'}
+                     url={data?.url}
+                     className="sm:w-8 sm:h-8 w-[38px] shrink-0"
+                  />
                   <p className="font-medium max-w-[700px] w-[300px] text-md truncate cursor-default sm:w-fit">
                      {contact.name}
                   </p>

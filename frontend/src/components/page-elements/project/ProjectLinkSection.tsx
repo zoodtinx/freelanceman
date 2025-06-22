@@ -12,29 +12,19 @@ import { Button } from '@/components/shared/ui/primitives/Button';
 import { useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    project,
 }) => {
    const [mode, setMode] = useState<'view' | 'add'>('view');
 
-   const editProject = useEditProject({
-      errorCallback() {
-         toast.error('Error removing a link');
-      },
-      successCallback() {
-         toast.success('Link removed');
-      },
-      optimisticUpdate: {
-         enable: true,
-         key: ['project', project.id],
-         type: 'edit',
-      },
-   });
+   const editProject = useEditProject();
 
    const handleDeleteLink = (index: number) => {
       const updatedLinks = [...(project.links || [])];
       updatedLinks.splice(index, 1);
+      toast.loading('Deleting link...')
       editProject.mutate({
          id: project.id,
          links: updatedLinks,
@@ -42,7 +32,7 @@ const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    };
 
    return (
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full h-full">
          <div className="flex justify-between items-center pl-3 pr-2">
             <p className="flex items-center h-9 text-md gap-1">
                <LinkIcon className="w-4 h-4" />
@@ -51,20 +41,21 @@ const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
             <AddButton className="w-7 h-7" onClick={() => setMode('add')} />
          </div>
          <div className="w-full border-[0.5px] border-quaternary" />
-         <div className="flex flex-col gap-1 w-full p-2 h-full">
-            {mode === 'view' && !project.links.length && (
-               <NoDataPlaceHolder
-                  className="sm:pb-0"
-                  addFn={() => setMode('add')}
-               >
-                  Add Link
-               </NoDataPlaceHolder>
-            )}
-            {mode === 'add' && (
-               <NewLinkField setMode={setMode} project={project} />
-            )}
-            <LinkItems links={project.links} onDelete={handleDeleteLink} />
-         </div>
+         <ScrollArea>
+            <div className="flex flex-col gap-1 w-full p-2 relative">
+               {mode === 'view' && !project.links.length && (
+                  <NoDataPlaceHolder
+                     className="sm:pb-0"
+                     addFn={() => setMode('add')}
+                  >
+                     Add Link
+                  </NoDataPlaceHolder>
+               )}
+               {mode === 'add' ? (
+                  <NewLinkField setMode={setMode} project={project} />
+               ): <LinkItems links={project.links} onDelete={handleDeleteLink} />}
+            </div>
+         </ScrollArea>
       </div>
    );
 };
@@ -83,19 +74,7 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
    });
    const { handleSubmit, setError } = formMethods;
 
-   const editProject = useEditProject({
-      errorCallback() {
-         toast.error('Error adding a link');
-      },
-      successCallback() {
-         toast.success('Link added');
-      },
-      optimisticUpdate: {
-         enable: true,
-         key: ['project', project.id],
-         type: 'edit',
-      },
-   });
+   const editProject = useEditProject();
 
    const isValidUrl = (url: string) => {
       try {
@@ -118,6 +97,7 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
          });
          return;
       }
+      toast.loading('Adding link...')
       editProject.mutate({
          id: project.id,
          links: project.links ? [...project.links, data] : [data],
@@ -177,28 +157,28 @@ const LinkItems: React.FC<{
    onDelete: (index: number) => void;
 }> = ({ links, onDelete }) => {
    return (
-      <div className="flex flex-col gap-1 overflow-hidden">
-         {links.map((link, index) => (
-            <button
-               key={index}
-               className="flex bg-background p-1 rounded-lg px-2 items-center gap-2"
-            >
-               <Link
-                  to={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex gap-1 text-left grow truncate text-sm"
+         <div className="flex flex-col gap-1">
+            {links.map((link, index) => (
+               <button
+                  key={index}
+                  className="flex bg-background p-1 rounded-lg px-2 items-center gap-2"
                >
-                  <ExternalLink className="w-4 h-4 text-secondary" />
-                  {link.label}
-               </Link>
-               <XIcon
-                  className="w-4 h-4 text-secondary"
-                  onClick={() => onDelete(index)}
-               />
-            </button>
-         ))}
-      </div>
+                  <Link
+                     to={link.url}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="flex gap-1 text-left grow truncate text-sm"
+                  >
+                     <ExternalLink className="w-4 h-4 text-secondary" />
+                     {link.label}
+                  </Link>
+                  <XIcon
+                     className="w-4 h-4 text-secondary"
+                     onClick={() => onDelete(index)}
+                  />
+               </button>
+            ))}
+         </div>
    );
 };
 

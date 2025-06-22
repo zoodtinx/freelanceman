@@ -48,7 +48,7 @@ export const MenuPopover: React.FC = () => {
       >
          <SelectTrigger
             className={cn(
-               'bg-foreground h-10 w-fit p-2 gap-2 flex items-center justify-center rounded-full text-primary',
+               'bg-foreground h-10 w-fit p-2 pr-3 gap-2 flex items-center justify-center rounded-full text-primary',
                'lg:hidden md:hidden'
             )}
          >

@@ -7,10 +7,10 @@ import { Toaster } from '@/components/shared/ui/primitives/Toaster';
 import { GreetingDialog } from '@/components/shared/ui/dialogs/welcome-dialog/WelcomeDialog';
 import { UserBar } from '@/components/page-elements/app-layout/sidebar/UserBar';
 import GlobalAddButton from '@/components/page-elements/app-layout/sidebar/GlobalAddButton';
-import SvgFreelancemanTypo from '@/components/shared/icons/FreelanceManTypo';
 import { cn } from '@/lib/helper/utils';
 import { format } from 'date-fns';
 import { MenuPopover } from '@/components/page-elements/app-layout/MenuPopover';
+import FreelanceMan2LineLogo from '@/components/shared/icons/FreelanceMan2Line';
 
 export default function HomePage() {
    return (
@@ -27,8 +27,8 @@ export default function HomePage() {
                      `}
          >
             <div className="flex justify-center gap-3 lg:flex-col sm:gap-1 md:pt-1">
-               <div className="px-3 pt-3 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
-                  <SvgFreelancemanTypo className="h-auto w-[150px] sm:h-full sm:w-auto" />
+               <div className="pt-2 px-[8px] pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
+                  <FreelanceMan2LineLogo className="h-auto w-full sm:h-full sm:w-auto" />
                </div>
                <UserBar />
             </div>
@@ -71,7 +71,7 @@ export default function HomePage() {
 const CountDisplayBar = () => {
    const date = new Date().toISOString();
    const formattedDate = format(date, 'E dd MMM yyyy');
-   
+
    return (
       <div
          className={cn(

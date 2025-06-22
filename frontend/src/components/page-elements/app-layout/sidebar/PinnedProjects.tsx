@@ -20,13 +20,10 @@ export default function PinnedProjects() {
    });
    const projectQueryResult = useProjectsQuery(projectFilter);
    const projectSelectionQueryResult = useProjectSelectionQuery();
-   const editProject = useEditProject({
-      errorCallback() {
-         toast.error('Error pinning a project');
-      },
-   });
+   const editProject = useEditProject();
 
    const handlePinProject = (projectId: string) => {
+      toast.loading('Pinning project...')
       editProject.mutate({
          id: projectId,
          pinned: true,
@@ -108,14 +105,11 @@ const PinnedProjectCard = ({ project }: { project: ProjectFindManyItem }) => {
    const navigate = useNavigate();
    const isActive = projectId === project.id;
 
-   const editProject = useEditProject({
-      errorCallback() {
-         toast.error('Error unpinning a project');
-      },
-   });
+   const editProject = useEditProject();
 
    const handleUnpin = (e: React.MouseEvent) => {
       e.stopPropagation()
+      toast.loading('Unpinning project...')
       editProject.mutate({
          id: project.id,
          pinned: false,
@@ -131,7 +125,7 @@ const PinnedProjectCard = ({ project }: { project: ProjectFindManyItem }) => {
          onClick={handleClick}
          className={cn(
             'p-1 px-2 border border-tertiary border-dashed rounded-lg cursor-pointer relative group overflow-visible',
-            isActive && 'text-primary bg-tertiary border-secondary',
+            isActive && 'text-primary bg-tertiary border-transparent',
             !isActive && 'bg-transparent text-secondary border border-tertiary'
          )}
       >

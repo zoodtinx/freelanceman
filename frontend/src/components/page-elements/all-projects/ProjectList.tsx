@@ -123,13 +123,13 @@ const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({
             <p className="font-medium text-md cursor-default line-clamp-1">
                {project.name}
             </p>
-            <div className="flex items-center gap-2 text-constant-primary shrink-0 opacity-50">
+            <div className="flex items-center gap-2 text-constant-primary shrink-0 opacity-50 sm:hidden">
                <FolderClock className="w-4 h-4" />
                <p>{formattedDateModified}</p>
             </div>
          </div>
          <div
-            className="z-10 flex h-full items-center pr-1 opacity-50 hover:opacity-100 cursor-pointer"
+            className="z-10 flex h-full items-center pr-1 text-constant-primary opacity-50 hover:opacity-100 cursor-pointer"
             onClick={(e) => openSettingDialog(e)}
          >
             <EllipsisVertical className="w-5 h-5" />

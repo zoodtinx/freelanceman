@@ -4,9 +4,7 @@ import React, { useState } from 'react';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { Link } from 'react-router-dom';
 import { useProjectsQuery } from '@/lib/api/project-api';
-import {
-   ProjectFilterDto,
-} from 'freelanceman-common/src/schemas';
+import { ProjectFilterDto } from 'freelanceman-common/src/schemas';
 import { cn } from '@/lib/helper/utils';
 import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -60,8 +58,10 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
 
    return (
       <div
-         className={`flex flex-col w-full sm:w-full gap-[6px] grow p-4 pt-2
-            bg-foreground rounded-[20px] overflow-hidden shadow-md`}
+         className={cn(
+            'flex flex-col w-full gap-[6px] grow p-4 pt-2 bg-foreground rounded-[20px] overflow-hidden shadow-md',
+            'sm:w-full sm:h-[420px]'
+         )}
       >
          <div className="flex justify-between">
             <div className="flex items-center h-[40px] justify-between w-full">
@@ -70,8 +70,8 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                   onClick={handleClientSettings}
                >
                   <Building2 className="w-[28px] h-auto" />
-                  <p className="text-xl leading-none">{clientData.name}</p>
-                  <EllipsisVertical className='w-5 h-5 text-secondary group-hover:text-primary transition-colors'/>
+                  <p className="text-xl leading-none sm:line-clamp-1">{clientData.name}</p>
+                  <EllipsisVertical className="w-5 h-5 text-secondary group-hover:text-primary transition-colors sm:hidden" />
                </div>
                <AddButton onClick={handleNewProject} />
             </div>
@@ -154,8 +154,10 @@ const ProjectList: React.FC<ProjectListProps> = ({
    );
 };
 
-const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({ project }) => {
-   const formattedDateModified = formatDate(project.updatedAt, 'LONG');
+const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({
+   project,
+}) => {
+   const formattedDateModified = formatDate(project.updatedAt!, 'LONG');
 
    return (
       <Link
@@ -171,7 +173,7 @@ const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({ project }) => 
             <p className="font-medium max-w-[700px] text-md truncate cursor-default">
                {project.name}
             </p>
-            <div className="flex items-center gap-2 text-freelanceman-darkgrey">
+            <div className="flex items-center gap-2 text-freelanceman-darkgrey sm:hidden">
                <FolderClock className="w-4 h-4" />
                <p>{formattedDateModified}</p>
             </div>
