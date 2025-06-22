@@ -75,9 +75,7 @@ const NumberInput = ({
    onKeyDown,
    mode,
 }: NumberInputProps) => {
-   const [isEditing, setIsEditing] = useState(
-      !value || parseFloat(value) === 0
-   );
+   const [isEditing, setIsEditing] = useState(false);
    const [display, setDisplay] = useState('');
    const containerRef = useRef<HTMLDivElement>(null);
    const { data: userData } = useUserQuery();
@@ -91,9 +89,21 @@ const NumberInput = ({
             if (value) setIsEditing(false);
          }
       };
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+         if (e.key === 'Escape') {
+            e.stopPropagation();
+            setIsEditing(false);
+         }
+      };
+
       document.addEventListener('mousedown', handleClickOutside);
-      return () =>
+      document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
          document.removeEventListener('mousedown', handleClickOutside);
+         document.removeEventListener('keydown', handleKeyDown);
+      };
    }, [value]);
 
    useEffect(() => {
@@ -116,7 +126,7 @@ const NumberInput = ({
    };
 
    return (
-      <div ref={containerRef} className="flex flex-col">
+      <div ref={containerRef} className="flex flex-col cursor-pointer">
          {isEditing || mode === 'plain' ? (
             <Input
                inputMode="decimal"
@@ -128,7 +138,6 @@ const NumberInput = ({
                onChange={handleChange}
                value={display}
                placeholder={placeholder}
-               autoFocus={mode !== 'plain'}
             />
          ) : (
             <div

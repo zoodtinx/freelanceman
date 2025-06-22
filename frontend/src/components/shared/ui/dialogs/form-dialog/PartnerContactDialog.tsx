@@ -9,86 +9,128 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import {
-   CreatePartnerContactDto,
-   EditPartnerContactDto,
-   PartnerContactFindManyItem,
-} from 'freelanceman-common';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { PartnerContactFindManyItem } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useGetPresignedUrl } from '@/lib/api/file-api';
+import {
+   useCreatePartnerContact,
+   useDeletePartnerContact,
+   useEditPartnerContact,
+} from '@/lib/api/partner-contact-api';
 
 export const PartnerContactDialog = ({
    formMethods,
    crudApi,
-   handleLeftButtonClick,
 }: FormDialogProps) => {
-   //utility hooks
    const navigate = useNavigate();
-   const setFormDialogState = useFormDialogStore(
-      (state) => state.setFormDialogState
+   const { handleSubmit, getValues } = formMethods;
+
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (s) => s.setConfirmationDialogState
    );
 
-   // form utilities
-   const { handleSubmit } = formMethods;
+   const createPartnerContact = useCreatePartnerContact();
+   const editPartnerContact = useEditPartnerContact();
+   const deletePartnerContact = useDeletePartnerContact();
 
-   //dialog state
-   const { formDialogState } = useFormDialogStore();
+   const closeDialog = () =>
+      setFormDialogState((prev) => ({ ...prev, isOpen: false }));
 
-   // api setup
-   const { createPartnerContact, editPartnerContact } =
-      crudApi as CrudApi['partnerContact'];
+   const getPresignedUrl = useGetPresignedUrl({
+      errorCallback() {
+         toast.error('Unable to edit profile');
+      },
+   });
 
-   // submit handler
    const onSubmit = async (data: PartnerContactFindManyItem) => {
-      if (formDialogState.mode === 'create') {
-         const payload: CreatePartnerContactDto = {
-            name: data.name,
-            company: data.company,
-            role: data.role,
-            phoneNumber: data.phoneNumber,
-            email: data.email,
-            avatar: data.avatar,
-         };
-         await createPartnerContact.mutateAsync(payload);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
+      const avatarFile = getValues('avatarFile');
+      const contactId = getValues('id');
+      let presignedUrl;
+
+      if (avatarFile instanceof File) {
+         toast.loading('Uploading avatar...');
+         const randomId = crypto.randomUUID();
+         presignedUrl = await getPresignedUrl.mutateAsync({
+            fileName: `avatar_${contactId || randomId}`,
+            category: 'partner-contact',
+            contentType: avatarFile.type,
          });
-         navigate(`/home/partners`);
-      } else if (formDialogState.mode === 'edit') {
-         const payload: EditPartnerContactDto = {
+
+         const uploadResponse = await fetch(presignedUrl.url, {
+            method: 'PUT',
+            body: avatarFile,
+            headers: { 'Content-Type': 'image/jpeg' },
+         });
+
+         if (!uploadResponse.ok) {
+            toast.error('Avatar upload failed');
+            return;
+         }
+      }
+
+      const commonPayload = {
+         name: data.name,
+         company: data.company,
+         role: data.role,
+         phoneNumber: data.phoneNumber,
+         email: data.email,
+         avatar: presignedUrl?.key,
+         details: data.details,
+      };
+
+      if (formDialogState.mode === 'create') {
+         closeDialog();
+         toast.loading('Creating contact...');
+         await createPartnerContact.mutateAsync(commonPayload);
+         navigate('/home/partners');
+      } else {
+         closeDialog();
+         toast.loading('Updating contact...');
+         await editPartnerContact.mutateAsync({
             id: data.id,
-            name: data.name,
-            role: data.role,
-            phoneNumber: data.phoneNumber,
-            email: data.email,
-            avatar: data.avatar,
-         };
-         await editPartnerContact.mutateAsync(payload);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
+            ...commonPayload,
          });
       }
+   };
+
+   const handleDestructiveButton = () => {
+      if (formDialogState.mode === 'edit') {
+         const deleteFn = async () => {
+            toast.loading('Deleting contact...');
+            await deletePartnerContact.mutateAsync(formDialogState.data.id);
+         };
+
+         setConfirmationDialogState({
+            actions: { primary: deleteFn },
+            entityName: formDialogState.data.name,
+            isOpen: true,
+            type: 'delete',
+            dialogRequested: {
+               mode: 'edit',
+               type: 'partnerContact',
+            },
+         });
+      }
+
+      closeDialog();
    };
 
    return (
       <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
          <div className="bg-background rounded-2xl text-primary">
-            <div className="flex flex-col p-5 pt-5 gap-2">
-               <div className="flex w-full gap-3 justify-between bg-foreground p-2 pl-3 sm:pr-5 pr-2 pb-3 rounded-xl items-center">
+            <div className="flex flex-col p-5 gap-2">
+               <div className="flex w-full gap-3 justify-between bg-foreground p-2 pl-3 pr-5 pb-3 rounded-xl items-center">
                   <div className="flex flex-col w-3/5 gap-2">
                      <div className="flex flex-col leading-5">
                         <Label>Name</Label>
                         <DynamicHeightTextInputForm
                            formMethods={formMethods}
                            fieldName="name"
-                           required={true}
+                           required
                            errorMessage="Please enter a name"
                            placeholder="Contact Name"
                            isWithIcon={false}
@@ -101,10 +143,14 @@ export const PartnerContactDialog = ({
                            formMethods={formMethods}
                            fieldName="role"
                            placeholder="Describe this contact"
+                           errorMessage="Please specify their role"
+                           required
                         />
                      </div>
                      <div className="flex flex-col leading-5">
-                        <Label className="w-[80px] text-secondary">Company</Label>
+                        <Label className="w-[80px] text-secondary">
+                           Company
+                        </Label>
                         <TextInputForm
                            formMethods={formMethods}
                            fieldName="company"
@@ -143,12 +189,19 @@ export const PartnerContactDialog = ({
                      formMethods={formMethods}
                      fieldName="details"
                      placeholder="Describe this contact."
+                     className="h-[80px]"
                   />
                </div>
             </div>
             <FormDialogFooter
                formMethods={formMethods}
-               onDiscard={handleLeftButtonClick}
+               onDiscard={handleDestructiveButton}
+               customText={{
+                  destructiveButton: {
+                     editModeText: 'Delete Contact',
+                  },
+               }}
+               entity="Contact"
             />
          </div>
       </form>

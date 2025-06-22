@@ -6,11 +6,14 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { ClientContactFilterDto } from 'freelanceman-common';
 import { UsersRound } from 'lucide-react';
 import { ContactList } from '@/components/shared/ui/lists/ClientContactList';
+import { useClientContactsQuery } from '@/lib/api/client-contact-api';
 
 const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    const [filter, setFilter] = useState<ClientContactFilterDto>({
       companyId: clientData.id
    });
+
+   const clientContactsQueryResult = useClientContactsQuery(filter);
 
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -42,6 +45,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                filter={filter}
                setFilter={setFilter}
                page="clientPage"
+               queryResult={clientContactsQueryResult}
             />
          </div>
       </div>

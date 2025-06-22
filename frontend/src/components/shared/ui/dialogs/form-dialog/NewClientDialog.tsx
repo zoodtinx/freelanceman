@@ -1,10 +1,8 @@
 import {
    TextAreaForm,
-   TextInputForm
+   TextInputForm,
 } from 'src/components/shared/ui/form-field-elements';
-import {
-   FormDialogProps
-} from 'src/lib/types/form-dialog.types';
+import { FormDialogProps } from 'src/lib/types/form-dialog.types';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { CreateClientDto, EditClientDto } from 'freelanceman-common';
@@ -14,17 +12,21 @@ import { CrudApi } from '@/lib/api/api.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
-import { useCreateClient, useDeleteClient, useEditClient } from '@/lib/api/client-api';
+import {
+   useCreateClient,
+   useDeleteClient,
+   useEditClient,
+} from '@/lib/api/client-api';
 import { toast } from 'sonner';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
-export const NewClientDialog = ({
-   crudApi,
-   formMethods,
-   handleLeftButtonClick,
-}: FormDialogProps) => {
+export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
    //utility hooks
    const navigate = useNavigate();
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -53,8 +55,8 @@ export const NewClientDialog = ({
             address: data.address,
             detail: data.detail,
          };
-         closeDialog()
-         toast.loading('Creating a client.')
+         closeDialog();
+         toast.loading('Creating client...');
          const client = await createClient.mutateAsync(createClientPayload);
          navigate(`/home/clients/${client.id}`);
       } else if (formDialogState.mode === 'edit') {
@@ -68,10 +70,39 @@ export const NewClientDialog = ({
             address: data.address,
             detail: data.detail,
          };
-         closeDialog()
-         toast.loading('Updating a client.')
-         await editClient.mutateAsync(editClientPayload)
+         closeDialog();
+         toast.loading('Updating client...');
+         await editClient.mutateAsync(editClientPayload);
       }
+   };
+
+   const handleDestructiveButton = () => {
+      if (formDialogState.mode === 'edit') {
+         const deleteProjectFn = async () => {
+            toast.loading('Deleting client...');
+            await deleteClient.mutateAsync(formDialogState.data.id);
+            if (formDialogState.openedOn === 'clientPage') {
+               navigate(`/home/clients`);
+            }
+         };
+         setConfirmationDialogState({
+            actions: {
+               primary() {
+                  deleteProjectFn();
+               },
+            },
+            entityName: formDialogState.data.name,
+            isOpen: true,
+            type: 'delete',
+            additionalMessage:
+               'This action will also delete every files, tasks, events and notes created under this project.',
+            dialogRequested: {
+               mode: 'edit',
+               type: 'clientSettings',
+            },
+         });
+      }
+      closeDialog();
    };
 
    return (
@@ -100,9 +131,6 @@ export const NewClientDialog = ({
             </div>
             <Separator className="mt-2 mb-1" />
             <div className="flex flex-col gap-2 bg-foreground p-2 rounded-xl">
-               {/* <p className="text-md text-secondary">
-                  Client Details
-               </p> */}
                <div className="flex leading-tight gap-2">
                   <div className="flex flex-col grow">
                      <Label>Email</Label>
@@ -141,7 +169,13 @@ export const NewClientDialog = ({
          </div>
          <FormDialogFooter
             formMethods={formMethods}
-            onDiscard={handleLeftButtonClick}
+            onDiscard={handleDestructiveButton}
+            entity="Client"
+            customText={{
+               destructiveButton: {
+                  editModeText: 'Delete Client',
+               },
+            }}
          />
       </form>
    );

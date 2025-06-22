@@ -20,13 +20,14 @@ import {
 } from '@/lib/types/form-dialog.types';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useGetPresignedUrl } from '@/lib/api/file-api';
+import { useCreateFile, useGetPresignedUrl } from '@/lib/api/file-api';
 import { CreateFileDto } from 'freelanceman-common';
 import { toast } from 'sonner';
 import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 export const NewFileDialog = ({
    formMethods,
@@ -46,14 +47,18 @@ export const NewFileDialog = ({
       });
    }, [mode]);
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    // api setup
-   const { createFile } = crudApi as CrudApi['file'];
-   const getPresignedUrl = useGetPresignedUrl({
-      errorCallback() {
-         toast.error('Unable to edit profile');
-      },
-   });
+   const createFile = useCreateFile()
+   const getPresignedUrl = useGetPresignedUrl();
 
    const category = formMethods.getValues('category');
    console.log('category', category)
@@ -68,7 +73,7 @@ export const NewFileDialog = ({
       const link = formMethods.getValues('link');
 
       if (mode === 'upload') {
-         toast.loading('Uploading file');
+         toast.loading('Uploading file...');
          setFormDialogState((prev) => {
             return {
                ...prev,
@@ -93,6 +98,8 @@ export const NewFileDialog = ({
             toast.error('Error uploading file');
             return;
          }
+      } else if (mode === 'add-link') {
+         toast.loading('Adding file...')
       }
 
       const payload: CreateFileDto = {
@@ -106,14 +113,8 @@ export const NewFileDialog = ({
          s3Key: mode === 'upload' ? presignedUrl.key : undefined,
          url: mode === 'add-link' ? link : undefined,
       };
-      console.log('data.projectId', data.projectId)
+      closeDialog()
       await createFile.mutateAsync(payload);
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
       if (formDialogState.openedOn === 'globalAddButton') {
          navigate('/home/files');
       }
@@ -144,13 +145,6 @@ export const NewFileDialog = ({
                {mode === 'add-link' && (
                   <div className="flex flex-col items-center gap-2">
                      <Link className="text-secondary w-6 h-6 my-1" />
-                     {/* <TextInputForm
-                        fieldName="link"
-                        className="w-full "
-                        formMethods={formMethods}
-                        required={true}
-                        errorMessage="Please enter display name"
-                     /> */}
                      <LinkInputForm
                         formMethods={formMethods}
                         required={mode === 'add-link'}
@@ -224,7 +218,8 @@ export const NewFileDialog = ({
             </div>
             <FormDialogFooter
                formMethods={formMethods}
-               onDiscard={handleLeftButtonClick}
+               onDiscard={closeDialog}
+               entity='File'
             />
          </form>
       </div>

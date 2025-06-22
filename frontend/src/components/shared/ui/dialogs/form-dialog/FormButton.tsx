@@ -35,7 +35,12 @@ export const DiscardButton = ({
    );
 };
 
-export const SubmitButton = ({ formMethods, entity }: SubmitButtonProps) => {
+export const SubmitButton = ({
+   formMethods,
+   entity,
+   createModeText = `Add ${entity}`,
+   editModeText = 'Save Changes',
+}: SubmitButtonProps) => {
    const {
       formState: { isDirty },
    } = formMethods;
@@ -71,7 +76,7 @@ export const SubmitButton = ({ formMethods, entity }: SubmitButtonProps) => {
          ) : (
             <Plus className="w-5 h-5" />
          )}
-         {isEditMode ? 'Save Changes' : `Add ${entity}`}
+         {isEditMode ? editModeText : createModeText}
       </Button>
    );
 };

@@ -40,6 +40,8 @@ export interface DynamicHeightTextInputFormElementProps<
 export interface SubmitButtonProps {
    formMethods: UseFormReturn;
    entity: string;
+   editModeText?: string;
+   createModeText?: string;
 }
 
 export interface SubmissionButtonProps {

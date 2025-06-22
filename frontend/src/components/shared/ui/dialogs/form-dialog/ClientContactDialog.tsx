@@ -17,27 +17,41 @@ import {
    EditClientContactDto,
 } from 'freelanceman-common';
 import { useNavigate } from 'react-router-dom';
-import { CrudApi } from '@/lib/api/api.type';
 import { useGetPresignedUrl } from '@/lib/api/file-api';
 import { toast } from 'sonner';
+import {
+   useCreateClientContact,
+   useDeleteClientContact,
+   useEditClientContact,
+} from '@/lib/api/client-contact-api';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
-export const ClientContactDialog = ({
-   formMethods,
-   crudApi,
-   handleLeftButtonClick,
-}: FormDialogProps) => {
+export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
    // utility hooks
-   const navigate = useNavigate()
+   const navigate = useNavigate();
 
    // form utilities
    const { handleSubmit, getValues } = formMethods;
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    // api setup
-   const { createClientContact, editClientContact } =
-      crudApi as CrudApi['clientContact'];
+   const createClientContact = useCreateClientContact();
+   const editClientContact = useEditClientContact();
+   const deleteClientContact = useDeleteClientContact();
+
    const getPresignedUrl = useGetPresignedUrl({
       errorCallback() {
          toast.error('Unable to edit profile');
@@ -47,7 +61,7 @@ export const ClientContactDialog = ({
    // submit handler
    const onSubmit = async (data: ClientContactFindManyItem) => {
       const avatarFile = getValues('avatarFile');
-      const contactId = getValues('id')
+      const contactId = getValues('id');
       console.log('avatarFile', avatarFile);
 
       let presignedUrl;
@@ -88,14 +102,12 @@ export const ClientContactDialog = ({
             detail: data.details,
             avatar: presignedUrl?.key,
          } as CreateClientContactDto;
+         closeDialog();
+         toast.loading('Creating contact...');
          await createClientContact.mutateAsync(payload);
-         setFormDialogState((prev) => {
-            return {
-               ...prev,
-               isOpen: false,
-            };
-         });
-         navigate(`/home/clients`);
+         if (formDialogState.openedOn !== 'clientPage') {
+            navigate(`/home/clients`);
+         }
       } else if (formDialogState.mode === 'edit') {
          const payload: EditClientContactDto = {
             id: data.id,
@@ -106,8 +118,9 @@ export const ClientContactDialog = ({
             details: data.details,
             avatar: presignedUrl?.key,
          } as EditClientContactDto;
+         closeDialog();
+         toast.loading('Updating contact...');
          await editClientContact.mutateAsync(payload);
-         toast.dismiss();
       }
    };
 
@@ -121,6 +134,30 @@ export const ClientContactDialog = ({
             isOpen: false,
          };
       });
+   };
+
+   const handleDestructiveButton = () => {
+      if (formDialogState.mode === 'edit') {
+         const deleteClientContactFn = async () => {
+            toast.loading('Deleting a contact.');
+            await deleteClientContact.mutateAsync(formDialogState.data.id);
+         };
+         setConfirmationDialogState({
+            actions: {
+               primary() {
+                  deleteClientContactFn();
+               },
+            },
+            entityName: formDialogState.data.name,
+            isOpen: true,
+            type: 'delete',
+            dialogRequested: {
+               mode: 'edit',
+               type: 'clientContact',
+            },
+         });
+      }
+      closeDialog();
    };
 
    return (
@@ -171,7 +208,7 @@ export const ClientContactDialog = ({
                            formMethods={formMethods}
                            fieldName="role"
                            placeholder="Describe this contact."
-                           errorMessage='Please specify their role'
+                           errorMessage="Please specify their role"
                            required
                         />
                      </div>
@@ -207,13 +244,19 @@ export const ClientContactDialog = ({
                      formMethods={formMethods}
                      fieldName="details"
                      placeholder="Describe this contact."
-                     className='h-[80px]'
+                     className="h-[80px]"
                   />
                </div>
             </div>
             <FormDialogFooter
                formMethods={formMethods}
-               onDiscard={handleLeftButtonClick}
+               onDiscard={handleDestructiveButton}
+               customText={{
+                  destructiveButton: {
+                     editModeText: 'Delete Contact',
+                  },
+               }}
+               entity="Contact"
             />
          </div>
       </form>

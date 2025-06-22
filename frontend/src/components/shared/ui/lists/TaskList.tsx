@@ -50,7 +50,7 @@ export const TaskList: React.FC<
             block: 'start',
          });
       }
-   }, [tasksData?.items.length]);
+   }, [tasksData?.items?.length]);
 
    if (isLoading) {
       if (loader == 'skeleton') {

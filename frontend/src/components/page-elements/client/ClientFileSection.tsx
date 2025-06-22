@@ -11,7 +11,7 @@ import { ClientSectionProps } from 'src/components/page-elements/client/props.ty
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
-import { Paperclip } from 'lucide-react';
+import { Loader2, Paperclip } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
@@ -131,10 +131,9 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                <Paperclip className="w-4 h-4" />
                <p className="text-md">Files</p>
             </div>
-            <AddButton className="w-7 h-7" onClick={handleAddFile} />
          </div>
          <div className="w-full border-[0.5px] border-tertiary" />
-         <div className="flex gap-1 p-2">
+         <div className="flex gap-1 p-2 items-center">
             <div className="relative">
                <MultiSelectButton
                   enableMultiSelect={enableMultiSelect}
@@ -158,6 +157,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
                   hidden: selectState.enableSelect,
                })}
             />
+            {filesQueryResult.isFetching && <Loader2 className='text-primary animate-spin'/>}
          </div>
          <SharedFileList
             variant="projectPage"

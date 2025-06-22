@@ -73,34 +73,47 @@ export const SharedFileList = ({
             block: 'start',
          });
       }
-   }, [filesData?.items.length]);
+   }, [filesData?.items?.length]);
 
    if (isLoading) {
       if (page === 'filePage') {
-         return <div className='px-2'><PartnerPageTabsLoader /></div>
+         return (
+            <div className="px-2">
+               <PartnerPageTabsLoader />
+            </div>
+         );
       } else {
-         return <LoadingPlaceHolder />};
+         return <LoadingPlaceHolder />;
       }
-      
+   }
+
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
+
    if (filesData?.total === 0) {
-      if (filesData.unfilteredTotal === 0 || page === 'clientPage') {
-         if (page === 'filePage') {
-            return (
-               <TabListPlaceHolder
-                  containerClassName="px-2"
-                  addFn={addFn}
-                  children="Add a file"
-               />
-            );
-         } else {
-            return (
-               <NoDataPlaceHolder className="sm:pb-0" addFn={addFn}>
-                  {placeHolder}
-               </NoDataPlaceHolder>
-            );
-         }
+      if (page === 'clientPage') {
+         return (
+            <div className="flex w-full h-full items-center justify-center text-secondary">
+               No file related to this client
+            </div>
+         );
       }
+
+      if (page === 'projectPage') {
+         return (
+            <NoDataPlaceHolder className="sm:pb-0" addFn={addFn}>
+               {placeHolder}
+            </NoDataPlaceHolder>
+         );
+      }
+
+      if (page === 'filePage' && filesData.unfilteredTotal === 0) {
+         return (
+            <TabListPlaceHolder containerClassName="px-2" addFn={addFn}>
+               Add a file
+            </TabListPlaceHolder>
+         );
+      }
+
       return (
          <SearchNotFoundPlaceholder>
             No file matched your search.
@@ -109,9 +122,9 @@ export const SharedFileList = ({
    }
    
 
-   const remainingItems = filesData.total - filesData.items.length > 0;
+   const remainingItems = filesData.total - filesData.items?.length > 0;
    const handleLoadMore = () => {
-      const curentLength = filesData?.items.length;
+      const curentLength = filesData?.items?.length;
       console.log('curentLength', curentLength);
 
       if (!curentLength) {

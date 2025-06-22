@@ -1,11 +1,9 @@
-import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
-import { UseQueryResult } from '@tanstack/react-query';
 import {
    ClientContactFilterDto,
    ClientContactFindManyItem,
@@ -24,19 +22,17 @@ import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/Sea
 
 export const ContactList = ({
    addFn,
-   filter,
    setFilter,
    page,
    className,
-}: ListProps<ClientContactFilterDto>) => {
+   queryResult
+}: ListProps<ClientContactFindManyResponse, ClientContactFilterDto>) => {
    const {
       data: contacts,
       isLoading,
       isError,
       refetch,
-   } = useClientContactsQuery(
-      filter
-   ) as UseQueryResult<ClientContactFindManyResponse>;
+   } = queryResult
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 

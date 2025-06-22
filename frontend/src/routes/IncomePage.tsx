@@ -72,7 +72,10 @@ const IncomePage: React.FC = () => {
                'sm:flex-col sm:bg-background sm:p-0'
             )}
          >
-            <StatsBar />
+            <div className='flex items-center gap-3'>
+               {paymentDataQueryResult.isFetching ? <Loader2 className='text-primary animate-spin' /> : <StatsBar />}
+            </div>
+            
             <FilterBar
                projectFilter={projectFilter}
                setProjectFilter={setProjectFilter}
@@ -238,7 +241,7 @@ const ProjectPaymentTabList = ({
       return <IncomePageLoader />;
    }
 
-   if (isError && !projectData) {
+   if (isError || !projectData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
@@ -304,16 +307,20 @@ const ProjectPaymentTab = forwardRef<
    { project: PaymentDataItem }
 >(({ project }, ref) => {
    const editProject = useEditProject({
-      successCallback() {
-         toast.success('Payment status updated');
+      enableOptimisticUpdate: true,
+      successCallbacks() {
+         toast.dismiss();
+         toast.success('Payment updated');
       },
-      errorCallback() {
-         toast.error('Error updating payment status');
+      errorCallbacks() {
+         toast.dismiss();
+         toast.error('Something went wrong, Please try again');
       },
    });
 
-   const handlePaymentStatusChange = (value: string) => {
-      editProject.mutate({ id: project.id, paymentStatus: value });
+   const handlePaymentStatusChange = async (value: string) => {
+      toast.loading('Updating payment')
+      await editProject.mutateAsync({ id: project.id, paymentStatus: value as any });
    };
 
    const setFormDialogState = useFormDialogStore(

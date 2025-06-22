@@ -3,63 +3,89 @@ import {
    getSalesDocument,
    createSalesDocument,
    deleteSalesDocument,
-   createPdf
+   createPdf,
 } from './services/sales-document-service';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
-import { useAppMutation } from '@/lib/api/services/helpers/useAppMutation';
-import { MutationCallbacks } from '@/lib/api/services/helpers/api.type';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useAuthStore from '@/lib/zustand/auth-store';
+import { useNavigate } from 'react-router-dom';
+import { UseApiOptions } from '@/lib/api/services/helpers/api.type';
+import { defaultApiOptions } from '@/lib/api/services/helpers/default-option';
+import { getBaseMutationOptions } from '@/lib/api/services/helpers/base-mutation-options';
+import { CreatePdfDto, CreateSalesDocumentDto, EditSalesDocumentDto } from 'freelanceman-common';
 
 export const useSalesDocumentQuery = (
    salesDocumentId: string,
    enabled?: boolean
 ) => {
    return useAppQuery(
-      ['salesDocuments', salesDocumentId],
+      ['salesDocument', salesDocumentId],
       (token) => getSalesDocument(token, salesDocumentId),
-      enabled
+      enabled,
+      false
    );
 };
 
-export const useCreateSalesDocument = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-         {
-            mutationKey: 'createSalesDocument',
-            invalidationKeys: ['salesDocument'],
-            mutationFn: createSalesDocument,
-         },
-         callbacks
-      );
-}
-export const useEditSalesDocument = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-     {
-       mutationKey: 'editSalesDocument',
-       invalidationKeys: ['salesDocument'],
-       mutationFn: editSalesDocument,
-     },
-     callbacks
-   );
- };
- 
- export const useDeleteSalesDocument = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-     {
-       mutationKey: 'deleteSalesDocument',
-       invalidationKeys: ['salesDocument', 'paymentData'],
-       mutationFn: deleteSalesDocument,
-     },
-     callbacks
-   );
- };
- 
- export const useCreatePdf = (callbacks?: MutationCallbacks) => {
-   return useAppMutation(
-     {
-       mutationKey: 'createPdf',
-       invalidationKeys: ['salesDocument'],
-       mutationFn: createPdf,
-     },
-     callbacks
-   );
- };
- 
+export const useCreateSalesDocument = (options: UseApiOptions = defaultApiOptions) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (payload: CreateSalesDocumentDto) => createSalesDocument(accessToken, payload),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: ['salesDocument'],
+      }),
+   });
+};
+
+export const useEditSalesDocument = (options: UseApiOptions = defaultApiOptions) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (payload: EditSalesDocumentDto) => editSalesDocument(accessToken, payload),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: ['salesDocument'],
+      }),
+   });
+};
+
+export const useDeleteSalesDocument = (options: UseApiOptions = defaultApiOptions) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (id: string) => deleteSalesDocument(accessToken, id),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: ['salesDocument', 'paymentData'],
+      }),
+   });
+};
+
+export const useCreatePdf = (options: UseApiOptions = defaultApiOptions) => {
+   const queryClient = useQueryClient();
+   const { accessToken } = useAuthStore();
+   const navigate = useNavigate();
+
+   return useMutation({
+      mutationFn: (payload: CreatePdfDto) => createPdf(accessToken, payload),
+      ...getBaseMutationOptions({
+         navigate,
+         options,
+         queryClient,
+         queryKey: ['salesDocument'],
+      }),
+   });
+};

@@ -22,8 +22,8 @@ import {
 import React, { forwardRef, useEffect, useRef } from 'react';
 
 export const PartnerContactList: React.FC<
-   ListProps<PartnerContactFilterDto>
-> = ({  filter, setFilter, className }) => {
+   ListProps<PartnerContactFindManyResponse,PartnerContactFilterDto>
+> = ({  filter, setFilter, className, queryResult }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -33,9 +33,7 @@ export const PartnerContactList: React.FC<
       isLoading,
       isError,
       refetch,
-   } = usePartnerContactsQuery(
-      filter
-   ) as UseQueryResult<PartnerContactFindManyResponse>;
+   } = queryResult
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 

@@ -119,6 +119,11 @@ export const ClientDialog = ({ formMethods }: FormDialogProps) => {
             formMethods={formMethods}
             onDiscard={handleDeleteButtonClick}
             entity='Client'
+            customText={{
+               destructiveButton: {
+                  editModeText: 'Delete Client'
+               }
+            }}
          />
       </form>
    );

@@ -12,6 +12,7 @@ import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store'
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { ConfirmationDialogState } from '@/lib/types/confirmation-dialog.type';
 import { cn } from '@/lib/helper/utils';
+import { FormDialogType } from '@/lib/types/form-dialog.types';
 
 const ConfirmationDialog = () => {
    const confirmationDialogState = useConfirmationDialogStore(
@@ -42,6 +43,16 @@ const ConfirmationDialog = () => {
          };
       });
    };
+
+   const handleAction = () => {
+      confirmationDialogState.actions.primary()
+      setConfirmationDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   }
 
    return (
       <Dialog open={confirmationDialogState.isOpen} onOpenChange={handleCancel}>
@@ -78,7 +89,7 @@ const ConfirmationDialog = () => {
                      <Button
                         type="submit"
                         variant={confirmationDialogState.type === 'delete' ? 'destructive' : 'default'}
-                        onClick={confirmationDialogState.actions.primary}
+                        onClick={handleAction}
                      >
                         Proceed
                      </Button>
@@ -142,7 +153,7 @@ const DialogTitleIcon = ({ type }: { type: string }) => {
 const getDialogTitle = (
    confirmationType: string,
    mode?: string,
-   requestType?: string
+   requestType?: FormDialogType
 ) => {
    if (confirmationType === 'delete') return 'Confirm Delete';
    if (confirmationType === 'unsaved-changes')
@@ -152,7 +163,7 @@ const getDialogTitle = (
    return '';
 };
 
-function getFormattedType(type: string | undefined): string {
+function getFormattedType(type: FormDialogType | undefined): string {
    switch (type) {
       case 'task':
          return 'Task';
@@ -160,19 +171,25 @@ function getFormattedType(type: string | undefined): string {
          return 'Event';
       case 'file':
          return 'File';
-      case 'project-settings':
+      case 'newFile':
+         return 'New File';
+      case 'projectSettings':
          return 'Project Settings';
-      case 'client-contact':
+      case 'clientContact':
          return 'Client Contact';
-      case 'partner-contact':
+      case 'clientSettings':
+         return 'Client Settings';
+      case 'partnerContact':
          return 'Partner Contact';
-      case 'sales-document-item':
+      case 'salesDocumentItem':
          return 'Sales Document Item';
-      case 'user-profile':
+      case 'salesDocument':
+         return 'Sales Document';
+      case 'userProfile':
          return 'User Profile';
-      case 'new-project':
+      case 'newProject':
          return 'New Project';
-      case 'new-client':
+      case 'newClient':
          return 'New Client';
       default:
          return 'Unknown';

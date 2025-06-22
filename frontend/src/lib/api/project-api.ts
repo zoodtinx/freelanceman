@@ -45,7 +45,8 @@ export const useProjectQuery = (projectId: string, enable?: boolean) => {
    return useAppQuery(
       ['project', projectId],
       (token) => getProject(token, projectId),
-      enable
+      enable,
+      false
    );
 };
 
@@ -63,7 +64,7 @@ export const useCreateProject = (
          navigate,
          options,
          queryClient,
-         queryKey: [['projects']],
+         queryKey: ['projects'],
       }),
    });
 };
@@ -80,7 +81,7 @@ export const useEditProject = (options: UseApiOptions = defaultApiOptions) => {
          navigate,
          options,
          queryClient,
-         queryKey: [['projects'], ['project']],
+         queryKey: ['projects', 'project', 'paymentData', 'paymentStats'],
       }),
    });
 };
@@ -99,7 +100,7 @@ export const useDeleteProject = (
          navigate,
          options,
          queryClient,
-         queryKey: [['projects']],
+         queryKey: ['projects', 'project', 'paymentData', 'paymentStats'],
       }),
    });
 };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Files, ArrowDownToLine, Loader2 } from 'lucide-react';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
@@ -22,15 +22,14 @@ import {
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { toast } from 'sonner';
-import { useFileUrlQuery } from '@/lib/api/file-api';
+import { useDeleteFile, useEditFile, useFileUrlQuery } from '@/lib/api/file-api';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 export const FileDialog = ({
    formMethods,
-   crudApi,
    handleLeftButtonClick,
 }: FormDialogProps) => {
-   // button loading state
 
    // form utilities
    const {
@@ -44,10 +43,22 @@ export const FileDialog = ({
    const s3Key = getValues('s3Key');
 
    //dialog state
-   const { formDialogState } = useFormDialogStore();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    // api setup
-   const { editFile } = crudApi as CrudApi['file'];
+   const editFile = useEditFile()
+   const deleteFile = useDeleteFile()
+   const navigate = useNavigate()
+
    const { data: fileUrl, isLoading: isUrlLoading } = useFileUrlQuery(
       s3Key,
       Boolean(s3Key)
@@ -90,6 +101,30 @@ export const FileDialog = ({
       { label: 'Working File', value: 'work' },
       { label: 'Project Asset', value: 'asset' },
    ];
+
+   const handleDestructiveButton = () => {
+      if (formDialogState.mode === 'edit') {
+         const deleteProjectFn = async () => {
+            toast.loading('Deleting file...');
+            await deleteFile.mutateAsync(formDialogState.data.id);
+         };
+         setConfirmationDialogState({
+            actions: {
+               primary() {
+                  deleteProjectFn();
+               },
+            },
+            entityName: formDialogState.data.name,
+            isOpen: true,
+            type: 'delete',
+            dialogRequested: {
+               mode: 'edit',
+               type: 'file',
+            },
+         });
+      }
+      closeDialog();
+   };
 
    return (
       <form
@@ -147,9 +182,6 @@ export const FileDialog = ({
                />
             </div>
          </div>
-         {/* <div className="px-5 pb-3">
-            <Separator />
-         </div> */}
          <div className="flex gap-2 px-5 pb-3 w-full">
             <div className="flex shrink-0 flex-col leading-5 w-1/2">
                <Label className="pb-0">Date Created</Label>
@@ -181,8 +213,9 @@ export const FileDialog = ({
          </div>
          <FileDialogFooter
             formMethods={formMethods}
+            onDiscard={handleDestructiveButton}
             isUrlLoading={isUrlLoading}
-            onDiscard={handleLeftButtonClick}
+            entity='File'
          />
       </form>
    );
@@ -201,7 +234,7 @@ const FileDialogFooter = ({
             <DiscardButton onClick={onDiscard} />
             <div className="flex gap-1">
                <DownloadButton url={url} isLoading={isUrlLoading!} />
-               <SubmitButton formMethods={formMethods} />
+               <SubmitButton formMethods={formMethods} entity='File' />
             </div>
          </div>
       </DialogFooter>

@@ -8,7 +8,7 @@ import {
 } from 'src/components/shared/ui/select/Select';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { forwardRef, useState } from 'react';
-import { BookUser, ChevronDown, User } from 'lucide-react';
+import { BookUser, ChevronDown, Loader2, User } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
 import {
@@ -20,6 +20,7 @@ import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactL
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { cn } from '@/lib/helper/utils';
+import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 
 const PartnerContactLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
@@ -29,6 +30,8 @@ const PartnerContactLayout = (): JSX.Element => {
    const [filter, setFilter] = useState<PartnerContactFilterDto>({});
    const [searchMode, setSearchMode] =
       useState<keyof PartnerContactFilterDto>('name');
+
+   const partnerContactsQueryResult = usePartnerContactsQuery(filter);
 
    const { data: userData } = useUserQuery();
    const setWelcomeDialogState = useWelcomeDialogStore(
@@ -81,7 +84,13 @@ const PartnerContactLayout = (): JSX.Element => {
                      </p>
                   </div>
                </div>
-               <AddButton onClick={handleNewPartner} />
+               {partnerContactsQueryResult.isFetching ? (
+                  <div className="h-[33px] w-[33px] p-1">
+                     <Loader2 className="w-full h-full sm:w-[22px] animate-spin" />
+                  </div>
+               ) : (
+                  <AddButton onClick={handleNewPartner} />
+               )}
             </div>
             <div className="flex gap-1 lg:w-1/2">
                <SearchCategory onChange={handleSearchOptionChange} />
@@ -94,10 +103,11 @@ const PartnerContactLayout = (): JSX.Element => {
             </div>
          </div>
          <PartnerContactList
+            queryResult={partnerContactsQueryResult}
             filter={filter}
+            addFn={handleNewPartner}
             setFilter={setFilter}
             page="partner-page"
-            addFn={handleNewPartner}
             className="px-2"
          />
       </div>

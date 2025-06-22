@@ -13,7 +13,7 @@ import {
    useEditSalesDocument,
    useSalesDocumentQuery,
 } from 'src/lib/api/sales-document-api';
-import { FilePlus2, LoaderCircle, X } from 'lucide-react';
+import { ArrowBigLeft, ArrowLeft, FilePlus2, Loader2, LoaderCircle, Trash, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/helper/utils';
 import {
@@ -27,6 +27,7 @@ import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { SalesDocumentFindOneResponse } from 'freelanceman-common';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -46,15 +47,16 @@ const SalesDocumentBuilderPage = ({
 
    // --- Form and Queries ---
    const formMethods = useForm<SalesDocumentFindOneResponse>({});
-   const { data: salesDocumentData, isLoading: isDocLoading } =
+   const { data: salesDocumentData, isFetching: isDocLoading } =
       useSalesDocumentQuery(documentId ?? '', isEditMode);
-   const { data: projectData, isLoading: isProjectDataLoading } =
+   const { data: projectData, isFetching: isProjectDataLoading } =
       useProjectQuery(projectId ?? '', !isEditMode);
-   const { data: userData } = useUserQuery(
+   const { data: userData, isFetching: isUserDataLoading } = useUserQuery(
       !isEditMode
    );
 
    // --- Welcome Dialog ---
+   const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
    const setWelcomeDialogState = useWelcomeDialogStore(
       (state) => state.setWelcomeDialogState
    );
@@ -63,53 +65,21 @@ const SalesDocumentBuilderPage = ({
       setWelcomeDialogState({ isOpen: true, page: 'documentBuilderPage' });
    }
 
-   // --- Loading State ---
-   const isLoading = isDocLoading || isProjectDataLoading;
-
    // --- Mutations ---
-   const createSalesDoc = useCreateSalesDocument({
-      errorCallback: () => {
-         toast.dismiss()
-         toast.error(`Error creating ${capitalizeFirstChar(category!)}`);
-      },
-      successCallback: () => {
-         toast.success(`${capitalizeFirstChar(category!)} created`);
-      },
-   });
+   const createSalesDoc = useCreateSalesDocument();
 
-   const editSalesDoc = useEditSalesDocument({
-      errorCallback: () => {
-         toast.error(
-            `Error editing ${capitalizeFirstChar(salesDocumentData.category)}`
-         );
-      },
-      successCallback: () => {
-         toast.success(
-            `Edited ${capitalizeFirstChar(salesDocumentData.category)}`
-         );
-      },
-   });
+   const editSalesDoc = useEditSalesDocument();
 
-   const deleteSalesDoc = useDeleteSalesDocument({
-      errorCallback: () => {
-         toast.error(
-            `Error deleting ${capitalizeFirstChar(salesDocumentData.category)}`
-         );
-      },
-      successCallback: () => {
-         toast.success(
-            `${capitalizeFirstChar(salesDocumentData.category)} deleted`
-         );
-      },
-   });
+   const deleteSalesDoc = useDeleteSalesDocument();
 
-   const createPdf = useCreatePdf({
-      errorCallback: () => {
-         toast.dismiss();
-         toast.error(`Error creating PDF`);
-      },
-      successCallback: () => toast.success(`PDF Created`),
-   });
+   const createPdf = useCreatePdf();
+
+   const isLoading =
+      isDocLoading ||
+      isProjectDataLoading ||
+      isUserDataLoading ||
+      createSalesDoc.isPending ||
+      editSalesDoc.isPending;
 
    // --- Form Pre-fill ---
    useEffect(() => {
@@ -139,10 +109,6 @@ const SalesDocumentBuilderPage = ({
       }
    }, [salesDocumentData, formMethods, documentId, projectData, userData]);
 
-   // --- Initial Loading Fallback ---
-   if (isDocLoading || isProjectDataLoading) {
-      return <div>Loading...</div>;
-   }
 
    // --- Form Submit Handlers ---
    const {
@@ -159,7 +125,7 @@ const SalesDocumentBuilderPage = ({
          });
          return;
       }
-
+      toast.loading('Saving document...')
       setIsApiLoading({ type: 'submit', isLoading: true });
 
       if (!isEditMode) {
@@ -169,14 +135,23 @@ const SalesDocumentBuilderPage = ({
       } else {
          const payload = getEditSalesDocumentPayload(data);
          await editSalesDoc.mutateAsync(payload);
-         window.location.reload();
       }
 
       setIsApiLoading({ type: 'submit', isLoading: false });
+      toast.success('Document saved')
    };
 
    const handleDiscard = (e: React.MouseEvent) => {
       e.preventDefault();
+      navigate('/home/income');
+   };
+
+   const handleDelete = async (e: React.MouseEvent) => {
+      e.preventDefault();
+
+      toast.loading('Deleting document...');
+      await deleteSalesDoc.mutateAsync(salesDocumentData.id);
+      toast.success('Document deleted');
       navigate('/home/income');
    };
 
@@ -200,7 +175,11 @@ const SalesDocumentBuilderPage = ({
                <FilePlus2 className="h-6 w-6 mt-1" />
                <div className="flex text-xl pt-1 leading-none mr-2 gap-2">
                   <p>Create</p>
-                  <p>{documentCategory}</p>
+                  {isLoading ? (
+                     <Loader2 className="text-primary animate-spin" />
+                  ) : (
+                     <p>{capitalizeFirstChar(documentCategory)}</p>
+                  )}
                </div>
             </div>
             <X
@@ -214,42 +193,54 @@ const SalesDocumentBuilderPage = ({
          >
             <div className="flex flex-1 gap-3 overflow-hidden sm:flex-col">
                <div className="flex flex-col h-full w-1/2 gap-3 sm:flex-col sm:w-full">
-                  {isLoading ? (
+                  <ProjectInfoField formMethods={formMethods} />
+                  {/* {isProjectDataLoading || isDocLoading ? (
                      <Skeleton className="w-full h-1/3 rounded-xl" />
                   ) : (
                      <ProjectInfoField formMethods={formMethods} />
-                  )}
-                  {isLoading ? (
+                  )} */}
+                  <FreelancerInfoField formMethods={formMethods} />
+                  {/* {isUserDataLoading || isDocLoading ? (
                      <Skeleton className="w-full h-1/3 rounded-xl" />
                   ) : (
                      <FreelancerInfoField formMethods={formMethods} />
-                  )}
-                  {isLoading ? (
+                  )} */}
+                  <ClientInfoField formMethods={formMethods} />
+                  {/* {isProjectDataLoading || isDocLoading ? (
                      <Skeleton className="w-full h-1/3 rounded-xl" />
                   ) : (
                      <ClientInfoField formMethods={formMethods} />
-                  )}
+                  )} */}
                </div>
                <div className="flex flex-col w-1/2 gap-3 sm:w-full">
-                  {isLoading ? (
+                  <ItemsField formMethods={formMethods} />
+                  {/* {isDocLoading ? (
                      <Skeleton className="w-full h-full rounded-xl" />
                   ) : (
                      <ItemsField formMethods={formMethods} />
-                  )}
+                  )} */}
                </div>
             </div>
-            {/* Footer */}
             <footer className="flex justify-between shrink-0 h-fit">
-               <div className="flex gap-2">
+               <div className="flex gap-1">
                   <Button
                      onClick={handleDiscard}
                      variant="destructiveOutline"
-                     disabled={isLoading}
+                     className="gap-1"
                   >
-                     {isDirty ? 'Discard Changes' : 'Back'}
+                     <ArrowLeft className="w-4 h-4" />
+                     Back
                   </Button>
+                  {salesDocumentData && <Button
+                     onClick={handleDelete}
+                     variant="destructive"
+                     className="gap-1"
+                  >
+                     <Trash className="w-4 h-4" />
+                     Delete
+                  </Button>}
                </div>
-               <div className="flex gap-2">
+               <div className="flex gap-1">
                   <Button
                      variant={
                         createPdf.isPending || isDirty || !isEditMode

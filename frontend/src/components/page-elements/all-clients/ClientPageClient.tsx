@@ -1,6 +1,6 @@
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import ClientCard from './ClientCard';
-import { Building2, Plus } from 'lucide-react';
+import { Building2, Loader2, Plus } from 'lucide-react';
 import type { ClientFilterDto } from 'freelanceman-common/src/schemas';
 import { useState } from 'react';
 import { useClientsQuery } from '@/lib/api/client-api';
@@ -64,7 +64,13 @@ const ClientColumn = (): JSX.Element => {
                      </p>
                   </div>
                </div>
-               <AddButton onClick={handleNewClient} />
+               {clientsQueryResult.isFetching ? (
+                  <div className="h-[33px] w-[33px] p-1">
+                     <Loader2 className="w-full h-full sm:w-[22px] animate-spin" />
+                  </div>
+               ) : (
+                  <AddButton onClick={handleNewClient} />
+               )}
             </div>
             <SearchBox
                placeholder="Search client"

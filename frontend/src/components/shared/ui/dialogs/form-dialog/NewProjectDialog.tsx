@@ -41,7 +41,7 @@ export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
 
    const [haveNote, setHaveNote] = useState(false);
 
-   const { handleSubmit, setError, watch } = formMethods;
+   const { handleSubmit, setError } = formMethods;
 
    const onSubmit = async (data: any) => {
       const rawBudget = String(data.budget).replace(/,/g, '');
@@ -73,7 +73,7 @@ export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
             isOpen: false,
          };
       });
-      toast.loading('Preparing a new project.')
+      toast.loading('Setting up new project...')
       const project = await createProject.mutateAsync(createProjectPayload);
       toast.dismiss()
       navigate(`/home/projects/${project.id}`);

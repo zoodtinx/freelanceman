@@ -31,7 +31,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
          data: {
             ...defaultFileValues,
             projectId: project.id,
-            category: fileFilter.category!,
+            category: fileFilter.category as any,
          },
          entity: 'file',
       });
@@ -111,7 +111,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
                className="rounded-full h-6 text-base mx-1"
             />
             <SharedFileList
-               page="project-page"
+               page="projectPage"
                variant='projectPage'
                setFilter={setFileFilter}
                filter={fileFilter}

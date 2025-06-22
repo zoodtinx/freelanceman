@@ -10,6 +10,7 @@ export const useAppQuery = (
    queryKey: QueryKey,
    queryFn: (token: string) => Promise<any>,
    enabled: boolean = true,
+   enablekeepPreviousData: boolean = true
 ) => {
    const { accessToken, setAccessToken } = useAuthStore();
    const navigate = useNavigate();
@@ -18,7 +19,7 @@ export const useAppQuery = (
       queryKey,
       queryFn: () => queryFn(accessToken),
       enabled: Boolean(accessToken) && enabled,
-      placeholderData: keepPreviousData,
+      placeholderData: enablekeepPreviousData && keepPreviousData,
       retry: 0,
    });
 

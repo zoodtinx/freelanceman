@@ -7,7 +7,7 @@ import {
    getClientSelections,
 } from './services/client-service';
 import { UseApiOptions } from '@/lib/api/services/helpers/api.type';
-import { ClientFilterDto, ClientFindManyResponse } from 'freelanceman-common';
+import { ClientFilterDto } from 'freelanceman-common';
 import { useAppQuery } from '@/lib/api/services/helpers/useAppQuery';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

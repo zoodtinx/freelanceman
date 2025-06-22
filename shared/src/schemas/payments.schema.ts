@@ -26,6 +26,7 @@ export type PaymentDataItem = z.infer<typeof paymentDataItemSchema>;
 export const getPaymentDataResponseSchema = z.object({
     total: z.number(),
     items: z.array(paymentDataItemSchema),
+    unfilteredTotal: z.number(),
 });
 export type GetPaymentDataResponse = z.infer<
     typeof getPaymentDataResponseSchema

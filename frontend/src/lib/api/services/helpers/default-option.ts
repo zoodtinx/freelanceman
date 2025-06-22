@@ -8,6 +8,6 @@ export const defaultApiOptions: UseApiOptions = {
    },
    errorCallbacks() {
       toast.dismiss()
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Something went wrong, Please try again');
    },
 };

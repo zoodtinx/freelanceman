@@ -24,6 +24,8 @@ import {
    useEditProject
 } from '@/lib/api/project-api';
 import { toast } from 'sonner';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { useNavigate } from 'react-router-dom';
 
 export const ProjectDialog = ({
    formMethods,
@@ -33,6 +35,7 @@ export const ProjectDialog = ({
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -42,6 +45,7 @@ export const ProjectDialog = ({
       });
    };
 
+   const navigate = useNavigate()
    const editProject = useEditProject();
    const deleteProject = useDeleteProject();
 
@@ -54,14 +58,36 @@ export const ProjectDialog = ({
          budget: Number(data.budget),
       };
       closeDialog();
-      toast.loading('Updating a project.')
+      toast.loading('Updating project...')
       await editProject.mutateAsync(editProjectPayload);
       toast.dismiss()
    };
 
    const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
-         deleteProject.mutate(formDialogState.data.id);
+         const deleteProjectFn = async () => {
+            toast.loading('Deleting project...')
+            await deleteProject.mutateAsync(formDialogState.data.id);
+            if (formDialogState.openedOn === 'projectPage') {
+               navigate(`/home/projects`);
+            }
+         };
+         setConfirmationDialogState({
+            actions: {
+               primary() {
+                   deleteProjectFn()
+               },
+            },
+            entityName: formDialogState.data.name,
+            isOpen: true,
+            type: 'delete',
+            additionalMessage:
+               'This action will also delete every files, tasks, events and notes created under this project.',
+            dialogRequested: {
+               mode: 'edit',
+               type: 'projectSettings',
+            },
+         });
       }
       closeDialog();
    };

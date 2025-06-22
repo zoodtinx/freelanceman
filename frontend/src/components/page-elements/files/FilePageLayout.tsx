@@ -3,7 +3,7 @@ import {
    fileCategorySelections,
 } from 'src/components/shared/ui/helpers/constants/selections';
 import { useState } from 'react';
-import { Folder } from 'lucide-react';
+import { Folder, Loader2 } from 'lucide-react';
 import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
@@ -15,11 +15,21 @@ import AddButton from '@/components/shared/ui/AddButton';
 import { toast } from 'sonner';
 import { useDeleteManyFile, useFilesQuery } from '@/lib/api/file-api';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
+      const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    const [fileFilter, setFileFilter] = useState<FileFilterDto>({});
 
@@ -29,19 +39,7 @@ const FilePageLayout = (): JSX.Element => {
    });
 
    const filesQueryResult = useFilesQuery(fileFilter);
-   const deleteManyFiles = useDeleteManyFile({
-      errorCallback() {
-         toast.error('Error deleting files');
-      },
-      successCallback() {
-         toast.success('Files deleted');
-      },
-      optimisticUpdate: {
-         enable: true,
-         key: ['files'],
-         type: 'delete',
-      },
-   });
+   const deleteManyFiles = useDeleteManyFile();
 
 
    const enableMultiSelect = () => {
@@ -90,16 +88,25 @@ const FilePageLayout = (): JSX.Element => {
    };
 
    const handleDeleteMultipleFiles = async () => {
-      toast.loading('Deleting files');
-      setSelectState((prev) => {
-         return {
-            ...prev,
-            enableSelect: false,
-         };
+      const deleteMulitFilesFn = async () => {
+         toast.loading('Deleting multiple files...');
+         await deleteManyFiles.mutateAsync(selectState.selectedValues);
+      };
+      setConfirmationDialogState({
+         actions: {
+            primary() {
+               deleteMulitFilesFn();
+            },
+         },
+         entityName: `${selectState.selectedValues.length} files`,
+         isOpen: true,
+         type: 'delete',
+         dialogRequested: {
+            mode: 'edit',
+            type: 'file',
+         },
       });
-      await deleteManyFiles.mutateAsync(selectState.selectedValues);
-      toast.dismiss();
-      toast.success('Files deleted');
+      closeDialog();
    };
 
    return (
@@ -121,7 +128,7 @@ const FilePageLayout = (): JSX.Element => {
                </div>
                <AddButton onClick={handleNewFile} />
             </div>
-            <div className="flex gap-1 sm:gap-[3px] text-base">
+            <div className="flex gap-1 sm:gap-[3px] text-base items-center">
                <MultiSelectButton
                   selectState={selectState}
                   setSelectState={setSelectState}
@@ -134,7 +141,10 @@ const FilePageLayout = (): JSX.Element => {
                   selectContents={fileTypeSelections}
                   value={fileFilter.type as string}
                   placeholder="Type"
-                  className={cn({ hidden: selectState.enableSelect }, 'max-w-32')}
+                  className={cn(
+                     { hidden: selectState.enableSelect },
+                     'max-w-32'
+                  )}
                />
                <FilterSelect
                   onValueChange={(value) => handleFileFilter('category', value)}
@@ -150,10 +160,11 @@ const FilePageLayout = (): JSX.Element => {
                   className={cn('rounded-full h-7 sm:grow', {
                      hidden: selectState.enableSelect,
                   })}
-                  onChange={(e) =>
-                     handleFileFilter('name', e.target.value)
-                  }
+                  onChange={(e) => handleFileFilter('name', e.target.value)}
                />
+               {filesQueryResult.isFetching && (
+                  <Loader2 className="text-primary animate-spin" />
+               )}
             </div>
          </div>
          <SharedFileList
@@ -165,7 +176,7 @@ const FilePageLayout = (): JSX.Element => {
             placeHolder="Add a file"
             addFn={handleNewFile}
             className="px-2"
-            variant='base'
+            variant="base"
          />
       </div>
    );

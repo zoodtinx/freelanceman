@@ -1,12 +1,11 @@
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import type { ClientContactFilterDto } from 'freelanceman-common/src/schemas';
 import { useState } from 'react';
-import { BookUser } from 'lucide-react';
+import { BookUser, Loader2 } from 'lucide-react';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
-import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { ContactList } from '@/components/shared/ui/lists/ClientContactList';
 import { cn } from '@/lib/helper/utils';
 
@@ -17,7 +16,7 @@ export const ContactColumn = (): JSX.Element => {
 
    const [filter, setFilter] = useState<ClientContactFilterDto>({});
 
-   const { isLoading } = useClientContactsQuery(filter);
+   const clientContactsQueryResult = useClientContactsQuery(filter);
 
    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFilter((prev) => ({ ...prev, name: event.target.value }));
@@ -56,7 +55,13 @@ export const ContactColumn = (): JSX.Element => {
                      </p>
                   </div>
                </div>
-               <AddButton onClick={handleNewContact} />
+               {clientContactsQueryResult.isFetching ? (
+                  <div className="h-[33px] w-[33px] p-1">
+                     <Loader2 className="w-full h-full sm:w-[22px] animate-spin" />
+                  </div>
+               ) : (
+                  <AddButton onClick={handleNewContact} />
+               )}
             </div>
             <SearchBox
                placeholder="Search client"
@@ -71,6 +76,7 @@ export const ContactColumn = (): JSX.Element => {
             setFilter={setFilter}
             page="allClientsPage"
             className="px-2 pt-1"
+            queryResult={clientContactsQueryResult}
          />
       </div>
    );
