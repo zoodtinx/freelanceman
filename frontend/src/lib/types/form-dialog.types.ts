@@ -16,8 +16,6 @@ import { UseFormReturn } from 'react-hook-form';
 export interface FormDialogProps {
    dialogType: string;
    formMethods: UseFormReturn;
-   crudApi: any;
-   handleLeftButtonClick: (e: any) => void;
 }
 
 export type FormDialogState =

@@ -8,7 +8,6 @@ import { Label } from '@/components/shared/ui/form-field-elements/Label';
 import { CreateClientDto, EditClientDto } from 'freelanceman-common';
 import { ColorSelectorForm } from '@/components/shared/ui/form-field-elements/ColorSelector';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { CrudApi } from '@/lib/api/api.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useNavigate } from 'react-router-dom';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';

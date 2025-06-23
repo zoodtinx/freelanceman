@@ -3,7 +3,6 @@ import debounce from 'lodash/debounce';
 import { StickyNote } from 'lucide-react'; // Assuming you're using Lucide icons
 import { ProjectFindOneResponse } from 'freelanceman-common';
 import { useEditProject } from '@/lib/api/project-api';
-import { toast } from 'sonner';
 import { useEffect } from 'react';
 
 const ProjectNoteSection: React.FC<{ project: ProjectFindOneResponse }> = ({

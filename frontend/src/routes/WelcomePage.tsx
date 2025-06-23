@@ -7,7 +7,6 @@ import useAuthStore from '@/lib/zustand/auth-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Gamepad2, KeyRound } from 'lucide-react';
 import FreelanceMan1LineLogo from '@/components/shared/icons/FreelanceMan1Line';
-import { toast } from 'sonner';
 
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();

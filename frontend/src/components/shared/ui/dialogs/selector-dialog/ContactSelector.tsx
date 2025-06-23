@@ -15,7 +15,6 @@ import useSelectionDialogStore from '@/lib/zustand/selection-dialog-store';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { CheckSquare2, Loader2, Plus } from 'lucide-react';
 import { useEditProject } from '@/lib/api/project-api';
-import { toast } from 'sonner';
 import { CompanyFilterBubble } from '@/components/shared/ui/select/CompanyFilterBubble';
 import { UseQueryResult } from '@tanstack/react-query';
 
@@ -43,19 +42,7 @@ const ContactSelector = () => {
       selectorDialogState.tab === 'partner'
    ) as UseQueryResult<PartnerContactFindManyResponse>
 
-   const editProject = useEditProject({
-         errorCallback() {
-             toast.error('Undable to add contacts')
-         },
-         successCallback() {
-             toast.success('Updated contacts')
-         },
-         optimisticUpdate: {
-            enable: true,
-            key: [],
-            type: 'edit'
-         }
-      })
+   const editProject = useEditProject()
 
    const handleSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
       setContactFilter((prev) => ({ ...prev, name: e.target.value }));

@@ -8,7 +8,6 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
 import AddButton from '@/components/shared/ui/AddButton';
 import { ClientGridLoader } from '@/components/shared/ui/placeholder-ui/ClientGridLoader';
-import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';

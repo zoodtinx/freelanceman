@@ -16,15 +16,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useWatch, useForm, UseFormReturn } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect } from 'react';
-import {
-   FormDialogProps,
-   FormDialogType
-} from '@/lib/types/form-dialog.types';
-import useCrudApi from '@/lib/api/services/all-api';
-import { CrudApi } from '@/lib/api/api.type';
-import { handleDelete } from '@/components/shared/ui/dialogs/form-dialog/helper/handle-delete';
-import { getApiCallBacks } from '@/components/shared/ui/dialogs/form-dialog/helper/api-callbacks';
-import { getOptimisticUpdateKeys } from '@/components/shared/ui/dialogs/form-dialog/helper/getOptimisticUpdateKeys';
+import { FormDialogProps, FormDialogType } from '@/lib/types/form-dialog.types';
 
 const FormDialog = () => {
    //dialog hooks setup
@@ -43,35 +35,6 @@ const FormDialog = () => {
       getValues,
       reset,
    } = formMethods;
-
-   //api hook setup
-   const handleFormDialogCloseCallback = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const handleConfirmDialogCloseCallback = () => {
-      setConfirmationDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-   const callbacks = getApiCallBacks({
-      entity: formDialogState.entity,
-      formMethods: formMethods,
-      setFormDialogState: handleFormDialogCloseCallback,
-      setConfirmationDialogState: handleConfirmDialogCloseCallback,
-      optimisticUpdate: {
-         enable: true,
-         key: getOptimisticUpdateKeys(formDialogState.entity)
-      }
-   });
-   const crudApi = useCrudApi(callbacks);
 
    //handle dialog close with unsaved changes
    const handleDialogClose = useCallback(() => {
@@ -150,41 +113,6 @@ const FormDialog = () => {
       return (data as any).client?.themeColor;
    })();
 
-   //handle discard/delete
-   const handleDestructiveButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      if (formDialogState.mode === 'create') {
-         handleEscapeWithChange();
-      } else if (formDialogState.mode === 'edit') {
-         handleDelete({
-            mutateApi: getDeleteFn(formDialogState.entity, crudApi),
-            payload: formDialogState.data.id,
-            setFormDialogState: setFormDialogState,
-            openConfirmDialog: true,
-            setConfirmationDialogState: setConfirmationDialogState,
-            confirmDialogData: {
-               type: 'delete',
-               entityName: formDialogState.data.name,
-               additionalMessage: getAdditionalMessage(formDialogState.entity),
-               dialogRequested: {
-                  mode: 'edit',
-                  type: formDialogState.type,
-               },
-            },
-         });
-      }
-   };
-
-   const getAdditionalMessage = (entity: string) => {
-      if (entity === 'project') {
-         return 'This action will also delete every files, tasks, events and notes created under this project.'
-      } else if (entity === 'client') {
-         return 'This action will also delete every projects created under this clients. Which also includes every files, tasks, events and notes created under those project.'
-      } else {
-         return undefined
-      }
-   }
-
    return (
       <Dialog
          open={formDialogState.isOpen}
@@ -211,8 +139,6 @@ const FormDialog = () => {
                <FormDialogContent
                   dialogType={formDialogState.type}
                   formMethods={formMethods}
-                  crudApi={crudApi[formDialogState.entity]}
-                  handleLeftButtonClick={handleDestructiveButtonClick}
                />
                <MutationErrorField formMethods={formMethods} />
             </div>
@@ -294,33 +220,6 @@ const FormDialogContent = (props: FormDialogProps) => {
          return <></>;
       default:
          return <></>;
-   }
-};
-
-const getDeleteFn = (entity: keyof CrudApi, crudApi: any) => {
-   switch (entity) {
-      case 'task':
-         return crudApi.task.deleteTask;
-      case 'event':
-         return crudApi.event.deleteEvent;
-      case 'file':
-         return crudApi.file.deleteFile;
-      case 'client':
-         return crudApi.client.deleteClient;
-      case 'clientContact':
-         return crudApi.clientContact.deleteClientContact;
-      case 'partnerCompany':
-         return crudApi.partnerCompany.deletePartnerCompany;
-      case 'partnerContact':
-         return crudApi.partnerContact.deletePartnerContact;
-      case 'project':
-         return crudApi.project.deleteProject;
-      case 'salesDocument':
-         return crudApi.salesDocument.deleteSalesDocument;
-      case 'salesDocumentItem':
-         return crudApi.salesDocumentItem.deleteSalesDocumentItem;
-      case 'user':
-         return;
    }
 };
 

@@ -505,14 +505,7 @@ const EditDocumentButton = ({
       (state) => state.setConfirmationDialogState
    );
 
-   const deleteSalesDoc = useDeleteSalesDocument({
-      successCallback() {
-         toast.success('Sales document deleted');
-      },
-      errorCallback() {
-         toast.error('Error deleting sales document');
-      },
-   });
+   const deleteSalesDoc = useDeleteSalesDocument();
    const navigate = useNavigate();
    const label =
       salesDocumentData.category.charAt(0).toUpperCase() +

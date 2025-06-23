@@ -8,10 +8,10 @@ import {
 import React from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
-import { useQueryClient } from '@tanstack/react-query';
 
 const RootPage: React.FC = () => {
    const { mode } = useDarkMode();
+   console.log('mode', mode)
    const [isLoading, setIsLoading] = useState(false);
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);

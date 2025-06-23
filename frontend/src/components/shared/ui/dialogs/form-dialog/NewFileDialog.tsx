@@ -23,16 +23,12 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { useCreateFile, useGetPresignedUrl } from '@/lib/api/file-api';
 import { CreateFileDto } from 'freelanceman-common';
 import { toast } from 'sonner';
-import { CrudApi } from '@/lib/api/api.type';
 import { useNavigate } from 'react-router-dom';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 export const NewFileDialog = ({
    formMethods,
-   crudApi,
-   handleLeftButtonClick,
 }: FormDialogProps) => {
    // utility hook
    const navigate = useNavigate();

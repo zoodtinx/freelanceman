@@ -13,7 +13,7 @@ import {
    useEditSalesDocument,
    useSalesDocumentQuery,
 } from 'src/lib/api/sales-document-api';
-import { ArrowBigLeft, ArrowLeft, FilePlus2, Loader2, LoaderCircle, Trash, X } from 'lucide-react';
+import { ArrowLeft, FilePlus2, Loader2, LoaderCircle, Trash, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/helper/utils';
 import {
@@ -23,11 +23,9 @@ import {
 import { useProjectQuery } from '@/lib/api/project-api';
 import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
-import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { SalesDocumentFindOneResponse } from 'freelanceman-common';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -56,7 +54,6 @@ const SalesDocumentBuilderPage = ({
    );
 
    // --- Welcome Dialog ---
-   const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
    const setWelcomeDialogState = useWelcomeDialogStore(
       (state) => state.setWelcomeDialogState
    );

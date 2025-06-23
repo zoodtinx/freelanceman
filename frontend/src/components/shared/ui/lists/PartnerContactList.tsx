@@ -9,11 +9,9 @@ import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/Sea
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { useFileUrlQuery } from '@/lib/api/file-api';
-import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
 import { cn } from '@/lib/helper/utils';
 import { ListProps } from '@/lib/types/list-props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { UseQueryResult } from '@tanstack/react-query';
 import {
    PartnerContactFilterDto,
    PartnerContactFindManyItem,
@@ -23,7 +21,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 
 export const PartnerContactList: React.FC<
    ListProps<PartnerContactFindManyResponse,PartnerContactFilterDto>
-> = ({  filter, setFilter, className, queryResult }) => {
+> = ({  setFilter, className, queryResult }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );

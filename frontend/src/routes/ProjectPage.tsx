@@ -15,7 +15,6 @@ import {
    paymentStatusSelections,
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
-import { toast } from 'sonner';
 import { useRef, useState } from 'react';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';

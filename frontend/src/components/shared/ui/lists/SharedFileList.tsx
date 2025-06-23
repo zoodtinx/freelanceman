@@ -8,15 +8,12 @@ import { SelectState } from '@/lib/types/list.type';
 import { formatDate } from '@/lib/helper/formatDateTime';
 import { getIcon } from '@/components/shared/ui/helpers/Helpers';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
-import { toast } from 'sonner';
-import { useDeleteFile, useFilesQuery } from '@/lib/api/file-api';
+import { useFilesQuery } from '@/lib/api/file-api';
 import {
    ApiErrorPlaceHolder,
    LoadingPlaceHolder,
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
-import { EditPopover } from '@/components/shared/ui/EditPopover';
 import { UseQueryResult } from '@tanstack/react-query';
 import { FileFilterDto, FileFindManyItem, FileFindManyResponse } from 'freelanceman-common';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
@@ -198,14 +195,6 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
       const setFormDialogState = useFormDialogStore(
          (s) => s.setFormDialogState
       );
-      const setConfirmationDialogState = useConfirmationDialogStore(
-         (s) => s.setConfirmationDialogState
-      );
-
-      const deleteFile = useDeleteFile({
-         errorCallback: () => toast.error('Error deleting file'),
-         successCallback: () => toast.success('File deleted'),
-      });
 
       const handleOpenDialog = () => {
          setFormDialogState({
@@ -215,19 +204,6 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
             type: 'file',
             data,
             entity: 'file',
-         });
-      };
-
-      const handleDeleteFile = () => {
-         setConfirmationDialogState({
-            actions: {
-               primary() {
-                  deleteFile.mutate(data.id);
-               },
-            },
-            entityName: data.name,
-            isOpen: true,
-            type: 'delete',
          });
       };
 
@@ -257,7 +233,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
       };
 
       const dateUploaded = formatDate(
-         data.createdAt,
+         data.createdAt!,
          variant === 'base' ? 'LONG' : 'SHORT'
       );
 

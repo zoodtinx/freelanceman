@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Files, ArrowDownToLine, Loader2 } from 'lucide-react';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
@@ -13,7 +13,6 @@ import {
 } from 'src/components/shared/ui/form-field-elements';
 import { fileTypeSelections } from '@/components/shared/ui/helpers/constants/selections';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { CrudApi } from '@/lib/api/api.type';
 import { FormDialogFooterProps } from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import { EditFileDto } from 'freelanceman-common';
 import { DialogFooter } from '@/components/shared/ui/primitives/Dialog';
@@ -28,7 +27,6 @@ import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store'
 
 export const FileDialog = ({
    formMethods,
-   handleLeftButtonClick,
 }: FormDialogProps) => {
 
    // form utilities
@@ -57,7 +55,6 @@ export const FileDialog = ({
    // api setup
    const editFile = useEditFile()
    const deleteFile = useDeleteFile()
-   const navigate = useNavigate()
 
    const { data: fileUrl, isLoading: isUrlLoading } = useFileUrlQuery(
       s3Key,

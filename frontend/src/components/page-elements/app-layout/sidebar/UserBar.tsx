@@ -11,13 +11,11 @@ import {
    Info,
    Loader2,
    LogOut,
-   Moon,
-   Settings,
-   Settings2,
+   Moon, Settings2,
    Sun,
    TimerReset,
    UserRound,
-   UserRoundPen,
+   UserRoundPen
 } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';

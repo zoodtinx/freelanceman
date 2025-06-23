@@ -23,7 +23,6 @@ import {
 
 export const PartnerContactDialog = ({
    formMethods,
-   crudApi,
 }: FormDialogProps) => {
    const navigate = useNavigate();
    const { handleSubmit, getValues } = formMethods;
@@ -40,11 +39,7 @@ export const PartnerContactDialog = ({
    const closeDialog = () =>
       setFormDialogState((prev) => ({ ...prev, isOpen: false }));
 
-   const getPresignedUrl = useGetPresignedUrl({
-      errorCallback() {
-         toast.error('Unable to edit profile');
-      },
-   });
+   const getPresignedUrl = useGetPresignedUrl();
 
    const onSubmit = async (data: PartnerContactFindManyItem) => {
       const avatarFile = getValues('avatarFile');

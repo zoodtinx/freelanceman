@@ -1,4 +1,3 @@
-import AddButton from '@/components/shared/ui/AddButton';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
 import React, { useRef, useState } from 'react';
 import { FileFilterDto } from 'freelanceman-common/src/schemas';
@@ -31,19 +30,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    });
 
    const filesQueryResult = useFilesQuery(fileFilter);
-   const deleteManyFiles = useDeleteManyFile({
-      errorCallback() {
-         toast.error('Error deleting files');
-      },
-      successCallback() {
-         toast.success('Files deleted');
-      },
-      optimisticUpdate: {
-         enable: true,
-         key: ['files'],
-         type: 'delete',
-      },
-   });
+   const deleteManyFiles = useDeleteManyFile();
 
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {

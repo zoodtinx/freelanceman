@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { EllipsisVertical, FolderClock } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
@@ -91,7 +91,7 @@ const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({
       (state) => state.setFormDialogState
    );
 
-   const formattedDateModified = formatDate(project.updatedAt, 'LONG');
+   const formattedDateModified = formatDate(project.updatedAt!, 'LONG');
 
    const openSettingDialog = (e: React.MouseEvent) => {
       e.stopPropagation();

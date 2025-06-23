@@ -19,7 +19,6 @@ import { useNavigate } from 'react-router-dom';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { useCreateTask, useDeleteTask, useEditTask } from '@/lib/api/task-api';
 import { CreateTaskDtoWithOptimisticUpdate } from 'freelanceman-common/src/schemas';
-import React from 'react';
 
 export const TaskDialog = ({ formMethods }: FormDialogProps) => {
    //utility hooks

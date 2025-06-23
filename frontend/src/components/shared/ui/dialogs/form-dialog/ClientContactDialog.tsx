@@ -52,11 +52,7 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
    const editClientContact = useEditClientContact();
    const deleteClientContact = useDeleteClientContact();
 
-   const getPresignedUrl = useGetPresignedUrl({
-      errorCallback() {
-         toast.error('Unable to edit profile');
-      },
-   });
+   const getPresignedUrl = useGetPresignedUrl();
 
    // submit handler
    const onSubmit = async (data: ClientContactFindManyItem) => {

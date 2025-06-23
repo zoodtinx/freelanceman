@@ -13,7 +13,6 @@ import { SubmitButton } from '@/components/shared/ui/dialogs/form-dialog/FormBut
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { EditUserDto, UserFindOneResponse } from 'freelanceman-common';
-import { CrudApi } from '@/lib/api/api.type';
 import { toast } from 'sonner';
 import { useGetPresignedUrl } from '@/lib/api/file-api';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
@@ -28,13 +27,11 @@ import { useNavigate } from 'react-router-dom';
 
 export const UserProfileDialog = ({
    formMethods,
-   crudApi,
 }: FormDialogProps) => {
    // form utilities
    const {
       handleSubmit,
       getValues,
-      formState: { dirtyFields },
    } = formMethods;
    // setValue('avatarFile', '')
 

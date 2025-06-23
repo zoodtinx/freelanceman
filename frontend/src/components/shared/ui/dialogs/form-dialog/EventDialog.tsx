@@ -85,7 +85,7 @@ export const EventDialog = ({
             details: data.details,
             dueAt: formattedDueAt,
             link: data.link,
-            isWithTime: data.isWithTime,
+            isWithTime: data.isWithTime ?? false,
          };
          editEvent.mutate(payload);
       }
