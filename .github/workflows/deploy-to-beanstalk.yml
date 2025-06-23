@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'backend/**'
+      - 'shared/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
