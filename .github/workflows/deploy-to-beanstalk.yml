@@ -49,8 +49,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: freelanceman
-          environment_name: Freelanceman-env
+          application_name: freelanceman-api
+          environment_name: freelanceman-api-env
           version_label: freelanceman-v${{ github.run_number }}-ci
           region: ap-southeast-1
           deployment_package: deploy.zip
