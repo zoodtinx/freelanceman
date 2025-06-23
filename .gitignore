@@ -47,7 +47,6 @@
 
 
 
-/shared/dist/
 /shared/node_modules/
 
 *.tsbuildinfo
