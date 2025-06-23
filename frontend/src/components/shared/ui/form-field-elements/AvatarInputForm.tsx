@@ -81,9 +81,6 @@ const AvatarInput = ({ field, avatarFileKey, previewUrl, errors }: AvatarInputPr
       reader.readAsDataURL(file);
    };
 
-   console.log('avatarFileKey', avatarFileKey)
-   console.log('previewUrl', previewUrl)
-
    return (
       <div className="flex flex-col items-center gap-2">
          <div
