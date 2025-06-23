@@ -38,8 +38,6 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
       });
    };
 
-   console.log('isLoading', isLoading)
-
    if (isLoading) return <AllProjectPageLoader />;
    if (isError || !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (projects?.total === 0) {

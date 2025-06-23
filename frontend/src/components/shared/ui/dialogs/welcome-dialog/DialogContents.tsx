@@ -223,7 +223,7 @@ const homePageContent = [
          </React.Fragment>
       ),
       subhead:
-         "Everything is organized around clients and projects, so switching between them feels fun, not frustrating.",
+         "Everything is organized around clients and projects, so working on multiple setups feels fun, not frustrating.",
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
       }/home-page-2.jpg?updatedAt=1749714476968`,

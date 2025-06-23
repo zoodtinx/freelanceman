@@ -36,6 +36,8 @@
 
 # Environment files
 /backend/.env*
+/backend/.env.test
+/backend/.env.development
 
 # Logs
 /backend/*.log
@@ -52,3 +54,4 @@
 *.js
 *.js.map
 *.d.ts
+*.env*
