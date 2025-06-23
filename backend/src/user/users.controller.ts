@@ -6,6 +6,7 @@ import {
     UseGuards,
     Req,
     Param,
+    Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -36,5 +37,11 @@ export class UsersController {
     setVisited(@Param('page') page: string, @Req() req: any) {
         const userId = req.user.id;
         return this.usersService.setVisited(userId, page);
+    }
+
+    @Delete()
+    deleteUser(@Req() req: any) {
+        const userId = req.user.id;
+        return this.usersService.delete(userId);
     }
 }

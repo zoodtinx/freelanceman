@@ -21,27 +21,52 @@ import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsIn
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { SelectForm } from '@/components/shared/ui/form-field-elements/SelectForm';
 import { currencySelections } from '@/components/shared/ui/helpers/constants/selections';
+import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
+import { useDeleteUser, useEditUser } from '@/lib/api/user-api';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const UserProfileDialog = ({
    formMethods,
    crudApi,
 }: FormDialogProps) => {
    // form utilities
-   const { handleSubmit, getValues, formState: {dirtyFields} } = formMethods;
+   const {
+      handleSubmit,
+      getValues,
+      formState: { dirtyFields },
+   } = formMethods;
    // setValue('avatarFile', '')
 
    //dialog state
-   const { formDialogState } = useFormDialogStore();
+   const navigate = useNavigate();
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    // api setup
-   const { editUser } = crudApi as CrudApi['user'];
-   const getPresignedUrl = useGetPresignedUrl({
-      errorCallback() {
-         toast.error('Unable to edit profile');
+   const deleteUser = useDeleteUser({
+      enableOptimisticUpdate: true,
+      errorCallbacks() {
+          toast.dismiss()
+          toast.error('Error quitting freelancing')
       },
-   });
-
-   console.log('dirtyFields.avatar', dirtyFields.avatar)
+      successCallbacks() {
+          toast.dismiss()
+          toast.success('"Account successfully deleted. Take care!')
+      },
+   })
+   const editUser = useEditUser()
+   const getPresignedUrl = useGetPresignedUrl();
 
    const onSubmit: SubmitHandler<UserFindOneResponse> = async (data) => {
       const avatarFile = getValues('avatarFile');
@@ -88,11 +113,34 @@ export const UserProfileDialog = ({
          specialization: data.specialization,
          avatar: presignedUrl?.key,
       };
-
+      closeDialog()
       await editUser.mutateAsync(payload);
       toast.dismiss();
       toast.success('Profile updated');
    };
+
+   const handleDelete = (e: React.MouseEvent) => {
+      e.preventDefault()
+      closeDialog()
+      setConfirmationDialogState({
+         isOpen: true,
+         actions: {
+            primary: async () => {
+               toast.loading('Deleting account');
+               await deleteUser.mutateAsync();
+               navigate(`/welcome`);
+            },
+         },
+         entityName: 'account',
+         additionalMessage:
+            'Deleting your account will permanently remove all your client and project data. This will also delete all tasks, event, files, contacts. This action can not be undone.',
+         type: 'delete',
+         dialogRequested: {
+            mode: 'edit',
+            type: 'clientSettings',
+         },
+      });
+   }
 
    return (
       <form
@@ -121,17 +169,8 @@ export const UserProfileDialog = ({
                className="mt-2 w-full justify-center px-5"
             />
          </div>
-
          <div className="flex flex-col px-4 pb-4 w-full mt-3 gap-3">
             <div className="flex flex-col gap-3 bg-foreground p-2 rounded-xl mt-3">
-               {/* <div className="">
-                  <Label className="text-secondary">Bio</Label>
-                  <TextAreaForm
-                     formMethods={formMethods}
-                     fieldName="bio"
-                     className="h-20 resize-none"
-                  />
-               </div> */}
                <div className="flex gap-2">
                   <div className="w-1/2">
                      <Label>Tax ID</Label>
@@ -171,11 +210,16 @@ export const UserProfileDialog = ({
                />
             </div>
          </div>
-
          <DialogFooter className="w-full">
             <div className="flex justify-between p-4 pb-2">
-               <Button variant={'outline'}>Feeling tired ?</Button>
-               <SubmitButton formMethods={formMethods} />
+               <Button
+                  variant={'outline'}
+                  className="px-0 text-secondary border-0 hover:text-button-red"
+                  onClick={handleDelete}
+               >
+                  Quit being a freelancer
+               </Button>
+               <SubmitButton formMethods={formMethods} entity="User" />
             </div>
          </DialogFooter>
       </form>

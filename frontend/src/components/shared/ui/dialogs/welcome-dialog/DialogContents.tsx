@@ -59,7 +59,7 @@ const incomePageContent = [
       headline: (
          <React.Fragment>
             <p className="text-center font-semibold">See Who's Paid</p>
-            <p className="text-center">and Who's Not.</p>
+            <p className="text-center">and Who's Not</p>
          </React.Fragment>
       ),
       subhead:
@@ -97,7 +97,7 @@ const filePageContent = [
          <React.Fragment>
             <p className="text-center">All Your Files</p>
             <p className="text-center">
-               <span className="font-semibold">In One Tidy Spot.</span>
+               <span className="font-semibold">In One Tidy Spot</span>
             </p>
          </React.Fragment>
       ),
@@ -117,7 +117,7 @@ const filePageContent = [
                <span className="font-semibold">Upload</span> or{' '}
                <span className="font-semibold">Attach Link</span>
             </p>
-            <p className="text-center">Whatever Works.</p>
+            <p className="text-center">Whatever Works</p>
          </React.Fragment>
       ),
       subhead:
@@ -137,7 +137,7 @@ const partnersPageContent = [
          <React.Fragment>
             <p className="text-center">Your Go-To Crew,</p>
             <p className="text-center">
-               <span className="font-semibold">Always Within Reach.</span>
+               <span className="font-semibold">Always Within Reach</span>
             </p>
          </React.Fragment>
       ),
@@ -158,7 +158,7 @@ const allClientPageContent = [
          <React.Fragment>
             <p className="text-center">Keep Your Clients Close</p>
             <p className="text-center">
-               and <span className="font-semibold">Easy to Manage.</span>
+               and <span className="font-semibold">Easy to Manage</span>
             </p>
          </React.Fragment>
       ),
@@ -205,7 +205,7 @@ const homePageContent = [
          </React.Fragment>
       ),
       subhead:
-         "Built by freelancers, for freelancers. Because nobody else really gets what it's like to be your own entire company.",
+         "Freelancing is chaotic, we made it simple. Because nobody else really gets what it's like to be your own entire company.",
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
       }/home-page-1.jpg?updatedAt=1749714476968`,
@@ -216,14 +216,14 @@ const homePageContent = [
       icon: SvgHomePage2,
       headline: (
          <React.Fragment>
-            <p className="text-center">Freelancing is Chaotic,</p>
+            <p className="text-center">One App</p>
             <p className="text-center">
-               <span className="font-semibold">We made it simple.</span>
+               <span className="font-semibold">All Clients, Every Project</span>
             </p>
          </React.Fragment>
       ),
       subhead:
-         'Juggle clients, nail deadlines, find your files. All in one place. No more digital disasters.',
+         "Everything is organized around clients and projects, so switching between them feels fun, not frustrating.",
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
       }/home-page-2.jpg?updatedAt=1749714476968`,

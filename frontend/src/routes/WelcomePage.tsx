@@ -7,6 +7,7 @@ import useAuthStore from '@/lib/zustand/auth-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { Gamepad2, KeyRound } from 'lucide-react';
 import FreelanceMan1LineLogo from '@/components/shared/icons/FreelanceMan1Line';
+import { toast } from 'sonner';
 
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();
@@ -62,14 +63,13 @@ const AuthPage: React.FC = () => {
    return (
       <div className="flex bg-background w-full h-screen items-center justify-center flex-col relative overflow-hidden p-4">
          <div className="flex flex-col items-center z-10">
-            <div className="flex gap-4 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-3">
-               <div className="flex flex-col justify-center items-center text-primary gap-5">
-                  <FreelanceMan1LineLogo className="xl:w-[430px]" />
+            <div className="flex gap-4 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-2">
+               <div className="flex flex-col justify-center items-center text-primary gap-5 sm:gap-3">
+                  <SvgFreelancemanIcon className="w-[170px] sm:w-[90px]" />
+                  <FreelanceMan1LineLogo className="w-[430px] sm:w-[270px]" />
                </div>
-               <div className="flex flex-col items-center text-[17px] sm:text-base leading-snug">
-                  <p>An tidy work platform for messy freelancers,</p>
-                  <p>which is probably everybody.</p>
-                  {/* <p className='text-base'>(Which is probably everybody)</p> */}
+               <div className="flex flex-col items-center text-[17px] sm:text-base leading-normal">
+                  <p>A work platform for messy freelancers.</p>
                </div>
             </div>
             <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-6">
@@ -112,7 +112,7 @@ const AuthPage: React.FC = () => {
                </div>
             </div>
          </div>
-         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] absolute gap-4 w-[calc(100vw+100px)] 5-[calc(100vw+100px)]">
+         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] absolute gap-4 w-[calc(100vw+100px)] 5-[calc(100vw+100px)] sm:grid-cols-[repeat(2,minmax(0,1fr))]">
             {placeholders}
          </div>
       </div>

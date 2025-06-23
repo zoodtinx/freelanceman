@@ -113,13 +113,13 @@ const CardContent: React.FC<CardContentProps> = ({
                </div>
                <p
                   className={cn(
-                     'w-[380px] h-[60px] text-center leading-snug text-secondary text-[13px] flex flex-col',
+                     'w-[380px] h-[60px] text-center leading-snug opacity-50 text-primary text-[13px] flex flex-col',
                      'sm:w-full sm:leading-tight'
                   )}
                >
                   {subhead}
                   {isLastHomePageCard && (
-                     <span className="text-primary font-semibold underline cursor-pointer" onClick={handleRepoClick}>
+                     <span className="text-primary font-semibold underline cursor-pointer hover:opacity-100" onClick={handleRepoClick}>
                         Github Repo
                      </span>
                   )}

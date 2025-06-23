@@ -20,7 +20,7 @@ export default function HomePage() {
                   `}
       >
          <div
-            className={`flex w-[180px] gap-4 shrink-0 mr-2
+            className={`flex w-[180px] gap-2 shrink-0 mr-2
                         md:flex-col md:w-fit
                         lg:flex-col 
                         sm:w-full sm:p-3 sm:items-center

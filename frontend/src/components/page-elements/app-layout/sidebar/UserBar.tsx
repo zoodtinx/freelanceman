@@ -6,11 +6,13 @@ import {
    PopoverTrigger,
 } from '@/components/shared/ui/primitives/Popover';
 import {
+   ChevronDown,
    Eclipse,
    Info,
    Loader2,
    LogOut,
    Moon,
+   Settings,
    Settings2,
    Sun,
    TimerReset,
@@ -31,6 +33,7 @@ import { useDarkMode } from '@/lib/zustand/theme-store';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { getPageKey } from '@/components/page-elements/app-layout/sidebar/helper';
 import { UserFindOneResponse } from 'freelanceman-common';
+import { toast } from 'sonner';
 
 export const UserBar = () => {
    const { mode, toggle } = useDarkMode();
@@ -53,6 +56,7 @@ export const UserBar = () => {
       await logOut(accessToken);
       setIsLoading(false)
       navigate('/welcome');
+      toast.success('See you for your next project!')
    };
 
    const { data: userDataPayload, isLoading: userDataIsLoading } =
@@ -128,7 +132,7 @@ export const UserBar = () => {
          className="flex lg:flex-col md:flex-col sm:grow gap-3 items-center"
       >
          <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger asChild ref={popoverRef} onClick={handleClick}>
                <div
                   className={`w-[140px] aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 cursor-pointer
                               sm:w-10 sm:h-10
@@ -144,7 +148,12 @@ export const UserBar = () => {
                      />
                   ) : (
                      <div className="flex bg-foreground w-full h-full items-center justify-center">
-                        <UserRound className="text-secondary w-9 h-9" />
+                        <UserRound
+                           className={cn(
+                              'text-secondary w-[27px] h-[27px]',
+                              'lg:w-[90px] lg:h-[90px] lg:stroke-[1.4px]'
+                           )}
+                        />
                      </div>
                   )}
                </div>
@@ -179,7 +188,7 @@ export const UserBar = () => {
                {profileMenuItems.map(
                   ({ icon: Icon, label, onClick, className }, i) => (
                      <div key={label}>
-                        {i === 1 && <Separator className='mb-1' />}
+                        {i === 1 && <Separator className="mb-1" />}
                         <div
                            onClick={onClick}
                            className={cn(
@@ -197,9 +206,14 @@ export const UserBar = () => {
                )}
             </PopoverContent>
          </Popover>
-         {!userDataIsLoading && (
-            <div className="flex flex-col leading-tight md:hidden w-full px-3 sm:px-0 sm:hidden">
-               <p>Good morning</p>
+         {userDataIsLoading ? (
+            <Skeleton className="h-[42px] w-full rounded-xl" />
+         ) : (
+            <div className="flex flex-col leading-tight h-[42px] md:hidden w-full px-3 sm:px-0 sm:hidden cursor-pointer">
+               <div className="flex w-full justify-between items-center relative">
+                  <p>Good morning</p>
+                  <ChevronDown className="w-5 h-5 absolute right-0" />
+               </div>
                <p className="text-md font-semibold text-wrap">
                   {userData?.displayName}
                </p>

@@ -63,7 +63,7 @@ export const ContactList = ({
    if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
    if (contacts?.total === 0) {
       if (contacts.unfilteredTotal === 0 || page === 'clientPage') {
-         if (page === 'allClientPage') {
+         if (page === 'allClientsPage') {
             return (
                <div className="px-2">
                   <ContactListPlaceholder addFn={addFn} />

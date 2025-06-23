@@ -16,8 +16,8 @@ export class UsersService {
             const user = await this.prismaService.user.findUnique({
                 where: { id: userId },
                 include: {
-                    visitingStatus: true
-                }
+                    visitingStatus: true,
+                },
             });
             if (!user)
                 throw new NotFoundException(`User ID ${userId} not found`);
@@ -29,7 +29,7 @@ export class UsersService {
     }
 
     async update(userId: string, editUserDto: EditUserDto) {
-        const cleanDto = removeUndefined(editUserDto)
+        const cleanDto = removeUndefined(editUserDto);
         try {
             await this.prismaService.user.update({
                 where: { id: userId },
@@ -37,7 +37,7 @@ export class UsersService {
             });
             return await this.findOne(userId);
         } catch (error) {
-            console.log('error', error)
+            console.log('error', error);
             throw new InternalServerErrorException('Failed to update user');
         }
     }
@@ -56,6 +56,17 @@ export class UsersService {
             throw new InternalServerErrorException(
                 'Failed to set visited status',
             );
+        }
+    }
+
+    async delete(userId: string) {
+        try {
+            await this.prismaService.user.delete({
+                where: { id: userId },
+            });
+            return { message: `User ID ${userId} deleted successfully` };
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to delete user');
         }
     }
 }
