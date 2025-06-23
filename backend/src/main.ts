@@ -11,7 +11,8 @@ async function bootstrap() {
     app.use(cookieParser());
     console.log('process.env.CLIENT_URL?.split(',')', process.env.CLIENT_URL?.split(','))
     app.enableCors({
-        origin: '*',
+          origin: 'https://freelanceman.peerapol.dev',
+
         credentials: true,
     });
     app.use(helmet());
