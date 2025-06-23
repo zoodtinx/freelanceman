@@ -1,7 +1,0 @@
-{
-  "typescript": true,
-  "expandProps": "end",
-  "svgProps": {
-    "fill": "currentColor"
-  }
-}
