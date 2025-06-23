@@ -12,5 +12,8 @@
     "g": "^2.0.1",
     "ts-prune": "^0.10.3",
     "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }
