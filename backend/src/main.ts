@@ -9,8 +9,9 @@ import { DelayInterceptor } from '@/utils/depay.interceptor';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.use(cookieParser());
+    console.log('process.env.CLIENT_URL?.split(',')', process.env.CLIENT_URL?.split(','))
     app.enableCors({
-        origin: process.env.CLIENT_URL?.split(',') || [],
+        origin: '*',
         credentials: true,
     });
     app.use(helmet());
