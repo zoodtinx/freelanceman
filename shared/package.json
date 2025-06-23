@@ -1,5 +1,5 @@
 {
-  "name": "shared",
+  "name": "freelanceman-common",
   "version": "1.0.0",
   "main": "dist/schemas/index.js",
   "types": "dist/types/schemas/index.d.ts",
