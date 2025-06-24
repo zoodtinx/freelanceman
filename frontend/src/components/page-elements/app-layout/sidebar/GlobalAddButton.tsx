@@ -136,7 +136,7 @@ const GlobalAddButton = () => {
                <Plus className="h-full w-full stroke-[2.5px] text-foreground p-2" />
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none bg-foreground border-tertiary md:ml-4 sm:mr-3">
+         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none border-tertiary md:ml-4 sm:mr-3 bg-primary text-foreground">
             {menuItems.map((item, index) =>
                item === 'separator' ? (
                   <Separator key={index} />

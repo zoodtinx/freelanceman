@@ -21,9 +21,7 @@ import {
    useEditPartnerContact,
 } from '@/lib/api/partner-contact-api';
 
-export const PartnerContactDialog = ({
-   formMethods,
-}: FormDialogProps) => {
+export const PartnerContactDialog = ({ formMethods }: FormDialogProps) => {
    const navigate = useNavigate();
    const { handleSubmit, getValues } = formMethods;
 
@@ -47,7 +45,6 @@ export const PartnerContactDialog = ({
       let presignedUrl;
 
       if (avatarFile instanceof File) {
-         toast.loading('Uploading avatar...');
          const randomId = crypto.randomUUID();
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: `avatar_${contactId || randomId}`,
@@ -79,12 +76,12 @@ export const PartnerContactDialog = ({
 
       if (formDialogState.mode === 'create') {
          closeDialog();
-         toast.loading('Creating contact...');
+
          await createPartnerContact.mutateAsync(commonPayload);
          navigate('/home/partners');
       } else {
          closeDialog();
-         toast.loading('Updating contact...');
+
          await editPartnerContact.mutateAsync({
             id: data.id,
             ...commonPayload,
@@ -95,7 +92,6 @@ export const PartnerContactDialog = ({
    const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
          const deleteFn = async () => {
-            toast.loading('Deleting contact...');
             await deletePartnerContact.mutateAsync(formDialogState.data.id);
          };
 

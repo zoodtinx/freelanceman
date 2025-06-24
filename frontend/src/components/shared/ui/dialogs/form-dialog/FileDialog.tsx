@@ -81,14 +81,15 @@ export const FileDialog = ({
       }
    };
 
-   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
       const editFilePayload: EditFileDto = {
          id: data.id,
          name: data.name,
          type: data.type,
          category: data.category,
       };
-      editFile.mutate(editFilePayload);
+      closeDialog();
+      await editFile.mutateAsync(editFilePayload);
       toast.success('File updated');
    };
 
@@ -102,7 +103,6 @@ export const FileDialog = ({
    const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
          const deleteProjectFn = async () => {
-            toast.loading('Deleting file...');
             await deleteFile.mutateAsync(formDialogState.data.id);
          };
          setConfirmationDialogState({

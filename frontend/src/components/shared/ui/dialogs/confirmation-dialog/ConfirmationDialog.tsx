@@ -66,7 +66,7 @@ const ConfirmationDialog = () => {
             onEscapeKeyDown={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(
-               'sm:max-w-[425px] w-[400px] flex flex-col focus:outline-none rounded-2xl text-white',
+               'sm:max-w-[425px] flex flex-col focus:outline-none rounded-2xl text-white',
                confirmationDialogState.type === 'delete' && 'bg-button-red',
                confirmationDialogState.type === 'unsaved-changes' &&
                   'bg-constant-primary'

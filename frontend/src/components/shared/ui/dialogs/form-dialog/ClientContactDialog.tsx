@@ -66,7 +66,7 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
          setFormDialogState((prev) => {
             return { ...prev, isOpen: false };
          });
-         toast.loading('Creating a client contact');
+
          const randomId = crypto.randomUUID();
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: `avatar_${contactId ? contactId : randomId}`,
@@ -99,7 +99,7 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
             avatar: presignedUrl?.key,
          } as CreateClientContactDto;
          closeDialog();
-         toast.loading('Creating contact...');
+
          await createClientContact.mutateAsync(payload);
          if (formDialogState.openedOn !== 'clientPage') {
             navigate(`/home/clients`);
@@ -115,7 +115,7 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
             avatar: presignedUrl?.key,
          } as EditClientContactDto;
          closeDialog();
-         toast.loading('Updating contact...');
+
          await editClientContact.mutateAsync(payload);
       }
    };
@@ -135,7 +135,6 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
    const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
          const deleteClientContactFn = async () => {
-            toast.loading('Deleting a contact.');
             await deleteClientContact.mutateAsync(formDialogState.data.id);
          };
          setConfirmationDialogState({

@@ -73,7 +73,6 @@ export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
             isOpen: false,
          };
       });
-      toast.loading('Setting up new project...')
       const project = await createProject.mutateAsync(createProjectPayload);
       toast.dismiss()
       navigate(`/home/projects/${project.id}`);

@@ -39,7 +39,7 @@ export const SubmitButton = ({
    formMethods,
    entity,
    createModeText = `Add ${entity}`,
-   editModeText = 'Save Changes',
+   editModeText = 'Save',
 }: SubmitButtonProps) => {
    const {
       formState: { isDirty },

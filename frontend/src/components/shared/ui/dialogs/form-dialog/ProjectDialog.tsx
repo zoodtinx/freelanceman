@@ -58,7 +58,6 @@ export const ProjectDialog = ({
          budget: Number(data.budget),
       };
       closeDialog();
-      toast.loading('Updating project...')
       await editProject.mutateAsync(editProjectPayload);
       toast.dismiss()
    };
@@ -66,7 +65,6 @@ export const ProjectDialog = ({
    const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
          const deleteProjectFn = async () => {
-            toast.loading('Deleting project...')
             await deleteProject.mutateAsync(formDialogState.data.id);
             if (formDialogState.openedOn === 'projectPage') {
                navigate(`/home/projects`);

@@ -235,7 +235,7 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
          className="flex flex-col justify-center h-14 pl-3 hover:bg-background transition-colors duration-75 group relative"
          onClick={handleOpenDialog}
       >
-         <p>{data.name}</p>
+         <p className='line-clamp-1'>{data.name}</p>
          <div className="flex items-center">
             <p className="text-sm text-secondary w-[54px]">
                {formattedTime ? formattedTime : 'All day'}

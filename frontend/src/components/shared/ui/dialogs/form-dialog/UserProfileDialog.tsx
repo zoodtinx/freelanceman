@@ -71,8 +71,9 @@ export const UserProfileDialog = ({
 
       let presignedUrl;
 
+      toast.loading('Updating your profile...');
+
       if (avatarFile && avatarFile instanceof File) {
-         toast.loading('Uploading avatar...');
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: `avatar_${crypto.randomUUID()}`,
             category: 'user',
@@ -93,8 +94,6 @@ export const UserProfileDialog = ({
          }
          toast.dismiss();
       }
-
-      toast.loading('Updating your profile...');
 
       const payload: EditUserDto = {
          id: data.id,

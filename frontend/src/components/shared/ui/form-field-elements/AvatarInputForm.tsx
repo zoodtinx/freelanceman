@@ -65,7 +65,7 @@ const AvatarInput = ({ field, avatarFileKey, previewUrl, errors }: AvatarInputPr
       if (!file) return;
 
       if (file.size > MAX_SIZE) {
-         toast.error('File must not be larger than 2MB');
+         toast.error('Oops! Files over 2MB aren’t allowed in this demo');
          return;
       }
 

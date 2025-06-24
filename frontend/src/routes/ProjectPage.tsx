@@ -57,7 +57,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center',
-                     'sm:h-fit sm:p-2 sm:px-3 sm:gap-2 sm:pb-3 sm:shadow-sm'
+                     'sm:h-fit sm:p-2 sm:px-3 sm:gap-2 sm:pb-3 sm:shadow-md'
                   )}
                >
                   <ProjectHeader project={project} />
@@ -76,7 +76,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-1/2',
-                        'sm:w-full sm:h-[420px] sm:shadow-sm'
+                        'sm:w-full sm:h-[420px] sm:shadow-md'
                      )}
                   >
                      <ProjectTaskSection project={project} />
@@ -89,7 +89,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden',
-                        'sm:w-full sm:h-[420px] sm:shadow-sm'
+                        'sm:w-full sm:h-[420px] sm:shadow-md'
                      )}
                   >
                      <ProjectEventSection project={project} />
@@ -109,7 +109,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-[35%] shrink-0',
-                        'sm:w-full sm:h-[300px] sm:shadow-sm h-full'
+                        'sm:w-full sm:h-[300px] sm:shadow-md h-full'
                      )}
                   >
                      <ProjectLinkSection project={project} />
@@ -122,7 +122,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-[65%] h-full',
-                        'sm:w-full sm:h-[300px] sm:shadow-sm'
+                        'sm:w-full sm:h-[300px] sm:shadow-md'
                      )}
                   >
                      <ProjectNoteSection project={project} />
@@ -134,7 +134,7 @@ export default function ProjectPage() {
          <div
             className={cn(
                'w-[340px] flex flex-col rounded-[13px] gap-2 bg-',
-               'sm:w-full sm:shadow-sm sm:mt-2 sm:pb-4'
+               'sm:w-full sm:shadow-md sm:mt-2 sm:pb-4'
             )}
          >
             {isLoading || !project ? (
@@ -143,7 +143,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md',
-                     'sm:w-full sm:h-[300px] sm:shadow-sm'
+                     'sm:w-full sm:h-[300px] sm:shadow-md'
                   )}
                >
                   <ProjectContactSection project={project} />
@@ -155,7 +155,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col rounded-[13px] bg-foreground grow relative overflow-hidden shadow-md',
-                     'sm:w-full sm:shadow-sm sm:h-[420px]'
+                     'sm:w-full sm:shadow-md sm:h-[420px]'
                   )}
                >
                   <ProjectFileSection project={project} />
@@ -220,12 +220,12 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
    return (
       <>
          <div className="flex justify-between items-start">
-            <p className="text-[1.6em] sm:text-lg sm:leading-snug">
+            <p className="text-[1.6em] sm:text-lg sm:leading-snug font-medium lg:font-normal">
                {project.name}
             </p>
             <Settings
                onClick={handleOpenDialog}
-               className="w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors"
+               className="w-5 h-5 stroke-[2px] text-secondary hover:text-primary transition-colors shrink-0"
             />
          </div>
          <div className="flex justify-between">

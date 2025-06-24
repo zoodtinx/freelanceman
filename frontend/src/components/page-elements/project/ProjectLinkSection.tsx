@@ -33,7 +33,7 @@ const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
 
    return (
       <div className="flex flex-col w-full h-full">
-         <div className="flex justify-between items-center pl-3 pr-2">
+         <div className="flex justify-between items-center pl-3 pr-2 lg:font-normal">
             <p className="flex items-center h-9 text-md gap-1">
                <LinkIcon className="w-4 h-4" />
                Links

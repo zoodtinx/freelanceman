@@ -54,16 +54,16 @@ export const MenuPopover: React.FC = () => {
          >
             <div className="flex items-center gap-1 px-1">
                <span>{iconMap[current]}</span>
-               <span className="text-md">{capitalizeFirstChar(current)}</span>
+               <span className="text-md font-medium">{capitalizeFirstChar(current)}</span>
             </div>
          </SelectTrigger>
-         <SelectContent>
+         <SelectContent className='bg-primary text-foreground'>
             <div className="flex flex-col gap-1">
                {menuItems.map((item) => (
                   <SelectItem key={item.key} value={item.key}>
                      <div className="flex items-center gap-2">
                         <span>{iconMap[item.key]}</span>
-                        <span className="text-md">{item.label}</span>
+                        <span className="text-md font-medium">{item.label}</span>
                      </div>
                   </SelectItem>
                ))}

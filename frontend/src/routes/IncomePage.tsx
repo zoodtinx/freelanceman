@@ -361,7 +361,7 @@ const ProjectPaymentTab = forwardRef<
          ref={ref}
          className={cn(
             'flex w-full bg-foreground rounded-2xl shadow-md h-[100px] items-center shrink-0 relative',
-            'sm:h-[97px] sm:gap-0 sm:shadow-sm',
+            'sm:h-[97px] sm:gap-0 sm:shadow-md',
             project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >

@@ -3,7 +3,7 @@
 module.exports = {
    darkMode: ['class'],
    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-   
+
    safelist: [
       'bg-primary',
       'text-secondary',
@@ -67,8 +67,8 @@ module.exports = {
          },
          keyframes: {
             blink: {
-          '50%': { opacity: '0' },
-        },
+               '50%': { opacity: '0' },
+            },
             shake: {
                '0%, 100%': { transform: 'translateX(0)' },
                '25%': { transform: 'translateX(-2px)' },
@@ -77,9 +77,9 @@ module.exports = {
             },
          },
          screens: {
-            sm: { max: '767px' }, 
-            md: { min: '768px', max: '1439px' }, 
-            lg: { min: '1440px' }, 
+            sm: { max: '767px' },
+            md: { min: '768px', max: '1439px' },
+            lg: { min: '1440px' },
          },
          fontFamily: {
             sans: ['Lexend'],
@@ -203,7 +203,7 @@ module.exports = {
             xl: '25px',
             lg: '19px',
             md: '16px',
-            base: '14px', 
+            base: '14px',
             sm: '12px',
          },
          borderOpacity: {

@@ -134,7 +134,7 @@ const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({
          >
             <EllipsisVertical className="w-5 h-5" />
          </div>
-         <div className="absolute opacity-30 group-hover:opacity-65 w-full h-full bg-gradient-to-r from-white to-transparent transition-opacity"></div>
+         <div className="absolute opacity-10 group-hover:opacity-50 w-full h-full bg-gradient-to-r from-white to-transparent transition-opacity"></div>
       </div>
    );
 };

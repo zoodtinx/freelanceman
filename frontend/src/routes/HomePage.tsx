@@ -11,11 +11,25 @@ import { cn } from '@/lib/helper/utils';
 import { format } from 'date-fns';
 import { MenuPopover } from '@/components/page-elements/app-layout/MenuPopover';
 import FreelanceMan2LineLogo from '@/components/shared/icons/FreelanceMan2Line';
+import { useEffect } from 'react';
 
 export default function HomePage() {
+   useEffect(() => {
+      const setHeight = () => {
+         document.documentElement.style.setProperty(
+            '--vh',
+            `${window.innerHeight * 0.01}px`
+         );
+      };
+      setHeight();
+      window.addEventListener('resize', setHeight);
+      return () => window.removeEventListener('resize', setHeight);
+   }, []);
+
    return (
       <div
-         className={`bg-background w-auto h-screen flex overflow-hidden relative p-3
+         style={{ height: 'calc(var(--vh) * 100)' }}
+         className={`bg-background w-auto min-h-screen flex overflow-hidden relative p-3
                      sm:flex-col sm:p-0
                   `}
       >

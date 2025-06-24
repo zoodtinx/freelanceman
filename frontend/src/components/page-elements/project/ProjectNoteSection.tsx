@@ -33,7 +33,7 @@ const ProjectNoteSection: React.FC<{ project: ProjectFindOneResponse }> = ({
 
    return (
       <div className="flex flex-col w-full">
-         <p className="flex items-center h-9 text-md gap-1 px-4">
+         <p className="flex items-center h-9 text-md gap-1 px-4 lg:font-normal">
             <StickyNote className="w-4 h-4" />
             Notes
          </p>

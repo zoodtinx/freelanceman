@@ -79,7 +79,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
             <div className="flex items-center h-9 gap-3 text-md cursor-default">
                <button
                   className={cn(
-                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary lg:font-normal',
                      {
                         'text-primary': tab === 'work',
                      }
@@ -91,7 +91,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
                </button>
                <button
                   className={cn(
-                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-b-[0.5px] border-tertiary hover:text-primary lg:font-normal',
                      {
                         'text-primary': tab === 'asset',
                      }

@@ -8,14 +8,13 @@ import {
 import {
    ChevronDown,
    Eclipse,
-   Info,
-   Loader2,
+   Hand, Loader2,
    LogOut,
-   Moon, Settings2,
+   Moon,
+   Settings2,
    Sun,
    TimerReset,
-   UserRound,
-   UserRoundPen
+   UserRound
 } from 'lucide-react';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
@@ -25,7 +24,7 @@ import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { useFileUrlQuery } from '@/lib/api/file-api';
 import { UseQueryResult } from '@tanstack/react-query';
 import useAuthStore from '@/lib/zustand/auth-store';
-import { logOut } from '@/lib/api/auth-api';
+import { getFullDemo, logOut } from '@/lib/api/auth-api';
 import { useRef, useState } from 'react';
 import { useDarkMode } from '@/lib/zustand/theme-store';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
@@ -44,17 +43,19 @@ export const UserBar = () => {
    );
 
    const [isLoading, setIsLoading] = useState(false);
+   const [isResetDemoLoading, setIsResetDemoLoading] = useState(false);
 
    const setWelcomeDialogState = useWelcomeDialogStore(
-         (state) => state.setWelcomeDialogState
-      );
+      (state) => state.setWelcomeDialogState
+   );
 
-   const handleSignOut = async () => {
-      setIsLoading(true)
+   const handleSignOut = async (e: React.MouseEvent) => {
+      e.stopPropagation()
+      setIsLoading(true);
       await logOut(accessToken);
-      setIsLoading(false)
+      setIsLoading(false);
       navigate('/welcome');
-      toast.success('See you for your next project!')
+      toast.success('See you for your next project!');
    };
 
    const { data: userDataPayload, isLoading: userDataIsLoading } =
@@ -65,33 +66,44 @@ export const UserBar = () => {
    );
 
    const userData = userDataPayload as UserFindOneResponse;
-   
-   const pageKey = getPageKey(location.pathname)
+
+   const pageKey = getPageKey(location.pathname);
    const handleOpenWelcomeDialog = () => {
       setWelcomeDialogState(() => {
          return {
             page: pageKey as any,
-            isOpen: true
-         }
-      })
-   }
+            isOpen: true,
+         };
+      });
+   };
 
    const handleEditProfile = () => {
-    setFormDialogState({
-   isOpen: true,
-   mode: 'edit',
-   openedOn: 'globalAddButton',
-   type: 'userProfile',
-   data: { ...userData },
-   entity: 'user',
-});
+      setFormDialogState({
+         isOpen: true,
+         mode: 'edit',
+         openedOn: 'globalAddButton',
+         type: 'userProfile',
+         data: { ...userData },
+         entity: 'user',
+      });
    };
+
+   const handleResetDemo = async (e: React.MouseEvent) => {
+      e.stopPropagation()
+      setIsResetDemoLoading(true)
+      const result = await getFullDemo()
+      if (result.success) {
+         window.location.reload();
+      } else {
+         toast.error("Unexpected error, please try again")
+      }
+   }
 
    const handleClick = () => {
       popoverRef.current?.click();
    };
 
-   const iconClassName = 'h-4 w-4'
+   const iconClassName = 'h-4 w-4';
 
    const profileMenuItems = [
       {
@@ -100,16 +112,17 @@ export const UserBar = () => {
          onClick: handleEditProfile,
       },
       {
-         icon: <Info className={iconClassName} />,
-         label: 'View Tips',
+         icon: <Hand className={iconClassName} />,
+         label: 'View Welcome Message',
          onClick: handleOpenWelcomeDialog,
       },
       {
-         icon: <UserRoundPen className={iconClassName} />,
-         label: 'Get Account',
-      },
-      {
-         icon: <TimerReset className={iconClassName} />,
+         icon: isResetDemoLoading ? (
+            <Loader2 className={cn(`animate-spin`, iconClassName)} />
+         ) : (
+            <TimerReset className={iconClassName} />
+         ),
+         onClick: handleResetDemo,
          label: 'Reset Demo',
       },
       {

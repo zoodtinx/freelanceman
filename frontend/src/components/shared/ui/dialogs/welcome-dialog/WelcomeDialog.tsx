@@ -17,8 +17,7 @@ import { useSetVisited } from '@/lib/api/user-api';
 import { welcomeDialogContent } from '@/components/shared/ui/dialogs/welcome-dialog/DialogContents';
 
 export function GreetingDialog() {
-   const { welcomeDialogState } =
-      useWelcomeDialogStore();
+   const { welcomeDialogState } = useWelcomeDialogStore();
 
    const nextButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -55,7 +54,7 @@ export function GreetingDialog() {
                'sm:rounded-2xl sm:w-[360px] sm:h-fit sm:p-3 sm:pt-7'
             )}
          >
-            <Carousel className='w-full' opts={{duration: 13}}>
+            <Carousel className="w-full" opts={{ duration: 13 }}>
                <CarouselContent>{carouselItems}</CarouselContent>
                <CarouselNext ref={nextButtonRef} className="hidden" />
             </Carousel>
@@ -71,7 +70,7 @@ interface CardContentProps {
    imageUrl: string;
    isLastCard: boolean;
    page: string;
-   order: number
+   order: number;
 }
 
 const CardContent: React.FC<CardContentProps> = ({
@@ -81,7 +80,7 @@ const CardContent: React.FC<CardContentProps> = ({
    subhead,
    isLastCard,
    order,
-   page
+   page,
 }) => {
    const { welcomeDialogState, setWelcomeDialogState } =
       useWelcomeDialogStore();
@@ -96,12 +95,16 @@ const CardContent: React.FC<CardContentProps> = ({
       }
    };
 
-   const isLastHomePageCard = page === 'home' && order === 4
+   const isLastHomePageCard = page === 'home' && order === 4;
 
    const handleRepoClick = (e: React.MouseEvent) => {
-      e.stopPropagation()
-      window.open('https://www.pinterest.com/search/pins/?q=welcome%20page&rs=typed', '_blank', 'noopener,noreferrer');
-   }
+      e.stopPropagation();
+      window.open(
+         'https://github.com/zoodtinx/freelanceman',
+         '_blank',
+         'noopener,noreferrer'
+      );
+   };
 
    return (
       <div className="flex flex-col items-center w-full" onClick={handleClick}>
@@ -113,13 +116,16 @@ const CardContent: React.FC<CardContentProps> = ({
                </div>
                <p
                   className={cn(
-                     'w-[380px] h-[60px] text-center leading-snug opacity-50 text-primary text-[13px] flex flex-col',
+                     'w-[380px] h-[60px] text-center leading-snug opacity-50 text-primary text-[13px] flex flex-col items-center',
                      'sm:w-full sm:leading-tight'
                   )}
                >
                   {subhead}
                   {isLastHomePageCard && (
-                     <span className="text-primary font-semibold underline cursor-pointer hover:opacity-100" onClick={handleRepoClick}>
+                     <span
+                        className="text-primary font-semibold underline cursor-pointer hover:opacity-100 w-fit"
+                        onClick={handleRepoClick}
+                     >
                         Github Repo
                      </span>
                   )}

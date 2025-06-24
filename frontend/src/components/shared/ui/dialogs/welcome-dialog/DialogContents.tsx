@@ -21,7 +21,7 @@ const projectPageContent = [
       headline: (
          <React.Fragment>
             <p className="text-center">Your Entire Project</p>
-            <p className="text-center font-semibold">In One Place.</p>
+            <p className="text-center font-semibold">In One Place</p>
          </React.Fragment>
       ),
       subhead:
@@ -40,7 +40,7 @@ const documentbuilderPageContent = [
       headline: (
          <React.Fragment>
             <p className="text-center">Fill a Template, Hit Generate,</p>
-            <p className="text-center font-semibold">Get Instant PDFs.</p>
+            <p className="text-center font-semibold">Get Instant PDFs</p>
          </React.Fragment>
       ),
       subhead:
@@ -77,7 +77,7 @@ const incomePageContent = [
             <p className="text-center font-semibold">
                Quotation, Invoice, Receipt
             </p>
-            <p className="text-center">Create Them All Here.</p>
+            <p className="text-center">Create Them All Here</p>
          </React.Fragment>
       ),
       subhead:
@@ -208,7 +208,7 @@ const homePageContent = [
          "Freelancing is chaotic, we made it simple. Because nobody else really gets what it's like to be your own entire company.",
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-1.jpg?updatedAt=1749714476968`,
+      }/home-page-1.jpg?updatedAt=1750754288180`,
    },
    {
       page: 'home',
@@ -242,7 +242,7 @@ const homePageContent = [
          'Start on your laptop, finish on your phone, check in from your tablet. And maybe edit from your smart fridge.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-3.jpg?updatedAt=1749714476968`,
+      }/home-page-3.jpg?updatedAt=1750754288441`,
    },
    {
       page: 'home',
@@ -257,7 +257,7 @@ const homePageContent = [
       subhead: 'View the live production repo powering this app.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-4.jpg?updatedAt=1749714476968`,
+      }/home-page-4.jpg?updatedAt=1750754402066`,
    },
 ];
 

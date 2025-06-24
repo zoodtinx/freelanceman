@@ -16,7 +16,6 @@ import {
    useDeleteClient,
    useEditClient,
 } from '@/lib/api/client-api';
-import { toast } from 'sonner';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
 export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
@@ -55,7 +54,7 @@ export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
             detail: data.detail,
          };
          closeDialog();
-         toast.loading('Creating client...');
+
          const client = await createClient.mutateAsync(createClientPayload);
          navigate(`/home/clients/${client.id}`);
       } else if (formDialogState.mode === 'edit') {
@@ -70,7 +69,7 @@ export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
             detail: data.detail,
          };
          closeDialog();
-         toast.loading('Updating client...');
+
          await editClient.mutateAsync(editClientPayload);
       }
    };
@@ -78,7 +77,6 @@ export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
    const handleDestructiveButton = () => {
       if (formDialogState.mode === 'edit') {
          const deleteProjectFn = async () => {
-            toast.loading('Deleting client...');
             await deleteClient.mutateAsync(formDialogState.data.id);
             if (formDialogState.openedOn === 'clientPage') {
                navigate(`/home/clients`);

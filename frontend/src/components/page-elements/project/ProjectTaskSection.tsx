@@ -69,7 +69,7 @@ const ProjectTaskSection = ({
    return (
       <div className="flex flex-col w-full">
          <div className="flex justify-between items-center pl-3 pr-2">
-            <p className="flex items-center h-9 text-md gap-1">
+            <p className="flex items-center h-9 text-md gap-1 lg:font-normal">
                <CircleCheck className="w-4 h-4" />
                Task
             </p>

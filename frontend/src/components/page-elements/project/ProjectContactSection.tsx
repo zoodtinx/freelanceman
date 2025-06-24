@@ -81,7 +81,7 @@ export const ProjectContactSection = ({
             <div className="flex gap-3 h-9 text-md">
                <button
                   className={cn(
-                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-tertiary hover:text-primary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full border-tertiary hover:text-primary lg:font-normal',
                      {
                         'text-primary': tab === 'client',
                      }
@@ -93,7 +93,7 @@ export const ProjectContactSection = ({
                </button>
                <button
                   className={cn(
-                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full  border-tertiary hover:text-primary',
+                     'flex items-center gap-1 text-secondary transition-colors duration-150 h-full  border-tertiary hover:text-primary lg:font-normal',
                      {
                         'text-primary': tab === 'partner',
                      }
