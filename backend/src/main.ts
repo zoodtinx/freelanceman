@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 import { LoggingInterceptor } from 'src/utils/logger.interceptor';
 import { LoggingExceptionFilter } from 'src/utils/logging.filter';
-import { DelayInterceptor } from '@/utils/depay.interceptor';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
