@@ -52,6 +52,10 @@ const AuthPage: React.FC = () => {
       }
    };
 
+   const handleGoogleOAuthLogin = () => {
+      window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+   }
+
    if (isLoading) {
       return (
          <div
@@ -115,7 +119,7 @@ const AuthPage: React.FC = () => {
                </div>
                <div className="flex flex-col gap-[6px]">
                   <Button
-                     onClick={handleGetBlankDemo}
+                     onClick={handleGoogleOAuthLogin}
                      className="w-full"
                      variant="outline"
                   >
@@ -123,14 +127,14 @@ const AuthPage: React.FC = () => {
                   </Button>
                </div>
             </div>
-            <div
+            {isError && <div
                className={cn(
-                  'p-4 text-general-red invisible',
-                  isError && 'animate-shake visible'
+                  'p-4 text-general-red',
+                  'animate-shake visible'
                )}
             >
                Unexpected error, please try again
-            </div>
+            </div>}
          </div>
          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] absolute gap-4 w-[calc(100vw+100px)] 5-[calc(100vw+100px)] sm:grid-cols-[repeat(2,minmax(0,1fr))]">
             {placeholders}

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "prune": "ts-prune",
-    "build": "npx tsc -b && vite build",
+    "build": "npx tsc -b && vite build && npm run postbuild",
+    "postbuild": "echo '/*\\n  Cache-Control: no-cache\\n/assets/*\\n  Cache-Control: public, max-age=31536000, immutable' > dist/_headers",
+    "clean": "find ./src -name '*.js' -delete && npm run dev",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "preview": "vite preview",

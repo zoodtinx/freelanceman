@@ -229,7 +229,7 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
             />
          </div>
          <div className="flex justify-between">
-            <div className={`flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden`}>
+            <div className={`flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden items-center`}>
                <UsersRound className="w-5 h-auto" />
                <Link
                   to={project.clientId ? `../../clients/${project.clientId}` : ''}

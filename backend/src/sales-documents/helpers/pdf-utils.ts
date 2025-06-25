@@ -216,7 +216,7 @@ function getHtml(data: CreateSalesDocumentDto) {
                 ${data.category.charAt(0).toUpperCase() + data.category.slice(1)}
               </h1>
               <div class="flex flex-col items-end">
-                ${data.number ? `<p class="mt-1">No: ${data.number}</p>` : ''}
+                ${data.number ? `<p class="mt-1 text-right">No: ${data.number}</p>` : ''}
                 <p class="mt-1">Issued: ${date}</p>
               </div>
             </header>

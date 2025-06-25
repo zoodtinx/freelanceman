@@ -286,18 +286,7 @@ export class TokenService {
             throw new UnauthorizedException('Expired refresh token');
         }
 
-        // await this.prismaService.refreshToken.delete({
-        //     where: { id: oldRefreshToken },
-        // });
-
         const { user } = refreshTokenData;
-
-        // const newRefreshToken = await this.prismaService.refreshToken.create({
-        //     data: {
-        //         userId: user.id,
-        //         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        //     },
-        // });
 
         const newAccessToken = this.jwtService.sign(
             {

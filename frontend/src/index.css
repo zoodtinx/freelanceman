@@ -27,31 +27,6 @@
   font-weight: 700;
 }
 
-@font-face {
-  font-family: 'PrachasornNeue';
-  src: url('/fonts/PrachasonNeueLite-Regular.woff2') format('woff2');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'PrachasornNeue';
-  src: url('/fonts/PrachasonNeueLite-Medium.woff2') format('woff2');
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: 'PrachasornNeue';
-  src: url('/fonts/PrachasonNeueLite-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-}
-
-@font-face {
-  font-family: 'PrachasornNeue';
-  src: url('/fonts/PrachasonNeueLite-Bold.woff2') format('woff2');
-  font-weight: 700;
-}
-
-
 @layer base {
   :root {
     --foreground: 0 0 100;

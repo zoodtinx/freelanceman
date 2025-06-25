@@ -9,8 +9,8 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.use(cookieParser());
     app.enableCors({
-          origin: 'https://freelanceman.peerapol.dev',
-
+        origin:
+            process.env.CLIENT_URL?.split(',').map((url) => url.trim()) || [],
         credentials: true,
     });
     app.use(helmet());

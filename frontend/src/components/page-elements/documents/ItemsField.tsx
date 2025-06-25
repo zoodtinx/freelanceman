@@ -7,6 +7,7 @@ import AdjustmentsField from '@/components/page-elements/documents/AdjustmentsFi
 import { defaultSalesDocumentItemValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { cn } from '@/lib/helper/utils';
 import { SalesDocumentFindOneResponse, SalesDocumentItemCore } from 'freelanceman-common';
+import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 
 const ItemsField = ({
    formMethods,
@@ -110,30 +111,32 @@ const ItemsField = ({
    return (
       <fieldset
          className={cn(
-            'flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3',
+            'flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3 overflow-y-auto',
             'sm:h-fit',
             fieldError && 'border-general-red'
          )}
       >
-         <div className="flex flex-col gap-2 grow overflow-auto">
-            <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
-               {itemList}
-               <div
-                  className="cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75"
-                  onClick={handleNewItem}
-               >
-                  <Plus className="stroke-[3px]" />
+         <ScrollArea>
+            <div className="flex flex-col gap-2 grow overflow-auto">
+               <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
+                  {itemList}
+                  <div
+                     className="cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75"
+                     onClick={handleNewItem}
+                  >
+                     <Plus className="stroke-[3px]" />
+                  </div>
                </div>
+               <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-center ">
+                  Items & Pricing
+                  {errors.items && typeof errors.items.message === 'string' && (
+                     <p className="text-general-red text-sm pl-2 animate-shake">
+                        {errors.items?.message as string}
+                     </p>
+                  )}
+               </h2>
             </div>
-            <h2 className="text-lg text-secondary peer-focus-within:text-primary order-1 flex justify-between items-center">
-               Items & Pricing
-               {errors.items && typeof errors.items.message === 'string' && (
-                  <p className="text-general-red text-sm pl-2 animate-shake">
-                     {errors.items?.message as string}
-                  </p>
-               )}
-            </h2>
-         </div>
+         </ScrollArea>
          <AdjustmentsField formMethods={formMethods} />
          <footer className="flex w-full px-3 text-secondary justify-end gap-4">
             <span>
@@ -170,7 +173,7 @@ const ItemBar = ({
    const amount = item.rate * item.quantity;
 
    return (
-      <div className="flex h-fit w-full rounded-[9px] border border-tertiary overflow-hidden">
+      <div className="flex h-fit w-full rounded-[9px] border border-tertiary overflow-hidden shrink-0">
          <div
             className="flex h-fit justify-between items-start grow pl-2 py-2"
             onClick={() => handleEdit(item)}
@@ -199,7 +202,7 @@ const ItemBar = ({
             </div>
          </div>
          <div
-            className="flex items-center justify-center shrink-0 h-full bg-button-red px-[1px] cursor-pointer opacity-25 hover:opacity-100 transition-opacity"
+            className="flex items-center justify-center shrink-0 bg-button-red px-[1px] cursor-pointer opacity-25 hover:opacity-100 transition-opacity"
             onClick={(e) => {
                e.stopPropagation();
                handleDelete(index);

@@ -165,7 +165,7 @@ const SalesDocumentBuilderPage = ({
    const documentCategory = category ?? getValues('category');
 
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative">
+      <div className="flex flex-col w-full bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative overflow-y-auto">
          {/* Header */}
          <div className="flex justify-between items-center h-fit">
             <div className="flex gap-1 items-center">

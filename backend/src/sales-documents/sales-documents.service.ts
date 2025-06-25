@@ -191,15 +191,11 @@ export class SalesDocumentsService {
     }
 
     async createPdf(userId: string, createPdfDto: CreatePdfDto) {
-        console.log('createPdfDto', createPdfDto);
-
         const fileName = `${toKebabCase(createPdfDto.category)}-${toKebabCase(createPdfDto.projectTitle!)}`;
 
         const pdfBuffer = (await generatePDFBuffer(
             createPdfDto,
         )) as unknown as Readable;
-
-        console.log('pdfBuffer', 'Hello');
 
         if (createPdfDto.s3Key) {
             console.log('Triggered');
