@@ -21,6 +21,7 @@ import {
 } from '@/components/shared/ui/helpers/constants/default-values';
 import { useState } from 'react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
+import { cn } from '@/lib/helper/utils';
 
 const GlobalAddButton = () => {
    const setFormDialogState = useFormDialogStore(
@@ -41,7 +42,7 @@ const GlobalAddButton = () => {
          type: 'task',
          entity: 'task',
          mode: 'create',
-         data: {...defaultValues['task']},
+         data: { ...defaultValues['task'] },
          openedOn: 'globalAddButton',
       });
    };
@@ -52,7 +53,7 @@ const GlobalAddButton = () => {
          type: 'event',
          entity: 'event',
          mode: 'create',
-         data: {...defaultEventValues},
+         data: { ...defaultEventValues },
          openedOn: 'globalAddButton',
       });
    };
@@ -63,18 +64,18 @@ const GlobalAddButton = () => {
          type: 'clientContact',
          entity: 'clientContact',
          mode: 'create',
-         data: {...defaultContactValues},
+         data: { ...defaultContactValues },
          openedOn: 'globalAddButton',
       });
    };
-   
+
    const handleNewPartnerContact = () => {
       setFormDialogState({
          isOpen: true,
          type: 'partnerContact',
          entity: 'partnerContact',
          mode: 'create',
-         data: {...defaultPartnerContactValues},
+         data: { ...defaultPartnerContactValues },
          openedOn: 'globalAddButton',
       });
    };
@@ -85,7 +86,7 @@ const GlobalAddButton = () => {
          type: 'newClient',
          mode: 'create',
          entity: 'client',
-         data: {...defaultValues['new-client']},
+         data: { ...defaultValues['new-client'] },
          openedOn: 'globalAddButton',
       });
    };
@@ -95,7 +96,7 @@ const GlobalAddButton = () => {
          isOpen: true,
          type: 'newProject',
          mode: 'create',
-         data: {...defaultValues['new-project']},
+         data: { ...defaultValues['new-project'] },
          openedOn: 'globalAddButton',
          entity: 'project',
       });
@@ -107,7 +108,7 @@ const GlobalAddButton = () => {
          type: 'newFile',
          mode: 'create',
          entity: 'file',
-         data: {...defaultValues['file']},
+         data: { ...defaultValues['file'] },
          openedOn: 'globalAddButton',
       });
    };
@@ -136,7 +137,14 @@ const GlobalAddButton = () => {
                <Plus className="h-full w-full stroke-[2.5px] text-foreground p-2" />
             </div>
          </PopoverTrigger>
-         <PopoverContent className="w-[165px] bg-white flex flex-col rounded-xl p-[6px] cursor-default select-none border-tertiary md:ml-4 sm:mr-3 bg-primary text-foreground">
+         <PopoverContent
+            className={cn(
+               'w-[165px] flex flex-col rounded-xl p-[6px] cursor-default select-none border-tertiary text-primary',
+               'md:ml-4 sm:mr-3 bg-foreground',
+               'sm:bg-primary sm:text-foreground',
+               'dark:border-transparent '
+            )}
+         >
             {menuItems.map((item, index) =>
                item === 'separator' ? (
                   <Separator key={index} />
@@ -147,7 +155,10 @@ const GlobalAddButton = () => {
                         item.action();
                         setOpen(false);
                      }}
-                     className="flex items-center gap-[5px] px-[5px] py-[3px] hover:bg-background transition-colors duration-75 rounded-sm"
+                     className={cn(
+                        'flex items-center gap-[5px] px-[5px] py-[3px] hover:bg-background transition-colors duration-75 rounded-sm',
+                        'sm:hover:text-primary'
+                     )}
                   >
                      <item.Icon className="h-4 w-4" />
                      <p>{item.label}</p>

@@ -49,7 +49,11 @@ interface TimePickerProps {
    enableTime?: boolean
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ value, handleChange, enableTime = false }) => {
+const TimePicker: React.FC<TimePickerProps> = ({
+   value,
+   handleChange,
+   enableTime = false,
+}) => {
    const dateObject = useMemo(() => new Date(value as string), [value]);
 
    const hours = Array.from({ length: 12 }, (_, i) =>

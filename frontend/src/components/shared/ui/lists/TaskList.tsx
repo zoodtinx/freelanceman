@@ -217,7 +217,7 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
                <p className="w-fit">{formattedDate}</p>
             </div>
             <div
-               className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
+               className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity sm:hidden"
                onClick={handleDelete}
             >
                <Trash className="h-4 cursor-pointer text-secondary hover:text-primary" />

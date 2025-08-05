@@ -18,9 +18,6 @@ export default function ClientPage() {
 
    const { data: clientData, isLoading } = useClientQuery(clientId || '');
 
-   console.log('isLoading', isLoading);
-   console.log('clientData', clientData);
-
    return (
       <section
          className={cn(
@@ -103,7 +100,7 @@ const ClientNoteSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       <div
          className={cn(
             'flex flex-col flex-1 h-1/2 bg-foreground rounded-[20px] shrink-0 shadow-md',
-            'sm:h-[300px] sm:flex-auto'
+            'sm:h-[300px] sm:flex-auto sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >
          <div className="flex items-center justify-between h-9 gap-1 px-4">
@@ -147,7 +144,7 @@ const ClientInfoSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       !clientData.email;
 
    return (
-      <div className="flex flex-col h-fit bg-foreground rounded-[20px] shrink-0 shadow-md">
+      <div className="flex flex-col h-fit bg-foreground rounded-[20px] shrink-0 shadow-md sm:border sm:border-secondary sm:dark:border-tertiary">
          <div className="flex items-center justify-between h-9 gap-1 px-4">
             <div className="flex items-center gap-1">
                <Book className="w-4 h-4" />

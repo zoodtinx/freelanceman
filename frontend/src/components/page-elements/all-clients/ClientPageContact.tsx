@@ -37,7 +37,7 @@ export const ContactColumn = (): JSX.Element => {
       <div
          className={cn(
             'flex flex-col rounded-[20px] bg-foreground h-full shadow-md relative overflow-hidden w-[350px] pb-2',
-            'sm:shadow-sm sm:h-1/2 sm:w-full'
+            'sm:shadow-sm sm:h-1/2 sm:w-full sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >
          <div

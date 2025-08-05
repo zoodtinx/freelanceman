@@ -57,7 +57,7 @@ export const MenuPopover: React.FC = () => {
                <span className="text-md font-medium">{capitalizeFirstChar(current)}</span>
             </div>
          </SelectTrigger>
-         <SelectContent className='bg-primary text-foreground'>
+         <SelectContent className='bg-primary text-foreground dark:border-transparent'>
             <div className="flex flex-col gap-1">
                {menuItems.map((item) => (
                   <SelectItem key={item.key} value={item.key}>

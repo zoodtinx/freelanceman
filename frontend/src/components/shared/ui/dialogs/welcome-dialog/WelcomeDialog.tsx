@@ -13,13 +13,14 @@ import { Button } from 'src/components/shared/ui/primitives/Button';
 import { cn } from '@/lib/helper/utils';
 import React, { ReactNode, useRef } from 'react';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
-import { useSetVisited } from '@/lib/api/user-api';
 import { welcomeDialogContent } from '@/components/shared/ui/dialogs/welcome-dialog/DialogContents';
+import { X } from 'lucide-react';
 
 export function GreetingDialog() {
    const { welcomeDialogState } = useWelcomeDialogStore();
 
    const nextButtonRef = useRef<HTMLButtonElement | null>(null);
+   const contentRef = useRef<HTMLDivElement | null>(null);
 
    const handleClick = () => {
       if (nextButtonRef.current) nextButtonRef.current.click();
@@ -49,14 +50,17 @@ export function GreetingDialog() {
             onClick={handleClick}
             className={cn(
                'rounded-3xl bg-foreground dark:bg-background outline-none max-w-[490px] group cursor-pointer',
-               'flex flex-col items-center px-4 py-5 pt-8 select-none',
+               'flex flex-col items-center select-none',
                'lg:w-[487px] h-fit',
-               'sm:rounded-2xl sm:w-[360px] sm:h-fit sm:p-3 sm:pt-7'
+               'sm:w-[360px] sm:rounded-2xl'
             )}
          >
             <Carousel className="w-full" opts={{ duration: 13 }}>
-               <CarouselContent>{carouselItems}</CarouselContent>
+               <CarouselContent ref={contentRef}>
+                  {carouselItems}
+               </CarouselContent>
                <CarouselNext ref={nextButtonRef} className="hidden" />
+               <X className="text-primary absolute top-4 right-4 w-5 h-5 pointer-events-none" />
             </Carousel>
          </DialogContent>
       </Dialog>
@@ -82,17 +86,13 @@ const CardContent: React.FC<CardContentProps> = ({
    order,
    page,
 }) => {
-   const { welcomeDialogState, setWelcomeDialogState } =
-      useWelcomeDialogStore();
-   const setVisited = useSetVisited();
+   const { setWelcomeDialogState } = useWelcomeDialogStore();
 
    const handleClick = () => {
-      if (isLastCard) {
-         setVisited.mutate(welcomeDialogState.page);
-         setWelcomeDialogState((prev) => {
-            return { ...prev, isOpen: false };
-         });
-      }
+      if (!isLastCard) return;
+
+      localStorage.setItem(page, 'visited');
+      setWelcomeDialogState((prev) => ({ ...prev, isOpen: false }));
    };
 
    const isLastHomePageCard = page === 'home' && order === 4;
@@ -107,7 +107,10 @@ const CardContent: React.FC<CardContentProps> = ({
    };
 
    return (
-      <div className="flex flex-col items-center w-full" onClick={handleClick}>
+      <div
+         className="flex flex-col items-center w-full px-4 py-5 pt-8 sm:min-w-[360px] sm:h-fit sm:p-3 sm:pt-7"
+         onClick={handleClick}
+      >
          <div className="flex flex-col gap-3 items-center">
             <Icon className="h-[60px] w-auto stroke-[1.3px] text-primary sm:h-[50px]" />
             <div className="flex flex-col gap-2">
@@ -117,7 +120,7 @@ const CardContent: React.FC<CardContentProps> = ({
                <p
                   className={cn(
                      'w-[380px] h-[60px] text-center leading-snug opacity-50 text-primary text-[13px] flex flex-col items-center',
-                     'sm:w-full sm:leading-tight'
+                     'sm:w-full sm:leading-tight sm:h-[67px]'
                   )}
                >
                   {subhead}

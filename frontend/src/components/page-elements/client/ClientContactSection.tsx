@@ -34,7 +34,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       <div
          className={cn(
             'flex flex-col bg-foreground flex-1 rounded-[20px] shadow-md h-1/2',
-            'sm:h-[300px] sm:flex-auto'
+            'sm:h-[300px] sm:flex-auto sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >
          <div className="flex justify-between items-center px-4 pr-2 h-9">

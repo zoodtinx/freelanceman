@@ -169,27 +169,36 @@ export const UserBar = () => {
                   )}
                </div>
             </PopoverTrigger>
-            <PopoverContent className="w-[250px] bg-foreground border-tertiary flex flex-col rounded-xl cursor-default select-none ml-3">
+            <PopoverContent
+               className={cn(
+                  'w-[250px] bg-foreground text-primary border-tertiary flex flex-col rounded-xl cursor-default select-none',
+                  'ml-3 dark:border-transparent sm:bg-primary sm:text-foreground'
+               )}
+            >
                <div className="flex items-center gap-[5px] justify-between">
                   <div className="flex items-center gap-[5px] pl-1">
                      <Eclipse className="h-4 w-4" />
                      <p>Appearance</p>
                   </div>
                   <Tabs
-                     className="w-[100px] p-1 bg-quaternary rounded-md text-secondary"
+                     className="w-[100px] p-1 bg-tertiary sm:bg-secondary rounded-md text-primary"
                      value={mode}
                      onValueChange={toggle}
                   >
                      <TabsList className="w-full flex">
                         <TabsTrigger
                            value="light"
-                           className="flex justify-center w-1/2 text-base data-[state=active]:text-primary data-[state=active]:bg-foreground py-[2px] rounded-sm"
+                           className={cn("flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary",
+                              "sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary "
+                           )}
                         >
                            <Sun className="h-4 w-4" />
                         </TabsTrigger>
                         <TabsTrigger
                            value="dark"
-                           className="flex justify-center w-1/2 text-base data-[state=active]:text-primary data-[state=active]:bg-foreground py-[2px] rounded-sm"
+                           className={cn("flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary",
+                              "sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary "
+                           )}
                         >
                            <Moon className="h-4 w-4" />
                         </TabsTrigger>
@@ -204,6 +213,7 @@ export const UserBar = () => {
                            onClick={onClick}
                            className={cn(
                               'flex items-center gap-[5px] justify-between hover:bg-background rounded-md transition-colors duration-75',
+                              'sm:hover:bg-background sm:hover:text-primary',
                               className
                            )}
                         >

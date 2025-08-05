@@ -12,7 +12,7 @@ const AdjustmentsField = ({
    formMethods: UseFormReturn<SalesDocumentFindOneResponse>;
 }) => {
    return (
-      <fieldset className="h-2/7 rounded-xl border border-tertiary p-3">
+      <fieldset className="rounded-xl border border-tertiary p-3">
          <div className="flex flex-col">
             <div className="flex flex-col gap-2 peer order-2">
                <div className="flex flex-wrap gap-2">

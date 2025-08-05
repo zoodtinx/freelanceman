@@ -9,6 +9,6 @@ export const seedUserProfile = {
     phoneNumber: '+66812345678',
     address: '123 Art Studio, Bang Phli Yai, Samut Prakan, Thailand',
     currency: 'THB',
-    taxId: null,
+    taxId: '3-9821-45793-58-5',
     quitting: false,
 };

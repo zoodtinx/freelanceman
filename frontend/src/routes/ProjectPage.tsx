@@ -16,7 +16,6 @@ import {
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
 import { useRef, useState } from 'react';
-import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { cn } from '@/lib/helper/utils';
 
@@ -27,12 +26,11 @@ export default function ProjectPage() {
       Boolean(projectId)
    );
 
-   const { data: userData } = useUserQuery();
    const setWelcomeDialogState = useWelcomeDialogStore(
       (state) => state.setWelcomeDialogState
    );
 
-   if (userData?.visitingStatus?.projectPage === false) {
+   if (localStorage.getItem('project') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
    }
 
@@ -57,7 +55,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center',
-                     'sm:h-fit sm:p-2 sm:px-3 sm:gap-2 sm:pb-3 sm:shadow-md'
+                     'sm:h-fit sm:p-2 sm:px-3 sm:gap-2 sm:pb-3 sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
                   )}
                >
                   <ProjectHeader project={project} />
@@ -76,7 +74,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-1/2',
-                        'sm:w-full sm:h-[420px] sm:shadow-md'
+                        'sm:w-full sm:h-[420px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
                      )}
                   >
                      <ProjectTaskSection project={project} />
@@ -89,7 +87,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden',
-                        'sm:w-full sm:h-[420px] sm:shadow-md'
+                        'sm:w-full sm:h-[420px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
                      )}
                   >
                      <ProjectEventSection project={project} />
@@ -109,7 +107,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-[35%] shrink-0',
-                        'sm:w-full sm:h-[300px] sm:shadow-md h-full'
+                        'sm:w-full sm:h-[300px] sm:shadow-md h-full sm:border sm:border-secondary sm:dark:border-tertiary'
                      )}
                   >
                      <ProjectLinkSection project={project} />
@@ -122,7 +120,7 @@ export default function ProjectPage() {
                   <div
                      className={cn(
                         'flex rounded-[13px] bg-foreground relative shadow-md w-[65%] h-full',
-                        'sm:w-full sm:h-[300px] sm:shadow-md'
+                        'sm:w-full sm:h-[300px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
                      )}
                   >
                      <ProjectNoteSection project={project} />
@@ -143,7 +141,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col rounded-[13px] bg-foreground h-2/5 relative overflow-hidden shadow-md',
-                     'sm:w-full sm:h-[300px] sm:shadow-md'
+                     'sm:w-full sm:h-[300px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
                   )}
                >
                   <ProjectContactSection project={project} />
@@ -155,7 +153,7 @@ export default function ProjectPage() {
                <div
                   className={cn(
                      'flex flex-col rounded-[13px] bg-foreground grow relative overflow-hidden shadow-md',
-                     'sm:w-full sm:shadow-md sm:h-[420px]'
+                     'sm:w-full sm:shadow-md sm:h-[420px] sm:border sm:border-secondary sm:dark:border-tertiary'
                   )}
                >
                   <ProjectFileSection project={project} />

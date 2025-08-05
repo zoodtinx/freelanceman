@@ -146,7 +146,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                }}
             >
                <UsersRound className="w-[17px]" />
-               <p>{project.client?.name ?? 'Freelancing'}</p>
+               <p className='line-clamp-1'>{project.client?.name ?? 'Freelancing'}</p>
             </div>
             <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
                {project.name}

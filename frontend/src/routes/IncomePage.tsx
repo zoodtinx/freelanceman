@@ -43,19 +43,17 @@ import IncomePagePlacholder from '@/components/shared/ui/placeholder-ui/IncomePa
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
-import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
 import { GetPaymentDataResponse, PaymentDataItem, PaymentFilterDto, SalesDocumentFindOneResponse } from 'freelanceman-common';
 import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
 
 const IncomePage: React.FC = () => {
-   const { data: userData } = useUserQuery();
    const setWelcomeDialogState = useWelcomeDialogStore(
       (state) => state.setWelcomeDialogState
    );
 
-   if (userData?.visitingStatus?.incomePage === false) {
+   if (localStorage.getItem('income') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'incomePage' });
    }
 
@@ -361,7 +359,7 @@ const ProjectPaymentTab = forwardRef<
          ref={ref}
          className={cn(
             'flex w-full bg-foreground rounded-2xl shadow-md h-[100px] items-center shrink-0 relative',
-            'sm:h-[97px] sm:gap-0 sm:shadow-md',
+            'sm:h-[97px] sm:gap-0 sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary',
             project.paymentStatus === 'paid' && 'bg-tertiary shadow-none'
          )}
       >

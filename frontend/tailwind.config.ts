@@ -77,8 +77,8 @@ module.exports = {
             },
          },
          screens: {
-            sm: { max: '767px' },
-            md: { min: '768px', max: '1439px' },
+            sm: { max: '1023px' },
+            md: { min: '1024px', max: '1439px' },
             lg: { min: '1440px' },
          },
          fontFamily: {
@@ -133,7 +133,6 @@ module.exports = {
                completed: 'var(--freelanceman-status-completed)',
                cancelled: 'var(--freelanceman-status-cancelled)',
             },
-
             deadline: {
                soon: 'var(--freelanceman-deadline-soon)',
                past: 'var(--freelanceman-deadline-past)',

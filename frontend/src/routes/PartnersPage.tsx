@@ -17,7 +17,6 @@ import {
 } from 'freelanceman-common';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { PartnerContactList } from '@/components/shared/ui/lists/PartnerContactList';
-import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { cn } from '@/lib/helper/utils';
 import { usePartnerContactsQuery } from '@/lib/api/partner-contact-api';
@@ -33,12 +32,11 @@ const PartnerContactLayout = (): JSX.Element => {
 
    const partnerContactsQueryResult = usePartnerContactsQuery(filter);
 
-   const { data: userData } = useUserQuery();
    const setWelcomeDialogState = useWelcomeDialogStore(
       (state) => state.setWelcomeDialogState
    );
 
-   if (userData?.visitingStatus?.partnersPage === false) {
+   if (localStorage.getItem('partners') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'partnersPage' });
    }
 
@@ -66,7 +64,7 @@ const PartnerContactLayout = (): JSX.Element => {
       <div
          className={cn(
             'flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
-            'sm:shadow-md sm:h-1/2 sm:gap-1'
+            'sm:shadow-md sm:h-1/2 sm:gap-1 sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >
          <div

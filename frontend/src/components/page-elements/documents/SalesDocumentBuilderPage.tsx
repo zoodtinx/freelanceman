@@ -58,7 +58,11 @@ const SalesDocumentBuilderPage = ({
       (state) => state.setWelcomeDialogState
    );
 
-   if (userData?.visitingStatus?.documentBuilderPage === false) {
+   console.log('docuemntbuilder' ,localStorage.getItem('documentbuilder'))
+
+   if (
+      localStorage.getItem('documentbuilder') !== 'visited'
+   ) {
       setWelcomeDialogState({ isOpen: true, page: 'documentBuilderPage' });
    }
 
