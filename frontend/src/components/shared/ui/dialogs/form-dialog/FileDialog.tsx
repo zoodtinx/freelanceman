@@ -28,17 +28,8 @@ import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store'
 export const FileDialog = ({
    formMethods,
 }: FormDialogProps) => {
-
-   // form utilities
-   const {
-      handleSubmit,
-      getValues,
-      setValue,
-      watch,
-      formState: { dirtyFields },
-   } = formMethods;
-   const fileLink = getValues('link');
-   const s3Key = getValues('s3Key');
+   // local state
+   const [copied, setCopied] = useState(false);
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
@@ -52,23 +43,32 @@ export const FileDialog = ({
       });
    };
 
+   // form utilities
+   const {
+      handleSubmit,
+      getValues,
+      setValue,
+      watch,
+   } = formMethods;
+   const fileLink = getValues('link');
+   const s3Key = getValues('s3Key');
+
    // api setup
    const editFile = useEditFile()
    const deleteFile = useDeleteFile()
 
+   // fetch file download url
    const { data: fileUrl, isLoading: isUrlLoading } = useFileUrlQuery(
       s3Key,
       Boolean(s3Key)
    );
+
    if (fileUrl) {
       setValue('fileUrl', fileUrl?.url);
    } else if (fileLink) {
+      // set external link as download link if no s3Key (meaning user use their own link)
       setValue('fileUrl', fileLink);
    }
-
-   console.log('dirtyFields', dirtyFields);
-
-   const [copied, setCopied] = useState(false);
 
    const fileSize = formatBytes(watch('size'));
    const dateCreated = formatDate(getValues('createdAt'), 'SEMIFULL');
@@ -93,8 +93,6 @@ export const FileDialog = ({
       toast.success('File updated');
    };
 
-   //ui shorthands
-   const project = formDialogState.data.project;
    const categorySelection = [
       { label: 'Working File', value: 'work' },
       { label: 'Project Asset', value: 'asset' },
@@ -163,7 +161,7 @@ export const FileDialog = ({
                <div className="flex flex-col w-1/2 shrink-0">
                   <Label className="pb-0">Project</Label>
                   <Link
-                     to={`/home/project/${project?.id}`}
+                     to={`/home/project/${formDialogState.data.project?.id}`}
                      className="leading-tight"
                   >
                      {formDialogState.data.project?.name}

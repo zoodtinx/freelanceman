@@ -24,18 +24,18 @@ const ProjectTaskSection = ({
 }: {
    project: ProjectFindOneResponse;
 }) => {
+   // hooks
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-
    const [taskFilter, setTaskFilter] = useState<TaskFilterDto>({
       projectId: project.id,
       status: 'pending',
    });
-
    const tasksQueryResult = useTasksQuery(taskFilter);
    const { isFetching } = tasksQueryResult;
 
+   // refetch data if project changes but component stays mounted
    useEffect(() => {
       if (project?.id) {
          setTaskFilter((prev: TaskFilterDto) => ({

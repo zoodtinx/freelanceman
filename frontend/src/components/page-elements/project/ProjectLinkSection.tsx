@@ -86,10 +86,6 @@ const NewLinkField: React.FC<NewLinkFieldProps> = ({ setMode, project }) => {
    };
 
    const submitLink = (data: any) => {
-      console.log({
-         id: project.id,
-         links: project.links ? [...project.links, data] : [data],
-      });
       const url = data.url;
       if (!isValidUrl(url)) {
          setError('url', {

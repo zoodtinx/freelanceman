@@ -22,17 +22,16 @@ import {
 } from '@/lib/api/partner-contact-api';
 
 export const PartnerContactDialog = ({ formMethods }: FormDialogProps) => {
+   // hooks
    const navigate = useNavigate();
-   const { handleSubmit, getValues } = formMethods;
-
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (s) => s.setConfirmationDialogState
    );
-
    const createPartnerContact = useCreatePartnerContact();
    const editPartnerContact = useEditPartnerContact();
    const deletePartnerContact = useDeletePartnerContact();
+   const { handleSubmit, getValues } = formMethods;
 
    const closeDialog = () =>
       setFormDialogState((prev) => ({ ...prev, isOpen: false }));
@@ -44,6 +43,7 @@ export const PartnerContactDialog = ({ formMethods }: FormDialogProps) => {
       const contactId = getValues('id');
       let presignedUrl;
 
+      // check if there is avatar, then uplaod it before proceeding
       if (avatarFile instanceof File) {
          const randomId = crypto.randomUUID();
          presignedUrl = await getPresignedUrl.mutateAsync({

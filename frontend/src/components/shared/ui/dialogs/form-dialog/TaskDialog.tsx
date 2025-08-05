@@ -22,13 +22,15 @@ import { CreateTaskDtoWithOptimisticUpdate } from 'freelanceman-common/src/schem
 
 export const TaskDialog = ({ formMethods }: FormDialogProps) => {
    //utility hooks
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
    const navigate = useNavigate();
+   const createTask = useCreateTask();
+   const editTask = useEditTask();
+   const deleteTask = useDeleteTask();
 
    // form utilities
    const { handleSubmit } = formMethods;
 
-   //dialog state
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -38,15 +40,11 @@ export const TaskDialog = ({ formMethods }: FormDialogProps) => {
       });
    };
 
-   const createTask = useCreateTask();
-   const editTask = useEditTask();
-   const deleteTask = useDeleteTask();
-
    // submit handler
    const onSubmit = async (data: TaskFindManyItem) => {
       if (data.dueAt) {
-         const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);
-         data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;
+         const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);   // check if it contains time
+         data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;  // add time if no
       }
 
       setFormDialogState((prev) => {

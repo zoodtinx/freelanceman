@@ -6,6 +6,7 @@ const FilePage = (): JSX.Element => {
       (state) => state.setWelcomeDialogState
    );
 
+   // check if user has visited the page
    if (localStorage.getItem('files') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'filesPage' });
    }

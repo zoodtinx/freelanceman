@@ -47,14 +47,17 @@ export const ProjectList: React.FC<ProjectListProps> = ({
       });
    };
 
+   // loading logics
    if (isLoading) {
       return <LoadingPlaceHolder />;
    }
 
+   // handle network error
    if (isError && !projectsData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
+   // handle empty projects list
    if (!projectsData?.items?.length) {
       if (page === 'allProjectPage') {
          return (

@@ -39,6 +39,7 @@ export const TaskList: React.FC<
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
+   // scroll down to bottom after fetching more data if user clicked load more
    useEffect(() => {
       if (!tasksData || tasksData?.items?.length - 5 <= 30) {
          return;
@@ -52,8 +53,9 @@ export const TaskList: React.FC<
       }
    }, [tasksData?.items?.length]);
 
+   // loading logics
    if (isLoading) {
-      if (loader == 'skeleton') {
+      if (loader === 'skeleton') {
          return (
             <div className="px-2">
                <TaskListLoader />
@@ -64,17 +66,22 @@ export const TaskList: React.FC<
       }
    }
 
+   // handle network error
    if (isError || !tasksData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
+   // handle search not found
    if (tasksData?.total === 0) {
+      // handle empty tasks list
       if (page === 'projectPage') {
-         return <NoDataPlaceHolder addFn={addFn}>Add a task</NoDataPlaceHolder>
+         return <NoDataPlaceHolder addFn={addFn}>Add a task</NoDataPlaceHolder>;
       }
+
       if (tasksData.unfilteredTotal === 0) {
          return <ActionPageEventListPlaceholder addFn={addFn} />;
       }
+
       return (
          <SearchNotFoundPlaceholder>
             No task matched your search.

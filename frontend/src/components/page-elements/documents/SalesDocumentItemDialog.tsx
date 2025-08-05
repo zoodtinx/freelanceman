@@ -28,11 +28,12 @@ const SalesDocumentItemDialog = ({
    setDialogState: Dispatch<SetStateAction<FormDialogState>>;
    fieldArrayMethods: UseFieldArrayReturn<any>;
 }) => {
+   // hooks
    const { append, remove, update } = fieldArrayMethods;
-
    const formMethods = useForm<SalesDocumentItemCore>();
    const { reset, setError, clearErrors, getValues } = formMethods;
 
+   // reset on every open state
    useEffect(() => {
       reset(dialogState.data)
    }, [dialogState]);

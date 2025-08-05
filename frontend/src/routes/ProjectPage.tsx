@@ -30,6 +30,7 @@ export default function ProjectPage() {
       (state) => state.setWelcomeDialogState
    );
 
+   // check if user has visited the page to show or hide welcome dialog
    if (localStorage.getItem('project') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
    }

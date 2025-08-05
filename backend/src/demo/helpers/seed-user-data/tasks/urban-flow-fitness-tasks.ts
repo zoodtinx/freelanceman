@@ -1,4 +1,4 @@
-import { getRelativeDate, Ids } from '@/demo/helpers/seed-user-data/level-3';
+import { getRelativeDate, Ids } from '@/demo/helpers/seed-user-data/helper';
 
 const generateSummerChallengeLandingPageAdCreativesTasks = (ids: Ids) => {
     return [

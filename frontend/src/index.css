@@ -187,7 +187,7 @@
   }
 }
 
-
+/* React Day Picker relate styles */
 .rdp-root {
   --rdp-accent-color: hsl(0, 0%, 70%);
   /* The accent color used for selected days and UI elements. */

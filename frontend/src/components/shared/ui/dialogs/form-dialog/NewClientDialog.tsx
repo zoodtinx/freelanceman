@@ -25,6 +25,13 @@ export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
+   const createClient = useCreateClient();
+   const editClient = useEditClient();
+   const deleteClient = useDeleteClient();
+
+   // form utilities
+   const { handleSubmit } = formMethods;
+
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -33,13 +40,6 @@ export const NewClientDialog = ({ formMethods }: FormDialogProps) => {
          };
       });
    };
-
-   const createClient = useCreateClient();
-   const editClient = useEditClient();
-   const deleteClient = useDeleteClient();
-
-   // form utilities
-   const { handleSubmit } = formMethods;
 
    // submit handler
    const onSubmit = async (data: any) => {

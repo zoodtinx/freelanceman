@@ -28,7 +28,7 @@ const ConfirmationDialog = () => {
    );
 
    const handleCancel = () => {
-      if (confirmationDialogState.dialogRequested) {
+      if (confirmationDialogState.dialogRequested) {        // reopen last dialog (if any)
          setFormDialogState((prev) => {
             return {
                ...prev,
@@ -150,6 +150,7 @@ const DialogTitleIcon = ({ type }: { type: string }) => {
    }
 };
 
+// helper for getting full dialog title text
 const getDialogTitle = (
    confirmationType: string,
    mode?: string,

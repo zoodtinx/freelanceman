@@ -21,7 +21,9 @@ const FilePageLayout = (): JSX.Element => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
-      const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -41,7 +43,6 @@ const FilePageLayout = (): JSX.Element => {
    const filesQueryResult = useFilesQuery(fileFilter);
    const deleteManyFiles = useDeleteManyFile();
 
-
    const enableMultiSelect = () => {
       if (selectState.enableSelect) {
          return;
@@ -57,9 +58,11 @@ const FilePageLayout = (): JSX.Element => {
          return;
       }
       setSelectState((prev) => {
-         const selected = filesQueryResult.data.items.map((file: FileFindManyItem) => {
-            return file.id;
-         });
+         const selected = filesQueryResult.data.items.map(
+            (file: FileFindManyItem) => {
+               return file.id;
+            }
+         );
          return {
             ...prev,
             selectedValues: selected,

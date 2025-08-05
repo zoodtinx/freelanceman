@@ -22,10 +22,18 @@ import { CreateProjectDtoWithOptimisticUpdate } from 'freelanceman-common/src/sc
 import { toast } from 'sonner';
 
 export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
+   // hooks
    const navigate = useNavigate();
+   const [haveNote, setHaveNote] = useState(false);
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
+   const createProject = useCreateProject({
+      enableOptimisticUpdate: false
+   });
+
+   const { handleSubmit, setError } = formMethods;
+
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -35,19 +43,16 @@ export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
       });
    };
 
-   const createProject = useCreateProject({
-      enableOptimisticUpdate: false
-   });
-
-   const [haveNote, setHaveNote] = useState(false);
-
-   const { handleSubmit, setError } = formMethods;
+   const handleDestructiveButton = (e: React.MouseEvent) => {
+      e.preventDefault();
+      closeDialog();
+   };
 
    const onSubmit = async (data: any) => {
       const rawBudget = String(data.budget).replace(/,/g, '');
       const budget = Number(rawBudget);
 
-
+      // project's budget requirement error
       if (
          isNaN(budget) ||
          !Number.isInteger(budget) ||
@@ -76,11 +81,6 @@ export const NewProjectDialog = ({ formMethods }: FormDialogProps) => {
       const project = await createProject.mutateAsync(createProjectPayload);
       toast.dismiss()
       navigate(`/home/projects/${project.id}`);
-   };
-
-   const handleDestructiveButton = (e: React.MouseEvent) => {
-      e.preventDefault();
-      closeDialog();
    };
 
    return (

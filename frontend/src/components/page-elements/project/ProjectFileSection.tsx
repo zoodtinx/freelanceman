@@ -8,7 +8,11 @@ import { FileFilterDto, ProjectFindOneResponse } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';
 
-const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) => {
+const ProjectFileSection = ({
+   project,
+}: {
+   project: ProjectFindOneResponse;
+}) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -20,9 +24,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
       category: 'work',
    });
 
-   console.log('fileFilter.category!', fileFilter.category!)
-
-    const handleNewFile = () => {
+   const handleNewFile = () => {
       setFormDialogState({
          isOpen: true,
          mode: 'create',
@@ -42,6 +44,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
       selectedValues: [] as string[],
    });
 
+   // refetch data if project changes but component stays mounted
    useEffect(() => {
       if (project?.id) {
          setFileFilter((prev) => ({
@@ -112,7 +115,7 @@ const ProjectFileSection = ({ project }: { project: ProjectFindOneResponse }) =>
             />
             <SharedFileList
                page="projectPage"
-               variant='projectPage'
+               variant="projectPage"
                setFilter={setFileFilter}
                filter={fileFilter}
                setSelectState={setSelectState}

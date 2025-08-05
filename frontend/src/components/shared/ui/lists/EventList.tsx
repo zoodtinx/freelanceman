@@ -33,6 +33,7 @@ export const EventList: React.FC<
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
+   // scroll down to bottom after fetching more data if user clicked load more
    useEffect(() => {
       if (!eventsData || eventsData?.items.length - 5 <= 25) {
          return;
@@ -46,8 +47,9 @@ export const EventList: React.FC<
       }
    }, [eventsData?.items.length]);
 
+   // loading logics
    if (isLoading) {
-      if (loader == 'skeleton') {
+      if (loader === 'skeleton') {
          return (
             <div className="px-2">
                <EventListLoader />
@@ -58,19 +60,24 @@ export const EventList: React.FC<
       }
    }
 
+   // handle network error
    if (isError || !eventsData) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
 
+   // handle empty event list
    if (eventsData?.total === 0) {
       if (page === 'projectPage') {
          return (
             <NoDataPlaceHolder addFn={addFn}>Add an event</NoDataPlaceHolder>
          );
       }
+      // empty because no event has ever been created
       if (eventsData.unfilteredTotal === 0) {
          return <ActionPageEventListPlaceholder addFn={addFn} />;
       }
+
+      // empty because search not found
       return (
          <SearchNotFoundPlaceholder>
             No event matched your search.
@@ -78,6 +85,7 @@ export const EventList: React.FC<
       );
    }
 
+   // group event by date using date as key
    const groupedEvents = eventsData?.items?.reduce(
       (acc: any, event: EventFindManyItem) => {
          const date = format(event.dueAt ?? '', 'dd MMM yy');
@@ -96,6 +104,7 @@ export const EventList: React.FC<
       return;
    }
 
+   // convert the grouped events to array
    const processedEvents = Object.keys(groupedEvents)?.map((date) => ({
       date,
       events: groupedEvents[date],
@@ -235,7 +244,7 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
          className="flex flex-col justify-center h-14 pl-3 hover:bg-background transition-colors duration-75 group relative"
          onClick={handleOpenDialog}
       >
-         <p className='line-clamp-1'>{data.name}</p>
+         <p className="line-clamp-1">{data.name}</p>
          <div className="flex items-center">
             <p className="text-sm text-secondary w-[54px]">
                {formattedTime ? formattedTime : 'All day'}

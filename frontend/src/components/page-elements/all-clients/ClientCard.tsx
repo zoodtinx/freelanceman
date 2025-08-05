@@ -6,6 +6,7 @@ import { ClientFindManyItem } from 'freelanceman-common';
 const ClientCard = ({ client }: { client: ClientFindManyItem }): JSX.Element => {
    const navigate = useNavigate();
 
+   // plurals check
    const projectWording = client.projects.length < 2 ? 'project' : 'projects';
 
    const handleSelectClient = () => {

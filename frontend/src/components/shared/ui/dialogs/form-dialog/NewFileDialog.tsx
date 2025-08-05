@@ -56,9 +56,6 @@ export const NewFileDialog = ({
    const createFile = useCreateFile()
    const getPresignedUrl = useGetPresignedUrl();
 
-   const category = formMethods.getValues('category');
-   console.log('category', category)
-
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
       let presignedUrl;
 
@@ -68,7 +65,7 @@ export const NewFileDialog = ({
       const file = formMethods.getValues('file');
       const link = formMethods.getValues('link');
 
-      if (mode === 'upload') {
+      if (mode === 'upload') {              // upload file before proceeding
          toast.loading('Uploading file...');
          setFormDialogState((prev) => {
             return {

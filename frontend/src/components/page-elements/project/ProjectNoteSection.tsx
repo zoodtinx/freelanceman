@@ -8,11 +8,15 @@ import { useEffect } from 'react';
 const ProjectNoteSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    project,
 }) => {
+   // hooks
+   const editProject = useEditProject();
    const [note, setNote] = useState(project.note);
+   
+   // update note with mutated project.note
    useEffect(() => {
       setNote(project.note);
    }, [project.note]);
-   const editProject = useEditProject();
+
 
    const debouncedUpdateNote = useMemo(
       () =>
@@ -27,7 +31,7 @@ const ProjectNoteSection: React.FC<{ project: ProjectFindOneResponse }> = ({
 
    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const newNote = e.target.value;
-      setNote(newNote);
+      setNote(newNote);  //for local update
       debouncedUpdateNote(newNote);
    };
 

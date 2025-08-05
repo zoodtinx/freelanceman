@@ -8,6 +8,7 @@ export default function ActionPage() {
       (state) => state.setWelcomeDialogState
    );
 
+   // check if user has visited the page
    if (localStorage.getItem('actions') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'actionsPage' });
    }

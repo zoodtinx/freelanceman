@@ -70,6 +70,7 @@ const PinnedProjectTabs = ({
 }) => {
    const { data: projects, isLoading, isError } = projectQueryResult;
 
+   // loading logics
    if (isLoading) {
       return (
          <div className="flex flex-col px-[6px] gap-2">
@@ -79,12 +80,14 @@ const PinnedProjectTabs = ({
       );
    }
 
+   // handle network error
    if (isError) {
       return null;
    }
 
+   // handle empty projects list
    if (!projects || !projects?.total) {
-      return <></>
+      return <></>;
    }
 
    const pinnedProjects = projects?.items.map((project) => {
@@ -93,9 +96,7 @@ const PinnedProjectTabs = ({
 
    return (
       <ScrollArea className="border border-tertiary rounded-xl max-h-72">
-         <div className='flex flex-col gap-2 p-2'>
-            {pinnedProjects}
-         </div>
+         <div className="flex flex-col gap-2 p-2">{pinnedProjects}</div>
       </ScrollArea>
    );
 };

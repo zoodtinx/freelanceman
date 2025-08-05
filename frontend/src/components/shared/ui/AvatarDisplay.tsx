@@ -13,6 +13,7 @@ export const AvatarDisplay = ({
 }) => {
    const [isReady, setIsReady] = useState(false);
 
+   // don't show image while loading image content
    useEffect(() => {
       if (!url) return;
 

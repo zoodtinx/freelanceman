@@ -14,10 +14,15 @@ import { FormDialogProps } from '@/lib/types/form-dialog.types';
 import { useEditClient } from '@/lib/api/client-api';
 
 export const ClientDialog = ({ formMethods }: FormDialogProps) => {
+   // hooks
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
+   const editClient = useEditClient();
+
+   const { handleSubmit } = formMethods;
+
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -26,12 +31,6 @@ export const ClientDialog = ({ formMethods }: FormDialogProps) => {
          };
       });
    };
-
-
-   const editClient = useEditClient()
-
-   const { handleSubmit } = formMethods;
-   const clientName = formDialogState.data.name;
 
    const onSubmit: SubmitHandler<any> = (data) => {
       console.log('data', data);
@@ -45,7 +44,7 @@ export const ClientDialog = ({ formMethods }: FormDialogProps) => {
          themeColor: data.themeColor,
       };
       editClient.mutate(editClientPayload);
-      closeDialog()
+      closeDialog();
    };
 
    const handleDeleteButtonClick = (e: React.MouseEvent) => {
@@ -56,7 +55,7 @@ export const ClientDialog = ({ formMethods }: FormDialogProps) => {
          actions: {
             primary: () => {},
          },
-         entityName: clientName,
+         entityName: formDialogState.data.name,
          additionalMessage:
             'This action will delete all projects under this client. Files, tasks, events and everything under those projects will also be deleted as well. This action cannot be undone.',
          type: 'delete',
@@ -118,11 +117,11 @@ export const ClientDialog = ({ formMethods }: FormDialogProps) => {
          <FormDialogFooter
             formMethods={formMethods}
             onDiscard={handleDeleteButtonClick}
-            entity='Client'
+            entity="Client"
             customText={{
                destructiveButton: {
-                  editModeText: 'Delete Client'
-               }
+                  editModeText: 'Delete Client',
+               },
             }}
          />
       </form>

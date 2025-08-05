@@ -38,24 +38,32 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
       });
    };
 
+   // loading logics
    if (isLoading) return <AllProjectPageLoader />;
+
+   // handle network error
    if (isError || !projects) return <ApiErrorPlaceHolder retryFn={refetch} />;
+
+   // handle search not found
    if (projects?.total === 0) {
       if (projects.unfilteredTotal === 0) {
+         // handle empty projects list
          return <NoProjectPlaceholder addFn={handleNewProject} />;
       }
-      return <SearchNotFoundPlaceholder>No project matched your search.</SearchNotFoundPlaceholder>;
+      return (
+         <SearchNotFoundPlaceholder>
+            No project matched your search.
+         </SearchNotFoundPlaceholder>
+      );
    }
 
+   // placeholder elements
    const placeholdersNeeded = Math.max(0, 4 - projects.items.length);
-
    const placeholders = Array.from({ length: placeholdersNeeded }, (_, i) => ({
       id: `placeholder-${i}`,
       isPlaceholder: true,
    }));
-
    const filledProjects = [...projects.items, ...placeholders];
-
    const projectCards = filledProjects.map((project: any) =>
       project.isPlaceholder ? (
          <div key={project.id} />
@@ -64,8 +72,8 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
       )
    );
 
+   // load more button logic
    const remainingItems = projects.total - projects.items.length > 0;
-
    const loadMoreProject = () => {
       const newAmount = projects.total + 16;
       handleLoadMore(newAmount);

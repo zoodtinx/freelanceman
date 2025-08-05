@@ -52,6 +52,7 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
    const editClientContact = useEditClientContact();
    const deleteClientContact = useDeleteClientContact();
 
+   // file upload hook
    const getPresignedUrl = useGetPresignedUrl();
 
    // submit handler
@@ -62,7 +63,8 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
 
       let presignedUrl;
 
-      if (avatarFile instanceof File) {
+      // check if there is avatar, then uplaod it before proceeding
+      if (avatarFile instanceof File) {    
          setFormDialogState((prev) => {
             return { ...prev, isOpen: false };
          });

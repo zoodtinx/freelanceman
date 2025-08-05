@@ -36,6 +36,7 @@ const PartnerContactLayout = (): JSX.Element => {
       (state) => state.setWelcomeDialogState
    );
 
+   // check if user has visited the page to show or hide welcome dialog
    if (localStorage.getItem('partners') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'partnersPage' });
    }

@@ -53,10 +53,12 @@ const IncomePage: React.FC = () => {
       (state) => state.setWelcomeDialogState
    );
 
+   // check if user has visited the page
    if (localStorage.getItem('income') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'incomePage' });
    }
 
+   // prioritize unpaid projects first
    const [projectFilter, setProjectFilter] = useState<PaymentFilterDto>({
       paymentStatus: 'due',
    });

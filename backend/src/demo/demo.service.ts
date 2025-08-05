@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 // import { seedDemoUser } from '@/shared/database/seed-demo-user-data';
-import { seedDemoUser } from '@/demo/helpers/seed-user-data/seed-demo-user';
+import { seedDemoUser } from '@/demo/helpers/seed-user-data/seed';
 import {
     Injectable,
     InternalServerErrorException,

@@ -1,4 +1,4 @@
-import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/level-3';
+import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/helper';
 
 export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
     const projectKebabCase = 'new-model-x2-launch-campaign-assets';

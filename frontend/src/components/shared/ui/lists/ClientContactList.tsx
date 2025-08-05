@@ -25,17 +25,12 @@ export const ContactList = ({
    setFilter,
    page,
    className,
-   queryResult
+   queryResult,
 }: ListProps<ClientContactFindManyResponse, ClientContactFilterDto>) => {
-   const {
-      data: contacts,
-      isLoading,
-      isError,
-      refetch,
-   } = queryResult
-
+   const { data: contacts, isLoading, isError, refetch } = queryResult;
    const lastItemRef = useRef<HTMLDivElement>(null);
 
+   // scroll down to bottom after fetching more data if user clicked load more
    useEffect(() => {
       if (!contacts || contacts?.items.length <= 25) {
          return;
@@ -49,6 +44,7 @@ export const ContactList = ({
       }
    }, [contacts?.items.length]);
 
+   // loading logics
    if (isLoading) {
       if (page === 'allClientsPage') {
          return (
@@ -60,8 +56,13 @@ export const ContactList = ({
          return <LoadingPlaceHolder />;
       }
    }
+
+   // handle network error
    if (isError || !contacts) return <ApiErrorPlaceHolder retryFn={refetch} />;
+
+   // handle search not found
    if (contacts?.total === 0) {
+      // handle empty contacts list
       if (contacts.unfilteredTotal === 0 || page === 'clientPage') {
          if (page === 'allClientsPage') {
             return (
@@ -73,6 +74,7 @@ export const ContactList = ({
             return <NoDataPlaceHolder addFn={addFn} children="Add a contact" />;
          }
       }
+
       return (
          <SearchNotFoundPlaceholder>
             No contact matched your search.

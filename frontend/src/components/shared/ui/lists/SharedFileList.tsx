@@ -15,7 +15,11 @@ import {
    NoDataPlaceHolder,
 } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { UseQueryResult } from '@tanstack/react-query';
-import { FileFilterDto, FileFindManyItem, FileFindManyResponse } from 'freelanceman-common';
+import {
+   FileFilterDto,
+   FileFindManyItem,
+   FileFindManyResponse,
+} from 'freelanceman-common';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { forwardRef } from 'react';
 import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
@@ -35,7 +39,7 @@ interface SharedFileListProps {
    placeHolder?: string;
    className?: string;
    page: string;
-   variant: Variant
+   variant: Variant;
 }
 
 export const SharedFileList = ({
@@ -48,7 +52,7 @@ export const SharedFileList = ({
    filter,
    setFilter,
    page,
-   variant
+   variant,
 }: SharedFileListProps) => {
    const {
       data: filesData,
@@ -59,6 +63,7 @@ export const SharedFileList = ({
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
+   // scroll down to bottom after fetching more data if user clicked load more
    useEffect(() => {
       if (!filesData || filesData?.items.length <= 30) {
          return;
@@ -72,6 +77,7 @@ export const SharedFileList = ({
       }
    }, [filesData?.items?.length]);
 
+   // loading logics
    if (isLoading) {
       if (page === 'filePage') {
          return (
@@ -84,9 +90,12 @@ export const SharedFileList = ({
       }
    }
 
+   // handle network error
    if (isError || !filesData) return <ApiErrorPlaceHolder retryFn={refetch} />;
 
+   // handle search not found
    if (filesData?.total === 0) {
+      // handle empty files list
       if (page === 'clientPage') {
          return (
             <div className="flex w-full h-full items-center justify-center text-secondary">
@@ -117,7 +126,6 @@ export const SharedFileList = ({
          </SearchNotFoundPlaceholder>
       );
    }
-   
 
    const remainingItems = filesData.total - filesData.items?.length > 0;
    const handleLoadMore = () => {
@@ -138,10 +146,7 @@ export const SharedFileList = ({
 
    return (
       <ScrollArea
-         className={cn(
-            'flex flex-col h-0 grow overflow-y-auto',
-            className
-         )}
+         className={cn('flex flex-col h-0 grow overflow-y-auto', className)}
       >
          {filesData.items.map((file, i, arr) => {
             const isLast = i === arr.length - 1;
@@ -177,7 +182,7 @@ interface SharedFileListItemProps {
    setSelectState?: Dispatch<SetStateAction<SelectState>>;
    size?: 'base' | 'sm' | 'md';
    page: string;
-   variant: Variant
+   variant: Variant;
 }
 
 const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
@@ -267,9 +272,7 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                      )}
                   >
                      {getIcon(data.type, 'w-4 h-4 text-secondary shrink-0')}
-                     <p className="text-[15px] truncate grow">
-                        {data.name}
-                     </p>
+                     <p className="text-[15px] truncate grow">{data.name}</p>
                      <div className="flex">
                         {page !== 'project-page' && (
                            <p className="text-sm text-secondary w-[150px] line-clamp-1 text-right mr-5 sm:hidden">

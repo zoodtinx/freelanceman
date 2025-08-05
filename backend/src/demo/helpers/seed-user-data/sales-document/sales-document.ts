@@ -1,4 +1,4 @@
-import { Ids } from '@/demo/helpers/seed-user-data/level-3';
+import { Ids } from '@/demo/helpers/seed-user-data/helper';
 
 export const getAuraTeaCoSalesDoc = (ids: Ids) => {
     const auraTeaCoTaskGenerators: [string, any][] = [

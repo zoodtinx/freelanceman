@@ -19,23 +19,24 @@ import {
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { NumberInputForm } from '@/components/shared/ui/form-field-elements/NumberInputForm';
-import {
-   useDeleteProject,
-   useEditProject
-} from '@/lib/api/project-api';
+import { useDeleteProject, useEditProject } from '@/lib/api/project-api';
 import { toast } from 'sonner';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useNavigate } from 'react-router-dom';
 
-export const ProjectDialog = ({
-   formMethods,
-}: FormDialogProps) => {
+export const ProjectDialog = ({ formMethods }: FormDialogProps) => {
+   //hooks
+   const { formDialogState, setFormDialogState } = useFormDialogStore();
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
+   const navigate = useNavigate();
+   const editProject = useEditProject();
+   const deleteProject = useDeleteProject();
+
    // form utilities
    const { handleSubmit } = formMethods;
 
-   //dialog state
-   const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -44,10 +45,6 @@ export const ProjectDialog = ({
          };
       });
    };
-
-   const navigate = useNavigate()
-   const editProject = useEditProject();
-   const deleteProject = useDeleteProject();
 
    const onSubmit = async (data: ProjectFindManyItem) => {
       const editProjectPayload: EditProjectDto = {
@@ -59,7 +56,7 @@ export const ProjectDialog = ({
       };
       closeDialog();
       await editProject.mutateAsync(editProjectPayload);
-      toast.dismiss()
+      toast.dismiss();
    };
 
    const handleDestructiveButton = () => {
@@ -73,7 +70,7 @@ export const ProjectDialog = ({
          setConfirmationDialogState({
             actions: {
                primary() {
-                   deleteProjectFn()
+                  deleteProjectFn();
                },
             },
             entityName: formDialogState.data.name,

@@ -13,10 +13,18 @@ import {
 import * as Dialogs from 'src/components/shared/ui/dialogs/form-dialog';
 import { cn } from '@/lib/helper/utils';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { useWatch, useForm, UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 import { useCallback, useEffect } from 'react';
 import { FormDialogProps, FormDialogType } from '@/lib/types/form-dialog.types';
+
+/**
+ * This compoennt serves as the container for all form dialogs (Task, Events, Files, Project, etc.)
+ * used throughout the application. 
+ * 
+ * It handles general layout and also initialize form hooks then passed on to dialog content component. 
+ */
+
 
 const FormDialog = () => {
    //dialog hooks setup
@@ -51,7 +59,7 @@ const FormDialog = () => {
          };
       });
    }, [setFormDialogState, setConfirmationDialogState]);
-   const handleEscapeWithChange = useCallback(() => {
+   const handleEscapeWithChange = useCallback(() => {       // show prompt if user exit with changes
       if (isDirty && formDialogState.isOpen) {
          setConfirmationDialogState({
             isOpen: true,
@@ -74,6 +82,8 @@ const FormDialog = () => {
       setConfirmationDialogState,
       handleDialogClose,
    ]);
+   
+   // add event listener for esc key
    useEffect(() => {
       const handleEscKey = (event: KeyboardEvent) => {
          if (event.key === 'Escape') {
@@ -88,7 +98,7 @@ const FormDialog = () => {
       };
    }, [setConfirmationDialogState, handleEscapeWithChange]);
 
-   //handle data change when open/close dialogs
+   // clear data when open/close dialogs
    useEffect(() => {
       clearErrors();
       reset(formDialogState.data);
@@ -101,7 +111,7 @@ const FormDialog = () => {
       }
    }, [isDirty, dirtyFields, reset, getValues]);
 
-   //dialog color access
+   //dialog color value
    const color = (() => {
       const { type, data } = formDialogState;
       if (type === 'clientContact' || type === 'partnerContact') {
@@ -140,33 +150,9 @@ const FormDialog = () => {
                   dialogType={formDialogState.type}
                   formMethods={formMethods}
                />
-               <MutationErrorField formMethods={formMethods} />
             </div>
          </DialogContent>
       </Dialog>
-   );
-};
-
-const MutationErrorField = ({
-   formMethods,
-}: {
-   formMethods: UseFormReturn;
-}) => {
-   const { control } = formMethods;
-   const mutationError = useWatch({
-      control,
-      name: 'mutationError',
-      defaultValue: '',
-   });
-
-   if (!mutationError) {
-      return <div className="pb-2"></div>;
-   }
-
-   return (
-      <div className="w-full text-center text-sm pb-3 text-general-red animate-shake">
-         {mutationError}
-      </div>
    );
 };
 

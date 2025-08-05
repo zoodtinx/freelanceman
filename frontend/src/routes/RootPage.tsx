@@ -10,15 +10,21 @@ import { useDarkMode } from '@/lib/zustand/theme-store';
 import SvgFreelancemanIcon from '@/components/shared/icons/FreelanceManIcon';
 
 const RootPage: React.FC = () => {
-   const { mode } = useDarkMode();
-   console.log('mode', mode)
+   // initialize dark mode store
+   useDarkMode(); 
+   
+   // initialize auth store
+   const { accessToken, setAccessToken } = useAuthStore();
+
    const [isLoading, setIsLoading] = useState(false);
+   
+   // redirect helper hooks
    const { pathname } = useLocation();
    const pathSections = pathname.split('/').filter(Boolean);
-   const { accessToken, setAccessToken } = useAuthStore();
-   const navigate = useNavigate();
    const isOnAuthPages = pathSections.includes('user') || !pathSections.length;
+   const navigate = useNavigate();
 
+   // authentication side effect
    useEffect(() => {
       const refreshAccess = async () => {
          setIsLoading(true);
@@ -51,13 +57,15 @@ const RootPage: React.FC = () => {
          }
       };
 
-      if (!accessToken) {
-         refreshAccess();
-      } else {
+
+      if (accessToken) {
          checkAccess();
+      } else {
+         refreshAccess();
       }
    }, [accessToken]);
 
+   // loading ui
    if (isLoading && isOnAuthPages) {
       return (
          <div className="w-screen h-screen flex justify-center items-center">

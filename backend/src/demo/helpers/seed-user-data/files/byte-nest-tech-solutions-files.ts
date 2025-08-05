@@ -1,4 +1,4 @@
-import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/level-3';
+import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/helper';
 
 export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
     const projectKebabCase = 'e-commerce-platform-ui-ux-redesign';

@@ -22,6 +22,8 @@ const ItemsField = ({
       entity: 'salesDocumentItem',
       openedOn: 'documentPage',
    });
+   
+   // form hook
    const {
       control,
       watch,
@@ -30,11 +32,15 @@ const ItemsField = ({
       clearErrors,
    } = formMethods;
    const items = watch('items');
+   
+   // array form field hook
    const fieldArrayMethods = useFieldArray<SalesDocumentFindOneResponse>({
       control,
       name: 'items',
    });
+   const { remove, fields } = fieldArrayMethods;
 
+   // error side effect for at least 1 item requirement
    useEffect(() => {
       if (!isSubmitted) return;
 
@@ -48,22 +54,22 @@ const ItemsField = ({
       }
    }, [items, isSubmitted, setError, clearErrors]);
 
-   const { remove, fields } = fieldArrayMethods;
+   // adjustments-related values
    const adjustmentPercent = watch('discountPercent') ?? 0;
    const adjustmentFlat = watch('discountFlat') ?? 0;
    const tax = watch('tax') ?? 0;
 
+   // calculate total & subtotal
    let subtotal = 0;
    if (items) {
       items.forEach((item) => {
          subtotal += item.rate * item.quantity;
       });
    }
-
    let adjustedSubtotal =
       subtotal * (1 - adjustmentPercent / 100) - adjustmentFlat;
-
    let total = adjustedSubtotal * (1 + tax / 100);
+
 
    const handleViewItem = (itemData: any, index: number) => {
       setDialogState((prev) => {

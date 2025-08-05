@@ -28,29 +28,15 @@ import { useNavigate } from 'react-router-dom';
 export const UserProfileDialog = ({
    formMethods,
 }: FormDialogProps) => {
-   // form utilities
-   const {
-      handleSubmit,
-      getValues,
-   } = formMethods;
-   // setValue('avatarFile', '')
-
-   //dialog state
+   
+   // hooks
    const navigate = useNavigate();
    const { formDialogState, setFormDialogState } = useFormDialogStore();
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
    );
-   const closeDialog = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: false,
-         };
-      });
-   };
-
-   // api setup
+   const editUser = useEditUser()
+   const getPresignedUrl = useGetPresignedUrl();
    const deleteUser = useDeleteUser({
       enableOptimisticUpdate: true,
       errorCallbacks() {
@@ -62,8 +48,21 @@ export const UserProfileDialog = ({
           toast.success('"Account successfully deleted. Take care!')
       },
    })
-   const editUser = useEditUser()
-   const getPresignedUrl = useGetPresignedUrl();
+   
+   // form utilities
+   const {
+      handleSubmit,
+      getValues,
+   } = formMethods;
+
+   const closeDialog = () => {
+      setFormDialogState((prev) => {
+         return {
+            ...prev,
+            isOpen: false,
+         };
+      });
+   };
 
    const onSubmit: SubmitHandler<UserFindOneResponse> = async (data) => {
       const avatarFile = getValues('avatarFile');
@@ -73,6 +72,7 @@ export const UserProfileDialog = ({
 
       toast.loading('Updating your profile...');
 
+      // check if there is avatar, then uplaod it before proceeding
       if (avatarFile && avatarFile instanceof File) {
          presignedUrl = await getPresignedUrl.mutateAsync({
             fileName: `avatar_${crypto.randomUUID()}`,

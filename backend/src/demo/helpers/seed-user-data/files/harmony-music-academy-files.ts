@@ -1,4 +1,4 @@
-import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/level-3';
+import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/helper';
 
 export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
     const projectKebabCase = 'annual-student-concert-branding-tickets';

@@ -21,12 +21,13 @@ export const ProjectContactSection = ({
 }: {
    project: ProjectFindOneResponse;
 }): JSX.Element => {
+   // hooks
    const setSelectorDialogState = useSelectionDialogStore(
       (state) => state.setSelectorDialogState
    );
-
    const [tab, setTab] = useState<'client' | 'partner'>('client');
 
+   // fetch contacts and cast type
    const {
       data: clientContacts,
       isLoading: clientIsLoading,
@@ -44,6 +45,7 @@ export const ProjectContactSection = ({
       tab === 'partner'
    ) as UseQueryResult<PartnerContactFindManyResponse>;
 
+   // conditional state values for tab render
    const contacts = tab === 'client' ? clientContacts : partnerContacts;
    const isLoading = tab === 'client' ? clientIsLoading : partnerIsLoading;
    const isError = tab === 'client' ? clientIsError : partnerIsError;
@@ -138,6 +140,7 @@ export const ContactCard = forwardRef<
       (state) => state.setFormDialogState
    );
 
+   // fetch avatar image url
    const { data } = useFileUrlQuery(
       contact.avatar || '',
       Boolean(contact.avatar)

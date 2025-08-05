@@ -10,7 +10,7 @@ import {
     getLinks,
     getSalesDocs,
     getTasks,
-} from '@/demo/helpers/seed-user-data/level-3';
+} from '@/demo/helpers/seed-user-data/helper';
 import { getPartnerContacts } from '@/demo/helpers/seed-user-data/contacts/partner-contacts';
 import { copyS3Directory } from '@/shared/s3/helpers/copy-s3-directroy';
 import { deleteS3Directory } from '@/shared/s3/helpers/delete-s3-dir';

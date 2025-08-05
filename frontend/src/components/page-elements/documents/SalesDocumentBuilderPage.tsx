@@ -66,13 +66,10 @@ const SalesDocumentBuilderPage = ({
       setWelcomeDialogState({ isOpen: true, page: 'documentBuilderPage' });
    }
 
-   // --- Mutations ---
+   // --- Mutation Hooks ---
    const createSalesDoc = useCreateSalesDocument();
-
    const editSalesDoc = useEditSalesDocument();
-
    const deleteSalesDoc = useDeleteSalesDocument();
-
    const createPdf = useCreatePdf();
 
    const isLoading =
@@ -195,31 +192,11 @@ const SalesDocumentBuilderPage = ({
             <div className="flex flex-1 gap-3 overflow-hidden sm:flex-col">
                <div className="flex flex-col h-full w-1/2 gap-3 sm:flex-col sm:w-full">
                   <ProjectInfoField formMethods={formMethods} />
-                  {/* {isProjectDataLoading || isDocLoading ? (
-                     <Skeleton className="w-full h-1/3 rounded-xl" />
-                  ) : (
-                     <ProjectInfoField formMethods={formMethods} />
-                  )} */}
                   <FreelancerInfoField formMethods={formMethods} />
-                  {/* {isUserDataLoading || isDocLoading ? (
-                     <Skeleton className="w-full h-1/3 rounded-xl" />
-                  ) : (
-                     <FreelancerInfoField formMethods={formMethods} />
-                  )} */}
                   <ClientInfoField formMethods={formMethods} />
-                  {/* {isProjectDataLoading || isDocLoading ? (
-                     <Skeleton className="w-full h-1/3 rounded-xl" />
-                  ) : (
-                     <ClientInfoField formMethods={formMethods} />
-                  )} */}
                </div>
                <div className="flex flex-col w-1/2 gap-3 sm:w-full">
                   <ItemsField formMethods={formMethods} />
-                  {/* {isDocLoading ? (
-                     <Skeleton className="w-full h-full rounded-xl" />
-                  ) : (
-                     <ItemsField formMethods={formMethods} />
-                  )} */}
                </div>
             </div>
             <footer className="flex justify-between shrink-0 h-fit">
@@ -311,16 +288,16 @@ export const SubmitButton = ({
       isApiLoading?.isLoading && isApiLoading?.type === 'save';
 
    const getVariant = () => {
+      // If the form is not filled, show as 'ghost'
       if (!isDirty) {
          return 'ghost';
       }
-      if (!isLoading) {
+      // If not loading or currently submitting, show as 'submit'
+      if (!isLoading || isSubmitting) {
          return 'submit';
-      } else if (isSubmitting) {
-         return 'submit';
-      } else if (!isSubmitting) {
-         return 'ghost';
       }
+      // Otherwise, fallback to 'ghost'
+      return 'ghost';
    };
 
    const variant = getVariant();

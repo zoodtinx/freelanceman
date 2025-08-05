@@ -20,6 +20,7 @@ const ClientColumn = (): JSX.Element => {
       (state) => state.setFormDialogState
    );
 
+   // client list filter state
    const [searchOptions, setSearchOptions] = useState<ClientFilterDto>({});
 
    const clientsQueryResult = useClientsQuery(
@@ -99,10 +100,15 @@ const ClientGrid = ({
       isError,
       refetch,
    } = clientsQueryResult;
+
+   // loading logics
    if (isLoading) return <ClientGridLoader />;
+   
+   // handle network error
    if (isError || !clientsData)
       return <ApiErrorPlaceHolder retryFn={refetch} />;
 
+   // handle search not found
    if (clientsData?.total === 0) {
       if (clientsData.unfilteredTotal === 0) {
          return (
@@ -118,6 +124,7 @@ const ClientGrid = ({
       );
    }
 
+   // handle empty clients list
    if (!clientsData.items.length)
       return <ClientGridPlaceHolder addFn={addFn} />;
 
@@ -139,15 +146,6 @@ const ClientGrid = ({
    );
 };
 
-export default ClientColumn;
-
-const placeholderElements = [...Array(30)].map((_, i) => (
-   <div
-      key={i}
-      className="h-[170px] opacity-60 rounded-[20px] border border-secondary border-dashed"
-   />
-));
-
 const ClientGridPlaceHolder = ({ addFn }: { addFn: () => void }) => {
    return (
       <div className="grid grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(4,minmax(0,1fr))] gap-2 w-full pt-2 relative h-full">
@@ -164,3 +162,12 @@ const ClientGridPlaceHolder = ({ addFn }: { addFn: () => void }) => {
       </div>
    );
 };
+
+const placeholderElements = [...Array(30)].map((_, i) => (
+   <div
+      key={i}
+      className="h-[170px] opacity-60 rounded-[20px] border border-secondary border-dashed"
+   />
+));
+
+export default ClientColumn;

@@ -1,8 +1,6 @@
 import { AvatarDisplay } from '@/components/shared/ui/AvatarDisplay';
 import { defaultPartnerContactValues } from '@/components/shared/ui/helpers/constants/default-values';
-import {
-   ApiErrorPlaceHolder
-} from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
+import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 import { PartnerPageTabsLoader } from '@/components/shared/ui/placeholder-ui/PartnerPageLoader';
 import SearchNotFoundPlaceholder from '@/components/shared/ui/placeholder-ui/SearchNotFoundPlaceHolder';
@@ -20,21 +18,17 @@ import {
 import React, { forwardRef, useEffect, useRef } from 'react';
 
 export const PartnerContactList: React.FC<
-   ListProps<PartnerContactFindManyResponse,PartnerContactFilterDto>
-> = ({  setFilter, className, queryResult }) => {
+   ListProps<PartnerContactFindManyResponse, PartnerContactFilterDto>
+> = ({ setFilter, className, queryResult }) => {
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
 
-   const {
-      data: contacts,
-      isLoading,
-      isError,
-      refetch,
-   } = queryResult
+   const { data: contacts, isLoading, isError, refetch } = queryResult;
 
    const lastItemRef = useRef<HTMLDivElement>(null);
 
+   // scroll down to bottom after fetching more data if user clicked load more
    useEffect(() => {
       if (!contacts || contacts?.items.length <= 20) {
          return;
@@ -59,29 +53,39 @@ export const PartnerContactList: React.FC<
       });
    };
 
+   // loading logics
    if (isLoading) {
-      return <div className='px-2'><PartnerPageTabsLoader /></div>
-   }
-
-   if (contacts?.total === 0) {
-      if (contacts.unfilteredTotal === 0) {
-          return (
-            <div className='px-2'>
-               <TabListPlaceHolder
-                  addFn={handleNewPartner}
-                  children="Add a new partner contact"
-               />
-            </div>
+      return (
+         <div className="px-2">
+            <PartnerPageTabsLoader />
+         </div>
       );
-      }
-      return <SearchNotFoundPlaceholder>No partner matched your search.</SearchNotFoundPlaceholder>;
    }
 
+   // handle search not found
+   if (contacts?.total === 0) {
+      // handle empty contacts list
+      if (contacts.unfilteredTotal === 0) {
+         return (
+            <div className="px-2">
+               <TabListPlaceHolder addFn={handleNewPartner}>
+                  Add a new partner contact
+               </TabListPlaceHolder>
+            </div>
+         );
+      }
+
+      return (
+         <SearchNotFoundPlaceholder>
+            No partner matched your search.
+         </SearchNotFoundPlaceholder>
+      );
+   }
+
+   // handle network error
    if (isError || !contacts) {
       return <ApiErrorPlaceHolder retryFn={refetch} />;
    }
-
-   
 
    const remainingItems = contacts?.total - contacts?.items.length > 0;
    const handleLoadMore = () => {
@@ -112,8 +116,8 @@ export const PartnerContactList: React.FC<
    });
 
    return (
-      <ScrollArea className={cn("h-full sm:pt-1", className)}>
-         <div className={cn("flex flex-col gap-1 grow pb-7")}>
+      <ScrollArea className={cn('h-full sm:pt-1', className)}>
+         <div className={cn('flex flex-col gap-1 grow pb-7')}>
             {partnerTabs}
             {remainingItems && (
                <div className="flex justify-center pt-3">
@@ -136,7 +140,10 @@ const PartnerTab = forwardRef<
       (state) => state.setFormDialogState
    );
 
-   const { data } = useFileUrlQuery(contact.avatar ?? '', Boolean(contact.avatar));
+   const { data } = useFileUrlQuery(
+      contact.avatar ?? '',
+      Boolean(contact.avatar)
+   );
 
    const handleClick = () => {
       setFormDialogState({

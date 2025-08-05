@@ -17,6 +17,25 @@ const ProjectEventSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
+
+   const [eventFilter, setEventFilter] = useState<EventFilterDto>({
+      projectId: project.id,
+      status: 'scheduled',
+   });
+
+   const eventsQueryResult = useEventsQuery(eventFilter);
+   const { isFetching } = eventsQueryResult;
+
+   // refetch data if project changes but component stays mounted
+   useEffect(() => {
+      if (project?.id) {
+         setEventFilter((prev: EventFilterDto) => ({
+            ...prev,
+            projectId: project.id,
+         }));
+      }
+   }, [project?.id]);
+
    const handleNewEvent = () => {
       setFormDialogState({
          isOpen: true,
@@ -27,23 +46,6 @@ const ProjectEventSection: React.FC<{ project: ProjectFindOneResponse }> = ({
          data: { ...defaultEventValues, projectId: project.id },
       });
    };
-
-   const [eventFilter, setEventFilter] = useState<EventFilterDto>({
-      projectId: project.id,
-      status: 'scheduled',
-   });
-
-   const eventsQueryResult = useEventsQuery(eventFilter);
-   const { isFetching } = eventsQueryResult;
-
-   useEffect(() => {
-      if (project?.id) {
-         setEventFilter((prev: EventFilterDto) => ({
-            ...prev,
-            projectId: project.id,
-         }));
-      }
-   }, [project?.id]);
 
    return (
       <div className="flex flex-col w-full">

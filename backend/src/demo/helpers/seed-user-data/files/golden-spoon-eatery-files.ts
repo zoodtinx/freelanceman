@@ -1,4 +1,4 @@
-import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/level-3';
+import { getRandomFileSize, Ids } from '@/demo/helpers/seed-user-data/helper';
 
 export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
     const projectKebabCase = 'new-summer-menu-design-photography';

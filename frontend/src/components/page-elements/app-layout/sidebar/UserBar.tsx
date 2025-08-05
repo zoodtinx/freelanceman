@@ -50,7 +50,7 @@ export const UserBar = () => {
    );
 
    const handleSignOut = async (e: React.MouseEvent) => {
-      e.stopPropagation()
+      e.stopPropagation();
       setIsLoading(true);
       await logOut(accessToken);
       setIsLoading(false);
@@ -58,8 +58,10 @@ export const UserBar = () => {
       toast.success('See you for your next project!');
    };
 
+   // fetch user data
    const { data: userDataPayload, isLoading: userDataIsLoading } =
       useUserQuery() as UseQueryResult<UserFindOneResponse>;
+   // fetch user avatar url
    const { data: urlDataPayload, isLoading: urlIsLoading } = useFileUrlQuery(
       userDataPayload?.avatar ?? '',
       Boolean(userDataPayload?.avatar)
@@ -67,6 +69,7 @@ export const UserBar = () => {
 
    const userData = userDataPayload as UserFindOneResponse;
 
+   // open welcome dialog based on current page
    const pageKey = getPageKey(location.pathname);
    const handleOpenWelcomeDialog = () => {
       setWelcomeDialogState(() => {
@@ -89,15 +92,15 @@ export const UserBar = () => {
    };
 
    const handleResetDemo = async (e: React.MouseEvent) => {
-      e.stopPropagation()
-      setIsResetDemoLoading(true)
-      const result = await getFullDemo()
+      e.stopPropagation();
+      setIsResetDemoLoading(true);
+      const result = await getFullDemo();
       if (result.success) {
          window.location.reload();
       } else {
-         toast.error("Unexpected error, please try again")
+         toast.error('Unexpected error, please try again');
       }
-   }
+   };
 
    const handleClick = () => {
       popoverRef.current?.click();
@@ -188,16 +191,18 @@ export const UserBar = () => {
                      <TabsList className="w-full flex">
                         <TabsTrigger
                            value="light"
-                           className={cn("flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary",
-                              "sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary "
+                           className={cn(
+                              'flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary',
+                              'sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary '
                            )}
                         >
                            <Sun className="h-4 w-4" />
                         </TabsTrigger>
                         <TabsTrigger
                            value="dark"
-                           className={cn("flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary",
-                              "sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary "
+                           className={cn(
+                              'flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary',
+                              'sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary '
                            )}
                         >
                            <Moon className="h-4 w-4" />

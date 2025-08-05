@@ -29,7 +29,9 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
       clientId: clientId,
    });
 
+   // fetch files
    const filesQueryResult = useFilesQuery(fileFilter);
+   // delete file api
    const deleteManyFiles = useDeleteManyFile();
 
    const enableMultiSelect = () => {

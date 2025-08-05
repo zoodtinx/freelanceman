@@ -14,6 +14,8 @@ import FreelanceMan2LineLogo from '@/components/shared/icons/FreelanceMan2Line';
 import { useEffect } from 'react';
 
 export default function HomePage() {
+   
+   // responsive design helper for mobile
    useEffect(() => {
       const setHeight = () => {
          document.documentElement.style.setProperty(
