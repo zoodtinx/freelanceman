@@ -8,7 +8,7 @@ import FilePage from '@/routes/FilePage';
 import AllClientsPage from 'src/routes/AllClientPage';
 import ClientPage from '@/routes/ClientPage';
 import IncomePage from 'src/routes/IncomePage';
-import SalesDocumentBuilderPage from '@/components/page-elements/documents/SalesDocumentBuilderPage';
+import SalesDocumentBuilderPage from '@/components/page-elements/documents-page/SalesDocumentBuilderPage';
 import RootPage from '@/routes/RootPage';
 import AuthPage from '@/routes/WelcomePage';
 

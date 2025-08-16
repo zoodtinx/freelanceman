@@ -1,12 +1,12 @@
 import { useEditProject, useProjectQuery } from '@/lib/api/project-api';
 import { Link, useParams } from 'react-router-dom';
 import { Wallet, Briefcase, Settings, UsersRound } from 'lucide-react';
-import { ProjectContactSection } from '@/components/page-elements/project/ProjectContactSection';
-import ProjectFileSection from '@/components/page-elements/project/ProjectFileSection';
-import ProjectNoteSection from '@/components/page-elements/project/ProjectNoteSection';
-import ProjectLinkSection from '@/components/page-elements/project/ProjectLinkSection';
-import ProjectTaskSection from 'src/components/page-elements/project/ProjectTaskSection';
-import ProjectEventSection from 'src/components/page-elements/project/ProjectEventSection';
+import { ProjectContactSection } from '@/components/page-elements/project-page/ProjectContactSection';
+import ProjectFileSection from '@/components/page-elements/project-page/ProjectFileSection';
+import ProjectNoteSection from '@/components/page-elements/project-page/ProjectNoteSection';
+import ProjectLinkSection from '@/components/page-elements/project-page/ProjectLinkSection';
+import ProjectTaskSection from '@/components/page-elements/project-page/ProjectTaskSection';
+import ProjectEventSection from '@/components/page-elements/project-page/ProjectEventSection';
 import { ProjectFindOneResponse } from 'freelanceman-common';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';

@@ -1,60 +1,60 @@
-name: Deploy to Beanstalk
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'backend/**'
-      - 'shared/**'
+# name: Deploy to Beanstalk
+# on:
+#   push:
+#     branches:
+#       - master
+#     paths:
+#       - 'backend/**'
+#       - 'shared/**'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: AWS_EB_ENV
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     environment: AWS_EB_ENV
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '20'
 
 
-      - name: Install & build shared
-        run: |
-          cd shared
-          npm ci
-          npm run build
+#       - name: Install & build shared
+#         run: |
+#           cd shared
+#           npm ci
+#           npm run build
 
-      - name: Install & build backend
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-          cd backend
-          npm ci
-          npx prisma generate
-          npx prisma migrate deploy
-          npm run build
+#       - name: Install & build backend
+#         env:
+#           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#         run: |
+#           cd backend
+#           npm ci
+#           npx prisma generate
+#           npx prisma migrate deploy
+#           npm run build
 
-      - name: Prepare deployment package
-        run: |
-           mkdir deploy
-           cp -r backend/dist deploy/dist
-           cp -r backend/node_modules deploy/node_modules
-           cp backend/package.deploy.json deploy/package.json
-           cp Procfile deploy/
-           cp -r backend/prisma deploy/prisma
-           cd deploy
-           zip -r ../deploy.zip .
+#       - name: Prepare deployment package
+#         run: |
+#            mkdir deploy
+#            cp -r backend/dist deploy/dist
+#            cp -r backend/node_modules deploy/node_modules
+#            cp backend/package.deploy.json deploy/package.json
+#            cp Procfile deploy/
+#            cp -r backend/prisma deploy/prisma
+#            cd deploy
+#            zip -r ../deploy.zip .
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v22
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: freelanceman-api
-          environment_name: freelanceman-api-env
-          version_label: freelanceman-v${{ github.run_number }}-ci
-          region: ap-southeast-1
-          deployment_package: deploy.zip
+#       - name: Deploy to EB
+#         uses: einaregilsson/beanstalk-deploy@v22
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           application_name: freelanceman-api
+#           environment_name: freelanceman-api-env
+#           version_label: freelanceman-v${{ github.run_number }}-ci
+#           region: ap-southeast-1
+#           deployment_package: deploy.zip

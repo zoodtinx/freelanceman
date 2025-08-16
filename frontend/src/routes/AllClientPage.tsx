@@ -1,6 +1,6 @@
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
-import ClientColumn from 'src/components/page-elements/all-clients/ClientPageClient';
-import ContactColumn from 'src/components/page-elements/all-clients/ClientPageContact';
+import ClientColumn from '@/components/page-elements/all-clients-page/ClientPageClient';
+import ContactColumn from '@/components/page-elements/all-clients-page/ClientPageContact';
 
 export default function AllClientsPage() {
    const setWelcomeDialogState = useWelcomeDialogStore(

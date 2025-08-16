@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useProjectsQuery } from '@/lib/api/project-api';
-import ProjectGrid from '@/components/page-elements/all-projects/ProjectGrid';
-import { ProjectFilterBar } from '@/components/page-elements/all-projects/ProjectFilterBar';
+import ProjectGrid from '@/components/page-elements/all-projects-page/ProjectGrid';
+import { ProjectFilterBar } from '@/components/page-elements/all-projects-page/ProjectFilterBar';
 import { ProjectFilterDto } from 'freelanceman-common';
-import ProjectList from '@/components/page-elements/all-projects/ProjectList';
+import ProjectList from '@/components/page-elements/all-projects-page/ProjectList';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 
 export default function AllProjectPage() {

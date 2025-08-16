@@ -28,7 +28,7 @@ import {
    usePaymentStatsQuery,
 } from 'src/lib/api/payment-api';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { ClientFilterBubble } from '@/components/page-elements/all-projects/ProjectFilterBar';
+import { ClientFilterBubble } from '@/components/page-elements/all-projects-page/ProjectFilterBar';
 import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
 import { useFileUrlQuery } from '@/lib/api/file-api';

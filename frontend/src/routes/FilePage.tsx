@@ -1,5 +1,5 @@
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
-import FilePageLayout from 'src/components/page-elements/files/FilePageLayout';
+import FilePageLayout from '@/components/page-elements/files-page/FilePageLayout';
 
 const FilePage = (): JSX.Element => {
    const setWelcomeDialogState = useWelcomeDialogStore(

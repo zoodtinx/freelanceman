@@ -1,7 +1,7 @@
 import { cn } from '@/lib/helper/utils';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
-import EventSection from 'src/components/page-elements/actions/EventSection';
-import TasksSection from 'src/components/page-elements/actions/TaskSection';
+import EventSection from '@/components/page-elements/actions-page/EventSection';
+import TasksSection from '@/components/page-elements/actions-page/TaskSection';
 
 export default function ActionPage() {
    const setWelcomeDialogState = useWelcomeDialogStore(

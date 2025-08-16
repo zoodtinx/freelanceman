@@ -1,10 +1,10 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
 import React, { useEffect, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import ProjectInfoField from '@/components/page-elements/documents/ProjectInfoField';
-import FreelancerInfoField from '@/components/page-elements/documents/FreelancerInfoField';
-import ClientInfoField from '@/components/page-elements/documents/ClientInfoField';
-import ItemsField from '@/components/page-elements/documents/ItemsField';
+import ProjectInfoField from '@/components/page-elements/documents-page/ProjectInfoField';
+import FreelancerInfoField from '@/components/page-elements/documents-page/FreelancerInfoField';
+import ClientInfoField from '@/components/page-elements/documents-page/ClientInfoField';
+import ItemsField from '@/components/page-elements/documents-page/ItemsField';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
    useCreatePdf,
@@ -19,7 +19,7 @@ import { cn } from '@/lib/helper/utils';
 import {
    getCreateSalesDocumentPayload,
    getEditSalesDocumentPayload,
-} from '@/components/page-elements/documents/helper';
+} from '@/components/page-elements/documents-page/helper';
 import { useProjectQuery } from '@/lib/api/project-api';
 import { defaultCreateSalesDocumentValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';

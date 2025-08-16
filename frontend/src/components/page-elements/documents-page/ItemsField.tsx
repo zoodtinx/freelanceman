@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { X, Plus } from 'lucide-react';
-import SalesDocumentItemDialog from '@/components/page-elements/documents/SalesDocumentItemDialog';
+import SalesDocumentItemDialog from '@/components/page-elements/documents-page/SalesDocumentItemDialog';
 import { FormDialogState } from 'src/lib/types/form-dialog.types';
-import AdjustmentsField from '@/components/page-elements/documents/AdjustmentsField';
+import AdjustmentsField from '@/components/page-elements/documents-page/AdjustmentsField';
 import { defaultSalesDocumentItemValue } from '@/components/shared/ui/helpers/constants/default-values';
 import { cn } from '@/lib/helper/utils';
 import { SalesDocumentFindOneResponse, SalesDocumentItemCore } from 'freelanceman-common';

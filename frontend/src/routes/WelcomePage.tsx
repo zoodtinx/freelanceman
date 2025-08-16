@@ -5,10 +5,23 @@ import { Button } from '@/components/shared/ui/primitives/Button';
 import { getBlankDemo, getFullDemo } from '@/lib/api/auth-api';
 import useAuthStore from '@/lib/zustand/auth-store';
 import { Separator } from '@/components/shared/ui/primitives/Separator';
-import { Gamepad2, KeyRound } from 'lucide-react';
+import {
+   Download,
+   Folder,
+   Gamepad2,
+   KeyRound,
+   Notebook,
+   Users,
+   Wallet,
+} from 'lucide-react';
 import FreelanceMan1LineLogo from '@/components/shared/icons/FreelanceMan1Line';
 import { cn } from '@/lib/helper/utils';
-import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
+import {
+   ScrollArea,
+   ScrollBar,
+} from '@/components/shared/ui/primitives/ScrollArea';
+import { Enter } from '@/components/page-elements/welcome-page/icons/Enter';
+import { Stack } from '@/components/page-elements/welcome-page/icons/Stack';
 
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();
@@ -64,92 +77,91 @@ const AuthPage: React.FC = () => {
    const placeholders = [...Array(80)].map(() => <PlaceholderBox />);
 
    return (
-      <div
-         style={{ height: 'calc(var(--vh) * 100)' }}
-         className="flex bg-background w-full h-screen items-center flex-col relative overflow-hidden"
-      >
-         <div className="h-screen w-full overflow-y-auto z-10 flex flex-col items-center">
-            <div className="flex flex-col items-center z-10 w-[1024px] h-screen justify-center shrink-0">
-               <div className="flex gap-4 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-2">
-                  <div className="flex flex-col justify-center items-center text-primary gap-5 sm:gap-3">
-                     <SvgFreelancemanIcon className="w-[170px] sm:w-[90px]" />
-                     <FreelanceMan1LineLogo className="w-[430px] sm:w-[270px]" />
+      <>
+         <div className="w-full h-screen absolute z-20">
+            <div className="w-full h-full">
+               {/* <ScrollBar /> */}
+               <div className="w-full h-full flex flex-col items-center pt-[61px] overflow-y-auto overflow-x-hidden">
+                  <div className="w-[1200px]">
+                     <div className="flex justify-between items-center">
+                        <div className="flex gap-4">
+                           <SvgFreelancemanIcon className="h-auto w-[70px]" />
+                           <FreelanceMan1LineLogo className="h-auto w-[215px]" />
+                        </div>
+                        <button
+                           onClick={(e) => e.currentTarget.focus()}
+                           className={
+                              'flex items-center text-md bg-primary h-[32px] text-foreground px-2 rounded-[10px] ' +
+                              'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
+                           }
+                        >
+                           <Enter />
+                           <p className="px-2">Launch Demo</p>
+                        </button>
+                     </div>
+                     <div className="flex gap-[120px] h-fit pt-[50px] pb-[100px]">
+                        <div className="flex flex-col gap-[20px] pt-[75px]">
+                           <div className="flex gap-[13px]">
+                              <Users className="size-[30px] text-secondary" />
+                              <Folder className="size-[30px] text-secondary" />
+                              <Wallet className="size-[30px] text-secondary" />
+                              <Notebook className="size-[30px] text-secondary" />
+                              <Download className="size-[30px] text-secondary" />
+                           </div>
+                           <div className="text-[53px] leading-[63px]">
+                              <p className="font-light">A Workspace</p>
+                              <p className="font-semibold">Built For</p>
+                              <p className="font-semibold">Solo Freelancers</p>
+                           </div>
+                           <p className="w-[500px] text-md text-primary/60">
+                              Working on multiple projects with multiple clients
+                              is not easy. Files, notes, and documents can
+                              quickly get out of control. FreelanceMan is here
+                              to help.
+                           </p>
+                        </div>
+                        <img
+                           className="rounded-[30px] shadow-lg h-[726px] w-[1231px]"
+                           src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-hero.webp?updatedAt=1755241824596"
+                        />
+                     </div>
+                     {/* <div className="w-[100px] h-[2000px] bg-black" /> */}
+                     <div className="w-full">
+                        <div className="h-fit flex gap-[38px]">
+                           <div className="flex-1 bg-foreground rounded-[30px] flex flex-col">
+                              <div className=" p-4">
+                                 <img src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-feat-1.webp?updatedAt=1755249035741" />
+                              </div>
+                              <div className="flex flex-col px-8 pb-8 pt-4 justify-center gap-[10px]">
+                                 <Stack />
+                                 <div className="flex">
+                                    <p className="leading-9 text-[30px] w-[240px]">
+                                       Multi Projects <br /> & Clients
+                                    </p>
+                                    <p className="w-1/2 text-md grow">
+                                       Central hub to view and manage all your
+                                       clients and projects in one place for
+                                       easy access and tracking.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="flex-1 bg-foreground rounded-[30px] flex flex-col"></div>
+                        </div>
+                        <div className="h-[540px] flex gap-[38px] pt-[30px]">
+                        <div className="flex-1 bg-foreground rounded-[30px] flex flex-col"></div>
+                        <div className="flex-1 bg-foreground rounded-[30px] flex flex-col"></div>
+                        </div>
+                        <div className="flex justify-between items-center px-6 rounded-tr-[20px] rounded-tl-[20px] w-full h-[33px] bg-primary mt-[60px] text-foreground">
+                           <p>See More Of My Portfolio Projects</p>
+                           <p>© 2025 Peerapol Glaajing, All Rights Reserved.</p>
+                        </div>
+                     </div>
                   </div>
-               </div>
-               <div className='border-b w-[250px] mb-5' />
-               <div className="flex flex-col items-center leading-tight text-[30px]">
-                  <p>A Productivity Platform</p>
-                  <p>for Freelancers</p>
-               </div>
-               <div>
-
-               </div>
-            </div>
-            <div className="flex flex-col items-center z-10 w-[1024px] h-screen justify-center shrink-0">
-               <div className="flex gap-4 flex-col rounded-2xl justify-center items-center border-primary pb-7 sm:w-full sm:h-auto sm:pb-6 sm:gap-2">
-                  <div className="flex flex-col justify-center items-center text-primary gap-5 sm:gap-3">
-                     <SvgFreelancemanIcon className="w-[170px] sm:w-[90px]" />
-                     <FreelanceMan1LineLogo className="w-[430px] sm:w-[270px]" />
-                  </div>
-               </div>
-               <div className="flex flex-col items-center leading-tight text-[30px]">
-                  <p>A Productivity Platform</p>
-                  <p>for Freelancers</p>
                </div>
             </div>
          </div>
-         {/* <div className='flex flex-col'>
-               <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl mb-6">
-                  <div className="flex flex-col w-full items-start gap-1 pb-4">
-                     <div className="flex w-full gap-1 justify-start">
-                        <Gamepad2 className="w-4 h-auto" />
-                        <p className="text-base font-medium">Try Demo</p>
-                     </div>
-                     <Separator className="bg-tertiary" />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                     <Button onClick={handleGetFullDemo} className="w-full">
-                        With Sample Projects
-                     </Button>
-                     <Button
-                        onClick={handleGetBlankDemo}
-                        className="w-full"
-                        variant="outline"
-                     >
-                        Clean Slate
-                     </Button>
-                  </div>
-               </div>
-               <div className="flex flex-col w-[300px] bg-foreground p-4 pt-3 rounded-xl sm:mb-4">
-                  <div className="flex flex-col w-full items-start gap-1 pb-4">
-                     <div className="flex w-full gap-1 justify-start">
-                        <KeyRound className="w-4 h-auto" />
-                        <p className="text-base font-medium">Get Access</p>
-                     </div>
-                     <Separator className="bg-tertiary" />
-                  </div>
-                  <div className="flex flex-col gap-[6px]">
-                     <Button
-                        onClick={handleGoogleOAuthLogin}
-                        className="w-full"
-                        variant="outline"
-                     >
-                        Sign In with Google
-                     </Button>
-                  </div>
-               </div>
-               {isError && (
-                  <div
-                     className={cn(
-                        'p-4 text-general-red',
-                        'animate-shake visible'
-                     )}
-                  >
-                     Unexpected error, please try again
-                  </div>
-               )}
-            </div> */}
-         <div className="w-screen h-screen absolute overflow-hidden flex justify-center items-center">
+         <div className="w-screen h-screen bg-gradient-to-b from-foreground via-background to-background absolute overflow-hidden flex justify-center items-center">
             <div
                className={cn(
                   'grid',
@@ -164,7 +176,7 @@ const AuthPage: React.FC = () => {
                {placeholders}
             </div>
          </div>
-      </div>
+      </>
    );
 };
 

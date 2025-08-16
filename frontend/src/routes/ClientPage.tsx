@@ -1,9 +1,9 @@
-import ClientContactSection from '@/components/page-elements/client/ClientContactSection';
-import ClientProjectSection from '@/components/page-elements/client/ClientProjectSection';
-import ClientFileSection from '@/components/page-elements/client/ClientFileSection';
+import ClientContactSection from '@/components/page-elements/client-page/ClientContactSection';
+import ClientProjectSection from '@/components/page-elements/client-page/ClientProjectSection';
+import ClientFileSection from '@/components/page-elements/client-page/ClientFileSection';
 import { useParams } from 'react-router-dom';
 import { useClientQuery, useEditClient } from '@/lib/api/client-api';
-import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import { ClientSectionProps } from 'src/components/page-elements/client-page/props.type';
 import { Skeleton } from '@/components/shared/ui/primitives/Skeleton';
 import { Book, Edit, StickyNote } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';

@@ -5,6 +5,12 @@
 
 @font-face {
   font-family: 'Lexend';
+  src: url('/fonts/Lexend-Light.woff2') format('woff2');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Lexend';
   src: url('/fonts/Lexend-Regular.woff2') format('woff2');
   font-weight: 400;
 }
