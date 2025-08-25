@@ -7,9 +7,10 @@ import {
    ArrowUpLeft,
    ChevronDown,
    Download,
-   Folder, Notebook,
+   Folder,
+   Notebook,
    Users,
-   Wallet
+   Wallet,
 } from 'lucide-react';
 import FreelanceMan1LineLogo from '@/components/shared/icons/FreelanceMan1Line';
 import { cn } from '@/lib/helper/utils';
@@ -62,7 +63,7 @@ const AuthPage: React.FC = () => {
          });
       }
    };
-   
+
    const handleExploreFeature = () => {
       if (featureCardsRef.current) {
          featureCardsRef.current.scrollIntoView({
@@ -98,167 +99,95 @@ const AuthPage: React.FC = () => {
          <div className="w-full h-screen absolute z-20">
             <div className="w-full h-full">
                {/* <ScrollBar /> */}
-               <div className="w-full h-full flex flex-col items-center pt-[61px] overflow-y-auto overflow-x-hidden">
-                  <div className="w-[1200px]">
-                     <div className="flex justify-between items-center">
-                        <div className="flex gap-4">
-                           <SvgFreelancemanIcon className="h-auto w-[70px]" />
-                           <FreelanceMan1LineLogo className="h-auto w-[215px]" />
-                        </div>
-                        {/* <button
-                           onClick={(e) => e.currentTarget.focus()}
+               <div className="w-full h-full flex flex-col items-center overflow-y-auto overflow-x-hidden">
+                  <div className="sm:w-screen sm:px-4 md:px-6 lg:w-[1200px] lg:px-0 flex flex-col">
+                     <div className="h-screen flex flex-col justify-between sm:gap-3 lg:gap-9">
+                        <div
                            className={
-                              'flex items-center text-md bg-primary h-[32px] text-foreground px-2 rounded-[10px] ' +
-                              'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
+                              'flex justify-between items-center ' +
+                              'sm:pt-[20px] ' +
+                              'md:pt-[20px] ' +
+                              'lg:pt-[61px] lg:px-0 '
                            }
                         >
-                           <Enter />
-                           <p className="px-2">Launch Demo</p>
-                        </button> */}
-                     </div>
-                     <div className="flex gap-[120px] h-fit pt-[50px] pb-[150px]">
-                        <div className="flex flex-col justify-between pt-[55px]">
-                           <div className="flex flex-col gap-[20px]">
-                              <div className="flex gap-[13px]">
-                                 <Users className="size-[30px] text-secondary" />
-                                 <Folder className="size-[30px] text-secondary" />
-                                 <Wallet className="size-[30px] text-secondary" />
-                                 <Notebook className="size-[30px] text-secondary" />
-                                 <Download className="size-[30px] text-secondary" />
-                              </div>
-                              <div className="text-[53px] leading-[63px]">
-                                 <p className="font-light">A Workspace</p>
-                                 <p className="font-semibold">Built For</p>
-                                 <p className="font-semibold">
-                                    Solo Freelancers
-                                 </p>
-                              </div>
-                              <p className="w-[500px] text-md text-primary/60">
-                                 Working on multiple projects with multiple
-                                 clients is not easy. Files, notes, and
-                                 documents can quickly get out of control.
-                                 FreelanceMan is here to help.
-                              </p>
-                              <button
-                                 onClick={(e) => {e.currentTarget.focus(); handleLaunchDemo()}}
-                                 className={
-                                    'flex items-center text-md bg-primary h-[32px] text-foreground px-2 rounded-[10px] w-fit ' +
-                                    'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
-                                 }
-                              >
-                                 <Enter />
-                                 <p className="px-2">Launch Demo</p>
-                              </button>
+                           <div className="flex gap-2 lg:gap-4">
+                              <SvgFreelancemanIcon className="h-auto w-[40px] lg:w-[70px]" />
+                              <FreelanceMan1LineLogo className="h-auto w-[150px] lg:w-[215px]" />
                            </div>
-                           <button
-                              onClick={handleExploreFeature}
-                              className={
-                                 'flex gap-1 text-md items-center w-fit pr-2 rounded-md ' +
-                                 'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px] ring-offset-background'
-                              }
-                           >
-                              <ChevronDown className="size-5" />
-                              <p>Explore Features</p>
-                           </button>
                         </div>
-                        <img
-                           className="rounded-[30px] shadow-lg h-[726px] w-[1231px]"
-                           src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-hero.webp?updatedAt=1755241824596"
-                        />
+                        <div className="flex items-center">
+                           <div className="flex sm:flex-col lg:flex-row sm:gap-5 md:gap-[100px] lg:gap-[120px] lg:px-0">
+                              <div className="flex flex-col sm:gap-[7px] md:gap-[10px] lg:gap-[20px] sm:px-2">
+                                 <div className="flex gap-[8px] lg:gap-[13px]">
+                                    <Users className="sm:size-[20px] lg:size-[30px] text-secondary" />
+                                    <Folder className="sm:size-[20px] lg:size-[30px] text-secondary" />
+                                    <Wallet className="sm:size-[20px] lg:size-[30px] text-secondary" />
+                                    <Notebook className="sm:size-[20px] lg:size-[30px] text-secondary" />
+                                    <Download className="sm:size-[20px] lg:size-[30px] text-secondary" />
+                                 </div>
+                                 <div className="sm:text-[30px] md:text-[37px] leading-tight lg:text-[53px] lg:leading-[63px]">
+                                    <p className="font-light">A Workspace</p>
+                                    <p className="font-semibold">Built For</p>
+                                    <p className="font-semibold">
+                                       Solo Freelancers
+                                    </p>
+                                 </div>
+                                 <p className="sm:w-full mb-3 md:w-[400px] lg:w-[500px] lg:mb-0 pr-5 text-md text-primary/60">
+                                    Working on multiple projects with multiple
+                                    clients is not easy. Files, notes, and
+                                    documents can quickly get out of control.
+                                    FreelanceMan is here to help.
+                                 </p>
+                                 <button
+                                    onClick={(e) => {
+                                       e.currentTarget.focus();
+                                       handleLaunchDemo();
+                                    }}
+                                    className={
+                                       'flex items-center text-md bg-primary h-[32px] text-foreground px-2 rounded-[10px] w-fit ' +
+                                       'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
+                                    }
+                                 >
+                                    <Enter />
+                                    <p className="px-2">Launch Demo</p>
+                                 </button>
+                              </div>
+                              <img
+                                 className="sm:rounded-[7px] md:rounded-[15px] lg:rounded-[30px] shadow-lg sm:w-full sm:h-auto lg:h-[726px] lg:w-[1231px]"
+                                 src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-hero.webp?updatedAt=1756096497036"
+                              />
+                           </div>
+                        </div>
+                        <button
+                           onClick={handleExploreFeature}
+                           className={
+                              'flex gap-1 text-md items-center w-fit pr-2 rounded-md mb-3 lg:mb-[25px] ' +
+                              'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px] ring-offset-background'
+                           }
+                        >
+                           <ChevronDown className="size-5" />
+                           <p>Explore Features</p>
+                        </button>
                      </div>
 
-                     <div ref={featureCardsRef} className="w-full">
-                        <div className="h-fit flex gap-[45px]">
-                           <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
-                              <div className=" p-4">
-                                 <img
-                                    className="rounded-[14px]"
-                                    src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-layout.webp?updatedAt=1755491400438"
-                                 />
-                              </div>
-                              <div className="flex flex-col px-8 pb-6 pt-4 justify-center gap-[10px]">
-                                 <Stack />
-                                 <div className="flex">
-                                    <p className="leading-8 text-[27px] w-[240px] pt-1">
-                                       Multi Projects <br /> & Clients
-                                    </p>
-                                    <p className="w-1/2 text-md grow opacity-40">
-                                       Central hub to view and manage all your
-                                       clients and projects in one place for
-                                       easy access and tracking.
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
-                              <div className=" p-4">
-                                 <img
-                                    className="rounded-[14px]"
-                                    src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-projectpage.webp?updatedAt=1755491164194"
-                                 />
-                              </div>
-                              <div className="flex flex-col px-8 pb-6 pt-4 justify-center gap-[10px]">
-                                 <Layout />
-                                 <div className="flex">
-                                    <p className="leading-8 text-[27px] w-[240px] pt-1">
-                                       One Place That Keep It All
-                                    </p>
-                                    <p className="w-1/2 text-md grow opacity-40">
-                                       Central hub to view and manage all your
-                                       clients and projects in one place for
-                                       easy access and tracking.
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
+                     <div
+                        ref={featureCardsRef}
+                        className="w-full pt-5 lg:pt-11"
+                     >
+                        <div className="h-fit flex lg:flex-row sm:flex-col md:gap-[20px] lg:gap-[45px] sm:gap-5 lg:pb-10 pb-5">
+                           <FeatureContainer feature={featuresConfig[0]} />
+                           <FeatureContainer feature={featuresConfig[1]} />
                         </div>
-                        <div className="h-fit flex gap-[45px] pt-[45px]">
-                           <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
-                              <div className=" p-4">
-                                 <img
-                                    className="rounded-[14px]"
-                                    src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-files.webp?updatedAt=1755491164047"
-                                 />
-                              </div>
-                              <div className="flex flex-col px-8 pb-6 pt-4 justify-center gap-[10px]">
-                                 <WelcomePageFolder />
-                                 <div className="flex">
-                                    <p className="leading-8 text-[27px] w-[240px] pt-1">
-                                       Your Files <br /> Your Way
-                                    </p>
-                                    <p className="w-1/2 text-md grow opacity-40">
-                                       Central hub to view and manage all your
-                                       clients and projects in one place for
-                                       easy access and tracking.
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
-                              <div className=" p-4">
-                                 <img
-                                    className="rounded-[14px]"
-                                    src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-pdf.webp?updatedAt=1755491164204"
-                                 />
-                              </div>
-                              <div className="flex flex-col px-8 pb-6 pt-4 justify-center gap-[10px]">
-                                 <WelcomePageWallet />
-                                 <div className="flex">
-                                    <p className="leading-8 text-[27px] w-[240px] pt-1">
-                                       Work Hard <br /> Paid Faster
-                                    </p>
-                                    <p className="w-1/2 text-md grow opacity-40">
-                                       Central hub to view and manage all your
-                                       clients and projects in one place for
-                                       easy access and tracking.
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
+                        <div className="h-fit flex lg:flex-row sm:flex-col md:gap-[20px] lg:gap-[45px] sm:gap-5 lg:pb-0 ">
+                           <FeatureContainer feature={featuresConfig[2]} />
+                           <FeatureContainer feature={featuresConfig[3]} />
                         </div>
-                        <div className="py-[150px]">
-                           <div className="flex justify-between items-center pb-3">
-                              <p className="text-[35px] font-light">Tech Stack</p>
+                        <div className="border-b border-primary/30 mt-24" />
+                        <div className="py-11 pt-7">
+                           <div className="flex sm:flex-col justify-between items-center lg:pb-3 sm:pb-6">
+                              <p className="text-[35px] font-light">
+                                 Tech Stack
+                              </p>
                               <button
                                  className={
                                     'flex items-center text-md bg-primary h-[32px] text-foreground px-3 gap-2 rounded-[10px] ' +
@@ -272,7 +201,7 @@ const AuthPage: React.FC = () => {
                                  </span>
                               </button>
                            </div>
-                           <div className="flex gap-[23px]">
+                           <div className="flex sm:flex-col gap-[23px]">
                               <div className="flex-1 border border-primary/50 rounded-xl h-auto overflow-hidden">
                                  <p className="px-3 py-1 text-md text-primary/50 bg-primary/5">
                                     Client
@@ -280,7 +209,9 @@ const AuthPage: React.FC = () => {
                                  <div className="border-b border-primary/50" />
                                  <div className="flex flex-col gap-3 px-5 pt-3 py-4">
                                     <div className="leading-tight">
-                                       <p className="text-[30px] font-medium">React.js</p>
+                                       <p className="text-[30px] font-medium">
+                                          React.js
+                                       </p>
                                        <p className="text-primary/50">
                                           (Vite, client side only)
                                        </p>
@@ -305,7 +236,9 @@ const AuthPage: React.FC = () => {
                                  <div className="border-b border-primary/50" />
                                  <div className="flex flex-col gap-3 px-5 pt-3 py-4">
                                     <div className="leading-tight">
-                                       <p className="text-[30px] font-medium">Nest.js</p>
+                                       <p className="text-[30px] font-medium">
+                                          Nest.js
+                                       </p>
                                        <p className="text-primary/50">
                                           (REST API)
                                        </p>
@@ -329,7 +262,9 @@ const AuthPage: React.FC = () => {
                                  <div className="border-b border-primary/50" />
                                  <div className="flex flex-col gap-3 px-5 pt-3 py-4">
                                     <div className="leading-tight">
-                                       <p className="text-[30px] font-medium">AWS</p>
+                                       <p className="text-[30px] font-medium">
+                                          AWS
+                                       </p>
                                        <p className="text-primary/50">
                                           (Amazon Web Service)
                                        </p>
@@ -348,11 +283,11 @@ const AuthPage: React.FC = () => {
                               </div>
                            </div>
                         </div>
-                        <div className="border-b border-primary/50" />
-                        <div className="flex flex-col items-center py-[80px]">
+                        <div className="border-b border-primary/30" />
+                        <div className="flex flex-col items-center sm:py-[60px] py-[80px]">
                            <div
                               ref={demoCardRef}
-                              className="w-[400px] h-[560px] bg-foreground rounded-[17px] flex flex-col justify-between p-4 px-5 shadow-lg"
+                              className="sm:w-full w-[400px] h-[560px] bg-foreground rounded-[17px] flex flex-col justify-between p-4 px-5 shadow-lg"
                            >
                               <div className="flex flex-col">
                                  <div className="pl-2 pb-5">
@@ -425,12 +360,12 @@ const AuthPage: React.FC = () => {
                               </div>
                            </div>
                         </div>
-                        <div className="flex justify-between items-center px-6 rounded-tr-[20px] rounded-tl-[20px] w-full h-[33px] bg-primary mt-[60px] text-foreground">
+                        <div className="flex justify-between items-center px-6 rounded-tr-[20px] rounded-tl-[20px] w-full h-[33px] bg-primary text-foreground">
                            <button className="flex gap-1 items-center">
                               <ArrowUpLeft className="size-5" />
                               <p>See More Of My Portfolio Projects</p>
                            </button>
-                           <p>© 2025 Peerapol Glaajing, All Rights Reserved.</p>
+                           <p className='sm:hidden'>© 2025 Peerapol Glaajing, All Rights Reserved.</p>
                         </div>
                      </div>
                   </div>
@@ -455,5 +390,78 @@ const AuthPage: React.FC = () => {
       </>
    );
 };
+
+const FeatureContainer = ({ feature }: { feature: typeof featuresConfig[number] }) => {
+   return (
+      <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
+         <div className="sm:p-2 p-4">
+            <img className="rounded-[14px]" src={feature.imageSrc} />
+         </div>
+         <div className="flex flex-col px-6 pb-4 sm:pt-3 pt-2 justify-center gap-[7px]">
+            {feature.icon}
+            <div className="flex lg:flex-row sm:flex-col">
+               <p className="leading-8 text-[27px] sm:w-auto w-1/2 pt-1 shrink-0">
+                  {feature.title}
+               </p>
+               <p className="text-md grow opacity-40 sm:pt-2 pt-0">
+                  {feature.description}
+               </p>
+            </div>
+         </div>
+      </div>
+   );
+};
+
+const featuresConfig = [
+   {
+      imageSrc:
+         'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-layout.webp?updatedAt=1755491400438',
+      icon: <Stack/>,
+      title: (
+         <>
+            Multi Projects <br /> & Clients
+         </>
+      ),
+      description:
+         'All your freelance projects sorted by client. Clear overview, better focus, zero chaos.',
+   },
+   {
+      imageSrc:
+         'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-projectpage.webp?updatedAt=1755491164194',
+      icon: <Layout/>,
+      title: (
+         <>
+            Everything In <br /> One Project
+         </>
+      ),
+      description:
+         'Find everything instantly. Tasks, events, client info, and every files all organized per project.',
+   },
+   {
+      imageSrc:
+         'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-files.webp?updatedAt=1755491164047',
+      icon: <WelcomePageFolder/>,
+      title: (
+         <>
+            Your Files <br /> Your Rules
+         </>
+      ),
+      description:
+         'Upload directly or link to external files. Tag and add description however you like.',
+   },
+   {
+      imageSrc:
+         'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-pdf.webp?updatedAt=1755491164204',
+      icon: <WelcomePageWallet />,
+      title: (
+         <>
+            Instant
+            <br /> Professional Bills
+         </>
+      ),
+      description:
+         'Quote, invoice, and collect. All the sales documents you need without switching between apps.',
+   },
+];
 
 export default AuthPage;
