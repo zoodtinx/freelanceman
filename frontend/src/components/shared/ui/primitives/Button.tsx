@@ -5,25 +5,25 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/helper/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none",
+  "active:ring-2 ring-offset-2 ring-primary ring-offset-background inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-foreground hover:bg-primary/90",
+          "bg-primary text-foreground hover:bg-primary/90 ring-primary",
           submit:
-          "bg-button-blue text-foreground hover:bg-button-blue/80 text-primary",
+          "bg-button-blue text-foreground hover:bg-button-blue/80 text-primary ring-button-blue",
         destructive:
-          "bg-button-red text-white hover:bg-button-red/80",
+          "bg-button-red text-white hover:bg-button-red/80 ring-button-red",
         destructiveOutline:
-          "border-[1.5px] border-button-red text-button-red",
+          "border-[1.5px] border-button-red text-button-red ring-button-red",
         destructiveOutlineGhost:
           "border-[1.5px] border-secondary text-secondary",
         outline:
-          "border-[1.5px] border-primary  hover:bg-accent hover:text-accent-foreground",
+          "border-[1.5px] border-primary  hover:bg-accent hover:text-accent-foreground ring-secondary",
         secondary:
-          "bg-tertiary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "bg-tertiary text-secondary",
+          "bg-tertiary text-secondary-foreground hover:bg-secondary/80 ring-tertiary",
+        ghost: "bg-tertiary text-secondary ring-tertiary",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

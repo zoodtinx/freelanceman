@@ -207,13 +207,13 @@ export const UserProfileDialog = ({
             </div>
          </div>
          <DialogFooter className="w-full">
-            <div className="flex justify-between p-4 pb-2">
+            <div className="flex justify-between p-4">
                <Button
                   variant={'outline'}
                   className="px-0 text-secondary border-0 hover:text-button-red"
                   onClick={handleDelete}
                >
-                  Quit being a freelancer
+                  Delete Account
                </Button>
                <SubmitButton formMethods={formMethods} entity="User" />
             </div>

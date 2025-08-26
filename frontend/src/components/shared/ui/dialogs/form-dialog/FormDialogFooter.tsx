@@ -30,7 +30,7 @@ export default function FormDialogFooter({
 }: FormDialogFooterProps) {
    return (
       <DialogFooter>
-         <div className="flex justify-between p-4 pb-2">
+         <div className="flex justify-between p-4">
             <DiscardButton
                onClick={onDiscard}
                deleteText={customText?.destructiveButton?.editModeText}

@@ -225,7 +225,7 @@ const FileDialogFooter = ({
 
    return (
       <DialogFooter>
-         <div className="flex justify-between p-4 pb-2">
+         <div className="flex justify-between p-4">
             <DiscardButton onClick={onDiscard} />
             <div className="flex gap-1">
                <DownloadButton url={url} isLoading={isUrlLoading!} />

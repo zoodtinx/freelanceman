@@ -347,7 +347,7 @@ const AuthPage: React.FC = () => {
                               <div className="text-sm opacity-40">
                                  <p className="font-semibold">Disclaimers:</p>
                                  <p className="pb-4">
-                                    Each demo session is personal. Users are
+                                    Each demo session is generated personally for each user. Users are
                                     free to explore features, create tasks, edit
                                     contacts, upload files, or delete content
                                     during their session.
