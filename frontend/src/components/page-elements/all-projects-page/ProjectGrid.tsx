@@ -58,15 +58,17 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    }
 
    // placeholder elements
-   const placeholdersNeeded = Math.max(0, 4 - projects.items.length);
-   const placeholders = Array.from({ length: placeholdersNeeded }, (_, i) => ({
+   const placeholders = Array.from({ length: 10 }, (_, i) => ({
       id: `placeholder-${i}`,
       isPlaceholder: true,
    }));
    const filledProjects = [...projects.items, ...placeholders];
    const projectCards = filledProjects.map((project: any) =>
       project.isPlaceholder ? (
-         <div key={project.id} />
+         <div
+            key={project.id}
+            className="rounded-[20px] max-w-[400px] h-[205px]"
+         />
       ) : (
          <ProjectCard project={project} key={project.id} />
       )

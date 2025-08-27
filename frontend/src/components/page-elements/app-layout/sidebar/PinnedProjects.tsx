@@ -18,8 +18,9 @@ export default function PinnedProjects() {
    const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
       pinned: true,
    });
+   const [projectSelectionFilter, setSelectionFilter] = useState<ProjectFilterDto>({});
    const projectQueryResult = useProjectsQuery(projectFilter);
-   const projectSelectionQueryResult = useProjectSelectionQuery();
+   const projectSelectionQueryResult = useProjectSelectionQuery(projectSelectionFilter);
    const editProject = useEditProject();
 
    const handlePinProject = (projectId: string) => {
@@ -31,10 +32,10 @@ export default function PinnedProjects() {
    };
 
    const handleSearchProject = (value: string) => {
-      setProjectFilter((prev) => {
+      setSelectionFilter((prev) => {
          return {
             ...prev,
-            title: value,
+            name: value,
          };
       });
    };

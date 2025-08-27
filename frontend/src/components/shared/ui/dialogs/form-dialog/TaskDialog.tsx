@@ -176,7 +176,7 @@ export const ProjectField = ({
       return (
          <div className="grow leading-snug">
             <Label className="pb-0">Project</Label>
-            <p className="text-md">{formMethods.getValues('project')?.title}</p>
+            <p className="text-md">{formMethods.getValues('project')?.name}</p>
          </div>
       );
    }

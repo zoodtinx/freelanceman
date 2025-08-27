@@ -8,7 +8,7 @@ export default function AllClientsPage() {
    );
 
    // check if user has visited the page
-   if (localStorage.getItem('client') !== 'visited') {
+   if (localStorage.getItem('clients') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'allClientsPage' });
    }
 

@@ -11,11 +11,7 @@ const ProjectNoteSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    // hooks
    const editProject = useEditProject();
    const [note, setNote] = useState(project.note);
-   
-   // update note with mutated project.note
-   useEffect(() => {
-      setNote(project.note);
-   }, [project.note]);
+
 
 
    const debouncedUpdateNote = useMemo(

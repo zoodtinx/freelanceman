@@ -153,7 +153,7 @@ const AuthPage: React.FC = () => {
                                  </button>
                               </div>
                               <img
-                                 className="sm:rounded-[7px] md:rounded-[15px] lg:rounded-[30px] shadow-lg sm:w-full sm:h-auto lg:h-[726px] lg:w-[1231px]"
+                                 className="sm:rounded-[7px] md:rounded-[15px] lg:rounded-[30px] shadow-lg sm:w-full sm:h-auto lg:h-[726px] lg:w-[1231px] animate-slide-in-right"
                                  src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-hero.webp?updatedAt=1756096497036"
                               />
                            </div>

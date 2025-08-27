@@ -8,7 +8,7 @@ export const useSearchOption = (type: Type) => {
 
    const handleSearch = debounce((value: string) => {
       if (type === 'project') {
-         setSearchTerm({ title: value });
+         setSearchTerm({ name: value });
       } else if (type === 'client') {
          setSearchTerm({ name: value });
       }

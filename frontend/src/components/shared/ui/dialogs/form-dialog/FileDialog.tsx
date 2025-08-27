@@ -243,9 +243,30 @@ const DownloadButton = ({
    url: string;
    isLoading: boolean;
 }) => {
-   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      if (url) {
+      if (!url) return;
+
+      // If the URL is hosted on freelanceman, download directly. Otherwise, open the link.
+      try {
+         const urlObj = new URL(url);
+         if (urlObj.hostname.includes('freelanceman')) {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            window.URL.revokeObjectURL(blobUrl); // cleanup
+         } else {
+            window.open(url, '_blank');
+         }
+      } catch (err) {
+         // fallback: just open the link
          window.open(url, '_blank');
       }
    };

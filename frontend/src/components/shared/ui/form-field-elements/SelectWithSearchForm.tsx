@@ -14,7 +14,7 @@ import { ChevronDown, X } from 'lucide-react';
 import { useSelectionQuery } from '@/lib/api/selection-api';
 import { useSearchOption } from '@/components/shared/ui/form-field-elements/useSearchOption';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
-import { defaultClientValue } from '@/components/shared/ui/helpers/constants/default-values';
+import { defaultClientValue, defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 
 export const SelectWithSearchForm = <TFieldValues extends FieldValues>({
    formMethods,
@@ -210,6 +210,15 @@ export const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
             data: {...defaultClientValue} as any,
             mode: 'create',
             type: 'newClient',
+            openedOn: 'globalAddButton'
+         })
+      } else if (type === 'project') {
+         setFormDialogState({
+            entity: 'project',
+            isOpen: true,
+            data: {...defaultNewProjectValue} as any,
+            mode: 'create',
+            type: 'newProject',
             openedOn: 'globalAddButton'
          })
       }

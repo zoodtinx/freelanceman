@@ -166,55 +166,31 @@ export default function ProjectPage() {
 }
 
 const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
-   const [projectStatus, setprojectStatus] = useState(project.projectStatus);
-   const [paymentStatus, setPaymentStatus] = useState(project.paymentStatus);
-
-   const setFormDialogState = useFormDialogStore(
-      (state) => state.setFormDialogState
-   );
-
+   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState);
    const editProject = useEditProject();
 
-   const handleEditProject = () => {
+   const handleEditProject = (newProjectStatus?: string, newPaymentStatus?: string) => {
       editProject.mutate({
          id: project.id,
-         projectStatus: projectStatus as any,
-         paymentStatus: paymentStatus as any,
+         projectStatus: newProjectStatus ?? project.projectStatus as any,
+         paymentStatus: newPaymentStatus ?? project.paymentStatus  as any,
       });
    };
 
    const handleOpenDialog = () => {
-      setFormDialogState((prev) => {
-         return {
-            ...prev,
-            isOpen: true,
-            mode: 'edit',
-            data: project,
-            type: 'projectSettings',
-            entity: 'project',
-            openedOn: 'projectPage',
-         };
-      });
-   };
-
-   const handleProjectStatusChange = (value: any) => {
-      setprojectStatus(value);
-      handleEditProject();
-   };
-
-   const handlePaymentStatusChange = (value: any) => {
-      setPaymentStatus(value);
-      handleEditProject();
+      setFormDialogState((prev) => ({
+         ...prev,
+         isOpen: true,
+         mode: 'edit',
+         data: project,
+         type: 'projectSettings',
+         entity: 'project',
+         openedOn: 'projectPage',
+      }));
    };
 
    const projectSelectRef = useRef<HTMLButtonElement | null>(null);
    const paymentSelectRef = useRef<HTMLButtonElement | null>(null);
-   const handleProjectSelectGroupClick = () => {
-      projectSelectRef.current?.click();
-   };
-   const handlePaymentSelectGroupClick = () => {
-      paymentSelectRef.current?.click();
-   };
 
    return (
       <>
@@ -228,7 +204,7 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
             />
          </div>
          <div className="flex justify-between">
-            <div className={`flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden items-center`}>
+            <div className="flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden items-center">
                <UsersRound className="w-5 h-auto" />
                <Link
                   to={project.clientId ? `../../clients/${project.clientId}` : ''}
@@ -240,30 +216,30 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
             <div className="flex gap-1">
                <div
                   className="flex items-center border border-tertiary cursor-pointer rounded-full pl-3"
-                  onClick={handleProjectSelectGroupClick}
+                  onClick={() => projectSelectRef.current?.click()}
                >
                   <Briefcase className="w-4 h-4 mr-1 sm:mr-0" />
                   <p className="sm:hidden">Status:</p>
                   <StatusSelect
                      selections={projectStatusSelections}
-                     value={projectStatus}
+                     value={project.projectStatus}
                      className="flex px-2 bg-transparent text-primary h-6 items-center py-0 font-semibold flex-1"
-                     handleValueChange={handleProjectStatusChange}
+                     handleValueChange={(v) => handleEditProject(v, project.paymentStatus)}
                      showColor={false}
                      ref={projectSelectRef}
                   />
                </div>
                <div
                   className="flex items-center border border-tertiary cursor-pointer rounded-full pl-3 flex-1"
-                  onClick={handlePaymentSelectGroupClick}
+                  onClick={() => paymentSelectRef.current?.click()}
                >
                   <Wallet className="w-4 h-4 mr-1 sm:mr-0" />
                   <p className="sm:hidden">Payment:</p>
                   <StatusSelect
                      selections={paymentStatusSelections}
-                     value={paymentStatus}
+                     value={project.paymentStatus}
                      className="flex px-2 bg-transparent text-primary h-6 items-center py-0 font-semibold"
-                     handleValueChange={handlePaymentStatusChange}
+                     handleValueChange={(v) => handleEditProject(project.projectStatus, v)}
                      showColor={false}
                      ref={paymentSelectRef}
                   />
@@ -273,3 +249,4 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
       </>
    );
 };
+

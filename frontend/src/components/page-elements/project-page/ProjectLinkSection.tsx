@@ -24,7 +24,7 @@ const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
    const handleDeleteLink = (index: number) => {
       const updatedLinks = [...(project.links || [])];
       updatedLinks.splice(index, 1);
-      toast.loading('Deleting link...')
+      toast.loading('Deleting link...');
       editProject.mutate({
          id: project.id,
          links: updatedLinks,
@@ -41,21 +41,27 @@ const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
             <AddButton className="w-7 h-7" onClick={() => setMode('add')} />
          </div>
          <div className="w-full border-[0.5px] border-quaternary" />
-         <ScrollArea>
-            <div className="flex flex-col gap-1 w-full p-2 relative">
-               {mode === 'view' && !project.links.length && (
-                  <NoDataPlaceHolder
-                     className="sm:pb-0"
-                     addFn={() => setMode('add')}
-                  >
-                     Add Link
-                  </NoDataPlaceHolder>
-               )}
-               {mode === 'add' ? (
-                  <NewLinkField setMode={setMode} project={project} />
-               ): <LinkItems links={project.links} onDelete={handleDeleteLink} />}
-            </div>
-         </ScrollArea>
+         {mode === 'view' && !project.links.length ? (
+            <NoDataPlaceHolder
+               className="sm:pb-0 h-full"
+               addFn={() => setMode('add')}
+            >
+               Add Link
+            </NoDataPlaceHolder>
+         ) : (
+            <ScrollArea className="h-full">
+               <div className="flex flex-col gap-1 w-full p-2 relative justify-center h-full">
+                  {mode === 'add' ? (
+                     <NewLinkField setMode={setMode} project={project} />
+                  ) : (
+                     <LinkItems
+                        links={project.links}
+                        onDelete={handleDeleteLink}
+                     />
+                  )}
+               </div>
+            </ScrollArea>
+         )}
       </div>
    );
 };
