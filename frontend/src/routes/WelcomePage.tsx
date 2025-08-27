@@ -431,7 +431,7 @@ const featuresConfig = [
       icon: <Layout/>,
       title: (
          <>
-            Everything In <br /> One Project
+            Everything In <br /> One Place
          </>
       ),
       description:
@@ -460,7 +460,7 @@ const featuresConfig = [
          </>
       ),
       description:
-         'Quote, invoice, and collect. All the sales documents you need without switching between apps.',
+         'Quotations, invoices, receipts. All the documents you need without switching between apps.',
    },
 ];
 

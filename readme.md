@@ -1,4 +1,7 @@
-# FreelanceMan
+<p align="center">
+    <img src="https://ik.imagekit.io/freelanceman/github/flm-readme-header.png?updatedAt=1756222222054" alt="FreelanceMan - A Workspace Built For Solo Freelancers" />
+</p>
+
 __FreelanceMan__ is a dedicated workspace platform that addresses the complex organizational needs of solo freelancers juggling multiple client projects, providing centralized file management, note organization, and billing document generation to prevent workflow chaos.
 
 ## ✨ Features
