@@ -30,11 +30,13 @@ const AuthPage: React.FC = () => {
    const [isLoading, setIsLoading] = useState(false);
    const [isError, setIsError] = useState(false);
 
+   console.log(isError)
+
    const handleGetFullDemo = async () => {
       setIsError(false);
       setIsLoading(true);
       const result = await getFullDemo();
-      console.log('result', result);
+
       if (result && result.success) {
          setAccessToken(result.data.accessToken);
          navigate('/home/projects');
@@ -46,7 +48,7 @@ const AuthPage: React.FC = () => {
 
    const handleGetBlankDemo = async () => {
       const result = await getBlankDemo();
-      console.log('result', result);
+
       if (result && result.success) {
          setAccessToken(result.data.accessToken);
          navigate('/home/projects');
@@ -87,12 +89,12 @@ const AuthPage: React.FC = () => {
          </div>
       );
    }
-
-   // background elements
    const PlaceholderBox = () => (
       <div className="border border-primary opacity-10 border-dashed rounded-[20px] max-w-[400px] h-[205px]"></div>
    );
-   const placeholders = [...Array(80)].map(() => <PlaceholderBox />);
+   const placeholders = [...Array(80)].map((_, i) => (
+      <PlaceholderBox key={i} />
+   ));
 
    return (
       <>
@@ -193,7 +195,14 @@ const AuthPage: React.FC = () => {
                                     'flex items-center text-md bg-primary h-[32px] text-foreground px-3 gap-2 rounded-[10px] ' +
                                     'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
                                  }
-                                 onClick={(e) => e.currentTarget.focus()}
+                                 onClick={(e) => {
+                                    e.currentTarget.focus();
+                                    window.open(
+                                       "https://github.com/zoodtinx/freelanceman",
+                                       "_blank",
+                                       "noopener,noreferrer"
+                                    );
+                                 }}
                               >
                                  <GithubLogo className="size-[20px]" />
                                  <span className="text-[18px]">
@@ -347,25 +356,33 @@ const AuthPage: React.FC = () => {
                               <div className="text-sm opacity-40">
                                  <p className="font-semibold">Disclaimers:</p>
                                  <p className="pb-4">
-                                    Each demo session is generated personally for each user. Users are
-                                    free to explore features, create tasks, edit
-                                    contacts, upload files, or delete content
-                                    during their session.
+                                    Each demo session is generated personally
+                                    for each user. Users are free to explore
+                                    features, create tasks, edit contacts,
+                                    upload files, or delete content during their
+                                    session.
                                  </p>
                                  <p className="font-semibold">
                                     All data (including user data created via
                                     Google sign-in) will be automatically
-                                    deleted 1 hour after creation.
+                                    deleted 2 hour after creation.
                                  </p>
                               </div>
                            </div>
                         </div>
                         <div className="flex justify-between items-center px-6 rounded-tr-[20px] rounded-tl-[20px] w-full h-[33px] bg-primary text-foreground">
-                           <button className="flex gap-1 items-center">
+                           <a
+                              href="https://www.peerapol.dev/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex gap-1 items-center"
+                           >
                               <ArrowUpLeft className="size-5" />
                               <p>See More Of My Portfolio Projects</p>
-                           </button>
-                           <p className='sm:hidden'>© 2025 Peerapol Glaajing, All Rights Reserved.</p>
+                           </a>
+                           <p className="sm:hidden">
+                              © 2025 Peerapol Glaajing, All Rights Reserved.
+                           </p>
                         </div>
                      </div>
                   </div>
@@ -391,7 +408,11 @@ const AuthPage: React.FC = () => {
    );
 };
 
-const FeatureContainer = ({ feature }: { feature: typeof featuresConfig[number] }) => {
+const FeatureContainer = ({
+   feature,
+}: {
+   feature: (typeof featuresConfig)[number];
+}) => {
    return (
       <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
          <div className="sm:p-2 p-4">
@@ -416,7 +437,7 @@ const featuresConfig = [
    {
       imageSrc:
          'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-layout.webp?updatedAt=1755491400438',
-      icon: <Stack/>,
+      icon: <Stack />,
       title: (
          <>
             Multi Projects <br /> & Clients
@@ -428,7 +449,7 @@ const featuresConfig = [
    {
       imageSrc:
          'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-projectpage.webp?updatedAt=1755491164194',
-      icon: <Layout/>,
+      icon: <Layout />,
       title: (
          <>
             Everything In <br /> One Place
@@ -440,7 +461,7 @@ const featuresConfig = [
    {
       imageSrc:
          'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-files.webp?updatedAt=1755491164047',
-      icon: <WelcomePageFolder/>,
+      icon: <WelcomePageFolder />,
       title: (
          <>
             Your Files <br /> Your Rules

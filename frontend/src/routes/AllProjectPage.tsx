@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useProjectsQuery } from '@/lib/api/project-api';
 import ProjectGrid from '@/components/page-elements/all-projects-page/ProjectGrid';
 import { ProjectFilterBar } from '@/components/page-elements/all-projects-page/ProjectFilterBar';
@@ -29,9 +29,11 @@ export default function AllProjectPage() {
    );
 
    // check if user has visited the page
-   if (localStorage.getItem('home') !== 'visited') {
-      setWelcomeDialogState({ isOpen: true, page: 'homePage' });
-   }
+   useEffect(() => {
+      if (localStorage.getItem('home') !== 'visited') {
+        setWelcomeDialogState({ isOpen: true, page: 'homePage' });
+      }
+    }, []);
 
    return (
       <div className="overflow-hidden flex flex-col flex-grow min-h-0 relative gap-2 sm:w-full">

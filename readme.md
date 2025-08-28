@@ -20,7 +20,7 @@ Generate professional billing documents from user data, reducing time and tools 
 
 ## 📱 Live Demo
 
-- **Live Demo**: [Insert Live URL]
+- **Live Demo**: [freelanceman.peerapol.dev](https://freelanceman.peerapol.dev/)
 
 ## ⚙️ Tech Stack
 

@@ -14,10 +14,11 @@ const TabListPlaceHolder = ({
    className?: string;
    containerClassName?: string;
 }) => {
-   const placeholders = [...Array(20)].map(() => {
+   const placeholders = [...Array(20)].map((_,i) => {
       return (
          <div
-            className={cn(
+         key={i}
+         className={cn(
                `w-full shrink-0 opacity-60 rounded-[15px] border border-dashed border-secondary h-[50px]`,
                className
             )}

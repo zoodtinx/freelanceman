@@ -20,7 +20,8 @@ export const generateSummerChallengeLandingPageAdCreativesFiles = (
             name: 'Landing Page Wireframes',
             type: 'design',
             category: 'work',
-            link: 'https://www.figma.com/file/urbanflow_summer_lp_wireframes',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -46,7 +47,8 @@ export const generateSummerChallengeLandingPageAdCreativesFiles = (
             name: 'Headline A/B Testing Framework',
             type: 'document',
             category: 'work',
-            link: 'https://example.com/urbanflow_headline_ab_test_guide.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -72,7 +74,8 @@ export const generateSummerChallengeLandingPageAdCreativesFiles = (
             name: 'UrbanFlow Brand Guidelines',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/urbanflow_brand_guide.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -98,7 +101,8 @@ export const generateSummerChallengeLandingPageAdCreativesFiles = (
             name: 'User Persona Profiles',
             type: 'document',
             category: 'asset',
-            link: 'https://docs.google.com/document/d/urbanflow_user_personas',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -133,7 +137,8 @@ export const generateSummerChallengeLandingPageAdCreativesFiles = (
             name: 'Past Campaign Performance Data',
             type: 'spreadsheet',
             category: 'asset',
-            link: 'https://docs.google.com/spreadsheets/d/urbanflow_past_campaigns',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -186,7 +191,8 @@ export const generateNewClassScheduleDesignPrintProductionFiles = (
             name: 'Print Production Timeline',
             type: 'document',
             category: 'work',
-            link: 'https://example.com/urbanflow_print_timeline.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -230,7 +236,8 @@ export const generateNewClassScheduleDesignPrintProductionFiles = (
             name: 'UrbanFlow Class Offerings List',
             type: 'spreadsheet',
             category: 'asset',
-            link: 'https://docs.google.com/spreadsheets/d/urbanflow_class_list',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -256,7 +263,8 @@ export const generateNewClassScheduleDesignPrintProductionFiles = (
             name: 'Paper Stock Samples',
             type: 'image',
             category: 'asset',
-            link: 'https://photos.google.com/urbanflow_paper_samples',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -264,7 +272,8 @@ export const generateNewClassScheduleDesignPrintProductionFiles = (
             name: 'UrbanFlow Studio Photos (High-Res)',
             type: 'archive',
             category: 'asset',
-            link: 'https://drive.google.com/drive/folders/urbanflow_studio_photos',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -324,7 +333,8 @@ export const generateMemberLoyaltyProgramBrandingFiles = (ids: Ids) => {
             name: 'Loyalty Program Tiers & Benefits Draft',
             type: 'document',
             category: 'work',
-            link: 'https://example.com/urbanflow_loyalty_tiers_draft.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -350,7 +360,8 @@ export const generateMemberLoyaltyProgramBrandingFiles = (ids: Ids) => {
             name: 'Competitor Loyalty Programs Research',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/urbanflow_competitor_loyalty_research.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -376,7 +387,8 @@ export const generateMemberLoyaltyProgramBrandingFiles = (ids: Ids) => {
             name: 'Customer Retention Strategies Guide',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/customer_retention_guide.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -402,7 +414,8 @@ export const generateMemberLoyaltyProgramBrandingFiles = (ids: Ids) => {
             name: 'Focus Group Feedback Notes',
             type: 'document',
             category: 'asset',
-            link: 'https://docs.google.com/document/d/urbanflow_focus_group_feedback',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -462,7 +475,8 @@ export const generateIntroductoryYogaVideoSeriesFiles = (ids: Ids) => {
             name: 'Script: Evening Relax Video',
             type: 'document',
             category: 'work',
-            link: 'https://docs.google.com/document/d/urbanflow_evening_relax_script',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -506,7 +520,8 @@ export const generateIntroductoryYogaVideoSeriesFiles = (ids: Ids) => {
             name: 'Background Music Options (Yoga)',
             type: 'audio',
             category: 'asset',
-            link: 'https://soundcloud.com/urbanflow_yoga_music',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -532,7 +547,8 @@ export const generateIntroductoryYogaVideoSeriesFiles = (ids: Ids) => {
             name: 'Target Audience Demographics',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/urbanflow_yoga_audience.pdf',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {
@@ -558,7 +574,8 @@ export const generateIntroductoryYogaVideoSeriesFiles = (ids: Ids) => {
             name: 'Marketing Distribution Plan Draft',
             type: 'presentation',
             category: 'work',
-            link: 'https://docs.google.com/presentation/d/urbanflow_video_marketing_plan',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/ad_creatives_concepts_batch1.zip`,
+            size: getRandomFileSize(8000, 15000),
             ...ids,
         },
         {

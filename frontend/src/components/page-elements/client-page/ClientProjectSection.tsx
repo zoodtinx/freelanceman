@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useProjectsQuery } from '@/lib/api/project-api';
 import { ProjectFilterDto } from 'freelanceman-common/src/schemas';
 import { cn } from '@/lib/helper/utils';
-import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import { ClientSectionProps } from '@/components/page-elements/client-page/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import {
    ApiErrorPlaceHolder,

@@ -119,7 +119,7 @@ export const ProjectContactSection = ({
             </ApiErrorPlaceHolder>
          ) : !contacts?.items.length ? (
             <NoDataPlaceHolder className='pb-0' addFn={handleAddContact}>
-               Add Partner Contact
+               Add Contact
             </NoDataPlaceHolder>
          ) : (
             <div className="flex flex-col gap-1 h-0 grow overflow-y-auto p-3">

@@ -1,6 +1,6 @@
 import AddButton from '@/components/shared/ui/AddButton';
 import React, { useState } from 'react';
-import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import { ClientSectionProps } from '@/components/page-elements/client-page/props.type';
 import { defaultContactValues } from 'src/components/shared/ui/helpers/constants/default-values';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { ClientContactFilterDto } from 'freelanceman-common';

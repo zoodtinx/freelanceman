@@ -14,7 +14,6 @@ import {
    EventFindManyItem,
 } from 'freelanceman-common';
 import FormDialogFooter from '@/components/shared/ui/dialogs/form-dialog/FormDialogFooter';
-import { formatDueAt } from '@/components/shared/ui/helpers/Helpers';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import { TagsInputForm } from '@/components/shared/ui/form-field-elements/TagsInputForm';
 import {
@@ -65,16 +64,21 @@ export const EventDialog = ({
 
    // submit handler
    const onSubmit = (data: EventFindManyItem) => {
-      const formattedDueAt = formatDueAt(data.dueAt! ?? '');
+      let isWithTime = false
+      if (data.dueAt) {
+         const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);   // check if it contains time
+         if (isISO) isWithTime = true
+         data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;  // add time if no
+      }
 
       if (formDialogState.mode === 'create') {
          const payload: CreateEventDto = {
             name: data.name,
             projectId: data.projectId,
             details: data.details,
-            dueAt: formattedDueAt!,
+            dueAt: data.dueAt,
+            isWithTime:isWithTime,
             link: data.link,
-            isWithTime: data.isWithTime,
             tags: data.tags,
          };
          createEvent.mutate(payload);
@@ -83,9 +87,9 @@ export const EventDialog = ({
             id: data.id,
             name: data.name,
             details: data.details,
-            dueAt: formattedDueAt,
+            dueAt: data.dueAt,
+            isWithTime:isWithTime,
             link: data.link,
-            isWithTime: data.isWithTime ?? false,
             tags: data.tags,
          };
          editEvent.mutate(payload);

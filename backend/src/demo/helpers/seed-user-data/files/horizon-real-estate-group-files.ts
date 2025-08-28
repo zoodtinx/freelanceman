@@ -48,7 +48,8 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
             name: 'Email Marketing Templates',
             type: 'design',
             category: 'work',
-            link: 'https://mailchimp.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/website_content_copy_draft.docx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -56,7 +57,8 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
             name: 'Virtual Tour Video (Edit 1)',
             type: 'video',
             category: 'work',
-            link: 'https://player.vimeo.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/website_content_copy_draft.docx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -102,7 +104,8 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
             name: 'Developer Brand Guidelines',
             type: 'document',
             category: 'asset',
-            link: 'https://www.branding.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/website_content_copy_draft.docx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -110,7 +113,8 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
             name: 'Luxury Lifestyle Stock Photos',
             type: 'image',
             category: 'asset',
-            link: 'https://www.gettyimages.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/website_content_copy_draft.docx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -136,7 +140,8 @@ export const generateLuxuryCondoDevelopmentDigitalMarketingKitFiles = (
             name: 'Social Media Platform Specs',
             type: 'document',
             category: 'asset',
-            link: 'https://www.facebook.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/website_content_copy_draft.docx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {

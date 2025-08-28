@@ -217,11 +217,11 @@ const TaskListItem = forwardRef<HTMLDivElement, TaskListItemProps>(
             </p>
             <div></div>
             <div
-               className="flex text-sm text-secondary"
+               className="flex text-sm text-secondary gap-5"
                onClick={handleOpenDialog}
             >
-               {formattedTime && <p className="w-[60px]">{formattedTime}</p>}
                <p className="w-fit">{formattedDate}</p>
+               {formattedTime && data.isWithTime && <p className="w-[60px]">{formattedTime}</p>}
             </div>
             <div
                className="h-full absolute flex items-center pr-3 right-0 opacity-0 group-hover:opacity-100 transition-opacity sm:hidden"

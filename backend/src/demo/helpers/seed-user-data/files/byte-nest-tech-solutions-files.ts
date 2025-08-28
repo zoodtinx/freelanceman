@@ -18,7 +18,8 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
             name: 'Initial Wireframes (Approved)',
             type: 'design',
             category: 'work',
-            link: 'https://www.figma.com/file/bytenest_wireframes_approved',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -35,7 +36,8 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
             name: 'Navigation Motion Prototypes',
             type: 'video',
             category: 'work',
-            link: 'https://vimeo.com/bytenest_motion_prototypes_v1',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -52,7 +54,8 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
             name: 'User Research Findings Summary',
             type: 'document',
             category: 'asset',
-            link: 'https://docs.google.com/document/d/bytenest_user_research',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -69,7 +72,8 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
             name: 'ByteNest Brand Style Guide',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/bytenest_brand_guide.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -86,7 +90,8 @@ export const generateEcommercePlatformUiUxRedesignFiles = (ids: Ids) => {
             name: 'Sitemap & User Flows',
             type: 'design',
             category: 'asset',
-            link: 'https://www.figma.com/file/bytenest_sitemap_userflows',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -137,7 +142,8 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
             name: 'API Integration Development Roadmap',
             type: 'presentation',
             category: 'work',
-            link: 'https://docs.google.com/presentation/d/bytenest_crm_api_roadmap',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -172,7 +178,8 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
             name: 'User Acceptance Testing Results',
             type: 'document',
             category: 'work',
-            link: 'https://example.com/bytenest_uat_results.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -189,7 +196,8 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
             name: 'CRM API Documentation',
             type: 'document',
             category: 'asset',
-            link: 'https://developer.bytenestcrm.com/api-docs',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -215,7 +223,8 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
             name: 'API Security Best Practices Guide',
             type: 'document',
             category: 'asset',
-            link: 'https://owasp.org/www-project-api-security',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -241,7 +250,8 @@ export const generateInternalCrmSystemApiIntegrationFiles = (ids: Ids) => {
             name: 'Jira Project Board',
             type: 'project-management',
             category: 'asset',
-            link: 'https://bytenest.atlassian.net/jira/software/projects/CRMINTEG/board',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
     ];
@@ -276,7 +286,8 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
             name: 'Product Launch Video Storyboard',
             type: 'design',
             category: 'work',
-            link: 'https://www.figma.com/file/bytenest_video_storyboard',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -302,7 +313,8 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
             name: 'Initial Video Edit (Cut 1)',
             type: 'video',
             category: 'work',
-            link: 'https://vimeo.com/bytenest_product_launch_v1_review',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -328,7 +340,8 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
             name: 'Q4 2025 Restart Timeline Draft',
             type: 'presentation',
             category: 'work',
-            link: 'https://docs.google.com/presentation/d/bytenest_q4_restart_plan',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -336,7 +349,8 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
             name: 'ByteNest Product Specifications',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/bytenest_product_specs.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -362,7 +376,8 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
             name: 'Voice-Over Artist Demos',
             type: 'audio',
             category: 'asset',
-            link: 'https://soundcloud.com/bytenest_vo_demos',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -388,7 +403,8 @@ export const generateProductLaunchVideoAndExplainerAnimationFiles = (
             name: 'Marketing Channels Brief',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/bytenest_marketing_channels.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
     ];
@@ -412,7 +428,8 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
             name: 'Dashboard UI Mockups (Approved)',
             type: 'design',
             category: 'work',
-            link: 'https://www.figma.com/file/bytenest_dashboard_ui_approved',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -429,7 +446,8 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
             name: 'Final Dashboard Access Link',
             type: 'other',
             category: 'work',
-            link: 'https://dashboard.bytenesttech.com/reports/main',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -455,7 +473,8 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
             name: 'Dashboard User Manual',
             type: 'document',
             category: 'work',
-            link: 'https://docs.google.com/document/d/bytenest_dashboard_user_manual',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -490,7 +509,8 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
             name: 'ByteNest Data Dictionary',
             type: 'spreadsheet',
             category: 'asset',
-            link: 'https://docs.google.com/spreadsheets/d/bytenest_data_dictionary',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -498,7 +518,8 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
             name: 'Database Credentials (Secure Vault)',
             type: 'other',
             category: 'asset',
-            link: 'https://securevault.bytenesttech.com/credentials/dashboard_db',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -524,7 +545,8 @@ export const generateAutomatedDataReportingDashboardFiles = (ids: Ids) => {
             name: 'QA Testing Protocols',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/bytenest_qa_protocols.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -575,7 +597,8 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
             name: 'Core Web Vitals Analysis Data',
             type: 'spreadsheet',
             category: 'work',
-            link: 'https://docs.google.com/spreadsheets/d/bytenest_cwv_analysis',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -601,7 +624,8 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
             name: 'Post-Optimization Report Template',
             type: 'document',
             category: 'work',
-            link: 'https://example.com/bytenest_post_opt_report_template.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -627,7 +651,8 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
             name: 'GTmetrix & Lighthouse Raw Reports',
             type: 'archive',
             category: 'asset',
-            link: 'https://drive.google.com/drive/folders/bytenest_performance_reports',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -653,7 +678,8 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
             name: 'CDN Integration Documentation',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/cdn_provider_docs.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -670,7 +696,8 @@ export const generateWebsitePerformanceAuditOptimizationFiles = (ids: Ids) => {
             name: 'Image Optimization Tools Information',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/image_optimization_tools_guide.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {

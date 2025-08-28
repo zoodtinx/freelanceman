@@ -28,7 +28,8 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
             name: 'Social Media Video Ad (15s)',
             type: 'video',
             category: 'work',
-            link: 'https://player.vimeo.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -45,7 +46,8 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
             name: 'Landing Page Mockup',
             type: 'design',
             category: 'work',
-            link: 'https://www.figma.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -80,7 +82,8 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
             name: 'Campaign Performance Dashboard Setup',
             type: 'presentation',
             category: 'work',
-            link: 'https://www.tableau.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
 
@@ -99,7 +102,8 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
             name: 'Company Brand Guidelines (Latest)',
             type: 'document',
             category: 'asset',
-            link: 'https://www.brandnew.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -116,7 +120,8 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
             name: 'Target Market Research Report',
             type: 'document',
             category: 'asset',
-            link: 'https://www.statista.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -142,7 +147,8 @@ export const generateNewModelX2LaunchCampaignAssetsFiles = (ids: Ids) => {
             name: 'Media Contact List',
             type: 'spreadsheet',
             category: 'asset',
-            link: 'https://www.cision.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
     ];

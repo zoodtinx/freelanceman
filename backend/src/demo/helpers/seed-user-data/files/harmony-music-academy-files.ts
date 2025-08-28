@@ -46,7 +46,8 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
             name: 'Program Booklet Layout Draft',
             type: 'design',
             category: 'work',
-            link: 'https://issuu.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -63,7 +64,8 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
             name: 'Print Specifications (Final)',
             type: 'document',
             category: 'work',
-            link: 'https://www.moo.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -91,7 +93,8 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
             name: 'School Brand Guidelines',
             type: 'document',
             category: 'asset',
-            link: 'https://www.brandnew.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -117,7 +120,8 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
             name: 'Typography Font Licenses',
             type: 'document',
             category: 'asset',
-            link: 'https://fonts.google.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -143,7 +147,8 @@ export const generateAnnualStudentConcertBrandingTicketsFiles = (ids: Ids) => {
             name: 'Ticket Platform Integration Docs',
             type: 'document',
             category: 'asset',
-            link: 'https://www.eventbrite.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
     ];
@@ -170,7 +175,8 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
             name: 'Landing Page Wireframes & Mockups',
             type: 'design',
             category: 'work',
-            link: 'https://www.figma.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -196,7 +202,8 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
             name: 'Instructor Intro Video Edit',
             type: 'video',
             category: 'work',
-            link: 'https://www.youtube.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -222,7 +229,8 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
             name: 'A/B Testing Strategy (Landing Page)',
             type: 'document',
             category: 'work',
-            link: 'https://vwo.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -259,7 +267,8 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
             name: 'Stock Music for Videos',
             type: 'audio',
             category: 'asset',
-            link: 'https://www.bensound.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -276,7 +285,8 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
             name: 'Instructor Photoshoot Selection',
             type: 'image',
             category: 'asset',
-            link: 'https://www.pexels.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -293,7 +303,8 @@ export const generateNewOnlineCourseLandingPageGuitarBasicsFiles = (
             name: 'Video Hosting Platform Details',
             type: 'other',
             category: 'asset',
-            link: 'https://www.vimeo.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
     ];
@@ -339,7 +350,8 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
             name: 'Article 2: Chords & Progressions (Outline)',
             type: 'document',
             category: 'work',
-            link: 'https://www.thefretboard.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -365,7 +377,8 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
             name: 'Article 5: Basic Ear Training Exercises',
             type: 'document',
             category: 'work',
-            link: 'https://www.teoria.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -411,7 +424,8 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
             name: 'Competitor Blog Analysis',
             type: 'document',
             category: 'asset',
-            link: 'https://www.musicradar.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -419,7 +433,8 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
             name: 'Royalty-Free Music Samples',
             type: 'audio',
             category: 'asset',
-            link: 'https://www.zapsplat.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {
@@ -436,7 +451,8 @@ export const generateMusicTheoryBlogContentStrategyFirst5ArticlesFiles = (
             name: 'Stock Illustration Sites List',
             type: 'other',
             category: 'asset',
-            link: 'https://www.freepik.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/social_media_ad_creatives_pack.zip`,
+            size: getRandomFileSize(15000, 30000),
             ...ids,
         },
         {

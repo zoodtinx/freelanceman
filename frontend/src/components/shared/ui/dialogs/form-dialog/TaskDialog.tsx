@@ -42,8 +42,11 @@ export const TaskDialog = ({ formMethods }: FormDialogProps) => {
 
    // submit handler
    const onSubmit = async (data: TaskFindManyItem) => {
+      let isWithTime = false
+
       if (data.dueAt) {
          const isISO = /^\d{4}-\d{2}-\d{2}T/.test(data.dueAt);   // check if it contains time
+         if (isISO) isWithTime = true
          data.dueAt = isISO ? data.dueAt : `${data.dueAt}T00:00:00Z`;  // add time if no
       }
 
@@ -60,6 +63,7 @@ export const TaskDialog = ({ formMethods }: FormDialogProps) => {
             projectId: data.projectId,
             details: data.details,
             dueAt: data.dueAt,
+            isWithTime:isWithTime,
             link: data.link,
             status: data.status,
             updatedAt: new Date().toISOString(),
@@ -75,6 +79,7 @@ export const TaskDialog = ({ formMethods }: FormDialogProps) => {
             name: data.name,
             details: data.details,
             dueAt: data.dueAt,
+            isWithTime:isWithTime,
             link: data.link,
             status: data.status as TaskStatus,
          } as EditTaskDto;

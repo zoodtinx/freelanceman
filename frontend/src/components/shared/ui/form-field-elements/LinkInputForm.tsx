@@ -90,6 +90,7 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
          placeholder = 'Add a link',
          onKeyDown,
       },
+      ref
    ) => {
       const [isButtonMode, setIsButtonMode] = useState(false);
       const [url, setUrl] = useState('');
@@ -143,7 +144,7 @@ const LinkInput = forwardRef<HTMLInputElement, TextInputProps>(
       };
 
       return (
-         <div className={cn('flex flex-col', className)}>
+         <div className={cn('flex flex-col', className)} ref={ref}>
             {isButtonMode ? (
                <div className="flex justify-between items-center gap-2 px-2 py-1 font-medium text-blue-600 bg-blue-100 rounded-md">
                   <Link

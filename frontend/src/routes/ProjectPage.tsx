@@ -15,7 +15,7 @@ import {
    paymentStatusSelections,
    projectStatusSelections,
 } from '@/components/shared/ui/helpers/constants/selections';
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { cn } from '@/lib/helper/utils';
 
@@ -31,9 +31,11 @@ export default function ProjectPage() {
    );
 
    // check if user has visited the page to show or hide welcome dialog
-   if (localStorage.getItem('project') !== 'visited') {
-      setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
-   }
+   useEffect(() => {
+      if (localStorage.getItem('project') !== 'visited') {
+        setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
+      }
+    }, []);
 
    return (
       <div

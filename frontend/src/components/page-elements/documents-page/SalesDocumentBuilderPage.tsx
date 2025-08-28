@@ -58,8 +58,6 @@ const SalesDocumentBuilderPage = ({
       (state) => state.setWelcomeDialogState
    );
 
-   console.log('docuemntbuilder' ,localStorage.getItem('documentbuilder'))
-
    if (
       localStorage.getItem('documentbuilder') !== 'visited'
    ) {
@@ -86,7 +84,6 @@ const SalesDocumentBuilderPage = ({
       }
 
       if (projectData) {
-         console.log('projectData.projectTitle', projectData.projectTitle);
          formMethods.reset(defaultCreateSalesDocumentValue);
          formMethods.setValue('currency', userData.currency);
          formMethods.setValue('freelancerName', userData.displayName);

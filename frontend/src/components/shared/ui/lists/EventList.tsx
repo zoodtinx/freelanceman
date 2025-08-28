@@ -247,7 +247,7 @@ const EventListItem = ({ data }: { data: EventFindManyItem }) => {
          <p className="line-clamp-1">{data.name}</p>
          <div className="flex items-center">
             <p className="text-sm text-secondary w-[54px]">
-               {formattedTime ? formattedTime : 'All day'}
+               {data.isWithTime && formattedTime ? formattedTime : 'All day'}
             </p>
             <EventTags tags={data.tags} />
          </div>

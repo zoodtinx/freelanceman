@@ -18,7 +18,7 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
             name: 'Tropical Bliss Packaging Concept 2',
             type: 'design',
             category: 'work',
-            s3Key: `${ids.userId}/projects/${projectKebabCase}/tropical_bliss_concept_02.pdf`,
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
             size: getRandomFileSize(1600, 3100),
             ...ids,
         },
@@ -90,7 +90,8 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
             name: 'Aura Tea Brand Guidelines',
             type: 'document',
             category: 'asset',
-            link: 'https://example.com/aura-tea-brand-guidelines.pdf',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -134,7 +135,8 @@ export const generateNewTropicalBlissBlendPackagingDesignFiles = (ids: Ids) => {
             name: 'Design Inspiration Moodboard (Miro)',
             type: 'design',
             category: 'asset',
-            link: 'https://miro.com/app/board/example_aura_tea_packaging/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -241,7 +243,8 @@ export const generateQ3SocialMediaContentEngagementStrategyFiles = (
             name: 'Aura Tea Marketing Assets (Drive)',
             type: 'other',
             category: 'asset',
-            link: 'https://drive.google.com/drive/folders/aura_tea_marketing_assets_q3',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -310,7 +313,8 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
             name: 'Storyboard Concepts',
             type: 'design',
             category: 'work',
-            link: 'https://docs.google.com/presentation/d/auratea_storyboard_v2', // Changed to link
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -327,7 +331,8 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
             name: 'Chiang Rai Location Scout Report',
             type: 'document',
             category: 'work',
-            link: 'https://example.com/chiang_rai_scout_report.pdf', // Changed to link
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -344,7 +349,8 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
             name: 'Project Status Update (June 11)',
             type: 'presentation',
             category: 'work',
-            link: 'https://slideshare.net/auratea_project_status_june11', // Changed to link
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -361,7 +367,8 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
             name: 'Aura Tea Brand Photo Archive',
             type: 'archive',
             category: 'asset',
-            link: 'https://photos.google.com/share/aura_tea_brand_archive', // Changed to link
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -378,7 +385,8 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
             name: 'Mr. Sakda Contact Card',
             type: 'other',
             category: 'asset',
-            link: 'https://contacts.google.com/auratea_sakda', // Changed to link
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -395,7 +403,8 @@ export const generateBrandStoryVideoForAboutUsPageFiles = (ids: Ids) => {
             name: 'Music Licensing Options',
             type: 'spreadsheet',
             category: 'asset',
-            link: 'https://docs.google.com/spreadsheets/d/music_licensing_options_aura', // Changed to link
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
     ];

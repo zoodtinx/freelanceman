@@ -6,7 +6,7 @@ import { FilterSelect } from 'src/components/shared/ui/select/PrebuiltSelect';
 import { fileTypeSelections } from 'src/components/shared/ui/helpers/constants/selections';
 import MultiSelectButton from 'src/components/shared/ui/select/MultiSelectButton';
 import { cn } from '@/lib/helper/utils';
-import { ClientSectionProps } from 'src/components/page-elements/client/props.type';
+import { ClientSectionProps } from '@/components/page-elements/client-page/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { defaultFileValues } from '@/components/shared/ui/helpers/constants/default-values';
 import { SharedFileList } from '@/components/shared/ui/lists/SharedFileList';

@@ -209,7 +209,6 @@ const ContactSelectorList: React.FC<SelectionListProps> = ({
    queryResult,
 }) => {
    const { data, isLoading } = queryResult;
-   console.log('data', data)
    const contactData = data as ClientContactFindManyResponse
 
    if (isLoading) {

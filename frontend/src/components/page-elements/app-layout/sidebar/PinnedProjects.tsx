@@ -15,11 +15,8 @@ import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
 import { ProjectFilterDto, ProjectFindManyItem, ProjectFindManyResponse } from 'freelanceman-common';
 
 export default function PinnedProjects() {
-   const [projectFilter, setProjectFilter] = useState<ProjectFilterDto>({
-      pinned: true,
-   });
    const [projectSelectionFilter, setSelectionFilter] = useState<ProjectFilterDto>({});
-   const projectQueryResult = useProjectsQuery(projectFilter);
+   const projectQueryResult = useProjectsQuery({pinned: true});
    const projectSelectionQueryResult = useProjectSelectionQuery(projectSelectionFilter);
    const editProject = useEditProject();
 

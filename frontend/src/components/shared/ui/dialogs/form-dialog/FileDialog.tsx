@@ -21,19 +21,23 @@ import {
    SubmitButton,
 } from '@/components/shared/ui/dialogs/form-dialog/FormButton';
 import { toast } from 'sonner';
-import { useDeleteFile, useEditFile, useFileUrlQuery } from '@/lib/api/file-api';
+import {
+   useDeleteFile,
+   useEditFile,
+   useFileUrlQuery,
+} from '@/lib/api/file-api';
 import HeadlineTextInputForm from '@/components/shared/ui/form-field-elements/HeadlineTextInput';
 import useConfirmationDialogStore from '@/lib/zustand/confirmation-dialog-store';
 
-export const FileDialog = ({
-   formMethods,
-}: FormDialogProps) => {
+export const FileDialog = ({ formMethods }: FormDialogProps) => {
    // local state
    const [copied, setCopied] = useState(false);
 
    //dialog state
    const { formDialogState, setFormDialogState } = useFormDialogStore();
-   const setConfirmationDialogState = useConfirmationDialogStore((state) => state.setConfirmationDialogState);
+   const setConfirmationDialogState = useConfirmationDialogStore(
+      (state) => state.setConfirmationDialogState
+   );
    const closeDialog = () => {
       setFormDialogState((prev) => {
          return {
@@ -44,18 +48,13 @@ export const FileDialog = ({
    };
 
    // form utilities
-   const {
-      handleSubmit,
-      getValues,
-      setValue,
-      watch,
-   } = formMethods;
+   const { handleSubmit, getValues, setValue, watch } = formMethods;
    const fileLink = getValues('link');
    const s3Key = getValues('s3Key');
 
    // api setup
-   const editFile = useEditFile()
-   const deleteFile = useDeleteFile()
+   const editFile = useEditFile();
+   const deleteFile = useDeleteFile();
 
    // fetch file download url
    const { data: fileUrl, isLoading: isUrlLoading } = useFileUrlQuery(
@@ -210,7 +209,7 @@ export const FileDialog = ({
             formMethods={formMethods}
             onDiscard={handleDestructiveButton}
             isUrlLoading={isUrlLoading}
-            entity='File'
+            entity="File"
          />
       </form>
    );
@@ -229,7 +228,7 @@ const FileDialogFooter = ({
             <DiscardButton onClick={onDiscard} />
             <div className="flex gap-1">
                <DownloadButton url={url} isLoading={isUrlLoading!} />
-               <SubmitButton formMethods={formMethods} entity='File' />
+               <SubmitButton formMethods={formMethods} entity="File" />
             </div>
          </div>
       </DialogFooter>
@@ -250,23 +249,26 @@ const DownloadButton = ({
       // If the URL is hosted on freelanceman, download directly. Otherwise, open the link.
       try {
          const urlObj = new URL(url);
+
          if (urlObj.hostname.includes('freelanceman')) {
             const response = await fetch(url);
-            const blob = await response.blob();
-            const blobUrl = window.URL.createObjectURL(blob);
+            if (!response.ok) throw new Error('Download failed');
 
-            const link = document.createElement("a");
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
             link.href = blobUrl;
+            link.download = urlObj.pathname.split('/').pop() || 'download';
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
+            link.remove();
 
-            window.URL.revokeObjectURL(blobUrl); // cleanup
+            URL.revokeObjectURL(blobUrl);
          } else {
             window.open(url, '_blank');
          }
-      } catch (err) {
-         // fallback: just open the link
+      } catch {
          window.open(url, '_blank');
       }
    };

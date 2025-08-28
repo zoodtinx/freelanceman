@@ -4,7 +4,7 @@ import {
    ProjectListProps,
    ProjectCardProps,
    QuickTaskBubbleProps,
-} from '@/components/page-elements/all-projects/props.type';
+} from '@/components/page-elements/all-projects-page/props.type';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AllProjectPageLoader from '@/components/shared/ui/placeholder-ui/AllProjectPageLoader';
 import { ApiErrorPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';

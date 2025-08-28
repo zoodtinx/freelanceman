@@ -1,7 +1,8 @@
+
 import {
    camelToLowerCase,
    camelToSentenceCase,
-} from '@/components/page-elements/documents/helper';
+} from '@/components/page-elements/documents-page/helper';
 import { UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 

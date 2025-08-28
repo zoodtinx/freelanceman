@@ -66,7 +66,6 @@ export const UserProfileDialog = ({
 
    const onSubmit: SubmitHandler<UserFindOneResponse> = async (data) => {
       const avatarFile = getValues('avatarFile');
-      console.log('avatarFile', avatarFile);
 
       let presignedUrl;
 

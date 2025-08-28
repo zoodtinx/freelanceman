@@ -7,6 +7,7 @@ import {
 import {
    Dialog,
    DialogContent,
+   DialogTitle,
    DialogTrigger,
 } from 'src/components/shared/ui/primitives/Dialog';
 import { Button } from 'src/components/shared/ui/primitives/Button';
@@ -55,6 +56,7 @@ export function GreetingDialog() {
                'sm:w-[360px] sm:rounded-2xl'
             )}
          >
+            <DialogTitle className='hidden'>Welcome</DialogTitle>
             <Carousel className="w-full" opts={{ duration: 13 }}>
                <CarouselContent ref={contentRef}>
                   {carouselItems}

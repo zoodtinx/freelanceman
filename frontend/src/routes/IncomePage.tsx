@@ -54,9 +54,11 @@ const IncomePage: React.FC = () => {
    );
 
    // check if user has visited the page
-   if (localStorage.getItem('income') !== 'visited') {
-      setWelcomeDialogState({ isOpen: true, page: 'incomePage' });
-   }
+   useEffect(() => {
+      if (localStorage.getItem('income') !== 'visited') {
+        setWelcomeDialogState({ isOpen: true, page: 'incomePage' });
+      }
+    }, []);
 
    // prioritize unpaid projects first
    const [projectFilter, setProjectFilter] = useState<PaymentFilterDto>({
@@ -435,8 +437,6 @@ const DocumentButton = ({
       (doc) => doc.category === type
    );
 
-   if (salesDocumentData?.s3Key) {console.log('salesDocumentData', salesDocumentData?.s3Key)}
-
    if (haveDocument) {
       return (
          <EditDocumentButton
@@ -533,7 +533,6 @@ const EditDocumentButton = ({
             size: 'md',
          },
       });
-      console.log('delete');
    };
 
    const handleDownload = async () => {

@@ -355,6 +355,15 @@ export class GoogleOAuthService {
                 },
             );
 
+            console.log('best', {
+                accessToken,
+                refreshToken: refreshToken.id,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                },
+            })
+
             return {
                 accessToken,
                 refreshToken: refreshToken.id,

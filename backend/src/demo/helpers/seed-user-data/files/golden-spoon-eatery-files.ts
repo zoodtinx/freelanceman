@@ -28,7 +28,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Food Photography Schedule',
             type: 'document',
             category: 'work',
-            link: 'https://www.calendly.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -45,7 +46,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Dessert Menu Draft',
             type: 'design',
             category: 'work',
-            link: 'https://www.dribbble.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -53,7 +55,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Drink Menu Draft',
             type: 'design',
             category: 'work',
-            link: 'https://www.behance.net/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -79,7 +82,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Marketing Promo Creatives',
             type: 'image',
             category: 'work',
-            link: 'https://www.canva.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
 
@@ -98,7 +102,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Chef Recipe Notes',
             type: 'document',
             category: 'asset',
-            link: 'https://www.epicurious.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -115,7 +120,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Stock Food Photography Sites List',
             type: 'other',
             category: 'asset',
-            link: 'https://unsplash.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -123,7 +129,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Competitor Menu Examples',
             type: 'document',
             category: 'asset',
-            link: 'https://www.yelp.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
         {
@@ -140,7 +147,8 @@ export const generateNewSummerMenuDesignPhotographyFiles = (ids: Ids) => {
             name: 'Printer Specifications',
             type: 'document',
             category: 'asset',
-            link: 'https://www.vistaprint.com/',
+            s3Key: `${ids.userId}/projects/new-tropical-bliss-blend-packaging-design/tropical_bliss_concept_02.pdf`,
+            size: getRandomFileSize(1600, 3100),
             ...ids,
         },
     ];

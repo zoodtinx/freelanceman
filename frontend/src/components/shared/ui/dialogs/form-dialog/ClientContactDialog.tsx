@@ -59,7 +59,6 @@ export const ClientContactDialog = ({ formMethods }: FormDialogProps) => {
    const onSubmit = async (data: ClientContactFindManyItem) => {
       const avatarFile = getValues('avatarFile');
       const contactId = getValues('id');
-      console.log('avatarFile', avatarFile);
 
       let presignedUrl;
 

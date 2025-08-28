@@ -16,7 +16,7 @@ import {
    ProjectFilterProps,
    ProjectFilterBubble,
    ViewModeToggleBubble,
-} from '@/components/page-elements/all-projects/props.type';
+}from '@/components/page-elements/all-projects-page/props.type';
 import {
    ScrollArea,
    ScrollBar,
@@ -119,7 +119,7 @@ const ProjectStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    ];
 
    const setProjectStatus = (value: string) => {
-      setProjectFilter((prev) => ({
+      setProjectFilter((prev: ProjectFilterDto) => ({
          ...prev,
          projectStatus: value as ProjectStatus,
       }));
@@ -147,7 +147,7 @@ const PaymentStatusFilterBubble: React.FC<ProjectFilterBubble> = ({
    ];
 
    const setPaymentStatus = (value: string) => {
-      setProjectFilter((prev) => ({
+      setProjectFilter((prev: ProjectFilterDto) => ({
          ...prev,
          paymentStatus: value as PaymentStatus,
       }));
@@ -190,7 +190,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
    });
 
    const handleSelect = (value: string) => {
-      setProjectFilter((prev) => ({
+      setProjectFilter((prev: ProjectFilterDto) => ({
          ...prev,
          clientId: value,
       }));
@@ -204,7 +204,7 @@ export const ClientFilterBubble: React.FC<ProjectFilterBubble> = ({
 
    const handleDiscardFilter = () => {
       setMode('base');
-      setProjectFilter((prev) => {
+      setProjectFilter((prev: ProjectFilterDto) => {
          return {
             ...prev,
             clientId: '',

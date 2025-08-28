@@ -127,6 +127,8 @@ export class AuthController {
         const isProd = this.configService.get<string>('env') === 'production';
         const redirectUrl = this.configService.get<string>('url.client');
 
+        console.log('redirectUrl', redirectUrl)
+
         setRefreshTokenCookie(res, refreshToken, isProd);
 
         res.redirect(`${redirectUrl}/home/projects`);

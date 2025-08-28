@@ -1,8 +1,8 @@
 interface FetchRequestOptions {
-   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
    accessToken: string;
    apiEndpoint: string;
    requestPayload?: any;
+   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
    model?: string;
 }
 
@@ -11,7 +11,6 @@ export async function fetchProMax({
    apiEndpoint,
    requestPayload,
    method,
-   model,
 }: FetchRequestOptions) {
    try {
       const response = await fetch(
@@ -37,14 +36,11 @@ export async function fetchProMax({
          throw new Error('Network Error');
       }
 
-      console.error(`Error fetching ${model}`, error);
       throw error;
    }
 }
 
 function handleApiError(statusCode: number) {
-   console.log('statusCode', statusCode);
-
    switch (statusCode) {
       case 401:
          throw new Error('Unauthorized');

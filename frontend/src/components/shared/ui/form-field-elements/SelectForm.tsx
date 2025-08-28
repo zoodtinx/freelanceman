@@ -78,8 +78,8 @@ export const SelectElement = ({
             <p className='font-medium'><SelectValue placeholder="Select currency" /></p>
          </SelectTrigger>
          <SelectContent className='h-[300px] w-[270px]'>
-            {selections.map((selection) => (
-               <SelectItem value={selection.value} className='truncate'>
+            {selections.map((selection, i) => (
+               <SelectItem value={selection.value} className='truncate' key={i}>
                   {selection.label}
                </SelectItem>
             ))}

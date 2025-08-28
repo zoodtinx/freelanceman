@@ -48,7 +48,8 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
             name: 'Lookbook Layout Design (InDesign)',
             type: 'design',
             category: 'work',
-            link: 'https://www.adobe.com/products/indesign.html',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -56,7 +57,8 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
             name: 'Printer Proofs Feedback',
             type: 'document',
             category: 'work',
-            link: 'https://www.quadgraphics.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -73,7 +75,8 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
             name: 'Behind-the-Scenes Video Edit',
             type: 'video',
             category: 'work',
-            link: 'https://player.vimeo.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -110,7 +113,8 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
             name: 'Studio Rental Agreement',
             type: 'document',
             category: 'asset',
-            link: 'https://www.peerspace.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -127,7 +131,8 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
             name: 'Stylist Portfolio References',
             type: 'document',
             category: 'asset',
-            link: 'https://www.models.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -144,7 +149,8 @@ export const generateAutumnWinter2025LookbookPhotographyDesignFiles = (
             name: 'Brand Identity Guidelines (Latest)',
             type: 'document',
             category: 'asset',
-            link: 'https://www.interbrand.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
     ];
@@ -189,7 +195,8 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
             name: 'Call-to-Action Testing Framework',
             type: 'document',
             category: 'work',
-            link: 'https://optimizely.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -233,7 +240,8 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
             name: 'Conversion Rate Optimization Report',
             type: 'presentation',
             category: 'work',
-            link: 'https://cxl.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
 
@@ -252,7 +260,8 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
             name: 'Target Audience Personas',
             type: 'document',
             category: 'asset',
-            link: 'https://xtensio.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -269,7 +278,8 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
             name: 'Competitor Product Copy Analysis',
             type: 'document',
             category: 'asset',
-            link: 'https://www.shopify.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -295,7 +305,8 @@ export const generateEcommerceProductPageCopywritingRefreshFiles = (
             name: 'E-commerce Platform API Docs',
             type: 'document',
             category: 'asset',
-            link: 'https://developer.woocommerce.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
     ];
@@ -350,7 +361,8 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
             name: 'TikTok Video Concepts (Final)',
             type: 'document',
             category: 'work',
-            link: 'https://www.tiktok.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -358,7 +370,8 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
             name: 'Influencer Collaboration Agreements',
             type: 'document',
             category: 'work',
-            link: 'https://www.upwork.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -384,7 +397,8 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
             name: 'Post-Campaign Analysis Presentation',
             type: 'presentation',
             category: 'work',
-            link: 'https://www.slideshare.net/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
 
@@ -412,7 +426,8 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
             name: 'Brand Voice (Sustainability Guidelines)',
             type: 'document',
             category: 'asset',
-            link: 'https://www.patagonia.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -429,7 +444,8 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
             name: 'Stock Nature Video Clips',
             type: 'video',
             category: 'asset',
-            link: 'https://www.pond5.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -446,7 +462,8 @@ export const generateSustainableCollectionLaunchSocialMediaCampaignFiles = (
             name: 'Carbon Footprint Report Template',
             type: 'document',
             category: 'asset',
-            link: 'https://www.carbonfootprint.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
     ];
@@ -489,7 +506,8 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
             name: 'Material Sourcing Quotations',
             type: 'spreadsheet',
             category: 'work',
-            link: 'https://www.alibaba.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -515,7 +533,8 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
             name: 'Sustainability Report (Packaging)',
             type: 'document',
             category: 'work',
-            link: 'https://www.epa.gov/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -552,7 +571,8 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
             name: 'Brand Identity Guidelines (Latest)',
             type: 'document',
             category: 'asset',
-            link: 'https://www.interbrand.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -569,7 +589,8 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
             name: 'Material Supplier Contacts',
             type: 'spreadsheet',
             category: 'asset',
-            link: 'https://www.thomasnet.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
         {
@@ -595,7 +616,8 @@ export const generateNewPackagingDesignForPremiumLineFiles = (ids: Ids) => {
             name: 'Packaging Machinery Specifications',
             type: 'document',
             category: 'asset',
-            link: 'https://www.packagingworld.com/',
+            s3Key: `${ids.userId}/projects/${projectKebabCase}/seo_keyword_integration_report.xlsx`,
+            size: getRandomFileSize(150, 300),
             ...ids,
         },
     ];

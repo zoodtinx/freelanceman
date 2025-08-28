@@ -7,7 +7,7 @@ import {
    SelectValue,
 } from 'src/components/shared/ui/select/Select';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { BookUser, ChevronDown, Loader2, User } from 'lucide-react';
 import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import AddButton from '@/components/shared/ui/AddButton';
@@ -37,9 +37,11 @@ const PartnerContactLayout = (): JSX.Element => {
    );
 
    // check if user has visited the page to show or hide welcome dialog
-   if (localStorage.getItem('partners') !== 'visited') {
-      setWelcomeDialogState({ isOpen: true, page: 'partnersPage' });
-   }
+   useEffect(() => {
+      if (localStorage.getItem('partners') !== 'visited') {
+        setWelcomeDialogState({ isOpen: true, page: 'partnersPage' });
+      }
+    }, []);
 
    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFilter({ [searchMode]: event.target.value });
