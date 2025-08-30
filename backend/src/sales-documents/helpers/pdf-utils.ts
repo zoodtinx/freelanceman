@@ -7,7 +7,12 @@ import { getTimezonedDateFromISOString } from '@/shared/helper/timezoned-date';
 
 export async function generatePDFBuffer(data: CreateSalesDocumentDto): Promise<Buffer> {
     try {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            executablePath:
+                process.env.PUPPETEER_EXECUTABLE || '/usr/bin/chromium-browser',
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
+
         const page = await browser.newPage();
 
         const cssPath = join(__dirname, 'output.css');
@@ -56,7 +61,6 @@ export async function generatePDFBuffer(data: CreateSalesDocumentDto): Promise<B
         await page.addStyleTag({
             content: cssContent,
         });
-
 
         console.log('Hello from generator');
 
