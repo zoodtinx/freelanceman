@@ -61,10 +61,9 @@ export function generateAuraTeaCoSalesDoc(ids: Ids) {
         projectDescription:
             'Comprehensive design services for new product lines, including concept development, illustration, and print-ready files.',
         currency: 'THB',
-        discount: 0,
         tax: 7,
-        discountPercent: null,
-        discountFlat: null,
+        discountPercen0,
+        discountFla0,
         total: 107000,
         items: [
             {
@@ -207,8 +206,8 @@ export function generateByteNestQuotation(ids: Ids) {
         clientDetail: 'Innovative software development and IT consulting firm.',
         discount: 0,
         tax: 7,
-        discountPercent: null,
-        discountFlat: null,
+        discountPercent: 0,
+        discountFlat: 0,
         total: 101650,
         note: 'This quotation outlines the scope for CRM API integration. Final terms and conditions will be provided in the service agreement.',
         items: [

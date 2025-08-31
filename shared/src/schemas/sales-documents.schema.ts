@@ -85,7 +85,7 @@ export const createSalesDocumentSchema = z.object({
   freelancerPhone: nullableStringField(),
   freelancerTaxId: nullableStringField(),
   freelancerAddress: nullableStringField(),
-  clientId: z.string().uuid(),
+  clientId: nullableStringField(),
   clientName: z.string().min(1),
   clientTaxId: nullableStringField(),
   clientAddress: nullableStringField(),
