@@ -7,13 +7,19 @@ import ClientInfoField from '@/components/page-elements/documents-page/ClientInf
 import ItemsField from '@/components/page-elements/documents-page/ItemsField';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-   useCreatePdf,
    useCreateSalesDocument,
    useDeleteSalesDocument,
    useEditSalesDocument,
    useSalesDocumentQuery,
 } from 'src/lib/api/sales-document-api';
-import { ArrowLeft, FilePlus2, Loader2, LoaderCircle, Trash, X } from 'lucide-react';
+import {
+   ArrowLeft,
+   FilePlus2,
+   Loader2,
+   LoaderCircle,
+   Trash,
+   X,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/helper/utils';
 import {
@@ -26,6 +32,7 @@ import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { SalesDocumentFindOneResponse } from 'freelanceman-common';
+import CreatePDFButton, { ViewerComponent } from '@/lib/pdf-generator/CreatePDF';
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -58,9 +65,7 @@ const SalesDocumentBuilderPage = ({
       (state) => state.setWelcomeDialogState
    );
 
-   if (
-      localStorage.getItem('documentbuilder') !== 'visited'
-   ) {
+   if (localStorage.getItem('documentbuilder') !== 'visited') {
       setWelcomeDialogState({ isOpen: true, page: 'documentBuilderPage' });
    }
 
@@ -68,7 +73,7 @@ const SalesDocumentBuilderPage = ({
    const createSalesDoc = useCreateSalesDocument();
    const editSalesDoc = useEditSalesDocument();
    const deleteSalesDoc = useDeleteSalesDocument();
-   const createPdf = useCreatePdf();
+   // const createPdf = useCreatePdf();
 
    const isLoading =
       isDocLoading ||
@@ -104,7 +109,6 @@ const SalesDocumentBuilderPage = ({
       }
    }, [salesDocumentData, formMethods, documentId, projectData, userData]);
 
-
    // --- Form Submit Handlers ---
    const {
       handleSubmit,
@@ -120,7 +124,7 @@ const SalesDocumentBuilderPage = ({
          });
          return;
       }
-      toast.loading('Saving document...')
+      toast.loading('Saving document...');
       setIsApiLoading({ type: 'submit', isLoading: true });
 
       if (!isEditMode) {
@@ -133,7 +137,7 @@ const SalesDocumentBuilderPage = ({
       }
 
       setIsApiLoading({ type: 'submit', isLoading: false });
-      toast.success('Document saved')
+      toast.success('Document saved');
    };
 
    const handleDiscard = (e: React.MouseEvent) => {
@@ -148,16 +152,6 @@ const SalesDocumentBuilderPage = ({
       await deleteSalesDoc.mutateAsync(salesDocumentData.id);
       toast.success('Document deleted');
       navigate('/home/income');
-   };
-
-   const handleCreatePdf = async (e: React.MouseEvent) => {
-      e.preventDefault();
-      setIsApiLoading({ type: 'delete', isLoading: true });
-      toast.loading('Creating PDF (this might take a while)');
-      const result = await createPdf.mutateAsync(salesDocumentData);
-      toast.dismiss();
-      setIsApiLoading({ type: 'delete', isLoading: false });
-      window.open(result.pdfUrl, '_blank');
    };
 
    const documentCategory = category ?? getValues('category');
@@ -197,7 +191,7 @@ const SalesDocumentBuilderPage = ({
                </div>
             </div>
             <footer className="flex justify-between shrink-0 h-fit">
-               <div className="flex gap-1">
+               <div className="flex gap-2">
                   <Button
                      onClick={handleDiscard}
                      variant="destructiveOutline"
@@ -206,29 +200,19 @@ const SalesDocumentBuilderPage = ({
                      <ArrowLeft className="w-4 h-4" />
                      Back
                   </Button>
-                  {salesDocumentData && <Button
-                     onClick={handleDelete}
-                     variant="destructive"
-                     className="gap-1"
-                  >
-                     <Trash className="w-4 h-4" />
-                     Delete
-                  </Button>}
+                  {salesDocumentData && (
+                     <Button
+                        onClick={handleDelete}
+                        variant="destructive"
+                        className="gap-1"
+                     >
+                        <Trash className="w-4 h-4" />
+                        Delete
+                     </Button>
+                  )}
                </div>
-               <div className="flex gap-1">
-                  <Button
-                     variant={
-                        createPdf.isPending || isDirty || !isEditMode
-                           ? 'ghost'
-                           : 'default'
-                     }
-                     disabled={createPdf.isPending || isDirty || !isEditMode}
-                     className="flex gap-1"
-                     onClick={handleCreatePdf}
-                  >
-                     <FilePlus2 className="w-4 h-4" />
-                     <p>Create PDF</p>
-                  </Button>
+               <div className="flex gap-2">
+                  <CreatePDFButton enable={!isDirty} data={formMethods.getValues()} />
                   <SubmitButton
                      isApiLoading={isApiLoading}
                      formMethods={formMethods}

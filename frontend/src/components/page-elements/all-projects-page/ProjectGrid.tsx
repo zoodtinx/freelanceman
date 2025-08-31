@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { CircleCheck, EllipsisVertical, UsersRound } from 'lucide-react';
+import { CircleCheck, EllipsisVertical, Plus, UsersRound } from 'lucide-react';
 import {
    ProjectListProps,
    ProjectCardProps,
@@ -21,7 +21,13 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    queryResult,
    handleLoadMore,
 }) => {
-   const { data: projects, isLoading, isFetching, isError, refetch } = queryResult;
+   const {
+      data: projects,
+      isLoading,
+      isFetching,
+      isError,
+      refetch,
+   } = queryResult;
 
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
@@ -57,22 +63,31 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
       );
    }
 
-   // placeholder elements
-   const placeholders = Array.from({ length: 10 }, (_, i) => ({
+   const placeholderCount = Math.max(0, 23 - projects.items.length);
+   const placeholders = Array.from({ length: placeholderCount }, (_, i) => ({
       id: `placeholder-${i}`,
-      isPlaceholder: true,
+      type: 'placeholder',
    }));
-   const filledProjects = [...projects.items, ...placeholders];
-   const projectCards = filledProjects.map((project: any) =>
-      project.isPlaceholder ? (
-         <div
-            key={project.id}
-            className="rounded-[20px] max-w-[400px] h-[205px]"
-         />
-      ) : (
-         <ProjectCard project={project} key={project.id} />
-      )
-   );
+   const filledProjects = [
+      ...projects.items,
+      { id: 'add-project-card', type: 'add-project-card' },
+      ...placeholders,
+   ];
+   const projectCards = filledProjects.map((project: any) => {
+      switch (project.type) {
+         case 'placeholder':
+            return (
+               <div
+                  key={project.id}
+                  className="border border-primary opacity-20 border-dashed rounded-[20px] max-w-[400px] h-[205px]"
+               />
+            );
+         case 'add-project-card':
+            return <AddProjectCard addFn={handleNewProject} key={project.id} />;
+         default:
+            return <ProjectCard project={project} key={project.id} />;
+      }
+   });
 
    // load more button logic
    const remainingItems = projects.total - projects.items.length > 0;
@@ -238,6 +253,20 @@ const QuickTaskBubble: React.FC<QuickTaskBubbleProps> = ({
       >
          <CircleCheck className="h-[20px] w-auto" />
          <p className="truncate">No active task</p>
+      </div>
+   );
+};
+
+const AddProjectCard: React.FC<{ addFn: () => void }> = ({ addFn }) => {
+   return (
+      <div
+         onClick={addFn}
+         className={`border border-dashed border-primary text-primary rounded-[20px] max-w-[400px] h-[205px]
+                        flex flex-col justify-center items-center opacity-35 hover:opacity-100
+                        transition-opacity duration-100 cursor-pointer`}
+      >
+         <Plus className="w-8 h-8" />
+         <p>Start a new project</p>
       </div>
    );
 };

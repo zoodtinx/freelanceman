@@ -9,7 +9,7 @@ import {
 
 export const defaultCreateSalesDocumentValue: CreateSalesDocumentDto = {
    category: 'invoice',
-   issuedAt: '',
+   issuedAt: new Date().toISOString(),
    projectId: '',
    projectTitle: '',
    freelancerName: '',
