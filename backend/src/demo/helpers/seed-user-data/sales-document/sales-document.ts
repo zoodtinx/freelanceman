@@ -62,8 +62,8 @@ export function generateAuraTeaCoSalesDoc(ids: Ids) {
             'Comprehensive design services for new product lines, including concept development, illustration, and print-ready files.',
         currency: 'THB',
         tax: 7,
-        discountPercen0,
-        discountFla0,
+        discountPercent: 0,
+        discountFlat: 0,
         total: 107000,
         items: [
             {
