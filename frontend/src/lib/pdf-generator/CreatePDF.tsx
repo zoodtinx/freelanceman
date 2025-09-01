@@ -122,8 +122,8 @@ const DocumentTemplate: React.FC<QuotationDocumentProps> = ({ data }) => {
                      <Text style={{ width: '75%' }}>
                         {data.freelancerAddress}
                      </Text>
-                     <Text>{data.freelancerPhone}</Text>
-                     <Text>{data.freelancerEmail}</Text>
+                     <Text style={{ width: '75%' }}>{data.freelancerPhone}</Text>
+                     <Text style={{ width: '75%' }}>{data.freelancerEmail}</Text>
                   </View>
                   <View style={styles.clientAddressSection}>
                      <Text style={{ fontWeight: 'semibold' }}>Client</Text>
@@ -131,8 +131,8 @@ const DocumentTemplate: React.FC<QuotationDocumentProps> = ({ data }) => {
                      <Text style={{ width: '75%', textAlign: 'right' }}>
                         {data.clientAddress}
                      </Text>
-                     <Text>{data.clientPhone}</Text>
-                     <Text>{data.clientOffice}</Text>
+                     <Text style={{ width: '75%' }}>{data.clientPhone}</Text>
+                     <Text style={{ width: '75%' }}>{data.clientOffice}</Text>
                   </View>
                </View>
 
