@@ -21,7 +21,6 @@ import { Folder as WelcomePageFolder } from '@/components/page-elements/welcome-
 import { Wallet as WelcomePageWallet } from '@/components/page-elements/welcome-page/icons/Wallet';
 import { GithubLogo } from '@/components/page-elements/welcome-page/icons/Github';
 import { Google } from '@/components/page-elements/welcome-page/icons/Google';
-import { LoadingPage } from '@/routes/LoadingPage';
 
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();

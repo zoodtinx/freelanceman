@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-// import { LoadingPage } from '@/routes/LoadingPage';
+import { LoadingPage } from '@/routes/LoadingPage';
 
 // Lazy load all route components
 const Home = lazy(() => import('../routes/HomePage'));
@@ -18,7 +18,7 @@ const AuthPage = lazy(() => import('@/routes/WelcomePage'));
 
 // Wrapper component to handle Suspense
 const LazyComponent = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={null}>
+  <Suspense fallback={<LoadingPage mode='section' />}>
     {children}
   </Suspense>
 );
