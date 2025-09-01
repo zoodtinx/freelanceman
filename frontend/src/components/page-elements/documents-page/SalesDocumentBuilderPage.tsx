@@ -1,5 +1,5 @@
 import { Button } from '@/components/shared/ui/primitives/Button';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import ProjectInfoField from '@/components/page-elements/documents-page/ProjectInfoField';
 import FreelancerInfoField from '@/components/page-elements/documents-page/FreelancerInfoField';
@@ -32,7 +32,9 @@ import { capitalizeFirstChar } from '@/components/shared/ui/helpers/Helpers';
 import { useUserQuery } from '@/lib/api/user-api';
 import useWelcomeDialogStore from '@/lib/zustand/welcome-dialog-store';
 import { SalesDocumentFindOneResponse } from 'freelanceman-common';
-import CreatePDFButton, { ViewerComponent } from '@/lib/pdf-generator/CreatePDF';
+
+// Lazy load the CreatePDF component
+const CreatePDFButton = lazy(() => import('@/lib/pdf-generator/CreatePDF'));
 
 const SalesDocumentBuilderPage = ({
    category,
@@ -89,7 +91,7 @@ const SalesDocumentBuilderPage = ({
       }
 
       if (projectData) {
-         formMethods.reset(defaultCreateSalesDocumentValue);
+         formMethods.reset(defaultCreateSalesDocumentValue as any);
          formMethods.setValue('currency', userData.currency);
          formMethods.setValue('freelancerName', userData.displayName);
          formMethods.setValue('freelancerTaxId', userData.taxId);
@@ -212,7 +214,9 @@ const SalesDocumentBuilderPage = ({
                   )}
                </div>
                <div className="flex gap-2">
-                  <CreatePDFButton enable={!isDirty} data={formMethods.getValues()} />
+                  <Suspense fallback={null}>
+                     <CreatePDFButton enable={!isDirty} data={formMethods.getValues()} />
+                  </Suspense>
                   <SubmitButton
                      isApiLoading={isApiLoading}
                      formMethods={formMethods}

@@ -21,6 +21,7 @@ import { Folder as WelcomePageFolder } from '@/components/page-elements/welcome-
 import { Wallet as WelcomePageWallet } from '@/components/page-elements/welcome-page/icons/Wallet';
 import { GithubLogo } from '@/components/page-elements/welcome-page/icons/Github';
 import { Google } from '@/components/page-elements/welcome-page/icons/Google';
+import { LoadingPage } from '@/routes/LoadingPage';
 
 const AuthPage: React.FC = () => {
    const navigate = useNavigate();
@@ -81,12 +82,7 @@ const AuthPage: React.FC = () => {
 
    if (isLoading) {
       return (
-         <div
-            style={{ height: 'calc(var(--vh) * 100)' }}
-            className="w-screen min-h-screen flex flex-col justify-center items-center bg-background gap-5"
-         >
-            <SvgFreelancemanIcon className="animate-bounce h-24 w-auto" />
-         </div>
+         <LoadingPage />
       );
    }
    const PlaceholderBox = () => (

@@ -7,7 +7,7 @@ import {
 } from 'src/lib/types/selector-dialog.types';
 import { useEffect, useState } from 'react';
 import { SearchBox } from '@/components/shared/ui/SearchBox';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { useClientContactsQuery } from 'src/lib/api/client-contact-api';
 import SelectorListItem from '@/components/shared/ui/dialogs/selector-dialog/SelectorList';
 import { ClientContactFilterDto, ClientContactFindManyResponse, PartnerContactFindManyResponse } from 'freelanceman-common';

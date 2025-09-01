@@ -183,7 +183,7 @@ const ItemBar = ({
    return (
       <div className="flex h-fit w-full rounded-[9px] border border-tertiary overflow-hidden shrink-0">
          <div
-            className="flex h-fit justify-between items-start grow pl-2 py-2"
+            className="flex h-fit justify-between items-start grow pl-2 py-2 select-none cursor-pointer"
             onClick={() => handleEdit(item)}
          >
             <div className="leading-snug pr-4">
@@ -210,7 +210,7 @@ const ItemBar = ({
             </div>
          </div>
          <div
-            className="flex items-center justify-center shrink-0 bg-button-red px-[1px] cursor-pointer opacity-25 hover:opacity-100 transition-opacity"
+            className="flex items-center justify-center shrink-0 bg-button-red px-[2px] cursor-pointer opacity-25 hover:opacity-100 transition-opacity"
             onClick={(e) => {
                e.stopPropagation();
                handleDelete(index);

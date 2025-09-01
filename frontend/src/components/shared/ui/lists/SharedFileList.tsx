@@ -275,14 +275,14 @@ const SharedFileListItem = forwardRef<HTMLDivElement, SharedFileListItemProps>(
                      <p className="text-[15px] truncate grow">{data.name}</p>
                      <div className="flex">
                         {page !== 'project-page' && (
-                           <p className="text-sm text-secondary w-[150px] line-clamp-1 text-right mr-5 sm:hidden">
+                           <p className={cn("text-sm text-secondary w-[150px] line-clamp-1 text-right mr-5 sm:hidden", page === 'projectPage' && 'hidden')}>
                               {data.client?.name || ''}
                            </p>
                         )}
                         <p
                            className={cn(
-                              'text-sm text-secondary w-[60px] text-right sm:hidden',
-                              page === 'project-page' && 'hidden'
+                              'text-sm text-secondary text-right sm:hidden shrink-0',
+                              page === 'projectPage' && 'hidden'
                            )}
                         >
                            {dateUploaded}

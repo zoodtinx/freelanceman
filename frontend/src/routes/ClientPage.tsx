@@ -10,7 +10,7 @@ import useFormDialogStore from '@/lib/zustand/form-dialog-store';
 import { Label } from '@/components/shared/ui/form-field-elements';
 import { NoDataPlaceHolder } from '@/components/shared/ui/placeholder-ui/ListPlaceHolder';
 import { useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { cn } from '@/lib/helper/utils';
 
 export default function ClientPage() {
