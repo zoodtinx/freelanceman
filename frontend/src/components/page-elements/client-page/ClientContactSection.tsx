@@ -33,7 +33,7 @@ const ClientContactSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    return (
       <div
          className={cn(
-            'flex flex-col bg-foreground flex-1 rounded-[20px] shadow-md h-1/2',
+            'flex flex-col bg-foreground flex-1 rounded-container shadow-md h-1/2',
             'sm:h-[300px] sm:flex-auto sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >

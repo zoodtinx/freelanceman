@@ -113,7 +113,7 @@ const FilePageLayout = (): JSX.Element => {
    };
 
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-[20px] sm:w-full h-full shrink-0 overflow-hidden shadow-md sm:border sm:border-secondary sm:dark:border-tertiary">
+      <div className="flex flex-col w-full bg-foreground rounded-container sm:w-full h-full shrink-0 overflow-hidden shadow-md sm:border sm:border-secondary sm:dark:border-tertiary">
          <div
             className={cn(
                'flex flex-col w-full justify-between p-2 gap-2 pb-1',

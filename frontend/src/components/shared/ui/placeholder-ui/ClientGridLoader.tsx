@@ -12,7 +12,7 @@ export const ClientGridLoader = () => {
          {placeholder?.map((placeholder) => (
             <Skeleton
                key={placeholder.id}
-               className="rounded-[20px] h-[170px]"
+               className="rounded-[15px] h-[170px]"
             />
          ))}
       </div>

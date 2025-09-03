@@ -14,7 +14,6 @@ import FreelanceMan2LineLogo from '@/components/shared/icons/FreelanceMan2Line';
 import { useEffect } from 'react';
 
 export default function HomePage() {
-   
    // responsive design helper for mobile
    useEffect(() => {
       const setHeight = () => {
@@ -31,19 +30,19 @@ export default function HomePage() {
    return (
       <div
          style={{ height: 'calc(var(--vh) * 100)' }}
-         className={`bg-background w-auto min-h-screen flex overflow-hidden relative p-3
+         className={`bg-background w-full min-h-screen flex overflow-hidden relative p-2
                      sm:flex-col sm:p-0
                   `}
       >
          <div
-            className={`flex w-[180px] gap-2 shrink-0 mr-2
+            className={`flex w-[145px] gap-2 shrink-0 mr-2
                         md:flex-col md:w-fit
                         lg:flex-col 
                         sm:w-full sm:p-3 sm:items-center
                      `}
          >
             <div className="flex justify-center gap-3 lg:flex-col sm:gap-1 md:pt-1">
-               <div className="pt-2 px-[8px] pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
+               <div className="pt-2 px-2 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
                   <FreelanceMan2LineLogo className="h-auto w-full sm:h-full sm:w-auto" />
                </div>
                <UserBar />
@@ -92,7 +91,7 @@ const CountDisplayBar = () => {
       <div
          className={cn(
             'flex cursor-default justify-center text-secondary text-md w-full rounded-xl px-3 py-[2px] border-2 border-tertiary',
-            'md:flex-col md:py-3 md:pb-2 md:gap-3 sm:hidden md:hidden'
+            'md:flex-col md:py-3 md:pb-2 md:gap-3 sm:hidden md:hidden lg:hidden'
          )}
       >
          <p className="text-nowrap md:hidden">{formattedDate}</p>

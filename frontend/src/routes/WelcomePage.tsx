@@ -30,8 +30,6 @@ const AuthPage: React.FC = () => {
    const [isLoading, setIsLoading] = useState(false);
    const [isError, setIsError] = useState(false);
 
-   console.log(isError)
-
    const handleGetFullDemo = async () => {
       setIsError(false);
       setIsLoading(true);
@@ -90,11 +88,13 @@ const AuthPage: React.FC = () => {
       );
    }
    const PlaceholderBox = () => (
-      <div className="border border-primary opacity-10 border-dashed rounded-[20px] max-w-[400px] h-[205px]"></div>
+      <div className="border border-primary opacity-10 border-dashed rounded-container max-w-[400px] h-[205px]"></div>
    );
    const placeholders = [...Array(80)].map((_, i) => (
       <PlaceholderBox key={i} />
    ));
+
+   const iconClassNames = "sm:size-[20px] lg:size-[25px] text-secondary"
 
    return (
       <>
@@ -109,32 +109,33 @@ const AuthPage: React.FC = () => {
                               'flex justify-between items-center ' +
                               'sm:pt-[20px] ' +
                               'md:pt-[20px] ' +
-                              'lg:pt-[61px] lg:px-0 '
+                              'lg:pt-5 lg:px-0 ' +
+                              "xl:pt-7"
                            }
                         >
-                           <div className="flex gap-2 lg:gap-4">
-                              <SvgFreelancemanIcon className="h-auto w-[40px] lg:w-[70px]" />
-                              <FreelanceMan1LineLogo className="h-auto w-[150px] lg:w-[215px]" />
+                           <div className="flex gap-2 lg:gap-2">
+                              <SvgFreelancemanIcon className="h-auto w-[40px] lg:w-[42px]" />
+                              <FreelanceMan1LineLogo className="h-auto w-[150px] lg:w-[165px]" />
                            </div>
                         </div>
                         <div className="flex items-center">
-                           <div className="flex sm:flex-col lg:flex-row sm:gap-5 md:gap-[100px] lg:gap-[120px] lg:px-0">
-                              <div className="flex flex-col sm:gap-[7px] md:gap-[10px] lg:gap-[20px] sm:px-2">
-                                 <div className="flex gap-[8px] lg:gap-[13px]">
-                                    <Users className="sm:size-[20px] lg:size-[30px] text-secondary" />
-                                    <Folder className="sm:size-[20px] lg:size-[30px] text-secondary" />
-                                    <Wallet className="sm:size-[20px] lg:size-[30px] text-secondary" />
-                                    <Notebook className="sm:size-[20px] lg:size-[30px] text-secondary" />
-                                    <Download className="sm:size-[20px] lg:size-[30px] text-secondary" />
+                           <div className="flex sm:flex-col lg:flex-row sm:gap-5 md:gap-[100px] lg:gap-[100px] lg:px-0">
+                              <div className="flex flex-col sm:px-2 lg:pt-3">
+                                 <div className="flex gap-[8px] lg:gap-3 mb-2">
+                                    <Users className={iconClassNames} />
+                                    <Folder className={iconClassNames} />
+                                    <Wallet className={iconClassNames} />
+                                    <Notebook className={iconClassNames} />
+                                    <Download className={iconClassNames} />
                                  </div>
-                                 <div className="sm:text-[30px] md:text-[37px] leading-tight lg:text-[53px] lg:leading-[63px]">
+                                 <div className="sm:text-[30px] md:text-[37px] leading-tight lg:text-[40px] lg:leading-tight mb-2">
                                     <p className="font-light">A Workspace</p>
                                     <p className="font-semibold">Built For</p>
                                     <p className="font-semibold">
                                        Solo Freelancers
                                     </p>
                                  </div>
-                                 <p className="sm:w-full mb-3 md:w-[400px] lg:w-[500px] lg:mb-0 pr-5 text-md text-primary/60">
+                                 <p className="sm:w-full mb-7 md:w-[400px] lg:w-[500px] pr-5 text-md text-primary/60">
                                     Working on multiple projects with multiple
                                     clients is not easy. Files, notes, and
                                     documents can quickly get out of control.
@@ -155,7 +156,7 @@ const AuthPage: React.FC = () => {
                                  </button>
                               </div>
                               <img
-                                 className="sm:rounded-[7px] md:rounded-[15px] lg:rounded-[30px] shadow-lg sm:w-full sm:h-auto lg:h-[726px] lg:w-[1231px] animate-slide-in-right"
+                                 className="sm:rounded-[7px] md:rounded-[15px] lg:rounded-[13px] shadow-lg sm:w-full sm:h-auto lg:h-[520px] xl:h-[640px] animate-slide-in-right"
                                  src="https://ik.imagekit.io/freelanceman/flm-landingpage/flm-hero.webp?updatedAt=1756096497036"
                               />
                            </div>
@@ -176,23 +177,23 @@ const AuthPage: React.FC = () => {
                         ref={featureCardsRef}
                         className="w-full pt-5 lg:pt-11"
                      >
-                        <div className="h-fit flex lg:flex-row sm:flex-col md:gap-[20px] lg:gap-[45px] sm:gap-5 lg:pb-10 pb-5">
+                        <div className="h-fit flex lg:flex-row sm:flex-col md:gap-[20px] lg:gap-[32px] sm:gap-5 lg:pb-[32px] pb-5">
                            <FeatureContainer feature={featuresConfig[0]} />
                            <FeatureContainer feature={featuresConfig[1]} />
                         </div>
-                        <div className="h-fit flex lg:flex-row sm:flex-col md:gap-[20px] lg:gap-[45px] sm:gap-5 lg:pb-0 ">
+                        <div className="h-fit flex lg:flex-row sm:flex-col md:gap-[20px] lg:gap-[32px] sm:gap-5 lg:pb-10 pb-5">
                            <FeatureContainer feature={featuresConfig[2]} />
                            <FeatureContainer feature={featuresConfig[3]} />
                         </div>
-                        <div className="border-b border-primary/30 mt-24" />
+                        <div className="border-b border-primary/30 mt-14" />
                         <div className="py-11 pt-7">
                            <div className="flex sm:flex-col justify-between items-center lg:pb-3 sm:pb-6">
-                              <p className="text-[35px] font-light">
+                              <p className="text-[30px] font-light">
                                  Tech Stack
                               </p>
                               <button
                                  className={
-                                    'flex items-center text-md bg-primary h-[32px] text-foreground px-3 gap-2 rounded-[10px] ' +
+                                    'flex items-center text-md bg-primary h-[32px] text-foreground pr-3 pl-2 gap-2 rounded-[10px] ' +
                                     'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
                                  }
                                  onClick={(e) => {
@@ -414,17 +415,17 @@ const FeatureContainer = ({
    feature: (typeof featuresConfig)[number];
 }) => {
    return (
-      <div className="flex-1 bg-foreground rounded-[23px] flex flex-col shadow-lg">
-         <div className="sm:p-2 p-4">
-            <img className="rounded-[14px]" src={feature.imageSrc} />
+      <div className="flex-1 bg-foreground rounded-[16px] flex flex-col shadow-lg">
+         <div className="sm:p-2 p-2">
+            <img className="rounded-[8px]" src={feature.imageSrc} />
          </div>
-         <div className="flex flex-col px-6 pb-4 sm:pt-3 pt-2 justify-center gap-[7px]">
+         <div className="flex flex-col px-5 pb-4 sm:pt-3 pt-2 justify-center gap-[4px]">
             {feature.icon}
             <div className="flex lg:flex-row sm:flex-col">
-               <p className="leading-8 text-[27px] sm:w-auto w-1/2 pt-1 shrink-0">
+               <p className="leading-tight text-[22px] sm:w-auto w-2/5 pt-1 shrink-0">
                   {feature.title}
                </p>
-               <p className="text-md grow opacity-40 sm:pt-2 pt-0">
+               <p className="text-[14px] leading-snug grow opacity-40 sm:pt-2 pt-0">
                   {feature.description}
                </p>
             </div>

@@ -377,12 +377,19 @@ const CreatePDFButton = ({ data, enable }: CreatePDFButtonProps) => {
       data && Object.keys(data).length === 0 && data.constructor === Object;
    const pdfData = isEmptyObject ? defaultCreateSalesDocumentValue : data;
 
+   const cleanTitle = (data.projectTitle || '')
+      .replace(/[^\w\s]/gi, '') 
+      .trim()
+      .replace(/\s+/g, '_')
+      .toLowerCase();
+   const fileName = `${data.category}-${cleanTitle}.pdf`;
+
    return (
       <PDFDownloadLink
          document={<DocumentTemplate data={pdfData} />}
-         fileName="invoice.pdf"
+         fileName={fileName}
          className={cn(
-            'bg-primary rounded-md text-foreground font-medium px-2 flex items-center gap-1 active:ring-1',
+            'bg-primary rounded-lg text-foreground font-medium px-2 flex items-center gap-1 active:ring-1 h-full',
             'active:ring-2 ring-offset-2 ring-primary ring-offset-background',
             !enable && 'bg-tertiary text-secondary'
          )}

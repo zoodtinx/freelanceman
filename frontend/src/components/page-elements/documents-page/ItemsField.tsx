@@ -117,7 +117,7 @@ const ItemsField = ({
    return (
       <fieldset
          className={cn(
-            'flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-3 overflow-y-auto',
+            'flex flex-col grow justify-between h-[200px] rounded-xl border border-tertiary p-3 relative gap-0 overflow-y-auto',
             'sm:h-fit justify-between',
             fieldError && 'border-general-red'
          )}
@@ -143,6 +143,7 @@ const ItemsField = ({
                </h2>
             </div>
          </ScrollArea>
+         <div className='w-full border border-b-quaternary mb-3' />
          <div className='flex flex-col gap-2'>
             <AdjustmentsField formMethods={formMethods} />
             <footer className="flex w-full px-3 text-secondary justify-end gap-4">

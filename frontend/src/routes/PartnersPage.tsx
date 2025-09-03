@@ -66,7 +66,7 @@ const PartnerContactLayout = (): JSX.Element => {
    return (
       <div
          className={cn(
-            'flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
+            'flex flex-col rounded-container bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
             'sm:shadow-md sm:h-1/2 sm:gap-1 sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >

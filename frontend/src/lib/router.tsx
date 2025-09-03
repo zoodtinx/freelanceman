@@ -1,40 +1,29 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import { LoadingPage } from '@/routes/LoadingPage';
-
-// Lazy load all route components
-const Home = lazy(() => import('../routes/HomePage'));
-const ProjectPage = lazy(() => import('@/routes/ProjectPage'));
-const ActionPage = lazy(() => import('@/routes/ActionPage'));
-const AllProjectPage = lazy(() => import('@/routes/AllProjectPage'));
-const PartnersPage = lazy(() => import('@/routes/PartnersPage'));
-const FilePage = lazy(() => import('@/routes/FilePage'));
-const AllClientsPage = lazy(() => import('src/routes/AllClientPage'));
-const ClientPage = lazy(() => import('@/routes/ClientPage'));
-const IncomePage = lazy(() => import('src/routes/IncomePage'));
-const SalesDocumentBuilderPage = lazy(() => import('@/components/page-elements/documents-page/SalesDocumentBuilderPage'));
-const RootPage = lazy(() => import('@/routes/RootPage'));
-const AuthPage = lazy(() => import('@/routes/WelcomePage'));
-
-// Wrapper component to handle Suspense
-const LazyComponent = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<LoadingPage mode='section' />}>
-    {children}
-  </Suspense>
-);
+import Home from '../routes/HomePage';
+import ProjectPage from '@/routes/ProjectPage';
+import ActionPage from '@/routes/ActionPage';
+import AllProjectPage from '@/routes/AllProjectPage';
+import PartnersPage from '@/routes/PartnersPage';
+import FilePage from '@/routes/FilePage';
+import AllClientsPage from 'src/routes/AllClientPage';
+import ClientPage from '@/routes/ClientPage';
+import IncomePage from 'src/routes/IncomePage';
+import SalesDocumentBuilderPage from '@/components/page-elements/documents-page/SalesDocumentBuilderPage';
+import RootPage from '@/routes/RootPage';
+import AuthPage from '@/routes/WelcomePage';
 
 export const router = createBrowserRouter([
    {
       path: '/',
-      element: <LazyComponent><RootPage /></LazyComponent>,
+      element: <RootPage />,
       children: [
          {
             path: 'welcome',
-            element: <LazyComponent><AuthPage /></LazyComponent>,
+            element: <AuthPage />,
          },
          {
             path: 'home',
-            element: <LazyComponent><Home /></LazyComponent>,
+            element: <Home />,
             children: [
                {
                   path: '',
@@ -45,7 +34,7 @@ export const router = createBrowserRouter([
                   children: [
                      {
                         path: '',
-                        element: <LazyComponent><AllProjectPage /></LazyComponent>,
+                        element: <AllProjectPage />,
                      },
                      {
                         path: ':projectId',
@@ -54,48 +43,48 @@ export const router = createBrowserRouter([
                               Error
                            </p>
                         ),
-                        element: <LazyComponent><ProjectPage /></LazyComponent>,
+                        element: <ProjectPage />,
                      },
                   ],
                },
                {
                   path: 'actions',
-                  element: <LazyComponent><ActionPage /></LazyComponent>,
+                  element: <ActionPage />,
                },
                {
                   path: 'clients',
                   children: [
                      {
                         path: '',
-                        element: <LazyComponent><AllClientsPage /></LazyComponent>,
+                        element: <AllClientsPage />,
                      },
                      {
                         path: ':clientId',
-                        element: <LazyComponent><ClientPage /></LazyComponent>,
+                        element: <ClientPage />,
                      },
                   ],
                },
                {
                   path: 'partners',
-                  element: <LazyComponent><PartnersPage /></LazyComponent>,
+                  element: <PartnersPage />,
                },
                {
                   path: 'files',
-                  element: <LazyComponent><FilePage /></LazyComponent>,
+                  element: <FilePage />,
                },
                {
                   path: 'income',
                   children: [
                      {
                         path: '',
-                        element: <LazyComponent><IncomePage /></LazyComponent>,
+                        element: <IncomePage />,
                      },
                      {
                         path: 'document',
                         children: [
                            {
                               path: ':id',
-                              element: <LazyComponent><SalesDocumentBuilderPage /></LazyComponent>,
+                              element: <SalesDocumentBuilderPage />,
                            },
                            {
                               path: 'quotation',
@@ -103,9 +92,7 @@ export const router = createBrowserRouter([
                                  {
                                     path: ':projectId',
                                     element: (
-                                       <LazyComponent>
-                                         <SalesDocumentBuilderPage category="quotation" />
-                                       </LazyComponent>
+                                       <SalesDocumentBuilderPage category="quotation" />
                                     ),
                                  },
                               ],
@@ -116,9 +103,7 @@ export const router = createBrowserRouter([
                                  {
                                     path: ':projectId',
                                     element: (
-                                       <LazyComponent>
-                                         <SalesDocumentBuilderPage category="invoice" />
-                                       </LazyComponent>
+                                       <SalesDocumentBuilderPage category="invoice" />
                                     ),
                                  },
                               ],
@@ -129,9 +114,7 @@ export const router = createBrowserRouter([
                                  {
                                     path: ':projectId',
                                     element: (
-                                       <LazyComponent>
-                                         <SalesDocumentBuilderPage category="receipt" />
-                                       </LazyComponent>
+                                       <SalesDocumentBuilderPage category="receipt" />
                                     ),
                                  },
                               ],
@@ -142,7 +125,7 @@ export const router = createBrowserRouter([
                },
                {
                   path: ':projectId',
-                  element: <LazyComponent><ProjectPage /></LazyComponent>,
+                  element: <ProjectPage />,
                },
             ],
          },

@@ -495,11 +495,6 @@ const EditDocumentButton = ({
 }: {
    salesDocumentData: SalesDocumentFindOneResponse;
 }) => {
-   const [fetch, setFetch] = useState(false);
-   const { data: payload, isLoading } = useFileUrlQuery(
-      salesDocumentData.s3Key ?? '',
-      fetch
-   );
 
    const setConfirmationDialogState = useConfirmationDialogStore(
       (state) => state.setConfirmationDialogState
@@ -535,22 +530,10 @@ const EditDocumentButton = ({
       });
    };
 
-   const handleDownload = async () => {
-      if (!payload.url) return;
-
-      window.open(payload.url, '_blank', 'noopener,noreferrer');
-   };
-
    return (
       <Popover>
          <PopoverTrigger
             className="flex items-center"
-            onClick={(e) => {
-               e.stopPropagation();
-               if (salesDocumentData.s3Key) {
-                  setFetch(true);
-               }
-            }}
          >
             <div
                className={cn(
@@ -578,30 +561,6 @@ const EditDocumentButton = ({
                <Trash className="h-4 w-4" />
                Delete
             </button>
-            {!salesDocumentData.s3Key ? null : isLoading ? (
-               <>
-               <div className="py-1">
-                     <Separator />
-                  </div>
-               <div className="flex gap-1 items-center p-1 rounded-md text-secondary">
-                  <Loader2 className="animate-spin h-4 w-4" />
-                  <p className=''>Loading</p>
-               </div>
-               </>
-            ) : (
-               <>
-                  <div className="py-1">
-                     <Separator />
-                  </div>
-                  <button
-                     onClick={handleDownload}
-                     className="flex gap-1 items-center p-1 rounded-md cursor-pointer hover:bg-background "
-                  >
-                     <Download className="h-4 w-4" />
-                     Download
-                  </button>
-               </>
-            )}
          </PopoverContent>
       </Popover>
    );

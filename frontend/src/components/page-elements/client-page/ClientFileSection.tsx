@@ -113,7 +113,7 @@ const ClientFileSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    return (
       <div
          className={cn(
-            'flex flex-col w-full bg-foreground rounded-[20px] shrink-0 overflow-hidden h-1/2 shadow-md',
+            'flex flex-col w-full bg-foreground rounded-container shrink-0 overflow-hidden h-1/2 shadow-md',
             'sm:w-full sm:h-[420px] sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
          ref={fileSectionRef}

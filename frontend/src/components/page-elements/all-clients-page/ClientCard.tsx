@@ -16,7 +16,7 @@ const ClientCard = ({ client }: { client: ClientFindManyItem }): JSX.Element => 
    return (
       <div
          className={cn(
-            'relative flex flex-col justify-between rounded-[20px] overflow-hidden h-[170px] p-4 pt-3 leading-tight transition-all text-constant-primary border-2 border-transparent hover:border-primary duration-75 cursor-default',
+            'relative flex flex-col justify-between rounded-[17px] overflow-hidden h-[170px] p-4 pt-3 leading-tight transition-all text-constant-primary border-2 border-transparent hover:border-primary duration-75 cursor-default',
             'sm:h-fit sm:p-1 sm:rounded-xl'
          )}
          onClick={handleSelectClient}

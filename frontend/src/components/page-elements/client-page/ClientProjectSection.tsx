@@ -59,7 +59,7 @@ const ClientProjectSection: React.FC<ClientSectionProps> = ({ clientData }) => {
    return (
       <div
          className={cn(
-            'flex flex-col w-full gap-[6px] grow p-4 pt-2 bg-foreground rounded-[20px] overflow-hidden shadow-md',
+            'flex flex-col w-full gap-[6px] grow p-4 pt-2 bg-foreground rounded-container overflow-hidden shadow-md',
             'sm:w-full sm:h-[420px] sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >

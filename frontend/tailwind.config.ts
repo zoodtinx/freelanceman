@@ -77,9 +77,10 @@ module.exports = {
             },
          },
          screens: {
-            sm: { max: '1023px' },
-            md: { min: '1024px', max: '1439px' },
-            lg: { min: '1440px' },
+            sm: { max: '1179px' },
+            md: { min: '1180px', max: '1279px' },
+            lg: { min: '1280px', max: '1600px' },
+            xl: { min: '1600px' },
          },
          fontFamily: {
             sans: ['Lexend'],
@@ -89,6 +90,7 @@ module.exports = {
             lg: 'var(--radius)',
             md: 'calc(var(--radius) - 2px)',
             sm: 'calc(var(--radius) - 4px)',
+            container: '15px'
          },
          colors: {
             general: {

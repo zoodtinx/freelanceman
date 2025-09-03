@@ -159,20 +159,20 @@ const LinkItems: React.FC<{
    onDelete: (index: number) => void;
 }> = ({ links, onDelete }) => {
    return (
-         <div className="flex flex-col gap-1">
+         <div className="flex flex-col gap-1 w-full">
             {links.map((link, index) => (
                <button
                   key={index}
-                  className="flex bg-background p-1 rounded-lg px-2 items-center gap-2"
+                  className="flex bg-background p-1 rounded-lg items-center gap-2"
                >
                   <Link
                      to={link.url}
                      target="_blank"
                      rel="noopener noreferrer"
-                     className="flex gap-1 text-left grow truncate text-sm"
+                     className="flex gap-1 grow"
                   >
                      <ExternalLink className="w-4 h-4 text-secondary" />
-                     {link.label}
+                     <p className='text-left grow truncate text-sm line-clamp-1 w-[50px]'>{link.label}</p>
                   </Link>
                   <XIcon
                      className="w-4 h-4 text-secondary"

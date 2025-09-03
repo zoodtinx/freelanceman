@@ -33,9 +33,9 @@ export default function ProjectPage() {
    // check if user has visited the page to show or hide welcome dialog
    useEffect(() => {
       if (localStorage.getItem('project') !== 'visited') {
-        setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
+         setWelcomeDialogState({ isOpen: true, page: 'projectPage' });
       }
-    }, []);
+   }, []);
 
    return (
       <div
@@ -53,11 +53,11 @@ export default function ProjectPage() {
             )}
          >
             {isLoading || !project ? (
-               <Skeleton className="flex flex-col rounded-[13px] px-4 py-3 w-full relative  h-[85px] justify-center shrink-0" />
+               <Skeleton className="flex flex-col rounded-[13px] px-4 py-3 w-full relative  h-[75px] justify-center shrink-0" />
             ) : (
                <div
                   className={cn(
-                     'flex flex-col bg-foreground rounded-[13px] px-4 py-3 w-full relative shadow-md h-[85px] justify-center',
+                     'flex flex-col bg-foreground rounded-[13px] pb-[7px] pt-[10px] pr-2 pl-3 w-full relative shadow-md h-[75px] justify-center shrink-0',
                      'sm:h-fit sm:p-2 sm:px-3 sm:gap-2 sm:pb-3 sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
                   )}
                >
@@ -65,70 +65,70 @@ export default function ProjectPage() {
                </div>
             )}
 
-            <div
-               className={cn(
-                  'flex gap-2 h-[65%] shrink-0 grow-0',
-                  'sm:flex-col sm:h-auto'
-               )}
-            >
-               {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
-               ) : (
-                  <div
-                     className={cn(
-                        'flex rounded-[13px] bg-foreground relative shadow-md w-1/2',
-                        'sm:w-full sm:h-[420px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
+            <div className="grow flex flex-col">
+               <div className="h-[65%] shrink-0 grow-0 sm:h-auto pb-2">
+                  <div className={cn('flex gap-2 h-full', 'sm:flex-col')}>
+                     {isLoading || !project ? (
+                        <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
+                     ) : (
+                        <div
+                           className={cn(
+                              'flex rounded-[13px] bg-foreground relative shadow-md w-1/2',
+                              'sm:w-full sm:h-[420px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
+                           )}
+                        >
+                           <ProjectTaskSection project={project} />
+                        </div>
                      )}
-                  >
-                     <ProjectTaskSection project={project} />
-                  </div>
-               )}
 
-               {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
-               ) : (
-                  <div
-                     className={cn(
-                        'flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden',
-                        'sm:w-full sm:h-[420px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
+                     {isLoading || !project ? (
+                        <Skeleton className="flex rounded-[13px] relative w-1/2 h-full" />
+                     ) : (
+                        <div
+                           className={cn(
+                              'flex rounded-[13px] bg-foreground relative shadow-md w-1/2 overflow-hidden',
+                              'sm:w-full sm:h-[420px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
+                           )}
+                        >
+                           <ProjectEventSection project={project} />
+                        </div>
                      )}
-                  >
-                     <ProjectEventSection project={project} />
                   </div>
-               )}
-            </div>
+               </div>
 
-            <div
-               className={cn(
-                  'flex gap-2 h-[35%] grow-0 w-full',
-                  'sm:flex-col sm:h-auto'
-               )}
-            >
-               {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] relative shadow-md w-[35%] h-full shrink-0" />
-               ) : (
+               <div className='h-[35%] sm:h-auto w-full grow-0'>
                   <div
                      className={cn(
-                        'flex rounded-[13px] bg-foreground relative shadow-md w-[35%] shrink-0',
-                        'sm:w-full sm:h-[300px] sm:shadow-md h-full sm:border sm:border-secondary sm:dark:border-tertiary'
+                        'flex gap-2 sm:flex-col h-full',
                      )}
                   >
-                     <ProjectLinkSection project={project} />
-                  </div>
-               )}
+                     {isLoading || !project ? (
+                        <Skeleton className="flex rounded-[13px] relative shadow-md w-[35%] h-full shrink-0" />
+                     ) : (
+                        <div
+                           className={cn(
+                              'flex rounded-[13px] bg-foreground relative shadow-md w-[35%] shrink-0',
+                              'sm:w-full sm:h-[300px] sm:shadow-md h-full sm:border sm:border-secondary sm:dark:border-tertiary'
+                           )}
+                        >
+                           <ProjectLinkSection project={project} />
+                        </div>
+                     )}
 
-               {isLoading || !project ? (
-                  <Skeleton className="flex rounded-[13px] relative shadow-md w-[65%] h-full" />
-               ) : (
-                  <div
-                     className={cn(
-                        'flex rounded-[13px] bg-foreground relative shadow-md w-[65%] h-full',
-                        'sm:w-full sm:h-[300px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
+                     {isLoading || !project ? (
+                        <Skeleton className="flex rounded-[13px] relative shadow-md w-[65%] h-full" />
+                     ) : (
+                        <div
+                           className={cn(
+                              'flex rounded-[13px] bg-foreground relative shadow-md w-[65%] h-full',
+                              'sm:w-full sm:h-[300px] sm:shadow-md sm:border sm:border-secondary sm:dark:border-tertiary'
+                           )}
+                        >
+                           <ProjectNoteSection project={project} />
+                        </div>
                      )}
-                  >
-                     <ProjectNoteSection project={project} />
                   </div>
-               )}
+               </div>
             </div>
          </div>
 
@@ -168,14 +168,19 @@ export default function ProjectPage() {
 }
 
 const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
-   const setFormDialogState = useFormDialogStore((state) => state.setFormDialogState);
+   const setFormDialogState = useFormDialogStore(
+      (state) => state.setFormDialogState
+   );
    const editProject = useEditProject();
 
-   const handleEditProject = (newProjectStatus?: string, newPaymentStatus?: string) => {
+   const handleEditProject = (
+      newProjectStatus?: string,
+      newPaymentStatus?: string
+   ) => {
       editProject.mutate({
          id: project.id,
-         projectStatus: newProjectStatus ?? project.projectStatus as any,
-         paymentStatus: newPaymentStatus ?? project.paymentStatus  as any,
+         projectStatus: newProjectStatus ?? (project.projectStatus as any),
+         paymentStatus: newPaymentStatus ?? (project.paymentStatus as any),
       });
    };
 
@@ -196,8 +201,8 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
 
    return (
       <>
-         <div className="flex justify-between items-start">
-            <p className="text-[1.6em] sm:text-lg sm:leading-snug font-medium lg:font-normal">
+         <div className="flex justify-between items-start mb-2">
+            <p className="text-[1.6em] sm:text-lg sm:leading-snug font-medium lg:font-normal leading-none">
                {project.name}
             </p>
             <Settings
@@ -209,7 +214,9 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
             <div className="flex gap-1 text-secondary hover:text-primary w-fit transition-colors duration-75 cursor-pointer sm:hidden items-center">
                <UsersRound className="w-5 h-auto" />
                <Link
-                  to={project.clientId ? `../../clients/${project.clientId}` : ''}
+                  to={
+                     project.clientId ? `../../clients/${project.clientId}` : ''
+                  }
                   className="text-md font-medium select-none"
                >
                   {project.client?.name ?? 'Freelancing'}
@@ -226,7 +233,9 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
                      selections={projectStatusSelections}
                      value={project.projectStatus}
                      className="flex px-2 bg-transparent text-primary h-6 items-center py-0 font-semibold flex-1"
-                     handleValueChange={(v) => handleEditProject(v, project.paymentStatus)}
+                     handleValueChange={(v) =>
+                        handleEditProject(v, project.paymentStatus)
+                     }
                      showColor={false}
                      ref={projectSelectRef}
                   />
@@ -241,7 +250,9 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
                      selections={paymentStatusSelections}
                      value={project.paymentStatus}
                      className="flex px-2 bg-transparent text-primary h-6 items-center py-0 font-semibold"
-                     handleValueChange={(v) => handleEditProject(project.projectStatus, v)}
+                     handleValueChange={(v) =>
+                        handleEditProject(project.projectStatus, v)
+                     }
                      showColor={false}
                      ref={paymentSelectRef}
                   />
@@ -251,4 +262,3 @@ const ProjectHeader = ({ project }: { project: ProjectFindOneResponse }) => {
       </>
    );
 };
-

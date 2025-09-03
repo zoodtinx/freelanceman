@@ -148,7 +148,7 @@ export const UserBar = () => {
          <Popover>
             <PopoverTrigger asChild ref={popoverRef} onClick={handleClick}>
                <div
-                  className={`w-[140px] aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 cursor-pointer
+                  className={`aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 lg:h-[115px] cursor-pointer
                               sm:w-10 sm:h-10
                   `}
                >
@@ -233,9 +233,9 @@ export const UserBar = () => {
             </PopoverContent>
          </Popover>
          {userDataIsLoading ? (
-            <Skeleton className="h-[42px] w-full rounded-xl" />
+            <Skeleton className="h-[40px] w-full rounded-xl" />
          ) : (
-            <div className="flex flex-col leading-tight h-[42px] md:hidden w-full px-3 sm:px-0 sm:hidden cursor-pointer">
+            <div className="flex flex-col leading-tight min-h-[40px] md:hidden w-full px-1 sm:px-0 sm:hidden cursor-pointer">
                <div className="flex w-full justify-between items-center relative">
                   <p>Good morning</p>
                   <ChevronDown className="w-5 h-5 absolute right-0" />

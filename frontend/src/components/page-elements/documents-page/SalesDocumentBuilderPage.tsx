@@ -159,7 +159,7 @@ const SalesDocumentBuilderPage = ({
    const documentCategory = category ?? getValues('category');
 
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-[20px] p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative overflow-y-auto">
+      <div className="flex flex-col w-full bg-foreground rounded-container p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative overflow-y-auto">
          {/* Header */}
          <div className="flex justify-between items-center h-fit">
             <div className="flex gap-1 items-center">
@@ -213,8 +213,8 @@ const SalesDocumentBuilderPage = ({
                      </Button>
                   )}
                </div>
-               <div className="flex gap-2">
-                  <Suspense fallback={null}>
+               <div className="flex gap-2 items-center">
+                  <Suspense fallback={<Loader2 className='animate-spin size-6 ml-2' />}>
                      <CreatePDFButton enable={!isDirty} data={formMethods.getValues()} />
                   </Suspense>
                   <SubmitButton

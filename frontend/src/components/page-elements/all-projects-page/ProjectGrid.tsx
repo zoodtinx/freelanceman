@@ -79,7 +79,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
             return (
                <div
                   key={project.id}
-                  className="border border-primary opacity-20 border-dashed rounded-[20px] max-w-[400px] h-[205px]"
+                  className="border border-primary opacity-20 border-dashed rounded-[17px] max-w-[400px] h-[205px]"
                />
             );
          case 'add-project-card':
@@ -99,7 +99,7 @@ const ProjectGrid: React.FC<ProjectListProps> = ({
    return (
       <>
          <ScrollArea className="h-full z-10">
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] md:grid-cols-[repeat(4,minmax(0,1fr))] gap-3 w-full pb-4 pl-1 pt-1 pr-1">
                {projectCards}
             </div>
          </ScrollArea>
@@ -147,11 +147,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
    return (
       <div
-         className={`
-         relative flex flex-col justify-between rounded-[20px] overflow-hidden group
-         h-[205px] leading-tight transition-all text-constant-primary
-         duration-75 shadow-md max-w-[400px]
-         `}
+         className={cn(
+            "relative flex flex-col justify-between rounded-[17px] overflow-hidden group",
+            "h-[205px] leading-tight transition-all text-constant-primary",
+            "duration-75 shadow-md max-w-[400px]"
+         )}
          onClick={handleProjectNavigation}
       >
          <EllipsisVertical
@@ -173,7 +173,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                <UsersRound className="w-[17px]" />
                <p className='line-clamp-1'>{project.client?.name ?? 'Freelancing'}</p>
             </div>
-            <p className="text-[20px] line-clamp-3 cursor-default text-constant-primary">
+            <p className="text-[19px] line-clamp-3 cursor-default text-constant-primary">
                {project.name}
             </p>
          </div>
@@ -261,7 +261,7 @@ const AddProjectCard: React.FC<{ addFn: () => void }> = ({ addFn }) => {
    return (
       <div
          onClick={addFn}
-         className={`border border-dashed border-primary text-primary rounded-[20px] max-w-[400px] h-[205px]
+         className={`border border-dashed border-primary text-primary rounded-container max-w-[400px] h-[205px]
                         flex flex-col justify-center items-center opacity-35 hover:opacity-100
                         transition-opacity duration-100 cursor-pointer`}
       >

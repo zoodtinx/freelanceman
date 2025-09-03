@@ -45,7 +45,7 @@ const ClientColumn = (): JSX.Element => {
    return (
       <div
          className={cn(
-            'flex flex-col rounded-[20px] bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
+            'flex flex-col rounded-container bg-foreground h-full flex-1 shadow-md relative overflow-hidden',
             'sm:shadow-sm sm:h-1/2 sm:border sm:border-secondary sm:dark:border-tertiary'
          )}
       >
@@ -152,7 +152,7 @@ const ClientGridPlaceHolder = ({ addFn }: { addFn: () => void }) => {
          <div className="z-10 absolute h-full w-full left-0 bottom-0 bg-gradient-to-t from-foreground to-transparent pointer-events-none" />
          <div
             onClick={addFn}
-            className={`h-[170px] rounded-[20px] border border-dashed border-secondary items-center justify-center flex flex-col text-secondary
+            className={`h-[170px] rounded-container border border-dashed border-secondary items-center justify-center flex flex-col text-secondary
                         hover:border-primary hover:text-primary transition-colors duration-100 cursor-pointer`}
          >
             <Plus className="w-8 h-8" />
@@ -166,7 +166,7 @@ const ClientGridPlaceHolder = ({ addFn }: { addFn: () => void }) => {
 const placeholderElements = [...Array(30)].map((_, i) => (
    <div
       key={i}
-      className="h-[170px] opacity-60 rounded-[20px] border border-secondary border-dashed"
+      className="h-[170px] opacity-60 rounded-container border border-secondary border-dashed"
    />
 ));
 

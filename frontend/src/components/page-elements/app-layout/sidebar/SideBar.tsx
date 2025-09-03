@@ -14,7 +14,7 @@ export default function SideBar() {
                <SideBarTab tab="income" />
             </ul>
          </div>
-         <div className='overflow-y-auto '>
+         <div className='overflow-y-auto hidden xl:block '>
             <PinnedProjects />
          </div>
       </nav>

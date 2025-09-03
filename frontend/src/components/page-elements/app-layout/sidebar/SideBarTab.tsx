@@ -43,7 +43,7 @@ const SideBarTab: React.FC<SideBarTabProps> = ({ tab }) => {
                   : 'text-secondary hover:text-primary'
             )}
          >
-            <Icon className="w-[20px] h-auto md:w-[23px] md:h-[23px]" />
+            <Icon className="w-[20px] h-auto md:w-[20px] md:h-[20px]" />
             <p className="md:hidden">{label}</p>
          </Link>
       </li>

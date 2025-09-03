@@ -20,7 +20,7 @@ export default function ActionPage() {
       <section className="w-full h-full flex gap-2 sm:flex-col">
          <div
             className={cn(
-               'flex flex-col w-1/2 rounded-[20px] bg-foreground grow h-full shadow-md overflow-hidden',
+               'flex flex-col w-1/2 rounded-container bg-foreground grow h-full shadow-md overflow-hidden',
                'sm:w-full sm:flex-1 sm:border sm:border-secondary sm:dark:border-tertiary'
             )}
          >
@@ -28,7 +28,7 @@ export default function ActionPage() {
          </div>
          <div
             className={cn(
-               'flex flex-col w-1/2 rounded-[20px] bg-foreground grow h-full shadow-md overflow-hidden',
+               'flex flex-col w-1/2 rounded-container bg-foreground grow h-full shadow-md overflow-hidden',
                'sm:w-full sm:flex-1 sm:border sm:border-secondary sm:dark:border-tertiary'
             )}
          >
