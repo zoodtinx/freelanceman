@@ -148,7 +148,7 @@ export const UserBar = () => {
          <Popover>
             <PopoverTrigger asChild ref={popoverRef} onClick={handleClick}>
                <div
-                  className={`aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 lg:h-[115px] cursor-pointer
+                  className={`aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 lg:h-[120px] cursor-pointer
                               sm:w-10 sm:h-10
                   `}
                >

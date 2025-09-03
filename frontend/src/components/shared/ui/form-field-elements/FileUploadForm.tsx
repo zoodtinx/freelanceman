@@ -17,6 +17,7 @@ export const FileUploadForm = <TFormData extends FieldValues>({
       control,
       reset,
       formState: { errors },
+      setValue
    } = formMethods;
 
    return (
@@ -31,6 +32,7 @@ export const FileUploadForm = <TFormData extends FieldValues>({
          render={({ field }) => {
             const setFormValue = (value: File) => {
                field.onChange(value);
+               setValue('originalName' as Path<TFormData>, value.name as any);
             };
 
             return (

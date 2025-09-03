@@ -52,6 +52,13 @@ export const NewFileDialog = ({
       });
    };
 
+   const fileName = formMethods.watch("originalName")
+   useEffect(() => {
+      if (fileName) {
+         formMethods.setValue('name', fileName);
+      }
+   }, [fileName, formMethods]);
+
    // api setup
    const createFile = useCreateFile()
    const getPresignedUrl = useGetPresignedUrl();
@@ -61,7 +68,7 @@ export const NewFileDialog = ({
 
       const projectId = formMethods.getValues('projectId');
       const fileType = formMethods.getValues('type');
-      const fileName = formMethods.getValues('name');
+      const fileName = formMethods.getValues('originalName');
       const file = formMethods.getValues('file');
       const link = formMethods.getValues('link');
 

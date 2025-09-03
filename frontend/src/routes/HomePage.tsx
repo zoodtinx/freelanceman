@@ -30,40 +30,42 @@ export default function HomePage() {
    return (
       <div
          style={{ height: 'calc(var(--vh) * 100)' }}
-         className={`bg-background w-full min-h-screen flex overflow-hidden relative p-2
-                     sm:flex-col sm:p-0
+         className={`bg-background w-full min-h-screen overflow-hidden relative
+                     sm:p-0
                   `}
       >
-         <div
-            className={`flex w-[145px] gap-2 shrink-0 mr-2
+         <div className='flex sm:flex-col max-w-[1600px] h-screen mx-auto'>
+            <div
+               className={`flex w-[145px] gap-2 shrink-0 mr-2 p-2 pr-0 pb-5
                         md:flex-col md:w-fit
                         lg:flex-col 
                         sm:w-full sm:p-3 sm:items-center
                      `}
-         >
-            <div className="flex justify-center gap-3 lg:flex-col sm:gap-1 md:pt-1">
-               <div className="pt-2 px-2 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
-                  <FreelanceMan2LineLogo className="h-auto w-full sm:h-full sm:w-auto" />
-               </div>
-               <UserBar />
-            </div>
-            <div className="flex flex-col gap-2 w-full sm:w-fit md:gap-3">
-               <CountDisplayBar />
-               <SideBar />
-            </div>
-            <div
-               className={cn(
-                  'flex justify-center gap-1 items-end w-full pb-2 shrink-0 grow',
-                  'sm:pb-0 sm:w-fit sm:justify-end sm:items-center'
-               )}
             >
-               <MenuPopover />
-               <GlobalAddButton />
+               <div className="flex justify-center gap-3 lg:flex-col sm:gap-1 md:pt-1">
+                  <div className="pt-2 px-2 pb-2 md:hidden rounded-xl sm:order-2 sm:p-1 box-border w-fit">
+                     <FreelanceMan2LineLogo className="h-auto w-full sm:h-full sm:w-auto" />
+                  </div>
+                  <UserBar />
+               </div>
+               <div className="flex flex-col gap-2 w-full sm:w-fit md:gap-3">
+                  <CountDisplayBar />
+                  <SideBar />
+               </div>
+               <div
+                  className={cn(
+                     'flex justify-center gap-1 items-end w-full shrink-0 grow',
+                     'sm:pb-0 sm:w-fit sm:justify-end sm:items-center'
+                  )}
+               >
+                  <MenuPopover />
+                  <GlobalAddButton />
+               </div>
             </div>
+            <main className="flex flex-col flex-grow min-h-0 relative sm:px-3 sm:pb-3 p-2 pl-0">
+               <Outlet />
+            </main>
          </div>
-         <main className="flex flex-col flex-grow min-h-0 relative sm:px-3 sm:pb-3">
-            <Outlet />
-         </main>
          <GreetingDialog />
          <FormDialog />
          <SelectorDialog />

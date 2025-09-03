@@ -79,7 +79,7 @@ module.exports = {
          screens: {
             sm: { max: '1179px' },
             md: { min: '1180px', max: '1279px' },
-            lg: { min: '1280px', max: '1600px' },
+            lg: { min: '1280px'},
             xl: { min: '1600px' },
          },
          fontFamily: {

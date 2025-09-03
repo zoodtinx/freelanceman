@@ -55,7 +55,7 @@ export default function AllProjectPage() {
                   </div>
                )}
                {viewMode === 'list' && (
-                  <div className="relative w-full">
+                  <div className="relative w-full h-full">
                      <ProjectList
                         queryResult={projectsQueryResult}
                         handleLoadMore={handleLoadMore}

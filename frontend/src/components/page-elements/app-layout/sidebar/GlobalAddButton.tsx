@@ -130,7 +130,7 @@ const GlobalAddButton = () => {
       <Popover open={open} onOpenChange={setOpen}>
          <PopoverTrigger asChild>
             <div
-               className={`rounded-full w-[44px] mb-3 md:mb-0 md:w-10 aspect-square flex items-center justify-center text-white bg-primary transition-colors duration-100 cursor-pointer
+               className={`rounded-full w-[44px] md:w-10 aspect-square flex items-center justify-center text-white bg-primary transition-colors duration-100 cursor-pointer
                            sm:w-10 sm:h-10 sm:mb-0
                `}
             >

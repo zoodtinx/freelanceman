@@ -10,12 +10,13 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { cn } from '@/lib/helper/utils';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
-import TabListPlaceHolder from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import TabListPlaceHolder, { TabListAddButton, TabListPlaceholders, TabListPlaceholderTab } from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 import {
    ProjectFindManyItem,
    ProjectFindManyResponse,
 } from 'freelanceman-common';
+import LoadMoreButton from '@/components/shared/ui/placeholder-ui/LoadMoreButton';
 
 interface ProjectListProps {
    queryResult: UseQueryResult<ProjectFindManyResponse>;
@@ -29,9 +30,16 @@ export const ProjectList: React.FC<ProjectListProps> = ({
    queryResult,
    clientId,
    placeHolder = 'Add new project to this client',
+   handleLoadMore,
    page,
 }) => {
-   const { data: projectsData, isLoading, isError, refetch } = queryResult;
+   const {
+      data: projectsData,
+      isLoading,
+      isError,
+      refetch,
+      isFetching,
+   } = queryResult;
    const setFormDialogState = useFormDialogStore(
       (state) => state.setFormDialogState
    );
@@ -73,16 +81,49 @@ export const ProjectList: React.FC<ProjectListProps> = ({
       );
    }
 
-   const projectListItems = projectsData.items.map((project) => {
+   const placeholderCount = Math.max(0, 20 - projectsData.items.length);
+   const placeholders = Array.from({ length: placeholderCount }, (_, i) => (
+      <TabListPlaceholderTab key={i} />
+   ));
+
+   const projectTabs = projectsData.items.map((project) => {
       return <ProjectTab project={project} key={project.id} />;
    });
 
+   // Build the list: real projects, add button, then placeholders
+   const projectListItems = [
+      projectTabs,
+      <TabListAddButton addFn={handleNewProject} key="add-project-tab">
+         Add New Project
+      </TabListAddButton>,
+      placeholders,
+   ];
+
+   console.log('projectListItems', projectListItems)
+
+   // load more button logic
+   const remainingItems = projectsData.total - projectsData.items.length > 0;
+   const loadMoreProject = () => {
+      const newAmount = projectsData.total + 16;
+      handleLoadMore(newAmount);
+   };
+
    return (
-      <ScrollArea className="w-full h-full">
-         <div className={cn('flex flex-col gap-1 h-full box-border')}>
-            {projectListItems}
-         </div>
-      </ScrollArea>
+      <>
+         <ScrollArea className="w-full h-full z-10">
+            <div className={cn('flex flex-col gap-1 box-border')}>
+               {projectListItems}
+            </div>
+         </ScrollArea>
+         {remainingItems && (
+            <div className="flex justify-center pb-5 pt-1 w-full">
+               <LoadMoreButton
+                  loadMoreFn={loadMoreProject}
+                  isLoading={isFetching}
+               />
+            </div>
+         )}
+      </>
    );
 };
 

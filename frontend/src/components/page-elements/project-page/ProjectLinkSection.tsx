@@ -49,8 +49,8 @@ const ProjectLinkSection: React.FC<{ project: ProjectFindOneResponse }> = ({
                Add Link
             </NoDataPlaceHolder>
          ) : (
-            <ScrollArea className="h-full">
-               <div className="flex flex-col gap-1 w-full p-2 relative justify-center h-full">
+            <ScrollArea className="h-full p-2 rounded-lg">
+               <div className="flex flex-col gap-1 w-full relative justify-center h-full">
                   {mode === 'add' ? (
                      <NewLinkField setMode={setMode} project={project} />
                   ) : (
