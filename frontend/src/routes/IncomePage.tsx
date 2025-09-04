@@ -16,7 +16,6 @@ import StatusSelect from '@/components/shared/ui/select/StatusSelect';
 import { paymentStatusSelections } from '@/components/shared/ui/helpers/constants/selections';
 import { cn } from '@/lib/helper/utils';
 import {
-   Download,
    Edit,
    EllipsisVertical,
    FileText, Loader2,
@@ -31,7 +30,6 @@ import { SearchBox } from '@/components/shared/ui/SearchBox';
 import { ClientFilterBubble } from '@/components/page-elements/all-projects-page/ProjectFilterBar';
 import IncomePageLoader from '@/components/shared/ui/placeholder-ui/IncomePageLoader';
 import { FilterSelect } from '@/components/shared/ui/select/FilterSelect';
-import { useFileUrlQuery } from '@/lib/api/file-api';
 import { toast } from 'sonner';
 import { useEditProject } from '@/lib/api/project-api';
 import { useDeleteSalesDocument } from '@/lib/api/sales-document-api';
@@ -67,7 +65,7 @@ const IncomePage: React.FC = () => {
    const paymentDataQueryResult = usePaymentDataQuery(projectFilter);
 
    return (
-      <section className="flex flex-col gap-2 h-full w-full overflow-hidden sm:flex-col relative sm:gap-2">
+      <section className="flex flex-col gap-2 h-full w-full overflow-hidden sm:flex-col relative sm:gap-2 sm:p-1 sm:pt-0 p-2">
          <div
             className={cn(
                'flex shrink-0 justify-between items-center bg-quaternary p-2 rounded-full pl-4  z-10',

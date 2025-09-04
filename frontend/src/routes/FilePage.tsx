@@ -15,7 +15,7 @@ const FilePage = (): JSX.Element => {
     }, []);
 
    return (
-      <section className="flex w-full h-full sm:flex-col">
+      <section className="flex w-full h-full sm:flex-col sm:pt-0 p-2">
          <FilePageLayout />
       </section>
    );

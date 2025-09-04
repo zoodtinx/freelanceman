@@ -16,7 +16,7 @@ export default function AllClientsPage() {
     }, []);
 
    return (
-      <section className=" flex gap-2 sm:flex-col h-full w-full">
+      <section className=" flex gap-2 sm:flex-col h-full w-full sm:pt-0 p-2">
          <ClientColumn />
          <ContactColumn />
       </section>

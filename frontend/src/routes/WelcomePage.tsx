@@ -30,6 +30,8 @@ const AuthPage: React.FC = () => {
    const [isLoading, setIsLoading] = useState(false);
    const [isError, setIsError] = useState(false);
 
+   console.log('isError', isError)
+
    const handleGetFullDemo = async () => {
       setIsError(false);
       setIsLoading(true);
@@ -110,16 +112,28 @@ const AuthPage: React.FC = () => {
                               'sm:pt-[20px] ' +
                               'md:pt-[20px] ' +
                               'lg:pt-5 lg:px-0 ' +
-                              "xl:pt-7"
+                              'xl:pt-7'
                            }
                         >
                            <div className="flex gap-2 lg:gap-2">
                               <SvgFreelancemanIcon className="h-auto w-[40px] lg:w-[42px]" />
                               <FreelanceMan1LineLogo className="h-auto w-[150px] lg:w-[165px]" />
                            </div>
+                           <button
+                              onClick={(e) => {
+                                 e.currentTarget.focus();
+                                 handleLaunchDemo();
+                              }}
+                              className={
+                                 'flex items-center text-[15px] bg-primary h-fit py-[1px] text-foreground px-1 rounded-[8px] w-fit ' +
+                                 'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px] hidden sm:block'
+                              }
+                           >
+                              <p className="px-2">Launch Demo</p>
+                           </button>
                         </div>
                         <div className="flex items-center">
-                           <div className="flex sm:flex-col lg:flex-row sm:gap-5 md:gap-[100px] lg:gap-[100px] lg:px-0">
+                           <div className="flex sm:flex-col lg:flex-row sm:gap-2 md:gap-[100px] lg:gap-[100px] lg:px-0">
                               <div className="flex flex-col sm:px-2 lg:pt-3">
                                  <div className="flex gap-[8px] lg:gap-3 mb-2">
                                     <Users className={iconClassNames} />
@@ -135,7 +149,7 @@ const AuthPage: React.FC = () => {
                                        Solo Freelancers
                                     </p>
                                  </div>
-                                 <p className="sm:w-full mb-7 md:w-[400px] lg:w-[500px] pr-5 text-md text-primary/60">
+                                 <p className="sm:max-w-[500px] sm:mb-3 mb-7 md:w-[400px] lg:w-[500px] pr-5 text-md text-primary/60">
                                     Working on multiple projects with multiple
                                     clients is not easy. Files, notes, and
                                     documents can quickly get out of control.
@@ -148,7 +162,7 @@ const AuthPage: React.FC = () => {
                                     }}
                                     className={
                                        'flex items-center text-md bg-primary h-[32px] text-foreground px-2 rounded-[10px] w-fit ' +
-                                       'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px]'
+                                       'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px] sm:hidden md:hidden'
                                     }
                                  >
                                     <Enter />
@@ -199,9 +213,9 @@ const AuthPage: React.FC = () => {
                                  onClick={(e) => {
                                     e.currentTarget.focus();
                                     window.open(
-                                       "https://github.com/zoodtinx/freelanceman",
-                                       "_blank",
-                                       "noopener,noreferrer"
+                                       'https://github.com/zoodtinx/freelanceman',
+                                       '_blank',
+                                       'noopener,noreferrer'
                                     );
                                  }}
                               >
@@ -297,7 +311,7 @@ const AuthPage: React.FC = () => {
                         <div className="flex flex-col items-center sm:py-[60px] py-[80px]">
                            <div
                               ref={demoCardRef}
-                              className="sm:w-full w-[400px] h-[560px] bg-foreground rounded-[17px] flex flex-col justify-between p-4 px-5 shadow-lg"
+                              className="w-[400px] h-[560px] bg-foreground rounded-[17px] flex flex-col justify-between p-4 px-5 shadow-lg"
                            >
                               <div className="flex flex-col">
                                  <div className="pl-2 pb-5">
@@ -445,7 +459,7 @@ const featuresConfig = [
          </>
       ),
       description:
-         'All your freelance projects sorted by client. Clear overview, better focus, zero chaos.',
+         'All your freelance projects sorted by client. Get a clear overview, stay focused, and keep your workflow free from chaos.',
    },
    {
       imageSrc:
@@ -457,7 +471,7 @@ const featuresConfig = [
          </>
       ),
       description:
-         'Find everything instantly. Tasks, events, client info, and every files all organized per project.',
+         'Find everything instantly. Tasks, events, client info, and every files all organized in one page per project.',
    },
    {
       imageSrc:
@@ -469,7 +483,7 @@ const featuresConfig = [
          </>
       ),
       description:
-         'Upload directly or link to external files. Tag and add description however you like.',
+         'Upload files directly or link to external sources. Add tags, write descriptions, and organize them exactly the way you want.',
    },
    {
       imageSrc:

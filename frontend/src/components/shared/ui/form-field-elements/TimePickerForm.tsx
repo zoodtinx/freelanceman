@@ -188,7 +188,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                         Hours
                      </label>
                      <select
-                        className="w-full border border-tertiary rounded-md p-1 appearance-none text-md text-center"
+                        className="w-full border border-tertiary rounded-md p-1 appearance-none text-md text-center bg-background"
                         value={selectedHour}
                         onChange={(e) => setSelectedHour(e.target.value)}
                      >
@@ -205,7 +205,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                         Minutes
                      </label>
                      <select
-                        className="w-full border border-tertiary rounded-md p-1 appearance-none text-md text-center"
+                        className="w-full border border-tertiary rounded-md p-1 appearance-none text-md text-center bg-background"
                         value={selectedMinute}
                         onChange={(e) => setSelectedMinute(e.target.value)}
                      >

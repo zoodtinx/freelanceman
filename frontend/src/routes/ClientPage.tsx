@@ -21,7 +21,7 @@ export default function ClientPage() {
    return (
       <section
          className={cn(
-            'w-full h-full flex gap-2',
+            'w-full h-full flex gap-2 sm:pt-0 p-2',
             'sm:flex-col sm:overflow-y-auto sm:h-fit'
          )}
       >

@@ -42,7 +42,7 @@ export default function ProjectPage() {
          className={cn(
             'flex grow w-full overflow-y-auto gap-2',
             'md:pb-2 md:p-1',
-            'sm:flex-col sm:gap-0'
+            'sm:flex-col sm:gap-0 sm:pt-0 p-2'
          )}
       >
          <div

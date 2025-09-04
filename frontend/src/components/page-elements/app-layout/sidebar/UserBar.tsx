@@ -11,7 +11,9 @@ import {
    Hand, Loader2,
    LogOut,
    Moon,
+   Settings,
    Settings2,
+   SlidersHorizontal,
    Sun,
    TimerReset,
    UserRound
@@ -147,29 +149,36 @@ export const UserBar = () => {
       >
          <Popover>
             <PopoverTrigger asChild ref={popoverRef} onClick={handleClick}>
-               <div
-                  className={`aspect-square overflow-hidden rounded-full shrink-0 md:w-10 md:h-10 lg:h-[120px] cursor-pointer
-                              sm:w-10 sm:h-10
-                  `}
-               >
-                  {urlIsLoading ? (
-                     <Skeleton className="rounded-full w-full h-full" />
-                  ) : urlDataPayload?.url ? (
-                     <img
-                        src={urlDataPayload?.url}
-                        alt=""
-                        className="w-full h-full object-cover bg-tertiary"
-                     />
-                  ) : (
-                     <div className="flex bg-foreground w-full h-full items-center justify-center">
-                        <UserRound
-                           className={cn(
-                              'text-secondary w-[27px] h-[27px]',
-                              'lg:w-[90px] lg:h-[90px] lg:stroke-[1.4px]'
-                           )}
+               <div className='flex items-center justify-center relative group'>
+                  <div
+                     className={[
+                        'aspect-square overflow-hidden rounded-full shrink-0',
+                        'md:w-10 md:h-10 lg:h-[120px] cursor-pointer',
+                        'sm:w-10 sm:h-10 relative',
+                     ].join(' ')}
+                  >
+                     {urlIsLoading ? (
+                        <Skeleton className="rounded-full w-full h-full" />
+                     ) : urlDataPayload?.url ? (
+                        <img
+                           src={urlDataPayload?.url}
+                           alt=""
+                           className="w-full h-full object-cover bg-tertiary"
                         />
-                     </div>
-                  )}
+                     ) : (
+                        <div className="flex bg-foreground w-full h-full items-center justify-center">
+                           <UserRound
+                              className={cn(
+                                 'text-secondary w-[27px] h-[27px]',
+                                 'lg:w-[90px] lg:h-[90px] lg:stroke-[1.4px]'
+                              )}
+                           />
+                        </div>
+                     )}
+                  </div>
+                  <div className='absolute flex justify-center items-center rounded-full w-7 h-7 bg-white z-20 bottom-1 right-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer'>
+                     <SlidersHorizontal className='size-4' />
+                  </div>
                </div>
             </PopoverTrigger>
             <PopoverContent
@@ -191,6 +200,7 @@ export const UserBar = () => {
                      <TabsList className="w-full flex">
                         <TabsTrigger
                            value="light"
+                           onClick={e => e.stopPropagation()}
                            className={cn(
                               'flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary',
                               'sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary '
@@ -200,6 +210,7 @@ export const UserBar = () => {
                         </TabsTrigger>
                         <TabsTrigger
                            value="dark"
+                           onClick={e => e.stopPropagation()}
                            className={cn(
                               'flex justify-center w-1/2 text-base py-[2px] rounded-sm data-[state=active]:bg-foreground data-[state=active]:text-primary',
                               'sm:data-[state=active]:text-foreground sm:data-[state=active]:bg-primary '

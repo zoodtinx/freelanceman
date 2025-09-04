@@ -62,7 +62,7 @@ export default function HomePage() {
                   <GlobalAddButton />
                </div>
             </div>
-            <main className="flex flex-col flex-grow min-h-0 relative sm:px-3 sm:pb-3 p-2 pl-0">
+            <main className="flex flex-col flex-grow min-h-0 relative pl-0">
                <Outlet />
             </main>
          </div>

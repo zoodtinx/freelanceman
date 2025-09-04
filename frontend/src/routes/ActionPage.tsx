@@ -17,7 +17,7 @@ export default function ActionPage() {
     }, []);
 
    return (
-      <section className="w-full h-full flex gap-2 sm:flex-col">
+      <section className="w-full h-full flex gap-2 sm:flex-col sm:pt-0 p-2">
          <div
             className={cn(
                'flex flex-col w-1/2 rounded-container bg-foreground grow h-full shadow-md overflow-hidden',

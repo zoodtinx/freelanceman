@@ -10,7 +10,7 @@ import { formatDate } from '@/lib/helper/formatDateTime';
 import { cn } from '@/lib/helper/utils';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ScrollArea } from '@/components/shared/ui/primitives/ScrollArea';
-import TabListPlaceHolder, { TabListAddButton, TabListPlaceholders, TabListPlaceholderTab } from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
+import TabListPlaceHolder, { TabListAddButton, TabListPlaceholderTab } from '@/components/shared/ui/placeholder-ui/TabListPlaceholder';
 import { defaultNewProjectValue } from '@/components/shared/ui/helpers/constants/default-values';
 import {
    ProjectFindManyItem,
