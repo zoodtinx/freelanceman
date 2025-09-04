@@ -28,7 +28,7 @@ const projectPageContent = [
          'Tasks, events, files, contacts, notes and links. All in one place that never lost.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/project-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/project-page-1.webp`,
    },
 ];
 
@@ -47,7 +47,7 @@ const documentbuilderPageContent = [
          'Create polished documents and export PDFs to share directly with clients. No extra tools required.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/docbuilder-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/docbuilder-page-1.webp?updatedAt=1756994946158`,
    },
 ];
 
@@ -66,7 +66,7 @@ const incomePageContent = [
          'Notice incoming payments at a glance and spot unpaid clients easily. Stay on top of finance without the stress.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/income-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/income-page-1.webp?updatedAt=1756994371130`
    },
    {
       page: 'income',
@@ -84,7 +84,7 @@ const incomePageContent = [
          'Generate polished sales document PDFs right in the app. Skip the templates. Just add your info.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/income-page-2.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/income-page-2.webp?updatedAt=1756994374978`,
    },
 ];
 
@@ -105,7 +105,7 @@ const filePageContent = [
          'Store project files, briefs, and assets neatly. Upload and search quickly. No more messy folders or lost versions.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/files-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/files-page-1.webp?updatedAt=1756994371249`,
    },
    {
       page: 'files',
@@ -124,7 +124,7 @@ const filePageContent = [
          'Add files from your device or drop in a link. Keep everything connected and easy to access.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/files-page-2.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/files-page-2.webp?updatedAt=1756994371184`,
    },
 ];
 
@@ -145,7 +145,7 @@ const partnersPageContent = [
          'Track collaborators with ease. See how they connect to your projects. Know who did what.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/partner-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/partner-page-1.webp?updatedAt=1756994374999`,
    },
 ];
 
@@ -166,7 +166,7 @@ const allClientPageContent = [
          'View all your contacts in a clean list with company cards. Find people fast, track interactions and see client info.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/allclient-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/allclient-page-1.webp?updatedAt=1756994370841`,
    },
 ];
 
@@ -187,7 +187,7 @@ const actionPageContent = [
          'See tasks and events in one view. Add, edit, or check things off fast. From quick notes to big deadlines.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/action-page-1.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/action-page-1.webp?updatedAt=1756994371032`,
    },
 ];
 
@@ -208,7 +208,7 @@ const homePageContent = [
          "Freelancing is chaotic, we made it simple. Because nobody else really gets what it's like to be your own entire company.",
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-1.jpg?updatedAt=1750754288180`,
+      }/flm-welcomedialog/home-page-1.webp?updatedAt=1756994371232`,
    },
    {
       page: 'home',
@@ -226,7 +226,7 @@ const homePageContent = [
          "Everything is organized around clients and projects, so working on multiple setups feels fun, not frustrating.",
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-2.jpg?updatedAt=1749714476968`,
+      }/flm-welcomedialog/home-page-2.webp?updatedAt=1756994371158`,
    },
    {
       page: 'home',
@@ -242,7 +242,7 @@ const homePageContent = [
          'Start on your laptop, finish on your phone, check in from your tablet. And maybe edit from your smart fridge.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-3.jpg?updatedAt=1750754288441`,
+      }/flm-welcomedialog/home-page-3.webp?updatedAt=1756994371129`,
    },
    {
       page: 'home',
@@ -257,7 +257,7 @@ const homePageContent = [
       subhead: 'View the live production repo powering this app.',
       imageUrl: `${
          import.meta.env.VITE_IMAGE_URL_ENDPOINT
-      }/home-page-4.jpg?updatedAt=1750754402066`,
+      }/flm-welcomedialog/home-page-4.webp?updatedAt=1756994370969`,
    },
 ];
 

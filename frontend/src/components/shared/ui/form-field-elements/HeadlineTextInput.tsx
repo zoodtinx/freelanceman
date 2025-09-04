@@ -26,8 +26,6 @@ export const HeadlineTextInputForm = <TFieldValues extends FieldValues>({
    const {
       control,
       formState: { errors },
-      clearErrors,
-      watch,
    } = formMethods;
 
    return (
@@ -43,16 +41,16 @@ export const HeadlineTextInputForm = <TFieldValues extends FieldValues>({
             const handleChange = (
                e: React.ChangeEvent<HTMLTextAreaElement>
             ) => {
-               clearErrors(fieldName as Path<TFieldValues>);
+               // clearErrors(fieldName as Path<TFieldValues>);
                field.onChange(e);
             };
 
-            const value = watch(fieldName as Path<TFieldValues>);
+            // const value = watch(fieldName as Path<TFieldValues>);
 
             return (
                <div className="w-full">
                   <HeadlineTextInput
-                     value={value as string}
+                     value={field.value || ''}
                      onChange={handleChange}
                      placeholder={placeholder}
                      className={className}
@@ -110,7 +108,6 @@ const HeadlineTextInput: React.FC<HeadlineTextInputProps> = ({
                placeholder={placeholder}
                value={value}
                onChange={onChange}
-               autoFocus
                onFocus={(e) => {
                   const val = e.currentTarget.value;
                   e.currentTarget.selectionStart = val.length;

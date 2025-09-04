@@ -175,8 +175,8 @@ export const UserBar = () => {
                         </div>
                      )}
                   </div>
-                  <div className='absolute flex justify-center items-center rounded-full w-7 h-7 bg-white z-20 bottom-1 right-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer'>
-                     <SlidersHorizontal className='size-4' />
+                  <div className='absolute hidden lg:flex justify-center items-center rounded-full w-7 h-7 bg-foreground z-20 bottom-1 right-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer'>
+                     <Settings2 className='size-4 text-primary' />
                   </div>
                </div>
             </PopoverTrigger>

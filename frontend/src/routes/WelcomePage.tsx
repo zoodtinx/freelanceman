@@ -119,7 +119,7 @@ const AuthPage: React.FC = () => {
                               <SvgFreelancemanIcon className="h-auto w-[40px] lg:w-[42px]" />
                               <FreelanceMan1LineLogo className="h-auto w-[150px] lg:w-[165px]" />
                            </div>
-                           <button
+                           {/* <button
                               onClick={(e) => {
                                  e.currentTarget.focus();
                                  handleLaunchDemo();
@@ -130,11 +130,11 @@ const AuthPage: React.FC = () => {
                               }
                            >
                               <p className="px-2">Launch Demo</p>
-                           </button>
+                           </button> */}
                         </div>
                         <div className="flex items-center">
                            <div className="flex sm:flex-col lg:flex-row sm:gap-2 md:gap-[100px] lg:gap-[100px] lg:px-0">
-                              <div className="flex flex-col sm:px-2 lg:pt-3">
+                              <div className="flex flex-col sm:px-2 md:pt-3">
                                  <div className="flex gap-[8px] lg:gap-3 mb-2">
                                     <Users className={iconClassNames} />
                                     <Folder className={iconClassNames} />
@@ -162,7 +162,7 @@ const AuthPage: React.FC = () => {
                                     }}
                                     className={
                                        'flex items-center text-md bg-primary h-[32px] text-foreground px-2 rounded-[10px] w-fit ' +
-                                       'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px] sm:hidden md:hidden'
+                                       'focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-[2.5px] sm:mb-2 '
                                     }
                                  >
                                     <Enter />
@@ -311,7 +311,7 @@ const AuthPage: React.FC = () => {
                         <div className="flex flex-col items-center sm:py-[60px] py-[80px]">
                            <div
                               ref={demoCardRef}
-                              className="w-[400px] h-[560px] bg-foreground rounded-[17px] flex flex-col justify-between p-4 px-5 shadow-lg"
+                              className="sm:w-full w-[400px] h-[560px] bg-foreground rounded-[17px] flex flex-col justify-between p-4 px-5 shadow-lg"
                            >
                               <div className="flex flex-col">
                                  <div className="pl-2 pb-5">
@@ -487,7 +487,7 @@ const featuresConfig = [
    },
    {
       imageSrc:
-         'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-pdf.webp?updatedAt=1755491164204',
+         'https://ik.imagekit.io/freelanceman/flm-landingpage/flm-pdf.webp?updatedAt=1756993195513',
       icon: <WelcomePageWallet />,
       title: (
          <>

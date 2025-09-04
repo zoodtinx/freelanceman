@@ -143,7 +143,9 @@ const ItemsField = ({
                </h2>
             </div>
          </ScrollArea>
-         <div className='w-full border border-b-quaternary mb-3' />
+         <div>
+
+         <div className='w-full border-b border-b-quaternary mb-3' />
          <div className='flex flex-col gap-2'>
             <AdjustmentsField formMethods={formMethods} />
             <footer className="flex w-full px-3 text-secondary justify-end gap-4">
@@ -162,6 +164,7 @@ const ItemsField = ({
             setDialogState={setDialogState}
             fieldArrayMethods={fieldArrayMethods}
          />
+         </div>
       </fieldset>
    );
 };

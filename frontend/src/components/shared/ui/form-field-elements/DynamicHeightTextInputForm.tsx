@@ -16,8 +16,8 @@ export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
    const {
       control,
       formState: { errors },
-      clearErrors,
-      watch,
+      // clearErrors,
+      // watch,
    } = formMethods;
 
    return (
@@ -31,16 +31,14 @@ export const DynamicHeightTextInputForm = <TFieldValues extends FieldValues>({
          }}
          render={({ field }) => {
             const handleValueChange = (value: string) => {
-               clearErrors(fieldName as Path<TFieldValues>);
+               // clearErrors(fieldName as Path<TFieldValues>);
                field.onChange(value);
             };
-
-            const value = watch(fieldName as Path<TFieldValues>);
 
             return (
                <div className='w-full'>
                   <DynamicHeightTextInput
-                     value={value}
+                     value={field.value || ''}
                      handleChanges={handleValueChange}
                      placeholder={placeholder}
                      isWithIcon={isWithIcon}
@@ -88,7 +86,7 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
          selection?.removeAllRanges();
          selection?.addRange(range);
    
-         inputRef.current.focus();
+         // inputRef.current.focus();
       }
    }, []);
 

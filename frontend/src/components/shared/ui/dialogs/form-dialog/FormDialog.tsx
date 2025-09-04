@@ -135,6 +135,7 @@ const FormDialog = () => {
          </DialogTrigger>
          <DialogContent
             overlay
+            onOpenAutoFocus={(event) => event.preventDefault()} // prevent auto-focus
             onEscapeKeyDown={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
             className={cn(

@@ -159,71 +159,80 @@ const SalesDocumentBuilderPage = ({
    const documentCategory = category ?? getValues('category');
 
    return (
-      <div className="flex flex-col w-full bg-foreground rounded-container p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative overflow-y-auto">
-         {/* Header */}
-         <div className="flex justify-between items-center h-fit">
-            <div className="flex gap-1 items-center">
-               <FilePlus2 className="h-6 w-6 mt-1" />
-               <div className="flex text-xl pt-1 leading-none mr-2 gap-2">
-                  <p>Create</p>
-                  {isLoading ? (
-                     <Loader2 className="text-primary animate-spin" />
-                  ) : (
-                     <p>{capitalizeFirstChar(documentCategory)}</p>
-                  )}
+      <div className="flex grow p-2 overflow-y-auto">
+         <div className="flex flex-col w-full bg-foreground rounded-container p-3 pt-3 sm:w-full h-full shrink-0 shadow-md gap-3 overflow-hidden relative overflow-y-auto">
+            {/* Header */}
+            <div className="flex justify-between items-center h-fit">
+               <div className="flex gap-1 items-center">
+                  <FilePlus2 className="h-6 w-6 mt-1" />
+                  <div className="flex text-xl pt-1 leading-none mr-2 gap-2">
+                     <p>Create</p>
+                     {isLoading ? (
+                        <Loader2 className="text-primary animate-spin" />
+                     ) : (
+                        <p>{capitalizeFirstChar(documentCategory)}</p>
+                     )}
+                  </div>
                </div>
+               <X
+                  className="w-5 h-5 stroke-[3px] transition-opacity opacity-35 hover:opacity-100 cursor-pointer"
+                  onClick={() => navigate('/home/income')}
+               />
             </div>
-            <X
-               className="w-5 h-5 stroke-[3px] transition-opacity opacity-35 hover:opacity-100 cursor-pointer"
-               onClick={() => navigate('/home/income')}
-            />
-         </div>
-         <form
-            className="flex flex-col grow gap-3 sm:flex-col w-full shrink"
-            onSubmit={handleSubmit(onSubmit)}
-         >
-            <div className="flex flex-1 gap-3 overflow-hidden sm:flex-col">
-               <div className="flex flex-col h-full w-1/2 gap-3 sm:flex-col sm:w-full">
-                  <ProjectInfoField formMethods={formMethods} />
-                  <FreelancerInfoField formMethods={formMethods} />
-                  <ClientInfoField formMethods={formMethods} />
+            <form
+               className="flex flex-col grow gap-3 sm:flex-col w-full shrink"
+               onSubmit={handleSubmit(onSubmit)}
+            >
+               <div className="flex flex-1 gap-3 overflow-hidden sm:flex-col">
+                  <div className="flex flex-col h-full w-1/2 gap-3 sm:flex-col sm:w-full">
+                     <ProjectInfoField formMethods={formMethods} />
+                     <FreelancerInfoField formMethods={formMethods} />
+                     <ClientInfoField formMethods={formMethods} />
+                  </div>
+                  <div className="flex flex-col w-1/2 gap-3 sm:w-full">
+                     <ItemsField formMethods={formMethods} />
+                  </div>
                </div>
-               <div className="flex flex-col w-1/2 gap-3 sm:w-full">
-                  <ItemsField formMethods={formMethods} />
-               </div>
-            </div>
-            <footer className="flex justify-between shrink-0 h-fit">
-               <div className="flex gap-2">
-                  <Button
-                     onClick={handleDiscard}
-                     variant="destructiveOutline"
-                     className="gap-1"
-                  >
-                     <ArrowLeft className="w-4 h-4" />
-                     Back
-                  </Button>
-                  {salesDocumentData && (
+               <footer className="flex justify-between shrink-0 h-fit">
+                  <div className="flex gap-2">
                      <Button
-                        onClick={handleDelete}
-                        variant="destructive"
+                        onClick={handleDiscard}
+                        variant="destructiveOutline"
                         className="gap-1"
                      >
-                        <Trash className="w-4 h-4" />
-                        Delete
+                        <ArrowLeft className="w-4 h-4" />
+                        Back
                      </Button>
-                  )}
-               </div>
-               <div className="flex gap-2 items-center">
-                  <Suspense fallback={<Loader2 className='animate-spin size-6 ml-2' />}>
-                     <CreatePDFButton enable={!isDirty} data={formMethods.getValues()} />
-                  </Suspense>
-                  <SubmitButton
-                     isApiLoading={isApiLoading}
-                     formMethods={formMethods}
-                  />
-               </div>
-            </footer>
-         </form>
+                     {salesDocumentData && (
+                        <Button
+                           onClick={handleDelete}
+                           variant="destructive"
+                           className="gap-1"
+                        >
+                           <Trash className="w-4 h-4" />
+                           Delete
+                        </Button>
+                     )}
+                  </div>
+                  <div className="flex gap-2 items-center">
+                     <Suspense
+                        fallback={
+                           <Loader2 className="animate-spin size-6 ml-2" />
+                        }
+                     >
+                        <CreatePDFButton
+                           enable={!isDirty}
+                           data={formMethods.getValues()}
+                        />
+                     </Suspense>
+                     <SubmitButton
+                        isApiLoading={isApiLoading}
+                        formMethods={formMethods}
+                     />
+                  </div>
+               </footer>
+            </form>
+         </div>
       </div>
    );
 };

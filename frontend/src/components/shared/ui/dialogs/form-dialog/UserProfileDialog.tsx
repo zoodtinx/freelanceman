@@ -209,7 +209,7 @@ export const UserProfileDialog = ({
             <div className="flex justify-between p-4">
                <Button
                   variant={'outline'}
-                  className="px-0 text-secondary border-0 hover:text-button-red"
+                  className="px-0 text-secondary border-0 hover:text-button-red active:ring-0 active:ring-offset-0"
                   onClick={handleDelete}
                >
                   Delete Account

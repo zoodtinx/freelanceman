@@ -157,8 +157,8 @@ const ProjectTab: React.FC<{ project: ProjectFindManyItem }> = ({
       <div
          onClick={handleProjectNavigation}
          style={{
-            backgroundColor: `var(--freelanceman-theme-${project.client?.themeColor})`,
-            borderColor: `var(--freelanceman-theme-${project.client?.themeColor})`,
+            backgroundColor: `var(--freelanceman-theme-${project.client?.themeColor ?? 'grey'})`,
+            borderColor: `var(--freelanceman-theme-${project.client?.themeColor ?? 'grey'})`,
          }}
          className={`flex rounded-[15px] h-[40px] relative transition-colors
                      hover:border-primary  group overflow-hidden cursor-default`}

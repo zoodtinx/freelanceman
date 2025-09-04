@@ -36,7 +36,7 @@ export default function HomePage() {
       >
          <div className='flex sm:flex-col max-w-[1600px] h-screen mx-auto'>
             <div
-               className={`flex w-[145px] gap-2 shrink-0 mr-2 p-2 pr-0 pb-5
+               className={`flex w-[145px] gap-2 shrink-0 p-2 pr-0 pb-5
                         md:flex-col md:w-fit
                         lg:flex-col 
                         sm:w-full sm:p-3 sm:items-center
