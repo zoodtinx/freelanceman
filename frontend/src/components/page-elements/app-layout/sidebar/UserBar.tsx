@@ -11,7 +11,6 @@ import {
    Hand, Loader2,
    LogOut,
    Moon,
-   Settings,
    Settings2,
    SlidersHorizontal,
    Sun,
