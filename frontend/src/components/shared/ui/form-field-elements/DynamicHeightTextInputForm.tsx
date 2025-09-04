@@ -76,17 +76,19 @@ const DynamicHeightTextInput: React.FC<DynamicHeightTextInputProps> = ({
    useEffect(() => {
       if (inputRef.current) {
          inputRef.current.textContent = value;
-   
+
          const range = document.createRange();
          const selection = window.getSelection();
-   
+
          range.selectNodeContents(inputRef.current);
          range.collapse(false);
-   
+
          selection?.removeAllRanges();
          selection?.addRange(range);
-   
-         // inputRef.current.focus();
+
+         if (inputRef.current) {
+            inputRef.current.blur();
+         }
       }
    }, []);
 

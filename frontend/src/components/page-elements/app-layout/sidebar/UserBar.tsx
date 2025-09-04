@@ -11,9 +11,7 @@ import {
    Hand, Loader2,
    LogOut,
    Moon,
-   Settings2,
-   SlidersHorizontal,
-   Sun,
+   Settings2, Sun,
    TimerReset,
    UserRound
 } from 'lucide-react';

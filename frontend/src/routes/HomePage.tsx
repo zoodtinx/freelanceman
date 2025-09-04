@@ -34,7 +34,7 @@ export default function HomePage() {
                      sm:p-0
                   `}
       >
-         <div className='flex sm:flex-col max-w-[1600px] h-screen mx-auto'>
+         <div className="flex sm:flex-col max-w-[1600px] h-screen mx-auto">
             <div
                className={`flex w-[145px] gap-2 shrink-0 p-2 pr-0 pb-5
                         md:flex-col md:w-fit
@@ -54,7 +54,7 @@ export default function HomePage() {
                </div>
                <div
                   className={cn(
-                     'flex justify-center gap-1 items-end w-full shrink-0 grow',
+                     'flex justify-center gap-1 items-end w-full shrink-0 grow md:grow-0',
                      'sm:pb-0 sm:w-fit sm:justify-end sm:items-center'
                   )}
                >

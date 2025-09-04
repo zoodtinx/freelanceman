@@ -124,7 +124,7 @@ const ItemsField = ({
       >
          <ScrollArea>
             <div className="flex flex-col gap-2 grow overflow-auto">
-               <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center">
+               <div className="flex flex-col gap-2 order-2 grow overflow-auto items-center pb-4">
                   {itemList}
                   <div
                      className="cursor-pointer border p-[5px] rounded-xl hover:bg-tertiary transition-colors duration-75"

@@ -201,7 +201,7 @@ const AuthPage: React.FC = () => {
                         </div>
                         <div className="border-b border-primary/30 mt-14" />
                         <div className="py-11 pt-7">
-                           <div className="flex sm:flex-col justify-between items-center lg:pb-3 sm:pb-6">
+                           <div className="flex sm:flex-col justify-between items-center pb-3 sm:pb-6">
                               <p className="text-[30px] font-light">
                                  Tech Stack
                               </p>
@@ -225,7 +225,7 @@ const AuthPage: React.FC = () => {
                                  </span>
                               </button>
                            </div>
-                           <div className="flex sm:flex-col gap-[23px]">
+                           <div className="flex sm:flex-col gap-[23px] md:gap-4">
                               <div className="flex-1 border border-primary/50 rounded-xl h-auto overflow-hidden">
                                  <p className="px-3 py-1 text-md text-primary/50 bg-primary/5">
                                     Client
