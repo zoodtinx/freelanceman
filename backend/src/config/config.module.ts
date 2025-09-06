@@ -1,7 +1,6 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import configuration from 'src/config/configuration';
-import * as Joi from 'joi';
 import { validationSchema } from 'src/config/validation';
 
 @Module({
